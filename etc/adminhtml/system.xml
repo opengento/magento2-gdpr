@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * This file is part of the Flurrybox EnhancedPrivacy package.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Flurrybox EnhancedPrivacy
+ * to newer versions in the future.
+ *
+ * @copyright Copyright (c) 2018 Flurrybox, Ltd. (https://flurrybox.com/)
+ * @license   GNU General Public License ("GPL") v3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="customer" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Customer Configuration</label>
+            <tab>customer</tab>
+            <resource>Magento_Customer::config_customer</resource>
+            <group id="enhancedprivacy" translate="label" sortOrder="1618" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Privacy (GDPR)</label>
+                <group id="general" translate="label" sortOrder="1618" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>General</label>
+                    <field id="enable" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1"
+                           showInStore="1">
+                        <label>Enable</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="information_page" translate="label comment" type="select" sortOrder="10"
+                           showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Information page</label>
+                        <comment><![CDATA[This page should store information about privacy and GDPR policy.]]></comment>
+                        <source_model>Magento\Cms\Model\Config\Source\Page</source_model>
+                        <depends>
+                            <field id="*/*/*/enable">1</field>
+                        </depends>
+                    </field>
+                    <field id="information" type="textarea" translate="label comment" sortOrder="20" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Brief information</label>
+                        <comment><![CDATA[Brief information about your private policy. This text will be displayed in
+                        the settings of the user account.]]>
+                        </comment>
+                        <depends>
+                            <field id="*/*/*/enable">1</field>
+                        </depends>
+                    </field>
+                </group>
+
+                <group id="account" translate="label" sortOrder="1618" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Account Deletion And Anonymization</label>
+                    <depends>
+                        <field id="*/*/general/enable">1</field>
+                    </depends>
+
+                    <field id="account_deletion_enabled" type="select" translate="label" sortOrder="30"
+                           showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Allow user self deletion</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="deletion_schema" type="select" translate="label" sortOrder="31" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Account deletion type</label>
+                        <source_model>Flurrybox\EnhancedPrivacy\Model\Source\Config\Schema</source_model>
+                        <depends>
+                            <field id="*/*/account/account_deletion_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="deletion_time" type="text" translate="label" sortOrder="31" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Account Deletion Time (minutes)</label>
+                        <validate>validate-greater-than-zero required-entry</validate>
+                        <comment>Time in which to process delete and anonymization (minimum is 1 minute)</comment>
+                        <depends>
+                            <field id="*/*/account/account_deletion_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="account_deletion_title" type="text" translate="label" sortOrder="31" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Deletion section title</label>
+                        <depends>
+                            <field id="*/*/account/account_deletion_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="account_deletion_button_text" type="text" translate="label" sortOrder="32"
+                           showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Deletion button text</label>
+                        <depends>
+                            <field id="*/*/account/account_deletion_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="success_message" type="textarea" translate="label comment" sortOrder="40"
+                           showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Success message</label>
+                        <comment><![CDATA[This message will be shown when a customer deletes their account.]]></comment>
+                        <depends>
+                            <field id="*/*/account/account_deletion_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="account_deletion_info" type="textarea" translate="label comment" sortOrder="50"
+                           showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Deletion information</label>
+                        <comment><![CDATA[Information about account deletion. This text will be displayed in the
+                        settings of the user account.]]>
+                        </comment>
+                        <depends>
+                            <field id="*/*/account/account_deletion_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="account_delete_reason_info" type="textarea" translate="label comment" sortOrder="60"
+                           showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Delete reason description</label>
+                        <comment><![CDATA[Description for deletion reason filed. This text will be displayed in the
+                    deleting page under reason field.]]></comment>
+                        <depends>
+                            <field id="*/*/account/account_deletion_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="account_anonymization_message_enabled" type="select" translate="label comment"
+                           sortOrder="61" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enable anonymization message</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment><![CDATA[This message will be show in the settings of the user account, only if the
+                        user  made at least one order.]]></comment>
+                        <depends>
+                            <field id="*/*/account/account_deletion_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="account_anonymization_message" type="textarea" translate="label" sortOrder="62"
+                           showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Anonymization message</label>
+                        <depends>
+                            <field id="*/*/account/account_deletion_enabled">1</field>
+                            <field id="*/*/account/account_anonymization_message_enabled">1</field>
+                        </depends>
+                    </field>
+                </group>
+
+                <group id="export" translate="label" sortOrder="1618" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Customer Data Export</label>
+                    <depends>
+                        <field id="*/*/general/enable">1</field>
+                    </depends>
+
+                    <field id="account_export_enabled" type="select" sortOrder="70" translate="label" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Allow user export</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="export_information" type="textarea" sortOrder="80" translate="label comment"
+                           showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Export information</label>
+                        <comment><![CDATA[Information about data export. This text will be displayed in the settings
+                        of the user account.]]></comment>
+                        <depends>
+                            <field id="*/*/export/account_export_enabled">1</field>
+                        </depends>
+                    </field>
+                </group>
+
+                <group id="cookie" translate="label" sortOrder="1618" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Cookie Policy Popup</label>
+                    <depends>
+                        <field id="*/*/general/enable">1</field>
+                    </depends>
+
+                    <field id="popup_notification_enabled" type="select" sortOrder="90" translate="label comment"
+                           showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enable popup notification</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment><![CDATA[This notification will be displayed at the top of the page until the user
+                        closes it.]]></comment>
+                    </field>
+                    <field id="popup_text" type="textarea" sortOrder="100" translate="label comment" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Popup notification text</label>
+                        <comment><![CDATA[This text will be displayed at the popup notification.]]></comment>
+                        <depends>
+                            <field id="*/*/general/enable">1</field>
+                            <field id="*/*/cookie/popup_notification_enabled">1</field>
+                        </depends>
+                    </field>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,119 @@
+<?php
+/**
+ * This file is part of the Flurrybox EnhancedPrivacy package.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Flurrybox EnhancedPrivacy
+ * to newer versions in the future.
+ *
+ * @copyright Copyright (c) 2018 Flurrybox, Ltd. (https://flurrybox.com/)
+ * @license   GNU General Public License ("GPL") v3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+use Flurrybox\EnhancedPrivacy\Helper\Data;
+
+/** @var \Flurrybox\EnhancedPrivacy\Block\Account\Delete $block */
+/** @var Data $helper */
+$helper = $this->helper(Data::class);
+?>
+<form class="form form-edit-account"
+      action="<?php echo $block->getAction(); ?>"
+      method="post"
+      id="form-validate"
+      data-hasrequired="<?php echo $block->escapeHtml(__('* Required Fields')) ?>"
+      autocomplete="off">
+    <fieldset class="fieldset" data-container="delete-account">
+        <?php echo $block->getBlockHtml('formkey'); ?>
+        <legend class="legend">
+            <span><?php echo __('Required data'); ?></span>
+        </legend>
+
+        <div class="field password current required">
+            <label class="label" for="current-password">
+                <span><?php echo __('Password'); ?></span>
+            </label>
+            <div class="control">
+                <input type="password"
+                       class="input-text"
+                       name="password"
+                       id="password"
+                       data-validate="{required:true}"
+                       autocomplete="off"/>
+            </div>
+        </div>
+
+        <div class="field reason required">
+            <label class="label" for="current-password">
+                <span><?php echo __('Reason'); ?></span>
+            </label>
+            <div class="control">
+                <textarea class="textarea"
+                          name="reason"
+                          id="reason"
+                          data-validate="{required:true}"
+                          autocomplete="off"></textarea>
+            </div>
+            <div class="comment">
+                <?php echo $block->escapeHtml(__($helper->getDeletionReasonInfo())); ?>
+            </div>
+        </div>
+
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="button" class="button-red action submit primary" id="delete">
+                    <span><?php echo __('Delete my account'); ?></span>
+                </button>
+            </div>
+            <div class="secondary">
+                <a class="action"
+                   href="<?php echo $block->escapeUrl($block->getSettingsUrl()) ?>">
+                    <span><?php echo __('Go back'); ?></span>
+                </a>
+            </div>
+        </div>
+    </fieldset>
+
+</form>
+
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'Magento_Ui/js/modal/confirm',
+        'mage/validation'
+    ], function ($, confirm) {
+        'use strict';
+
+        var dataForm = $('#form-validate'),
+            ignore = null;
+
+        dataForm
+            .mage('validation', {
+                ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+            })
+            .find('input:text')
+            .attr('autocomplete', 'off');
+
+        $('#delete').on({
+            click: function () {
+                if (dataForm.validation('isValid')) {
+                    confirm({
+                        title: $.mage.__('Attention'),
+                        content: $.mage.__('Do you really want to delete your account?'),
+                        actions: {
+                            confirm: function () {
+                                dataForm.submit();
+                            },
+                            cancel: function () {},
+                            always: function () {}
+                        }
+                    })
+                }
+            }
+        });
+    });
+</script>

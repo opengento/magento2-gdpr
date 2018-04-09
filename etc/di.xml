@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * This file is part of the Flurrybox EnhancedPrivacy package.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Flurrybox EnhancedPrivacy
+ * to newer versions in the future.
+ *
+ * @copyright Copyright (c) 2018 Flurrybox, Ltd. (https://flurrybox.com/)
+ * @license   GNU General Public License ("GPL") v3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Flurrybox\EnhancedPrivacy\Cron\Schedule">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="customer_addresses"
+                      xsi:type="object">Flurrybox\EnhancedPrivacy\Model\Privacy\Delete\CustomerAddresses</item>
+                <item name="customer_compare"
+                      xsi:type="object">Flurrybox\EnhancedPrivacy\Model\Privacy\Delete\CustomerCompare</item>
+                <item name="customer_wishlist"
+                      xsi:type="object">Flurrybox\EnhancedPrivacy\Model\Privacy\Delete\CustomerWishlist</item>
+                <item name="customer_reviews"
+                      xsi:type="object">Flurrybox\EnhancedPrivacy\Model\Privacy\Delete\CustomerReviews</item>
+                <item name="customer_quote"
+                      xsi:type="object">Flurrybox\EnhancedPrivacy\Model\Privacy\Delete\CustomerQuote</item>
+                <item name="customer_data"
+                      xsi:type="object">Flurrybox\EnhancedPrivacy\Model\Privacy\Delete\CustomerData</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Flurrybox\EnhancedPrivacy\Controller\Export\Export">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="customer_addresses"
+                      xsi:type="object">Flurrybox\EnhancedPrivacy\Model\Privacy\Export\CustomerAddresses</item>
+                <item name="customer_quote"
+                      xsi:type="object">Flurrybox\EnhancedPrivacy\Model\Privacy\Export\CustomerQuote</item>
+                <item name="customer_data"
+                      xsi:type="object">Flurrybox\EnhancedPrivacy\Model\Privacy\Export\CustomerData</item>
+                <item name="customer_wishlist"
+                      xsi:type="object">Flurrybox\EnhancedPrivacy\Model\Privacy\Export\CustomerWishlist</item>
+                <item name="customer_reviews"
+                      xsi:type="object">Flurrybox\EnhancedPrivacy\Model\Privacy\Export\CustomerReviews</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

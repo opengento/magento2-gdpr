@@ -1,0 +1,40 @@
+@color-red: #ff0101;
+@color-red2: #b30000;
+@color-gray-light01: #f4f4f4;
+@screen__m: 768px;
+
+.button-red {
+  &.action.primary {
+    background: @color-red;
+    border: 1px solid @color-red;
+    box-shadow: none !important;
+    text-shadow: none !important;
+
+    &:hover,
+    &:focus {
+      background: @color-red2;
+      border: 1px solid @color-red2;
+    }
+  }
+}
+
+.enhanced-privacy-popup {
+  background: @color-gray-light01;
+  overflow: hidden;
+
+  .popup {
+    &.content{
+      margin: auto;
+      padding: 10px 0;
+      width: @screen__m;
+    }
+
+    @media (max-width: @screen__m) {
+      &.content{
+        margin: 0;
+        padding: 10px;
+        width: auto;
+      }
+    }
+  }
+}

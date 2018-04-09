@@ -1,0 +1,22 @@
+@color-gray-light01: #f4f4f4;
+@screen__m: 768px;
+
+.popup {
+  background: @color-gray-light01;
+  overflow: hidden;
+
+  &.content{
+    margin: auto;
+    padding: 10px 0;
+    width: @screen__m;
+  }
+
+  @media (max-width: @screen__m) {
+    &.content{
+      margin: 0;
+      padding: 10px;
+      width: auto;
+    }
+  }
+
+}
