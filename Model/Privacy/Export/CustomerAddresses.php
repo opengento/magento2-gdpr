@@ -101,7 +101,7 @@ class CustomerAddresses implements DataExportInterface
                 $address->getSuffix(),
                 $address->getPostcode(),
                 $address->getRegion()->getRegion(),
-                $address->getStreet()[0] . ' ' . $address->getStreet()[1] ?? null,
+                $address->getStreet()[0] . PHP_EOL . ($address->getStreet()[1] ?? ''),
                 $address->getTelephone()
             ];
         }
