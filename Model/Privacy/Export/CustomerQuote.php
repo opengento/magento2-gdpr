@@ -13,11 +13,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Flurrybox\EnhancedPrivacy\Model\Privacy\Export;
 
 use Flurrybox\EnhancedPrivacy\Api\DataExportInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Quote\Api\CartRepositoryInterface;
 
 /**
@@ -31,15 +31,23 @@ class CustomerQuote implements DataExportInterface
     protected $cartRepository;
 
     /**
+     * @var SearchCriteriaBuilder
+     */
+    protected $searchCriteriaBuilder;
+
+    /**
      * CustomerQuote constructor.
      *
      * @param CartRepositoryInterface $cartRepository
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      */
-    public function __construct(CartRepositoryInterface $cartRepository)
-    {
+    public function __construct(
+        CartRepositoryInterface $cartRepository,
+        SearchCriteriaBuilder $searchCriteriaBuilder
+    ) {
         $this->cartRepository = $cartRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
-
     /**
      * Executed upon exporting customer data.
      *
@@ -53,11 +61,12 @@ class CustomerQuote implements DataExportInterface
      * @param CustomerInterface $customer
      *
      * @return array
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function export(CustomerInterface $customer)
     {
-        $collection = $this->cartRepository->getForCustomer($customer->getId())->getItems();
+        $collection = $this->cartRepository
+            ->getList($this->searchCriteriaBuilder->addFilter('customer_id', $customer->getId())->create())
+            ->getItems();
         $data[] = ['PRODUCT NAME', 'SKU', 'QUANTITY', 'PRICE'];
 
         if (!$collection) {
