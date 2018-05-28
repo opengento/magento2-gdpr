@@ -26,6 +26,7 @@ use Magento\Framework\Registry;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Psr\Log\LoggerInterface;
 use Flurrybox\EnhancedPrivacy\Model\ReasonsFactory;
+use RuntimeException;
 
 /**
  * Scheduler to clean accounts marked to be deleted or anonymized.
@@ -123,7 +124,11 @@ class Schedule
             return;
         }
 
-        $this->registry->register('isSecureArea', true);
+        try {
+            $this->registry->register('isSecureArea', true);
+        } catch (RuntimeException $e) {
+            // area is already set
+        }
 
         foreach ($cronSchedule->getItems() as $item) {
             try {
@@ -135,6 +140,7 @@ class Schedule
                 $this->saveReason($item->getData('reason'));
                 $item->getResource()->delete($item);
             } catch (Exception $e) {
+                var_dump($e->getMessage());
                 $this->logger->error($e->getMessage());
             }
         }

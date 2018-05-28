@@ -96,7 +96,7 @@ class CustomerAddresses implements DataDeleteInterface
             $address
                 ->setCity(AccountData::ANONYMOUS_STR)
                 ->setCompany(AccountData::ANONYMOUS_STR)
-                ->setCountryId(1)
+                ->setCountryId('US')
                 ->setFax(AccountData::ANONYMOUS_STR)
                 ->setPrefix(AccountData::ANONYMOUS_STR)
                 ->setFirstname(AccountData::ANONYMOUS_STR)

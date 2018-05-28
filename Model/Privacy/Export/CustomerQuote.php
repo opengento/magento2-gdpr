@@ -17,7 +17,7 @@ namespace Flurrybox\EnhancedPrivacy\Model\Privacy\Export;
 
 use Flurrybox\EnhancedPrivacy\Api\DataExportInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
-use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Quote\Api\CartRepositoryInterface;
 
 /**
@@ -31,22 +31,14 @@ class CustomerQuote implements DataExportInterface
     protected $cartRepository;
 
     /**
-     * @var SearchCriteriaBuilder
-     */
-    protected $searchCriteriaBuilder;
-
-    /**
      * CustomerQuote constructor.
      *
      * @param CartRepositoryInterface $cartRepository
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
-        CartRepositoryInterface $cartRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        CartRepositoryInterface $cartRepository
     ) {
         $this->cartRepository = $cartRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
     /**
      * Executed upon exporting customer data.
@@ -64,16 +56,19 @@ class CustomerQuote implements DataExportInterface
      */
     public function export(CustomerInterface $customer)
     {
-        $collection = $this->cartRepository
-            ->getList($this->searchCriteriaBuilder->addFilter('customer_id', $customer->getId())->create())
-            ->getItems();
-        $data[] = ['PRODUCT NAME', 'SKU', 'QUANTITY', 'PRICE'];
-
-        if (!$collection) {
+        try {
+            $collection = $this->cartRepository->getForCustomer($customer->getId());
+        } catch (NoSuchEntityException $e) {
             return null;
         }
 
-        foreach ($collection as $cartItem) {
+        $data[] = ['PRODUCT NAME', 'SKU', 'QUANTITY', 'PRICE'];
+
+        if (!count($collection->getItems())) {
+            return null;
+        }
+
+        foreach ($collection->getItems() as $cartItem) {
             $data[] = [
                 $cartItem->getName(),
                 $cartItem->getSku(),
