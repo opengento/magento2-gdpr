@@ -140,7 +140,6 @@ class Schedule
                 $this->saveReason($item->getData('reason'));
                 $item->getResource()->delete($item);
             } catch (Exception $e) {
-                var_dump($e->getMessage());
                 $this->logger->error($e->getMessage());
             }
         }
