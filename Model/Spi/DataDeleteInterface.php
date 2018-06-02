@@ -27,10 +27,9 @@ interface DataDeleteInterface
      * Executed upon customer data deletion.
      *
      * @param CustomerInterface $customer
-     *
-     * @return mixed
+     * @return bool
      */
-    public function delete(CustomerInterface $customer);
+    public function delete(CustomerInterface $customer): bool;
 
     /**
      * Executed upon customer data anonymization.
@@ -39,5 +38,5 @@ interface DataDeleteInterface
      *
      * @return mixed
      */
-    public function anonymize(CustomerInterface $customer);
+    public function anonymize(CustomerInterface $customer): bool;
 }

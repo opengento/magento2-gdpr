@@ -20,6 +20,8 @@ use Magento\Customer\Api\Data\CustomerInterface;
 
 /**
  * Customer data export interface.
+ *
+ * @todo use in TMAPFACTORY
  */
 interface DataExportInterface
 {
@@ -37,5 +39,5 @@ interface DataExportInterface
      *
      * @return array
      */
-    public function export(CustomerInterface $customer);
+    public function export(CustomerInterface $customer): array;
 }

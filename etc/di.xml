@@ -52,4 +52,22 @@
             </argument>
         </arguments>
     </type>
+
+
+
+
+
+    <virtualType name="Flurrybox\EnhancedPrivacy\Service\Export\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
+        <arguments>
+            <argument name="type" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Export\ProcessorInterface</argument>
+            <argument name="array" xsi:type="array">
+                <item name="customer_data" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Export\CustomerDataProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Flurrybox\EnhancedPrivacy\Service\ExportManagement">
+        <arguments>
+            <argument name="processorPool" xsi:type="object">Flurrybox\EnhancedPrivacy\Service\Export\ProcessorPool</argument>
+        </arguments>
+    </type>
 </config>

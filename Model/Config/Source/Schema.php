@@ -16,51 +16,36 @@
 
 namespace Flurrybox\EnhancedPrivacy\Model\Source\Config;
 
-use Magento\Framework\Option\ArrayInterface;
+use Magento\Framework\Data\OptionSourceInterface;
+use Magento\Framework\Phrase;
 
 /**
  * Account delete schema types.
  */
-class Schema implements ArrayInterface
+class Schema implements OptionSourceInterface
 {
     const DELETE = 0;
     const ANONYMIZE = 1;
     const DELETE_ANONYMIZE = 2;
 
     /**
-     * Options getter.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {
         return [
             [
                 'value' => self::DELETE,
-                'label' => __('Always delete')
+                'label' => new Phrase('Always delete')
             ],
             [
                 'value' => self::ANONYMIZE,
-                'label' => __('Always anonymize')
+                'label' => new Phrase('Always anonymize')
             ],
             [
                 'value' => self::DELETE_ANONYMIZE,
-                'label' => __('Delete if no orders made, anonymize otherwise')
+                'label' => new Phrase('Delete if no orders made, anonymize otherwise')
             ]
-        ];
-    }
-
-    /**
-     * Get options in "key-value" format.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return [
-            self::DELETE => __('Always delete'),
-            self::ANONYMIZE => __('Always anonymize'),
-            self::DELETE_ANONYMIZE => __('Delete if no orders made, anonymize otherwise')
         ];
     }
 }
