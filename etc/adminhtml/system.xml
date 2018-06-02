@@ -143,6 +143,34 @@
                             <field id="*/*/account/account_anonymization_message_enabled">1</field>
                         </depends>
                     </field>
+                    <field id="information" type="textarea" translate="label comment" sortOrder="20" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Brief information</label>
+                        <comment><![CDATA[Brief information about your private policy. This text will be displayed in
+                        the settings of the user account.]]>
+                        </comment>
+                        <depends>
+                            <field id="*/*/*/enable">1</field>
+                        </depends>
+                    </field>
+                    <field id="customer_attributes" type="multiselect" translate="label comment" sortOrder="300" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Customer Attributes</label>
+                        <comment><![CDATA[This attributes list will be anonymized when processed.]]></comment>
+                        <depends>
+                            <field id="*/*/*/enable">1</field>
+                        </depends>
+                        <source_model>\Flurrybox\EnhancedPrivacy\Model\Source\Config\CustomerAttributes</source_model>
+                    </field>
+                    <field id="customer_address_attributes" type="multiselect" translate="label comment" sortOrder="300" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Customer Address Attributes</label>
+                        <comment><![CDATA[This address attributes list will be anonymized when processed.]]></comment>
+                        <depends>
+                            <field id="*/*/*/enable">1</field>
+                        </depends>
+                        <source_model>\Flurrybox\EnhancedPrivacy\Model\Source\Config\CustomerAddressAttributes</source_model>
+                    </field>
                 </group>
 
                 <group id="export" translate="label" sortOrder="1618" showInDefault="1" showInWebsite="1"
@@ -166,6 +194,24 @@
                             <field id="*/*/export/account_export_enabled">1</field>
                         </depends>
                     </field>
+                    <field id="customer_attributes" type="multiselect" translate="label comment" sortOrder="300" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Customer Attributes</label>
+                        <comment><![CDATA[This attributes list will be anonymized when processed.]]></comment>
+                        <depends>
+                            <field id="*/*/*/enable">1</field>
+                        </depends>
+                        <source_model>\Flurrybox\EnhancedPrivacy\Model\Source\Config\CustomerAttributes</source_model>
+                    </field>
+                    <field id="customer_address_attributes" type="multiselect" translate="label comment" sortOrder="300" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Customer Address Attributes</label>
+                        <comment><![CDATA[This address attributes list will be anonymized when processed.]]></comment>
+                        <depends>
+                            <field id="*/*/*/enable">1</field>
+                        </depends>
+                        <source_model>\Flurrybox\EnhancedPrivacy\Model\Source\Config\CustomerAddressAttributes</source_model>
+                    </field>
                 </group>
 
                 <group id="cookie" translate="label" sortOrder="1618" showInDefault="1" showInWebsite="1"
@@ -186,6 +232,33 @@
                            showInWebsite="1" showInStore="1">
                         <label>Popup notification text</label>
                         <comment><![CDATA[This text will be displayed at the popup notification.]]></comment>
+                        <depends>
+                            <field id="*/*/general/enable">1</field>
+                            <field id="*/*/cookie/popup_notification_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="popup_link_text" type="text" sortOrder="200" translate="label comment" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Popup notification link text</label>
+                        <comment><![CDATA[This text will be displayed for the link to the Privacy Policy.]]></comment>
+                        <depends>
+                            <field id="*/*/general/enable">1</field>
+                            <field id="*/*/cookie/popup_notification_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="popup_title" type="text" sortOrder="200" translate="label comment" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Popup notification title</label>
+                        <comment><![CDATA[This text will be displayed for the title of the popup.]]></comment>
+                        <depends>
+                            <field id="*/*/general/enable">1</field>
+                            <field id="*/*/cookie/popup_notification_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="popup_button_agree_text" type="text" sortOrder="200" translate="label comment" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Popup notification agree button text</label>
+                        <comment><![CDATA[This text will be displayed for the Agree button label.]]></comment>
                         <depends>
                             <field id="*/*/general/enable">1</field>
                             <field id="*/*/cookie/popup_notification_enabled">1</field>
