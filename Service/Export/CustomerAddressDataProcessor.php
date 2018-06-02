@@ -10,12 +10,13 @@ declare(strict_types=1);
 namespace Flurrybox\EnhancedPrivacy\Service\Export;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Model\ResourceModel\Customer\CollectionFactory;
 use Flurrybox\EnhancedPrivacy\Helper\Data;
 
 /**
- * Class CustomerDataProcessor
+ * Class CustomerAddressDataProcessor
  */
-class CustomerDataProcessor implements ProcessorInterface
+class CustomerAddressDataProcessor implements ProcessorInterface
 {
     /**
      * @var \Flurrybox\EnhancedPrivacy\Helper\Data
@@ -48,10 +49,17 @@ class CustomerDataProcessor implements ProcessorInterface
     {
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $this->customerRepository->getById($customerId);
+        $addressCollection = $customer->getAddressesCollection();
+        $addresses = [];
+
+        foreach($addressCollection as $address)
+        {
+            $addresses[] = $address->toArray($this->helperData->{/*@todo getAddressesAttributesCodesFromConfig*/})
+        }
 
         return array_merge_recursive(
             $data,
-            ['customer' => $customer->toArray($this->helperData->{/*@todo getAttributesCodesFromConfig*/})]
+            ['customer_addresses' => $addresses]
         );
     }
 }

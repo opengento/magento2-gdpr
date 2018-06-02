@@ -88,6 +88,7 @@
             <argument name="type" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Export\ProcessorInterface</argument>
             <argument name="array" xsi:type="array">
                 <item name="customer_data" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Export\CustomerDataProcessor</item>
+                <item name="customer_data" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Export\CustomerAddressDataProcessor</item>
             </argument>
         </arguments>
     </virtualType>
