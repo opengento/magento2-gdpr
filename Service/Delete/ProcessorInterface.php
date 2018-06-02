@@ -1,9 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: thomas
- * Date: 02/06/18
- * Time: 17:18
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
  */
 
 namespace Flurrybox\EnhancedPrivacy\Service\Delete;

@@ -1,9 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: thomas
- * Date: 02/06/18
- * Time: 18:46
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
 

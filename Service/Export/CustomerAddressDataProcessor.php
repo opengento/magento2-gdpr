@@ -1,16 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: thomas
- * Date: 02/06/18
- * Time: 17:53
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
 
 namespace Flurrybox\EnhancedPrivacy\Service\Export;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Customer\Model\ResourceModel\Customer\CollectionFactory;
 use Flurrybox\EnhancedPrivacy\Helper\Data;
 
 /**
@@ -50,16 +47,10 @@ class CustomerAddressDataProcessor implements ProcessorInterface
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $this->customerRepository->getById($customerId);
         $addressCollection = $customer->getAddressesCollection();
-        $addresses = [];
-
-        foreach($addressCollection as $address)
-        {
-            $addresses[] = $address->toArray($this->helperData->{/*@todo getAddressesAttributesCodesFromConfig*/})
-        }
 
         return array_merge_recursive(
             $data,
-            ['customer_addresses' => $addresses]
+            ['customer_addresses' => $addressCollection->toArray($this->helperData->{/*@todo getAddressesAttributesCodesFromConfig*/})]
         );
     }
 }
