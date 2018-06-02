@@ -5,8 +5,9 @@
  */
 declare(strict_types=1);
 
-namespace Flurrybox\EnhancedPrivacy\Service\Export;
+namespace Opengento\Gdpr\Service\Export;
 
+use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\OrderRepository;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 
@@ -20,11 +21,15 @@ class SalesDataProcessor implements ProcessorInterface
      */
     private $orderRepository;
 
-    /** @var SearchCriteriaBuilder */
-    protected $searchCriteriaBuilder;
+    /**
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     */
+    private $searchCriteriaBuilder;
 
     /**
+     * SalesDataProcessor constructor.
      * @param \Magento\Sales\Model\OrderRepository $orderRepository
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         OrderRepository $orderRepository,
@@ -36,29 +41,23 @@ class SalesDataProcessor implements ProcessorInterface
 
     /**
      * {@inheritdoc}
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function execute(string $customerEmail, array $data): array
     {
-        $searchCriteria = $this->searchCriteriaBuilder->addFilter('customer_email', $customerEmail)->create();
-        $orderCollection = $this->orderRepository->getList($searchCriteria);
+        $searchCriteria = $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_EMAIL, $customerEmail);
+        $orderCollection = $this->orderRepository->getList($searchCriteria->create());
+        $salesData = [];
 
-        foreach($orderCollection as $order)
-        {
-            $invoiceCollection = $order->getInvoiceCollection();
-            $shipmentCollection = $order->getShipmentsCollection();
-            $creditmemoCollection = $order->getCreditmemosCollection();
+        /** @var OrderInterface $order */
+        foreach($orderCollection as $order) {
+            $salesData[$order->getIncrementId()] = [
+                'orders' => $orderCollection->toArray(),
+                'invoice' => $order->getInvoiceCollection()->toArray(),
+                'shipment' => $order->getShipmentsCollection()->toArray(),
+                'creditmemo' => $order->getCreditmemosCollection()->toArray(),
+            ];
         }
 
-        return array_merge_recursive(
-            $data,
-            [
-                'orders' => $orderCollection->toArray(),
-                'invoice' => $invoiceCollection->toArray(),
-                'shipment' => $shipmentCollection->toArray(),
-                'creditmemo' => $creditmemoCollection->toArray(),
-            ]
-        );
+        return array_merge_recursive($data, ['sales' => $salesData]);
     }
 }

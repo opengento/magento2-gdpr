@@ -5,10 +5,10 @@
  */
 declare(strict_types=1);
 
-namespace Flurrybox\EnhancedPrivacy\Service\Delete;
+namespace Opengento\Gdpr\Service\Delete;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Flurrybox\EnhancedPrivacy\Helper\Data;
+use Opengento\Gdpr\Helper\Data;
 
 /**
  * Class CustomerDataProcessor
@@ -16,7 +16,7 @@ use Flurrybox\EnhancedPrivacy\Helper\Data;
 class CustomerDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Flurrybox\EnhancedPrivacy\Helper\Data
+     * @var \Opengento\Gdpr\Helper\Data
      */
     private $helperData;
 
@@ -26,7 +26,7 @@ class CustomerDataProcessor implements ProcessorInterface
     private $customerRepository;
 
     /**
-     * @param \Flurrybox\EnhancedPrivacy\Helper\Data $helperData
+     * @param \Opengento\Gdpr\Helper\Data $helperData
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      */
     public function __construct(

@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Flurrybox\EnhancedPrivacy\Service;
+namespace Opengento\Gdpr\Service;
 
 use Magento\Framework\ObjectManager\TMap;
 
@@ -39,7 +39,7 @@ class ExportManagement
     {
         $data = [];
 
-        /** @var \Flurrybox\EnhancedPrivacy\Service\Export\ProcessorInterface $processor */
+        /** @var \Opengento\Gdpr\Service\Export\ProcessorInterface $processor */
         foreach ($this->processorPool as $processor) {
             $data = $processor->execute($entityId, $data);
         }

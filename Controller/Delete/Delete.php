@@ -1,24 +1,14 @@
 <?php
 /**
- * This file is part of the Flurrybox EnhancedPrivacy package.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Flurrybox EnhancedPrivacy
- * to newer versions in the future.
- *
- * @copyright Copyright (c) 2018 Flurrybox, Ltd. (https://flurrybox.com/)
- * @license   GNU General Public License ("GPL") v3.0
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
  */
 
-namespace Flurrybox\EnhancedPrivacy\Controller\Delete;
+namespace Opengento\Gdpr\Controller\Delete;
 
-use Flurrybox\EnhancedPrivacy\Helper\AccountData;
-use Flurrybox\EnhancedPrivacy\Model\CronScheduleFactory;
-use Flurrybox\EnhancedPrivacy\Model\Source\Config\Schema;
+use Opengento\Gdpr\Helper\AccountData;
+use Opengento\Gdpr\Model\CronScheduleFactory;
+use Opengento\Gdpr\Model\Source\Config\Schema;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Action;
@@ -31,7 +21,7 @@ use Magento\Framework\Exception\InvalidEmailOrPasswordException;
 use Magento\Framework\Exception\State\UserLockedException;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Sales\Model\Order\Config;
-use Flurrybox\EnhancedPrivacy\Helper\Data;
+use Opengento\Gdpr\Helper\Data;
 
 /**
  * Customer account delete action.
@@ -171,7 +161,7 @@ class Delete extends Action
         try {
             $this->authenticate($currentCustomerDataObject);
 
-            /** @var \Flurrybox\EnhancedPrivacy\Model\CronSchedule $schedule */
+            /** @var \Opengento\Gdpr\Model\CronSchedule $schedule */
             $schedule = $this->scheduleFactory->create()
                 ->setData(
                     'scheduled_at',

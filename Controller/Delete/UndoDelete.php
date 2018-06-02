@@ -1,28 +1,18 @@
 <?php
 /**
- * This file is part of the Flurrybox EnhancedPrivacy package.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Flurrybox EnhancedPrivacy
- * to newer versions in the future.
- *
- * @copyright Copyright (c) 2018 Flurrybox, Ltd. (https://flurrybox.com/)
- * @license   GNU General Public License ("GPL") v3.0
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
  */
 
-namespace Flurrybox\EnhancedPrivacy\Controller\Delete;
+namespace Opengento\Gdpr\Controller\Delete;
 
 use Exception;
-use Flurrybox\EnhancedPrivacy\Helper\AccountData;
-use Flurrybox\EnhancedPrivacy\Helper\Data;
+use Opengento\Gdpr\Helper\AccountData;
+use Opengento\Gdpr\Helper\Data;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
-use Flurrybox\EnhancedPrivacy\Model\ResourceModel\CronSchedule\CollectionFactory;
+use Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory;
 use Magento\Framework\App\RequestInterface;
 
 /**
@@ -110,7 +100,7 @@ class UndoDelete extends Action
         $resultRedirect = $this->resultRedirectFactory->create();
 
         try {
-            /** @var \Flurrybox\EnhancedPrivacy\Model\CronSchedule $model */
+            /** @var \Opengento\Gdpr\Model\CronSchedule $model */
             $model = $this->collectionFactory->create()
                 ->getItemByColumnValue('customer_id', $this->session->getId());
 

@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Flurrybox\EnhancedPrivacy\Setup;
+namespace Opengento\Gdpr\Setup;
 
 use Magento\Customer\Model\Customer;
 use Magento\Eav\Api\AttributeRepositoryInterface;

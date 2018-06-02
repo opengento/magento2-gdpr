@@ -1,20 +1,10 @@
 <?php
 /**
- * This file is part of the Flurrybox EnhancedPrivacy package.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Flurrybox EnhancedPrivacy
- * to newer versions in the future.
- *
- * @copyright Copyright (c) 2018 Flurrybox, Ltd. (https://flurrybox.com/)
- * @license   GNU General Public License ("GPL") v3.0
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
  */
 
-namespace Flurrybox\EnhancedPrivacy\Setup;
+namespace Opengento\Gdpr\Setup;
 
 use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\Setup\InstallSchemaInterface;
@@ -39,10 +29,10 @@ class InstallSchema implements InstallSchemaInterface
         $installer->startSetup();
 
         /**
-         * Create table 'flurrybox_enhancedprivacy_delete_reasons'
+         * Create table 'opengento_gdpr_delete_reasons'
          */
         $table = $installer->getConnection()
-            ->newTable($installer->getTable('flurrybox_enhancedprivacy_delete_reasons'))
+            ->newTable($installer->getTable('opengento_gdpr_delete_reasons'))
             ->addColumn(
                 'reason_id',
                 Table::TYPE_SMALLINT,
@@ -68,10 +58,10 @@ class InstallSchema implements InstallSchemaInterface
         $installer->getConnection()->createTable($table);
 
         /**
-         * Create table 'flurrybox_enhancedprivacy_cleanup_schedule'
+         * Create table 'opengento_gdpr_cleanup_schedule'
          */
         $table = $installer->getConnection()
-            ->newTable($installer->getTable('flurrybox_enhancedprivacy_cleanup_schedule'))
+            ->newTable($installer->getTable('opengento_gdpr_cleanup_schedule'))
             ->addColumn(
                 'schedule_id',
                 Table::TYPE_SMALLINT,
@@ -109,7 +99,7 @@ class InstallSchema implements InstallSchemaInterface
             )
             ->addIndex(
                 $setup->getIdxName(
-                    'flurrybox_enhancedprivacy_cleanup_schedule',
+                    'opengento_gdpr_cleanup_schedule',
                     ['customer_id'],
                     true
                 ),

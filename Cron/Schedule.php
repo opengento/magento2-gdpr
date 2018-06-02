@@ -1,31 +1,21 @@
 <?php
 /**
- * This file is part of the Flurrybox EnhancedPrivacy package.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Flurrybox EnhancedPrivacy
- * to newer versions in the future.
- *
- * @copyright Copyright (c) 2018 Flurrybox, Ltd. (https://flurrybox.com/)
- * @license   GNU General Public License ("GPL") v3.0
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
  */
 
-namespace Flurrybox\EnhancedPrivacy\Cron;
+namespace Opengento\Gdpr\Cron;
 
 use Exception;
-use Flurrybox\EnhancedPrivacy\Api\DataDeleteInterface;
-use Flurrybox\EnhancedPrivacy\Helper\Data;
-use Flurrybox\EnhancedPrivacy\Model\ResourceModel\CronSchedule\CollectionFactory;
+use Opengento\Gdpr\Api\DataDeleteInterface;
+use Opengento\Gdpr\Helper\Data;
+use Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Registry;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Psr\Log\LoggerInterface;
-use Flurrybox\EnhancedPrivacy\Model\ReasonsFactory;
+use Opengento\Gdpr\Model\ReasonsFactory;
 use RuntimeException;
 
 /**

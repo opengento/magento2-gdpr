@@ -1,19 +1,9 @@
 <?php
 /**
- * This file is part of the Flurrybox EnhancedPrivacy package.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Flurrybox EnhancedPrivacy
- * to newer versions in the future.
- *
- * @copyright Copyright (c) 2018 Flurrybox, Ltd. (https://flurrybox.com/)
- * @license   GNU General Public License ("GPL") v3.0
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
  */
-/** @var \Flurrybox\EnhancedPrivacy\Block\Messages\PrivacyMessagePopup $block */
+/** @var \Opengento\Gdpr\Block\Messages\PrivacyMessagePopup $block */
 ?>
 <div class="enhanced-privacy-cookie-policy" data-bind="scope: 'enhanced-privacy-cookie-policy'">
     <!-- ko template: getTemplate() --><!-- /ko -->
@@ -21,7 +11,7 @@
 <script type="text/x-magento-init">
     {
         ".enhanced-privacy-cookie-policy": {
-            "Magento_Ui/js/core/app": <?php echo $block->getJsLayout(); ?>
+            "Magento_Ui/js/core/app": <?= $block->getJsLayout(); ?>
         }
     }
 </script>

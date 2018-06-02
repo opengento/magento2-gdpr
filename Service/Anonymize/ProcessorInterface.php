@@ -4,7 +4,7 @@
  * See LICENSE bundled with this library for license details.
  */
 
-namespace Flurrybox\EnhancedPrivacy\Service\Anonymize;
+namespace Opengento\Gdpr\Service\Anonymize;
 
 /**
  * Interface ProcessorInterface

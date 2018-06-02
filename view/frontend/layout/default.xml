@@ -1,31 +1,21 @@
 <?xml version="1.0"?>
 <!--
 /**
- * This file is part of the Flurrybox EnhancedPrivacy package.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Flurrybox EnhancedPrivacy
- * to newer versions in the future.
- *
- * @copyright Copyright (c) 2018 Flurrybox, Ltd. (https://flurrybox.com/)
- * @license   GNU General Public License ("GPL") v3.0
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="after.body.start">
-            <block class="Flurrybox\EnhancedPrivacy\Block\Messages\PrivacyMessagePopup" name="privacy_message_popup"
-                   template="Flurrybox_EnhancedPrivacy::messages/popup.phtml" after="-">
+            <block class="Opengento\Gdpr\Block\Messages\PrivacyMessagePopup" name="privacy_message_popup"
+                   template="Opengento_Gdpr::messages/popup.phtml" after="-">
                 <arguments>
                     <argument name="jsLayout" xsi:type="array">
                         <item name="components" xsi:type="array">
                             <item name="enhanced-privacy-cookie-policy" xsi:type="array">
-                                <item name="component" xsi:type="string">Flurrybox_EnhancedPrivacy/js/view/popup</item>
+                                <item name="component" xsi:type="string">Opengento_Gdpr/js/view/popup</item>
                                 <item name="displayArea" xsi:type="string">enhanced-privacy-cookie-policy</item>
                             </item>
                         </item>

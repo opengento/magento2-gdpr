@@ -1,45 +1,35 @@
 <?php
 /**
- * This file is part of the Flurrybox EnhancedPrivacy package.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Flurrybox EnhancedPrivacy
- * to newer versions in the future.
- *
- * @copyright Copyright (c) 2018 Flurrybox, Ltd. (https://flurrybox.com/)
- * @license   GNU General Public License ("GPL") v3.0
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
  */
 
-use Flurrybox\EnhancedPrivacy\Helper\Data;
+use Opengento\Gdpr\Helper\Data;
 
-/** @var \Flurrybox\EnhancedPrivacy\Block\Account\Settings $block */
+/** @var \Opengento\Gdpr\Block\Account\Settings $block */
 /** @var Data $helper */
 $helper = $this->helper(Data::class);
 ?>
 <div class="block block-dashboard-info">
     <div class="block-title">
-        <strong><?php echo __('Information'); ?></strong>
+        <strong><?= __('Information'); ?></strong>
     </div>
     <div class="block-content">
-        <p><?php echo $block->escapeHtml($helper->getInformation()); ?></p>
+        <p><?= $block->escapeHtml($helper->getInformation()); ?></p>
     </div>
 </div>
 
 <?php if ($helper->isAccountExportEnabled()) : ?>
     <div class="block block-dashboard-info">
         <div class="block-title">
-            <strong><?php echo __('Export your personal data'); ?></strong>
+            <strong><?= __('Export your personal data'); ?></strong>
         </div>
         <div class="block-content">
-            <p><?php echo $block->escapeHtml(__($helper->getAccountExportInformation())); ?></p>
+            <p><?= $block->escapeHtml(__($helper->getAccountExportInformation())); ?></p>
             <div class="actions-toolbar">
                 <div class="primary">
                     <button type="button" class="action submit primary" id="export">
-                        <span><?php echo __('Export my data'); ?></span>
+                        <span><?= __('Export my data'); ?></span>
                     </button>
                 </div>
             </div>
@@ -50,29 +40,29 @@ $helper = $this->helper(Data::class);
 <?php if ($helper->isAccountDeletionEnabled()) : ?>
 <div class="block block-dashboard-info">
     <div class="block-title">
-        <strong><?php echo __('Account deletion'); ?></strong>
+        <strong><?= __('Account deletion'); ?></strong>
     </div>
     <div class="block-content">
         <?php if ($block->isAccountToBeDeleted()): ?>
-            <p><?php echo $block->escapeHtml($helper->getAccountDeletionInfo()); ?></p>
-            <strong><?php echo __('Attention!'); ?></strong>
-            <p><?php echo __('Your account will be deleted soon. You can undo this action.'); ?></p>
+            <p><?= $block->escapeHtml($helper->getAccountDeletionInfo()); ?></p>
+            <strong><?= __('Attention!'); ?></strong>
+            <p><?= __('Your account will be deleted soon. You can undo this action.'); ?></p>
             <div class="actions-toolbar">
                 <div class="primary">
                     <button type="button" class="action submit primary" id="undo_deletion">
-                        <span><?php echo __('Undo deletion'); ?></span>
+                        <span><?= __('Undo deletion'); ?></span>
                     </button>
                 </div>
             </div>
         <?php else: ?>
-            <p><?php echo $block->escapeHtml($helper->getAccountDeletionInfo()); ?></p>
+            <p><?= $block->escapeHtml($helper->getAccountDeletionInfo()); ?></p>
             <?php if ($block->shouldAnonymize()): ?>
-                <p><?php echo $block->escapeHtml($helper->getAnonymizationMessage()); ?></p>
+                <p><?= $block->escapeHtml($helper->getAnonymizationMessage()); ?></p>
             <?php endif; ?>
             <div class="actions-toolbar">
                 <div class="primary">
                     <button type="button" class="button-red action submit primary" id="delete">
-                        <span><?php echo __('Delete my account'); ?></span>
+                        <span><?= __('Delete my account'); ?></span>
                     </button>
                 </div>
             </div>
@@ -87,18 +77,18 @@ $helper = $this->helper(Data::class);
 
         <?php if ($helper->isAccountExportEnabled()) : ?>
         $('#export').click(function () {
-            location.href = '<?php echo $block->getExportAction(); ?>';
+            location.href = '<?= $block->getExportAction(); ?>';
         });
         <?php endif; ?>
 
         <?php if ($helper->isAccountDeletionEnabled()) : ?>
         <?php if ($block->isAccountToBeDeleted()): ?>
         $('#undo_deletion').click(function () {
-            location.href = '<?php echo $block->getUndoDeletePageURL(); ?>';
+            location.href = '<?= $block->getUndoDeletePageURL(); ?>';
         });
         <?php else: ?>
         $('#delete').click(function () {
-            location.href = '<?php echo $block->getDeletingPageUrl(); ?>';
+            location.href = '<?= $block->getDeletingPageUrl(); ?>';
         });
         <?php endif; ?>
         <?php endif; ?>

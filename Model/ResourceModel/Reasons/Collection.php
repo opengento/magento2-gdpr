@@ -1,22 +1,12 @@
 <?php
 /**
- * This file is part of the Flurrybox EnhancedPrivacy package.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Flurrybox EnhancedPrivacy
- * to newer versions in the future.
- *
- * @copyright Copyright (c) 2018 Flurrybox, Ltd. (https://flurrybox.com/)
- * @license   GNU General Public License ("GPL") v3.0
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
  */
 
-namespace Flurrybox\EnhancedPrivacy\Model\ResourceModel\Reasons;
+namespace Opengento\Gdpr\Model\ResourceModel\Reasons;
 
-use Flurrybox\EnhancedPrivacy\Model\Reasons;
+use Opengento\Gdpr\Model\Reasons;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
 /**
@@ -34,6 +24,6 @@ class Collection extends AbstractCollection
      */
     protected function _construct()
     {
-        $this->_init(Reasons::class, \Flurrybox\EnhancedPrivacy\Model\ResourceModel\Reasons::class);
+        $this->_init(Reasons::class, \Opengento\Gdpr\Model\ResourceModel\Reasons::class);
     }
 }

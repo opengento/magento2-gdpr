@@ -55,13 +55,13 @@ The following documentation explain how to add your own processors to the workfl
 
 If you need to export third-part related customer data:
 
-1. Implements the `Flurrybox\EnhancedPrivacy\Service\Export\ProcessorInterface` interface.
+1. Implements the `Opengento\Gdpr\Service\Export\ProcessorInterface` interface.
     ```php
     <?php
     
     namespace Vendor\Module\Model\Privacy;
     
-    use Flurrybox\EnhancedPrivacy\Service\Export\ProcessorInterface;
+    use Opengento\Gdpr\Service\Export\ProcessorInterface;
     
     class EntityExport implements ProcessorInterface
     {   
@@ -75,7 +75,7 @@ If you need to export third-part related customer data:
 
 2. Register export class in `etc/di.xml`
     ```xml
-        <type name="Flurrybox\EnhancedPrivacy\Controller\Export\Export">
+        <type name="Opengento\Gdpr\Controller\Export\Export">
             <arguments>
                 <argument name="processors" xsi:type="array">
                     ...
@@ -89,13 +89,13 @@ If you need to export third-part related customer data:
 ### Extends Deletion
 To delete data thats gathered by 3rd party integrations you can implement your own data processor.
 
-1. Create a new class implementing `Flurrybox\EnhancedPrivacy\Api\DataDeleteInterface` interface.
+1. Create a new class implementing `Opengento\Gdpr\Api\DataDeleteInterface` interface.
     ```php
     <?php
     
     namespace Vendor\Module\Model\Privacy;
     
-    use Flurrybox\EnhancedPrivacy\Api\DataDeleteInterface;
+    use Opengento\Gdpr\Api\DataDeleteInterface;
     use Magento\Customer\Api\Data\CustomerInterface;
     
     class EntityDelete implements DataDeleteInterface
@@ -131,7 +131,7 @@ To delete data thats gathered by 3rd party integrations you can implement your o
     <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
         ...
-        <type name="Flurrybox\EnhancedPrivacy\Cron\Schedule">
+        <type name="Opengento\Gdpr\Cron\Schedule">
             <arguments>
                 <argument name="processors" xsi:type="array">
                     ...

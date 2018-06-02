@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Flurrybox\EnhancedPrivacy\Model;
+namespace Opengento\Gdpr\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;

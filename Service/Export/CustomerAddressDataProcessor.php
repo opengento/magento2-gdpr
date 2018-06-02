@@ -5,10 +5,10 @@
  */
 declare(strict_types=1);
 
-namespace Flurrybox\EnhancedPrivacy\Service\Export;
+namespace Opengento\Gdpr\Service\Export;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Flurrybox\EnhancedPrivacy\Model\Config;
+use Opengento\Gdpr\Model\Config;
 
 /**
  * Class CustomerAddressDataProcessor
@@ -21,13 +21,13 @@ class CustomerAddressDataProcessor implements ProcessorInterface
     private $customerRepository;
 
     /**
-     * @var \Flurrybox\EnhancedPrivacy\Model\Config
+     * @var \Opengento\Gdpr\Model\Config
      */
     private $config;
 
     /**
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-     * @param \Flurrybox\EnhancedPrivacy\Model\Config
+     * @param \Opengento\Gdpr\Model\Config
      */
     public function __construct(
         CustomerRepositoryInterface $customerRepository,

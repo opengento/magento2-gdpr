@@ -4,7 +4,7 @@
  * See LICENSE bundled with this library for license details.
  */
 
-namespace Flurrybox\EnhancedPrivacy\Service\Export;
+namespace Opengento\Gdpr\Service\Export;
 
 /**
  * Interface ProcessorInterface

@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Flurrybox\EnhancedPrivacy\Service\Anonymize;
+namespace Opengento\Gdpr\Service\Anonymize;
 
 use Magento\Framework\Phrase;
 

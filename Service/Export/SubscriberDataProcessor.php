@@ -5,9 +5,9 @@
  */
 declare(strict_types=1);
 
-namespace Flurrybox\EnhancedPrivacy\Service\Export;
+namespace Opengento\Gdpr\Service\Export;
 
-use Flurrybox\EnhancedPrivacy\Helper\Data;
+use Opengento\Gdpr\Helper\Data;
 use Magento\Newsletter\Model\Subscriber;
 
 /**
@@ -31,16 +31,11 @@ class SubscriberDataProcessor implements ProcessorInterface
 
     /**
      * {@inheritdoc}
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function execute(string $customerEmail, array $data): array
     {
         $subscriber = $this->subscriber->loadByEmail($customerEmail);
 
-        return array_merge_recursive(
-            $data,
-            ['orders' => $subscriber->toArray()]
-        );
+        return array_merge_recursive($data, ['orders' => $subscriber->toArray()]);
     }
 }

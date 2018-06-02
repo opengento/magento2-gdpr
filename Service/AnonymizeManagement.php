@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Flurrybox\EnhancedPrivacy\Service;
+namespace Opengento\Gdpr\Service;
 
 use Magento\Framework\ObjectManager\TMap;
 
@@ -37,7 +37,7 @@ class AnonymizeManagement
      */
     public function execute(int $entityId): bool
     {
-        /** @var \Flurrybox\EnhancedPrivacy\Service\Anonymize\ProcessorInterface $processor */
+        /** @var \Opengento\Gdpr\Service\Anonymize\ProcessorInterface $processor */
         foreach ($this->processorPool as $processor) {
             if (!$processor->execute($entityId)) {
                 return false;
