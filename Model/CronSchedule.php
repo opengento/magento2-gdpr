@@ -27,9 +27,7 @@ class CronSchedule extends AbstractModel
     const ANONYMIZE = 2;
 
     /**
-     * Initialize resource model.
-     *
-     * @return void
+     * {@inheritdoc}
      */
     protected function _construct()
     {

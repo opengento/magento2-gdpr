@@ -1,26 +1,48 @@
 {
-    "name": "flurrybox/enhanced-privacy",
-    "description": "Magento 2 module to make your store GDPR compatible",
-    "type": "magento2-module",
-    "version": "1.0.1",
-    "authors": [
-        {
-            "name": "Flurrybox",
-            "email": "info@flurrybox.com"
-        }
-    ],
-    "license": [
-        "GPL-3.0-or-later"
+    "name": "opengento/magento2-gdpr",
+    "description": "Gdpr Compliance Module for Magento 2",
+    "keywords": [
+        "php",
+        "magento",
+        "magento2",
+        "gdpr",
+        "rgpd"
     ],
     "require": {
-        "php": "^7.0"
+        "magento/framework": ">=100.0.0",
+        "magento/module-backend": ">=100.0.0",
+        "magento/module-config": ">=100.2.0",
+        "magento/module-customer": ">=101.0.0",
+        "magento/module-quote": ">=100.0.0",
+        "magento/module-sales": ">=100.0.0",
+        "magento/module-review": ">=100.0.0",
+        "magento/module-email": ">=100.0.0",
+        "magento/module-newsletter": ">=100.0.0"
+    },
+    "type": "magento2-module",
+    "version": "0.1.0",
+    "license": [
+        "MIT"
+    ],
+    "homepage": "https://github.com/opengento/magento2-rgpd",
+    "authors": [
+        {
+            "name": "Opengento Team",
+            "email": "contact@opengento.com",
+            "homepage": "https://github.com/opengento/magento2-rgpd",
+            "role": "lead"
+        }
+    ],
+    "support": {
+        "source": "https://github.com/opengento/magento2-rgpd",
+        "issues": "https://github.com/opengento/magento2-rgpd/issues"
     },
     "autoload": {
         "files": [
             "registration.php"
         ],
         "psr-4": {
-            "Flurrybox\\EnhancedPrivacy\\": ""
+            "Opengento\\EnhancedPrivacy\\": ""
         }
     }
 }

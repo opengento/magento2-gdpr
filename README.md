@@ -1,38 +1,39 @@
-# Magento 2 Enhanced Privacy extension for easier compliance with GDPR #
+# Gdpr Module for Magento 2
+
+[![Latest Stable Version](https://img.shields.io/packagist/v/opengento/module-gdpr.svg?style=flat-square)](https://packagist.org/packages/opengento/module-gdpr)
+[![License: MIT](https://img.shields.io/github/license/opengento/magento2-rgpd.svg?style=flat-square)](./LICENSE) 
+
 
 Extension allows customers to delete, anonymize, or export their personal data.
 
-## Getting Started ##
 
-### Prerequisites ###
+## Setup
 
-Magento 2 Open Source or Commerce edition.
+Magento 2 Open Source or Commerce edition are required.
 
-### Installation ###
+### Get the package
 
-#### Composer ####
+**Zip Package:**
 
-From Magento 2 root folder run the commands:  
+Unzip the package in app/code/Opengento/Gdpr.
+
+**Composer Package:**
+
 ```
-composer require flurrybox/enhanced-privacy
-php bin/magento module:enable Flurrybox_EnhancedPrivacy
+composer require opengento/magento2-gdpr
+```
+
+### Install the module
+
+Then, run the following magento command:
+
+```
 php bin/magento setup:upgrade
-php bin/magento setup:static-content:deploy
-php bin/magento setup:di:compile
 ```
 
-#### Copy files ####
+**If you are in production mode, do not forget to recompile and redeploy the static resources.**
 
-1. Copy extension files to the `app/code/Flurrybox/EnhancedPrivacy` directory
-2. Run the following commands in Magento 2 root folder:
-    ```
-    php bin/magento module:enable Flurrybox_EnhancedPrivacy
-    php bin/magento setup:upgrade
-    php bin/magento setup:static-content:deploy
-    php bin/magento setup:di:compile
-    ```
-
-### Usage and Features ###
+## Usage
 
 * Configuration for this module is located in 'Stores > Configuration > Customers > Customer Configuration > Privacy (GDPR)'.
 * Account deletion, anonymization, and export can be done in 'My Account > Privacy Settings'.
@@ -41,47 +42,39 @@ php bin/magento setup:di:compile
 * If customer has made at least one order, they are ineligible to delete their account, instead it will be anonymized.
 * When a customer visits your store for the first time, a popup notification about cookie policy will be shown.
 
-### Create new export model ###
-Besides default export entites its possible to implement custom data export such as - customer data saved in custom database tables by 3rd party integrations.
-When customers will make a request for their personal data export, your class instance will be executed by data export processor and will add new file to data archive.
 
-1. Create a new class implementing `Flurrybox\EnhancedPrivacy\Api\DataExportInterface` interface.
+## Settings
+
+To configure the module, go to the admin panel, then go to Stores > Configuration > Customer
+
+## Developers
+
+The following documentation explain how to add your own processors to the workflow.
+
+### Extends Export
+
+If you need to export third-part related customer data:
+
+1. Implements the `Flurrybox\EnhancedPrivacy\Service\Export\ProcessorInterface` interface.
     ```php
     <?php
     
     namespace Vendor\Module\Model\Privacy;
     
-    use Flurrybox\EnhancedPrivacy\Api\DataExportInterface;
-    use Magento\Customer\Api\Data\CustomerInterface;
+    use Flurrybox\EnhancedPrivacy\Service\Export\ProcessorInterface;
     
-    class EntityExport implements DataExportInterface
-    {
-        /**
-         * Executed upon exporting customer data.
-         *
-         * Expected return structure:
-         *      array(
-         *          array('HEADER1', 'HEADER2', 'HEADER3', ...),
-         *          array('VALUE1', 'VALUE2', 'VALUE3', ...),
-         *          ...
-         *      )
-         *
-         * @param CustomerInterface $customer
-         *
-         * @return array
-         */
-        public function export(CustomerInterface $customer)
+    class EntityExport implements ProcessorInterface
+    {   
+        public function execute(string $email, array $data): array 
         {
             ...
+            return $data;
         }
     }
     ```
+
 2. Register export class in `etc/di.xml`
     ```xml
-    <?xml version="1.0"?>
-    <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-        ...
         <type name="Flurrybox\EnhancedPrivacy\Controller\Export\Export">
             <arguments>
                 <argument name="processors" xsi:type="array">
@@ -91,11 +84,9 @@ When customers will make a request for their personal data export, your class in
                 </argument>
             </arguments>
         </type>
-        ...
-    </config>
     ```
 
-### Create new deletion and anonymization model
+### Extends Deletion
 To delete data thats gathered by 3rd party integrations you can implement your own data processor.
 
 1. Create a new class implementing `Flurrybox\EnhancedPrivacy\Api\DataDeleteInterface` interface.
@@ -153,6 +144,21 @@ To delete data thats gathered by 3rd party integrations you can implement your o
     </config>
     ```
 
-## Copyrights and License ##
+### Extends Anonymization
 
-Copyright (c) 2018 Flurrybox, Ltd. under GNU General Public License ("GPL") v3.0
+
+
+## Support
+
+- Raise a new [request](https://github.com/opengento/magento2-rgpd/issues) on the issue tracker.
+
+## Authors
+
+- **Opengento Community** - *Lead* - [They're awesome!](https://github.com/opengento)
+- **Contributors** - *Contributor* - [Many thanks!](https://github.com/opengento/magento2-rgpd/graphs/contributors)
+
+## Licence
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) details.
+
+***That's all folks!***

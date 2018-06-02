@@ -1,97 +1,110 @@
 <?php
 /**
- * This file is part of the Flurrybox EnhancedPrivacy package.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Flurrybox EnhancedPrivacy
- * to newer versions in the future.
- *
- * @copyright Copyright (c) 2018 Flurrybox, Ltd. (https://flurrybox.com/)
- * @license   Open Software License ('OSL') v. 3.0
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
  */
+declare(strict_types=1);
 
 namespace Flurrybox\EnhancedPrivacy\Setup;
 
 use Magento\Customer\Model\Customer;
+use Magento\Customer\Model\ResourceModel\Attribute;
+use Magento\Customer\Setup\CustomerSetup;
 use Magento\Customer\Setup\CustomerSetupFactory;
-use Magento\Eav\Model\Entity\Attribute\Source\Boolean;
+use Magento\Eav\Model\Config;
 use Magento\Framework\Setup\InstallDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 
 /**
- * Module install data schema.
+ * Class InstallData
  */
 class InstallData implements InstallDataInterface
 {
-    const IS_ANONYMIZED_ATTRIBUTE = 'is_anonymized';
+    /**
+     * @var \Magento\Customer\Setup\CustomerSetupFactory
+     */
+    private $customerSetupFactory;
 
     /**
-     * @var CustomerSetupFactory
+     * @var \Magento\Customer\Model\ResourceModel\Attribute
      */
-    protected $customerSetupFactory;
+    private $attributeRepository;
 
     /**
-     * InstallData constructor.
-     *
-     * @param CustomerSetupFactory $customerSetupFactory
+     * @var \Magento\Eav\Model\Config
      */
-    public function __construct(CustomerSetupFactory $customerSetupFactory)
-    {
+    private $eavConfig;
+
+    /**
+     * @param \Magento\Customer\Setup\CustomerSetupFactory $customerSetupFactory
+     * @param \Magento\Customer\Model\ResourceModel\Attribute $attributeRepository
+     * @param \Magento\Eav\Model\Config $eavConfig
+     */
+    public function __construct(
+        CustomerSetupFactory $customerSetupFactory,
+        Attribute $attributeRepository,
+        Config $eavConfig
+    ) {
         $this->customerSetupFactory = $customerSetupFactory;
+        $this->attributeRepository = $attributeRepository;
+        $this->eavConfig = $eavConfig;
     }
 
     /**
-     * Installs DB schema for a module.
-     *
-     * @param ModuleDataSetupInterface $setup
-     * @param ModuleContextInterface $context
-     *
-     * @return void
-     * @throws \Exception
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * {@inheritdoc}
      */
     public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
     {
-        $installer = $setup;
-        $installer->startSetup();
+        $setup->startSetup();
 
         $customerSetup = $this->customerSetupFactory->create(['setup' => $setup]);
-        $customerSetup->removeAttribute(Customer::ENTITY, self::IS_ANONYMIZED_ATTRIBUTE);
 
-        $customerSetup->addAttribute(Customer::ENTITY, self::IS_ANONYMIZED_ATTRIBUTE, array(
-            'type' => 'int',
-            'label' => 'Is Anonimyzed',
-            'input' => 'select',
-            'source' => Boolean::class,
-            'visible' => true,
-            'default' => 0,
-            'required' => false,
-        ));
+        $this->addIsAnonymizedAttribute($customerSetup);
 
+        $setup->endSetup();
+    }
 
-        $attribute = $customerSetup->getEavConfig()->getAttribute(Customer::ENTITY, self::IS_ANONYMIZED_ATTRIBUTE);
+    /**
+     * @param \Magento\Customer\Setup\CustomerSetup $customerSetup
+     * @throws \Exception
+     */
+    private function addIsAnonymizedAttribute(CustomerSetup $customerSetup)
+    {
+        $customerSetup->addAttribute(
+            Customer::ENTITY,
+            'is_anonymized',
+            [
+                'label' => 'Is Anonymized',
+                'type' => 'int',
+                'input' => 'select',
+                'source' => Boolean::class,
+                'input_filter' => '',
+                'default' => 0,
+                'required' => false,
+                'visible' => true,
+                'user_defined' => false,
+                'system' => false,
+                'position' => 85,
+                'is_used_in_grid' => true,
+                'is_visible_in_grid' => true,
+                'is_filterable_in_grid' => true,
+                'is_searchable_in_grid' => true,
+            ]
+        );
 
-        $attribute
-            ->setData('used_in_forms', [
+        $attribute = $this->eavConfig->getAttribute(Customer::ENTITY, 'is_anonymized');
+        $attribute->setData(
+            'used_in_forms',
+            [
                 'adminhtml_customer',
                 'checkout_register',
                 'customer_account_create',
                 'customer_account_edit',
-                'adminhtml_checkout'
-            ])
-            ->setData('is_used_for_customer_segment', true)
-            ->setData('is_system', 0)
-            ->setData('is_user_defined', 1)
-            ->setData('is_visible', 1)
-            ->setData('sort_order', 100);
+                'adminhtml_checkout',
+            ]
+        );
 
-        $attribute->getResource()->save($attribute);
-
-        $installer->endSetup();
+        $this->attributeRepository->save($attribute);
     }
 }

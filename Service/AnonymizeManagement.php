@@ -11,6 +11,7 @@ use Magento\Framework\ObjectManager\TMap;
 
 /**
  * Class AnonymizeManagement
+ * @api
  */
 class AnonymizeManagement
 {

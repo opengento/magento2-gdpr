@@ -24,9 +24,7 @@ use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 class Reasons extends AbstractDb
 {
     /**
-     * Resource initialization.
-     *
-     * @return void
+     * {@inheritdoc}
      */
     protected function _construct()
     {

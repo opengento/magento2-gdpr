@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <!--
 /**
- * This file is part of the Flurrybox EnhancedPrivacy package.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Flurrybox EnhancedPrivacy
- * to newer versions in the future.
- *
- * @copyright Copyright (c) 2018 Flurrybox, Ltd. (https://flurrybox.com/)
- * @license   GNU General Public License ("GPL") v3.0
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Flurrybox_EnhancedPrivacy" setup_version="1.0.1"/>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Flurrybox_EnhancedPrivacy" setup_version="1.0.1">
+        <sequence>
+            <module name="Magento_Config" />
+            <module name="Magento_Customer" />
+            <module name="Magento_Quote" />
+            <module name="Magento_Sales" />
+            <module name="Magento_Review" />
+            <module name="Magento_Email" />
+            <module name="Magento_Newsletter" />
+            <module name="Magento_Backend" />
+        </sequence>
+    </module>
 </config>

@@ -30,9 +30,7 @@ class Collection extends AbstractCollection
     protected $_idFieldName = 'schedule_id';
 
     /**
-     * Resource initialization.
-     *
-     * @return void
+     * {@inheritdoc}
      */
     protected function _construct()
     {

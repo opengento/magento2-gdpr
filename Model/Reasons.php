@@ -24,9 +24,7 @@ use Magento\Framework\Model\AbstractModel;
 class Reasons extends AbstractModel
 {
     /**
-     * Initialize resource model.
-     *
-     * @return void
+     * {@inheritdoc}
      */
     protected function _construct()
     {
