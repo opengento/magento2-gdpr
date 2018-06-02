@@ -3,6 +3,7 @@
  * Copyright © 2018 OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
+declare(strict_types=1);
 
 namespace Opengento\Gdpr\Block;
 
@@ -17,27 +18,25 @@ use Magento\Sales\Model\Order\Config;
 abstract class Account extends Template
 {
     /**
-     * @var Data $helper
+     * @var \Opengento\Gdpr\Helper\Data
      */
-    protected $helper;
+    private $helper;
 
     /**
-     * @var Config
+     * @var \Magento\Sales\Model\Order\Config
      */
-    protected $orderConfig;
+    private $orderConfig;
 
     /**
-     * @var AccountData
+     * @var \Opengento\Gdpr\Helper\AccountData
      */
-    protected $accountData;
+    private $accountData;
 
     /**
-     * Settings constructor.
-     *
-     * @param Template\Context $context
-     * @param Data $helper
-     * @param Config $orderConfig
-     * @param AccountData $accountData
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Opengento\Gdpr\Helper\Data $helper
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
+     * @param \Opengento\Gdpr\Helper\AccountData $accountData
      * @param array $data
      */
     public function __construct(

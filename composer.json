@@ -1,5 +1,5 @@
 {
-    "name": "opengento/magento2-gdpr",
+    "name": "opengento/module-gdpr",
     "description": "Gdpr Compliance Module for Magento 2",
     "keywords": [
         "php",
@@ -24,25 +24,25 @@
     "license": [
         "MIT"
     ],
-    "homepage": "https://github.com/opengento/magento2-rgpd",
+    "homepage": "https://github.com/opengento/magento2-gdpr",
     "authors": [
         {
             "name": "Opengento Team",
             "email": "contact@opengento.com",
-            "homepage": "https://github.com/opengento/magento2-rgpd",
+            "homepage": "https://github.com/opengento/magento2-gdpr",
             "role": "lead"
         }
     ],
     "support": {
-        "source": "https://github.com/opengento/magento2-rgpd",
-        "issues": "https://github.com/opengento/magento2-rgpd/issues"
+        "source": "https://github.com/opengento/magento2-gdpr",
+        "issues": "https://github.com/opengento/magento2-gdpr/issues"
     },
     "autoload": {
         "files": [
             "registration.php"
         ],
         "psr-4": {
-            "Opengento\\EnhancedPrivacy\\": ""
+            "Opengento\\Gdpr\\": ""
         }
     }
 }

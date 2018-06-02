@@ -3,11 +3,12 @@
  * Copyright © 2018 OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
+declare(strict_types=1);
 
 namespace Opengento\Gdpr\Block\Account;
 
 use Opengento\Gdpr\Block\Account;
-use Opengento\Gdpr\Model\Source\Config\Schema;
+use Opengento\Gdpr\Model\Config\Source\Schema;
 
 /**
  * Customer privacy settings block.

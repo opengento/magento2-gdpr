@@ -11,6 +11,7 @@ use Magento\Store\Model\ScopeInterface;
 
 /**
  * Module configuration helper.
+ * @deprecated
  */
 class Data extends AbstractHelper
 {

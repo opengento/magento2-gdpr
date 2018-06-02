@@ -3,9 +3,11 @@
  * Copyright © 2018 OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
+declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Config\Source;
 
+use Magento\Customer\Model\AttributeMetadataDataProvider;
 use Magento\Framework\Data\OptionSourceInterface;
 
 /**
@@ -21,18 +23,18 @@ class CustomerAddressAttributes implements OptionSourceInterface
     /**
      * @param \Magento\Customer\Model\AttributeMetadataDataProvider $attributeMetadataDataProvider
      */
-    public function __construct(\Magento\Customer\Model\AttributeMetadataDataProvider $attributeMetadataDataProvider) {
+    public function __construct(
+        AttributeMetadataDataProvider $attributeMetadataDataProvider
+    ) {
         $this->attributeMetadataDataProvider = $attributeMetadataDataProvider;
     }
 
     /**
-     * Returns an array of all options of the series attribute
-     *
-     * @return array|null
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {
-        $data = array();
+        $data = [];
 
         /** @var \Magento\Eav\Api\Data\AttributeInterface[] $attributes */
         $attributes = $this->attributeMetadataDataProvider->loadAttributesCollection(

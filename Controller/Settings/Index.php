@@ -3,6 +3,7 @@
  * Copyright © 2018 OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
+declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Settings;
 
@@ -18,44 +19,38 @@ use Magento\Framework\App\RequestInterface;
 class Index extends Action
 {
     /**
-     * @var Data
+     * @var \Opengento\Gdpr\Helper\Data
      */
-    protected $helper;
+    private $helper;
 
     /**
-     * @var Session
+     * @var \Magento\Customer\Model\Session
      */
-    protected $session;
+    private $session;
 
     /**
-     * Index constructor.
-     *
-     * @param Context $context
-     * @param Data $helper
-     * @param Session $session
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Opengento\Gdpr\Helper\Data $helper
+     * @param \Magento\Customer\Model\Session $session
      */
-    public function __construct(Context $context, Data $helper, Session $session)
-    {
+    public function __construct(
+        Context $context,
+        Data $helper,
+        Session $session
+    ) {
         parent::__construct($context);
-
         $this->helper = $helper;
         $this->session = $session;
     }
 
     /**
-     * Dispatch controller.
-     *
-     * @param RequestInterface $request
-     *
-     * @return \Magento\Framework\App\ResponseInterface
-     * @throws \Magento\Framework\Exception\NotFoundException
+     * {@inheritdoc}
      */
     public function dispatch(RequestInterface $request)
     {
         if (!$this->session->authenticate()) {
             $this->_actionFlag->set('', 'no-dispatch', true);
         }
-
         if (!$this->helper->isModuleEnabled()){
             $this->_forward('no_route');
         }
@@ -64,12 +59,11 @@ class Index extends Action
     }
 
     /**
-     * Execute controller.
-     *
-     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|void
+     * {@inheritdoc}
      */
     public function execute()
     {
+        //todo refactor
         $this->_view->loadLayout();
 
         if ($block = $this->_view->getLayout()->getBlock('privacy_settings')) {

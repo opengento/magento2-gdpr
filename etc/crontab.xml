@@ -5,8 +5,7 @@
  * See LICENSE bundled with this library for license details.
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
     <group id="enhancedprivacy">
         <job name="enhancedprivacy_schedule" method="execute" instance="Opengento\Gdpr\Cron\Schedule">
             <schedule>* * * * *</schedule>

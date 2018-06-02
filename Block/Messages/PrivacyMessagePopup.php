@@ -3,6 +3,7 @@
  * Copyright © 2018 OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
+declare(strict_types=1);
 
 namespace Opengento\Gdpr\Block\Messages;
 
@@ -16,21 +17,19 @@ use Magento\Framework\View\Element\Template;
 class PrivacyMessagePopup extends Template
 {
     /**
-     * @var CookieManagerInterface
+     * @var \Magento\Framework\Stdlib\CookieManagerInterface
      */
-    protected $cookieManager;
+    private $cookieManager;
 
     /**
-     * @var Data
+     * @var \Opengento\Gdpr\Helper\Data
      */
-    protected $helper;
+    private $helper;
 
     /**
-     * PrivacyMessagePopup constructor.
-     *
-     * @param Template\Context $context
-     * @param CookieManagerInterface $cookieManager
-     * @param Data $helper
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
+     * @param \Opengento\Gdpr\Helper\Data $helper
      * @param array $data
      */
     public function __construct(
@@ -40,32 +39,20 @@ class PrivacyMessagePopup extends Template
         array $data = []
     ) {
         parent::__construct($context, $data);
-
         $this->cookieManager = $cookieManager;
         $this->helper = $helper;
     }
 
     /**
-     * Check if popup should be rendered before loading block.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     protected function _toHtml()
     {
-        if (
-            !$this->helper->isModuleEnabled() ||
-            !$this->helper->isPopupNotificationEnabled()
-        ) {
-            return '';
-        }
-
-        return parent::_toHtml();
+        return ($this->helper->isModuleEnabled() && $this->helper->isPopupNotificationEnabled()) ? parent::_toHtml() : '';
     }
 
     /**
-     * Get JS layout configuration.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getJsLayout()
     {

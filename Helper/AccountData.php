@@ -3,6 +3,7 @@
  * Copyright © 2018 OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
+declare(strict_types=1);
 
 namespace Opengento\Gdpr\Helper;
 
@@ -17,23 +18,20 @@ use Magento\Sales\Model\ResourceModel\Order\CollectionFactory as OrderCollection
  */
 class AccountData extends AbstractHelper
 {
-    const ANONYMOUS_STR = 'Anonymous';
-    const ANONYMOUS_DATE = 1;
-
     /**
      * @var Session
      */
-    protected $customerSession;
+    private $customerSession;
 
     /**
      * @var OrderCollectionFactory
      */
-    protected $orderCollectionFactory;
+    private $orderCollectionFactory;
 
     /**
      * @var ScheduleCollectionFactory
      */
-    protected $scheduleCollectionFactory;
+    private $scheduleCollectionFactory;
 
     /**
      * AccountData constructor.
@@ -50,7 +48,6 @@ class AccountData extends AbstractHelper
         ScheduleCollectionFactory $scheduleCollectionFactory
     ) {
         parent::__construct($context);
-
         $this->customerSession = $customerSession;
         $this->orderCollectionFactory = $orderCollectionFactory;
         $this->scheduleCollectionFactory = $scheduleCollectionFactory;
@@ -61,7 +58,7 @@ class AccountData extends AbstractHelper
      *
      * @return bool
      */
-    public function hasOrders()
+    public function hasOrders(): bool
     {
         if (!($customerId = $this->customerSession->getCustomerId())) {
             return false;
@@ -75,12 +72,11 @@ class AccountData extends AbstractHelper
      *
      * @return bool
      */
-    public function isAccountToBeDeleted()
+    public function isAccountToBeDeleted(): bool
     {
         if (!($customerId = $this->customerSession->getCustomerId())) {
             return false;
         }
-
         if ($this->scheduleCollectionFactory->create()->getItemByColumnValue('customer_id', $customerId)) {
             return true;
         }

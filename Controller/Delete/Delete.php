@@ -3,12 +3,13 @@
  * Copyright © 2018 OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
+declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Delete;
 
 use Opengento\Gdpr\Helper\AccountData;
 use Opengento\Gdpr\Model\CronScheduleFactory;
-use Opengento\Gdpr\Model\Source\Config\Schema;
+use Opengento\Gdpr\Model\Config\Source\Schema;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Action;
@@ -25,6 +26,7 @@ use Opengento\Gdpr\Helper\Data;
 
 /**
  * Customer account delete action.
+ * @refactor
  */
 class Delete extends Action
 {

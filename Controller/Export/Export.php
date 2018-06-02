@@ -3,10 +3,10 @@
  * Copyright © 2018 OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
+declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Export;
 
-use Opengento\Gdpr\Api\DataExportInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Action;
@@ -23,6 +23,7 @@ use Magento\Framework\Stdlib\DateTime\DateTime;
 
 /**
  * Export customer data.
+ * @refactor
  */
 class Export extends Action
 {
