@@ -143,6 +143,34 @@
                             <field id="*/*/account/account_anonymization_message_enabled">1</field>
                         </depends>
                     </field>
+                    <field id="information" type="textarea" translate="label comment" sortOrder="20" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Brief information</label>
+                        <comment><![CDATA[Brief information about your private policy. This text will be displayed in
+                        the settings of the user account.]]>
+                        </comment>
+                        <depends>
+                            <field id="*/*/*/enable">1</field>
+                        </depends>
+                    </field>
+                    <field id="customer_attributes" type="multiselect" translate="label comment" sortOrder="300" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Customer Attributes</label>
+                        <comment><![CDATA[This attributes list will be anonymized when processed.]]></comment>
+                        <depends>
+                            <field id="*/*/*/enable">1</field>
+                        </depends>
+                        <source_model>\Flurrybox\EnhancedPrivacy\Model\Source\Config\CustomerAttributes</source_model>
+                    </field>
+                    <field id="customer_address_attributes" type="multiselect" translate="label comment" sortOrder="300" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Customer Address Attributes</label>
+                        <comment><![CDATA[This address attributes list will be anonymized when processed.]]></comment>
+                        <depends>
+                            <field id="*/*/*/enable">1</field>
+                        </depends>
+                        <source_model>\Flurrybox\EnhancedPrivacy\Model\Source\Config\CustomerAddressAttributes</source_model>
+                    </field>
                 </group>
 
                 <group id="export" translate="label" sortOrder="1618" showInDefault="1" showInWebsite="1"
@@ -165,6 +193,24 @@
                         <depends>
                             <field id="*/*/export/account_export_enabled">1</field>
                         </depends>
+                    </field>
+                    <field id="customer_attributes" type="multiselect" translate="label comment" sortOrder="300" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Customer Attributes</label>
+                        <comment><![CDATA[This attributes list will be anonymized when processed.]]></comment>
+                        <depends>
+                            <field id="*/*/*/enable">1</field>
+                        </depends>
+                        <source_model>\Flurrybox\EnhancedPrivacy\Model\Source\Config\CustomerAttributes</source_model>
+                    </field>
+                    <field id="customer_address_attributes" type="multiselect" translate="label comment" sortOrder="300" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Customer Address Attributes</label>
+                        <comment><![CDATA[This address attributes list will be anonymized when processed.]]></comment>
+                        <depends>
+                            <field id="*/*/*/enable">1</field>
+                        </depends>
+                        <source_model>\Flurrybox\EnhancedPrivacy\Model\Source\Config\CustomerAddressAttributes</source_model>
                     </field>
                 </group>
 
