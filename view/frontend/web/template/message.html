@@ -16,19 +16,15 @@
 -->
 <div class="enhanced-privacy-popup" data-bind="visible: showPopUp">
     <div class="popup content">
-        <strong><!-- ko i18n: 'Cookie Policy'--><!-- /ko --></strong>
+        <strong data-bind="text: notificationTitle"></strong>
         <div class="block-content">
             <p data-bind="text: notificationText"></p>
             <div class="actions-toolbar">
                 <div class="secondary">
-                    <a class="action" data-bind="attr: {href: getLearnMoreLink() }">
-                        <!-- ko i18n: 'Click here to learn about cookies'--><!-- /ko -->
-                    </a>
+                    <a class="action" data-bind="attr: {href: getLearnMoreLink() }, text: notificationLinkText"></a>
                 </div>
                 <div class="primary">
-                    <button type="button" class="action primary" id="enhanced-privacy-popup-agree">
-                        <!-- ko i18n: 'Agree'--><!-- /ko -->
-                    </button>
+                    <button type="button" class="action primary" id="enhanced-privacy-popup-agree" data-bind="text: notificationButtonAgreeText"></button>
                 </div>
             </div>
         </div>
