@@ -191,6 +191,33 @@
                             <field id="*/*/cookie/popup_notification_enabled">1</field>
                         </depends>
                     </field>
+                    <field id="popup_link_text" type="text" sortOrder="200" translate="label comment" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Popup notification link text</label>
+                        <comment><![CDATA[This text will be displayed for the link to the Privacy Policy.]]></comment>
+                        <depends>
+                            <field id="*/*/general/enable">1</field>
+                            <field id="*/*/cookie/popup_notification_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="popup_title" type="text" sortOrder="200" translate="label comment" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Popup notification title</label>
+                        <comment><![CDATA[This text will be displayed for the title of the popup.]]></comment>
+                        <depends>
+                            <field id="*/*/general/enable">1</field>
+                            <field id="*/*/cookie/popup_notification_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="popup_button_agree_text" type="text" sortOrder="200" translate="label comment" showInDefault="1"
+                           showInWebsite="1" showInStore="1">
+                        <label>Popup notification agree button text</label>
+                        <comment><![CDATA[This text will be displayed for the Agree button label.]]></comment>
+                        <depends>
+                            <field id="*/*/general/enable">1</field>
+                            <field id="*/*/cookie/popup_notification_enabled">1</field>
+                        </depends>
+                    </field>
                 </group>
             </group>
         </section>

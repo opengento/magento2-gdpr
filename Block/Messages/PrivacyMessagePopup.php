@@ -82,7 +82,10 @@ class PrivacyMessagePopup extends Template
         $this->jsLayout['components']['enhanced-privacy-cookie-policy']['config'] = [
             'cookieName' => Data::COOKIE_COOKIES_POLICY,
             'learnMore' => $this->getUrl($this->helper->getInformationPage()),
-            'notificationText' => $this->helper->getPopupNotificationText()
+            'notificationText' => $this->helper->getPopupNotificationText(),
+            'notificationLinkText' => $this->helper->getPopupNotificationLinkText(),
+            'notificationTitle' => $this->helper->getPopupNotificationTitle(),
+            'notificationButtonAgreeText' => $this->helper->getPopupNotificationButtonAgreeText()
         ];
 
         return json_encode($this->jsLayout);

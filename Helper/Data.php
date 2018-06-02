@@ -42,6 +42,9 @@ class Data extends AbstractHelper
     const CONFIG_ACCOUNT_EXPORT_INFORMATION = 'customer/enhancedprivacy/export/export_information';
     const CONFIG_ACCOUNT_POPUP_NOTIFICATION_ENABLED = 'customer/enhancedprivacy/cookie/popup_notification_enabled';
     const CONFIG_ACCOUNT_POPUP_TEXT = 'customer/enhancedprivacy/cookie/popup_text';
+    const CONFIG_ACCOUNT_POPUP_LINK_TEXT = 'customer/enhancedprivacy/cookie/popup_link_text';
+    const CONFIG_ACCOUNT_POPUP_TITLE = 'customer/enhancedprivacy/cookie/popup_title';
+    const CONFIG_ACCOUNT_POPUP_BUTTON_AGREE_TEXT = 'customer/enhancedprivacy/cookie/popup_button_agree_text';
 
     /**
      * Schedule types
@@ -205,5 +208,35 @@ class Data extends AbstractHelper
     public function getPopupNotificationText()
     {
         return $this->scopeConfig->getValue(self::CONFIG_ACCOUNT_POPUP_TEXT, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Get popup notification button text
+     *
+     * @return string|null
+     */
+    public function getPopupNotificationLinkText()
+    {
+        return $this->scopeConfig->getValue(self::CONFIG_ACCOUNT_POPUP_LINK_TEXT, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Get popup notification title
+     *
+     * @return string|null
+     */
+    public function getPopupNotificationTitle()
+    {
+        return $this->scopeConfig->getValue(self::CONFIG_ACCOUNT_POPUP_TITLE, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Get popup notification button agree text
+     *
+     * @return string|null
+     */
+    public function getPopupNotificationButtonAgreeText()
+    {
+        return $this->scopeConfig->getValue(self::CONFIG_ACCOUNT_POPUP_BUTTON_AGREE_TEXT, ScopeInterface::SCOPE_STORE);
     }
 }
