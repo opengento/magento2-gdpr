@@ -41,6 +41,9 @@
                 <cookie>
                     <popup_notification_enabled>1</popup_notification_enabled>
                     <popup_text>Our website uses cookies. By using our website, you consent to our use of cookies in accordance with our Cookies Policy.</popup_text>
+                    <popup_link_text>Learn more about our Privacy Policy.</popup_link_text>
+                    <popup_title>Privacy Policy</popup_title>
+                    <popup_button_agree_text>Agree</popup_button_agree_text>
                 </cookie>
             </enhancedprivacy>
         </customer>
