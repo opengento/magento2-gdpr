@@ -14,14 +14,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Flurrybox\EnhancedPrivacy\Model\Source\Config;
+namespace Flurrybox\EnhancedPrivacy\Model\Config\Source;
 
 use \Magento\Framework\Data\OptionSourceInterface;
 
 /**
  * Customer attributes.
  */
-class CustomerAddressAttributes implements OptionSourceInterface
+class CustomerAttributes implements OptionSourceInterface
 {
     /**
      * @var \Magento\Customer\Model\AttributeMetadataDataProvider
@@ -46,8 +46,8 @@ class CustomerAddressAttributes implements OptionSourceInterface
 
         /** @var \Magento\Eav\Api\Data\AttributeInterface[] $attributes */
         $attributes = $this->attributeMetadataDataProvider->loadAttributesCollection(
-            'customer_address',
-            'adminhtml_customer_address'
+            'customer',
+            'adminhtml_customer'
         );
 
         foreach ($attributes as $attributeCode => $attribute) {

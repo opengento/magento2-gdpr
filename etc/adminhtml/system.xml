@@ -70,7 +70,7 @@
                     <field id="deletion_schema" type="select" translate="label" sortOrder="31" showInDefault="1"
                            showInWebsite="1" showInStore="1">
                         <label>Account deletion type</label>
-                        <source_model>Flurrybox\EnhancedPrivacy\Model\Source\Config\Schema</source_model>
+                        <source_model>Flurrybox\EnhancedPrivacy\Model\Config\Source\Schema</source_model>
                         <depends>
                             <field id="*/*/account/account_deletion_enabled">1</field>
                         </depends>
@@ -197,20 +197,20 @@
                     <field id="customer_attributes" type="multiselect" translate="label comment" sortOrder="300" showInDefault="1"
                            showInWebsite="1" showInStore="1">
                         <label>Customer Attributes</label>
-                        <comment><![CDATA[This attributes list will be anonymized when processed.]]></comment>
+                        <comment><![CDATA[This attributes list will be exported when processed.]]></comment>
                         <depends>
                             <field id="*/*/*/enable">1</field>
                         </depends>
-                        <source_model>\Flurrybox\EnhancedPrivacy\Model\Source\Config\CustomerAttributes</source_model>
+                        <source_model>\Flurrybox\EnhancedPrivacy\Model\Config\Source\CustomerAttributes</source_model>
                     </field>
                     <field id="customer_address_attributes" type="multiselect" translate="label comment" sortOrder="300" showInDefault="1"
                            showInWebsite="1" showInStore="1">
                         <label>Customer Address Attributes</label>
-                        <comment><![CDATA[This address attributes list will be anonymized when processed.]]></comment>
+                        <comment><![CDATA[This address attributes list will be exported when processed.]]></comment>
                         <depends>
                             <field id="*/*/*/enable">1</field>
                         </depends>
-                        <source_model>\Flurrybox\EnhancedPrivacy\Model\Source\Config\CustomerAddressAttributes</source_model>
+                        <source_model>\Flurrybox\EnhancedPrivacy\Model\Config\Source\CustomerAddressAttributes</source_model>
                     </field>
                 </group>
 

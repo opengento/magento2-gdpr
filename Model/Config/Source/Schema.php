@@ -14,7 +14,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Flurrybox\EnhancedPrivacy\Model\Source\Config;
+namespace Flurrybox\EnhancedPrivacy\Model\Config\Source;
 
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\Phrase;
