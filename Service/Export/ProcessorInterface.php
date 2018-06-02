@@ -20,5 +20,5 @@ interface ProcessorInterface
      * @param array $data
      * @return array
      */
-    public function execute(int $entityId, array $data): array;
+    public function execute(string $customerEmail, array $data): array;
 }

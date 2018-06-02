@@ -89,10 +89,8 @@
             <argument name="array" xsi:type="array">
                 <item name="customer_data" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Export\CustomerDataProcessor</item>
                 <item name="customer_address_data" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Export\CustomerAddressDataProcessor</item>
-                <item name="quote" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Export\QuoteDataProcessor</item>
-                <item name="order" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Export\OrderDataProcessor</item>
-                <item name="invoice" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Export\InvoiceDataProcessor</item>
-                <item name="creditmemo" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Export\CreditmemoDataProcessor</item>
+                <item name="sales" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Export\SalesDataProcessor</item>
+                <item name="subscriber" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Export\SubscriberProcessor</item>
             </argument>
         </arguments>
     </virtualType>
