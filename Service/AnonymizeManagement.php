@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: thomas
  * Date: 02/06/18
- * Time: 17:16
+ * Time: 17:11
  */
 declare(strict_types=1);
 
@@ -12,10 +12,9 @@ namespace Flurrybox\EnhancedPrivacy\Service;
 use Magento\Framework\ObjectManager\TMap;
 
 /**
- * Class ExportManagement
- * @api
+ * Class AnonymizeManagement
  */
-class ExportManagement
+class AnonymizeManagement
 {
     /**
      * @var \Magento\Framework\ObjectManager\TMap
@@ -32,20 +31,20 @@ class ExportManagement
     }
 
     /**
-     * Export all data related to a given entity ID
+     * Anonymize all data related to a given entity ID
      *
      * @param int $entityId
-     * @return array
+     * @return bool
      */
-    public function execute(int $entityId): array
+    public function execute(int $entityId): bool
     {
-        $data = [];
-
-        /** @var \Flurrybox\EnhancedPrivacy\Service\Export\ProcessorInterface $processor */
+        /** @var \Flurrybox\EnhancedPrivacy\Service\Anonymize\ProcessorInterface $processor */
         foreach ($this->processorPool as $processor) {
-            $data = $processor->execute($entityId, $data);
+            if (!$processor->execute($entityId)) {
+                return false;
+            }
         }
 
-        return $data;
+        return true;
     }
 }

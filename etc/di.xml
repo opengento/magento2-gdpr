@@ -54,9 +54,35 @@
     </type>
 
 
+    <!-- Anonymize Management -->
+    <virtualType name="Flurrybox\EnhancedPrivacy\Service\Anonymize\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
+        <arguments>
+            <argument name="type" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Anonymize\ProcessorInterface</argument>
+            <argument name="array" xsi:type="array">
 
-
-
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Flurrybox\EnhancedPrivacy\Service\AnonymizeManagement">
+        <arguments>
+            <argument name="processorPool" xsi:type="object">Flurrybox\EnhancedPrivacy\Service\Anonymize\ProcessorPool</argument>
+        </arguments>
+    </type>
+    <!-- Delete Management -->
+    <virtualType name="Flurrybox\EnhancedPrivacy\Service\Delete\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
+        <arguments>
+            <argument name="type" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Delete\ProcessorInterface</argument>
+            <argument name="array" xsi:type="array">
+                <item name="customer_data" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Delete\CustomerDataProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Flurrybox\EnhancedPrivacy\Service\DeleteManagement">
+        <arguments>
+            <argument name="processorPool" xsi:type="object">Flurrybox\EnhancedPrivacy\Service\Delete\ProcessorPool</argument>
+        </arguments>
+    </type>
+    <!-- Export Management -->
     <virtualType name="Flurrybox\EnhancedPrivacy\Service\Export\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
         <arguments>
             <argument name="type" xsi:type="string">Flurrybox\EnhancedPrivacy\Service\Export\ProcessorInterface</argument>

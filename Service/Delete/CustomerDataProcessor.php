@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace Flurrybox\EnhancedPrivacy\Service\Export;
+namespace Flurrybox\EnhancedPrivacy\Service\Delete;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Flurrybox\EnhancedPrivacy\Helper\Data;
@@ -44,14 +44,9 @@ class CustomerDataProcessor implements ProcessorInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function execute(int $entityId, array $data): array
+    public function execute(int $entityId): bool
     {
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = $this->customerRepository->getById($entityId);
-
-        return array_merge_recursive(
-            $data,
-            ['customer' => $customer->toArray($this->helperData->{/*todo getAttributesCodesFromConfig*/})]
-        );
+        return $this->customerRepository->deleteById($entityId);
     }
 }
