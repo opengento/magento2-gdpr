@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Flurrybox\EnhancedPrivacy\Service\Export;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Flurrybox\EnhancedPrivacy\Helper\Data;
+use Flurrybox\EnhancedPrivacy\Model\Config;
 
 /**
  * Class CustomerAddressDataProcessor
@@ -16,25 +16,25 @@ use Flurrybox\EnhancedPrivacy\Helper\Data;
 class CustomerAddressDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Flurrybox\EnhancedPrivacy\Helper\Data
-     */
-    private $helperData;
-
-    /**
      * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
     private $customerRepository;
 
     /**
-     * @param \Flurrybox\EnhancedPrivacy\Helper\Data $helperData
+     * @var \Flurrybox\EnhancedPrivacy\Model\Config
+     */
+    private $config;
+
+    /**
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     * @param \Flurrybox\EnhancedPrivacy\Model\Config
      */
     public function __construct(
-        Data $helperData,
-        CustomerRepositoryInterface $customerRepository
+        CustomerRepositoryInterface $customerRepository,
+        Config $config
     ) {
-        $this->helperData = $helperData;
         $this->customerRepository = $customerRepository;
+        $this->config = $config;
     }
 
     /**
@@ -42,15 +42,15 @@ class CustomerAddressDataProcessor implements ProcessorInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function execute(int $customerId, array $data): array
+    public function execute(string $customerEmail, array $data): array
     {
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = $this->customerRepository->getById($customerId);
+        $customer = $this->customerRepository->get($customerEmail);
         $addressCollection = $customer->getAddressesCollection();
 
         return array_merge_recursive(
             $data,
-            ['customer_addresses' => $addressCollection->toArray($this->helperData->{/*@todo getAddressesAttributesCodesFromConfig*/})]
+            ['customer_addresses' => $addressCollection->toArray($this->config->getAnonymizeCustomerAddressAttributes())]
         );
     }
 }

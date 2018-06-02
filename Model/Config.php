@@ -182,7 +182,7 @@ class Config
      *
      * @return array
      */
-    public function getCustomerAttributes(): array
+    public function getAnonymizeCustomerAttributes(): array
     {
         return explode(',', $this->scopeConfig->getValue(self::CONFIG_ACCOUNT_ANONYMIZATION_CUSTOMER_ATTRIBUTES));
     }
@@ -192,7 +192,7 @@ class Config
      *
      * @return array
      */
-    public function getCustomerAddressAttributes(): array
+    public function getAnonymizeCustomerAddressAttributes(): array
     {
         return explode(',', $this->scopeConfig->getValue(self::CONFIG_ACCOUNT_ANONYMIZATION_CUSTOMER_ADDRESS_ATTRIBUTES));
     }
