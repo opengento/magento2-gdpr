@@ -20,17 +20,17 @@ abstract class Account extends Template
     /**
      * @var \Opengento\Gdpr\Helper\Data
      */
-    private $helper;
+    protected $helper;
 
     /**
      * @var \Magento\Sales\Model\Order\Config
      */
-    private $orderConfig;
+    protected $orderConfig;
 
     /**
      * @var \Opengento\Gdpr\Helper\AccountData
      */
-    private $accountData;
+    protected $accountData;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
