@@ -1,6 +1,7 @@
 # ToDo
 
-- Pattern Strategy to execute anonymization over deletion
+- Add a Decorator Pattern to allows multiple export formats (json, csv, html...).
+- Add Pattern Strategy to execute anonymization over deletion *Sometimes, if the customer has no orders, we can delete it.*
 
 ## Helpers
 
