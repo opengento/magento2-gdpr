@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Block\Messages;
 
 use Opengento\Gdpr\Helper\Data;
-use Magento\Framework\Stdlib\CookieManagerInterface;
 use Magento\Framework\View\Element\Template;
 
 /**
@@ -17,29 +16,21 @@ use Magento\Framework\View\Element\Template;
 class PrivacyMessagePopup extends Template
 {
     /**
-     * @var \Magento\Framework\Stdlib\CookieManagerInterface
-     */
-    private $cookieManager;
-
-    /**
      * @var \Opengento\Gdpr\Helper\Data
      */
     private $helper;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
      * @param \Opengento\Gdpr\Helper\Data $helper
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        CookieManagerInterface $cookieManager,
         Data $helper,
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->cookieManager = $cookieManager;
         $this->helper = $helper;
     }
 

@@ -7,90 +7,43 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Delete;
 
+use Magento\Framework\App\ActionInterface;
+use Magento\Framework\Controller\ResultFactory;
+use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Helper\AccountData;
-use Opengento\Gdpr\Helper\Data;
-use Magento\Customer\Model\Session;
-use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\RequestInterface;
 
 /**
- * Delete controller.
+ * Action Index Delete
  */
-class Index extends Action
+class Index extends AbstractPrivacy implements ActionInterface
 {
     /**
-     * @var Data
+     * @var \Opengento\Gdpr\Helper\AccountData
      */
-    protected $helper;
+    private $accountData;
 
     /**
-     * @var Session
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Opengento\Gdpr\Helper\AccountData $accountData
      */
-    protected $session;
-
-    /**
-     * @var AccountData
-     */
-    protected $accountData;
-
-    /**
-     * Index constructor.
-     *
-     * @param Context $context
-     * @param Data $helper
-     * @param Session $session
-     * @param AccountData $accountData
-     */
-    public function __construct(Context $context, Data $helper, Session $session, AccountData $accountData)
-    {
+    public function __construct(
+        Context $context,
+        AccountData $accountData
+    ) {
         parent::__construct($context);
-
-        $this->helper = $helper;
-        $this->session = $session;
         $this->accountData = $accountData;
     }
 
     /**
-     * Dispatch controller.
-     *
-     * @param RequestInterface $request
-     *
-     * @return \Magento\Framework\App\ResponseInterface
-     * @throws \Magento\Framework\Exception\NotFoundException
-     */
-    public function dispatch(RequestInterface $request)
-    {
-        if (!$this->session->authenticate()) {
-            $this->_actionFlag->set('', 'no-dispatch', true);
-        }
-
-        if (
-            !$this->helper->isModuleEnabled() ||
-            !$this->helper->isAccountDeletionEnabled() ||
-            $this->accountData->isAccountToBeDeleted()
-        ) {
-            $this->_forward('no_route');
-        }
-
-        return parent::dispatch($request);
-    }
-
-    /**
-     * Execute controller.
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function execute()
     {
-        $this->_view->loadLayout();
-
-        if ($block = $this->_view->getLayout()->getBlock('privacy_delete')) {
-            $block->setRefererUrl($this->_redirect->getRefererUrl());
+        if ($this->accountData->isAccountToBeDeleted()) {
+            return $this->forwardNoRoute();
         }
 
-        $this->_view->getPage()->getConfig()->getTitle()->set(__('Delete account'));
-
-        $this->_view->renderLayout();
+        return $this->resultFactory->create(ResultFactory::TYPE_PAGE);
     }
 }

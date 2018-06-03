@@ -7,15 +7,15 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Delete;
 
+use Magento\Framework\App\ActionInterface;
+use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Helper\AccountData;
 use Opengento\Gdpr\Model\CronScheduleFactory;
 use Opengento\Gdpr\Model\Config\Source\Schema;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Model\Session;
-use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\AuthenticationInterface;
-use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Data\Form\FormKey\Validator;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Exception\InvalidEmailOrPasswordException;
@@ -25,10 +25,9 @@ use Magento\Sales\Model\Order\Config;
 use Opengento\Gdpr\Helper\Data;
 
 /**
- * Customer account delete action.
- * @refactor
+ * Action Delete Delete
  */
-class Delete extends Action
+class Delete extends AbstractPrivacy implements ActionInterface
 {
     /**
      * @var Validator
@@ -115,40 +114,14 @@ class Delete extends Action
     }
 
     /**
-     * Dispatch controller.
-     *
-     * @param RequestInterface $request
-     *
-     * @return \Magento\Framework\App\ResponseInterface
-     * @throws \Magento\Framework\Exception\NotFoundException
-     */
-    public function dispatch(RequestInterface $request)
-    {
-        if (!$this->session->authenticate()) {
-            $this->_actionFlag->set('', 'no-dispatch', true);
-        }
-
-        if (
-            !$this->helper->isModuleEnabled() ||
-            !$this->helper->isAccountDeletionEnabled() ||
-            $this->accountData->isAccountToBeDeleted()
-        ) {
-            $this->_forward('no_route');
-        }
-
-        return parent::dispatch($request);
-    }
-
-    /**
-     * Execute controller.
-     *
-     * @return $this|\Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\SessionException
+     * {@inheritdoc}
      */
     public function execute()
     {
+        if ($this->accountData->isAccountToBeDeleted()) {
+            return $this->forwardNoRoute();
+        }
+
         /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
 

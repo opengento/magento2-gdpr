@@ -9,11 +9,13 @@ namespace Opengento\Gdpr\Controller\Export;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\Session;
-use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\ActionInterface;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Phrase;
+use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Helper\Data;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Archive\Zip;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\File\Csv;
@@ -22,10 +24,9 @@ use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 
 /**
- * Export customer data.
- * @refactor
+ * Action Export Export
  */
-class Export extends Action
+class Export extends AbstractPrivacy implements ActionInterface
 {
     /**
      * @var Context
@@ -118,58 +119,36 @@ class Export extends Action
     }
 
     /**
-     * Dispatch controller.
-     *
-     * @param RequestInterface $request
-     *
-     * @return \Magento\Framework\App\ResponseInterface
-     * @throws \Magento\Framework\Exception\NotFoundException
-     */
-    public function dispatch(RequestInterface $request)
-    {
-        if (!$this->session->authenticate()) {
-            $this->_actionFlag->set('', 'no-dispatch', true);
-        }
-
-        if (!$this->helper->isModuleEnabled() || !$this->helper->isAccountExportEnabled()){
-            $this->_forward('no_route');
-        }
-
-        return parent::dispatch($request);
-    }
-
-    /**
-     * Execute export action.
-     *
-     * @return \Magento\Framework\Controller\ResultInterface
-     * @throws \Exception
+     * {@inheritdoc}
      */
     public function execute()
     {
-        /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
-        $resultRedirect = $this->resultRedirectFactory->create();
-
-        try {
-            $this->downloadZip();
-        } catch (\Exception $e) {
-            $this->messageManager->addErrorMessage(__('Something went wrong. Try again later.'));
-
-            return $resultRedirect->setPath('privacy/export');
+        //todo move as plugin: on event
+        if (!$this->helper->isModuleEnabled() || !$this->helper->isAccountExportEnabled()){
+            return $this->forwardNoRoute();
         }
 
-        return $this->resultFactory->create(ResultFactory::TYPE_RAW);
+        try {
+            return $this->downloadZip();
+        } catch (\Exception $e) {
+            $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong. Try again later.'));
+
+            /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+            $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+            return $resultRedirect->setPath('privacy/export');
+        }
     }
 
     /**
-     * This function download .zip file with customer data.
+     * Download the customer privacy data
      *
-     * @return void
-     * @throws \Exception
+     * @return \Magento\Framework\App\ResponseInterface
      * @throws \Magento\Framework\Exception\FileSystemException
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Exception
      */
-    protected function downloadZip()
+    protected function downloadZip(): ResponseInterface
     {
         $customer = $this->customerRepository->getById($this->session->getCustomerId());
         $date = $this->getDateStamp();
@@ -188,7 +167,7 @@ class Export extends Action
             $this->deleteCsv($file);
         }
 
-        $this->fileFactory->create(
+        return $this->fileFactory->create(
             $zipFileName,
             [
                 'type' => 'filename',
