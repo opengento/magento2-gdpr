@@ -19,7 +19,7 @@ use Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory;
 /**
  * Action Undo Delete
  */
-class Undo extends AbstractPrivacy implements ActionInterface
+class UndoDelete extends AbstractPrivacy implements ActionInterface
 {
     /**
      * @var \Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory

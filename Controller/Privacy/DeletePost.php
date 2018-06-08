@@ -11,7 +11,7 @@ use Magento\Framework\App\ActionInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Helper\AccountData;
 use Opengento\Gdpr\Model\CronScheduleFactory;
-use Opengento\Gdpr\Model\Config\Source\Schema;
+use Opengento\Gdpr\Model\Config\Source\EraseStrategy;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
@@ -27,7 +27,7 @@ use Opengento\Gdpr\Helper\Data;
 /**
  * Action Delete Delete
  */
-class Delete extends AbstractPrivacy implements ActionInterface
+class DeletePost extends AbstractPrivacy implements ActionInterface
 {
     /**
      * @var Validator
@@ -146,15 +146,15 @@ class Delete extends AbstractPrivacy implements ActionInterface
                 ->setData('reason', $this->getRequest()->getPost('reason'));
 
             switch ($this->helper->getDeletionSchema()) {
-                case Schema::DELETE:
+                case EraseStrategy::DELETE:
                     $schedule->setData('type', Data::SCHEDULE_TYPE_DELETE);
                     break;
 
-                case Schema::ANONYMIZE:
+                case EraseStrategy::ANONYMIZE:
                     $schedule->setData('type', Data::SCHEDULE_TYPE_ANONYMIZE);
                     break;
 
-                case Schema::DELETE_ANONYMIZE:
+                case EraseStrategy::DELETE_ANONYMIZE:
                     $schedule->setData(
                         'type',
                         $this->accountData->hasOrders() ? Data::SCHEDULE_TYPE_ANONYMIZE : Data::SCHEDULE_TYPE_DELETE

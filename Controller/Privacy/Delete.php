@@ -16,7 +16,7 @@ use Magento\Framework\App\Action\Context;
 /**
  * Action Index Delete
  */
-class Index extends AbstractPrivacy implements ActionInterface
+class Delete extends AbstractPrivacy implements ActionInterface
 {
     /**
      * @var \Opengento\Gdpr\Helper\AccountData
