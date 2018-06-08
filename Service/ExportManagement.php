@@ -32,18 +32,36 @@ class ExportManagement
     /**
      * Export all data related to a given entity ID
      *
-     * @param int $entityId
+     * @param string $customerEmail
      * @return array
      */
-    public function execute(int $entityId): array
+    public function execute(string $customerEmail): array
     {
         $data = [];
 
         /** @var \Opengento\Gdpr\Service\Export\ProcessorInterface $processor */
         foreach ($this->processorPool as $processor) {
-            $data = $processor->execute($entityId, $data);
+            $data = $processor->execute($customerEmail, $data);
         }
 
         return $data;
+    }
+
+    /**
+     * Execute an export processor by name
+     *
+     * @param string $processorName
+     * @param string $customerEmail
+     * @return array
+     */
+    public function executeProcessor(string $processorName, string $customerEmail): array
+    {
+        if ($this->processorPool->offsetExists($processorName)) {
+            throw new \LogicException('The processor "' . $processorName . '" is not registered.');
+        }
+
+        /** @var \Opengento\Gdpr\Service\Export\ProcessorInterface $processor */
+        $processor = $this->processorPool->offsetGet($processorName);
+        return $processor->execute($customerEmail, []);
     }
 }

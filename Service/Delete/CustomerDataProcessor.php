@@ -8,7 +8,8 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Delete;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Opengento\Gdpr\Helper\Data;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Opengento\Gdpr\Model\Config;
 
 /**
  * Class CustomerDataProcessor
@@ -16,35 +17,40 @@ use Opengento\Gdpr\Helper\Data;
 class CustomerDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Helper\Data
-     */
-    private $helperData;
-
-    /**
      * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
     private $customerRepository;
 
     /**
-     * @param \Opengento\Gdpr\Helper\Data $helperData
+     * @var \Opengento\Gdpr\Model\Config
+     */
+    private $config;
+
+    /**
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     * @param \Opengento\Gdpr\Model\Config $config
      */
     public function __construct(
-        Data $helperData,
-        CustomerRepositoryInterface $customerRepository
+        CustomerRepositoryInterface $customerRepository,
+        Config $config
     ) {
-        $this->helperData = $helperData;
         $this->customerRepository = $customerRepository;
+        $this->config = $config;
     }
 
     /**
      * {@inheritdoc}
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function execute(int $entityId): bool
+    public function execute(string $customerEmail): bool
     {
-        /** @var \Magento\Customer\Model\Customer $customer */
-        return $this->customerRepository->deleteById($entityId);
+        //todo if config: delete customer if no orders
+        try {
+            $this->customerRepository->delete($this->customerRepository->get($customerEmail));
+        } catch (NoSuchEntityException $e) {
+            /** Silence is golden */
+        }
+
+        return true;
     }
 }

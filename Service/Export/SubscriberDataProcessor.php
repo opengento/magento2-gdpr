@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Export;
 
-use Opengento\Gdpr\Helper\Data;
 use Magento\Newsletter\Model\Subscriber;
 
 /**

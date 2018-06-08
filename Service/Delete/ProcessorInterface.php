@@ -16,8 +16,8 @@ interface ProcessorInterface
      * Execute the delete processor for the given entity ID.
      * It allows to delete the related data.
      *
-     * @param int $entityId
+     * @param string $customerEmail
      * @return bool
      */
-    public function execute(int $entityId): bool;
+    public function execute(string $customerEmail): bool;
 }
