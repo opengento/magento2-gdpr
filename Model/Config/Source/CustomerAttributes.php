@@ -11,7 +11,7 @@ use Magento\Customer\Model\AttributeMetadataDataProvider;
 use Magento\Framework\Data\OptionSourceInterface;
 
 /**
- * Customer attributes.
+ * Class CustomerAttributes
  */
 class CustomerAttributes implements OptionSourceInterface
 {

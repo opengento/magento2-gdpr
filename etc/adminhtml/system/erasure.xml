@@ -9,7 +9,7 @@
     <group id="erasure" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
         <label>Right To Erasure</label>
         <depends>
-            <field id="gdpr/general/enabled">1</field>
+            <field id="*/*/general/enabled">1</field>
         </depends>
         <field id="enabled" type="select" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Erasure</label>
@@ -20,7 +20,7 @@
             <label>Erasure Strategy</label>
             <source_model>Opengento\Gdpr\Model\Config\Source\EraseStrategy</source_model>
             <depends>
-                <field id="gdpr/erasure/enabled">1</field>
+                <field id="*/*/erasure/enabled">1</field>
             </depends>
             <config_path>gdpr/erasure/strategy</config_path>
         </field>
@@ -29,7 +29,7 @@
             <comment>Erasure time lapse in seconds before the execution</comment>
             <frontend_class>validate-number</frontend_class>
             <depends>
-                <field id="gdpr/erasure/strategy">delete</field>
+                <field id="*/*/erasure/strategy">delete</field>
             </depends>
             <config_path>gdpr/erasure/time_lapse</config_path>
         </field>
@@ -37,16 +37,15 @@
             <label>Information</label>
             <source_model>Opengento\Gdpr\Model\Config\Source\Block</source_model>
             <depends>
-                <field id="gdpr/erasure/enabled">1</field>
+                <field id="*/*/erasure/enabled">1</field>
             </depends>
             <config_path>gdpr/erasure/block_id</config_path>
         </field>
         <group id="anonymize" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Anonymization</label>
             <depends>
-                <field id="gdpr/general/enabled">1</field>
-                <field id="gdpr/erasure/enabled">1</field>
-                <field id="gdpr/erasure/strategy">anonymize</field>
+                <field id="*/*/erasure/enabled">1</field>
+                <field id="*/*/erasure/strategy">anonymize</field>
             </depends>
             <field id="block_id" type="select" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Information</label>
@@ -56,13 +55,13 @@
             <field id="customer_attributes" type="multiselect" translate="label comment" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Customer Attributes</label>
                 <comment>This attributes list will be anonymized when processed.</comment>
-                <source_model>Opengento\Gdpr\Model\Source\Config\CustomerAttributes</source_model>
+                <source_model>Opengento\Gdpr\Model\Config\Source\CustomerAttributes</source_model>
                 <config_path>gdpr/anonymize/customer_attributes</config_path>
             </field>
             <field id="customer_address_attributes" type="multiselect" translate="label comment" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Customer Address Attributes</label>
                 <comment>This address attributes list will be anonymized when processed.</comment>
-                <source_model>Opengento\Gdpr\Model\Source\Config\CustomerAddressAttributes</source_model>
+                <source_model>Opengento\Gdpr\Model\Config\Source\CustomerAddressAttributes</source_model>
                 <config_path>gdpr/anonymize/customer_address_attributes</config_path>
             </field>
         </group>

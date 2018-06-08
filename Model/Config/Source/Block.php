@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\Cms\Model\Config\Source;
+namespace Opengento\Gdpr\Model\Config\Source;
 
 use Magento\Cms\Model\ResourceModel\Block\CollectionFactory;
 use Magento\Framework\Data\OptionSourceInterface;
@@ -40,8 +40,28 @@ class Block implements OptionSourceInterface
     public function toOptionArray()
     {
         if (!$this->options) {
-            $this->options = $this->collectionFactory->create()->toOptionIdArray();
+            $res = [];
+            $existingIdentifiers = [];
+
+            /** @var \Magento\Cms\Model\Block $item */
+            foreach ($this->collectionFactory->create() as $item) {
+                $identifier = $item->getData('identifier');
+
+                $data['value'] = $identifier;
+                $data['label'] = $item->getData('title');
+
+                if (in_array($identifier, $existingIdentifiers)) {
+                    $data['value'] .= '|' . $item->getData('page_id');
+                } else {
+                    $existingIdentifiers[] = $identifier;
+                }
+
+                $res[] = $data;
+            }
+
+            $this->options = $res;
         }
+
         return $this->options;
     }
 }

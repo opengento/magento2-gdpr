@@ -18,15 +18,15 @@
             <comment>This page should store information about privacy and GDPR policy.</comment>
             <source_model>Magento\Cms\Model\Config\Source\Page</source_model>
             <depends>
-                <field id="gdpr/general/enabled">1</field>
+                <field id="*/*/general/enabled">1</field>
             </depends>
             <config_path>gdpr/general/page_id</config_path>
         </field>
-        <field id="information" type="textarea" translate="label comment" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-            <label>Brief information</label>
-            <comment>Brief information about your private policy. This text will be displayed in the settings of the user account.</comment>
+        <field id="information" type="select" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Information</label>
+            <source_model>Opengento\Gdpr\Model\Config\Source\Block</source_model>
             <depends>
-                <field id="gdpr/general/enabled">1</field>
+                <field id="*/*/general/enabled">1</field>
             </depends>
             <config_path>gdpr/general/block_id</config_path>
         </field>

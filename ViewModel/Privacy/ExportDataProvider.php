@@ -63,7 +63,7 @@ class ExportDataProvider extends DataObject implements ArgumentInterface
         if (!$this->hasData('export_information')) {
             $block = $this->blockFactory->createBlock(
                 Block::class,
-                ['data' => ['block_id' => $this->config->getE()]]
+                ['data' => ['block_id' => $this->config->getExportInformationBlockId()]]
             );
             $this->setData('export_information', $block->toHtml());
         }

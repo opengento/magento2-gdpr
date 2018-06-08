@@ -71,27 +71,21 @@ class Config
     /**
      * Retrieve the privacy information page ID
      *
-     * @return int
+     * @return string
      */
-    public function getPrivacyInformationPageId(): int
+    public function getPrivacyInformationPageId(): string
     {
-        return (int) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_GENERAL_INFORMATION_PAGE,
-            ScopeInterface::SCOPE_STORE
-        );
+        return $this->scopeConfig->getValue(self::CONFIG_PATH_GENERAL_INFORMATION_PAGE, ScopeInterface::SCOPE_STORE);
     }
 
     /**
      * Retrieve the privacy information block ID
      *
-     * @return int
+     * @return string
      */
-    public function getPrivacyInformationBlockId(): int
+    public function getPrivacyInformationBlockId(): string
     {
-        return (int) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_GENERAL_INFORMATION_BLOCK,
-            ScopeInterface::SCOPE_STORE
-        );
+        return $this->scopeConfig->getValue(self::CONFIG_PATH_GENERAL_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -151,27 +145,21 @@ class Config
     /**
      * Retrieve the erasure information block ID
      *
-     * @return int
+     * @return string
      */
-    public function getErasureInformationBlockId(): int
+    public function getErasureInformationBlockId(): string
     {
-        return (int) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_ERASURE_INFORMATION_BLOCK,
-            ScopeInterface::SCOPE_STORE
-        );
+        return $this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
     }
 
     /**
      * Retrieve the anonymize information block ID
      *
-     * @return int
+     * @return string
      */
-    public function getAnonymizeInformationBlockId(): int
+    public function getAnonymizeInformationBlockId(): string
     {
-        return (int) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK,
-            ScopeInterface::SCOPE_STORE
-        );
+        return $this->scopeConfig->getValue(self::CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -213,14 +201,11 @@ class Config
     /**
      * Retrieve the export information block ID
      *
-     * @return int
+     * @return string
      */
-    public function getExportInformationBlockId(): int
+    public function getExportInformationBlockId(): string
     {
-        return (int) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_EXPORT_INFORMATION_BLOCK,
-            ScopeInterface::SCOPE_STORE
-        );
+        return $this->scopeConfig->getValue(self::CONFIG_PATH_EXPORT_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
     }
 
     /**

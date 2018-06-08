@@ -14,6 +14,7 @@
             <erasure>
                 <enabled>0</enabled>
                 <strategy>anonymize</strategy>
+                <time_lapse>3600</time_lapse>
             </erasure>
             <anonymize>
                 <customer_attributes></customer_attributes><!-- todo -->

@@ -9,15 +9,19 @@
     <group id="cookie" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
         <label>Cookie Settings</label>
         <depends>
-            <field id="gdpr/general/enabled">1</field>
+            <field id="*/*/general/enabled">1</field>
         </depends>
         <field id="enabled" type="select" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Cookie Disclosure</label>
             <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
             <config_path>gdpr/cookie/enabled</config_path>
         </field>
-        <field id="information" type="textarea" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+        <field id="information" type="select" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Information</label>
+            <source_model>Opengento\Gdpr\Model\Config\Source\Block</source_model>
+            <depends>
+                <field id="*/*/cookie/enabled">1</field>
+            </depends>
             <config_path>gdpr/cookie/information</config_path>
         </field>
     </group>
