@@ -1,7 +1,7 @@
 # ToDo
 
 - Add a Decorator Pattern to allows multiple export formats (json, csv, html...).
-- Add Pattern Strategy to execute anonymization over deletion *Sometimes, if the customer has no orders, we can delete it.*
+- Replace use of $customerEmail by something else, should works for guest too
 
 ## Helpers
 

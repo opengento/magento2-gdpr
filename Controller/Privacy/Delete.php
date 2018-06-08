@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Controller\Delete;
+namespace Opengento\Gdpr\Controller\Privacy;
 
 use Magento\Framework\App\ActionInterface;
 use Magento\Framework\Controller\ResultFactory;

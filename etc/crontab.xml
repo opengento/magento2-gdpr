@@ -6,10 +6,9 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
-    <group id="enhancedprivacy">
-        <job name="enhancedprivacy_schedule" method="execute" instance="Opengento\Gdpr\Cron\Schedule">
-            <!-- todo make this value configurable -->
-            <schedule>* * * * *</schedule>
+    <group id="gdpr">
+        <job name="gdpr_erasure_account_schedule" instance="Opengento\Gdpr\Cron\Erasure" method="execute">
+            <config_path>gdpr/erasure/schedule</config_path>
         </job>
     </group>
 </config>

@@ -14,14 +14,14 @@ use Magento\Framework\App\ActionInterface;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
-use Opengento\Gdpr\Helper\Data;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Archive\Zip;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\File\Csv;
 use Magento\Framework\Filesystem\Driver\File;
 use Magento\Framework\App\Response\Http\FileFactory;
-use Magento\Framework\Stdlib\DateTime\DateTime;
+use Opengento\Gdpr\Model\Config;
+use Opengento\Gdpr\Service\ExportManagement;
 
 /**
  * Action Export Export
@@ -29,93 +29,76 @@ use Magento\Framework\Stdlib\DateTime\DateTime;
 class Export extends AbstractPrivacy implements ActionInterface
 {
     /**
-     * @var Context
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
-    protected $context;
+    private $fileFactory;
 
     /**
-     * @var DateTime
+     * @var \Magento\Framework\Archive\Zip
      */
-    protected $dateTime;
+    private $zip;
 
     /**
-     * @var FileFactory
+     * @var \Magento\Framework\File\Csv
      */
-    protected $fileFactory;
+    private $csvWriter;
 
     /**
-     * @var File
+     * @var \Magento\Framework\Filesystem\Driver\File
      */
-    protected $file;
+    private $file;
 
     /**
-     * @var Csv
+     * @var \Opengento\Gdpr\Model\Config
      */
-    protected $csvWriter;
+    private $config;
 
     /**
-     * @var Zip
+     * @var \Opengento\Gdpr\Service\ExportManagement
      */
-    protected $zip;
+    private $exportManagement;
 
     /**
-     * @var Data
+     * @var \Magento\Customer\Model\Session
      */
-    protected $helper;
+    private $customerSession;
 
     /**
-     * @var CustomerRepositoryInterface
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
-    protected $customerRepository;
+    private $customerRepository;
 
     /**
-     * @var Session
-     */
-    protected $session;
-
-    /**
-     * @var array
-     */
-    protected $processors;
-
-    /**
-     * Export constructor.
-     *
-     * @param Context $context
-     * @param DateTime $dateTime
-     * @param FileFactory $fileFactory
-     * @param File $file
-     * @param Csv $csvWriter
-     * @param Zip $zip
-     * @param Data $helper
-     * @param CustomerRepositoryInterface $customerRepository
-     * @param Session $session
-     * @param array $processors
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\Archive\Zip $zip
+     * @param \Magento\Framework\File\Csv $csv
+     * @param \Magento\Framework\Filesystem\Driver\File $file
+     * @param \Opengento\Gdpr\Model\Config $config
+     * @param \Opengento\Gdpr\Service\ExportManagement $exportManagement
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         Context $context,
-        DateTime $dateTime,
         FileFactory $fileFactory,
-        File $file,
-        Csv $csvWriter,
         Zip $zip,
-        Data $helper,
-        CustomerRepositoryInterface $customerRepository,
-        Session $session,
-        array $processors = []
+        Csv $csv,
+        File $file,
+        Config $config,
+        ExportManagement $exportManagement,
+        Session $customerSession,
+        CustomerRepositoryInterface $customerRepository
     ) {
-        parent::__construct($context);
-
-        $this->context = $context;
-        $this->dateTime = $dateTime;
         $this->fileFactory = $fileFactory;
-        $this->file = $file;
-        $this->csvWriter = $csvWriter;
         $this->zip = $zip;
-        $this->helper = $helper;
+        $this->csvWriter = $csv;
+        $this->file = $file;
+        $this->config = $config;
+        $this->exportManagement = $exportManagement;
+        $this->customerSession = $customerSession;
         $this->customerRepository = $customerRepository;
-        $this->session = $session;
-        $this->processors = $processors;
+        parent::__construct($context);
     }
 
     /**
@@ -123,46 +106,41 @@ class Export extends AbstractPrivacy implements ActionInterface
      */
     public function execute()
     {
-        //todo move as plugin: on event
-        if (!$this->helper->isModuleEnabled() || !$this->helper->isAccountExportEnabled()){
+        if (!$this->config->isExportEnabled()){
             return $this->forwardNoRoute();
         }
 
         try {
-            return $this->downloadZip();
+            return $this->download();
         } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong. Try again later.'));
 
             /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
             $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-            return $resultRedirect->setPath('privacy/export');
+            return $resultRedirect->setPath('customer/privacy/export');
         }
     }
 
     /**
-     * Download the customer privacy data
+     * Download zip of a csv with customer privacy data
      *
      * @return \Magento\Framework\App\ResponseInterface
+     * @throws \Exception
      * @throws \Magento\Framework\Exception\FileSystemException
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Exception
+     * @deprecated
      */
-    protected function downloadZip(): ResponseInterface
+    public function download(): ResponseInterface
     {
-        $customer = $this->customerRepository->getById($this->session->getCustomerId());
-        $date = $this->getDateStamp();
+        $customer = $this->customerRepository->getById($this->customerSession->getCustomerId());
+        $privacyData = $this->exportManagement->execute($customer->getEmail());
 
-        $zipFileName = 'customer_data_' . $date . '.zip';
+        $zipFileName = 'customer_privacy_data_' . $customer->getId() . '.zip';
 
-        foreach ($this->processors as $name => $processor) {
-            if (!$processor instanceof DataExportInterface) {
-                continue;
-            }
-
-            $file = $name . '_' . $date . '.csv';
-
-            $this->createCsv($file, $processor->export($customer));
+        foreach ($privacyData as $key => $data) {
+            $file = 'customer_privacy_data_' . $key . '_' . $customer->getId() . '.csv';
+            $this->createCsv($file, $privacyData);
             $this->zip->pack($file, $zipFileName);
             $this->deleteCsv($file);
         }
@@ -190,10 +168,6 @@ class Export extends AbstractPrivacy implements ActionInterface
      */
     private function createCsv($fileName, $data)
     {
-        if (!$data) {
-            return null;
-        }
-
         $this->csvWriter
             ->setEnclosure('"')
             ->setDelimiter(',')
@@ -211,15 +185,5 @@ class Export extends AbstractPrivacy implements ActionInterface
         if ($this->file->isExists($fileName)) {
             $this->file->deleteFile($fileName);
         }
-    }
-
-    /**
-     * Return current date.
-     *
-     * @return false|string
-     */
-    private function getDateStamp()
-    {
-        return date('Y-m-d_H-i-s', $this->dateTime->gmtTimestamp());
     }
 }

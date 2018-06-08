@@ -6,15 +6,15 @@
 -->
 <div class="enhanced-privacy-popup" data-bind="visible: showPopUp">
     <div class="popup content">
-        <strong data-bind="text: notificationTitle"></strong>
+        <strong data-bind="i18n: 'Cookie Disclosure'"></strong>
         <div class="block-content">
             <p data-bind="text: notificationText"></p>
             <div class="actions-toolbar">
                 <div class="secondary">
-                    <a class="action" data-bind="attr: {href: getLearnMoreLink() }, text: notificationLinkText"></a>
+                    <a class="action" data-bind="attr: {href: getLearnMoreLink() }, i18n: 'Read More'"></a>
                 </div>
                 <div class="primary">
-                    <button type="button" class="action primary" id="enhanced-privacy-popup-agree" data-bind="text: notificationButtonAgreeText"></button>
+                    <button type="button" class="action primary" id="enhanced-privacy-popup-agree" data-bind="i18n: 'Accept'"></button>
                 </div>
             </div>
         </div>

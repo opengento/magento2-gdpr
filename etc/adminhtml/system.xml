@@ -6,84 +6,32 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
-    <!-- todo : code cleanup and refactoring: explode in multiple system included files -->
     <system>
-        <section id="customer" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
-            <class>separator-top</class>
-            <label>Customer Configuration</label>
-            <tab>customer</tab>
-            <resource>Magento_Customer::config_customer</resource>
-            <group id="enhancedprivacy" translate="label" sortOrder="1618" showInDefault="1" showInWebsite="1"
-                   showInStore="1">
+        <section id="customer">
+            <group id="gdpr" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Privacy (GDPR)</label>
-                <group id="general" translate="label" sortOrder="1618" showInDefault="1" showInWebsite="1"
-                       showInStore="1">
-                    <label>General</label>
-                    <field id="enable" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1"
-                           showInStore="1">
-                        <label>Enable</label>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    </field>
-                    <field id="information_page" translate="label comment" type="select" sortOrder="10"
-                           showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Information page</label>
-                        <comment><![CDATA[This page should store information about privacy and GDPR policy.]]></comment>
-                        <source_model>Magento\Cms\Model\Config\Source\Page</source_model>
-                        <depends>
-                            <field id="*/*/*/enable">1</field>
-                        </depends>
-                    </field>
-                    <field id="information" type="textarea" translate="label comment" sortOrder="20" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>Brief information</label>
-                        <comment><![CDATA[Brief information about your private policy. This text will be displayed in
-                        the settings of the user account.]]>
-                        </comment>
-                        <depends>
-                            <field id="*/*/*/enable">1</field>
-                        </depends>
-                    </field>
-                </group>
+                <!-- Global Settings -->
+                <include path="Opegento_Gdpr::system/general.xml"/>
+                <!-- Erasure Settings -->
+                <include path="Opegento_Gdpr::system/erasure.xml"/>
+                <!-- Export Settings -->
+                <include path="Opegento_Gdpr::system/export.xml"/>
+                <!-- Cookie Settings -->
+                <include path="Opegento_Gdpr::system/cookie.xml"/>
 
-                <group id="account" translate="label" sortOrder="1618" showInDefault="1" showInWebsite="1"
-                       showInStore="1">
-                    <label>Account Deletion And Anonymization</label>
-                    <depends>
-                        <field id="*/*/general/enable">1</field>
-                    </depends>
 
-                    <field id="account_deletion_enabled" type="select" translate="label" sortOrder="30"
-                           showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Allow user self deletion</label>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    </field>
-                    <field id="deletion_schema" type="select" translate="label" sortOrder="31" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>Account deletion type</label>
-                        <source_model>Opengento\Gdpr\Model\Config\Source\Schema</source_model>
-                        <depends>
-                            <field id="*/*/account/account_deletion_enabled">1</field>
-                        </depends>
-                    </field>
+
+
+
+                <group id="account" translate="label" sortOrder="1618" showInDefault="1" showInWebsite="1" showInStore="1">
+
+
+
                     <field id="deletion_time" type="text" translate="label" sortOrder="31" showInDefault="1"
                            showInWebsite="1" showInStore="1">
                         <label>Account Deletion Time (minutes)</label>
                         <validate>validate-greater-than-zero required-entry</validate>
                         <comment>Time in which to process delete and anonymization (minimum is 1 minute)</comment>
-                        <depends>
-                            <field id="*/*/account/account_deletion_enabled">1</field>
-                        </depends>
-                    </field>
-                    <field id="account_deletion_title" type="text" translate="label" sortOrder="31" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>Deletion section title</label>
-                        <depends>
-                            <field id="*/*/account/account_deletion_enabled">1</field>
-                        </depends>
-                    </field>
-                    <field id="account_deletion_button_text" type="text" translate="label" sortOrder="32"
-                           showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Deletion button text</label>
                         <depends>
                             <field id="*/*/account/account_deletion_enabled">1</field>
                         </depends>
@@ -96,71 +44,9 @@
                             <field id="*/*/account/account_deletion_enabled">1</field>
                         </depends>
                     </field>
-                    <field id="account_deletion_info" type="textarea" translate="label comment" sortOrder="50"
-                           showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Deletion information</label>
-                        <comment><![CDATA[Information about account deletion. This text will be displayed in the
-                        settings of the user account.]]>
-                        </comment>
-                        <depends>
-                            <field id="*/*/account/account_deletion_enabled">1</field>
-                        </depends>
-                    </field>
-                    <field id="account_delete_reason_info" type="textarea" translate="label comment" sortOrder="60"
-                           showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Delete reason description</label>
-                        <comment><![CDATA[Description for deletion reason filed. This text will be displayed in the
-                    deleting page under reason field.]]></comment>
-                        <depends>
-                            <field id="*/*/account/account_deletion_enabled">1</field>
-                        </depends>
-                    </field>
-                    <field id="account_anonymization_message_enabled" type="select" translate="label comment"
-                           sortOrder="61" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Enable anonymization message</label>
-                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <comment><![CDATA[This message will be show in the settings of the user account, only if the
-                        user  made at least one order.]]></comment>
-                        <depends>
-                            <field id="*/*/account/account_deletion_enabled">1</field>
-                        </depends>
-                    </field>
-                    <field id="account_anonymization_message" type="textarea" translate="label" sortOrder="62"
-                           showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Anonymization message</label>
-                        <depends>
-                            <field id="*/*/account/account_deletion_enabled">1</field>
-                            <field id="*/*/account/account_anonymization_message_enabled">1</field>
-                        </depends>
-                    </field>
-                    <field id="information" type="textarea" translate="label comment" sortOrder="20" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>Brief information</label>
-                        <comment><![CDATA[Brief information about your private policy. This text will be displayed in
-                        the settings of the user account.]]>
-                        </comment>
-                        <depends>
-                            <field id="*/*/*/enable">1</field>
-                        </depends>
-                    </field>
-                    <field id="customer_attributes" type="multiselect" translate="label comment" sortOrder="300" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>Customer Attributes</label>
-                        <comment><![CDATA[This attributes list will be anonymized when processed.]]></comment>
-                        <depends>
-                            <field id="*/*/*/enable">1</field>
-                        </depends>
-                        <source_model>\Opengento\Gdpr\Model\Source\Config\CustomerAttributes</source_model>
-                    </field>
-                    <field id="customer_address_attributes" type="multiselect" translate="label comment" sortOrder="300" showInDefault="1"
-                           showInWebsite="1" showInStore="1">
-                        <label>Customer Address Attributes</label>
-                        <comment><![CDATA[This address attributes list will be anonymized when processed.]]></comment>
-                        <depends>
-                            <field id="*/*/*/enable">1</field>
-                        </depends>
-                        <source_model>\Opengento\Gdpr\Model\Source\Config\CustomerAddressAttributes</source_model>
-                    </field>
+
+
+
                 </group>
 
                 <group id="export" translate="label" sortOrder="1618" showInDefault="1" showInWebsite="1"

@@ -14,7 +14,8 @@ use Magento\Framework\App\Helper\Context;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory as OrderCollectionFactory;
 
 /**
- * Helper to get account specific data.
+ * Helper to get account specific data
+ * @todo refactor to ...\Helper\Account\Data
  */
 class AccountData extends AbstractHelper
 {

@@ -51,6 +51,8 @@ class Uninstall implements UninstallInterface
 
         $this->deleteCustomAttributes();
 
+        //todo delete tables
+
         $setup->endSetup();
     }
 

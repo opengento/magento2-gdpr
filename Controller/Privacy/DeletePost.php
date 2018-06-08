@@ -5,13 +5,13 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Controller\Delete;
+namespace Opengento\Gdpr\Controller\Privacy;
 
 use Magento\Framework\App\ActionInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Helper\AccountData;
+use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\CronScheduleFactory;
-use Opengento\Gdpr\Model\Config\Source\EraseStrategy;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
@@ -21,8 +21,7 @@ use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Exception\InvalidEmailOrPasswordException;
 use Magento\Framework\Exception\State\UserLockedException;
 use Magento\Framework\Stdlib\DateTime\DateTime;
-use Magento\Sales\Model\Order\Config;
-use Opengento\Gdpr\Helper\Data;
+use Magento\Sales\Model\Order\Config as orderConfig;
 
 /**
  * Action Delete Delete
@@ -32,83 +31,80 @@ class DeletePost extends AbstractPrivacy implements ActionInterface
     /**
      * @var Validator
      */
-    protected $formKeyValidator;
+    private $formKeyValidator;
 
     /**
      * @var CustomerRepositoryInterface
      */
-    protected $customerRepository;
+    private $customerRepository;
 
     /**
-     * @var Config
+     * @var \Magento\Sales\Model\Order\Config
      */
-    protected $orderConfig;
+    private $orderConfig;
 
     /**
      * @var AuthenticationInterface
      */
-    protected $authentication;
+    private $authentication;
 
     /**
      * @var DateTime
      */
-    protected $dateTime;
+    private $dateTime;
 
     /**
      * @var Session
      */
-    protected $session;
+    private $session;
 
     /**
-     * @var Data
+     * @var \Opengento\Gdpr\Helper\AccountData
      */
-    protected $helper;
-
-    /**
-     * @var AccountData
-     */
-    protected $accountData;
+    private $accountData;
 
     /**
      * @var CronScheduleFactory
      */
-    protected $scheduleFactory;
+    private $scheduleFactory;
 
     /**
-     * Delete constructor.
-     *
-     * @param Context $context
-     * @param Validator $formKeyValidator
-     * @param CustomerRepositoryInterface $customerRepository
-     * @param Config $orderConfig
-     * @param AuthenticationInterface $authentication
-     * @param DateTime $dateTime
-     * @param Session $session
-     * @param Data $helper
-     * @param AccountData $accountData
-     * @param CronScheduleFactory $scheduleFactory
+     * @var \Opengento\Gdpr\Model\Config
+     */
+    private $config;
+
+    /**
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
+     * @param \Magento\Customer\Model\AuthenticationInterface $authentication
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
+     * @param \Magento\Customer\Model\Session $session
+     * @param \Opengento\Gdpr\Helper\AccountData $accountData
+     * @param \Opengento\Gdpr\Model\CronScheduleFactory $scheduleFactory
+     * @param \Opengento\Gdpr\Model\Config $config
      */
     public function __construct(
         Context $context,
         Validator $formKeyValidator,
         CustomerRepositoryInterface $customerRepository,
-        Config $orderConfig,
+        OrderConfig $orderConfig,
         AuthenticationInterface $authentication,
         DateTime $dateTime,
         Session $session,
-        Data $helper,
         AccountData $accountData,
-        CronScheduleFactory $scheduleFactory
+        CronScheduleFactory $scheduleFactory,
+        Config $config
     ) {
         parent::__construct($context);
-
+        $this->config = $config;
         $this->formKeyValidator = $formKeyValidator;
         $this->customerRepository = $customerRepository;
         $this->orderConfig = $orderConfig;
         $this->authentication = $authentication;
         $this->dateTime = $dateTime;
         $this->session = $session;
-        $this->helper = $helper;
         $this->accountData = $accountData;
         $this->scheduleFactory = $scheduleFactory;
     }
@@ -140,31 +136,14 @@ class DeletePost extends AbstractPrivacy implements ActionInterface
             $schedule = $this->scheduleFactory->create()
                 ->setData(
                     'scheduled_at',
-                    date('Y-m-d H:i:s', $this->dateTime->gmtTimestamp() + $this->helper->getDeletionTime())
+                    date('Y-m-d H:i:s', $this->dateTime->gmtTimestamp() + $this->config->getErasureTimeLapse())
                 )
                 ->setData('customer_id', $customerId)
                 ->setData('reason', $this->getRequest()->getPost('reason'));
 
-            switch ($this->helper->getDeletionSchema()) {
-                case EraseStrategy::DELETE:
-                    $schedule->setData('type', Data::SCHEDULE_TYPE_DELETE);
-                    break;
-
-                case EraseStrategy::ANONYMIZE:
-                    $schedule->setData('type', Data::SCHEDULE_TYPE_ANONYMIZE);
-                    break;
-
-                case EraseStrategy::DELETE_ANONYMIZE:
-                    $schedule->setData(
-                        'type',
-                        $this->accountData->hasOrders() ? Data::SCHEDULE_TYPE_ANONYMIZE : Data::SCHEDULE_TYPE_DELETE
-                    );
-                    break;
-            }
-
             $schedule->getResource()->save($schedule);
 
-            $this->messageManager->addWarningMessage(__($this->helper->getSuccessMessage()));
+            $this->messageManager->addWarningMessage(__('Your account is processed to be deleted.'));
 
             return $resultRedirect->setPath('privacy/settings');
         } catch (InvalidEmailOrPasswordException $e) {

@@ -8,7 +8,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="after.body.start">
-            <block class="Opengento\Gdpr\Block\Messages\PrivacyMessagePopup" name="privacy_message_popup" template="Opengento_Gdpr::messages/popup.phtml" after="-">
+            <block class="Opengento\Gdpr\Block\Messages\PrivacyMessagePopup" name="privacy_message_popup" after="-">
                 <arguments>
                     <argument name="jsLayout" xsi:type="array">
                         <item name="components" xsi:type="array">

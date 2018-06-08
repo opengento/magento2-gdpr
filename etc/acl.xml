@@ -9,8 +9,8 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource id="Opengento_Gdpr::enhancedprivacy" title="Enhanced Privacy" sortOrder="80">
-                    <resource id="Opengento_Gdpr::settings" title="Privacy settings" sortOrder="80"/>
+                <resource id="Opengento_Gdpr::gdpr" title="Enhanced Privacy" sortOrder="80">
+                    <resource id="Opengento_Gdpr::settings" title="Privacy settings" sortOrder="10"/>
                 </resource>
             </resource>
         </resources>

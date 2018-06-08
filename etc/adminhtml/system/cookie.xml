@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+-->
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="cookie" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+        <label>Cookie Settings</label>
+        <depends>
+            <field id="gdpr/general/enabled">1</field>
+        </depends>
+        <field id="enabled" type="select" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Cookie Disclosure</label>
+            <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+            <config_path>gdpr/cookie/enabled</config_path>
+        </field>
+        <field id="information" type="textarea" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Information</label>
+            <config_path>gdpr/cookie/information</config_path>
+        </field>
+    </group>
+</include>

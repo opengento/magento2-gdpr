@@ -39,7 +39,7 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
                 <textarea class="textarea" name="reason" id="reason" data-validate="{required:true}" autocomplete="off"></textarea>
             </div>
             <div class="comment">
-                <?= $block->escapeHtml($helper->getDeletionReasonInfo()) ?>
+                <?= $block->escapeHtml(__('Please explain why you want to erase your account.')) ?>
             </div>
         </div>
         <div class="actions-toolbar">

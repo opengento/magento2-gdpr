@@ -7,34 +7,23 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
-        <customer>
-            <enhancedprivacy>
-                <general>
-                    <information><![CDATA[This website may store and process Personally Identifiable Information (PII). As per the General Data Protection Regulation (GDPR) you have access to receive the data we store about you and you can request your data to be removed. Please read our Terms & Conditions and Privacy Policy to learn more.]]></information>
-                </general>
-                <account>
-                    <account_deletion_enabled>0</account_deletion_enabled>
-                    <deletion_schema>0</deletion_schema>
-                    <deletion_time>60</deletion_time>
-                    <account_deletion_title>Account deletion</account_deletion_title>
-                    <account_deletion_button_text>Delete my account</account_deletion_button_text>
-                    <account_export_enabled>0</account_export_enabled>
-                    <success_message>You have requested your account to be deleted. It will be automatically deleted within 1 hour.</success_message>
-                    <account_deletion_info>Be careful and think twice before deleting your account. This action is irreversible.</account_deletion_info>
-                    <account_delete_reason_info>Please write why you want to delete the account (ex.: This site is no longer interesting to me).</account_delete_reason_info>
-                    <account_anonymization_message>As either store owner has enforced account anonymization, or you have made an order it is not possible for you to delete the account. To withdraw your consent in terms of PII storage and processing, you can anonymize this account. After anonymization, you will not be able to log in and the PII will be removed.</account_anonymization_message>
-                </account>
-                <export>
-                    <export_information>You can export the data we have about you using the button below.</export_information>
-                </export>
-                <cookie>
-                    <popup_notification_enabled>1</popup_notification_enabled>
-                    <popup_text>Our website uses cookies. By using our website, you consent to our use of cookies in accordance with our Cookies Policy.</popup_text>
-                    <popup_link_text>Learn more about our Privacy Policy.</popup_link_text>
-                    <popup_title>Privacy Policy</popup_title>
-                    <popup_button_agree_text>Agree</popup_button_agree_text>
-                </cookie>
-            </enhancedprivacy>
-        </customer>
+        <gdpr>
+            <general>
+                <enabled>0</enabled>
+            </general>
+            <erasure>
+                <enabled>0</enabled>
+                <strategy>anonymize</strategy>
+            </erasure>
+            <anonymize>
+                <customer_attributes></customer_attributes><!-- todo -->
+                <customer_address_attributes></customer_address_attributes><!-- todo -->
+            </anonymize>
+            <export>
+                <enabled>0</enabled>
+                <customer_attributes></customer_attributes><!-- todo -->
+                <customer_address_attributes></customer_address_attributes><!-- todo -->
+            </export>
+        </gdpr>
     </default>
 </config>

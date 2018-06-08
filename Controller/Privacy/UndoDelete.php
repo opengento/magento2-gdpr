@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Controller\Delete;
+namespace Opengento\Gdpr\Controller\Privacy;
 
 use Magento\Framework\App\ActionInterface;
 use Magento\Framework\Controller\ResultFactory;
@@ -48,10 +48,10 @@ class UndoDelete extends AbstractPrivacy implements ActionInterface
         Session $session,
         AccountData $accountData
     ) {
-        parent::__construct($context);
         $this->collectionFactory = $collectionFactory;
         $this->session = $session;
         $this->accountData = $accountData;
+        parent::__construct($context);
     }
 
     /**

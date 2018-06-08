@@ -12,6 +12,7 @@ use Magento\Customer\Model\ResourceModel\Attribute;
 use Magento\Customer\Setup\CustomerSetup;
 use Magento\Customer\Setup\CustomerSetupFactory;
 use Magento\Eav\Model\Config;
+use Magento\Eav\Model\Entity\Attribute\Source\Boolean;
 use Magento\Framework\Setup\InstallDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;

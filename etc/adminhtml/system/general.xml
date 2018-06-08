@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+-->
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+        <label>General</label>
+        <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Enabled</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>gdpr/general/enabled</config_path>
+        </field>
+        <field id="information_page" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Information page</label>
+            <comment>This page should store information about privacy and GDPR policy.</comment>
+            <source_model>Magento\Cms\Model\Config\Source\Page</source_model>
+            <depends>
+                <field id="gdpr/general/enabled">1</field>
+            </depends>
+            <config_path>gdpr/general/page_id</config_path>
+        </field>
+        <field id="information" type="textarea" translate="label comment" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Brief information</label>
+            <comment>Brief information about your private policy. This text will be displayed in the settings of the user account.</comment>
+            <depends>
+                <field id="gdpr/general/enabled">1</field>
+            </depends>
+            <config_path>gdpr/general/block_id</config_path>
+        </field>
+    </group>
+</include>
