@@ -4,35 +4,36 @@
  * See LICENSE bundled with this library for license details.
  */
 
-use Opengento\Gdpr\Helper\Data;
+/** @var \Magento\Framework\View\Element\Template $block */
 
-/** @var \Opengento\Gdpr\Block\Account\Delete $block */
-/** @var Data $helper */
-$helper = $this->helper(Data::class);
+/** @var \Opengento\Gdpr\ViewModel\Privacy\SettingsDataProvider $settingsDataProvider */
+$settingsDataProvider = $block->getData('settingsDataProvider');
+/** @var \Opengento\Gdpr\ViewModel\UrlsDataProvider $urlsDataProvider */
+$urlsDataProvider = $block->getData('urlsDataProvider');
 ?>
 <form class="form form-edit-account"
-      action="<?= $block->escapeUrl($block->getUrl('privacy/delete/delete')) ?>"
+      action="<?= $block->escapeUrl($urlsDataProvider->getDeleteActionUrl()) ?>"
       method="post"
       id="form-validate"
-      data-hasrequired="<?= $block->escapeHtml(__('* Required Fields')) ?>"
-      autocomplete="off">
+      data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+      autocomplete="off"
+      novalidate="novalidate">
     <fieldset class="fieldset" data-container="delete-account">
         <?= $block->getBlockHtml('formkey') ?>
         <legend class="legend">
-            <span><?= __('Required data') ?></span>
+            <span><?= $block->escapeHtml(__('Required Fields')) ?></span>
         </legend>
         <div class="field password current required">
             <label class="label" for="current-password">
-                <span><?= __('Password') ?></span>
+                <span><?= $block->escapeHtml(__('Password')) ?></span>
             </label>
             <div class="control">
-                <input type="password" class="input-text" name="password" id="password" data-validate="{required:true}" autocomplete="off"/>
+                <input type="password" class="input-text" name="password" id="password" data-validate="{required:true}" autocomplete="off" />
             </div>
         </div>
-
         <div class="field reason required">
-            <label class="label" for="current-password">
-                <span><?= __('Reason'); ?></span>
+            <label class="label" for="reason">
+                <span><?= $block->escapeHtml(__('Reason')) ?></span>
             </label>
             <div class="control">
                 <textarea class="textarea" name="reason" id="reason" data-validate="{required:true}" autocomplete="off"></textarea>
@@ -41,22 +42,20 @@ $helper = $this->helper(Data::class);
                 <?= $block->escapeHtml($helper->getDeletionReasonInfo()) ?>
             </div>
         </div>
-
         <div class="actions-toolbar">
             <div class="primary">
-                <button type="button" class="button-red action submit primary" id="delete">
-                    <span><?= __('Delete my account') ?></span>
+                <button type="submit" class="button-red action submit primary" id="delete" title="<?= $block->escapeHtmlAttr(__('Delete Account')) ?>">
+                    <span><?= $block->escapeHtml(__('Delete Account')) ?></span>
                 </button>
             </div>
             <div class="secondary">
-                <a class="action" href="<?= $block->escapeUrl($block->getSettingsUrl()) ?>">
-                    <span><?= __('Go back') ?></span>
+                <a class="action back" href="<?= $block->escapeUrl($urlsDataProvider->getSettingsPageUrl()) ?>">
+                    <span><?= $block->escapeHtml(__('Back')) ?></span>
                 </a>
             </div>
         </div>
     </fieldset>
 </form>
-
 
 <script type="text/javascript">
     require([

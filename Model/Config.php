@@ -15,19 +15,180 @@ use Magento\Store\Model\ScopeInterface;
  */
 class Config
 {
+    /**#@+
+     * Scope Config: Data Settings Paths
+     */
+    const CONFIG_PATH_GENERAL_ENABLED = 'gdpr/general/enabled';
+    const CONFIG_PATH_GENERAL_INFORMATION_PAGE = 'gdpr/general/page_id';
+    const CONFIG_PATH_GENERAL_INFORMATION_BLOCK = 'gdpr/general/block_id';
+    const CONFIG_PATH_ERASURE_ENABLED = 'gdpr/erasure/enabled';
+    const CONFIG_PATH_ERASURE_STRATEGY = 'gdpr/erasure/strategy';
+    const CONFIG_PATH_ERASURE_INFORMATION_BLOCK = 'gdpr/erasure/block_id';
+    const CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK = 'gdpr/anonymize/block_id';
+    const CONFIG_PATH_EXPORT_ENABLED = 'gdpr/export/enabled';
+    const CONFIG_PATH_EXPORT_INFORMATION_BLOCK = 'gdpr/export/block_id';
+    /**#@-*/
+
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     private $scopeConfig;
 
     /**
+     * @var string[]
+     */
+    private $processorConfigPaths;
+
+    /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param string[] $processorConfigPaths
      */
     public function __construct(
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        array $processorConfigPaths = []
     ) {
         $this->scopeConfig = $scopeConfig;
+        $this->processorConfigPaths = $processorConfigPaths;
     }
+
+    /**
+     * Check if the current module is enabled
+     *
+     * @return bool
+     */
+    public function isModuleEnabled(): bool
+    {
+        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_GENERAL_ENABLED, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Retrieve the privacy information page ID
+     *
+     * @return int
+     */
+    public function getPrivacyInformationPageId(): int
+    {
+        return (int) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_GENERAL_INFORMATION_PAGE,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Retrieve the privacy information block ID
+     *
+     * @return int
+     */
+    public function getPrivacyInformationBlockId(): int
+    {
+        return (int) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_GENERAL_INFORMATION_BLOCK,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Check if the erasure is enabled
+     *
+     * @return bool
+     */
+    public function isErasureEnabled(): bool
+    {
+        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_ERASURE_ENABLED, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Check if a strategy setting exists for the processor
+     *
+     * @param string $processorName
+     * @return bool
+     */
+    public function hasStrategySetting(string $processorName): bool
+    {
+        return isset($this->processorConfigPaths[$processorName]);
+    }
+
+    /**
+     * Retrieve the strategy setting of the processor
+     *
+     * @param string $processorName
+     * @return string
+     */
+    public function getStrategySetting(string $processorName): string
+    {
+        return $this->hasStrategySetting($processorName)
+            ? $this->scopeConfig->getValue($this->processorConfigPaths[$processorName], ScopeInterface::SCOPE_STORE)
+            : $this->getDefaultStrategy();
+    }
+
+    /**
+     * Retrieve the default strategy to apply
+     *
+     * @return string
+     */
+    public function getDefaultStrategy(): string
+    {
+        return $this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_STRATEGY, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Retrieve the erasure information block ID
+     *
+     * @return int
+     */
+    public function getErasureInformationBlockId(): int
+    {
+        return (int) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_ERASURE_INFORMATION_BLOCK,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Retrieve the anonymize information block ID
+     *
+     * @return int
+     */
+    public function getAnonymizeInformationBlockId(): int
+    {
+        return (int) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Check if the export is enabled
+     *
+     * @return bool
+     */
+    public function isExportEnabled(): bool
+    {
+        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_EXPORT_ENABLED, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Retrieve the export information block ID
+     *
+     * @return int
+     */
+    public function getExportInformationBlockId(): int
+    {
+        return (int) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_EXPORT_INFORMATION_BLOCK,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+
+
+
+
+
+
+
+
+    /****************************************************************************************************************/
 
     /**#@+
      * Scope Config Data Paths
@@ -67,15 +228,7 @@ class Config
      */
     const COOKIE_COOKIES_POLICY = 'cookies-policy';
 
-    /**
-     * Check if the current module is enabled
-     *
-     * @return bool
-     */
-    public function isModuleEnabled(): bool
-    {
-        return $this->scopeConfig->isSetFlag(self::CONFIG_ENABLE, ScopeInterface::SCOPE_STORE);
-    }
+
 
     /**
      * Retrieve the privacy information page url

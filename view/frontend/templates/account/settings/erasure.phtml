@@ -1,0 +1,44 @@
+<?php
+/**
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+
+/** @var \Magento\Framework\View\Element\Template $block */
+
+/** @var \Opengento\Gdpr\ViewModel\Privacy\ErasureDataProvider $erasureDataProvider */
+$erasureDataProvider = $block->getData('settingsDataProvider');
+/** @var \Opengento\Gdpr\ViewModel\UrlsDataProvider $urlsDataProvider */
+$urlsDataProvider = $block->getData('urlsDataProvider');
+?>
+<div class="block block-dashboard-info">
+    <div class="block-title">
+        <strong><?= $block->escapeHtml(__('Right to be forgotten')) ?></strong>
+    </div>
+    <div class="block-content">
+        <p><?= $erasureDataProvider->getErasureInformation() ?></p>
+        <?php if ($erasureDataProvider->isErasureScheduled()): ?>
+            <p class="message warning">
+                <?= $block->escapeHtml(__('Your account will be deleted soon. You can undo this action.')) ?>
+            </p>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <a href="<?= $block->escapeUrl($urlsDataProvider->getUndoDeleteActionUrl()) ?>" class="action submit primary" id="undo_deletion">
+                        <span><?= $block->escapeHtml(__('Undo Action')) ?></span>
+                    </a>
+                </div>
+            </div>
+        <?php else: ?>
+            <?php if ($erasureDataProvider->isAnonymizeStrategy()): ?>
+                <p><?= $erasureDataProvider->getAnonymizeInformation() ?></p>
+            <?php endif; ?>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <a href="<?= $block->escapeUrl($urlsDataProvider->getDeletePageUrl()) ?>" class="button-red action submit primary" id="delete">
+                        <span><?= $block->escapeHtml(__('Delete Account')) ?></span>
+                    </a>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>

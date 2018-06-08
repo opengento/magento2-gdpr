@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+ -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <head>
+        <title>Privacy Settings</title>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template" name="privacy_settings" template="Opengento_Gdpr::account/settings.phtml" cacheable="false">
+                <arguments>
+                    <argument name="settingsDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Privacy\SettingsDataProvider</argument>
+                    <argument name="urlsDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\UrlsDataProvider</argument>
+                </arguments>
+                <block class="Magento\Framework\View\Element\Template" name="" as="" template="Opengento_Gdpr::account/privacy/export.phtml" ifconfig="gdpr/export/enabled" cacheable="false">
+                    <arguments>
+                        <argument name="exportDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Privacy\ExportDataProvider</argument>
+                        <argument name="urlsDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\UrlsDataProvider</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Framework\View\Element\Template" name="" as="" template="Opengento_Gdpr::account/privacy/erasure.phtml" ifconfig="gdpr/erasure/enabled" cacheable="false">
+                    <arguments>
+                        <argument name="exportDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Privacy\ErasureDataProvider</argument>
+                        <argument name="urlsDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\UrlsDataProvider</argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

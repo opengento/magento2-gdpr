@@ -10,13 +10,13 @@
     <type name="Opengento\Gdpr\Controller\AbstractPrivacy">
         <plugin name="check_is_module_enabled" type="Opengento\Gdpr\Plugin\Controller\PrivacyActionPlugin" sortOrder="0" />
     </type>
-    <type name="Opengento\Gdpr\Controller\Delete\Index">
+    <type name="Delete">
         <plugin name="check_is_delete_available" type="Opengento\Gdpr\Plugin\Controller\PrivacyActionPlugin" sortOrder="0" />
     </type>
-    <type name="Opengento\Gdpr\Controller\Delete\Delete">
+    <type name="DeletePost">
         <plugin name="check_is_delete_allowed" type="Opengento\Gdpr\Plugin\Controller\PrivacyActionPlugin" sortOrder="0" />
     </type>
-    <type name="Opengento\Gdpr\Controller\Delete\Undo">
+    <type name="UndoDelete">
         <plugin name="check_is_undo_allowed" type="Opengento\Gdpr\Plugin\Controller\PrivacyActionPlugin" sortOrder="0" />
     </type>
     <!-- Anonymize Management -->
@@ -45,6 +45,14 @@
     <type name="Opengento\Gdpr\Service\DeleteManagement">
         <arguments>
             <argument name="processorPool" xsi:type="object">Opengento\Gdpr\Service\Delete\ProcessorPool</argument>
+        </arguments>
+    </type>
+    <!-- Erasure Strategy -->
+    <type name="Opengento\Gdpr\Service\ErasureStrategy">
+        <arguments>
+            <argument name="processorNames" xsi:type="array">
+                <!-- todo -->
+            </argument>
         </arguments>
     </type>
     <!-- Export Management -->

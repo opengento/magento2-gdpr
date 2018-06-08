@@ -1,0 +1,28 @@
+<?php
+/**
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+
+/** @var \Magento\Framework\View\Element\Template $block */
+
+/** @var \Opengento\Gdpr\ViewModel\Privacy\ExportDataProvider $exportDataProvider */
+$exportDataProvider = $block->getData('exportDataProvider');
+/** @var \Opengento\Gdpr\ViewModel\UrlsDataProvider $urlsDataProvider */
+$urlsDataProvider = $block->getData('urlsDataProvider');
+?>
+<div class="block block-dashboard-info">
+    <div class="block-title">
+        <strong><?= $block->escapeHtml(__('Export Personal Data')) ?></strong>
+    </div>
+    <div class="block-content">
+        <p><?= $exportDataProvider->getExportInformation() ?></p>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <a href="<?= $block->escapeUrl($urlsDataProvider->getExportActionUrl()) ?>" class="action submit primary" id="export">
+                    <span><?= $block->escapeHtml(__('Export Personal Data')) ?></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

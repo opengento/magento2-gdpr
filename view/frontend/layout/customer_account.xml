@@ -5,15 +5,14 @@
  * See LICENSE bundled with this library for license details.
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="customer_account_navigation">
             <block class="Magento\Framework\View\Element\Html\Link\Current"
                    ifconfig="customer/enhancedprivacy/general/enable"
                    name="customer_account_navigation_privacy_link" after="customer-account-navigation-wish-list-link">
                 <arguments>
-                    <argument name="path" xsi:type="string">privacy/settings</argument>
+                    <argument name="path" xsi:type="string">customer/privacy/settings</argument>
                     <argument name="label" xsi:type="string">Privacy settings</argument>
                 </arguments>
             </block>

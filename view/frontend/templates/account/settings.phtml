@@ -4,93 +4,21 @@
  * See LICENSE bundled with this library for license details.
  */
 
-use Opengento\Gdpr\Helper\Data;
+/** @var \Magento\Framework\View\Element\Template $block */
 
-/** @var \Opengento\Gdpr\Block\Account\Settings $block */
-/** @var Data $helper */
-$helper = $this->helper(Data::class);
+/** @var \Opengento\Gdpr\ViewModel\Privacy\SettingsDataProvider $settingsDataProvider */
+$settingsDataProvider = $block->getData('settingsDataProvider');
+/** @var \Opengento\Gdpr\ViewModel\UrlsDataProvider $urlsDataProvider */
+$urlsDataProvider = $block->getData('urlsDataProvider');
 ?>
 <div class="block block-dashboard-info">
     <div class="block-title">
-        <strong><?= __('Information'); ?></strong>
+        <strong><?= $block->escapeHtml(__('Information')) ?></strong>
     </div>
     <div class="block-content">
-        <p><?= $block->escapeHtml($helper->getInformation()); ?></p>
+        <p><?= $settingsDataProvider->getPrivacyInformation() ?></p>
     </div>
 </div>
-
-<?php if ($helper->isAccountExportEnabled()) : ?>
-    <div class="block block-dashboard-info">
-        <div class="block-title">
-            <strong><?= __('Export your personal data'); ?></strong>
-        </div>
-        <div class="block-content">
-            <p><?= $block->escapeHtml(__($helper->getAccountExportInformation())); ?></p>
-            <div class="actions-toolbar">
-                <div class="primary">
-                    <button type="button" class="action submit primary" id="export">
-                        <span><?= __('Export my data'); ?></span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
-
-<?php if ($helper->isAccountDeletionEnabled()) : ?>
-<div class="block block-dashboard-info">
-    <div class="block-title">
-        <strong><?= __('Account deletion'); ?></strong>
-    </div>
-    <div class="block-content">
-        <?php if ($block->isAccountToBeDeleted()): ?>
-            <p><?= $block->escapeHtml($helper->getAccountDeletionInfo()); ?></p>
-            <strong><?= __('Attention!'); ?></strong>
-            <p><?= __('Your account will be deleted soon. You can undo this action.'); ?></p>
-            <div class="actions-toolbar">
-                <div class="primary">
-                    <button type="button" class="action submit primary" id="undo_deletion">
-                        <span><?= __('Undo deletion'); ?></span>
-                    </button>
-                </div>
-            </div>
-        <?php else: ?>
-            <p><?= $block->escapeHtml($helper->getAccountDeletionInfo()); ?></p>
-            <?php if ($block->shouldAnonymize()): ?>
-                <p><?= $block->escapeHtml($helper->getAnonymizationMessage()); ?></p>
-            <?php endif; ?>
-            <div class="actions-toolbar">
-                <div class="primary">
-                    <button type="button" class="button-red action submit primary" id="delete">
-                        <span><?= __('Delete my account'); ?></span>
-                    </button>
-                </div>
-            </div>
-        <?php endif; ?>
-    </div>
+<div class="block block-privacy-info">
+    <?= $block->getChildHtml() ?>
 </div>
-<?php endif; ?>
-
-<script type="text/javascript">
-    require(['jquery'], function ($) {
-        'use strict';
-
-        <?php if ($helper->isAccountExportEnabled()) : ?>
-        $('#export').click(function () {
-            location.href = '<?= $block->getExportAction(); ?>';
-        });
-        <?php endif; ?>
-
-        <?php if ($helper->isAccountDeletionEnabled()) : ?>
-        <?php if ($block->isAccountToBeDeleted()): ?>
-        $('#undo_deletion').click(function () {
-            location.href = '<?= $block->getUndoDeletePageURL(); ?>';
-        });
-        <?php else: ?>
-        $('#delete').click(function () {
-            location.href = '<?= $block->getDeletingPageUrl(); ?>';
-        });
-        <?php endif; ?>
-        <?php endif; ?>
-    });
-</script>

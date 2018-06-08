@@ -12,7 +12,12 @@
     </head>
     <body>
         <referenceContainer name="content">
-            <block class="Magento\Framework\View\Element\Template" name="privacy_delete" template="Opengento_Gdpr::account/delete.phtml" cacheable="false" />
+            <block class="Magento\Framework\View\Element\Template" name="privacy_delete" template="Opengento_Gdpr::account/delete.phtml" cacheable="false">
+                <arguments>
+                    <argument name="settingsDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Privacy\SettingsDataProvider</argument>
+                    <argument name="urlsDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\UrlsDataProvider</argument>
+                </arguments>
+            </block>
         </referenceContainer>
     </body>
 </page>

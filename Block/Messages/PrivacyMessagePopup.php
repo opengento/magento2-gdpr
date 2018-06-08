@@ -7,39 +7,33 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Block\Messages;
 
-use Opengento\Gdpr\Helper\Data;
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
+use Opengento\Gdpr\Helper\Data;
+use Opengento\Gdpr\Model\Config;
 
 /**
- * Privacy popup message block.
+ * Class PrivacyMessagePopup
  */
 class PrivacyMessagePopup extends Template
 {
     /**
-     * @var \Opengento\Gdpr\Helper\Data
+     * @var \Opengento\Gdpr\Model\Config
      */
-    private $helper;
+    private $config;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Opengento\Gdpr\Helper\Data $helper
+     * @param \Opengento\Gdpr\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        Template\Context $context,
-        Data $helper,
+        Context $context,
+        Config $config,
         array $data = []
     ) {
+        $this->config = $config;
         parent::__construct($context, $data);
-        $this->helper = $helper;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function _toHtml()
-    {
-        return ($this->helper->isModuleEnabled() && $this->helper->isPopupNotificationEnabled()) ? parent::_toHtml() : '';
     }
 
     /**
@@ -49,13 +43,21 @@ class PrivacyMessagePopup extends Template
     {
         $this->jsLayout['components']['enhanced-privacy-cookie-policy']['config'] = [
             'cookieName' => Data::COOKIE_COOKIES_POLICY,
-            'learnMore' => $this->getUrl($this->helper->getInformationPage()),
-            'notificationText' => $this->helper->getPopupNotificationText(),
-            'notificationLinkText' => $this->helper->getPopupNotificationLinkText(),
-            'notificationTitle' => $this->helper->getPopupNotificationTitle(),
-            'notificationButtonAgreeText' => $this->helper->getPopupNotificationButtonAgreeText()
+            'learnMore' => $this->getUrl($this->config->getInformationPage()),
+            'notificationText' => $this->config->getPopupNotificationText(),
+            'notificationLinkText' => $this->config->getPopupNotificationLinkText(),
+            'notificationTitle' => $this->config->getPopupNotificationTitle(),
+            'notificationButtonAgreeText' => $this->config->getPopupNotificationButtonAgreeText()
         ];
 
         return json_encode($this->jsLayout);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _toHtml()
+    {
+        return ($this->config->isModuleEnabled() && $this->config->isPopupNotificationEnabled()) ? parent::_toHtml() : '';
     }
 }

@@ -19,27 +19,25 @@ use Magento\Sales\Model\ResourceModel\Order\CollectionFactory as OrderCollection
 class AccountData extends AbstractHelper
 {
     /**
-     * @var Session
+     * @var \Magento\Customer\Model\Session
      */
     private $customerSession;
 
     /**
-     * @var OrderCollectionFactory
+     * @var \Magento\Sales\Model\ResourceModel\Order\CollectionFactory
      */
     private $orderCollectionFactory;
 
     /**
-     * @var ScheduleCollectionFactory
+     * @var \Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory
      */
     private $scheduleCollectionFactory;
 
     /**
-     * AccountData constructor.
-     *
-     * @param Context $context
-     * @param Session $customerSession
-     * @param OrderCollectionFactory $orderCollectionFactory
-     * @param ScheduleCollectionFactory $scheduleCollectionFactory
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory
+     * @param \Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory $scheduleCollectionFactory
      */
     public function __construct(
         Context $context,
