@@ -7,11 +7,11 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Privacy;
 
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Helper\AccountData;
-use Magento\Framework\App\Action\Context;
 
 /**
  * Action Index Delete

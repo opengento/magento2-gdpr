@@ -7,8 +7,8 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\ResourceModel\Reasons;
 
-use Opengento\Gdpr\Model\Reasons;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+use Opengento\Gdpr\Model\Reasons;
 
 /**
  * Reasons collection.

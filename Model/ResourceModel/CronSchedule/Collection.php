@@ -7,8 +7,8 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\ResourceModel\CronSchedule;
 
-use Opengento\Gdpr\Model\CronSchedule;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+use Opengento\Gdpr\Model\CronSchedule;
 
 /**
  * Cron schedule collection.

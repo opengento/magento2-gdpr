@@ -7,13 +7,13 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Privacy;
 
+use Magento\Customer\Model\Session;
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Helper\AccountData;
-use Magento\Customer\Model\Session;
-use Magento\Framework\App\Action\Context;
 use Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory;
 
 /**

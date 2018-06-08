@@ -7,9 +7,9 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Export;
 
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\OrderRepository;
-use Magento\Framework\Api\SearchCriteriaBuilder;
 
 /**
  * Class QuoteDataProcessor

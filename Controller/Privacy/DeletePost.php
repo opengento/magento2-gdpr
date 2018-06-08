@@ -7,21 +7,21 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Privacy;
 
-use Magento\Framework\App\ActionInterface;
-use Opengento\Gdpr\Controller\AbstractPrivacy;
-use Opengento\Gdpr\Helper\AccountData;
-use Opengento\Gdpr\Model\Config;
-use Opengento\Gdpr\Model\CronScheduleFactory;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Model\AuthenticationInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
-use Magento\Customer\Model\AuthenticationInterface;
+use Magento\Framework\App\ActionInterface;
 use Magento\Framework\Data\Form\FormKey\Validator;
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Exception\InvalidEmailOrPasswordException;
 use Magento\Framework\Exception\State\UserLockedException;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Sales\Model\Order\Config as orderConfig;
+use Opengento\Gdpr\Controller\AbstractPrivacy;
+use Opengento\Gdpr\Helper\AccountData;
+use Opengento\Gdpr\Model\Config;
+use Opengento\Gdpr\Model\CronScheduleFactory;
 
 /**
  * Action Delete Delete
