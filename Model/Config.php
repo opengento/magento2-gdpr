@@ -172,7 +172,7 @@ class Config
         return explode(',', $this->scopeConfig->getValue(
             self::CONFIG_PATH_ANONYMIZE_CUSTOMER_ATTRIBUTES,
             ScopeInterface::SCOPE_STORE
-        ));
+        ) ?? '');
     }
 
     /**
@@ -185,7 +185,7 @@ class Config
         return explode(',', $this->scopeConfig->getValue(
             self::CONFIG_PATH_ANONYMIZE_CUSTOMER_ADDRESS_ATTRIBUTES,
             ScopeInterface::SCOPE_STORE
-        ));
+        ) ?? '');
     }
 
     /**
@@ -218,7 +218,7 @@ class Config
         return explode(',', $this->scopeConfig->getValue(
             self::CONFIG_PATH_EXPORT_CUSTOMER_ATTRIBUTES,
             ScopeInterface::SCOPE_STORE
-        ));
+        ) ?? '');
     }
 
     /**
@@ -231,7 +231,7 @@ class Config
         return explode(',', $this->scopeConfig->getValue(
             self::CONFIG_PATH_EXPORT_CUSTOMER_ADDRESS_ATTRIBUTES,
             ScopeInterface::SCOPE_STORE
-        ));
+        ) ?? '');
     }
 
     /**

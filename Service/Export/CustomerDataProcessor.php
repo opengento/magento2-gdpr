@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Export;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\EntityManager\Hydrator;
 use Opengento\Gdpr\Model\Config;
 
 /**
@@ -22,19 +23,27 @@ class CustomerDataProcessor implements ProcessorInterface
     private $customerRepository;
 
     /**
+     * @var \Magento\Framework\EntityManager\Hydrator
+     */
+    private $hydrator;
+
+    /**
      * @var \Opengento\Gdpr\Model\Config
      */
     private $config;
 
     /**
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-     * @param \Opengento\Gdpr\Model\Config
+     * @param \Magento\Framework\EntityManager\Hydrator $hydrator
+     * @param \Opengento\Gdpr\Model\Config $config
      */
     public function __construct(
         CustomerRepositoryInterface $customerRepository,
+        Hydrator $hydrator,
         Config $config
     ) {
         $this->customerRepository = $customerRepository;
+        $this->hydrator = $hydrator;
         $this->config = $config;
     }
 
@@ -45,12 +54,30 @@ class CustomerDataProcessor implements ProcessorInterface
      */
     public function execute(string $customerEmail, array $data): array
     {
-        /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = $this->customerRepository->get($customerEmail);
+        $customerData = $this->hydrator->extract($this->customerRepository->get($customerEmail));
 
         return array_merge_recursive(
             $data,
-            ['customer' => $customer->toArray($this->config->getAnonymizeCustomerAttributes())]
+            ['customer' => $this->generateArray($customerData)]
         );
+    }
+
+    /**
+     * Generate the customer data to export
+     *
+     * @param array $customerData
+     * @return array
+     */
+    private function generateArray(array $customerData): array
+    {
+        $data = [];
+
+        foreach ($this->config->getAnonymizeCustomerAttributes() as $attributeCode) {
+            if (isset($customerData[$attributeCode])) {
+                $data[] = $customerData[$attributeCode];
+            }
+        }
+
+        return $data;
     }
 }

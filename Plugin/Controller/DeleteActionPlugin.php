@@ -34,11 +34,12 @@ class DeleteActionPlugin
      * Check if the module is enabled for the current scope
      *
      * @param \Opengento\Gdpr\Controller\AbstractPrivacy $subject
-     * @param \Magento\Framework\Controller\ResultInterface $result
+     * @param callable $proceed
+     * @param array ...$args
      * @return \Magento\Framework\Controller\ResultInterface
      */
-    public function beforeExecute(AbstractPrivacy $subject, ResultInterface $result): ResultInterface
+    public function aroundExecute(AbstractPrivacy $subject, callable $proceed, ...$args): ResultInterface
     {
-        return $this->config->isAccountDeletionEnabled() ? $result : $subject->forwardNoRoute();
+        return $this->config->isErasureEnabled() ? $proceed(...$args) : $subject->forwardNoRoute();
     }
 }

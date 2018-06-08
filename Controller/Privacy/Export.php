@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Controller\Export;
+namespace Opengento\Gdpr\Controller\Privacy;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\Session;
@@ -117,7 +117,7 @@ class Export extends AbstractPrivacy implements ActionInterface
 
             /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
             $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-            return $resultRedirect->setPath('customer/privacy/export');
+            return $resultRedirect->setPath('customer/privacy/settings');
         }
     }
 
@@ -130,6 +130,7 @@ class Export extends AbstractPrivacy implements ActionInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @deprecated
+     * @todo debug
      */
     public function download(): ResponseInterface
     {
