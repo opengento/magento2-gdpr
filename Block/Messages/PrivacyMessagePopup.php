@@ -79,6 +79,6 @@ class PrivacyMessagePopup extends Template
      */
     protected function _toHtml()
     {
-        return $this->config->isModuleEnabled() && $this->config->isCookieDisclosureEnabled() ? parent::_toHtml() : '';
+        return $this->config->isCookieDisclosureEnabled() ? parent::_toHtml() : '';
     }
 }

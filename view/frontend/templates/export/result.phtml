@@ -1,0 +1,13 @@
+<?php
+/**
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+
+/** @var \Magento\Framework\View\Element\Template $block */
+
+/** @var \Magento\Framework\DataObject $viewModel */
+$viewModel = $block->getData('viewModel');
+?>
+
+<?php var_dump($viewModel->getData()); ?>

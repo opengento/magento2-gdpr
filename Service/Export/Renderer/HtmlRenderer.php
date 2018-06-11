@@ -7,6 +7,10 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Export\Renderer;
 
+use Magento\Framework\DataObject;
+use Magento\Framework\Filesystem;
+use Magento\Framework\View\Layout\BuilderFactory;
+use Magento\Framework\View\LayoutFactory;
 use Opengento\Gdpr\Service\Export\AbstractRenderer;
 use Opengento\Gdpr\Service\Export\RendererInterface;
 
@@ -16,11 +20,43 @@ use Opengento\Gdpr\Service\Export\RendererInterface;
 class HtmlRenderer extends AbstractRenderer implements RendererInterface
 {
     /**
+     * @var \Magento\Framework\View\LayoutFactory
+     */
+    private $layoutFactory;
+
+    /**
+     * @var \Magento\Framework\View\Layout\BuilderFactory|\Magento\Framework\View\LayoutFactory
+     */
+    private $layoutBuilderFactory;
+
+    /**
+     * @param \Magento\Framework\Filesystem $filesystem
+     * @param \Magento\Framework\View\LayoutFactory $layoutFactory
+     * @param \Magento\Framework\View\Layout\BuilderFactory $layoutBuilderFactory
+     */
+    public function __construct(
+        Filesystem $filesystem,
+        LayoutFactory $layoutFactory,
+        BuilderFactory $layoutBuilderFactory
+    ) {
+        $this->layoutFactory = $layoutFactory;
+        $this->layoutBuilderFactory = $layoutBuilderFactory;
+        parent::__construct($filesystem);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function render(array $data): string
     {
-        // todo
-        throw new \LogicException('Not implemented yet!');
+        $layout = $this->layoutFactory->create();
+        $this->layoutBuilderFactory->create(BuilderFactory::TYPE_PAGE, ['layout' => $layout]);
+        $layout->getUpdate()->addHandle('customer_privacy_export_personal_data');
+
+        /** @var \Magento\Framework\View\Element\Template $block */
+        $block = $layout->getBlock('main.content.customer.privacy.export.personal.data');
+        $block->setData('viewModel', new DataObject($data));
+
+        return $layout->getOutput();
     }
 }
