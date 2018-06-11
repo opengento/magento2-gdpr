@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Cron;
 
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Registry;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Opengento\Gdpr\Model\Config;
@@ -18,6 +17,7 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Scheduler to clean accounts marked to be deleted or anonymized
+ * @todo refactor
  */
 class Erasure
 {
@@ -42,11 +42,6 @@ class Erasure
     private $registry;
 
     /**
-     * @var \Magento\Customer\Api\CustomerRepositoryInterface
-     */
-    private $customerRepository;
-
-    /**
      * @var \Opengento\Gdpr\Model\ReasonsFactory
      */
     private $reasonFactory;
@@ -66,7 +61,6 @@ class Erasure
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Opengento\Gdpr\Service\ErasureStrategy $erasureStrategy
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param \Opengento\Gdpr\Model\ReasonsFactory $reasonFactory
      * @param \Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory $collectionFactory
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
@@ -76,7 +70,6 @@ class Erasure
         Config $config,
         ErasureStrategy $erasureStrategy,
         Registry $registry,
-        CustomerRepositoryInterface $customerRepository,
         ReasonsFactory $reasonFactory,
         CollectionFactory $collectionFactory,
         DateTime $dateTime
@@ -85,7 +78,6 @@ class Erasure
         $this->config = $config;
         $this->erasureStrategy = $erasureStrategy;
         $this->registry = $registry;
-        $this->customerRepository = $customerRepository;
         $this->reasonFactory = $reasonFactory;
         $this->collectionFactory = $collectionFactory;
         $this->dateTime = $dateTime;
@@ -111,8 +103,7 @@ class Erasure
                 foreach ($cronScheduleCollection as $cronSchedule) {
                     try {
                         //todo warn: if there is a delta modification in config, it affects the existing ones
-                        $customer = $this->customerRepository->getById($cronSchedule->getData('customer_id'));
-                        $this->erasureStrategy->execute($customer->getEmail());
+                        $this->erasureStrategy->execute((int) $cronSchedule->getData('customer_id'));
                         $model = $this->reasonFactory->create(['reason' => $cronSchedule->getData('reason')]);
                         $model->getResource()->save($model);
                         $cronSchedule->getResource()->delete($cronSchedule);

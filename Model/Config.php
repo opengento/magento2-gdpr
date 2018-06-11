@@ -30,6 +30,7 @@ class Config
     const CONFIG_PATH_ANONYMIZE_CUSTOMER_ADDRESS_ATTRIBUTES = 'gdpr/anonymize/customer_address_attributes';
     const CONFIG_PATH_EXPORT_ENABLED = 'gdpr/export/enabled';
     const CONFIG_PATH_EXPORT_INFORMATION_BLOCK = 'gdpr/export/block_id';
+    const CONFIG_PATH_EXPORT_RENDERER = 'gdpr/export/renderer';
     const CONFIG_PATH_EXPORT_CUSTOMER_ATTRIBUTES = 'gdpr/export/customer_attributes';
     const CONFIG_PATH_EXPORT_CUSTOMER_ADDRESS_ATTRIBUTES = 'gdpr/export/customer_address_attributes';
     const CONFIG_PATH_COOKIE_DISCLOSURE_ENABLED = 'gdpr/cookie/enabled';
@@ -43,6 +44,8 @@ class Config
 
     /**
      * @var string[]
+     * @deprecated
+     * @todo use custom frontend model (read from pool) + backend arraySerialized
      */
     private $processorConfigPaths;
 
@@ -169,10 +172,10 @@ class Config
      */
     public function getAnonymizeCustomerAttributes(): array
     {
-        return explode(',', $this->scopeConfig->getValue(
+        return $this->scopeConfig->getValue(
             self::CONFIG_PATH_ANONYMIZE_CUSTOMER_ATTRIBUTES,
             ScopeInterface::SCOPE_STORE
-        ) ?? '');
+        );
     }
 
     /**
@@ -182,10 +185,10 @@ class Config
      */
     public function getAnonymizeCustomerAddressAttributes(): array
     {
-        return explode(',', $this->scopeConfig->getValue(
+        return $this->scopeConfig->getValue(
             self::CONFIG_PATH_ANONYMIZE_CUSTOMER_ADDRESS_ATTRIBUTES,
             ScopeInterface::SCOPE_STORE
-        ) ?? '');
+        );
     }
 
     /**
@@ -209,16 +212,26 @@ class Config
     }
 
     /**
+     * Retrieve the export renderer code
+     *
+     * @return string
+     */
+    public function getExportRendererCode(): string
+    {
+        return $this->scopeConfig->getValue(self::CONFIG_PATH_EXPORT_RENDERER, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
      * Retrieve the export customer attributes codes
      *
      * @return array
      */
     public function getExportCustomerAttributes(): array
     {
-        return explode(',', $this->scopeConfig->getValue(
+        return $this->scopeConfig->getValue(
             self::CONFIG_PATH_EXPORT_CUSTOMER_ATTRIBUTES,
             ScopeInterface::SCOPE_STORE
-        ) ?? '');
+        );
     }
 
     /**
@@ -228,10 +241,10 @@ class Config
      */
     public function getExportCustomerAddressAttributes(): array
     {
-        return explode(',', $this->scopeConfig->getValue(
+        return $this->scopeConfig->getValue(
             self::CONFIG_PATH_EXPORT_CUSTOMER_ADDRESS_ATTRIBUTES,
             ScopeInterface::SCOPE_STORE
-        ) ?? '');
+        );
     }
 
     /**

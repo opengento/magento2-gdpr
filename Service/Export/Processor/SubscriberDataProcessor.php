@@ -5,9 +5,10 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Service\Export;
+namespace Opengento\Gdpr\Service\Export\Processor;
 
 use Magento\Newsletter\Model\Subscriber;
+use Opengento\Gdpr\Service\Export\ProcessorInterface;
 
 /**
  * Class SubscriberDataProcessor
@@ -31,9 +32,9 @@ class SubscriberDataProcessor implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function execute(string $customerEmail, array $data): array
+    public function execute(int $customerId, array $data): array
     {
-        $subscriber = $this->subscriber->loadByEmail($customerEmail);
+        $subscriber = $this->subscriber->loadByCustomerId($customerId);
 
         return array_merge_recursive($data, ['orders' => $subscriber->toArray()]);
     }

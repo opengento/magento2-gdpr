@@ -5,11 +5,12 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Service\Export;
+namespace Opengento\Gdpr\Service\Export\Processor;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\EntityManager\Hydrator;
 use Opengento\Gdpr\Model\Config;
+use Opengento\Gdpr\Service\Export\ProcessorInterface;
 
 /**
  * Class CustomerDataProcessor
@@ -52,9 +53,9 @@ class CustomerDataProcessor implements ProcessorInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function execute(string $customerEmail, array $data): array
+    public function execute(int $customerId, array $data): array
     {
-        $customerData = $this->hydrator->extract($this->customerRepository->get($customerEmail));
+        $customerData = $this->hydrator->extract($this->customerRepository->getById($customerId));
 
         return array_merge_recursive(
             $data,

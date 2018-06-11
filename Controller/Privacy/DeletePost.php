@@ -25,6 +25,7 @@ use Opengento\Gdpr\Model\CronScheduleFactory;
 
 /**
  * Action Delete Delete
+ * @todo refactor
  */
 class DeletePost extends AbstractPrivacy implements ActionInterface
 {

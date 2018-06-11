@@ -5,10 +5,11 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Service\Export;
+namespace Opengento\Gdpr\Service\Export\Processor;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
+use Opengento\Gdpr\Service\Export\ProcessorInterface;
 
 /**
  * Class CustomerAddressDataProcessor
@@ -42,10 +43,10 @@ class CustomerAddressDataProcessor implements ProcessorInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function execute(string $customerEmail, array $data): array
+    public function execute(int $customerId, array $data): array
     {
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = $this->customerRepository->get($customerEmail);
+        $customer = $this->customerRepository->getById($customerId);
         $addressCollection = $customer->getAddressesCollection();
 
         return array_merge_recursive(

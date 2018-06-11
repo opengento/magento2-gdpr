@@ -12,7 +12,7 @@
     </head>
     <body>
         <referenceContainer name="content">
-            <block class="Magento\Framework\View\Element\Template" name="customer-account-privacy-settings" template="Opengento_Gdpr::account/settings.phtml" cacheable="false">
+            <block class="Magento\Framework\View\Element\Template" name="customer-account-privacy-settings" template="Opengento_Gdpr::account/settings.phtml" ifconfig="gdpr/general/enabled" cacheable="false">
                 <arguments>
                     <argument name="settingsDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Privacy\SettingsDataProvider</argument>
                     <argument name="urlsDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\UrlsDataProvider</argument>

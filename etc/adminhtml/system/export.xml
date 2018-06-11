@@ -9,7 +9,7 @@
     <group id="export" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
         <label>Export Settings</label>
         <depends>
-            <field id="*/*/general/enabled">1</field>
+            <field id="gdpr/general/enabled">1</field>
         </depends>
         <field id="enabled" type="select" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Export</label>
@@ -20,25 +20,35 @@
             <label>Information</label>
             <source_model>Opengento\Gdpr\Model\Config\Source\Block</source_model>
             <depends>
-                <field id="*/*/export/enabled">1</field>
+                <field id="gdpr/export/enabled">1</field>
             </depends>
             <config_path>gdpr/export/block_id</config_path>
         </field>
-        <field id="customer_attributes" type="multiselect" translate="label comment" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+        <field id="renderer" type="select" translate="label comment" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Renderer</label>
+            <source_model>Opengento\Gdpr\Model\Config\Source\ExportRenderer</source_model>
+            <depends>
+                <field id="gdpr/export/enabled">1</field>
+            </depends>
+            <config_path>gdpr/export/renderer</config_path>
+        </field>
+        <field id="customer_attributes" type="multiselect" translate="label comment" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Customer Attributes</label>
             <comment>This attributes list will be exported when processed.</comment>
             <source_model>Opengento\Gdpr\Model\Config\Source\CustomerAttributes</source_model>
+            <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
             <depends>
-                <field id="*/*/export/enabled">1</field>
+                <field id="gdpr/export/enabled">1</field>
             </depends>
             <config_path>gdpr/export/customer_attributes</config_path>
         </field>
-        <field id="customer_address_attributes" type="multiselect" translate="label comment" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+        <field id="customer_address_attributes" type="multiselect" translate="label comment" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Customer Address Attributes</label>
             <comment>This address attributes list will be exported when processed.</comment>
             <source_model>Opengento\Gdpr\Model\Config\Source\CustomerAddressAttributes</source_model>
+            <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
             <depends>
-                <field id="*/*/export/enabled">1</field>
+                <field id="gdpr/export/enabled">1</field>
             </depends>
             <config_path>gdpr/export/customer_address_attributes</config_path>
         </field>

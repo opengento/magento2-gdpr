@@ -32,16 +32,16 @@ class ExportManagement
     /**
      * Export all data related to a given entity ID
      *
-     * @param string $customerEmail
+     * @param int $customerId
      * @return array
      */
-    public function execute(string $customerEmail): array
+    public function execute(int $customerId): array
     {
         $data = [];
 
         /** @var \Opengento\Gdpr\Service\Export\ProcessorInterface $processor */
         foreach ($this->processorPool as $processor) {
-            $data = $processor->execute($customerEmail, $data);
+            $data = $processor->execute($customerId, $data);
         }
 
         return $data;
@@ -51,17 +51,17 @@ class ExportManagement
      * Execute an export processor by name
      *
      * @param string $processorName
-     * @param string $customerEmail
+     * @param int $customerId
      * @return array
      */
-    public function executeProcessor(string $processorName, string $customerEmail): array
+    public function executeProcessor(string $processorName, int $customerId): array
     {
-        if ($this->processorPool->offsetExists($processorName)) {
-            throw new \LogicException('The processor "' . $processorName . '" is not registered.');
+        if (!$this->processorPool->offsetExists($processorName)) {
+            throw new \InvalidArgumentException(sprintf('Unknown processor type "%s".', $processorName));
         }
 
         /** @var \Opengento\Gdpr\Service\Export\ProcessorInterface $processor */
         $processor = $this->processorPool->offsetGet($processorName);
-        return $processor->execute($customerEmail, []);
+        return $processor->execute($customerId, []);
     }
 }

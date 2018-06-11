@@ -16,8 +16,8 @@ interface ProcessorInterface
      * Execute the anonymize processor for the given entity ID.
      * It allows to anonymize the related data.
      *
-     * @param string $customerEmail
+     * @param int $customerId
      * @return bool
      */
-    public function execute(string $customerEmail): bool;
+    public function execute(int $customerId): bool;
 }

@@ -22,6 +22,7 @@
             </anonymize>
             <export>
                 <enabled>0</enabled>
+                <renderer>html</renderer>
                 <customer_attributes></customer_attributes><!-- todo -->
                 <customer_address_attributes></customer_address_attributes><!-- todo -->
             </export>

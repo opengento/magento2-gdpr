@@ -9,7 +9,7 @@
     <group id="cookie" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
         <label>Cookie Settings</label>
         <depends>
-            <field id="*/*/general/enabled">1</field>
+            <field id="gdpr/general/enabled">1</field>
         </depends>
         <field id="enabled" type="select" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Cookie Disclosure</label>

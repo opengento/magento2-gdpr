@@ -42,11 +42,11 @@ class CustomerDataProcessor implements ProcessorInterface
      * {@inheritdoc}
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function execute(string $customerEmail): bool
+    public function execute(int $customerId): bool
     {
         //todo if config: delete customer if no orders
         try {
-            $this->customerRepository->delete($this->customerRepository->get($customerEmail));
+            $this->customerRepository->delete($this->customerRepository->getById($customerId));
         } catch (NoSuchEntityException $e) {
             /** Silence is golden */
         }

@@ -6,8 +6,6 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service;
 
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Phrase;
 use Opengento\Gdpr\Model\Config;
 
 /**
@@ -64,14 +62,13 @@ class ErasureStrategy
     /**
      * Execute the processors by strategy type
      *
-     * @param string $customerEmail
+     * @param int $customerId
      * @return bool
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function execute(string $customerEmail): bool
+    public function execute(int $customerId): bool
     {
         foreach ($this->processorNames as $processorName) {
-            $this->executeProcessorStrategy($processorName, $customerEmail);
+            $this->executeProcessorStrategy($processorName, $customerId);
         }
 
         return true;
@@ -81,23 +78,22 @@ class ErasureStrategy
      * Execute the processor by strategy type
      *
      * @param string $processorName
-     * @param string $customerEmail
+     * @param int $customerId
      * @return bool
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function executeProcessorStrategy(string $processorName, string $customerEmail): bool
+    public function executeProcessorStrategy(string $processorName, int $customerId): bool
     {
         $strategyType = $this->config->getStrategySetting($processorName);
 
         switch ($strategyType) {
             case self::STRATEGY_ANONYMIZE:
-                $result = $this->anonymizeManagement->executeProcessor($processorName, $customerEmail);
+                $result = $this->anonymizeManagement->executeProcessor($processorName, $customerId);
                 break;
             case self::STRATEGY_DELETE:
-                $result = $this->deleteManagement->executeProcessor($processorName, $customerEmail);
+                $result = $this->deleteManagement->executeProcessor($processorName, $customerId);
                 break;
             default:
-                throw new LocalizedException(new Phrase('Unknown strategy type "%1".', [$strategyType]));
+                throw new \InvalidArgumentException(sprintf('Unknown strategy type "%s".', $strategyType));
                 break;
         }
 

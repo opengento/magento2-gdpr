@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Privacy;
 
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ActionInterface;
@@ -16,12 +15,12 @@ use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Archive\Zip;
 use Magento\Framework\Controller\ResultFactory;
-use Magento\Framework\File\Csv;
 use Magento\Framework\Filesystem\Driver\File;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Service\ExportManagement;
+use Opengento\Gdpr\Service\ExportStrategy;
 
 /**
  * Action Export Export
@@ -39,11 +38,6 @@ class Export extends AbstractPrivacy implements ActionInterface
     private $zip;
 
     /**
-     * @var \Magento\Framework\File\Csv
-     */
-    private $csvWriter;
-
-    /**
      * @var \Magento\Framework\Filesystem\Driver\File
      */
     private $file;
@@ -59,45 +53,42 @@ class Export extends AbstractPrivacy implements ActionInterface
     private $exportManagement;
 
     /**
+     * @var \Opengento\Gdpr\Service\ExportStrategy
+     */
+    private $exportStrategy;
+
+    /**
      * @var \Magento\Customer\Model\Session
      */
     private $customerSession;
 
     /**
-     * @var \Magento\Customer\Api\CustomerRepositoryInterface
-     */
-    private $customerRepository;
-
-    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Framework\Archive\Zip $zip
-     * @param \Magento\Framework\File\Csv $csv
      * @param \Magento\Framework\Filesystem\Driver\File $file
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Opengento\Gdpr\Service\ExportManagement $exportManagement
+     * @param \Opengento\Gdpr\Service\ExportStrategy $exportStrategy
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         Context $context,
         FileFactory $fileFactory,
         Zip $zip,
-        Csv $csv,
         File $file,
         Config $config,
         ExportManagement $exportManagement,
-        Session $customerSession,
-        CustomerRepositoryInterface $customerRepository
+        ExportStrategy $exportStrategy,
+        Session $customerSession
     ) {
         $this->fileFactory = $fileFactory;
         $this->zip = $zip;
-        $this->csvWriter = $csv;
         $this->file = $file;
         $this->config = $config;
         $this->exportManagement = $exportManagement;
+        $this->exportStrategy = $exportStrategy;
         $this->customerSession = $customerSession;
-        $this->customerRepository = $customerRepository;
         parent::__construct($context);
     }
 
@@ -128,23 +119,20 @@ class Export extends AbstractPrivacy implements ActionInterface
      * @throws \Exception
      * @throws \Magento\Framework\Exception\FileSystemException
      * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @deprecated
      * @todo debug
      */
     public function download(): ResponseInterface
     {
-        $customer = $this->customerRepository->getById($this->customerSession->getCustomerId());
-        $privacyData = $this->exportManagement->execute($customer->getEmail());
+        $privacyData = $this->exportManagement->execute($this->customerSession->getCustomerId());
 
-        $zipFileName = 'customer_privacy_data_' . $customer->getId() . '.zip';
+        $fileName = $this->exportStrategy->saveData('personalData.html', $privacyData);//todo fix file name
 
-        foreach ($privacyData as $key => $data) {
-            $file = 'customer_privacy_data_' . $key . '_' . $customer->getId() . '.csv';
-            $this->createCsv($file, $privacyData);
-            $this->zip->pack($file, $zipFileName);
-            $this->deleteCsv($file);
-        }
+        $zipFileName = 'customer_privacy_data_' . $this->customerSession->getCustomerId() . '.zip';
+
+        $this->zip->pack($fileName, $zipFileName);
+
+        $this->unlinkFile($fileName);
 
         return $this->fileFactory->create(
             $zipFileName,
@@ -160,28 +148,12 @@ class Export extends AbstractPrivacy implements ActionInterface
     }
 
     /**
-     * Create .csv file.
-     *
-     * @param string $fileName
-     * @param array $data
-     *
-     * @return void
-     */
-    private function createCsv($fileName, $data)
-    {
-        $this->csvWriter
-            ->setEnclosure('"')
-            ->setDelimiter(',')
-            ->saveData($fileName, $data);
-    }
-
-    /**
-     * Delete .csv file.
+     * Unlink a file
      *
      * @param string $fileName
      * @throws \Magento\Framework\Exception\FileSystemException
      */
-    private function deleteCsv($fileName)
+    private function unlinkFile(string $fileName)
     {
         if ($this->file->isExists($fileName)) {
             $this->file->deleteFile($fileName);

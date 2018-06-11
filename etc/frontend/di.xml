@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- ACL & Authorization -->
+    <type name="Opengento\Gdpr\Controller\AbstractPrivacy">
+        <plugin name="check_is_module_enabled" type="Opengento\Gdpr\Plugin\Controller\PrivacyActionPlugin" sortOrder="0" />
+    </type>
+    <type name="Opengento\Gdpr\Controller\Privacy\Delete">
+        <plugin name="check_is_delete_available" type="Opengento\Gdpr\Plugin\Controller\DeleteActionPlugin" sortOrder="0" />
+    </type>
+    <type name="Opengento\Gdpr\Controller\Privacy\DeletePost">
+        <plugin name="check_is_delete_allowed" type="Opengento\Gdpr\Plugin\Controller\DeleteActionPlugin" sortOrder="0" />
+    </type>
+    <type name="Opengento\Gdpr\Controller\Privacy\UndoDelete">
+        <plugin name="check_is_undo_allowed" type="Opengento\Gdpr\Plugin\Controller\DeleteActionPlugin" sortOrder="0" />
+    </type>
+</config>

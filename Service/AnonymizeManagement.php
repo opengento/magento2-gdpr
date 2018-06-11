@@ -32,14 +32,14 @@ class AnonymizeManagement
     /**
      * Anonymize all data related to a given entity ID
      *
-     * @param string $customerEmail
+     * @param int $customerId
      * @return bool
      */
-    public function execute(string $customerEmail): bool
+    public function execute(int $customerId): bool
     {
         /** @var \Opengento\Gdpr\Service\Anonymize\ProcessorInterface $processor */
         foreach ($this->processorPool as $processor) {
-            if (!$processor->execute($customerEmail)) {
+            if (!$processor->execute($customerId)) {
                 return false;
             }
         }
@@ -51,17 +51,17 @@ class AnonymizeManagement
      * Execute an anonymize processor by name
      *
      * @param string $processorName
-     * @param string $customerEmail
+     * @param int $customerId
      * @return bool
      */
-    public function executeProcessor(string $processorName, string $customerEmail): bool
+    public function executeProcessor(string $processorName, int $customerId): bool
     {
-        if ($this->processorPool->offsetExists($processorName)) {
-            throw new \LogicException('The processor "' . $processorName . '" is not registered.');
+        if (!$this->processorPool->offsetExists($processorName)) {
+            throw new \InvalidArgumentException(sprintf('Unknown processor type "%s".', $processorName));
         }
 
         /** @var \Opengento\Gdpr\Service\Anonymize\ProcessorInterface $processor */
         $processor = $this->processorPool->offsetGet($processorName);
-        return $processor->execute($customerEmail);
+        return $processor->execute($customerId);
     }
 }

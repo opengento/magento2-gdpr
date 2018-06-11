@@ -1,7 +1,5 @@
 # ToDo
 
-- Add a Decorator Pattern to allows multiple export formats (json, csv, html...).
-- Replace use of $customerEmail by something else, should works for guest too
 - Documentation / User Guide / Publish / Marketplace
 
 ## DataModel
@@ -25,6 +23,10 @@ Code cleanup, refactoring and call the service manager.
 
 Add the features, they should be run via the console command.
 
-# Setup
+## Setup
 
 Code cleanup and refactoring, and complete the uninstall.
+
+## Locale
+
+Export all translations in i18n/*.csv

@@ -12,7 +12,6 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 /**
  * Class Block
- * @todo create PR to Magento2
  */
 class Block implements OptionSourceInterface
 {

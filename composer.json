@@ -19,6 +19,9 @@
         "magento/module-email": ">=100.0.0",
         "magento/module-newsletter": ">=100.0.0"
     },
+    "require-dev": {
+        "magento/marketplace-eqp": "^1.0.0"
+    },
     "type": "magento2-module",
     "version": "0.1.0",
     "license": [

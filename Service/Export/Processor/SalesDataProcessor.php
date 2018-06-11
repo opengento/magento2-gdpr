@@ -5,11 +5,12 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Service\Export;
+namespace Opengento\Gdpr\Service\Export\Processor;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\OrderRepository;
+use Opengento\Gdpr\Service\Export\ProcessorInterface;
 
 /**
  * Class QuoteDataProcessor
@@ -42,9 +43,9 @@ class SalesDataProcessor implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function execute(string $customerEmail, array $data): array
+    public function execute(int $customerId, array $data): array
     {
-        $searchCriteria = $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_EMAIL, $customerEmail);
+        $searchCriteria = $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
         $orderCollection = $this->orderRepository->getList($searchCriteria->create());
         $salesData = [];
 
