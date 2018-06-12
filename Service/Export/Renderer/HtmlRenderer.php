@@ -49,7 +49,7 @@ class HtmlRenderer extends AbstractRenderer implements RendererInterface
      */
     public function render(array $data): string
     {
-        $layout = $this->layoutFactory->create();
+        $layout = $this->layoutFactory->create(['cacheable' => false]);
         $this->layoutBuilderFactory->create(BuilderFactory::TYPE_PAGE, ['layout' => $layout]);
         $layout->getUpdate()->addHandle('customer_privacy_export_personal_data');
 
