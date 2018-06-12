@@ -10,16 +10,19 @@
 $viewModel = $block->getData('viewModel');
 ?>
 <?php foreach ($viewModel->getData() as $key => $value): ?>
-    <?php if (is_array($value)): ?>
-        <?= $block->getLayout()->createBlock(
-                \Magento\Framework\View\Element\Template::class,
-                $block->getNameInLayout() . '_' . $key,
-                ['data' => ['viewModel' => new Magento\Framework\DataObject($value)]]
-            )->toHtml() ?>
-    <?php else: ?>
-        <div class="block">
-            <div class="title"><?= $key ?></div>
-            <div class="content"><?= $value ?></div>
+    <div class="block">
+        <div class="title"><?= $block->escapeHtml($key) ?></div>
+        <div class="content">
+            <?php if (is_array($value)): ?>
+                <?= $block->getLayout()->createBlock(
+                        \Magento\Framework\View\Element\Template::class,
+                        $block->getNameInLayout() . '_' . $key,
+                        ['data' => ['viewModel' => new Magento\Framework\DataObject($value)]]
+                    )->toHtml() ?>
+            <?php else: ?>
+                <div class="block">
+                    <?= $block->escapeHtml($value) ?>
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
+    </div>
 <?php endforeach; ?>
