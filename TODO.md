@@ -1,23 +1,10 @@
 # ToDo
 
-- Documentation / User Guide / Publish / Marketplace
+- User Guide / Publish / Marketplace
 
 ## DataModel
 
 Implement the service contract for the data models.
-
-## Controllers
-
-Remove logic and call the service manager.
-
-### Actions
-
-- DeletePost
-- Export
-
-## Cron
-
-Code cleanup, refactoring and call the service manager.
 
 ## Console
 

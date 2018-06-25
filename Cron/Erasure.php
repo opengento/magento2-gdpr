@@ -10,14 +10,16 @@ namespace Opengento\Gdpr\Cron;
 use Magento\Framework\Registry;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Opengento\Gdpr\Model\Config;
+use Opengento\Gdpr\Model\CronSchedule;
 use Opengento\Gdpr\Model\ReasonsFactory;
+use Opengento\Gdpr\Model\ResourceModel\CronSchedule as CronScheduleResource;
 use Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory;
+use Opengento\Gdpr\Model\ResourceModel\Reasons as ResourceReasons;
 use Opengento\Gdpr\Service\ErasureStrategy;
 use Psr\Log\LoggerInterface;
 
 /**
  * Scheduler to clean accounts marked to be deleted or anonymized
- * @todo refactor
  */
 class Erasure
 {
@@ -47,10 +49,20 @@ class Erasure
     private $reasonFactory;
 
     /**
+     * @var \Opengento\Gdpr\Model\ResourceModel\Reasons
+     */
+    private $reasonsResource;
+
+    /**
      * @var \Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory
      */
     private $collectionFactory;
 
+    /**
+     * @var \Opengento\Gdpr\Model\ResourceModel\CronSchedule
+     */
+    private $schedulerResource;
+    
     /**
      * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
@@ -62,7 +74,9 @@ class Erasure
      * @param \Opengento\Gdpr\Service\ErasureStrategy $erasureStrategy
      * @param \Magento\Framework\Registry $registry
      * @param \Opengento\Gdpr\Model\ReasonsFactory $reasonFactory
+     * @param \Opengento\Gdpr\Model\ResourceModel\Reasons $reasonsResource
      * @param \Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory $collectionFactory
+     * @param \Opengento\Gdpr\Model\ResourceModel\CronSchedule $scheduleResource
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
      */
     public function __construct(
@@ -71,7 +85,9 @@ class Erasure
         ErasureStrategy $erasureStrategy,
         Registry $registry,
         ReasonsFactory $reasonFactory,
+        ResourceReasons $reasonsResource,
         CollectionFactory $collectionFactory,
+        CronScheduleResource $scheduleResource,
         DateTime $dateTime
     ) {
         $this->logger = $logger;
@@ -79,15 +95,16 @@ class Erasure
         $this->erasureStrategy = $erasureStrategy;
         $this->registry = $registry;
         $this->reasonFactory = $reasonFactory;
+        $this->reasonsResource = $reasonsResource;
         $this->collectionFactory = $collectionFactory;
+        $this->schedulerResource = $scheduleResource;
         $this->dateTime = $dateTime;
     }
 
     /**
-     * Check for accounts which need to be deleted and delete them.
+     * Check for accounts which need to be erased
      *
      * @return void
-     * @todo refactor
      */
     public function execute()
     {
@@ -97,21 +114,37 @@ class Erasure
             $cronScheduleCollection->addFieldToFilter('scheduled_at', ['lteq' => $this->dateTime->gmtDate()]);
 
             if ($cronScheduleCollection->count()) {
+                $oldValue = $this->registry->registry('isSecureArea');
                 $this->registry->register('isSecureArea', true, true);
 
                 /** @var \Opengento\Gdpr\Model\CronSchedule $cronSchedule */
                 foreach ($cronScheduleCollection as $cronSchedule) {
                     try {
-                        //todo warn: if there is a delta modification in config, it affects the existing ones
                         $this->erasureStrategy->execute((int) $cronSchedule->getData('customer_id'));
-                        $model = $this->reasonFactory->create(['reason' => $cronSchedule->getData('reason')]);
-                        $model->getResource()->save($model);
-                        $cronSchedule->getResource()->delete($cronSchedule);
+                        $this->proceedReason($cronSchedule);
                     } catch (\Exception $e) {
                         $this->logger->error($e->getMessage());
                     }
                 }
+
+                $this->registry->register('isSecureArea', $oldValue, true);
             }
         }
+    }
+
+    /**
+     * Proceed reason and update the cron schedule eraser
+     *
+     * @param \Opengento\Gdpr\Model\CronSchedule $cronSchedule
+     * @return void
+     * @throws \Exception
+     * @throws \Magento\Framework\Exception\AlreadyExistsException
+     */
+    private function proceedReason(CronSchedule $cronSchedule)
+    {
+        $this->reasonsResource->save(
+            $this->reasonFactory->create(['reason' => $cronSchedule->getData('reason')])
+        );
+        $this->schedulerResource->delete($cronSchedule);
     }
 }

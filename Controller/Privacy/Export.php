@@ -119,17 +119,13 @@ class Export extends AbstractPrivacy implements ActionInterface
      * @throws \Exception
      * @throws \Magento\Framework\Exception\FileSystemException
      * @throws \Magento\Framework\Exception\LocalizedException
-     * @deprecated
-     * @todo debug
      */
     public function download(): ResponseInterface
     {
         $privacyData = $this->exportManagement->execute($this->customerSession->getCustomerId());
-
-        $fileName = $this->exportStrategy->saveData('personalData.html', $privacyData);//todo fix file name
+        $fileName = $this->exportStrategy->saveData('personal_data', $privacyData);
 
         $zipFileName = 'customer_privacy_data_' . $this->customerSession->getCustomerId() . '.zip';
-
         $this->zip->pack($fileName, $zipFileName);
 
         $this->unlinkFile($fileName);
