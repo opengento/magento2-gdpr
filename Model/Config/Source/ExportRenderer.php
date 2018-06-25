@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Config\Source;
 
 use Magento\Framework\Data\OptionSourceInterface;
-use Magento\Framework\ObjectManager\TMap;
+use Magento\Framework\ObjectManager\ConfigInterface;
 use Magento\Framework\Phrase;
 
 /**
@@ -17,9 +17,9 @@ use Magento\Framework\Phrase;
 class ExportRenderer implements OptionSourceInterface
 {
     /**
-     * @var \Magento\Framework\ObjectManager\TMap
+     * @var \Magento\Framework\ObjectManager\ConfigInterface
      */
-    private $rendererPool;
+    private $objectManagerConfig;
 
     /**
      * @var array
@@ -27,12 +27,12 @@ class ExportRenderer implements OptionSourceInterface
     private $options;
 
     /**
-     * @param \Magento\Framework\ObjectManager\TMap $rendererPool
+     * @param \Magento\Framework\ObjectManager\ConfigInterface $objectManagerConfig
      */
     public function __construct(
-        TMap $rendererPool
+        ConfigInterface $objectManagerConfig
     ) {
-        $this->rendererPool = $rendererPool;
+        $this->objectManagerConfig = $objectManagerConfig;
     }
 
     /**
@@ -41,12 +41,30 @@ class ExportRenderer implements OptionSourceInterface
     public function toOptionArray()
     {
         if (!$this->options) {
-            /** @var \Opengento\Gdpr\Service\Export\RendererInterface $renderer */
-            foreach ($this->rendererPool->getIterator() as $code => $renderer) {
-                $this->options[] = ['value' => $code, 'label' => new Phrase($code)];
+            foreach ($this->retrieveRenderers() as $rendererName => $renderer) {
+                $this->options[] = ['label' => new Phrase($rendererName), 'value' => $rendererName];
             }
         }
 
         return $this->options;
+    }
+
+    /**
+     * Retrieve the renderers from the di settings
+     *
+     * @return string[]
+     */
+    private function retrieveRenderers(): array
+    {
+        $processors = [];
+        $typePreference = $this->objectManagerConfig->getPreference('Opengento\Gdpr\Service\Export\RendererPool');
+        $arguments = $this->objectManagerConfig->getArguments($typePreference);
+
+        if (isset($arguments['array'])) {
+            // Workaround for compiled mode.
+            $processors = isset($arguments['array']['_vac_']) ? $arguments['array']['_vac_'] : $arguments['array'];
+        }
+
+        return $processors;
     }
 }

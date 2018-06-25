@@ -9,6 +9,7 @@ namespace Opengento\Gdpr\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
+use Opengento\Gdpr\Model\Config\ErasureComponentStrategy;
 
 /**
  * Class Config
@@ -25,6 +26,7 @@ class Config
     const CONFIG_PATH_ERASURE_STRATEGY = 'gdpr/erasure/strategy';
     const CONFIG_PATH_ERASURE_TIME_LAPSE = 'gdpr/erasure/time_lapse';
     const CONFIG_PATH_ERASURE_INFORMATION_BLOCK = 'gdpr/erasure/block_id';
+    const CONFIG_PATH_ERASURE_STRATEGY_COMPONENTS = 'gdpr/erasure/components';
     const CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK = 'gdpr/anonymize/block_id';
     const CONFIG_PATH_ANONYMIZE_CUSTOMER_ATTRIBUTES = 'gdpr/anonymize/customer_attributes';
     const CONFIG_PATH_ANONYMIZE_CUSTOMER_ADDRESS_ATTRIBUTES = 'gdpr/anonymize/customer_address_attributes';
@@ -43,22 +45,20 @@ class Config
     private $scopeConfig;
 
     /**
-     * @var string[]
-     * @deprecated
-     * @todo use custom frontend model (read from pool) + backend arraySerialized
+     * @var \Opengento\Gdpr\Model\Config\ErasureComponentStrategy
      */
-    private $processorConfigPaths;
+    private $erasureComponentStrategy;
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param string[] $processorConfigPaths
+     * @param \Opengento\Gdpr\Model\Config\ErasureComponentStrategy $erasureComponentStrategy
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
-        array $processorConfigPaths = []
+        ErasureComponentStrategy $erasureComponentStrategy
     ) {
         $this->scopeConfig = $scopeConfig;
-        $this->processorConfigPaths = $processorConfigPaths;
+        $this->erasureComponentStrategy = $erasureComponentStrategy;
     }
 
     /**
@@ -102,30 +102,6 @@ class Config
     }
 
     /**
-     * Check if a strategy setting exists for the processor
-     *
-     * @param string $processorName
-     * @return bool
-     */
-    public function hasStrategySetting(string $processorName): bool
-    {
-        return isset($this->processorConfigPaths[$processorName]);
-    }
-
-    /**
-     * Retrieve the strategy setting of the processor
-     *
-     * @param string $processorName
-     * @return string
-     */
-    public function getStrategySetting(string $processorName): string
-    {
-        return $this->hasStrategySetting($processorName)
-            ? $this->scopeConfig->getValue($this->processorConfigPaths[$processorName], ScopeInterface::SCOPE_STORE)
-            : $this->getDefaultStrategy();
-    }
-
-    /**
      * Retrieve the default strategy to apply
      *
      * @return string
@@ -133,6 +109,16 @@ class Config
     public function getDefaultStrategy(): string
     {
         return $this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_STRATEGY, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Retrieve the components configured for the deletion strategy
+     *
+     * @return array
+     */
+    public function getErasureStrategyComponents(): array
+    {
+        return $this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_STRATEGY_COMPONENTS, ScopeInterface::SCOPE_STORE);
     }
 
     /**

@@ -44,7 +44,6 @@ class CustomerDataProcessor implements ProcessorInterface
      */
     public function execute(int $customerId): bool
     {
-        //todo if config: delete customer if no orders
         try {
             $this->customerRepository->delete($this->customerRepository->getById($customerId));
         } catch (NoSuchEntityException $e) {

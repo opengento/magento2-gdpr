@@ -35,14 +35,6 @@
             <argument name="processorPool" xsi:type="object">Opengento\Gdpr\Service\Delete\ProcessorPool</argument>
         </arguments>
     </type>
-    <!-- Erasure Strategy -->
-    <type name="Opengento\Gdpr\Service\ErasureStrategy">
-        <arguments>
-            <argument name="processorNames" xsi:type="array">
-                <!-- todo -->
-            </argument>
-        </arguments>
-    </type>
     <!-- Export Management -->
     <virtualType name="Opengento\Gdpr\Service\Export\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
         <arguments>
@@ -74,11 +66,6 @@
         </arguments>
     </virtualType>
     <type name="Opengento\Gdpr\Service\ExportStrategy">
-        <arguments>
-            <argument name="rendererPool" xsi:type="object">Opengento\Gdpr\Service\Export\RendererPool</argument>
-        </arguments>
-    </type>
-    <type name="Opengento\Gdpr\Model\Config\Source\ExportRenderer">
         <arguments>
             <argument name="rendererPool" xsi:type="object">Opengento\Gdpr\Service\Export\RendererPool</argument>
         </arguments>

@@ -1,12 +1,13 @@
 <?php
 /**
- * Copyright © 2018 Uniwax, All rights reserved.
+ * Copyright © 2018 OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service;
 
-use Opengento\Gdpr\Model\Config;
+use Opengento\Gdpr\Model\Config\ErasureComponentStrategy;
 
 /**
  * Class PrivacyStrategy
@@ -22,9 +23,9 @@ class ErasureStrategy
     /**#@-*/
 
     /**
-     * @var \Opengento\Gdpr\Model\Config
+     * @var \Opengento\Gdpr\Model\Config\ErasureComponentStrategy
      */
-    private $config;
+    private $componentStrategy;
 
     /**
      * @var \Opengento\Gdpr\Service\AnonymizeManagement
@@ -37,26 +38,18 @@ class ErasureStrategy
     private $deleteManagement;
 
     /**
-     * @var string[]
-     */
-    private $processorNames;
-
-    /**
-     * @param \Opengento\Gdpr\Model\Config $config
+     * @param \Opengento\Gdpr\Model\Config\ErasureComponentStrategy $componentStrategy
      * @param \Opengento\Gdpr\Service\AnonymizeManagement $anonymizeManagement
      * @param \Opengento\Gdpr\Service\DeleteManagement $deleteManagement
-     * @param string[] $processorNames
      */
     public function __construct(
-        Config $config,
+        ErasureComponentStrategy $componentStrategy,
         AnonymizeManagement $anonymizeManagement,
-        DeleteManagement $deleteManagement,
-        array $processorNames = []
+        DeleteManagement $deleteManagement
     ) {
-        $this->config = $config;
+        $this->componentStrategy = $componentStrategy;
         $this->anonymizeManagement = $anonymizeManagement;
         $this->deleteManagement = $deleteManagement;
-        $this->processorNames = $processorNames;
     }
 
     /**
@@ -67,8 +60,11 @@ class ErasureStrategy
      */
     public function execute(int $customerId): bool
     {
-        foreach ($this->processorNames as $processorName) {
-            $this->executeProcessorStrategy($processorName, $customerId);
+        foreach ($this->componentStrategy->getComponentsByStrategy(self::STRATEGY_ANONYMIZE) as $processorName) {
+            $this->anonymizeManagement->executeProcessor($processorName, $customerId);
+        }
+        foreach ($this->componentStrategy->getComponentsByStrategy(self::STRATEGY_DELETE) as $processorName) {
+            $this->deleteManagement->executeProcessor($processorName, $customerId);
         }
 
         return true;
@@ -83,7 +79,7 @@ class ErasureStrategy
      */
     public function executeProcessorStrategy(string $processorName, int $customerId): bool
     {
-        $strategyType = $this->config->getStrategySetting($processorName);
+        $strategyType = $this->componentStrategy->getComponentStrategy($processorName);
 
         switch ($strategyType) {
             case self::STRATEGY_ANONYMIZE:

@@ -73,6 +73,13 @@
                 <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                 <config_path>gdpr/anonymize/customer_address_attributes</config_path>
             </field>
+            <field id="components" type="multiselect" translate="label comment" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Apply Deletion Strategy</label>
+                <comment>This processors list allows to configure specific erasure strategy by component.</comment>
+                <source_model>Opengento\Gdpr\Model\Config\Source\ErasureComponents</source_model>
+                <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                <config_path>gdpr/erasure/components</config_path>
+            </field>
         </group>
     </group>
 </include>
