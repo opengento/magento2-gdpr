@@ -62,6 +62,7 @@
                 <item name="csv" xsi:type="string">Opengento\Gdpr\Service\Export\Renderer\CsvRenderer</item>
                 <item name="xml" xsi:type="string">Opengento\Gdpr\Service\Export\Renderer\XmlRenderer</item>
                 <item name="html" xsi:type="string">Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer</item>
+                <item name="pdf" xsi:type="string">Opengento\Gdpr\Service\Export\Renderer\PdfRenderer</item>
             </argument>
         </arguments>
     </virtualType>

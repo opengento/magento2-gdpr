@@ -28,7 +28,7 @@ class ErasureComponentStrategy
     private $scopeConfig;
 
     /**
-     * @var string[]
+     * @var array
      */
     private $componentsStrategies;
 
@@ -44,11 +44,7 @@ class ErasureComponentStrategy
     ) {
         $this->objectManagerConfig = $objectManagerConfig;
         $this->scopeConfig = $scopeConfig;
-        $this->componentsStrategies = $componentsStrategies;
-
-        if (!$this->componentsStrategies) {
-            $this->componentsStrategies = $this->loadComponentsStrategies();
-        }
+        $this->initComponentsStrategies($componentsStrategies);
     }
 
     /**
@@ -121,6 +117,40 @@ class ErasureComponentStrategy
                 $configuredProcessor
             ),
         ];
+    }
+
+    /**
+     * Initialize the components with their strategies
+     *
+     * @param string[] $components
+     * @return void
+     */
+    private function initComponentsStrategies(array $components)
+    {
+        $this->componentsStrategies = [
+            ErasureStrategy::STRATEGY_ANONYMIZE => [],
+            ErasureStrategy::STRATEGY_DELETE => [],
+        ];
+
+        foreach ($components as $component => $strategy) {
+            if (!isset($this->componentsStrategies[$strategy])) {
+                $this->componentsStrategies[$strategy] = [];
+            }
+            try {
+                $strategy = $this->getComponentStrategy($component);
+
+                throw new \InvalidArgumentException(
+                    sprintf('Strategy is already set for the component name "%s".', $component)
+                );
+            } catch (\InvalidArgumentException $e) {
+                $this->componentsStrategies[$strategy][] = $component;
+            }
+        }
+
+        $this->componentsStrategies = array_merge_recursive(
+            $this->componentsStrategies,
+            $this->loadComponentsStrategies()
+        );
     }
 
     /**
