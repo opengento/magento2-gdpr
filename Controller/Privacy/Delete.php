@@ -11,7 +11,7 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
-use Opengento\Gdpr\Helper\AccountData;
+use Opengento\Gdpr\Helper\Data;
 
 /**
  * Action Index Delete
@@ -19,20 +19,20 @@ use Opengento\Gdpr\Helper\AccountData;
 class Delete extends AbstractPrivacy implements ActionInterface
 {
     /**
-     * @var \Opengento\Gdpr\Helper\AccountData
+     * @var \Opengento\Gdpr\Helper\Data
      */
-    private $accountData;
+    private $helperData;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Opengento\Gdpr\Helper\AccountData $accountData
+     * @param \Opengento\Gdpr\Helper\Data $helperData
      */
     public function __construct(
         Context $context,
-        AccountData $accountData
+        Data $helperData
     ) {
         parent::__construct($context);
-        $this->accountData = $accountData;
+        $this->helperData = $helperData;
     }
 
     /**
@@ -40,7 +40,7 @@ class Delete extends AbstractPrivacy implements ActionInterface
      */
     public function execute()
     {
-        if ($this->accountData->isAccountToBeDeleted()) {
+        if ($this->helperData->isAccountToBeDeleted()) {
             return $this->forwardNoRoute();
         }
 

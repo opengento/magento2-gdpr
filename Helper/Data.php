@@ -10,24 +10,17 @@ namespace Opengento\Gdpr\Helper;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
-use Magento\Sales\Model\ResourceModel\Order\CollectionFactory as OrderCollectionFactory;
 use Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory as ScheduleCollectionFactory;
 
 /**
  * Helper to get account specific data
- * @todo refactor to ...\Helper\Account\Data
  */
-class AccountData extends AbstractHelper
+class Data extends AbstractHelper
 {
     /**
      * @var \Magento\Customer\Model\Session
      */
     private $customerSession;
-
-    /**
-     * @var \Magento\Sales\Model\ResourceModel\Order\CollectionFactory
-     */
-    private $orderCollectionFactory;
 
     /**
      * @var \Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory
@@ -37,33 +30,16 @@ class AccountData extends AbstractHelper
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory
      * @param \Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory $scheduleCollectionFactory
      */
     public function __construct(
         Context $context,
         Session $customerSession,
-        OrderCollectionFactory $orderCollectionFactory,
         ScheduleCollectionFactory $scheduleCollectionFactory
     ) {
         parent::__construct($context);
         $this->customerSession = $customerSession;
-        $this->orderCollectionFactory = $orderCollectionFactory;
         $this->scheduleCollectionFactory = $scheduleCollectionFactory;
-    }
-
-    /**
-     * Check if customer has orders.
-     *
-     * @return bool
-     */
-    public function hasOrders(): bool
-    {
-        if (!($customerId = $this->customerSession->getCustomerId())) {
-            return false;
-        }
-
-        return (bool) $this->orderCollectionFactory->create($customerId)->getTotalCount();
     }
 
     /**
@@ -76,10 +52,8 @@ class AccountData extends AbstractHelper
         if (!($customerId = $this->customerSession->getCustomerId())) {
             return false;
         }
-        if ($this->scheduleCollectionFactory->create()->getItemByColumnValue('customer_id', $customerId)) {
-            return true;
-        }
 
-        return false;
+        $scheduleCollection = $this->scheduleCollectionFactory->create()->addFieldToFilter('customer_id', $customerId);
+        return (bool) $scheduleCollection->getSize();
     }
 }

@@ -13,7 +13,7 @@ use Magento\Framework\App\ActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
-use Opengento\Gdpr\Helper\AccountData;
+use Opengento\Gdpr\Helper\Data;
 use Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory;
 
 /**
@@ -32,25 +32,25 @@ class UndoDelete extends AbstractPrivacy implements ActionInterface
     private $session;
 
     /**
-     * @var \Opengento\Gdpr\Helper\AccountData
+     * @var \Opengento\Gdpr\Helper\Data
      */
-    private $accountData;
+    private $helperData;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Session $session
-     * @param \Opengento\Gdpr\Helper\AccountData $accountData
+     * @param \Opengento\Gdpr\Helper\Data $helperData
      */
     public function __construct(
         Context $context,
         CollectionFactory $collectionFactory,
         Session $session,
-        AccountData $accountData
+        Data $helperData
     ) {
         $this->collectionFactory = $collectionFactory;
         $this->session = $session;
-        $this->accountData = $accountData;
+        $this->helperData = $helperData;
         parent::__construct($context);
     }
 
@@ -59,7 +59,7 @@ class UndoDelete extends AbstractPrivacy implements ActionInterface
      */
     public function execute()
     {
-        if (!$this->accountData->isAccountToBeDeleted()) {
+        if (!$this->helperData->isAccountToBeDeleted()) {
             return $this->forwardNoRoute();
         }
 

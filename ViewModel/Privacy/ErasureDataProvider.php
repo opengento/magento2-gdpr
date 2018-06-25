@@ -11,7 +11,7 @@ use Magento\Cms\Block\Block;
 use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\Element\BlockFactory;
-use Opengento\Gdpr\Helper\AccountData;
+use Opengento\Gdpr\Helper\Data;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Service\ErasureStrategy;
 
@@ -26,9 +26,9 @@ class ErasureDataProvider extends DataObject implements ArgumentInterface
     private $config;
 
     /**
-     * @var \Opengento\Gdpr\Helper\AccountData
+     * @var \Opengento\Gdpr\Helper\Data
      */
-    private $accountData;
+    private $helperData;
 
     /**
      * @var \Magento\Framework\View\Element\BlockFactory
@@ -37,18 +37,18 @@ class ErasureDataProvider extends DataObject implements ArgumentInterface
 
     /**
      * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Opengento\Gdpr\Helper\AccountData $accountData
+     * @param \Opengento\Gdpr\Helper\Data $helperData
      * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
      * @param array $data
      */
     public function __construct(
         Config $config,
-        AccountData $accountData,
+        Data $helperData,
         BlockFactory $blockFactory,
         array $data = []
     ) {
         $this->config = $config;
-        $this->accountData = $accountData;
+        $this->helperData = $helperData;
         $this->blockFactory = $blockFactory;
         parent::__construct($data);
     }
@@ -88,7 +88,7 @@ class ErasureDataProvider extends DataObject implements ArgumentInterface
      */
     public function isErasureScheduled(): bool
     {
-        return $this->accountData->isAccountToBeDeleted();
+        return $this->helperData->isAccountToBeDeleted();
     }
 
     /**
