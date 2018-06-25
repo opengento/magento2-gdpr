@@ -122,7 +122,7 @@ class Export extends AbstractPrivacy implements ActionInterface
      */
     public function download(): ResponseInterface
     {
-        $privacyData = $this->exportManagement->execute($this->customerSession->getCustomerId());
+        $privacyData = $this->exportManagement->execute((int) $this->customerSession->getCustomerId());
         $fileName = $this->exportStrategy->saveData('personal_data', $privacyData);
 
         $zipFileName = 'customer_privacy_data_' . $this->customerSession->getCustomerId() . '.zip';
