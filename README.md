@@ -3,9 +3,7 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/opengento/module-gdpr.svg?style=flat-square)](https://packagist.org/packages/opengento/module-gdpr)
 [![License: MIT](https://img.shields.io/github/license/opengento/magento2-gdpr.svg?style=flat-square)](./LICENSE) 
 
-
 This extension allows customers to delete, anonymize, and export their personal data.
-
 
 ## Setup
 
@@ -43,7 +41,7 @@ bin/magento setup:upgrade
 
 ## Settings
 
-Configuration for this module is located in 'Stores > Configuration > Customers > Customer Configuration > Privacy (GDPR)'.  
+The configuration for this module is located in 'Stores > Configuration > Customers > Customer Configuration > Privacy (GDPR)'.  
 The settings are divided as following:
 
 * General Settings
@@ -72,13 +70,13 @@ The settings are divided as following:
 
 ## Developers
 
-The following documentation explain how to add your own processors to the workflow.
+The following documentation explains how to add your own processors to the workflow.
 
 ### Extends Export
 
 In order to export your custom component, you must create a new processor.  
 To create a new processor, you must implement the following interface: `\Opengento\Gdpr\Service\Export\ProcessorInterface`.  
-Then register your processor to the following pool `\Opengento\Gdpr\Service\Export\ProcessorPool` as described:
+Then, register your processor to the following pool `\Opengento\Gdpr\Service\Export\ProcessorPool`, as described:
 
 ```xml
 <type name="Opengento\Gdpr\Service\Export\ProcessorPool">
@@ -92,7 +90,7 @@ Then register your processor to the following pool `\Opengento\Gdpr\Service\Expo
 
 You can also create your custom export renderer to make it as be like you want to be.  
 To achieve this, you must implement the following interface: `\Opengento\Gdpr\Service\Export\RendererInterface`  
-Then register your renderer to the following pool `\Opengento\Gdpr\Service\Export\RendererPool` as described:
+Then, register your renderer to the following pool `\Opengento\Gdpr\Service\Export\RendererPool`, as described:
 
 ```xml
 <type name="Opengento\Gdpr\Service\Export\RendererPool">
@@ -108,7 +106,7 @@ Then register your renderer to the following pool `\Opengento\Gdpr\Service\Expor
 
 In order to delete your custom component, you must create a new processor.  
 To create a new processor, you must implement the following interface: `\Opengento\Gdpr\Service\Delete\ProcessorInterface`.  
-Then register your processor to the following pool `\Opengento\Gdpr\Service\Delete\ProcessorPool` as described:
+Then, register your processor to the following pool `\Opengento\Gdpr\Service\Delete\ProcessorPool`, as described:
 
 ```xml
 <type name="Opengento\Gdpr\Service\Delete\ProcessorPool">
@@ -124,7 +122,7 @@ Then register your processor to the following pool `\Opengento\Gdpr\Service\Dele
 
 In order to anonymize your custom component, you must create a new processor.  
 To create a new processor, you must implement the following interface: `\Opengento\Gdpr\Service\Anonymize\ProcessorInterface`.  
-Then register your processor to the following pool `\Opengento\Gdpr\Service\Anonymize\ProcessorPool` as described:
+Then, register your processor to the following pool `\Opengento\Gdpr\Service\Anonymize\ProcessorPool`, as described:
 
 ```xml
 <type name="Opengento\Gdpr\Service\Anonymize\ProcessorPool">
@@ -141,7 +139,7 @@ Then register your processor to the following pool `\Opengento\Gdpr\Service\Anon
 This module allows you to define the strategy to apply for the different processors.  
 You can configure it thanks to the admin system configuration, but you can also cheat and
 define the strategy to apply for them via the `etc/di.xml` file. Be careful, the settings from the configuration
-are always checked in top priority. To make it via the code, add your settings as following:
+are always checked in top priority. To make it via the code, add your preferences as following:
 
 ```xml
 <type name="Opengento\Gdpr\Model\Config\ErasureComponentStrategy">
@@ -155,19 +153,19 @@ are always checked in top priority. To make it via the code, add your settings a
 </type>
 ```
 
-Warning, if you want to implement your own strategy type, you must create your own strategy class object, but you will be able to use the 
-`Opengento\Gdpr\Model\Config\ErasureComponentStrategy` to serve your components by strategy.  
-Do not forget to use the right service managers, but you are free to use yours:  
+Warning, if you want to implement your own strategy type, you must create your own strategy class object, but you will be able to use the `Opengento\Gdpr\Model\Config\ErasureComponentStrategy` to serve your components by strategy.  
+Do not forget to use the right services managers, but you are free to use yours:  
 - `Opengento\Gdpr\Service\AnonymizeManagement`
-- `Opengento\Gdpr\Service\DeleteManagement`.
+- `Opengento\Gdpr\Service\DeleteManagement`
 
 ## Support
 
-- Raise a new [request](https://github.com/opengento/magento2-gdpr/issues) to the issue tracker.
+Raise a new [request](https://github.com/opengento/magento2-gdpr/issues) to the issue tracker.  
+Please provide your Magento 2 version and the module version. Explain how to reproduce your issue and what's expected.
 
 ## Authors
 
-- **Inspiration** - *Source* - [flurrybox](https://github.com/flurrybox)
+- **Initial Inspiration** - *`Model` and `Less` sources* - [flurrybox](https://github.com/flurrybox)
 - **Opengento Community** - *Lead* - [They're awesome!](https://github.com/opengento)
 - **Contributors** - *Contributor* - [Many thanks!](https://github.com/opengento/magento2-gdpr/graphs/contributors)
 
