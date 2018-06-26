@@ -16,11 +16,13 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
         <strong><?= $block->escapeHtml(__('Right to be forgotten')) ?></strong>
     </div>
     <div class="block-content">
-        <p><?= $erasureDataProvider->getErasureInformation() ?></p>
+        <div class="widget block block-static-block">
+            <?= $erasureDataProvider->getErasureInformation() ?>
+        </div>
         <?php if ($erasureDataProvider->isErasureScheduled()): ?>
-            <p class="message warning">
-                <?= $block->escapeHtml(__('Your account will be deleted soon. You can undo this action.')) ?>
-            </p>
+            <div class="message warning">
+                <span><?= $block->escapeHtml(__('Your account will be deleted soon. You can undo this action.')) ?></span>
+            </div>
             <div class="actions-toolbar">
                 <div class="primary">
                     <a href="<?= $block->escapeUrl($urlsDataProvider->getUndoDeleteActionUrl()) ?>" class="action submit primary" id="undo_deletion">
@@ -30,7 +32,9 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
             </div>
         <?php else: ?>
             <?php if ($erasureDataProvider->isAnonymizeStrategy()): ?>
-                <p><?= $erasureDataProvider->getAnonymizeInformation() ?></p>
+                <div class="widget block block-static-block">
+                    <?= $erasureDataProvider->getAnonymizeInformation() ?>
+                </div>
             <?php endif; ?>
             <div class="actions-toolbar">
                 <div class="primary">

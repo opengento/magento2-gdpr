@@ -67,10 +67,15 @@ class InstallData implements InstallDataInterface
     }
 
     /**
+     * Add new customer attribute 'is_anonymized'
+     *
      * @param \Magento\Customer\Setup\CustomerSetup $customerSetup
+     * @return bool
      * @throws \Exception
+     * @throws \Magento\Framework\Exception\AlreadyExistsException
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    private function addIsAnonymizedAttribute(CustomerSetup $customerSetup)
+    private function addIsAnonymizedAttribute(CustomerSetup $customerSetup): bool
     {
         $customerSetup->addAttribute(
             Customer::ENTITY,
@@ -107,5 +112,7 @@ class InstallData implements InstallDataInterface
         );
 
         $this->attributeRepository->save($attribute);
+
+        return true;
     }
 }

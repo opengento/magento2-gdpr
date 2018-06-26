@@ -16,7 +16,9 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
         <strong><?= $block->escapeHtml(__('Information')) ?></strong>
     </div>
     <div class="block-content">
-        <p><?= $settingsDataProvider->getPrivacyInformation() ?></p>
+        <div class="widget block block-static-block">
+            <?= $settingsDataProvider->getPrivacyInformation() ?>
+        </div>
     </div>
 </div>
 <div class="block block-privacy-info">

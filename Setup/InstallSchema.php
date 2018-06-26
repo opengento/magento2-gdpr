@@ -18,51 +18,29 @@ use Magento\Framework\Setup\SchemaSetupInterface;
 class InstallSchema implements InstallSchemaInterface
 {
     /**
-     * Installs DB schema for a module.
-     *
-     * @param SchemaSetupInterface $setup
-     * @param ModuleContextInterface $context
-     * @throws \Zend_Db_Exception
+     * {@inheritdoc}
      */
     public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
-        $installer = $setup;
-        $installer->startSetup();
+        $setup->startSetup();
 
-        /**
-         * Create table 'opengento_gdpr_delete_reasons'
-         */
-        $table = $installer->getConnection()
-            ->newTable($installer->getTable('opengento_gdpr_delete_reasons'))
-            ->addColumn(
-                'reason_id',
-                Table::TYPE_SMALLINT,
-                null,
-                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
-                'Status id'
-            )->addColumn(
-                'reason',
-                Table::TYPE_TEXT,
-                null,
-                ['nullable' => false],
-                'Reason text'
-            )
-            ->addColumn(
-                'created_at',
-                Table::TYPE_TIMESTAMP,
-                null,
-                ['nullable' => false, 'default' => Table::TIMESTAMP_INIT],
-                'Created At'
-            )
-            ->setComment('Comments statuses');
+        $this->createCronScheduleTable($setup);
+        $this->createReasonTable($setup);
 
-        $installer->getConnection()->createTable($table);
+        $setup->endSetup();
+    }
 
-        /**
-         * Create table 'opengento_gdpr_cleanup_schedule'
-         */
-        $table = $installer->getConnection()
-            ->newTable($installer->getTable('opengento_gdpr_cleanup_schedule'))
+    /**
+     * Create table 'opengento_gdpr_cleanup_schedule'
+     *
+     * @param \Magento\Framework\Setup\SchemaSetupInterface $setup
+     * @return bool
+     * @throws \Zend_Db_Exception
+     */
+    private function createCronScheduleTable(SchemaSetupInterface $setup): bool
+    {
+        $table = $setup->getConnection()
+            ->newTable($setup->getTable('opengento_gdpr_cleanup_schedule'))
             ->addColumn(
                 'schedule_id',
                 Table::TYPE_SMALLINT,
@@ -109,8 +87,46 @@ class InstallSchema implements InstallSchemaInterface
             )
             ->setComment('Account Cleanup Schedule');
 
-        $installer->getConnection()->createTable($table);
+        $setup->getConnection()->createTable($table);
 
-        $setup->endSetup();
+        return true;
+    }
+
+    /**
+     * Create table 'opengento_gdpr_delete_reasons'
+     *
+     * @param \Magento\Framework\Setup\SchemaSetupInterface $setup
+     * @return bool
+     * @throws \Zend_Db_Exception
+     */
+    private function createReasonTable(SchemaSetupInterface $setup): bool
+    {
+        $table = $setup->getConnection()
+            ->newTable($setup->getTable('opengento_gdpr_delete_reasons'))
+            ->addColumn(
+                'reason_id',
+                Table::TYPE_SMALLINT,
+                null,
+                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+                'Status id'
+            )->addColumn(
+                'reason',
+                Table::TYPE_TEXT,
+                null,
+                ['nullable' => false],
+                'Reason text'
+            )
+            ->addColumn(
+                'created_at',
+                Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => Table::TIMESTAMP_INIT],
+                'Created At'
+            )
+            ->setComment('Comments statuses');
+
+        $setup->getConnection()->createTable($table);
+
+        return true;
     }
 }

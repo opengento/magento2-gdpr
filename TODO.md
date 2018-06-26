@@ -33,10 +33,6 @@ Implement the service contract for the data models.
 
 Add the features, they should be run via the console command.
 
-## Setup
-
-Code cleanup and refactoring, and complete the uninstall.
-
 ## Locale
 
 Export all translations in i18n/*.csv

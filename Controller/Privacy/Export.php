@@ -15,6 +15,7 @@ use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Archive\Zip;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Driver\File;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
@@ -39,8 +40,14 @@ class Export extends AbstractPrivacy implements ActionInterface
 
     /**
      * @var \Magento\Framework\Filesystem\Driver\File
+     * @deprecated
      */
     private $file;
+
+    /**
+     * @var \Magento\Framework\Filesystem
+     */
+    private $filesystem;
 
     /**
      * @var \Opengento\Gdpr\Model\Config
@@ -77,6 +84,7 @@ class Export extends AbstractPrivacy implements ActionInterface
         FileFactory $fileFactory,
         Zip $zip,
         File $file,
+        Filesystem $filesystem,
         Config $config,
         ExportManagement $exportManagement,
         ExportStrategy $exportStrategy,
@@ -85,6 +93,7 @@ class Export extends AbstractPrivacy implements ActionInterface
         $this->fileFactory = $fileFactory;
         $this->zip = $zip;
         $this->file = $file;
+        $this->filesystem = $filesystem;
         $this->config = $config;
         $this->exportManagement = $exportManagement;
         $this->exportStrategy = $exportStrategy;
@@ -104,7 +113,9 @@ class Export extends AbstractPrivacy implements ActionInterface
         try {
             return $this->download();
         } catch (\Exception $e) {
-            $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong. Try again later.'));
+            echo '<pre>',$e->getTraceAsString(),'</pre>';
+            var_dump($e->getMessage());die;
+            $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
 
             /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
             $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
@@ -125,9 +136,12 @@ class Export extends AbstractPrivacy implements ActionInterface
         $privacyData = $this->exportManagement->execute((int) $this->customerSession->getCustomerId());
         $fileName = $this->exportStrategy->saveData('personal_data', $privacyData);
 
-        $zipFileName = 'customer_privacy_data_' . $this->customerSession->getCustomerId() . '.zip';
-        $this->zip->pack($fileName, $zipFileName);
+        $tmpWrite = $this->filesystem->getDirectoryWrite(DirectoryList::TMP);
 
+        $zipFileName = 'customer_privacy_data_' . $this->customerSession->getCustomerId() . '.zip';
+        $zipFileName = $tmpWrite->getAbsolutePath($zipFileName);
+
+        $this->zip->pack($fileName, $zipFileName);
         $this->unlinkFile($fileName);
 
         return $this->fileFactory->create(
@@ -137,9 +151,7 @@ class Export extends AbstractPrivacy implements ActionInterface
                 'value' => $zipFileName,
                 'rm' => true,
             ],
-            DirectoryList::PUB,
-            'zip',
-            null
+            DirectoryList::TMP
         );
     }
 

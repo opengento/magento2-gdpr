@@ -10,6 +10,7 @@ namespace Opengento\Gdpr\Controller\Privacy;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ActionInterface;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Phrase;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Helper\Data;
 
@@ -41,7 +42,10 @@ class Delete extends AbstractPrivacy implements ActionInterface
     public function execute()
     {
         if ($this->helperData->isAccountToBeDeleted()) {
-            return $this->forwardNoRoute();
+            $this->messageManager->addErrorMessage(new Phrase('Your account is already currently being removed.'));
+            /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+            $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+            return $resultRedirect->setPath('customer/privacy/settings');
         }
 
         return $this->resultFactory->create(ResultFactory::TYPE_PAGE);

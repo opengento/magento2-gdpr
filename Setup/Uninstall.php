@@ -11,6 +11,7 @@ use Magento\Customer\Model\Customer;
 use Magento\Eav\Api\AttributeRepositoryInterface;
 use Magento\Eav\Api\Data\AttributeInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 use Magento\Framework\Setup\UninstallInterface;
@@ -50,8 +51,7 @@ class Uninstall implements UninstallInterface
         $setup->startSetup();
 
         $this->deleteCustomAttributes();
-
-        //todo delete tables
+        $this->deleteTables($setup->getConnection());
 
         $setup->endSetup();
     }
@@ -100,6 +100,20 @@ class Uninstall implements UninstallInterface
 
             $this->deleteAttributes($attributes->getItems());
         }
+
+        return true;
+    }
+
+    /**
+     * Drop the tables added by the module
+     *
+     * @param \Magento\Framework\DB\Adapter\AdapterInterface $connection
+     * @return bool
+     */
+    private function deleteTables(AdapterInterface $connection): bool
+    {
+        $connection->dropTable('opengento_gdpr_delete_reasons');
+        $connection->dropTable('opengento_gdpr_cleanup_schedule');
 
         return true;
     }

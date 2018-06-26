@@ -107,32 +107,36 @@ class DeletePost extends AbstractPrivacy implements ActionInterface
      */
     public function execute()
     {
-        if ($this->helperData->isAccountToBeDeleted()) {
-            return $this->forwardNoRoute();
-        }
-
         /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-        $resultRedirect->setPath('privacy/settings');
+        $resultRedirect->setPath('customer/privacy/settings');
 
-        if ($this->getRequest()->getParams() && $this->formKeyValidator->validate($this->getRequest())) {
-            try {
-                $customerId = (int) $this->session->getCustomerId();
-                $this->authentication->authenticate($customerId, $this->getRequest()->getParam('password'));
-                $this->scheduleResource->save($this->createCronSchedule($customerId));
-                $this->messageManager->addWarningMessage(new Phrase('Your account is processed to be deleted.'));
-            } catch (InvalidEmailOrPasswordException $e) {
-                $this->messageManager->addErrorMessage($e->getMessage());
-            } catch (UserLockedException $e) {
-                $this->session->logout();
-                $this->session->start();
-                $this->messageManager->addErrorMessage(
-                    new Phrase('You did not sign in correctly or your account is temporarily disabled.')
-                );
-                $resultRedirect->setPath('customer/account/login');
-            } catch (\Exception $e) {
-                $this->messageManager->addErrorMessage(new Phrase('Something went wrong, please try again later!'));
-            }
+        if ($this->helperData->isAccountToBeDeleted()) {
+            $this->messageManager->addErrorMessage(new Phrase('Your account is already currently being removed.'));
+        }
+
+        if (!$this->getRequest()->getParams() || !$this->formKeyValidator->validate($this->getRequest())) {
+            return $resultRedirect->setPath('customer/privacy/delete');
+        }
+
+        try {
+            $customerId = (int) $this->session->getCustomerId();
+            $this->authentication->authenticate($customerId, $this->getRequest()->getParam('password'));
+            $cronSchedule = $this->createCronSchedule($customerId);
+            $this->scheduleResource->save($cronSchedule);
+            $this->messageManager->addWarningMessage(new Phrase('Your account is being to be removed.'));
+        } catch (InvalidEmailOrPasswordException $e) {
+            $this->messageManager->addErrorMessage($e->getMessage());
+            $resultRedirect->setPath('customer/privacy/delete');
+        } catch (UserLockedException $e) {
+            $this->session->logout();
+            $this->session->start();
+            $this->messageManager->addErrorMessage(
+                new Phrase('You did not sign in correctly or your account is temporarily disabled.')
+            );
+            $resultRedirect->setPath('customer/account/login');
+        } catch (\Exception $e) {
+            $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }
 
         return $resultRedirect;
@@ -146,10 +150,10 @@ class DeletePost extends AbstractPrivacy implements ActionInterface
      */
     private function createCronSchedule(int $customerId): CronSchedule
     {
-        return $this->scheduleFactory->create(['data' => [
+        return $this->scheduleFactory->create()->setData([
             'scheduled_at' => date('Y-m-d H:i:s', $this->dateTime->gmtTimestamp() + $this->config->getErasureTimeLapse()),
             'customer_id' => $customerId,
             'reason' => $this->getRequest()->getParam('reason')
-        ]]);
+        ]);
     }
 }

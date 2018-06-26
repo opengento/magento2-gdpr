@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Plugin\Controller;
 
-use Magento\Framework\Controller\ResultInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Config;
 
@@ -36,9 +35,9 @@ class PrivacyActionPlugin
      * @param \Opengento\Gdpr\Controller\AbstractPrivacy $subject
      * @param callable $proceed
      * @param array ...$args
-     * @return \Magento\Framework\Controller\ResultInterface
+     * @return \Magento\Framework\Controller\ResultInterface|\Magento\Framework\App\ResponseInterface
      */
-    public function aroundExecute(AbstractPrivacy $subject, callable $proceed, ...$args): ResultInterface
+    public function aroundExecute(AbstractPrivacy $subject, callable $proceed, ...$args)
     {
         return $this->config->isModuleEnabled() ? $proceed(...$args) : $subject->forwardNoRoute();
     }

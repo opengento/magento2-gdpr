@@ -59,10 +59,6 @@ class UndoDelete extends AbstractPrivacy implements ActionInterface
      */
     public function execute()
     {
-        if (!$this->helperData->isAccountToBeDeleted()) {
-            return $this->forwardNoRoute();
-        }
-
         /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
@@ -70,13 +66,15 @@ class UndoDelete extends AbstractPrivacy implements ActionInterface
             /** @var \Opengento\Gdpr\Model\ResourceModel\CronSchedule\Collection $collection */
             $collection = $this->collectionFactory->create();
             $collection->addFieldToFilter('customer_id', $this->session->getCustomerId());
-            $collection->walk('delete');
 
-            $this->messageManager->addSuccessMessage(new Phrase('You canceled your account deletion.'));
+            if ($collection->count()) {
+                $collection->walk('delete');
+                $this->messageManager->addSuccessMessage(new Phrase('You canceled your account deletion.'));
+            }
         } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }
 
-        return $resultRedirect->setPath('privacy/settings');
+        return $resultRedirect->setPath('customer/privacy/settings');
     }
 }

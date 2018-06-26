@@ -14,9 +14,6 @@ use Magento\Framework\Model\AbstractModel;
  */
 class CronSchedule extends AbstractModel
 {
-    const DELETE = 1;
-    const ANONYMIZE = 2;
-
     /**
      * {@inheritdoc}
      */

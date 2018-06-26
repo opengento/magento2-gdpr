@@ -43,7 +43,7 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Check if customer is deleting his account.
+     * Check if the customer account is being to be erased
      *
      * @return bool
      */

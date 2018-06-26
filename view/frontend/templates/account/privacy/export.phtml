@@ -16,7 +16,9 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
         <strong><?= $block->escapeHtml(__('Export Personal Data')) ?></strong>
     </div>
     <div class="block-content">
-        <p><?= $exportDataProvider->getExportInformation() ?></p>
+        <div class="widget block block-static-block">
+            <?= $exportDataProvider->getExportInformation() ?>
+        </div>
         <div class="actions-toolbar">
             <div class="primary">
                 <a href="<?= $block->escapeUrl($urlsDataProvider->getExportActionUrl()) ?>" class="action submit primary" id="export">

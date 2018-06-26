@@ -65,31 +65,22 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
     ], function ($, confirm) {
         'use strict';
 
-        var dataForm = $('#form-validate'),
-            ignore = null;
+        var dataForm = $('#form-validate');
 
-        dataForm
-            .mage('validation', {
-                ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
-            })
-            .find('input:text')
-            .attr('autocomplete', 'off');
+        dataForm.mage('validation', {ignore: ':hidden'}).find('input').attr('autocomplete', 'off');
 
-        $('#delete').on({
-            click: function () {
-                if (dataForm.validation('isValid')) {
-                    confirm({
-                        title: $.mage.__('Attention'),
-                        content: $.mage.__('Do you really want to delete your account?'),
-                        actions: {
-                            confirm: function () {
-                                dataForm.submit();
-                            },
-                            cancel: function () {},
-                            always: function () {}
+        $('#delete').on('click', function (e) {
+            e.preventDefault();
+            if (dataForm.validation('isValid')) {
+                confirm({
+                    title: $.mage.__('Attention'),
+                    content: $.mage.__('Do you really want to delete your account?'),
+                    actions: {
+                        confirm: function () {
+                            dataForm.submit();
                         }
-                    })
-                }
+                    }
+                })
             }
         });
     });
