@@ -36,6 +36,6 @@ class SubscriberDataProcessor implements ProcessorInterface
     {
         $subscriber = $this->subscriber->loadByCustomerId($customerId);
 
-        return array_merge_recursive($data, ['orders' => $subscriber->toArray()]);
+        return \array_merge_recursive($data, ['orders' => $subscriber->toArray()]);
     }
 }

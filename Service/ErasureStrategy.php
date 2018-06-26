@@ -89,7 +89,7 @@ class ErasureStrategy
                 $result = $this->deleteManagement->executeProcessor($processorName, $customerId);
                 break;
             default:
-                throw new \InvalidArgumentException(sprintf('Unknown strategy type "%s".', $strategyType));
+                throw new \InvalidArgumentException(\sprintf('Unknown strategy type "%s".', $strategyType));
                 break;
         }
 

@@ -57,7 +57,7 @@ class AnonymizeManagement
     public function executeProcessor(string $processorName, int $customerId): bool
     {
         if (!$this->processorPool->offsetExists($processorName)) {
-            throw new \InvalidArgumentException(sprintf('Unknown processor type "%s".', $processorName));
+            throw new \InvalidArgumentException(\sprintf('Unknown processor type "%s".', $processorName));
         }
 
         /** @var \Opengento\Gdpr\Service\Anonymize\ProcessorInterface $processor */

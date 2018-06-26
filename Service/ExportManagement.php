@@ -57,7 +57,7 @@ class ExportManagement
     public function executeProcessor(string $processorName, int $customerId): array
     {
         if (!$this->processorPool->offsetExists($processorName)) {
-            throw new \InvalidArgumentException(sprintf('Unknown processor type "%s".', $processorName));
+            throw new \InvalidArgumentException(\sprintf('Unknown processor type "%s".', $processorName));
         }
 
         /** @var \Opengento\Gdpr\Service\Export\ProcessorInterface $processor */

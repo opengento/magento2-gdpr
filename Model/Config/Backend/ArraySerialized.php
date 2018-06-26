@@ -22,6 +22,6 @@ class ArraySerialized extends BackendArraySerialized implements ProcessorInterfa
      */
     public function processValue($value)
     {
-        return explode(',', $value ?? '');
+        return \explode(',', $value ?? '');
     }
 }

@@ -72,7 +72,7 @@ class ExportStrategy implements RendererInterface
             $rendererCode = $this->config->getExportRendererCode();
 
             if (!$this->rendererPool->offsetExists($rendererCode)) {
-                throw new \InvalidArgumentException(sprintf('Unknown renderer type "%s".', $rendererCode));
+                throw new \InvalidArgumentException(\sprintf('Unknown renderer type "%s".', $rendererCode));
             }
 
             $this->renderer = $this->rendererPool->offsetGet($rendererCode);

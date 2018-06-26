@@ -59,6 +59,6 @@ class SalesDataProcessor implements ProcessorInterface
             ];
         }
 
-        return array_merge_recursive($data, ['sales' => $salesData]);
+        return \array_merge_recursive($data, ['sales' => $salesData]);
     }
 }

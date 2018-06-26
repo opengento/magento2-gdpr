@@ -57,7 +57,7 @@ class CustomerDataProcessor implements ProcessorInterface
     {
         $customerData = $this->hydrator->extract($this->customerRepository->getById($customerId));
 
-        return array_merge_recursive(
+        return \array_merge_recursive(
             $data,
             ['customer' => $this->generateArray($customerData)]
         );

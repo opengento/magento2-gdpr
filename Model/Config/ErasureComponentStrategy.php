@@ -56,12 +56,12 @@ class ErasureComponentStrategy
     public function getComponentStrategy(string $component): string
     {
         foreach ($this->componentsStrategies as $strategy => $componentsStrategy) {
-            if (in_array($component, $componentsStrategy)) {
+            if (\in_array($component, $componentsStrategy)) {
                 return $strategy;
             }
         }
 
-        throw new \InvalidArgumentException(sprintf('Unknown component name "%s".', $component));
+        throw new \InvalidArgumentException(\sprintf('Unknown component name "%s".', $component));
     }
 
     /**
@@ -82,7 +82,7 @@ class ErasureComponentStrategy
      */
     public function getAnonymizeComponentsNames(): array
     {
-        return array_keys($this->retrieveProcessorNames('Opengento\Gdpr\Service\Anonymize\ProcessorPool'));
+        return \array_keys($this->retrieveProcessorNames('Opengento\Gdpr\Service\Anonymize\ProcessorPool'));
     }
 
     /**
@@ -92,7 +92,7 @@ class ErasureComponentStrategy
      */
     public function getDeleteComponentsNames(): array
     {
-        return array_keys($this->retrieveProcessorNames('Opengento\Gdpr\Service\Delete\ProcessorPool'));
+        return \array_keys($this->retrieveProcessorNames('Opengento\Gdpr\Service\Delete\ProcessorPool'));
     }
 
     /**
@@ -105,15 +105,15 @@ class ErasureComponentStrategy
         $anonymizeProcessor = $this->getAnonymizeComponentsNames();
         $deleteProcessor = $this->getDeleteComponentsNames();
         $configuredProcessor = $this->scopeConfig->getValue(Config::CONFIG_PATH_ERASURE_STRATEGY_COMPONENTS);
-        $missingProcessor = array_diff(array_intersect($anonymizeProcessor, $deleteProcessor), $configuredProcessor);
+        $missingProcessor = \array_diff(\array_intersect($anonymizeProcessor, $deleteProcessor), $configuredProcessor);
 
         return [
-            ErasureStrategy::STRATEGY_ANONYMIZE => array_merge(
-                array_diff($anonymizeProcessor, $configuredProcessor),
+            ErasureStrategy::STRATEGY_ANONYMIZE => \array_merge(
+                \array_diff($anonymizeProcessor, $configuredProcessor),
                 $missingProcessor
             ),
-            ErasureStrategy::STRATEGY_DELETE => array_merge(
-                array_diff($deleteProcessor, $missingProcessor),
+            ErasureStrategy::STRATEGY_DELETE => \array_merge(
+                \array_diff($deleteProcessor, $missingProcessor),
                 $configuredProcessor
             ),
         ];
@@ -140,14 +140,14 @@ class ErasureComponentStrategy
                 $strategy = $this->getComponentStrategy($component);
 
                 throw new \InvalidArgumentException(
-                    sprintf('Strategy is already set for the component name "%s".', $component)
+                    \sprintf('Strategy is already set for the component name "%s".', $component)
                 );
             } catch (\InvalidArgumentException $e) {
                 $this->componentsStrategies[$strategy][] = $component;
             }
         }
 
-        $this->componentsStrategies = array_merge_recursive(
+        $this->componentsStrategies = \array_merge_recursive(
             $this->componentsStrategies,
             $this->loadComponentsStrategies()
         );

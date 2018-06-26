@@ -150,8 +150,10 @@ class DeletePost extends AbstractPrivacy implements ActionInterface
      */
     private function createCronSchedule(int $customerId): CronSchedule
     {
+        $time = $this->dateTime->gmtTimestamp() + $this->config->getErasureTimeLapse();
+
         return $this->scheduleFactory->create()->setData([
-            'scheduled_at' => date('Y-m-d H:i:s', $this->dateTime->gmtTimestamp() + $this->config->getErasureTimeLapse()),
+            'scheduled_at' => $this->dateTime->gmtDate(null, $time),
             'customer_id' => $customerId,
             'reason' => $this->getRequest()->getParam('reason')
         ]);

@@ -49,7 +49,7 @@ class CustomerAddressDataProcessor implements ProcessorInterface
         $customer = $this->customerRepository->getById($customerId);
         $addressCollection = $customer->getAddressesCollection();
 
-        return array_merge_recursive(
+        return \array_merge_recursive(
             $data,
             ['customer_addresses' => $addressCollection->toArray($this->config->getAnonymizeCustomerAddressAttributes())]
         );

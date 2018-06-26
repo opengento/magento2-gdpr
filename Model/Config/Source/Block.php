@@ -52,7 +52,7 @@ class Block implements OptionSourceInterface
                 $data['value'] = $identifier;
                 $data['label'] = $item->getData('title');
 
-                if (in_array($identifier, $existingIdentifiers)) {
+                if (\in_array($identifier, $existingIdentifiers)) {
                     $data['value'] .= '|' . $item->getData('page_id');
                 } else {
                     $existingIdentifiers[] = $identifier;

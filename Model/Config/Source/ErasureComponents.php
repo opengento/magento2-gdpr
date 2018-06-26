@@ -41,7 +41,7 @@ class ErasureComponents implements OptionSourceInterface
     public function toOptionArray()
     {
         if (!$this->options) {
-            $componentNames = array_intersect(
+            $componentNames = \array_intersect(
                 $this->componentStrategy->getAnonymizeComponentsNames(),
                 $this->componentStrategy->getDeleteComponentsNames()
             );
