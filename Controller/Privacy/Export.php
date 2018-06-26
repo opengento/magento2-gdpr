@@ -98,7 +98,7 @@ class Export extends AbstractPrivacy implements ActionInterface
      */
     public function execute()
     {
-        if (!$this->config->isExportEnabled()){
+        if (!$this->config->isExportEnabled()) {
             return $this->forwardNoRoute();
         }
 

@@ -25,13 +25,13 @@ Area:
 - Wishlist
 - Others
 
+## Renderer
+
+Implement and debug outputs
+
 ## DataModel
 
 Implement the service contract for the data models.
-
-## Console
-
-Add the features, they should be run via the console command.
 
 ## Locale
 

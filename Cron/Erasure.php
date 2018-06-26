@@ -62,7 +62,7 @@ class Erasure
      * @var \Opengento\Gdpr\Model\ResourceModel\CronSchedule
      */
     private $schedulerResource;
-    
+
     /**
      * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */

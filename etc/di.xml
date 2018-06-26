@@ -71,4 +71,13 @@
             <argument name="rendererPool" xsi:type="object">Opengento\Gdpr\Service\Export\RendererPool</argument>
         </arguments>
     </type>
+    <!-- Console Commands -->
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="gdpr_customer_erase" xsi:type="object">Opengento\Gdpr\Console\Command\EraseCommand</item>
+                <item name="gdpr_customer_export" xsi:type="object">Opengento\Gdpr\Console\Command\ExportCommand</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

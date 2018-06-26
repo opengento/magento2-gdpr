@@ -50,7 +50,7 @@ class SalesDataProcessor implements ProcessorInterface
         $salesData = [];
 
         /** @var OrderInterface $order */
-        foreach($orderCollection as $order) {
+        foreach ($orderCollection as $order) {
             $salesData[$order->getIncrementId()] = [
                 'orders' => $orderCollection->toArray(),
                 'invoice' => $order->getInvoiceCollection()->toArray(),
