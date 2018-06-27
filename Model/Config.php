@@ -118,7 +118,7 @@ class Config
      */
     public function getErasureStrategyComponents(): array
     {
-        return $this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_STRATEGY_COMPONENTS, ScopeInterface::SCOPE_STORE);
+        return $this->getValueArray(self::CONFIG_PATH_ERASURE_STRATEGY_COMPONENTS, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -158,10 +158,7 @@ class Config
      */
     public function getAnonymizeCustomerAttributes(): array
     {
-        return $this->scopeConfig->getValue(
-            self::CONFIG_PATH_ANONYMIZE_CUSTOMER_ATTRIBUTES,
-            ScopeInterface::SCOPE_STORE
-        );
+        return $this->getValueArray(self::CONFIG_PATH_ANONYMIZE_CUSTOMER_ATTRIBUTES, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -171,7 +168,7 @@ class Config
      */
     public function getAnonymizeCustomerAddressAttributes(): array
     {
-        return $this->scopeConfig->getValue(
+        return $this->getValueArray(
             self::CONFIG_PATH_ANONYMIZE_CUSTOMER_ADDRESS_ATTRIBUTES,
             ScopeInterface::SCOPE_STORE
         );
@@ -214,10 +211,7 @@ class Config
      */
     public function getExportCustomerAttributes(): array
     {
-        return $this->scopeConfig->getValue(
-            self::CONFIG_PATH_EXPORT_CUSTOMER_ATTRIBUTES,
-            ScopeInterface::SCOPE_STORE
-        );
+        return $this->getValueArray(self::CONFIG_PATH_EXPORT_CUSTOMER_ATTRIBUTES, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -227,10 +221,7 @@ class Config
      */
     public function getExportCustomerAddressAttributes(): array
     {
-        return $this->scopeConfig->getValue(
-            self::CONFIG_PATH_EXPORT_CUSTOMER_ADDRESS_ATTRIBUTES,
-            ScopeInterface::SCOPE_STORE
-        );
+        return $this->getValueArray(self::CONFIG_PATH_EXPORT_CUSTOMER_ADDRESS_ATTRIBUTES, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -254,5 +245,22 @@ class Config
             self::CONFIG_PATH_COOKIE_DISCLOSURE_INFORMATION,
             ScopeInterface::SCOPE_STORE
         );
+    }
+
+    /**
+     * Retrieve the scope config value as an array
+     *
+     * @param string $path
+     * @param string $scopeType
+     * @param null|string $scopeCode
+     * @return array
+     */
+    private function getValueArray(
+        string $path,
+        string $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+        ?string $scopeCode = null
+    ): array
+    {
+        return \explode(',', $this->scopeConfig->getValue($path, $scopeType, $scopeCode));
     }
 }

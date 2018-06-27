@@ -15,17 +15,18 @@
                 <enabled>0</enabled>
                 <strategy>anonymize</strategy>
                 <time_lapse>3600</time_lapse>
-                <components backend_model="Opengento\Gdpr\Model\Config\Backend\ArraySerialized"></components><!-- todo -->
+                <schedule>* * * * *</schedule>
+                <components></components><!-- todo -->
             </erasure>
             <anonymize>
-                <customer_attributes backend_model="Opengento\Gdpr\Model\Config\Backend\ArraySerialized"></customer_attributes><!-- todo -->
-                <customer_address_attributes backend_model="Opengento\Gdpr\Model\Config\Backend\ArraySerialized"></customer_address_attributes><!-- todo -->
+                <customer_attributes></customer_attributes><!-- todo -->
+                <customer_address_attributes></customer_address_attributes><!-- todo -->
             </anonymize>
             <export>
                 <enabled>0</enabled>
                 <renderer>html</renderer>
-                <customer_attributes backend_model="Opengento\Gdpr\Model\Config\Backend\ArraySerialized"></customer_attributes><!-- todo -->
-                <customer_address_attributes backend_model="Opengento\Gdpr\Model\Config\Backend\ArraySerialized"></customer_address_attributes><!-- todo -->
+                <customer_attributes></customer_attributes><!-- todo -->
+                <customer_address_attributes></customer_address_attributes><!-- todo -->
             </export>
         </gdpr>
     </default>

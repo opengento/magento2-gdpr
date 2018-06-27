@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Config;
 
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\ObjectManager\ConfigInterface;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Service\ErasureStrategy;
@@ -23,9 +22,9 @@ class ErasureComponentStrategy
     private $objectManagerConfig;
 
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     * @var \Opengento\Gdpr\Model\Config
      */
-    private $scopeConfig;
+    private $config;
 
     /**
      * @var array
@@ -34,16 +33,16 @@ class ErasureComponentStrategy
 
     /**
      * @param \Magento\Framework\ObjectManager\ConfigInterface $objectManagerConfig
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Opengento\Gdpr\Model\Config $config
      * @param string[] $componentsStrategies
      */
     public function __construct(
         ConfigInterface $objectManagerConfig,
-        ScopeConfigInterface $scopeConfig,
+        Config $config,
         array $componentsStrategies = []
     ) {
         $this->objectManagerConfig = $objectManagerConfig;
-        $this->scopeConfig = $scopeConfig;
+        $this->config = $config;
         $this->initComponentsStrategies($componentsStrategies);
     }
 
@@ -104,7 +103,7 @@ class ErasureComponentStrategy
     {
         $anonymizeProcessor = $this->getAnonymizeComponentsNames();
         $deleteProcessor = $this->getDeleteComponentsNames();
-        $configuredProcessor = $this->scopeConfig->getValue(Config::CONFIG_PATH_ERASURE_STRATEGY_COMPONENTS);
+        $configuredProcessor = $this->config->getErasureStrategyComponents();
         $missingProcessor = \array_diff(\array_intersect($anonymizeProcessor, $deleteProcessor), $configuredProcessor);
 
         return [
