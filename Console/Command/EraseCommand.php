@@ -53,7 +53,7 @@ class EraseCommand extends Command
         State $appState,
         Registry $registry,
         ErasureStrategy $erasureStrategy,
-        ?string $name = null
+        string $name = 'gdpr:customer:erase'
     ) {
         $this->appState = $appState;
         $this->registry = $registry;
@@ -68,7 +68,6 @@ class EraseCommand extends Command
     {
         parent::configure();
 
-        $this->setName('gdpr:customer:erase');
         $this->setDescription('Erase the customer\'s personal data.');
         $this->setDefinition([
             new InputArgument(

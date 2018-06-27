@@ -56,7 +56,7 @@ class ExportCommand extends Command
         State $appState,
         ExportManagement $exportManagement,
         ExportStrategy $exportStrategy,
-        ?string $name = null
+        string $name = 'gdpr:customer:export'
     ) {
         $this->appState = $appState;
         $this->exportManagement = $exportManagement;
@@ -71,7 +71,6 @@ class ExportCommand extends Command
     {
         parent::configure();
 
-        $this->setName('gdpr:customer:export');
         $this->setDescription('Export the customer\'s personal data.');
         $this->setDefinition([
             new InputArgument(

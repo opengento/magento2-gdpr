@@ -258,9 +258,9 @@ class Config
     private function getValueArray(
         string $path,
         string $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
-        ?string $scopeCode = null
+        string $scopeCode = ''
     ): array
     {
-        return \explode(',', $this->scopeConfig->getValue($path, $scopeType, $scopeCode));
+        return \explode(',', $this->scopeConfig->getValue($path, $scopeType, $scopeCode ?: null));
     }
 }

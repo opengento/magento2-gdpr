@@ -71,7 +71,7 @@ class ErasureComponentStrategy
      */
     public function getComponentsByStrategy(string $strategy): array
     {
-        return $this->componentsStrategies[$strategy] ?? [];
+        return $this->componentsStrategies[$strategy] ?: [];
     }
 
     /**
