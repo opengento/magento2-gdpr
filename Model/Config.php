@@ -35,7 +35,7 @@ class Config
     const CONFIG_PATH_EXPORT_CUSTOMER_ATTRIBUTES = 'gdpr/export/customer_attributes';
     const CONFIG_PATH_EXPORT_CUSTOMER_ADDRESS_ATTRIBUTES = 'gdpr/export/customer_address_attributes';
     const CONFIG_PATH_COOKIE_DISCLOSURE_ENABLED = 'gdpr/cookie/enabled';
-    const CONFIG_PATH_COOKIE_DISCLOSURE_INFORMATION = 'gdpr/cookie/information';
+    const CONFIG_PATH_COOKIE_INFORMATION_BLOCK = 'gdpr/cookie/block_id';
     /**#@-*/
 
     /**
@@ -69,7 +69,7 @@ class Config
      */
     public function getPrivacyInformationPageId(): string
     {
-        return $this->scopeConfig->getValue(self::CONFIG_PATH_GENERAL_INFORMATION_PAGE, ScopeInterface::SCOPE_STORE);
+        return $this->getValueString(self::CONFIG_PATH_GENERAL_INFORMATION_PAGE, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -79,7 +79,7 @@ class Config
      */
     public function getPrivacyInformationBlockId(): string
     {
-        return $this->scopeConfig->getValue(self::CONFIG_PATH_GENERAL_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
+        return $this->getValueString(self::CONFIG_PATH_GENERAL_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -129,7 +129,7 @@ class Config
      */
     public function getErasureInformationBlockId(): string
     {
-        return $this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
+        return $this->getValueString(self::CONFIG_PATH_ERASURE_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -139,7 +139,7 @@ class Config
      */
     public function getAnonymizeInformationBlockId(): string
     {
-        return $this->scopeConfig->getValue(self::CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
+        return $this->getValueString(self::CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -182,7 +182,7 @@ class Config
      */
     public function getExportInformationBlockId(): string
     {
-        return $this->scopeConfig->getValue(self::CONFIG_PATH_EXPORT_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
+        return $this->getValueString(self::CONFIG_PATH_EXPORT_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -192,7 +192,7 @@ class Config
      */
     public function getExportRendererCode(): string
     {
-        return $this->scopeConfig->getValue(self::CONFIG_PATH_EXPORT_RENDERER, ScopeInterface::SCOPE_STORE);
+        return $this->getValueString(self::CONFIG_PATH_EXPORT_RENDERER, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -226,16 +226,30 @@ class Config
     }
 
     /**
-     * Retrieve the cookie disclosure text information
+     * Retrieve the cookie disclosure information block ID
      *
      * @return string
      */
-    public function getCookieDisclosureInformation(): string
+    public function getCookieDisclosureInformationBlockId(): string
     {
-        return $this->scopeConfig->getValue(
-            self::CONFIG_PATH_COOKIE_DISCLOSURE_INFORMATION,
-            ScopeInterface::SCOPE_STORE
-        );
+        return $this->getValueString(self::CONFIG_PATH_COOKIE_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Retrieve the scope config value as a string
+     *
+     * @param string $path
+     * @param string $scopeType
+     * @param string $scopeCode [optional]
+     * @return string
+     */
+    private function getValueString(
+        string $path,
+        string $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+        string $scopeCode = ''
+    ): string
+    {
+        return (string) $this->scopeConfig->getValue($path, $scopeType, $scopeCode ?: null);
     }
 
     /**
@@ -243,7 +257,7 @@ class Config
      *
      * @param string $path
      * @param string $scopeType
-     * @param null|string $scopeCode
+     * @param string $scopeCode [optional]
      * @return array
      */
     private function getValueArray(

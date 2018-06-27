@@ -64,7 +64,7 @@ class UrlsDataProvider implements ArgumentInterface
      */
     public function getInformationPageUrl(): string
     {
-        return $this->helperPage->getPageUrl($this->config->getPrivacyInformationPageId());
+        return (string) $this->helperPage->getPageUrl($this->config->getPrivacyInformationPageId());
     }
 
     /**
