@@ -9,7 +9,6 @@ namespace Opengento\Gdpr\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
-use Opengento\Gdpr\Model\Config\ErasureComponentStrategy;
 
 /**
  * Class Config
@@ -45,20 +44,12 @@ class Config
     private $scopeConfig;
 
     /**
-     * @var \Opengento\Gdpr\Model\Config\ErasureComponentStrategy
-     */
-    private $erasureComponentStrategy;
-
-    /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Opengento\Gdpr\Model\Config\ErasureComponentStrategy $erasureComponentStrategy
      */
     public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        ErasureComponentStrategy $erasureComponentStrategy
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->scopeConfig = $scopeConfig;
-        $this->erasureComponentStrategy = $erasureComponentStrategy;
     }
 
     /**
