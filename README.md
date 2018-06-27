@@ -5,6 +5,20 @@
 
 This extension allows customers to delete, anonymize, and export their personal data.
 
+ - [Setup](#setup)
+   - [Get the package](#get-the-package)
+   - [Install the module](#install-the-module)
+ - [Usage](#usage)
+ - [Settings](#settings)
+ - [Developers](#developers)
+   - [Extends Export](#extends-export)
+   - [Extends Deletion](#extends-deletion)
+   - [Extends Anonymization](#extends-anonymization)
+   - [Erasure Strategy](#erasure-strategy)
+ - [Support](#support)
+ - [Authors](#authors)
+ - [License](#license)
+
 ## Setup
 
 Magento 2 Open Source or Commerce edition is required.
@@ -34,10 +48,10 @@ bin/magento setup:upgrade
 ## Usage
 
 * Account deletion, anonymization, and export can be done in 'My Account > Privacy Settings'.
-* Customers can export their data in .zip archive containing .csv files with personal, wishlist, quote, and address data.
-* Customer can delete or anonymize their account. Current password and reason is required. Account will be deleted within 1 hour (or as specified in configuration), in this time span its possible for customers to undo deletion.
-* If customer has made at least one order, they are ineligible to delete their account, instead it will be anonymized.
-* When a customer visits your store for the first time, a popup notification about cookie policy will be shown.
+  * Customers can export their data in `.zip` archive containing file, `.html` by default, with personal data.
+  * Customers can use their 'right to be forgotten'. The password is required to ensure the customer legibility.
+    The account will be erased within 1 hour, or as specified in configuration. The customer can undo the action in this time span.
+* Cookie Policy in a disclosure popup are shown at the first time customer visit.
 
 ## Settings
 
