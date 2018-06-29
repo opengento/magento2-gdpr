@@ -7,21 +7,21 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Anonymize\Processor;
 
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\AddressRepositoryInterface;
-use Opengento\Gdpr\Model\Config;
+use Magento\Customer\Api\Data\AddressInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Opengento\Gdpr\Service\Anonymize\AnonymizeTool;
 use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
-use Opengento\Gdpr\Service\Anonymize\AbstractAnonymize;
 
 /**
  * Class CustomerAddressDataProcessor
  */
-class CustomerAddressDataProcessor extends AbstractAnonymize implements ProcessorInterface
+class CustomerAddressDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizeTool
      */
-    private $customerRepository;
+    private $anonymizeTool;
 
     /**
      * @var \Magento\Customer\Api\AddressRepositoryInterface
@@ -29,49 +29,45 @@ class CustomerAddressDataProcessor extends AbstractAnonymize implements Processo
     private $customerAddressRepository;
 
     /**
-     * @var \Opengento\Gdpr\Model\Config
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder
      */
-    private $config;
+    private $searchCriteriaBuilder;
 
     /**
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizeTool $anonymizeTool
      * @param \Magento\Customer\Api\AddressRepositoryInterface $customerAddressRepository
-     * @param \Opengento\Gdpr\Model\Config
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
-        CustomerRepositoryInterface $customerRepository,
+        AnonymizeTool $anonymizeTool,
         AddressRepositoryInterface $customerAddressRepository,
-        Config $config
+        SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
-        $this->customerRepository = $customerRepository;
+        $this->anonymizeTool = $anonymizeTool;
         $this->customerAddressRepository = $customerAddressRepository;
-        $this->config = $config;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
+    /**
+     * {@inheritdoc}
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
     public function execute(int $customerId): bool
     {
-        try {
-            $customer = $this->customerRepository->getById($customerId);
-            $addressCollection = $customer->getAddressesCollection();
+        $this->searchCriteriaBuilder->addFilter(AddressInterface::CUSTOMER_ID, $customerId);
+        $addressList = $this->customerAddressRepository->getList($this->searchCriteriaBuilder->create());
+        $anonymousValue = $this->anonymizeTool->anonymousValue();
 
-            foreach($addressCollection as $address)
-            {
-                $this->hydrator->hydrate(
-                    $address,
-                    [
-                        'firstname' => $this->anonymousValue(),
-                        'lastname' => $this->anonymousValue(),
-                        'street' => $this->anonymousValue(),
-                        'city' => $this->anonymousValue(),
-                        'telephone' => $this->anonymousValue(),
-                        'postcode' => $this->anonymousValue()
-                    ]
-                );
+        foreach ($addressList->getItems() as $address) {
+            $address->setFirstname($anonymousValue);
+            $address->setMiddlename($anonymousValue);
+            $address->setLastname($anonymousValue);
+            $address->setStreet([$anonymousValue]);
+            $address->setCity($anonymousValue);
+            $address->setTelephone($anonymousValue);
+            $address->setPostcode($anonymousValue);
 
-                $this->customerAddressRepository->save($address);
-            }
-        } catch (NoSuchEntityException $e) {
-            /** Silence is golden */
+            $this->customerAddressRepository->save($address);
         }
 
         return true;

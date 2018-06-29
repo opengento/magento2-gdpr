@@ -8,16 +8,19 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Anonymize\Processor;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Framework\EntityManager\Hydrator;
-use Opengento\Gdpr\Model\Config;
-use Opengento\Gdpr\Service\Anonymize\AbstractAnonymize;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Opengento\Gdpr\Service\Anonymize\AnonymizeTool;
 use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
 
 /**
  * Class CustomerDataProcessor
  */
-class CustomerDataProcessor extends AbstractAnonymize implements ProcessorInterface
+class CustomerDataProcessor implements ProcessorInterface
 {
+    /**
+     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizeTool
+     */
+    private $anonymizeTool;
 
     /**
      * @var \Magento\Customer\Api\CustomerRepositoryInterface
@@ -25,50 +28,31 @@ class CustomerDataProcessor extends AbstractAnonymize implements ProcessorInterf
     private $customerRepository;
 
     /**
-     * @var \Magento\Framework\EntityManager\Hydrator
-     */
-    private $hydrator;
-
-    /**
-     * @var \Opengento\Gdpr\Model\Config
-     */
-    private $config;
-
-    /**
+     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizeTool $anonymizeTool
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-     * @param \Magento\Framework\EntityManager\Hydrator $hydrator
-     * @param \Opengento\Gdpr\Model\Config $config
      */
     public function __construct(
-        CustomerRepositoryInterface $customerRepository,
-        Hydrator $hydrator,
-        Config $config
+        AnonymizeTool $anonymizeTool,
+        CustomerRepositoryInterface $customerRepository
     ) {
+        $this->anonymizeTool = $anonymizeTool;
         $this->customerRepository = $customerRepository;
-        $this->hydrator = $hydrator;
-        $this->config = $config;
     }
 
     /**
      * {@inheritdoc}
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function execute(int $customerId): bool
     {
         try {
             $customer = $this->customerRepository->getById($customerId);
-            $this->hydrator->hydrate(
-                $customer,
-                [
-                    'firstname' => $this->anonymousValue(),
-                    'lastname' => $this->anonymousValue(),
-                    'email' => $this->anonymousEmail(),
-                ]
-            );
+            $customer->setFirstname($this->anonymizeTool->anonymousValue());
+            $customer->setMiddlename($this->anonymizeTool->anonymousValue());
+            $customer->setLastname($this->anonymizeTool->anonymousValue());
+            $customer->setEmail($this->anonymizeTool->anonymousEmail());
 
             $this->customerRepository->save($customer);
-
         } catch (NoSuchEntityException $e) {
             /** Silence is golden */
         }

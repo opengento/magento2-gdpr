@@ -28,7 +28,7 @@ class SalesDataProcessor implements ProcessorInterface
     private $searchCriteriaBuilder;
 
     /**
-     * SalesDataProcessor constructor.
+     * OrderDataProcessor constructor.
      * @param \Magento\Sales\Model\OrderRepository $orderRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      */

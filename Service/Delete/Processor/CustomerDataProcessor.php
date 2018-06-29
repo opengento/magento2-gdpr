@@ -5,11 +5,12 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Service\Delete;
+namespace Opengento\Gdpr\Service\Delete\Processor;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Opengento\Gdpr\Model\Config;
+use Opengento\Gdpr\Service\Delete\ProcessorInterface;
 
 /**
  * Class CustomerDataProcessor

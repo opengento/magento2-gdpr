@@ -7,20 +7,25 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Anonymize\Processor;
 
-use Magento\Newsletter\Model\Subscriber;
 use Magento\Newsletter\Model\ResourceModel\Subscriber as ResourceSubscriber;
+use Magento\Newsletter\Model\SubscriberFactory;
+use Opengento\Gdpr\Service\Anonymize\AnonymizeTool;
 use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
-use Opengento\Gdpr\Service\Anonymize\AbstractAnonymize;
 
 /**
  * Class SubscriberDataProcessor
  */
-class SubscriberDataProcessor extends AbstractAnonymize implements ProcessorInterface
+class SubscriberDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Magento\Newsletter\Model\Subscriber
+     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizeTool
      */
-    private $subscriber;
+    private $anonymizeTool;
+
+    /**
+     * @var \Magento\Newsletter\Model\SubscriberFactory
+     */
+    private $subscriberFactory;
 
     /**
      * @var \Magento\Newsletter\Model\ResourceModel\Subscriber
@@ -28,29 +33,30 @@ class SubscriberDataProcessor extends AbstractAnonymize implements ProcessorInte
     private $subscriberResourceModel;
 
     /**
-     * @param \Magento\Newsletter\Model\Subscriber $subscriber
+     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizeTool $anonymizeTool
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\Newsletter\Model\ResourceModel\Subscriber $subscriberResourceModel
      */
     public function __construct(
-        Subscriber $subscriber,
+        AnonymizeTool $anonymizeTool,
+        SubscriberFactory $subscriberFactory,
         ResourceSubscriber $subscriberResourceModel
     ) {
-        $this->subscriber = $subscriber;
+        $this->anonymizeTool = $anonymizeTool;
+        $this->subscriberFactory = $subscriberFactory;
         $this->subscriberResourceModel = $subscriberResourceModel;
     }
 
     /**
      * {@inheritdoc}
+     * @throws \Exception
      */
     public function execute(int $customerId): bool
     {
-        try {
-            $subscriber = $this->subscriber->loadByCustomerId($customerId);
-            $subscriber->setData('subscriber_email', $this->anonymousEmail());
-            $this->subscriberResourceModel->save($subscriber);
-
-        } catch (NoSuchEntityException $e) {
-            /** Silence is golden */
-        }
+        $subscriber = $this->subscriberFactory->create();
+        $subscriber->loadByCustomerId($customerId);
+        $subscriber->setEmail($this->anonymizeTool->anonymousEmail());
+        $this->subscriberResourceModel->save($subscriber);
 
         return true;
     }
