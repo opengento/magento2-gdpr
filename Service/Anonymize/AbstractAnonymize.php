@@ -41,6 +41,16 @@ abstract class AbstractAnonymize implements ProcessorInterface
     }
 
     /**
+     * Retrieve an anonymous email
+     *
+     * @return string
+     */
+    protected function anonymousEmail(): string
+    {
+        return (new Phrase('anonymous@gdpr.com'))->render();
+    }
+
+    /**
      * Retrieve a random value
      *
      * @param int $length
