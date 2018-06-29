@@ -11,7 +11,10 @@
         <arguments>
             <argument name="type" xsi:type="string">Opengento\Gdpr\Service\Anonymize\ProcessorInterface</argument>
             <argument name="array" xsi:type="array">
-                <!-- todo -->
+                <item name="customer_data" xsi:type="string">Opengento\Gdpr\Service\Anonymize\CustomerDataProcessor</item>
+                <item name="customer_address_data" xsi:type="string">Opengento\Gdpr\Service\Anonymize\CustomerAddressDataProcessor</item>
+                <item name="sales_data" xsi:type="string">Opengento\Gdpr\Service\Anonymize\SalesDataProcessor</item>
+                <item name="subscriber_data" xsi:type="string">Opengento\Gdpr\Service\Anonymize\SubscriberDataProcessor</item>
             </argument>
         </arguments>
     </virtualType>
@@ -26,7 +29,6 @@
             <argument name="type" xsi:type="string">Opengento\Gdpr\Service\Delete\ProcessorInterface</argument>
             <argument name="array" xsi:type="array">
                 <item name="customer_data" xsi:type="string">Opengento\Gdpr\Service\Delete\CustomerDataProcessor</item>
-                <!-- todo -->
             </argument>
         </arguments>
     </virtualType>
