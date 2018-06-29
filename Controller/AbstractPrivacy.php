@@ -24,7 +24,7 @@ abstract class AbstractPrivacy extends AbstractAccount implements ActionInterfac
      */
     public function forwardNoRoute(): ResultInterface
     {
-        /** @var \Magento\Backend\Model\View\Result\Forward $resultForward */
+        /** @var \Magento\Framework\Controller\Result\Forward $resultForward */
         $resultForward = $this->resultFactory->create(ResultFactory::TYPE_FORWARD);
         return $resultForward->forward('no_route');
     }
