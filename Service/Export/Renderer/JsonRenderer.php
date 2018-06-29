@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Export\Renderer;
 
 use Magento\Framework\Filesystem;
-use Magento\Framework\Serialize\Serializer\Json;
+use Magento\Framework\Json\Encoder;
 use Opengento\Gdpr\Service\Export\AbstractRenderer;
 use Opengento\Gdpr\Service\Export\RendererInterface;
 
@@ -18,19 +18,19 @@ use Opengento\Gdpr\Service\Export\RendererInterface;
 class JsonRenderer extends AbstractRenderer implements RendererInterface
 {
     /**
-     * @var \Magento\Framework\Serialize\Serializer\Json
+     * @var \Magento\Framework\Json\Encoder
      */
-    private $jsonSerializer;
+    private $jsonEncoder;
 
     /**
      * @param \Magento\Framework\Filesystem $filesystem
-     * @param \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
+     * @param \Magento\Framework\Json\Encoder $jsonEncoder
      */
     public function __construct(
         Filesystem $filesystem,
-        Json $jsonSerializer
+        Encoder $jsonEncoder
     ) {
-        $this->jsonSerializer = $jsonSerializer;
+        $this->jsonEncoder = $jsonEncoder;
         parent::__construct($filesystem);
     }
 
@@ -39,6 +39,6 @@ class JsonRenderer extends AbstractRenderer implements RendererInterface
      */
     public function render(array $data): string
     {
-        return $this->jsonSerializer->serialize($data);
+        return $this->jsonEncoder->encode($data);
     }
 }

@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Block\Messages;
 
 use Magento\Cms\Helper\Page as HelperPage;
-use Magento\Framework\Serialize\Serializer\Json;
+use Magento\Framework\Json\Encoder;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Opengento\Gdpr\Model\Config;
@@ -31,9 +31,9 @@ class PrivacyMessagePopup extends Template
     private $helperPage;
 
     /**
-     * @var \Magento\Framework\Serialize\Serializer\Json
+     * @var \Magento\Framework\Json\Encoder 
      */
-    private $jsonSerializer;
+    private $jsonEncoder;
 
     /**
      * @var string
@@ -44,19 +44,19 @@ class PrivacyMessagePopup extends Template
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Cms\Helper\Page $helperPage
-     * @param \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
+     * @param \Magento\Framework\Json\Encoder $jsonEncoder
      * @param array $data
      */
     public function __construct(
         Context $context,
         Config $config,
         HelperPage $helperPage,
-        Json $jsonSerializer,
+        Encoder $jsonEncoder,
         array $data = []
     ) {
         $this->config = $config;
         $this->helperPage = $helperPage;
-        $this->jsonSerializer = $jsonSerializer;
+        $this->jsonEncoder = $jsonEncoder;
         parent::__construct($context, $data);
     }
 
@@ -71,7 +71,7 @@ class PrivacyMessagePopup extends Template
             'notificationText' => $this->config->getCookieDisclosureInformationBlockId()
         ];
 
-        return $this->jsonSerializer->serialize($this->jsLayout);
+        return $this->jsonEncoder->encode($this->jsLayout);
     }
 
     /**
