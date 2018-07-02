@@ -5,10 +5,11 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Service\Export\Processor;
+namespace Opengento\Gdpr\Service\Delete\Processor;
 
+use Magento\Newsletter\Model\ResourceModel\Subscriber as ResourceSubscriber;
 use Magento\Newsletter\Model\SubscriberFactory;
-use Opengento\Gdpr\Service\Export\ProcessorInterface;
+use Opengento\Gdpr\Service\Delete\ProcessorInterface;
 
 /**
  * Class SubscriberDataProcessor
@@ -21,24 +22,33 @@ class SubscriberDataProcessor implements ProcessorInterface
     private $subscriberFactory;
 
     /**
+     * @var \Magento\Newsletter\Model\ResourceModel\Subscriber
+     */
+    private $subscriberResourceModel;
+
+    /**
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\Newsletter\Model\ResourceModel\Subscriber $subscriberResourceModel
      */
     public function __construct(
-        SubscriberFactory $subscriberFactory
+        SubscriberFactory $subscriberFactory,
+        ResourceSubscriber $subscriberResourceModel
     ) {
         $this->subscriberFactory = $subscriberFactory;
+        $this->subscriberResourceModel = $subscriberResourceModel;
     }
 
     /**
      * {@inheritdoc}
+     * @throws \Exception
      */
-    public function execute(int $customerId, array $data): array
+    public function execute(int $customerId): bool
     {
         /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
         $subscriber = $this->subscriberFactory->create();
         $subscriber->loadByCustomerId($customerId);
-        $data['orders'] = $subscriber->toArray();
+        $this->subscriberResourceModel->delete($subscriber);
 
-        return $data;
+        return true;
     }
 }

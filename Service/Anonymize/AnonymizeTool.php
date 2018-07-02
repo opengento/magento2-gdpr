@@ -11,17 +11,16 @@ use Magento\Framework\Math\Random;
 use Magento\Framework\Phrase;
 
 /**
- * Class AbstractAnonymize
+ * Class AnonymizeTool
  */
-abstract class AbstractAnonymize implements ProcessorInterface
+class AnonymizeTool
 {
     /**
      * @var \Magento\Framework\Math\Random
      */
-    protected $mathRandom;
+    private $mathRandom;
 
     /**
-     * AbstractAnonymize constructor.
      * @param \Magento\Framework\Math\Random $mathRandom
      */
     public function __construct(
@@ -35,20 +34,41 @@ abstract class AbstractAnonymize implements ProcessorInterface
      *
      * @return string
      */
-    protected function anonymousValue(): string
+    public function anonymousValue(): string
     {
         return (new Phrase('Anonymous'))->render();
+    }
+
+    /**
+     * Retrieve an anonymous email
+     *
+     * @return string
+     */
+    public function anonymousEmail(): string
+    {
+        return (new Phrase('anonymous@gdpr.com'))->render();
+    }
+
+    /**
+     * Retrieve anonymous phone number
+     *
+     * @return string
+     */
+    public function anonymousPhone(): string
+    {
+        return (new Phrase('9999999999'))->render();
     }
 
     /**
      * Retrieve a random value
      *
      * @param int $length
+     * @param null|string $chars
      * @return string
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    protected function randomValue(int $length = 10): string
+    public function randomValue(int $length = 10, string $chars = ''): string
     {
-        return $this->mathRandom->getRandomString($length);
+        return $this->mathRandom->getRandomString($length, $chars ?: null);
     }
 }

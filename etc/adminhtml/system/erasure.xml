@@ -17,7 +17,7 @@
             <config_path>gdpr/erasure/enabled</config_path>
         </field>
         <field id="strategy" type="select" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-            <label>Erasure Strategy</label>
+            <label>Default Erasure Strategy</label>
             <source_model>Opengento\Gdpr\Model\Config\Source\EraseStrategy</source_model>
             <depends>
                 <field id="gdpr/erasure/enabled">1</field>
@@ -59,25 +59,17 @@
                 <source_model>Opengento\Gdpr\Model\Config\Source\Block</source_model>
                 <config_path>gdpr/anonymize/block_id</config_path>
             </field>
-            <field id="customer_attributes" type="multiselect" translate="label comment" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Customer Attributes</label>
-                <comment>This attributes list will be anonymized when processed.</comment>
-                <source_model>Opengento\Gdpr\Model\Config\Source\CustomerAttributes</source_model>
-                <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
-                <config_path>gdpr/anonymize/customer_attributes</config_path>
+            <field id="remove_customer" type="select" translate="label comment" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Delete Customer if no Orders</label>
+                <comment>We will delete the customer if he has no orders.</comment>
+                <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                <config_path>gdpr/erasure/remove_customer</config_path>
             </field>
-            <field id="customer_address_attributes" type="multiselect" translate="label comment" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Customer Address Attributes</label>
-                <comment>This address attributes list will be anonymized when processed.</comment>
-                <source_model>Opengento\Gdpr\Model\Config\Source\CustomerAddressAttributes</source_model>
-                <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
-                <config_path>gdpr/anonymize/customer_address_attributes</config_path>
-            </field>
-            <field id="components" type="multiselect" translate="label comment" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <field id="components" type="editablemultiselect" translate="label comment" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Apply Deletion Strategy</label>
                 <comment>This processors list allows to configure specific erasure strategy by component.</comment>
                 <source_model>Opengento\Gdpr\Model\Config\Source\ErasureComponents</source_model>
-                <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                <can_be_empty>1</can_be_empty>
                 <config_path>gdpr/erasure/components</config_path>
             </field>
         </group>

@@ -7,7 +7,10 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Export\Processor;
 
-use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Api\AddressRepositoryInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SearchResultsInterface;
+use Magento\Framework\EntityManager\Hydrator;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Service\Export\ProcessorInterface;
 
@@ -17,9 +20,19 @@ use Opengento\Gdpr\Service\Export\ProcessorInterface;
 class CustomerAddressDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     * @var \Magento\Customer\Api\AddressRepositoryInterface
      */
-    private $customerRepository;
+    private $addressRepository;
+
+    /**
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     */
+    private $searchCriteriaBuilder;
+
+    /**
+     * @var \Magento\Framework\EntityManager\Hydrator
+     */
+    private $hydrator;
 
     /**
      * @var \Opengento\Gdpr\Model\Config
@@ -27,14 +40,20 @@ class CustomerAddressDataProcessor implements ProcessorInterface
     private $config;
 
     /**
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-     * @param \Opengento\Gdpr\Model\Config
+     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\EntityManager\Hydrator $hydrator
+     * @param \Opengento\Gdpr\Model\Config $config
      */
     public function __construct(
-        CustomerRepositoryInterface $customerRepository,
+        AddressRepositoryInterface $addressRepository,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        Hydrator $hydrator,
         Config $config
     ) {
-        $this->customerRepository = $customerRepository;
+        $this->addressRepository = $addressRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->hydrator = $hydrator;
         $this->config = $config;
     }
 
@@ -45,13 +64,37 @@ class CustomerAddressDataProcessor implements ProcessorInterface
      */
     public function execute(int $customerId, array $data): array
     {
-        /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = $this->customerRepository->getById($customerId);
-        $addressCollection = $customer->getAddressesCollection();
+        $this->searchCriteriaBuilder->addFilter('parent_id', $customerId);
+        $addressList = $this->addressRepository->getList($this->searchCriteriaBuilder->create());
+        $data['customer_addresses'] = $this->generateArray($addressList);
 
-        return \array_merge_recursive(
-            $data,
-            ['customer_addresses' => $addressCollection->toArray($this->config->getAnonymizeCustomerAddressAttributes())]
-        );
+        return $data;
+    }
+
+    /**
+     * Collect the customer addresses data to export
+     *
+     * @param \Magento\Framework\Api\SearchResultsInterface $searchResults
+     * @return array
+     */
+    private function generateArray(SearchResultsInterface $searchResults): array
+    {
+        $result = [];
+
+        /** @var \Magento\Customer\Api\Data\AddressInterface $entity */
+        foreach ($searchResults->getItems() as $entity) {
+            $data = [];
+            $entityData = $this->hydrator->extract($entity);
+
+            foreach ($this->config->getExportCustomerAddressAttributes() as $attributeCode) {
+                if (isset($entityData[$attributeCode])) {
+                    $data[$attributeCode] = $entityData[$attributeCode];
+                }
+            }
+
+            $result[$entity->getId()] = $data;
+        }
+
+        return $result;
     }
 }

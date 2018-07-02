@@ -36,7 +36,7 @@
             <label>Customer Attributes</label>
             <comment>This attributes list will be exported when processed.</comment>
             <source_model>Opengento\Gdpr\Model\Config\Source\CustomerAttributes</source_model>
-            <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+            <can_be_empty>1</can_be_empty>
             <depends>
                 <field id="gdpr/export/enabled">1</field>
             </depends>
@@ -46,7 +46,7 @@
             <label>Customer Address Attributes</label>
             <comment>This address attributes list will be exported when processed.</comment>
             <source_model>Opengento\Gdpr\Model\Config\Source\CustomerAddressAttributes</source_model>
-            <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+            <can_be_empty>1</can_be_empty>
             <depends>
                 <field id="gdpr/export/enabled">1</field>
             </depends>

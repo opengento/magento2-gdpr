@@ -25,10 +25,9 @@ class Config
     const CONFIG_PATH_ERASURE_STRATEGY = 'gdpr/erasure/strategy';
     const CONFIG_PATH_ERASURE_TIME_LAPSE = 'gdpr/erasure/time_lapse';
     const CONFIG_PATH_ERASURE_INFORMATION_BLOCK = 'gdpr/erasure/block_id';
+    const CONFIG_PATH_ERASURE_REMOVE_CUSTOMER = 'gdpr/erasure/remove_customer';
     const CONFIG_PATH_ERASURE_STRATEGY_COMPONENTS = 'gdpr/erasure/components';
     const CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK = 'gdpr/anonymize/block_id';
-    const CONFIG_PATH_ANONYMIZE_CUSTOMER_ATTRIBUTES = 'gdpr/anonymize/customer_attributes';
-    const CONFIG_PATH_ANONYMIZE_CUSTOMER_ADDRESS_ATTRIBUTES = 'gdpr/anonymize/customer_address_attributes';
     const CONFIG_PATH_EXPORT_ENABLED = 'gdpr/export/enabled';
     const CONFIG_PATH_EXPORT_INFORMATION_BLOCK = 'gdpr/export/block_id';
     const CONFIG_PATH_EXPORT_RENDERER = 'gdpr/export/renderer';
@@ -103,6 +102,16 @@ class Config
     }
 
     /**
+     * Check if the customer can be removed if he has no orders
+     *
+     * @return bool
+     */
+    public function isCustomerRemovedNoOrders(): bool
+    {
+        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_ERASURE_REMOVE_CUSTOMER, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
      * Retrieve the components configured for the deletion strategy
      *
      * @return array
@@ -140,29 +149,6 @@ class Config
     public function getAnonymizeInformationBlockId(): string
     {
         return $this->getValueString(self::CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
-    }
-
-    /**
-     * Retrieve the anonymous customer attributes codes
-     *
-     * @return array
-     */
-    public function getAnonymizeCustomerAttributes(): array
-    {
-        return $this->getValueArray(self::CONFIG_PATH_ANONYMIZE_CUSTOMER_ATTRIBUTES, ScopeInterface::SCOPE_STORE);
-    }
-
-    /**
-     * Retrieve the anonymous customer address attributes codes
-     *
-     * @return array
-     */
-    public function getAnonymizeCustomerAddressAttributes(): array
-    {
-        return $this->getValueArray(
-            self::CONFIG_PATH_ANONYMIZE_CUSTOMER_ADDRESS_ATTRIBUTES,
-            ScopeInterface::SCOPE_STORE
-        );
     }
 
     /**

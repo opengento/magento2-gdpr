@@ -16,17 +16,13 @@
                 <strategy>anonymize</strategy>
                 <time_lapse>3600</time_lapse>
                 <schedule>* * * * *</schedule>
-                <components></components><!-- todo -->
+                <components>customer_address,subscriber</components>
             </erasure>
-            <anonymize>
-                <customer_attributes></customer_attributes><!-- todo -->
-                <customer_address_attributes></customer_address_attributes><!-- todo -->
-            </anonymize>
             <export>
                 <enabled>0</enabled>
                 <renderer>html</renderer>
-                <customer_attributes></customer_attributes><!-- todo -->
-                <customer_address_attributes></customer_address_attributes><!-- todo -->
+                <customer_attributes>prefix,firstname,middlename,lastname,suffix,email,dob,gender,taxvat</customer_attributes>
+                <customer_address_attributes>prefix,firstname,middlename,lastname,suffix,company,street,city,country_id,province,postcode,fax,telephone,vat_id</customer_address_attributes>
             </export>
         </gdpr>
     </default>
