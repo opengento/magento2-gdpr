@@ -169,10 +169,6 @@ Do not forget to use the right services managers, but you are free to use yours:
 - `Opengento\Gdpr\Service\AnonymizeManagement`
 - `Opengento\Gdpr\Service\DeleteManagement`
 
-## How To Implement
-
-If you want to add you own logic and specificities 
-
 ## Support
 
 Raise a new [request](https://github.com/opengento/magento2-gdpr/issues) to the issue tracker.  
@@ -184,7 +180,7 @@ Please provide your Magento 2 version and the module version. Explain how to rep
 - **Opengento Community** - *Lead* - [They're awesome!](https://github.com/opengento)
 - **Contributors** - *Contributor* - [Many thanks!](https://github.com/opengento/magento2-gdpr/graphs/contributors)
 
-## Licence
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) details.
 
