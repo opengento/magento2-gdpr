@@ -16,6 +16,7 @@
                 <strategy>anonymize</strategy>
                 <time_lapse>3600</time_lapse>
                 <schedule>* * * * *</schedule>
+                <remove_customer>1</remove_customer>
                 <components>customer_address,subscriber</components>
             </erasure>
             <export>
