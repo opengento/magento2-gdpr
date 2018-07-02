@@ -46,7 +46,7 @@ class CustomerDataProcessor implements ProcessorInterface
     public function execute(int $customerId): bool
     {
         try {
-            $this->customerRepository->delete($this->customerRepository->getById($customerId));
+            $this->customerRepository->deleteById($customerId);
         } catch (NoSuchEntityException $e) {
             /** Silence is golden */
         }

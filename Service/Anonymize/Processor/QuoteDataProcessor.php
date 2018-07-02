@@ -9,9 +9,9 @@ namespace Opengento\Gdpr\Service\Anonymize\Processor;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Math\Random;
-use Magento\Quote\Api\Data\CartInterface;
 use Magento\Quote\Model\QuoteRepository;
 use Magento\Quote\Model\ResourceModel\Quote\Address;
+use Opengento\Gdpr\Service\Anonymize\AnonymizeTool;
 use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
 
 /**
@@ -40,15 +40,18 @@ class QuoteDataProcessor implements ProcessorInterface
     private $searchCriteriaBuilder;
 
     /**
+     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizeTool $anonymizeTool
      * @param \Magento\Quote\Model\QuoteRepository $quoteRepository
      * @param \Magento\Quote\Model\ResourceModel\Quote\Address $quoteAddressResourceModel
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
+        AnonymizeTool $anonymizeTool,
         QuoteRepository $quoteRepository,
         Address $quoteAddressResourceModel,
         SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
+        $this->anonymizeTool = $anonymizeTool;
         $this->quoteRepository = $quoteRepository;
         $this->quoteAddressResourceModel = $quoteAddressResourceModel;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
@@ -60,7 +63,7 @@ class QuoteDataProcessor implements ProcessorInterface
      */
     public function execute(int $customerId): bool
     {
-        $searchCriteria = $this->searchCriteriaBuilder->addFilter(CartInterface::KEY_CUSTOMER, $customerId);
+        $searchCriteria = $this->searchCriteriaBuilder->addFilter('customer_id', $customerId);
         $quoteList = $this->quoteRepository->getList($searchCriteria->create());
         $anonymousValue = $this->anonymizeTool->anonymousValue();
 

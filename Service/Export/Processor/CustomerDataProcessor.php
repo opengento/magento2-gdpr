@@ -17,7 +17,6 @@ use Opengento\Gdpr\Service\Export\ProcessorInterface;
  */
 class CustomerDataProcessor implements ProcessorInterface
 {
-
     /**
      * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
@@ -56,15 +55,13 @@ class CustomerDataProcessor implements ProcessorInterface
     public function execute(int $customerId, array $data): array
     {
         $customerData = $this->hydrator->extract($this->customerRepository->getById($customerId));
+        $data['customer'] = $this->generateArray($customerData);
 
-        return \array_merge_recursive(
-            $data,
-            ['customer' => $this->generateArray($customerData)]
-        );
+        return $data;
     }
 
     /**
-     * Generate the customer data to export
+     * Collect the customer data to export
      *
      * @param array $customerData
      * @return array
@@ -73,9 +70,9 @@ class CustomerDataProcessor implements ProcessorInterface
     {
         $data = [];
 
-        foreach ($this->config->getAnonymizeCustomerAttributes() as $attributeCode) {
+        foreach ($this->config->getExportCustomerAttributes() as $attributeCode) {
             if (isset($customerData[$attributeCode])) {
-                $data[] = $customerData[$attributeCode];
+                $data[$attributeCode] = $customerData[$attributeCode];
             }
         }
 

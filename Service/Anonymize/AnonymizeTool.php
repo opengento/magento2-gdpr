@@ -21,7 +21,6 @@ class AnonymizeTool
     private $mathRandom;
 
     /**
-     * AnonymizeTool constructor.
      * @param \Magento\Framework\Math\Random $mathRandom
      */
     public function __construct(
@@ -51,6 +50,16 @@ class AnonymizeTool
     }
 
     /**
+     * Retrieve anonymous phone number
+     *
+     * @return string
+     */
+    public function anonymousPhone(): string
+    {
+        return (new Phrase('9999999999'))->render();
+    }
+
+    /**
      * Retrieve a random value
      *
      * @param int $length
@@ -58,8 +67,8 @@ class AnonymizeTool
      * @return string
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function randomValue(int $length = 10, ?string $chars = null): string
+    public function randomValue(int $length = 10, string $chars = ''): string
     {
-        return $this->mathRandom->getRandomString($length, $chars);
+        return $this->mathRandom->getRandomString($length, $chars ?: null);
     }
 }

@@ -13,15 +13,19 @@ $viewModel = $block->getData('viewModel');
     <div class="block">
         <div class="title"><?= $block->escapeHtml($key) ?></div>
         <div class="content">
-            <?php if (is_array($value)): ?>
+            <?php if ($value && is_array($value)): ?>
                 <?= $block->getLayout()->createBlock(
                         \Magento\Framework\View\Element\Template::class,
                         $block->getNameInLayout() . '_' . $key,
-                        ['data' => ['viewModel' => new Magento\Framework\DataObject($value)]]
+                        [
+                            'data' => [
+                                'viewModel' => new \Magento\Framework\DataObject($value),
+                                'template' => 'Opengento_Gdpr::export/result.phtml'
+                            ]
+                        ]
                     )->toHtml() ?>
-            <?php else: ?>
-                <div class="block">
-                    <?= $block->escapeHtml($value) ?>
+            <?php elseif ($value): ?>
+                <span><?= $block->escapeHtml($value) ?></span>
             <?php endif; ?>
         </div>
     </div>

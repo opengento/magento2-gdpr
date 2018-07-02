@@ -8,7 +8,11 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Anonymize\Processor;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Sales\Api\Data\OrderInterface;
+use Magento\Sales\Api\OrderRepositoryInterface;
+use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Service\Anonymize\AnonymizeTool;
 use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
 
@@ -28,15 +32,39 @@ class CustomerDataProcessor implements ProcessorInterface
     private $customerRepository;
 
     /**
+     * @var \Magento\Sales\Api\OrderRepositoryInterface
+     */
+    private $orderRepository;
+
+    /**
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     */
+    private $searchCriteriaBuilder;
+
+    /**
+     * @var \Opengento\Gdpr\Model\Config
+     */
+    private $config;
+
+    /**
      * @param \Opengento\Gdpr\Service\Anonymize\AnonymizeTool $anonymizeTool
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Opengento\Gdpr\Model\Config $config
      */
     public function __construct(
         AnonymizeTool $anonymizeTool,
-        CustomerRepositoryInterface $customerRepository
+        CustomerRepositoryInterface $customerRepository,
+        OrderRepositoryInterface $orderRepository,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        Config $config
     ) {
         $this->anonymizeTool = $anonymizeTool;
         $this->customerRepository = $customerRepository;
+        $this->orderRepository = $orderRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->config = $config;
     }
 
     /**
@@ -46,11 +74,23 @@ class CustomerDataProcessor implements ProcessorInterface
     public function execute(int $customerId): bool
     {
         try {
+            if ($this->config->isCustomerRemovedNoOrders()) {
+                $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
+                $orderList = $this->orderRepository->getList($this->searchCriteriaBuilder->create());
+
+                if (!$orderList->getTotalCount()) {
+                    $this->customerRepository->deleteById($customerId);
+
+                    return true;
+                }
+            }
+
             $customer = $this->customerRepository->getById($customerId);
             $customer->setFirstname($this->anonymizeTool->anonymousValue());
             $customer->setMiddlename($this->anonymizeTool->anonymousValue());
             $customer->setLastname($this->anonymizeTool->anonymousValue());
-            $customer->setEmail($this->anonymizeTool->anonymousEmail());
+            $customer->setEmail($this->anonymizeTool->anonymousValue() . $customerId . '@gdpr.org');
+            $customer->setTaxvat(null);
 
             $this->customerRepository->save($customer);
         } catch (NoSuchEntityException $e) {

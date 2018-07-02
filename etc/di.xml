@@ -11,11 +11,11 @@
         <arguments>
             <argument name="type" xsi:type="string">Opengento\Gdpr\Service\Anonymize\ProcessorInterface</argument>
             <argument name="array" xsi:type="array">
-                <item name="customer_data" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\CustomerDataProcessor</item>
-                <item name="customer_address_data" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddressDataProcessor</item>
+                <item name="customer" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\CustomerDataProcessor</item>
+                <item name="customer_address" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddressDataProcessor</item>
                 <item name="quote" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\QuoteDataProcessor</item>
                 <item name="order" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\OrderDataProcessor</item>
-                <item name="subscriber_data" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\SubscriberDataProcessor</item>
+                <item name="subscriber" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\SubscriberDataProcessor</item>
             </argument>
         </arguments>
     </virtualType>
@@ -29,7 +29,11 @@
         <arguments>
             <argument name="type" xsi:type="string">Opengento\Gdpr\Service\Delete\ProcessorInterface</argument>
             <argument name="array" xsi:type="array">
-                <item name="customer_data" xsi:type="string">Opengento\Gdpr\Service\Delete\Processor\CustomerDataProcessor</item>
+                <item name="customer" xsi:type="string">Opengento\Gdpr\Service\Delete\Processor\CustomerDataProcessor</item>
+                <item name="customer_address" xsi:type="string">Opengento\Gdpr\Service\Delete\Processor\CustomerAddressDataProcessor</item>
+                <item name="quote" xsi:type="string">Opengento\Gdpr\Service\Delete\Processor\QuoteDataProcessor</item>
+                <item name="order" xsi:type="string">Opengento\Gdpr\Service\Delete\Processor\OrderDataProcessor</item>
+                <item name="subscriber" xsi:type="string">Opengento\Gdpr\Service\Delete\Processor\SubscriberDataProcessor</item>
             </argument>
         </arguments>
     </virtualType>
@@ -44,10 +48,10 @@
             <argument name="type" xsi:type="string">Opengento\Gdpr\Service\Export\ProcessorInterface</argument>
             <argument name="array" xsi:type="array">
                 <item name="customer_data" xsi:type="string">Opengento\Gdpr\Service\Export\Processor\CustomerDataProcessor</item>
-                <!--<item name="customer_address_data" xsi:type="string">Opengento\Gdpr\Service\Export\Processor\CustomerAddressDataProcessor</item>-->
-                <!--<item name="sales" xsi:type="string">Opengento\Gdpr\Service\Export\Processor\SalesDataProcessor</item>-->
-                <!--<item name="subscriber" xsi:type="string">Opengento\Gdpr\Service\Export\Processor\SubscriberDataProcessor</item>-->
-                <!-- todo -->
+                <item name="customer_address_data" xsi:type="string">Opengento\Gdpr\Service\Export\Processor\CustomerAddressDataProcessor</item>
+                <item name="quote" xsi:type="string">Opengento\Gdpr\Service\Export\Processor\QuoteDataProcessor</item>
+                <item name="order" xsi:type="string">Opengento\Gdpr\Service\Export\Processor\OrderDataProcessor</item>
+                <item name="subscriber" xsi:type="string">Opengento\Gdpr\Service\Export\Processor\SubscriberDataProcessor</item>
             </argument>
         </arguments>
     </virtualType>
@@ -83,4 +87,15 @@
             </argument>
         </arguments>
     </type>
+    <!-- Config Settings -->
+    <virtualType name="Opengento\Gdpr\Model\Config\Source\CustomerAttributes" type="Opengento\Gdpr\Model\Config\Source\VirtualCustomerAttributes">
+        <arguments>
+            <argument name="metadata" xsi:type="object">Magento\Customer\Api\CustomerMetadataInterface</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Config\Source\CustomerAddressAttributes" type="Opengento\Gdpr\Model\Config\Source\VirtualCustomerAttributes">
+        <arguments>
+            <argument name="metadata" xsi:type="object">Magento\Customer\Api\AddressMetadataInterface</argument>
+        </arguments>
+    </virtualType>
 </config>

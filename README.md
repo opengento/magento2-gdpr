@@ -69,15 +69,12 @@ The settings are divided as following:
   * Cron Scheduler
   * Right to Erasure Information CMS Block
   * Anonymization Information CMS Block
-  * Customer Attributes to anonymize
-  * Customer Address Attributes to anonymize
+  * Remove Customer if no Orders
   * Apply Deletion Strategy to specific components 
 * Export Settings
   * Enable the feature
   * Export Personal Data Information CMS Block
   * Export Renderer option
-  * Customer Attributes to export
-  * Customer Address Attributes to export
 * Cookie Settings
   * Enable the cookie disclosure
   * Cookie Policy Information CMS Block
@@ -171,6 +168,10 @@ Warning, if you want to implement your own strategy type, you must create your o
 Do not forget to use the right services managers, but you are free to use yours:  
 - `Opengento\Gdpr\Service\AnonymizeManagement`
 - `Opengento\Gdpr\Service\DeleteManagement`
+
+## How To Implement
+
+If you want to add you own logic and specificities 
 
 ## Support
 

@@ -3,19 +3,20 @@
  * Copyright © 2018 OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
-declare(strict_types=1);
+declare(strict_types = 1);
 
-namespace Opengento\Gdpr\Service\Export\Processor;
+namespace Opengento\Gdpr\Service\Delete\Processor;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
+use Magento\Sales\Model\Order\AddressRepository;
 use Magento\Sales\Model\OrderRepository;
-use Opengento\Gdpr\Service\Export\ProcessorInterface;
+use Opengento\Gdpr\Service\Delete\ProcessorInterface;
 
 /**
- * Class QuoteDataProcessor
+ * Class OrderDataProcessor
  */
-class SalesDataProcessor implements ProcessorInterface
+class OrderDataProcessor implements ProcessorInterface
 {
     /**
      * @var \Magento\Sales\Model\OrderRepository
@@ -23,42 +24,43 @@ class SalesDataProcessor implements ProcessorInterface
     private $orderRepository;
 
     /**
+     * @var \Magento\Sales\Model\Order\AddressRepository
+     */
+    private $orderAddressRepository;
+
+    /**
      * @var \Magento\Framework\Api\SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
 
     /**
-     * OrderDataProcessor constructor.
      * @param \Magento\Sales\Model\OrderRepository $orderRepository
+     * @param \Magento\Sales\Model\Order\AddressRepository $orderAddressRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         OrderRepository $orderRepository,
+        AddressRepository $orderAddressRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
         $this->orderRepository = $orderRepository;
+        $this->orderAddressRepository = $orderAddressRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function execute(int $customerId, array $data): array
+    public function execute(int $customerId): bool
     {
         $searchCriteria = $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
-        $orderCollection = $this->orderRepository->getList($searchCriteria->create());
-        $salesData = [];
+        $orderList = $this->orderRepository->getList($searchCriteria->create());
 
-        /** @var OrderInterface $order */
-        foreach ($orderCollection as $order) {
-            $salesData[$order->getIncrementId()] = [
-                'orders' => $orderCollection->toArray(),
-                'invoice' => $order->getInvoiceCollection()->toArray(),
-                'shipment' => $order->getShipmentsCollection()->toArray(),
-                'creditmemo' => $order->getCreditmemosCollection()->toArray(),
-            ];
+        /** @var \Magento\Sales\Model\Order $order */
+        foreach ($orderList->getItems() as $order) {
+            $this->orderRepository->delete($order);
         }
 
-        return \array_merge_recursive($data, ['sales' => $salesData]);
+        return true;
     }
 }
