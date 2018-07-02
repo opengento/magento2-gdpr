@@ -7,8 +7,8 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/cron_groups.xsd">
     <group id="gdpr">
-        <schedule_generate_every>1</schedule_generate_every>
-        <schedule_ahead_for>10</schedule_ahead_for>
+        <schedule_generate_every>10</schedule_generate_every>
+        <schedule_ahead_for>20</schedule_ahead_for>
         <schedule_lifetime>10</schedule_lifetime>
         <history_cleanup_every>10</history_cleanup_every>
         <history_success_lifetime>60</history_success_lifetime>

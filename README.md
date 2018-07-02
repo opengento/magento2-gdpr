@@ -69,15 +69,12 @@ The settings are divided as following:
   * Cron Scheduler
   * Right to Erasure Information CMS Block
   * Anonymization Information CMS Block
-  * Customer Attributes to anonymize
-  * Customer Address Attributes to anonymize
+  * Remove Customer if no Orders
   * Apply Deletion Strategy to specific components 
 * Export Settings
   * Enable the feature
   * Export Personal Data Information CMS Block
   * Export Renderer option
-  * Customer Attributes to export
-  * Customer Address Attributes to export
 * Cookie Settings
   * Enable the cookie disclosure
   * Cookie Policy Information CMS Block
@@ -183,7 +180,7 @@ Please provide your Magento 2 version and the module version. Explain how to rep
 - **Opengento Community** - *Lead* - [They're awesome!](https://github.com/opengento)
 - **Contributors** - *Contributor* - [Many thanks!](https://github.com/opengento/magento2-gdpr/graphs/contributors)
 
-## Licence
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) details.
 

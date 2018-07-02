@@ -92,7 +92,7 @@ class ErasureDataProvider extends DataObject implements ArgumentInterface
     }
 
     /**
-     * Check if the snonymize strategy is enabled
+     * Check if the anonymize strategy is enabled
      *
      * @return bool
      */

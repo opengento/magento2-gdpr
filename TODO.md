@@ -9,25 +9,16 @@
 
 ## Processors
 
-Add the missing processors in:
-
-- Export
-- Anonymize
-- Delete
-
 Area:
 
-- Order
-- Invoice
-- CreditMemo
-- NewsLetter
-- Cookie
-- Customer
 - Analytics
-- Payment
-- Shipment
-- Refund
 - Wishlist
+- Invoice
+- Shipment
+- CreditMemo
+- Refund
+- Payment
+- Cookie
 - Others
 
 ## Renderer
