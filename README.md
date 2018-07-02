@@ -23,6 +23,9 @@ This extension allows customers to delete, anonymize, and export their personal 
 
 Magento 2 Open Source or Commerce edition is required.
 
+The Version 2.x is compliant with Magento `2.2.x`.  
+The Version 1.x is compliant with Magento `2.0.x` and `2.1.x`.
+
 ### Get the package
 
 **Zip Package:**
@@ -75,6 +78,8 @@ The settings are divided as following:
   * Enable the feature
   * Export Personal Data Information CMS Block
   * Export Renderer option
+  * Customer Attributes to export
+  * Customer Address Attributes to export
 * Cookie Settings
   * Enable the cookie disclosure
   * Cookie Policy Information CMS Block
