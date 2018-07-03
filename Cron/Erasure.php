@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Cron;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
 use Opengento\Gdpr\Api\Data\EraseCustomerInterface;
@@ -104,15 +105,18 @@ class Erasure
      *
      * @return \Magento\Framework\Api\SearchResultsInterface
      */
-    private function retrieveEraseCustomerList()
+    private function retrieveEraseCustomerList(): SearchResultsInterface
     {
-        //todo fix : group filter Pending + ready,  Processing + failed
-        $this->searchCriteriaBuilder->addFilter(EraseCustomerInterface::SCHEDULED_AT, new \DateTime(), 'lteq');
-        $this->searchCriteriaBuilder->addFilter(EraseCustomerInterface::STATE, EraseCustomerInterface::STATE_PENDING);
-        $this->searchCriteriaBuilder->addFilter(
-            EraseCustomerInterface::STATUS,
-            [EraseCustomerInterface::STATUS_READY, EraseCustomerInterface::STATUS_FAILED]
-        );
+        $this->searchCriteriaBuilder->addFilters([
+            [EraseCustomerInterface::SCHEDULED_AT, new \DateTime(), 'lteq'],
+            [EraseCustomerInterface::STATE, EraseCustomerInterface::STATE_PENDING],
+            [EraseCustomerInterface::STATUS, EraseCustomerInterface::STATUS_READY],
+        ]);
+        $this->searchCriteriaBuilder->addFilters([
+            [EraseCustomerInterface::SCHEDULED_AT, new \DateTime(), 'lteq'],
+            [EraseCustomerInterface::STATE, EraseCustomerInterface::STATE_PROCESSING],
+            [EraseCustomerInterface::STATUS, EraseCustomerInterface::STATUS_FAILED],
+        ]);
 
         try {
             $eraseCustomerList = $this->eraseCustomerRepository->getList($this->searchCriteriaBuilder->create());
