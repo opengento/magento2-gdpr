@@ -56,7 +56,6 @@ class OrderDataProcessor implements ProcessorInterface
         $searchCriteria = $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
         $orderList = $this->orderRepository->getList($searchCriteria->create());
 
-        /** @var \Magento\Sales\Model\Order $order */
         foreach ($orderList->getItems() as $order) {
             $this->orderRepository->delete($order);
         }

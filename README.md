@@ -23,8 +23,8 @@ This extension allows customers to delete, anonymize, and export their personal 
 
 Magento 2 Open Source or Commerce edition is required.
 
-The Version 2.x is compliant with Magento `2.2.x`.  
-The Version 1.x is compliant with Magento `2.0.x` and `2.1.x`.
+The Version `2.x` is compliant with Magento `2.2.x`.  
+The Version `1.x` is compliant with Magento `2.0.x` and `2.1.x`.
 
 ### Get the package
 
@@ -50,10 +50,13 @@ bin/magento setup:upgrade
 
 ## Usage
 
-* Account deletion, anonymization, and export can be done in 'My Account > Privacy Settings'.
-  * Customers can export their data in `.zip` archive containing file, `.html` by default, with personal data.
+* **[Art. 17 GDPR](https://gdpr-info.eu/art-17-gdpr/)**
+  * Account deletion and anonymization can be done in 'My Account > Privacy Settings'.
   * Customers can use their 'right to be forgotten'. The password is required to ensure the customer legibility.
     The account will be erased within 1 hour, or as specified in configuration. The customer can undo the action in this time span.
+* **[Art. 20 GDPR](https://gdpr-info.eu/art-20-gdpr/)**
+  * Personal data export can be done in 'My Account > Privacy Settings'.
+  * Customers can export their data in `.zip` archive containing file, `.html` (many others are available), with personal data.
 * Cookie Policy in a disclosure popup are shown at the first time customer visit.
 
 ## Settings
@@ -181,9 +184,16 @@ Please provide your Magento 2 version and the module version. Explain how to rep
 
 ## Authors
 
-- **Initial Inspiration** - *`Model` and `Less` sources* - [flurrybox](https://github.com/flurrybox)
+- **Initial Inspiration** - *`Cookie PopUp` sources* - [flurrybox](https://github.com/flurrybox)
 - **Opengento Community** - *Lead* - [They're awesome!](https://github.com/opengento)
 - **Contributors** - *Contributor* - [Many thanks!](https://github.com/opengento/magento2-gdpr/graphs/contributors)
+
+## Similar Magento 2 GDPR Module
+
+- https://github.com/AdFabConnect/magento2gdpr
+- https://github.com/mageplaza/magento-2-gdpr
+- https://github.com/staempfli/magento2-module-gdpr
+- https://github.com/flurrybox/enhanced-privacy
 
 ## License
 

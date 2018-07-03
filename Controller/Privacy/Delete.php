@@ -7,12 +7,13 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Privacy;
 
+use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Phrase;
+use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
-use Opengento\Gdpr\Helper\Data;
 
 /**
  * Action Index Delete
@@ -20,20 +21,28 @@ use Opengento\Gdpr\Helper\Data;
 class Delete extends AbstractPrivacy implements ActionInterface
 {
     /**
-     * @var \Opengento\Gdpr\Helper\Data
+     * @var \Magento\Customer\Model\Session
      */
-    private $helperData;
+    private $session;
+
+    /**
+     * @var \Opengento\Gdpr\Api\EraseCustomerManagementInterface
+     */
+    private $eraseCustomerManagement;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Opengento\Gdpr\Helper\Data $helperData
+     * @param \Magento\Customer\Model\Session $session
+     * @param \Opengento\Gdpr\Api\EraseCustomerManagementInterface $eraseCustomerManagement
      */
     public function __construct(
         Context $context,
-        Data $helperData
+        Session $session,
+        EraseCustomerManagementInterface $eraseCustomerManagement
     ) {
         parent::__construct($context);
-        $this->helperData = $helperData;
+        $this->session = $session;
+        $this->eraseCustomerManagement = $eraseCustomerManagement;
     }
 
     /**
@@ -41,8 +50,8 @@ class Delete extends AbstractPrivacy implements ActionInterface
      */
     public function execute()
     {
-        if ($this->helperData->isAccountToBeDeleted()) {
-            $this->messageManager->addErrorMessage(new Phrase('Your account is already currently being removed.'));
+        if ($this->eraseCustomerManagement->exists((int) $this->session->getCustomerId())) {
+            $this->messageManager->addErrorMessage(new Phrase('Your account is already being to be removed.'));
             /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
             $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
             return $resultRedirect->setPath('customer/privacy/settings');

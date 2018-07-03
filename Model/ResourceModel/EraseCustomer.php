@@ -8,17 +8,20 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\ResourceModel;
 
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
+use Opengento\Gdpr\Api\Data\EraseCustomerInterface;
 
 /**
- * Cron schedule resource model.
+ * Erase Customer Scheduler Resource Model
  */
-class CronSchedule extends AbstractDb
+class EraseCustomer extends AbstractDb
 {
+    const TABLE = 'opengento_gdpr_erase_customer';
+
     /**
      * {@inheritdoc}
      */
     protected function _construct()
     {
-        $this->_init('opengento_gdpr_cleanup_schedule', 'schedule_id');
+        $this->_init(self::TABLE, EraseCustomerInterface::ID);
     }
 }

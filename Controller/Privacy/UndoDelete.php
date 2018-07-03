@@ -12,9 +12,8 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Phrase;
+use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
-use Opengento\Gdpr\Helper\Data;
-use Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory;
 
 /**
  * Action Undo Delete
@@ -22,35 +21,27 @@ use Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory;
 class UndoDelete extends AbstractPrivacy implements ActionInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory
-     */
-    private $collectionFactory;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     private $session;
 
     /**
-     * @var \Opengento\Gdpr\Helper\Data
+     * @var \Opengento\Gdpr\Api\EraseCustomerManagementInterface
      */
-    private $helperData;
+    private $eraseCustomerManagement;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Session $session
-     * @param \Opengento\Gdpr\Helper\Data $helperData
+     * @param \Opengento\Gdpr\Api\EraseCustomerManagementInterface $eraseCustomerManagement
      */
     public function __construct(
         Context $context,
-        CollectionFactory $collectionFactory,
         Session $session,
-        Data $helperData
+        EraseCustomerManagementInterface $eraseCustomerManagement
     ) {
-        $this->collectionFactory = $collectionFactory;
         $this->session = $session;
-        $this->helperData = $helperData;
+        $this->eraseCustomerManagement = $eraseCustomerManagement;
         parent::__construct($context);
     }
 
@@ -63,14 +54,8 @@ class UndoDelete extends AbstractPrivacy implements ActionInterface
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
         try {
-            /** @var \Opengento\Gdpr\Model\ResourceModel\CronSchedule\Collection $collection */
-            $collection = $this->collectionFactory->create();
-            $collection->addFieldToFilter('customer_id', $this->session->getCustomerId());
-
-            if ($collection->count()) {
-                $collection->walk('delete');
-                $this->messageManager->addSuccessMessage(new Phrase('You canceled your account deletion.'));
-            }
+            $this->eraseCustomerManagement->cancel((int) $this->session->getCustomerId());
+            $this->messageManager->addSuccessMessage(new Phrase('You canceled your account deletion.'));
         } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }

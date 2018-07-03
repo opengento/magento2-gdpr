@@ -11,6 +11,7 @@ use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 use Magento\Framework\Setup\UninstallInterface;
+use Opengento\Gdpr\Model\ResourceModel\EraseCustomer;
 
 /**
  * Class Uninstall
@@ -37,8 +38,7 @@ class Uninstall implements UninstallInterface
      */
     private function deleteTables(AdapterInterface $connection): bool
     {
-        $connection->dropTable('opengento_gdpr_delete_reasons');
-        $connection->dropTable('opengento_gdpr_cleanup_schedule');
+        $connection->dropTable(EraseCustomer::TABLE);
 
         return true;
     }

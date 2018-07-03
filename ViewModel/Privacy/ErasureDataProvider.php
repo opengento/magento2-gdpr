@@ -8,10 +8,11 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\ViewModel\Privacy;
 
 use Magento\Cms\Block\Block;
+use Magento\Customer\Model\Session;
 use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\Element\BlockFactory;
-use Opengento\Gdpr\Helper\Data;
+use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Service\ErasureStrategy;
 
@@ -21,14 +22,19 @@ use Opengento\Gdpr\Service\ErasureStrategy;
 class ErasureDataProvider extends DataObject implements ArgumentInterface
 {
     /**
+     * @var \Opengento\Gdpr\Api\EraseCustomerManagementInterface
+     */
+    private $eraseCustomerManagement;
+
+    /**
      * @var \Opengento\Gdpr\Model\Config
      */
     private $config;
 
     /**
-     * @var \Opengento\Gdpr\Helper\Data
+     * @var \Magento\Customer\Model\Session
      */
-    private $helperData;
+    private $session;
 
     /**
      * @var \Magento\Framework\View\Element\BlockFactory
@@ -36,19 +42,22 @@ class ErasureDataProvider extends DataObject implements ArgumentInterface
     private $blockFactory;
 
     /**
+     * @param \Opengento\Gdpr\Api\EraseCustomerManagementInterface $eraseCustomerManagement
      * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Opengento\Gdpr\Helper\Data $helperData
+     * @param \Magento\Customer\Model\Session $session
      * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
      * @param array $data
      */
     public function __construct(
+        EraseCustomerManagementInterface $eraseCustomerManagement,
         Config $config,
-        Data $helperData,
+        Session $session,
         BlockFactory $blockFactory,
         array $data = []
     ) {
+        $this->eraseCustomerManagement = $eraseCustomerManagement;
         $this->config = $config;
-        $this->helperData = $helperData;
+        $this->session = $session;
         $this->blockFactory = $blockFactory;
         parent::__construct($data);
     }
@@ -88,7 +97,7 @@ class ErasureDataProvider extends DataObject implements ArgumentInterface
      */
     public function isErasureScheduled(): bool
     {
-        return $this->helperData->isAccountToBeDeleted();
+        return $this->eraseCustomerManagement->exists((int) $this->session->getCustomerId());
     }
 
     /**

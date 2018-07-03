@@ -10,6 +10,7 @@
         <gdpr>
             <general>
                 <enabled>0</enabled>
+                <page_id>privacy-policy-cookie-restriction-mode</page_id>
             </general>
             <erasure>
                 <enabled>0</enabled>

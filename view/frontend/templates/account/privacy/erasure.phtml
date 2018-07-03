@@ -38,7 +38,7 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
             <?php endif; ?>
             <div class="actions-toolbar">
                 <div class="primary">
-                    <a href="<?= $block->escapeUrl($urlsDataProvider->getDeletePageUrl()) ?>" class="button-red action submit primary" id="delete">
+                    <a href="<?= $block->escapeUrl($urlsDataProvider->getDeletePageUrl()) ?>" class="action submit primary primary-danger" id="delete">
                         <span><?= $block->escapeHtml(__('Delete Account')) ?></span>
                     </a>
                 </div>
