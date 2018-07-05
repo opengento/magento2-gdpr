@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Cron;
 
+use Magento\Framework\Api\Filter;
+use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -53,12 +55,18 @@ class Erasure
     private $searchCriteriaBuilder;
 
     /**
+     * @var \Magento\Framework\Api\FilterBuilder
+     */
+    private $filterBuilder;
+
+    /**
      * @param \Psr\Log\LoggerInterface $logger
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Framework\Registry $registry
      * @param \Opengento\Gdpr\Api\EraseCustomerManagementInterface $eraseCustomerManagement
      * @param \Opengento\Gdpr\Api\EraseCustomerRepositoryInterface $eraseCustomerRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      */
     public function __construct(
         LoggerInterface $logger,
@@ -66,7 +74,8 @@ class Erasure
         Registry $registry,
         EraseCustomerManagementInterface $eraseCustomerManagement,
         EraseCustomerRepositoryInterface $eraseCustomerRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        FilterBuilder $filterBuilder
     ) {
         $this->logger = $logger;
         $this->config = $config;
@@ -74,6 +83,7 @@ class Erasure
         $this->eraseCustomerManagement = $eraseCustomerManagement;
         $this->eraseCustomerRepository = $eraseCustomerRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
     }
 
     /**
@@ -108,14 +118,14 @@ class Erasure
     private function retrieveEraseCustomerList(): SearchResultsInterface
     {
         $this->searchCriteriaBuilder->addFilters([
-            [EraseCustomerInterface::SCHEDULED_AT, new \DateTime(), 'lteq'],
-            [EraseCustomerInterface::STATE, EraseCustomerInterface::STATE_PENDING],
-            [EraseCustomerInterface::STATUS, EraseCustomerInterface::STATUS_READY],
+            $this->createFilter(EraseCustomerInterface::SCHEDULED_AT, new \DateTime(), 'lteq'),
+            $this->createFilter(EraseCustomerInterface::STATE, EraseCustomerInterface::STATE_PENDING),
+            $this->createFilter(EraseCustomerInterface::STATUS, EraseCustomerInterface::STATUS_READY),
         ]);
         $this->searchCriteriaBuilder->addFilters([
-            [EraseCustomerInterface::SCHEDULED_AT, new \DateTime(), 'lteq'],
-            [EraseCustomerInterface::STATE, EraseCustomerInterface::STATE_PROCESSING],
-            [EraseCustomerInterface::STATUS, EraseCustomerInterface::STATUS_FAILED],
+            $this->createFilter(EraseCustomerInterface::SCHEDULED_AT, new \DateTime(), 'lteq'),
+            $this->createFilter(EraseCustomerInterface::STATE, EraseCustomerInterface::STATE_PROCESSING),
+            $this->createFilter(EraseCustomerInterface::STATUS, EraseCustomerInterface::STATUS_FAILED),
         ]);
 
         try {
@@ -125,5 +135,22 @@ class Erasure
         }
 
         return $eraseCustomerList;
+    }
+
+    /**
+     * Create a new search criteria filter
+     *
+     * @param string $field
+     * @param array|string $value
+     * @param string $conditionType
+     * @return \Magento\Framework\Api\Filter
+     */
+    private function createFilter(string $field, $value, string $conditionType = 'eq'): Filter
+    {
+        $this->filterBuilder->setField($field);
+        $this->filterBuilder->setValue($value);
+        $this->filterBuilder->setConditionType($conditionType);
+
+        return $this->filterBuilder->create();
     }
 }

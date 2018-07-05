@@ -10,9 +10,11 @@ namespace Opengento\Gdpr\ViewModel\Privacy;
 use Magento\Cms\Block\Block;
 use Magento\Customer\Model\Session;
 use Magento\Framework\DataObject;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\Element\BlockFactory;
 use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
+use Opengento\Gdpr\Api\EraseCustomerRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Service\ErasureStrategy;
 
@@ -21,6 +23,11 @@ use Opengento\Gdpr\Service\ErasureStrategy;
  */
 class ErasureDataProvider extends DataObject implements ArgumentInterface
 {
+    /**
+     * @var \Opengento\Gdpr\Api\EraseCustomerRepositoryInterface
+     */
+    private $eraseCustomerRepository;
+
     /**
      * @var \Opengento\Gdpr\Api\EraseCustomerManagementInterface
      */
@@ -42,6 +49,7 @@ class ErasureDataProvider extends DataObject implements ArgumentInterface
     private $blockFactory;
 
     /**
+     * @param \Opengento\Gdpr\Api\EraseCustomerRepositoryInterface $eraseCustomerRepository
      * @param \Opengento\Gdpr\Api\EraseCustomerManagementInterface $eraseCustomerManagement
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Customer\Model\Session $session
@@ -49,12 +57,14 @@ class ErasureDataProvider extends DataObject implements ArgumentInterface
      * @param array $data
      */
     public function __construct(
+        EraseCustomerRepositoryInterface $eraseCustomerRepository,
         EraseCustomerManagementInterface $eraseCustomerManagement,
         Config $config,
         Session $session,
         BlockFactory $blockFactory,
         array $data = []
     ) {
+        $this->eraseCustomerRepository = $eraseCustomerRepository;
         $this->eraseCustomerManagement = $eraseCustomerManagement;
         $this->config = $config;
         $this->session = $session;
@@ -91,13 +101,41 @@ class ErasureDataProvider extends DataObject implements ArgumentInterface
     }
 
     /**
-     * Check if the erasure is already planned
+     * Check if the erasure is already planned and could be canceled
      *
      * @return bool
      */
-    public function isErasureScheduled(): bool
+    public function canBeCanceled(): bool
     {
-        return $this->eraseCustomerManagement->exists((int) $this->session->getCustomerId());
+        if (!$this->hasData('can_be_canceled')) {
+            try {
+                $entity = $this->eraseCustomerRepository->getByCustomerId((int) $this->session->getCustomerId());
+                $this->setData('can_be_canceled', $this->eraseCustomerManagement->canBeCanceled($entity));
+            } catch (NoSuchEntityException $e) {
+                $this->setData('can_be_canceled', false);
+            }
+        }
+
+        return (bool) $this->_getData('can_be_canceled');
+    }
+
+    /**
+     * Check if the erasure can be planned and processed
+     *
+     * @return bool
+     */
+    public function canBeProcessed(): bool
+    {
+        if (!$this->hasData('can_be_processed')) {
+            try {
+                $entity = $this->eraseCustomerRepository->getByCustomerId((int) $this->session->getCustomerId());
+                $this->setData('can_be_processed', $this->eraseCustomerManagement->canBeProcessed($entity));
+            } catch (NoSuchEntityException $e) {
+                $this->setData('can_be_processed', true);
+            }
+        }
+
+        return (bool) $this->_getData('can_be_processed');
     }
 
     /**

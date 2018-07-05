@@ -47,7 +47,7 @@ interface EraseCustomerRepositoryInterface
      * Retrieve erase customer schedulers list by search filter criteria
      *
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
-     * @return \Magento\Framework\Api\SearchResultsInterface
+     * @return \Opengento\Gdpr\Api\Data\EraseCustomerSearchResultsInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface;

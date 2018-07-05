@@ -19,7 +19,7 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
         <div class="widget block block-static-block">
             <?= $erasureDataProvider->getErasureInformation() ?>
         </div>
-        <?php if ($erasureDataProvider->isErasureScheduled()): ?>
+        <?php if ($erasureDataProvider->canBeCanceled()): ?>
             <div class="message warning">
                 <span><?= $block->escapeHtml(__('Your account will be deleted soon. You can undo this action.')) ?></span>
             </div>
@@ -30,7 +30,7 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
                     </a>
                 </div>
             </div>
-        <?php else: ?>
+        <?php elseif ($erasureDataProvider->canBeProcessed()): ?>
             <?php if ($erasureDataProvider->isAnonymizeStrategy()): ?>
                 <div class="widget block block-static-block">
                     <?= $erasureDataProvider->getAnonymizeInformation() ?>

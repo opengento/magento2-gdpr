@@ -27,6 +27,22 @@ class EraseCustomer extends AbstractExtensibleModel implements EraseCustomerInte
     /**
      * {@inheritdoc}
      */
+    public function getEntityId(): int
+    {
+        return (int) parent::getEntityId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setEntityId($entityId): EraseCustomerInterface
+    {
+        return parent::setEntityId((int) $entityId);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCustomerId(): int
     {
         return (int) $this->_getData(self::CUSTOMER_ID);

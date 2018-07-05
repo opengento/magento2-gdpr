@@ -114,7 +114,7 @@ class EraseCustomerRepository implements EraseCustomerRepositoryInterface
             $this->eraseCustomerResource->load($entity, $entityId, EraseCustomerInterface::ID);
 
             if (!$entity->getEntityId()) {
-                throw new NoSuchEntityException(new Phrase('Entity with id "%1" does not exists.', [$entityId]), $e);
+                throw new NoSuchEntityException(new Phrase('Entity with id "%1" does not exists.', [$entityId]));
             }
 
             $this->instances[$entityId] = $entity;
@@ -176,7 +176,7 @@ class EraseCustomerRepository implements EraseCustomerRepositoryInterface
                 unset($this->instances[$entity->getEntityId()]);
             }
             if (isset($this->instancesByCustomer[$entity->getCustomerId()])) {
-                unset($this->instances[$entity->getCustomerId()]);
+                unset($this->instancesByCustomer[$entity->getCustomerId()]);
             }
             $this->eraseCustomerResource->delete($entity);
         } catch (\Exception $e) {

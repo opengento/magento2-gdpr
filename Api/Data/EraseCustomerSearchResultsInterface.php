@@ -25,7 +25,7 @@ interface EraseCustomerSearchResultsInterface extends SearchResultsInterface
      * Set the erase customer schedulers list
      *
      * @param \Opengento\Gdpr\Api\Data\EraseCustomerInterface[] $items
-     * @return $this
+     * @return \Opengento\Gdpr\Api\Data\EraseCustomerSearchResultsInterface
      */
-    public function setItems(array $items);
+    public function setItems(array $items): EraseCustomerSearchResultsInterface;
 }

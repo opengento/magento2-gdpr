@@ -47,7 +47,7 @@ interface EraseCustomerInterface extends ExtensibleDataInterface
      *
      * @return int
      */
-    public function getEntityId();
+    public function getEntityId(): int;
 
     /**
      * Set the entity ID
@@ -55,7 +55,7 @@ interface EraseCustomerInterface extends ExtensibleDataInterface
      * @param int $entityId
      * @return \Opengento\Gdpr\Api\Data\EraseCustomerInterface
      */
-    public function setEntityId($entityId);
+    public function setEntityId($entityId): EraseCustomerInterface;
 
     /**
      * Retrieve the customer ID

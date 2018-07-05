@@ -96,7 +96,7 @@ class EraseCustomerManagement implements EraseCustomerManagementInterface
     {
         $entity = $this->eraseCustomerRepository->getByCustomerId($customerId);
 
-        if ($this->canBeCanceled($entity)) {
+        if (!$this->canBeCanceled($entity)) {
             throw new LocalizedException(
                 new Phrase('Customer with id "%1" is already being to be removed.', [$customerId])
             );
