@@ -32,21 +32,25 @@ class AnonymizeTool
     /**
      * Retrieve an anonymous value
      *
+     * @param string $prefix [optional]
+     * @param string $suffix [optional]
      * @return string
      */
-    public function anonymousValue(): string
+    public function anonymousValue(string $prefix = '', string $suffix = ''): string
     {
-        return (new Phrase('Anonymous'))->render();
+        return (new Phrase('%1Anonymous%2', [$prefix, $suffix]))->render();
     }
 
     /**
      * Retrieve an anonymous email
      *
+     * @param string $prefix [optional]
+     * @param string $suffix [optional]
      * @return string
      */
-    public function anonymousEmail(): string
+    public function anonymousEmail(string $prefix = '', string $suffix = ''): string
     {
-        return (new Phrase('anonymous@gdpr.com'))->render();
+        return (new Phrase('%1anonymous%2@gdpr.org', [$prefix, $suffix]))->render();
     }
 
     /**
