@@ -8,15 +8,15 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\ViewModel\Privacy;
 
 use Magento\Cms\Block\Block;
+use Magento\Framework\Data\CollectionDataSourceInterface;
 use Magento\Framework\DataObject;
-use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\Element\BlockFactory;
 use Opengento\Gdpr\Model\Config;
 
 /**
  * Class SettingsDataProvider
  */
-class SettingsDataProvider extends DataObject implements ArgumentInterface
+class SettingsDataProvider extends DataObject implements CollectionDataSourceInterface
 {
     /**
      * @var \Opengento\Gdpr\Model\Config

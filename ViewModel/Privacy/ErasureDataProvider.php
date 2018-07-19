@@ -9,9 +9,9 @@ namespace Opengento\Gdpr\ViewModel\Privacy;
 
 use Magento\Cms\Block\Block;
 use Magento\Customer\Model\Session;
+use Magento\Framework\Data\CollectionDataSourceInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\Element\BlockFactory;
 use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
 use Opengento\Gdpr\Api\EraseCustomerRepositoryInterface;
@@ -21,7 +21,7 @@ use Opengento\Gdpr\Service\ErasureStrategy;
 /**
  * Class ErasureDataProvider
  */
-class ErasureDataProvider extends DataObject implements ArgumentInterface
+class ErasureDataProvider extends DataObject implements CollectionDataSourceInterface
 {
     /**
      * @var \Opengento\Gdpr\Api\EraseCustomerRepositoryInterface

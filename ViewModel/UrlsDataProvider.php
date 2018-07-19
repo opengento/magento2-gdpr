@@ -8,14 +8,14 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\ViewModel;
 
 use Magento\Cms\Helper\Page as HelperPage;
+use Magento\Framework\Data\CollectionDataSourceInterface;
 use Magento\Framework\UrlInterface;
-use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Opengento\Gdpr\Model\Config;
 
 /**
  * Class UrlsDataProvider
  */
-class UrlsDataProvider implements ArgumentInterface
+class UrlsDataProvider implements CollectionDataSourceInterface
 {
     /**#@+
      * Routes Path Data
