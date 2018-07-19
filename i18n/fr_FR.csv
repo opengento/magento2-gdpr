@@ -1,5 +1,5 @@
-"Your account is already being to be removed.","Votre compte est déjà en cours de suppression"
-"Your account is being to be removed.","Votre compte va être supprimé"
+"Your account is already being removed.","Votre compte est déjà en cours de suppression"
+"Your account is being removed.","Votre compte va être supprimé"
 "You did not sign in correctly or your account is temporarily disabled.","Vous ne vous êtes pas correctement identifié ou votre compte a été temporairement désactivé"
 "Something went wrong, please try again later!","Quelque chose ne s'est pas bien passé, essayez à nouveau plus tard"
 "File ""%1"" not found.","Le fichier ""%1"" n'a pas été trouvé."
@@ -7,11 +7,11 @@
 Delete,Supprimer
 Anonymize,Anonymiser
 "Entity for customer id ""%1"" already exists.","L'entité pour l'id client ""%1"" existe déjà."
-"Customer with id ""%1"" is already being to be removed.","Le client avec l'id ""%1"" est déjà en cours de suppression"
+"Customer with id ""%1"" is already being removed.","Le client avec l'id ""%1"" est déjà en cours de suppression"
 "Entity with id ""%1"" could not be processed.","L'entité avec l'id ""%1"" n'a pas pu être traité"
 "Could not save the entity.","L'entité n'a pas pu être sauvegardé"
 "Entity with id ""%1"" does not exists.","L'entité avec l'id ""%1"" n'existe pas."
-"Entity with customer id ""%1"" does not exists.","L'entité avec l'id client ""%1"" n'existe pas."
+"Entity with customer id ""%1"" does not exist.","L'entité avec l'id client ""%1"" n'existe pas."
 "Could not delete entity with id ""%1"".","L'entité avec l'id ""%1"" n'a pas pu être sauvegardé."
 %1Anonymous%2,%1Anonymous%2
 %1anonymous%2@gdpr.org,%1anonymous%2@gdpr.org
