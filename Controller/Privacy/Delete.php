@@ -51,7 +51,7 @@ class Delete extends AbstractPrivacy implements ActionInterface
     public function execute()
     {
         if ($this->eraseCustomerManagement->exists((int) $this->session->getCustomerId())) {
-            $this->messageManager->addErrorMessage(new Phrase('Your account is already being to be removed.'));
+            $this->messageManager->addErrorMessage(new Phrase('Your account is already being removed.'));
             /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
             $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
             return $resultRedirect->setPath('customer/privacy/settings');

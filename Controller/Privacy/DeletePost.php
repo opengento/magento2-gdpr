@@ -92,7 +92,7 @@ class DeletePost extends AbstractPrivacy implements ActionInterface
             $customerId = (int) $this->session->getCustomerId();
             $this->authentication->authenticate($customerId, $this->getRequest()->getParam('password'));
             $this->eraseCustomerManagement->create($customerId);
-            $this->messageManager->addWarningMessage(new Phrase('Your account is being to be removed.'));
+            $this->messageManager->addWarningMessage(new Phrase('Your account is being removed.'));
         } catch (InvalidEmailOrPasswordException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
             $resultRedirect->setPath('customer/privacy/delete');
@@ -104,7 +104,7 @@ class DeletePost extends AbstractPrivacy implements ActionInterface
             );
             $resultRedirect->setPath('customer/account/login');
         } catch (AlreadyExistsException $e) {
-            $this->messageManager->addErrorMessage(new Phrase('Your account is already being to be removed.'));
+            $this->messageManager->addErrorMessage(new Phrase('Your account is already being removed.'));
         } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }

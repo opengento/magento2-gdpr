@@ -1,5 +1,5 @@
-"Your account is already being to be removed.","Your account is already being to be removed."
-"Your account is being to be removed.","Your account is being to be removed."
+"Your account is already being to be removed.","Your account is already being removed."
+"Your account is being removed.","Your account is being removed."
 "You did not sign in correctly or your account is temporarily disabled.","You did not sign in correctly or your account is temporarily disabled."
 "Something went wrong, please try again later!","Something went wrong, please try again later!"
 "File ""%1"" not found.","File ""%1"" not found."
@@ -7,11 +7,11 @@
 Delete,Delete
 Anonymize,Anonymize
 "Entity for customer id ""%1"" already exists.","Entity for customer id ""%1"" already exists."
-"Customer with id ""%1"" is already being to be removed.","Customer with id ""%1"" is already being to be removed."
+"Customer with id ""%1"" is already being removed.","Customer with id ""%1"" is already being removed."
 "Entity with id ""%1"" could not be processed.","Entity with id ""%1"" could not be processed."
 "Could not save the entity.","Could not save the entity."
 "Entity with id ""%1"" does not exists.","Entity with id ""%1"" does not exists."
-"Entity with customer id ""%1"" does not exists.","Entity with customer id ""%1"" does not exists."
+"Entity with customer id ""%1"" does not exist.","Entity with customer id ""%1"" does not exist."
 "Could not delete entity with id ""%1"".","Could not delete entity with id ""%1""."
 %1Anonymous%2,%1Anonymous%2
 %1anonymous%2@gdpr.org,%1anonymous%2@gdpr.org

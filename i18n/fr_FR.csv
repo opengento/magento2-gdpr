@@ -1,0 +1,56 @@
+"Your account is already being removed.","Votre compte est déjà en cours de suppression"
+"Your account is being removed.","Votre compte va être supprimé"
+"You did not sign in correctly or your account is temporarily disabled.","Vous ne vous êtes pas correctement identifié ou votre compte a été temporairement désactivé"
+"Something went wrong, please try again later!","Quelque chose ne s'est pas bien passé, essayez à nouveau plus tard"
+"File ""%1"" not found.","Le fichier ""%1"" n'a pas été trouvé."
+"You canceled your account deletion.","Vous avez annulé la suppression de votre compte"
+Delete,Supprimer
+Anonymize,Anonymiser
+"Entity for customer id ""%1"" already exists.","L'entité pour l'id client ""%1"" existe déjà."
+"Customer with id ""%1"" is already being removed.","Le client avec l'id ""%1"" est déjà en cours de suppression"
+"Entity with id ""%1"" could not be processed.","L'entité avec l'id ""%1"" n'a pas pu être traité"
+"Could not save the entity.","L'entité n'a pas pu être sauvegardé"
+"Entity with id ""%1"" does not exists.","L'entité avec l'id ""%1"" n'existe pas."
+"Entity with customer id ""%1"" does not exist.","L'entité avec l'id client ""%1"" n'existe pas."
+"Could not delete entity with id ""%1"".","L'entité avec l'id ""%1"" n'a pas pu être sauvegardé."
+%1Anonymous%2,%1Anonymous%2
+%1anonymous%2@gdpr.org,%1anonymous%2@gdpr.org
+"* Required Fields","* Champs requis"
+"Required Fields","Champs requis"
+Password,Mot de passe
+"Delete Account","Supprimer le compte"
+Back,Retour
+"Right to be forgotten","Droit à l'oubli"
+"Your account will be deleted soon. You can undo this action.","Votre compte va bientôt être supprimer. Vous pouvez annuler cette action."
+"Undo Action","Annuler l'action"
+"Export Personal Data","Exporter les données personnelles"
+Information,Information
+"Cookie Disclosure","Divulgation de cookie"
+"Read More","Lire Plus"
+Accept,Accepter
+Attention,Attention
+"Do you really want to delete your account?","Voulez-vous vraiment supprimer votre compte"
+"Customer Privacy (GDPR)","confidentialité du client  (RGPD)"
+"Cookie Settings","Paramètres de cookies"
+"Right To Erasure","Droit d'effacer"
+Erasure,Effacement
+"Default Erasure Strategy","Stratégie d'effacement par défaut"
+"Erasure Time Laps","Laps de temps avant effacement"
+"Erasure time lapse in seconds before the execution","Laps de temps en seconde avant execution"
+"Cron Schedule","Cron Schedule"
+Anonymization,Anonymisation
+"Delete Customer if no Orders","Supprime le client si pas de commandes"
+"We will delete the customer if he has no orders.","Nous allons supprimer le client si il n'a pas de commandes"
+"Apply Deletion Strategy","Appliquer la stratégie de suppression"
+"This processors list allows to configure specific erasure strategy by component.","This processors list allows to configure specific erasure strategy by component."
+"Export Settings","Exporter les paramètres"
+Export,Exporter
+Renderer,Renderer
+"Customer Attributes","Attributs client"
+"This attributes list will be exported when processed.","Cette liste d'attribut va être exporté lorsque traitée."
+"Customer Address Attributes","Attributs adresse client"
+"This address attributes list will be exported when processed.","Cette liste d'attributs addresse va être exporté lorsque traitée."
+General,General
+Enabled,Activer
+"Information page","Page d'information"
+"This page should store information about privacy and GDPR policy.","Cette page devrait stocker les information concernant la politique de confidentialité et la politique RGPD."

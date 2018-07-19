@@ -136,7 +136,7 @@ class EraseCustomerRepository implements EraseCustomerRepositoryInterface
 
             if (!$entity->getEntityId()) {
                 throw new NoSuchEntityException(
-                    new Phrase('Entity with customer id "%1" does not exists.', [$entityId])
+                    new Phrase('Entity with customer id "%1" does not exist.', [$entityId])
                 );
             }
 
