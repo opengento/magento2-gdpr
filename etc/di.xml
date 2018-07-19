@@ -6,6 +6,18 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Service Contract -->
+    <preference for="Opengento\Gdpr\Api\Data\EraseCustomerInterface" type="Opengento\Gdpr\Model\EraseCustomer" />
+    <preference for="Opengento\Gdpr\Api\Data\EraseCustomerSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Opengento\Gdpr\Api\EraseCustomerRepositoryInterface" type="Opengento\Gdpr\Model\EraseCustomerRepository" />
+    <preference for="Opengento\Gdpr\Api\EraseCustomerManagementInterface" type="Opengento\Gdpr\Model\EraseCustomerManagement" />
+    <type name="Magento\Framework\Model\Entity\RepositoryFactory">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="Opengento\Gdpr\Api\Data\EraseCustomerInterface" xsi:type="string">Opengento\Gdpr\Api\EraseCustomerRepositoryInterface</item>
+            </argument>
+        </arguments>
+    </type>
     <!-- Anonymize Management -->
     <virtualType name="Opengento\Gdpr\Service\Anonymize\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
         <arguments>

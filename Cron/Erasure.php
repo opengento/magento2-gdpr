@@ -7,15 +7,16 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Cron;
 
+use Magento\Framework\Api\Filter;
+use Magento\Framework\Api\FilterBuilder;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SearchResultsInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
-use Magento\Framework\Stdlib\DateTime\DateTime;
+use Opengento\Gdpr\Api\Data\EraseCustomerInterface;
+use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
+use Opengento\Gdpr\Api\EraseCustomerRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
-use Opengento\Gdpr\Model\CronSchedule;
-use Opengento\Gdpr\Model\ReasonsFactory;
-use Opengento\Gdpr\Model\ResourceModel\CronSchedule as CronScheduleResource;
-use Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory;
-use Opengento\Gdpr\Model\ResourceModel\Reasons as ResourceReasons;
-use Opengento\Gdpr\Service\ErasureStrategy;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -34,117 +35,122 @@ class Erasure
     private $config;
 
     /**
-     * @var \Opengento\Gdpr\Service\ErasureStrategy
-     */
-    private $erasureStrategy;
-
-    /**
      * @var \Magento\Framework\Registry
      */
     private $registry;
 
     /**
-     * @var \Opengento\Gdpr\Model\ReasonsFactory
+     * @var \Opengento\Gdpr\Api\EraseCustomerManagementInterface
      */
-    private $reasonFactory;
+    private $eraseCustomerManagement;
 
     /**
-     * @var \Opengento\Gdpr\Model\ResourceModel\Reasons
+     * @var \Opengento\Gdpr\Api\EraseCustomerRepositoryInterface
      */
-    private $reasonsResource;
+    private $eraseCustomerRepository;
 
     /**
-     * @var \Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder
      */
-    private $collectionFactory;
+    private $searchCriteriaBuilder;
 
     /**
-     * @var \Opengento\Gdpr\Model\ResourceModel\CronSchedule
+     * @var \Magento\Framework\Api\FilterBuilder
      */
-    private $schedulerResource;
-
-    /**
-     * @var \Magento\Framework\Stdlib\DateTime\DateTime
-     */
-    private $dateTime;
+    private $filterBuilder;
 
     /**
      * @param \Psr\Log\LoggerInterface $logger
      * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Opengento\Gdpr\Service\ErasureStrategy $erasureStrategy
      * @param \Magento\Framework\Registry $registry
-     * @param \Opengento\Gdpr\Model\ReasonsFactory $reasonFactory
-     * @param \Opengento\Gdpr\Model\ResourceModel\Reasons $reasonsResource
-     * @param \Opengento\Gdpr\Model\ResourceModel\CronSchedule\CollectionFactory $collectionFactory
-     * @param \Opengento\Gdpr\Model\ResourceModel\CronSchedule $scheduleResource
-     * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
+     * @param \Opengento\Gdpr\Api\EraseCustomerManagementInterface $eraseCustomerManagement
+     * @param \Opengento\Gdpr\Api\EraseCustomerRepositoryInterface $eraseCustomerRepository
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      */
     public function __construct(
         LoggerInterface $logger,
         Config $config,
-        ErasureStrategy $erasureStrategy,
         Registry $registry,
-        ReasonsFactory $reasonFactory,
-        ResourceReasons $reasonsResource,
-        CollectionFactory $collectionFactory,
-        CronScheduleResource $scheduleResource,
-        DateTime $dateTime
+        EraseCustomerManagementInterface $eraseCustomerManagement,
+        EraseCustomerRepositoryInterface $eraseCustomerRepository,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        FilterBuilder $filterBuilder
     ) {
         $this->logger = $logger;
         $this->config = $config;
-        $this->erasureStrategy = $erasureStrategy;
         $this->registry = $registry;
-        $this->reasonFactory = $reasonFactory;
-        $this->reasonsResource = $reasonsResource;
-        $this->collectionFactory = $collectionFactory;
-        $this->schedulerResource = $scheduleResource;
-        $this->dateTime = $dateTime;
+        $this->eraseCustomerManagement = $eraseCustomerManagement;
+        $this->eraseCustomerRepository = $eraseCustomerRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
     }
 
     /**
-     * Check for accounts which need to be erased
+     * Process all scheduled erase customer
      *
      * @return void
      */
     public function execute()
     {
         if ($this->config->isModuleEnabled() && $this->config->isErasureEnabled()) {
-            /** @var \Opengento\Gdpr\Model\ResourceModel\CronSchedule\Collection $cronScheduleCollection */
-            $cronScheduleCollection = $this->collectionFactory->create();
-            $cronScheduleCollection->addFieldToFilter('scheduled_at', ['lteq' => $this->dateTime->gmtDate()]);
+            $oldValue = $this->registry->registry('isSecureArea');
+            $this->registry->register('isSecureArea', true, true);
 
-            if ($cronScheduleCollection->count()) {
-                $oldValue = $this->registry->registry('isSecureArea');
-                $this->registry->register('isSecureArea', true, true);
-
-                /** @var \Opengento\Gdpr\Model\CronSchedule $cronSchedule */
-                foreach ($cronScheduleCollection as $cronSchedule) {
-                    try {
-                        $this->erasureStrategy->execute((int) $cronSchedule->getData('customer_id'));
-                        $this->proceedReason($cronSchedule);
-                    } catch (\Exception $e) {
-                        $this->logger->error($e->getMessage());
-                    }
+            /** @var \Opengento\Gdpr\Api\Data\EraseCustomerInterface $eraseCustomer */
+            foreach ($this->retrieveEraseCustomerList()->getItems() as $eraseCustomer) {
+                try {
+                    $this->eraseCustomerManagement->process($eraseCustomer);
+                } catch (\Exception $e) {
+                    $this->logger->error($e->getMessage());
                 }
-
-                $this->registry->register('isSecureArea', $oldValue, true);
             }
+
+            $this->registry->register('isSecureArea', $oldValue, true);
         }
     }
 
     /**
-     * Proceed reason and update the cron schedule eraser
+     * Retrieve erase customer scheduler list
      *
-     * @param \Opengento\Gdpr\Model\CronSchedule $cronSchedule
-     * @return void
-     * @throws \Exception
-     * @throws \Magento\Framework\Exception\AlreadyExistsException
+     * @return \Magento\Framework\Api\SearchResultsInterface
      */
-    private function proceedReason(CronSchedule $cronSchedule)
+    private function retrieveEraseCustomerList(): SearchResultsInterface
     {
-        $this->reasonsResource->save(
-            $this->reasonFactory->create(['reason' => $cronSchedule->getData('reason')])
-        );
-        $this->schedulerResource->delete($cronSchedule);
+        $this->searchCriteriaBuilder->addFilters([
+            $this->createFilter(EraseCustomerInterface::SCHEDULED_AT, new \DateTime(), 'lteq'),
+            $this->createFilter(EraseCustomerInterface::STATE, EraseCustomerInterface::STATE_PENDING),
+            $this->createFilter(EraseCustomerInterface::STATUS, EraseCustomerInterface::STATUS_READY),
+        ]);
+        $this->searchCriteriaBuilder->addFilters([
+            $this->createFilter(EraseCustomerInterface::SCHEDULED_AT, new \DateTime(), 'lteq'),
+            $this->createFilter(EraseCustomerInterface::STATE, EraseCustomerInterface::STATE_PROCESSING),
+            $this->createFilter(EraseCustomerInterface::STATUS, EraseCustomerInterface::STATUS_FAILED),
+        ]);
+
+        try {
+            $eraseCustomerList = $this->eraseCustomerRepository->getList($this->searchCriteriaBuilder->create());
+        } catch (LocalizedException $e) {
+            $eraseCustomerList = [];
+        }
+
+        return $eraseCustomerList;
+    }
+
+    /**
+     * Create a new search criteria filter
+     *
+     * @param string $field
+     * @param array|string $value
+     * @param string $conditionType
+     * @return \Magento\Framework\Api\Filter
+     */
+    private function createFilter(string $field, $value, string $conditionType = 'eq'): Filter
+    {
+        $this->filterBuilder->setField($field);
+        $this->filterBuilder->setValue($value);
+        $this->filterBuilder->setConditionType($conditionType);
+
+        return $this->filterBuilder->create();
     }
 }

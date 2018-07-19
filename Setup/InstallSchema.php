@@ -7,10 +7,13 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Setup;
 
+use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
+use Opengento\Gdpr\Api\Data\EraseCustomerInterface;
+use Opengento\Gdpr\Model\ResourceModel\EraseCustomer;
 
 /**
  * Module install schema.
@@ -24,106 +27,86 @@ class InstallSchema implements InstallSchemaInterface
     {
         $setup->startSetup();
 
-        $this->createCronScheduleTable($setup);
-        $this->createReasonTable($setup);
+        $this->createEraseCustomerTable($setup);
 
         $setup->endSetup();
     }
 
     /**
-     * Create table 'opengento_gdpr_cleanup_schedule'
+     * Create table 'opengento_gdpr_erase_customer'
      *
      * @param \Magento\Framework\Setup\SchemaSetupInterface $setup
      * @return bool
      * @throws \Zend_Db_Exception
      */
-    private function createCronScheduleTable(SchemaSetupInterface $setup): bool
+    private function createEraseCustomerTable(SchemaSetupInterface $setup): bool
     {
         $table = $setup->getConnection()
-            ->newTable($setup->getTable('opengento_gdpr_cleanup_schedule'))
+            ->newTable($setup->getTable(EraseCustomer::TABLE))
             ->addColumn(
-                'schedule_id',
+                EraseCustomerInterface::ID,
                 Table::TYPE_SMALLINT,
                 null,
                 ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
-                'Id of schedule item'
+                'Entity ID'
             )
             ->addColumn(
-                'scheduled_at',
+                EraseCustomerInterface::CUSTOMER_ID,
+                Table::TYPE_INTEGER,
+                10,
+                ['unsigned' => true, 'nullable' => false],
+                'Customer entity Id'
+            )
+            ->addColumn(
+                EraseCustomerInterface::SCHEDULED_AT,
                 Table::TYPE_TIMESTAMP,
                 null,
                 ['nullable' => false, 'default' => Table::TIMESTAMP_INIT],
                 'Scheduled At'
             )
             ->addColumn(
-                'customer_id',
-                Table::TYPE_INTEGER,
-                null,
-                ['nullable' => false],
-                'Customer entity Id'
-            )
-            ->addColumn(
-                'type',
+                EraseCustomerInterface::STATE,
                 Table::TYPE_TEXT,
                 255,
                 ['nullable' => false],
-                'Action type'
+                'State'
             )
             ->addColumn(
-                'reason',
+                EraseCustomerInterface::STATUS,
                 Table::TYPE_TEXT,
-                null,
+                255,
                 ['nullable' => false],
-                'Reason text'
+                'Status'
+            )
+            ->addColumn(
+                EraseCustomerInterface::ERASED_AT,
+                Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => true],
+                'Erased At'
             )
             ->addIndex(
                 $setup->getIdxName(
-                    'opengento_gdpr_cleanup_schedule',
-                    ['customer_id'],
-                    true
+                    EraseCustomer::TABLE,
+                    [EraseCustomerInterface::CUSTOMER_ID],
+                    AdapterInterface::INDEX_TYPE_UNIQUE
                 ),
-                ['customer_id'],
-                ['type' => 'unique']
+                [EraseCustomerInterface::CUSTOMER_ID],
+                ['type' => AdapterInterface::INDEX_TYPE_UNIQUE]
             )
-            ->setComment('Account Cleanup Schedule');
-
-        $setup->getConnection()->createTable($table);
-
-        return true;
-    }
-
-    /**
-     * Create table 'opengento_gdpr_delete_reasons'
-     *
-     * @param \Magento\Framework\Setup\SchemaSetupInterface $setup
-     * @return bool
-     * @throws \Zend_Db_Exception
-     */
-    private function createReasonTable(SchemaSetupInterface $setup): bool
-    {
-        $table = $setup->getConnection()
-            ->newTable($setup->getTable('opengento_gdpr_delete_reasons'))
-            ->addColumn(
-                'reason_id',
-                Table::TYPE_SMALLINT,
-                null,
-                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
-                'Status id'
-            )->addColumn(
-                'reason',
-                Table::TYPE_TEXT,
-                null,
-                ['nullable' => false],
-                'Reason text'
+            ->addForeignKey(
+                $setup->getFkName(
+                    EraseCustomer::TABLE,
+                    EraseCustomerInterface::CUSTOMER_ID,
+                    'customer_entity',
+                    'entity_id'
+                ),
+                EraseCustomerInterface::CUSTOMER_ID,
+                $setup->getTable('customer_entity'),
+                'entity_id',
+                Table::ACTION_NO_ACTION
             )
-            ->addColumn(
-                'created_at',
-                Table::TYPE_TIMESTAMP,
-                null,
-                ['nullable' => false, 'default' => Table::TIMESTAMP_INIT],
-                'Created At'
-            )
-            ->setComment('Comments statuses');
+            ->setComment('Customer Erase Scheduler');
 
         $setup->getConnection()->createTable($table);
 
