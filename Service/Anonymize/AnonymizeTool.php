@@ -60,7 +60,7 @@ class AnonymizeTool
      */
     public function anonymousPhone(): string
     {
-        return (new Phrase('9999999999'))->render();
+        return '9999999999';
     }
 
     /**

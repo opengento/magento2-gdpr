@@ -1,8 +1,6 @@
 # ToDo
 
 - User Guide / Publish / Marketplace
-- Allows customers to delete their default addresses
-- Add reference to GDPR articles
 
 ## Processors
 
@@ -31,7 +29,3 @@ Add attributes configuration for:
 ## Renderer
 
 Implement and debug outputs: PDF, CSV
-
-## Locale
-
-Export all translations in i18n/*.csv
