@@ -31,20 +31,9 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
                 <input type="password" class="input-text" name="password" id="password" data-validate="{required:true}" autocomplete="off" />
             </div>
         </div>
-        <div class="field reason required">
-            <label class="label" for="reason">
-                <span><?= $block->escapeHtml(__('Reason')) ?></span>
-            </label>
-            <div class="control">
-                <textarea class="textarea" name="reason" id="reason" data-validate="{required:true}" autocomplete="off"></textarea>
-            </div>
-            <div class="comment">
-                <?= $block->escapeHtml(__('Please explain why you want to erase your account.')) ?>
-            </div>
-        </div>
         <div class="actions-toolbar">
             <div class="primary">
-                <button type="submit" class="button-red action submit primary" id="delete" title="<?= $block->escapeHtmlAttr(__('Delete Account')) ?>">
+                <button type="submit" class="action submit primary primary-danger" id="delete" title="<?= $block->escapeHtmlAttr(__('Delete Account')) ?>">
                     <span><?= $block->escapeHtml(__('Delete Account')) ?></span>
                 </button>
             </div>

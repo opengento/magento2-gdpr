@@ -46,7 +46,6 @@ class QuoteDataProcessor implements ProcessorInterface
         $searchCriteria = $this->searchCriteriaBuilder->addFilter('customer_id', $customerId);
         $quoteList = $this->quoteRepository->getList($searchCriteria->create());
 
-        /** @var \Magento\Quote\Model\Quote $quote */
         foreach ($quoteList->getItems() as $quote) {
             $this->quoteRepository->delete($quote);
         }

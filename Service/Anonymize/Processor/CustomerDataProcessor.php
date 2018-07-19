@@ -13,6 +13,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
+use Opengento\Gdpr\Service\Anonymize\AccountBlocker;
 use Opengento\Gdpr\Service\Anonymize\AnonymizeTool;
 use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
 
@@ -25,6 +26,11 @@ class CustomerDataProcessor implements ProcessorInterface
      * @var \Opengento\Gdpr\Service\Anonymize\AnonymizeTool
      */
     private $anonymizeTool;
+
+    /**
+     * @var \Opengento\Gdpr\Service\Anonymize\AccountBlocker
+     */
+    private $accountBlocker;
 
     /**
      * @var \Magento\Customer\Api\CustomerRepositoryInterface
@@ -48,6 +54,7 @@ class CustomerDataProcessor implements ProcessorInterface
 
     /**
      * @param \Opengento\Gdpr\Service\Anonymize\AnonymizeTool $anonymizeTool
+     * @param \Opengento\Gdpr\Service\Anonymize\AccountBlocker $accountBlocker
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
@@ -55,12 +62,14 @@ class CustomerDataProcessor implements ProcessorInterface
      */
     public function __construct(
         AnonymizeTool $anonymizeTool,
+        AccountBlocker $accountBlocker,
         CustomerRepositoryInterface $customerRepository,
         OrderRepositoryInterface $orderRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         Config $config
     ) {
         $this->anonymizeTool = $anonymizeTool;
+        $this->accountBlocker = $accountBlocker;
         $this->customerRepository = $customerRepository;
         $this->orderRepository = $orderRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
@@ -89,8 +98,12 @@ class CustomerDataProcessor implements ProcessorInterface
             $customer->setFirstname($this->anonymizeTool->anonymousValue());
             $customer->setMiddlename($this->anonymizeTool->anonymousValue());
             $customer->setLastname($this->anonymizeTool->anonymousValue());
-            $customer->setEmail($this->anonymizeTool->anonymousValue() . $customerId . '@gdpr.org');
+            $customer->setEmail(
+                $this->anonymizeTool->anonymousEmail((string) $customer->getStoreId(), (string) $customerId)
+            );
             $customer->setTaxvat(null);
+
+            $this->accountBlocker->invalid($customerId);
 
             $this->customerRepository->save($customer);
         } catch (NoSuchEntityException $e) {

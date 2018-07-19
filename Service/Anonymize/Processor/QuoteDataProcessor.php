@@ -86,7 +86,7 @@ class QuoteDataProcessor implements ProcessorInterface
                     $quoteAddress->setCity($anonymousValue);
                     $quoteAddress->setStreet([$anonymousValue]);
                     $quoteAddress->setEmail($this->anonymizeTool->anonymousEmail());
-                    $quoteAddress->setTelephone($this->anonymizeTool->randomValue(10, Random::CHARS_DIGITS));
+                    $quoteAddress->setTelephone($this->anonymizeTool->anonymousPhone());
 
                     /** @var \Magento\Quote\Model\Quote\Address $quoteAddress */
                     $this->quoteAddressResourceModel->save($quoteAddress);

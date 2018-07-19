@@ -19,7 +19,7 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
         <div class="widget block block-static-block">
             <?= $erasureDataProvider->getErasureInformation() ?>
         </div>
-        <?php if ($erasureDataProvider->isErasureScheduled()): ?>
+        <?php if ($erasureDataProvider->canBeCanceled()): ?>
             <div class="message warning">
                 <span><?= $block->escapeHtml(__('Your account will be deleted soon. You can undo this action.')) ?></span>
             </div>
@@ -30,7 +30,7 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
                     </a>
                 </div>
             </div>
-        <?php else: ?>
+        <?php elseif ($erasureDataProvider->canBeProcessed()): ?>
             <?php if ($erasureDataProvider->isAnonymizeStrategy()): ?>
                 <div class="widget block block-static-block">
                     <?= $erasureDataProvider->getAnonymizeInformation() ?>
@@ -38,7 +38,7 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
             <?php endif; ?>
             <div class="actions-toolbar">
                 <div class="primary">
-                    <a href="<?= $block->escapeUrl($urlsDataProvider->getDeletePageUrl()) ?>" class="button-red action submit primary" id="delete">
+                    <a href="<?= $block->escapeUrl($urlsDataProvider->getDeletePageUrl()) ?>" class="action submit primary primary-danger" id="delete">
                         <span><?= $block->escapeHtml(__('Delete Account')) ?></span>
                     </a>
                 </div>

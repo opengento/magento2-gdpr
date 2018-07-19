@@ -10,12 +10,14 @@
         <gdpr>
             <general>
                 <enabled>0</enabled>
+                <page_id>privacy-policy-cookie-restriction-mode</page_id>
             </general>
             <erasure>
                 <enabled>0</enabled>
                 <strategy>anonymize</strategy>
                 <time_lapse>3600</time_lapse>
                 <schedule>* * * * *</schedule>
+                <remove_customer>1</remove_customer>
                 <components>customer_address,subscriber</components>
             </erasure>
             <export>
