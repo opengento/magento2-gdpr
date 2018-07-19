@@ -23,7 +23,7 @@
         "magento/marketplace-eqp": "^1.0.0"
     },
     "type": "magento2-module",
-    "version": "2.0.0-alpha2",
+    "version": "2.0.0-beta",
     "license": [
         "MIT"
     ],
