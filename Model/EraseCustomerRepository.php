@@ -49,11 +49,6 @@ class EraseCustomerRepository implements EraseCustomerRepositoryInterface
     private $collectionFactory;
 
     /**
-     * @var \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface
-     */
-    private $collectionProcessor;
-
-    /**
      * @var \Opengento\Gdpr\Api\Data\EraseCustomerSearchResultsInterfaceFactory
      */
     private $searchResultsFactory;
@@ -72,20 +67,17 @@ class EraseCustomerRepository implements EraseCustomerRepositoryInterface
      * @param \Opengento\Gdpr\Model\ResourceModel\EraseCustomer $eraseCustomerResource
      * @param \Opengento\Gdpr\Api\Data\EraseCustomerInterfaceFactory $eraseCustomerFactory
      * @param \Opengento\Gdpr\Model\ResourceModel\EraseCustomer\CollectionFactory $collectionFactory
-     * @param \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface $collectionProcessor
      * @param \Opengento\Gdpr\Api\Data\EraseCustomerSearchResultsInterfaceFactory $searchResultsFactory
      */
     public function __construct(
         EraseCustomerResource $eraseCustomerResource,
         EraseCustomerInterfaceFactory $eraseCustomerFactory,
         CollectionFactory $collectionFactory,
-        CollectionProcessorInterface $collectionProcessor,
         EraseCustomerSearchResultsInterfaceFactory $searchResultsFactory
     ) {
         $this->eraseCustomerResource = $eraseCustomerResource;
         $this->eraseCustomerFactory = $eraseCustomerFactory;
         $this->collectionFactory = $collectionFactory;
-        $this->collectionProcessor = $collectionProcessor;
         $this->searchResultsFactory = $searchResultsFactory;
     }
 
@@ -155,11 +147,31 @@ class EraseCustomerRepository implements EraseCustomerRepositoryInterface
         /** @var \Opengento\Gdpr\Model\ResourceModel\EraseCustomer\Collection $collection */
         $collection = $this->collectionFactory->create();
 
-        $this->collectionProcessor->process($searchCriteria, $collection);
-
         /** @var \Opengento\Gdpr\Api\Data\EraseCustomerSearchResultsInterface $searchResults */
         $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($searchCriteria);
+
+        foreach ($searchCriteria->getFilterGroups() as $filterGroup) {
+            $fields = [];
+            $conditions = [];
+
+            foreach ($filterGroup->getFilters() as $filter) {
+                $fields[] = $filter->getField();
+                $conditions[] = [$filter->getConditionType() => $filter->getValue()];
+            }
+
+            $collection->addFieldToFilter($fields, $conditions);
+        }
+
+        if ($searchCriteria->getSortOrders()) {
+            foreach ($searchCriteria->getSortOrders() as $sortOrder) {
+                $collection->addOrder($sortOrder->getField(), $sortOrder->getDirection());
+            }
+        }
+
+        $collection->setCurPage($searchCriteria->getCurrentPage());
+        $collection->setPageSize($searchCriteria->getPageSize());
+
         $searchResults->setItems($collection->getItems());
         $searchResults->setTotalCount($collection->count());
 
