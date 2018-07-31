@@ -9,7 +9,7 @@
     <group id="export" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
         <label>Export Settings</label>
         <depends>
-            <field id="gdpr/general/enabled">1</field>
+            <field id="customer/gdpr/general/enabled">1</field>
         </depends>
         <field id="enabled" type="select" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Export</label>
@@ -20,7 +20,7 @@
             <label>Information</label>
             <source_model>Opengento\Gdpr\Model\Config\Source\Block</source_model>
             <depends>
-                <field id="gdpr/export/enabled">1</field>
+                <field id="customer/gdpr/export/enabled">1</field>
             </depends>
             <config_path>gdpr/export/block_id</config_path>
         </field>
@@ -28,7 +28,7 @@
             <label>Renderer</label>
             <source_model>Opengento\Gdpr\Model\Config\Source\ExportRenderer</source_model>
             <depends>
-                <field id="gdpr/export/enabled">1</field>
+                <field id="customer/gdpr/export/enabled">1</field>
             </depends>
             <config_path>gdpr/export/renderer</config_path>
         </field>
@@ -38,7 +38,7 @@
             <source_model>Opengento\Gdpr\Model\Config\Source\CustomerAttributes</source_model>
             <can_be_empty>1</can_be_empty>
             <depends>
-                <field id="gdpr/export/enabled">1</field>
+                <field id="customer/gdpr/export/enabled">1</field>
             </depends>
             <config_path>gdpr/export/customer_attributes</config_path>
         </field>
@@ -48,7 +48,7 @@
             <source_model>Opengento\Gdpr\Model\Config\Source\CustomerAddressAttributes</source_model>
             <can_be_empty>1</can_be_empty>
             <depends>
-                <field id="gdpr/export/enabled">1</field>
+                <field id="customer/gdpr/export/enabled">1</field>
             </depends>
             <config_path>gdpr/export/customer_address_attributes</config_path>
         </field>
