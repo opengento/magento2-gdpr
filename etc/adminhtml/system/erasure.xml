@@ -9,7 +9,7 @@
     <group id="erasure" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
         <label>Right To Erasure</label>
         <depends>
-            <field id="customer/gdpr/general/enabled">1</field>
+            <field id="gdpr/general/enabled">1</field>
         </depends>
         <field id="enabled" type="select" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Erasure</label>
@@ -20,7 +20,7 @@
             <label>Default Erasure Strategy</label>
             <source_model>Opengento\Gdpr\Model\Config\Source\EraseStrategy</source_model>
             <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
+                <field id="gdpr/erasure/enabled">1</field>
             </depends>
             <config_path>gdpr/erasure/strategy</config_path>
         </field>
@@ -29,14 +29,14 @@
             <comment>Erasure time lapse in seconds before the execution</comment>
             <frontend_class>validate-number</frontend_class>
             <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
+                <field id="gdpr/erasure/enabled">1</field>
             </depends>
             <config_path>gdpr/erasure/time_lapse</config_path>
         </field>
         <field id="schedule" type="text" translate="label" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Cron Schedule</label>
             <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
+                <field id="gdpr/erasure/enabled">1</field>
             </depends>
             <config_path>gdpr/erasure/schedule</config_path>
         </field>
@@ -44,15 +44,15 @@
             <label>Information</label>
             <source_model>Opengento\Gdpr\Model\Config\Source\Block</source_model>
             <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
+                <field id="gdpr/erasure/enabled">1</field>
             </depends>
             <config_path>gdpr/erasure/block_id</config_path>
         </field>
         <group id="anonymize" translate="label" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Anonymization</label>
             <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
-                <field id="customer/gdpr/erasure/strategy">anonymize</field>
+                <field id="gdpr/erasure/enabled">1</field>
+                <field id="gdpr/erasure/strategy">anonymize</field>
             </depends>
             <field id="block_id" type="select" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Information</label>
