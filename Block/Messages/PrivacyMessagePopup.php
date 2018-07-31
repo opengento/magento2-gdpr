@@ -94,9 +94,10 @@ class PrivacyMessagePopup extends Template
         if (!$this->hasData('cookie_disclosure_information')) {
             $block = $this->getLayout()->createBlock(
                 Block::class,
+                'opengento.gdpr.cookie.disclosure.information',
                 ['data' => ['block_id' => $this->config->getCookieDisclosureInformationBlockId()]]
             );
-            $this->setData('cookie_disclosure_information', $block);
+            $this->setData('cookie_disclosure_information', $block->toHtml());
         }
         
         return (string) $this->_getData('cookie_disclosure_information');
