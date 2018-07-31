@@ -18,10 +18,10 @@
     <div class="popup content">
         <strong data-bind="i18n: 'Cookie Disclosure'"></strong>
         <div class="block-content">
-            <p data-bind="text: notificationText"></p>
+            <div data-bind="html: notificationText"></div>
             <div class="actions-toolbar">
                 <div class="secondary">
-                    <a class="action" data-bind="attr: {href: getLearnMoreLink() }, i18n: 'Read More'"></a>
+                    <a class="action" data-bind="attr: {href: learnMore}, i18n: 'Read More'"></a>
                 </div>
                 <div class="primary">
                     <button type="button" class="action primary" id="enhanced-privacy-popup-agree" data-bind="i18n: 'Accept'"></button>
