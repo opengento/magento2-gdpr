@@ -173,7 +173,7 @@ class EraseCustomerRepository implements EraseCustomerRepositoryInterface
         $collection->setPageSize($searchCriteria->getPageSize());
 
         $searchResults->setItems($collection->getItems());
-        $searchResults->setTotalCount($collection->count());
+        $searchResults->setTotalCount($collection->getSize());
 
         return $searchResults;
     }
