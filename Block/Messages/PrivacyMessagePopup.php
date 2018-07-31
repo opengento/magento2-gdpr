@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Block\Messages;
 
+use Magento\Cms\Block\Block;
 use Magento\Cms\Helper\Page as HelperPage;
 use Magento\Framework\Json\Encoder;
 use Magento\Framework\View\Element\Template;
@@ -68,7 +69,7 @@ class PrivacyMessagePopup extends Template
         $this->jsLayout['components']['enhanced-privacy-cookie-policy']['config'] = [
             'cookieName' => self::COOKIE_NAME,
             'learnMore' => $this->helperPage->getPageUrl($this->config->getPrivacyInformationPageId()),
-            'notificationText' => $this->config->getCookieDisclosureInformationBlockId()
+            'notificationText' => $this->getCookieDisclosureInformation(),
         ];
 
         return $this->jsonEncoder->encode($this->jsLayout);
@@ -80,5 +81,24 @@ class PrivacyMessagePopup extends Template
     protected function _toHtml()
     {
         return $this->config->isCookieDisclosureEnabled() ? parent::_toHtml() : '';
+    }
+
+    /**
+     * Retrieve the cookie disclosure information html
+     *
+     * @return string
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    private function getCookieDisclosureInformation(): string
+    {
+        if (!$this->hasData('cookie_disclosure_information')) {
+            $block = $this->getLayout()->createBlock(
+                Block::class,
+                ['data' => ['block_id' => $this->config->getCookieDisclosureInformationBlockId()]]
+            );
+            $this->setData('cookie_disclosure_information', $block);
+        }
+        
+        return (string) $this->_getData('cookie_disclosure_information');
     }
 }

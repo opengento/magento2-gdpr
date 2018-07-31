@@ -43,6 +43,7 @@ Anonymization,Anonymisation
 "We will delete the customer if he has no orders.","Nous allons supprimer le client si il n'a pas de commandes"
 "Apply Deletion Strategy","Appliquer la stratégie de suppression"
 "This processors list allows to configure specific erasure strategy by component.","This processors list allows to configure specific erasure strategy by component."
+"Privacy Settings","Paramètres de confidentialité"
 "Export Settings","Exporter les paramètres"
 Export,Exporter
 Renderer,Renderer

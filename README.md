@@ -24,7 +24,9 @@ This extension allows customers to delete, anonymize, and export their personal 
 Magento 2 Open Source or Commerce edition is required.
 
 The Version `2.x` is compliant with Magento `2.2.x`.  
-The Version `1.x` is compliant with Magento `2.0.x` and `2.1.x`.
+The Version `1.x` is compliant with Magento `2.1.x`.
+
+This module does not support Magento `2.0.x`, as this version is not anymore maintained.  
 
 ### Get the package
 
