@@ -23,33 +23,26 @@ define([
     return Component.extend({
         showPopUp: ko.observable(null),
         popupText: ko.observable(null),
+        popupLink: ko.observable(null),
 
         defaults: {
             template: 'Opengento_Gdpr/message'
         },
 
         /**
-         * Initialize component.
+         * Initialize component
          */
         initialize: function () {
             this._super();
 
             this.showPopUp(!$.cookie(this.cookieName));
             this.popupText(this.notificationText);
+            this.popupLink(this.learnMore);
 
             $(document).on('click', '#enhanced-privacy-popup-agree', function () {
                 this.showPopUp(false);
                 $.cookie(this.cookieName, 1);
             }.bind(this));
-        },
-
-        /**
-         * Get URL to information page.
-         *
-         * @returns {*}
-         */
-        getLearnMoreLink: function () {
-            return this.learnMore;
         }
     });
 });
