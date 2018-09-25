@@ -20,7 +20,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Scheduler to clean accounts marked to be deleted or anonymized
  */
-class Erasure
+final class Erasure
 {
     /**
      * @var \Psr\Log\LoggerInterface

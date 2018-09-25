@@ -18,7 +18,7 @@ use Opengento\Gdpr\Model\ResourceModel\EraseCustomer;
 /**
  * Module install schema.
  */
-class InstallSchema implements InstallSchemaInterface
+final class InstallSchema implements InstallSchemaInterface
 {
     /**
      * {@inheritdoc}

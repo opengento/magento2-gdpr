@@ -24,7 +24,7 @@ use Opengento\Gdpr\Model\ResourceModel\EraseCustomer\CollectionFactory;
 /**
  * Class EraseCustomerRepository
  */
-class EraseCustomerRepository implements EraseCustomerRepositoryInterface
+final class EraseCustomerRepository implements EraseCustomerRepositoryInterface
 {
     /**#@+
      * Constants for register keys

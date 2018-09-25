@@ -13,7 +13,7 @@ use Opengento\Gdpr\Service\Export\RendererInterface;
 /**
  * Class CsvRenderer
  */
-class CsvRenderer extends AbstractRenderer implements RendererInterface
+final class CsvRenderer extends AbstractRenderer implements RendererInterface
 {
     /**
      * {@inheritdoc}

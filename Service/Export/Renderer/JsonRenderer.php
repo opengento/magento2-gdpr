@@ -15,7 +15,7 @@ use Opengento\Gdpr\Service\Export\RendererInterface;
 /**
  * Class JsonRenderer
  */
-class JsonRenderer extends AbstractRenderer implements RendererInterface
+final class JsonRenderer extends AbstractRenderer implements RendererInterface
 {
     /**
      * @var \Magento\Framework\Serialize\Serializer\Json

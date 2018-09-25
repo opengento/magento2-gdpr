@@ -13,7 +13,7 @@ use Magento\Framework\ObjectManager\TMap;
  * Class ExportManagement
  * @api
  */
-class ExportManagement
+final class ExportManagement
 {
     /**
      * @var \Magento\Framework\ObjectManager\TMap

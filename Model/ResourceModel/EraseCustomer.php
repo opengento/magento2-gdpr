@@ -13,7 +13,7 @@ use Opengento\Gdpr\Api\Data\EraseCustomerInterface;
 /**
  * Erase Customer Scheduler Resource Model
  */
-class EraseCustomer extends AbstractDb
+final class EraseCustomer extends AbstractDb
 {
     const TABLE = 'opengento_gdpr_erase_customer';
 

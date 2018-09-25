@@ -13,7 +13,7 @@ use Opengento\Gdpr\Service\Export\ProcessorInterface;
 /**
  * Class SubscriberDataProcessor
  */
-class SubscriberDataProcessor implements ProcessorInterface
+final class SubscriberDataProcessor implements ProcessorInterface
 {
     /**
      * @var \Magento\Newsletter\Model\SubscriberFactory

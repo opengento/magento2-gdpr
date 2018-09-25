@@ -22,7 +22,7 @@ use Opengento\Gdpr\Service\ErasureStrategy;
 /**
  * Class EraseCustomerManagement
  */
-class EraseCustomerManagement implements EraseCustomerManagementInterface
+final class EraseCustomerManagement implements EraseCustomerManagementInterface
 {
     /**
      * @var \Opengento\Gdpr\Api\Data\EraseCustomerInterfaceFactory

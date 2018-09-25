@@ -22,7 +22,7 @@ use Magento\Store\Model\ScopeInterface;
 /**
  * Class AccountBlocker
  */
-class AccountBlocker
+final class AccountBlocker
 {
     /**
      * @var \Magento\Customer\Model\CustomerRegistry
