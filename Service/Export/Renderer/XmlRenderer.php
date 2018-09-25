@@ -15,7 +15,7 @@ use Opengento\Gdpr\Service\Export\RendererInterface;
 /**
  * Class XmlRenderer
  */
-class XmlRenderer extends AbstractRenderer implements RendererInterface
+final class XmlRenderer extends AbstractRenderer implements RendererInterface
 {
     /**
      * @var \Magento\Framework\Convert\ConvertArray

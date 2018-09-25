@@ -13,7 +13,7 @@ use Opengento\Gdpr\Model\Config;
 /**
  * Class PrivacyActionPlugin
  */
-class PrivacyActionPlugin
+final class PrivacyActionPlugin
 {
     /**
      * @var \Opengento\Gdpr\Model\Config

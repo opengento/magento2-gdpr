@@ -16,7 +16,7 @@ use Opengento\Gdpr\Model\Config;
 /**
  * Class ExportDataProvider
  */
-class ExportDataProvider extends DataObject implements CollectionDataSourceInterface
+final class ExportDataProvider extends DataObject implements CollectionDataSourceInterface
 {
     /**
      * @var \Opengento\Gdpr\Model\Config

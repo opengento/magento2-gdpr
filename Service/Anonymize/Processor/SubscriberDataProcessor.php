@@ -15,7 +15,7 @@ use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
 /**
  * Class SubscriberDataProcessor
  */
-class SubscriberDataProcessor implements ProcessorInterface
+final class SubscriberDataProcessor implements ProcessorInterface
 {
     /**
      * @var \Opengento\Gdpr\Service\Anonymize\AnonymizeTool

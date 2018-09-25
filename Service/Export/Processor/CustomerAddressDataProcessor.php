@@ -17,7 +17,7 @@ use Opengento\Gdpr\Service\Export\ProcessorInterface;
 /**
  * Class CustomerAddressDataProcessor
  */
-class CustomerAddressDataProcessor implements ProcessorInterface
+final class CustomerAddressDataProcessor implements ProcessorInterface
 {
     /**
      * @var \Magento\Customer\Api\AddressRepositoryInterface

@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class ExportCommand
  * @package Opengento\Gdpr\Console\Command
  */
-class ExportCommand extends Command
+final class ExportCommand extends Command
 {
     /**#@+
      * Input Variables Names

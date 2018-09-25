@@ -13,7 +13,7 @@ use Magento\Store\Model\ScopeInterface;
 /**
  * Class Config
  */
-class Config
+final class Config
 {
     /**#@+
      * Scope Config: Data Settings Paths

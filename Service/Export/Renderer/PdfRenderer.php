@@ -13,7 +13,7 @@ use Opengento\Gdpr\Service\Export\RendererInterface;
 /**
  * Class PdfRenderer
  */
-class PdfRenderer extends AbstractRenderer implements RendererInterface
+final class PdfRenderer extends AbstractRenderer implements RendererInterface
 {
     /**
      * {@inheritdoc}

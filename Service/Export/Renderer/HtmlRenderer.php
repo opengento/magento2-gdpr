@@ -17,7 +17,7 @@ use Opengento\Gdpr\Service\Export\RendererInterface;
 /**
  * Class HtmlRenderer
  */
-class HtmlRenderer extends AbstractRenderer implements RendererInterface
+final class HtmlRenderer extends AbstractRenderer implements RendererInterface
 {
     /**
      * @var \Magento\Framework\View\LayoutFactory

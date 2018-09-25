@@ -13,7 +13,7 @@ use Magento\Framework\ObjectManager\TMap;
  * Class AnonymizeManagement
  * @api
  */
-class AnonymizeManagement
+final class AnonymizeManagement
 {
     /**
      * @var \Magento\Framework\ObjectManager\TMap

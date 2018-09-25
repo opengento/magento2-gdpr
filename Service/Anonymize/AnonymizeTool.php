@@ -13,7 +13,7 @@ use Magento\Framework\Phrase;
 /**
  * Class AnonymizeTool
  */
-class AnonymizeTool
+final class AnonymizeTool
 {
     /**
      * @var \Magento\Framework\Math\Random
