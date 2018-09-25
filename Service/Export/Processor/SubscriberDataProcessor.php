@@ -13,7 +13,7 @@ use Opengento\Gdpr\Service\Export\ProcessorInterface;
 /**
  * Class SubscriberDataProcessor
  */
-class SubscriberDataProcessor implements ProcessorInterface
+final class SubscriberDataProcessor implements ProcessorInterface
 {
     /**
      * @var \Magento\Newsletter\Model\SubscriberFactory
@@ -37,7 +37,7 @@ class SubscriberDataProcessor implements ProcessorInterface
         /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
         $subscriber = $this->subscriberFactory->create();
         $subscriber->loadByCustomerId($customerId);
-        $data['orders'] = $subscriber->toArray();
+        $data['subscribers'] = $subscriber->toArray();
 
         return $data;
     }

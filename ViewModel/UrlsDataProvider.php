@@ -15,7 +15,7 @@ use Opengento\Gdpr\Model\Config;
 /**
  * Class UrlsDataProvider
  */
-class UrlsDataProvider implements ArgumentInterface
+final class UrlsDataProvider implements ArgumentInterface
 {
     /**#@+
      * Routes Path Data

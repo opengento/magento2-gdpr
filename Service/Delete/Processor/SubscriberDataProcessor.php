@@ -14,7 +14,7 @@ use Opengento\Gdpr\Service\Delete\ProcessorInterface;
 /**
  * Class SubscriberDataProcessor
  */
-class SubscriberDataProcessor implements ProcessorInterface
+final class SubscriberDataProcessor implements ProcessorInterface
 {
     /**
      * @var \Magento\Newsletter\Model\SubscriberFactory

@@ -15,7 +15,7 @@ use Opengento\Gdpr\Service\Export\RendererInterface;
  * Class ExportStrategy
  * @api
  */
-class ExportStrategy implements RendererInterface
+final class ExportStrategy implements RendererInterface
 {
     /**
      * @var \Magento\Framework\ObjectManager\TMap

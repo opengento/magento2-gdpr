@@ -13,7 +13,7 @@ use Opengento\Gdpr\Model\Config\ErasureComponentStrategy;
  * Class PrivacyStrategy
  * @api
  */
-class ErasureStrategy
+final class ErasureStrategy
 {
     /**#@+
      * Strategy Constant Values

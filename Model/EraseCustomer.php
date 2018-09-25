@@ -14,7 +14,7 @@ use Opengento\Gdpr\Model\ResourceModel\EraseCustomer as EraseCustomerResource;
 /**
  * Erase Customer Model
  */
-class EraseCustomer extends AbstractExtensibleModel implements EraseCustomerInterface
+final class EraseCustomer extends AbstractExtensibleModel implements EraseCustomerInterface
 {
     /**
      * {@inheritdoc}
@@ -37,7 +37,9 @@ class EraseCustomer extends AbstractExtensibleModel implements EraseCustomerInte
      */
     public function setEntityId($entityId): EraseCustomerInterface
     {
-        return parent::setEntityId((int) $entityId);
+        parent::setEntityId((int) $entityId);
+
+        return $this;
     }
 
     /**

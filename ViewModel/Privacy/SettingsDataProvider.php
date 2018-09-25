@@ -16,7 +16,7 @@ use Opengento\Gdpr\Model\Config;
 /**
  * Class SettingsDataProvider
  */
-class SettingsDataProvider extends DataObject implements ArgumentInterface
+final class SettingsDataProvider extends DataObject implements ArgumentInterface
 {
     /**
      * @var \Opengento\Gdpr\Model\Config

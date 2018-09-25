@@ -15,7 +15,7 @@ use Opengento\Gdpr\Service\Delete\ProcessorInterface;
 /**
  * Class CustomerDataProcessor
  */
-class CustomerDataProcessor implements ProcessorInterface
+final class CustomerDataProcessor implements ProcessorInterface
 {
     /**
      * @var \Magento\Customer\Api\CustomerRepositoryInterface

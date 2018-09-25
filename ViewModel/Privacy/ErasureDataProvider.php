@@ -21,7 +21,7 @@ use Opengento\Gdpr\Service\ErasureStrategy;
 /**
  * Class ErasureDataProvider
  */
-class ErasureDataProvider extends DataObject implements ArgumentInterface
+final class ErasureDataProvider extends DataObject implements ArgumentInterface
 {
     /**
      * @var \Opengento\Gdpr\Api\EraseCustomerRepositoryInterface

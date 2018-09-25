@@ -16,7 +16,7 @@ use Opengento\Gdpr\Service\Export\ProcessorInterface;
 /**
  * Class QuoteDataProcessor
  */
-class QuoteDataProcessor implements ProcessorInterface
+final class QuoteDataProcessor implements ProcessorInterface
 {
     /**
      * @var \Magento\Quote\Api\CartRepositoryInterface

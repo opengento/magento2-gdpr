@@ -14,7 +14,7 @@ use Opengento\Gdpr\Model\Config;
 /**
  * Class DeleteActionPlugin
  */
-class DeleteActionPlugin
+final class DeleteActionPlugin
 {
     /**
      * @var \Opengento\Gdpr\Model\Config
