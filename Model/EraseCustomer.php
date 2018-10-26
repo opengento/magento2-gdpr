@@ -19,7 +19,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     /**
      * {@inheritdoc}
      */
-    protected function _construct()
+    protected function _construct(): void
     {
         $this->_init(EraseCustomerResource::class);
     }

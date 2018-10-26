@@ -12,12 +12,11 @@ use Magento\Framework\Filesystem;
 use Magento\Framework\View\Layout\BuilderFactory;
 use Magento\Framework\View\LayoutFactory;
 use Opengento\Gdpr\Service\Export\AbstractRenderer;
-use Opengento\Gdpr\Service\Export\RendererInterface;
 
 /**
  * Class HtmlRenderer
  */
-final class HtmlRenderer extends AbstractRenderer implements RendererInterface
+final class HtmlRenderer extends AbstractRenderer
 {
     /**
      * @var \Magento\Framework\View\LayoutFactory

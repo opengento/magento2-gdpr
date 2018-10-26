@@ -25,7 +25,7 @@ final class EraseCommand extends Command
     /**#@+
      * Input Variables Names
      */
-    const INPUT_ARGUMENT_CUSTOMER = 'customer';
+    private const INPUT_ARGUMENT_CUSTOMER = 'customer';
     /**#@-*/
 
     /**
@@ -64,7 +64,7 @@ final class EraseCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
 
@@ -81,7 +81,7 @@ final class EraseCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->appState->setAreaCode(Area::AREA_GLOBAL);
         $oldValue = $this->registry->registry('isSecureArea');

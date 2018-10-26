@@ -38,7 +38,7 @@ class ErasureComponents implements OptionSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function toOptionArray()
+    public function toOptionArray(): array
     {
         if (!$this->options) {
             $componentNames = \array_intersect(

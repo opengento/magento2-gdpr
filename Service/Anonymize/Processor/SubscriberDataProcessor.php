@@ -53,6 +53,7 @@ final class SubscriberDataProcessor implements ProcessorInterface
      */
     public function execute(int $customerId): bool
     {
+        /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
         $subscriber = $this->subscriberFactory->create();
         $subscriber->loadByCustomerId($customerId);
         $subscriber->setEmail($this->anonymizeTool->anonymousEmail());

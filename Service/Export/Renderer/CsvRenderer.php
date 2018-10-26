@@ -8,12 +8,11 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Export\Renderer;
 
 use Opengento\Gdpr\Service\Export\AbstractRenderer;
-use Opengento\Gdpr\Service\Export\RendererInterface;
 
 /**
  * Class CsvRenderer
  */
-final class CsvRenderer extends AbstractRenderer implements RendererInterface
+final class CsvRenderer extends AbstractRenderer
 {
     /**
      * {@inheritdoc}

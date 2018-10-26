@@ -15,12 +15,12 @@ use Opengento\Gdpr\Api\Data\EraseCustomerInterface;
  */
 final class EraseCustomer extends AbstractDb
 {
-    const TABLE = 'opengento_gdpr_erase_customer';
+    public const TABLE = 'opengento_gdpr_erase_customer';
 
     /**
      * {@inheritdoc}
      */
-    protected function _construct()
+    protected function _construct(): void
     {
         $this->_init(self::TABLE, EraseCustomerInterface::ID);
     }

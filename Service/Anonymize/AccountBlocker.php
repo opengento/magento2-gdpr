@@ -31,6 +31,7 @@ final class AccountBlocker
 
     /**
      * @var \Magento\Framework\Session\SessionManagerInterface
+     * @deprecated
      */
     private $sessionManager;
 
@@ -142,9 +143,9 @@ final class AccountBlocker
 
         /** @var \Magento\Customer\Model\Visitor $visitor */
         foreach ($visitorCollection->getItems() as $visitor) {
-            $this->sessionManager->start();
+            $this->sessionManager->start();//todo check without session manager
             $this->saveHandler->destroy($visitor->getData('session_id'));
-            $this->sessionManager->writeClose();
+            $this->sessionManager->writeClose();//todo check without session manager
         }
 
         return true;

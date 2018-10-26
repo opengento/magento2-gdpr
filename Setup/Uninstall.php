@@ -21,7 +21,7 @@ final class Uninstall implements UninstallInterface
     /**
      * {@inheritdoc}
      */
-    public function uninstall(SchemaSetupInterface $setup, ModuleContextInterface $context)
+    public function uninstall(SchemaSetupInterface $setup, ModuleContextInterface $context): void
     {
         $setup->startSetup();
 

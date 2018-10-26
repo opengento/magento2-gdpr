@@ -26,13 +26,6 @@ use Opengento\Gdpr\Model\ResourceModel\EraseCustomer\CollectionFactory;
  */
 final class EraseCustomerRepository implements EraseCustomerRepositoryInterface
 {
-    /**#@+
-     * Constants for register keys
-     */
-    const REGISTER_KEY = EraseCustomerInterface::class;
-    const REGISTER_KEY_MIRROR = EraseCustomerInterface::class . '_customer';
-    /**#@-*/
-
     /**
      * @var \Opengento\Gdpr\Model\ResourceModel\EraseCustomer
      */
@@ -108,7 +101,7 @@ final class EraseCustomerRepository implements EraseCustomerRepositoryInterface
      */
     public function getById(int $entityId, bool $forceReload = false): EraseCustomerInterface
     {
-        if (!isset($this->instances[$entityId]) || $forceReload) {
+        if ($forceReload || !isset($this->instances[$entityId])) {
             /** @var \Opengento\Gdpr\Api\Data\EraseCustomerInterface $entity */
             $entity = $this->eraseCustomerFactory->create();
             $this->eraseCustomerResource->load($entity, $entityId, EraseCustomerInterface::ID);
@@ -129,7 +122,7 @@ final class EraseCustomerRepository implements EraseCustomerRepositoryInterface
      */
     public function getByCustomerId(int $entityId, bool $forceReload = false): EraseCustomerInterface
     {
-        if (!isset($this->instancesByCustomer[$entityId]) || $forceReload) {
+        if ($forceReload || !isset($this->instancesByCustomer[$entityId])) {
             /** @var \Opengento\Gdpr\Api\Data\EraseCustomerInterface $entity */
             $entity = $this->eraseCustomerFactory->create();
             $this->eraseCustomerResource->load($entity, $entityId, EraseCustomerInterface::CUSTOMER_ID);

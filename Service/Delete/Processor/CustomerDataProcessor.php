@@ -9,7 +9,6 @@ namespace Opengento\Gdpr\Service\Delete\Processor;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Service\Delete\ProcessorInterface;
 
 /**
@@ -23,20 +22,12 @@ final class CustomerDataProcessor implements ProcessorInterface
     private $customerRepository;
 
     /**
-     * @var \Opengento\Gdpr\Model\Config
-     */
-    private $config;
-
-    /**
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-     * @param \Opengento\Gdpr\Model\Config $config
      */
     public function __construct(
-        CustomerRepositoryInterface $customerRepository,
-        Config $config
+        CustomerRepositoryInterface $customerRepository
     ) {
         $this->customerRepository = $customerRepository;
-        $this->config = $config;
     }
 
     /**

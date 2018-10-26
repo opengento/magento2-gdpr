@@ -18,8 +18,8 @@ final class ErasureStrategy
     /**#@+
      * Strategy Constant Values
      */
-    const STRATEGY_ANONYMIZE = 'anonymize';
-    const STRATEGY_DELETE = 'delete';
+    public const STRATEGY_ANONYMIZE = 'anonymize';
+    public const STRATEGY_DELETE = 'delete';
     /**#@-*/
 
     /**

@@ -8,12 +8,11 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Export\Renderer;
 
 use Opengento\Gdpr\Service\Export\AbstractRenderer;
-use Opengento\Gdpr\Service\Export\RendererInterface;
 
 /**
  * Class PdfRenderer
  */
-final class PdfRenderer extends AbstractRenderer implements RendererInterface
+final class PdfRenderer extends AbstractRenderer
 {
     /**
      * {@inheritdoc}

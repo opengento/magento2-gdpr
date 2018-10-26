@@ -81,7 +81,7 @@ final class Erasure
      *
      * @return void
      */
-    public function execute()
+    public function execute(): void
     {
         if ($this->config->isModuleEnabled() && $this->config->isErasureEnabled()) {
             $oldValue = $this->registry->registry('isSecureArea');

@@ -13,7 +13,7 @@ use Magento\Framework\Data\OptionSourceInterface;
 /**
  * Class Block
  * @internal
- * @deprecated Wait Merge Request #16021
+ * @deprecated Removed for Magento 2.2.6 and Magento 2.3.0
  */
 class Block implements OptionSourceInterface
 {

@@ -19,7 +19,6 @@ use Magento\Framework\Exception\State\UserLockedException;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
-use Opengento\Gdpr\Model\Config;
 
 /**
  * Action Delete Delete
@@ -47,32 +46,24 @@ class DeletePost extends AbstractPrivacy implements ActionInterface
     private $eraseCustomerManagement;
 
     /**
-     * @var \Opengento\Gdpr\Model\Config
-     */
-    private $config;
-
-    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
      * @param \Magento\Customer\Model\AuthenticationInterface $authentication
      * @param \Magento\Customer\Model\Session $session
      * @param \Opengento\Gdpr\Api\EraseCustomerManagementInterface $eraseCustomerManagement
-     * @param \Opengento\Gdpr\Model\Config $config
      */
     public function __construct(
         Context $context,
         Validator $formKeyValidator,
         AuthenticationInterface $authentication,
         Session $session,
-        EraseCustomerManagementInterface $eraseCustomerManagement,
-        Config $config
+        EraseCustomerManagementInterface $eraseCustomerManagement
     ) {
         parent::__construct($context);
         $this->formKeyValidator = $formKeyValidator;
         $this->authentication = $authentication;
         $this->session = $session;
         $this->eraseCustomerManagement = $eraseCustomerManagement;
-        $this->config = $config;
     }
 
     /**

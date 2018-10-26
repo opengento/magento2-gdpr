@@ -9,7 +9,6 @@ namespace Opengento\Gdpr\Service\Delete\Processor;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
-use Magento\Sales\Model\Order\AddressRepository;
 use Magento\Sales\Model\OrderRepository;
 use Opengento\Gdpr\Service\Delete\ProcessorInterface;
 
@@ -24,27 +23,19 @@ final class OrderDataProcessor implements ProcessorInterface
     private $orderRepository;
 
     /**
-     * @var \Magento\Sales\Model\Order\AddressRepository
-     */
-    private $orderAddressRepository;
-
-    /**
      * @var \Magento\Framework\Api\SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
 
     /**
      * @param \Magento\Sales\Model\OrderRepository $orderRepository
-     * @param \Magento\Sales\Model\Order\AddressRepository $orderAddressRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         OrderRepository $orderRepository,
-        AddressRepository $orderAddressRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
         $this->orderRepository = $orderRepository;
-        $this->orderAddressRepository = $orderAddressRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 

@@ -19,7 +19,7 @@ use Opengento\Gdpr\Model\Config;
  */
 class PrivacyMessagePopup extends Template
 {
-    const COOKIE_NAME = 'cookies-policy';
+    public const COOKIE_NAME = 'cookies-policy';
 
     /**
      * @var \Opengento\Gdpr\Model\Config
@@ -37,11 +37,6 @@ class PrivacyMessagePopup extends Template
     private $jsonSerializer;
 
     /**
-     * @var string
-     */
-    protected $_template = 'Opengento_Gdpr::messages/popup.phtml';
-
-    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Cms\Helper\Page $helperPage
@@ -53,7 +48,9 @@ class PrivacyMessagePopup extends Template
         Config $config,
         HelperPage $helperPage,
         Json $jsonSerializer,
-        array $data = []
+        array $data = [
+            'template' => 'Opengento_Gdpr::messages/popup.phtml',
+        ]
     ) {
         $this->config = $config;
         $this->helperPage = $helperPage;
@@ -78,7 +75,7 @@ class PrivacyMessagePopup extends Template
     /**
      * {@inheritdoc}
      */
-    protected function _toHtml()
+    protected function _toHtml(): string
     {
         return $this->config->isCookieDisclosureEnabled() ? parent::_toHtml() : '';
     }
