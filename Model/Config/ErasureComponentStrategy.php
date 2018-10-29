@@ -166,7 +166,7 @@ class ErasureComponentStrategy
 
         // Workaround for compiled mode
         if (isset($arguments['array'])) {
-            $processors = isset($arguments['array']['_v_']) ?? $arguments['array'];
+            $processors = $arguments['array']['_v_'] ?? $arguments['array'];
         }
 
         return $processors;
