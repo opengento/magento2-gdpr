@@ -101,7 +101,7 @@ final class CustomerDataProcessor implements ProcessorInterface
             $customer->setEmail(
                 $this->anonymizeTool->anonymousEmail((string) $customer->getStoreId(), (string) $customerId)
             );
-            $customer->setTaxvat(null);
+            $customer->setTaxvat('');
 
             $this->accountBlocker->invalid($customerId);
 

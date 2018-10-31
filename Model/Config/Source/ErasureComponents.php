@@ -22,7 +22,7 @@ class ErasureComponents implements OptionSourceInterface
     private $componentStrategy;
 
     /**
-     * @var string[]
+     * @var array
      */
     private $options;
 

@@ -61,7 +61,7 @@ class PrivacyMessagePopup extends Template
     /**
      * {@inheritdoc}
      */
-    public function getJsLayout()
+    public function getJsLayout(): string
     {
         $this->jsLayout['components']['enhanced-privacy-cookie-policy']['config'] = [
             'cookieName' => self::COOKIE_NAME,
