@@ -106,10 +106,11 @@ class Export extends AbstractPrivacy implements ActionInterface
             return $this->download();
         } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
-
-            /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
-            $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-            return $resultRedirect->setPath('customer/privacy/settings');
+            
+            $resultRedirect = $this->resultRedirectFactory->create();
+            $url = $this->_redirect->getRefererUrl();
+            $resultRedirect->setUrl($url);
+            return $resultRedirect;
         }
     }
 
