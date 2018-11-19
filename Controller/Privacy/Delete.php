@@ -54,7 +54,9 @@ class Delete extends AbstractPrivacy implements ActionInterface
             $this->messageManager->addErrorMessage(new Phrase('Your account is already being removed.'));
             /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
             $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-            return $resultRedirect->setPath('customer/privacy/settings');
+            $resultRedirect->setRefererOrBaseUrl();
+
+            return $resultRedirect;
         }
 
         return $this->resultFactory->create(ResultFactory::TYPE_PAGE);

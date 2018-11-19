@@ -76,7 +76,7 @@ class DeletePost extends AbstractPrivacy implements ActionInterface
         $resultRedirect->setPath('customer/privacy/settings');
 
         if (!$this->getRequest()->getParams() || !$this->formKeyValidator->validate($this->getRequest())) {
-            return $resultRedirect->setPath('customer/privacy/delete');
+            return $resultRedirect->setRefererOrBaseUrl();
         }
 
         try {
@@ -86,7 +86,7 @@ class DeletePost extends AbstractPrivacy implements ActionInterface
             $this->messageManager->addWarningMessage(new Phrase('Your account is being removed.'));
         } catch (InvalidEmailOrPasswordException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
-            $resultRedirect->setPath('customer/privacy/delete');
+            $resultRedirect->setRefererOrBaseUrl();
         } catch (UserLockedException $e) {
             $this->session->logout();
             $this->session->start();

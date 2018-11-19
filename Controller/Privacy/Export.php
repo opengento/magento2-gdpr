@@ -109,7 +109,9 @@ class Export extends AbstractPrivacy implements ActionInterface
 
             /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
             $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-            return $resultRedirect->setPath('customer/privacy/settings');
+            $resultRedirect->setRefererOrBaseUrl();
+
+            return $resultRedirect;
         }
     }
 
