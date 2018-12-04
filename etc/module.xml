@@ -17,6 +17,7 @@
             <module name="Magento_Email" />
             <module name="Magento_Newsletter" />
             <module name="Magento_Backend" />
+            <module name="Magento_Cms" />
         </sequence>
     </module>
 </config>
