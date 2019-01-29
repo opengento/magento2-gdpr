@@ -42,7 +42,7 @@
         </field>
         <field id="block_id" type="select" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Information</label>
-            <source_model>Opengento\Gdpr\Model\Config\Source\Block</source_model>
+            <source_model>Magento\Cms\Model\Config\Source\Block</source_model>
             <depends>
                 <field id="customer/gdpr/erasure/enabled">1</field>
             </depends>
@@ -56,7 +56,7 @@
             </depends>
             <field id="block_id" type="select" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Information</label>
-                <source_model>Opengento\Gdpr\Model\Config\Source\Block</source_model>
+                <source_model>Magento\Cms\Model\Config\Source\Block</source_model>
                 <config_path>gdpr/anonymize/block_id</config_path>
             </field>
             <field id="remove_customer" type="select" translate="label comment" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">

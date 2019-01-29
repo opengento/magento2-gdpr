@@ -24,7 +24,7 @@
         </field>
         <field id="information" type="select" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Information</label>
-            <source_model>Opengento\Gdpr\Model\Config\Source\Block</source_model>
+            <source_model>Magento\Cms\Model\Config\Source\Block</source_model>
             <depends>
                 <field id="customer/gdpr/general/enabled">1</field>
             </depends>

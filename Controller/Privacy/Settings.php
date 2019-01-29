@@ -7,14 +7,13 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Privacy;
 
-use Magento\Framework\App\ActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 
 /**
  * Action Index Settings
  */
-class Settings extends AbstractPrivacy implements ActionInterface
+class Settings extends AbstractPrivacy
 {
     /**
      * {@inheritdoc}

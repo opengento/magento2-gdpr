@@ -59,7 +59,6 @@ final class CustomerAddressDataProcessor implements ProcessorInterface
 
     /**
      * {@inheritdoc}
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function execute(int $customerId, array $data): array

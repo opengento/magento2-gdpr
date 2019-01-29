@@ -35,6 +35,7 @@ final class XmlRenderer extends AbstractRenderer
 
     /**
      * {@inheritdoc}
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function render(array $data): string
     {

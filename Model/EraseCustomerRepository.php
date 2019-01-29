@@ -89,11 +89,12 @@ final class EraseCustomerRepository implements EraseCustomerRepositoryInterface
     {
         try {
             $this->eraseCustomerResource->save($entity);
+            $entity = $this->getById($entity->getEntityId(), true);
         } catch (\Exception $e) {
             throw new CouldNotSaveException(new Phrase('Could not save the entity.'), $e);
         }
 
-        return $this->getById($entity->getEntityId(), true);
+        return $entity;
     }
 
     /**

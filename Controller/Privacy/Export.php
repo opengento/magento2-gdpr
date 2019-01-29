@@ -9,7 +9,6 @@ namespace Opengento\Gdpr\Controller\Privacy;
 
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\ActionInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\App\ResponseInterface;
@@ -26,7 +25,7 @@ use Opengento\Gdpr\Service\ExportStrategy;
 /**
  * Action Export Export
  */
-class Export extends AbstractPrivacy implements ActionInterface
+class Export extends AbstractPrivacy
 {
     /**
      * @var \Magento\Framework\App\Response\Http\FileFactory
