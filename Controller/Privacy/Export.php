@@ -12,7 +12,7 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\App\ResponseInterface;
-use Magento\Framework\Archive\Zip;
+use Magento\Framework\Archive\ArchiveInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\Filesystem;
@@ -33,9 +33,9 @@ class Export extends AbstractPrivacy
     private $fileFactory;
 
     /**
-     * @var \Magento\Framework\Archive\Zip
+     * @var \Magento\Framework\Archive\ArchiveInterface
      */
-    private $zip;
+    private $archive;
 
     /**
      * @var \Magento\Framework\Filesystem
@@ -65,7 +65,7 @@ class Export extends AbstractPrivacy
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\Framework\Archive\Zip $zip
+     * @param \Magento\Framework\Archive\ArchiveInterface $archive
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Opengento\Gdpr\Service\ExportManagement $exportManagement
@@ -75,7 +75,7 @@ class Export extends AbstractPrivacy
     public function __construct(
         Context $context,
         FileFactory $fileFactory,
-        Zip $zip,
+        ArchiveInterface $archive,
         Filesystem $filesystem,
         Config $config,
         ExportManagement $exportManagement,
@@ -83,7 +83,7 @@ class Export extends AbstractPrivacy
         Session $customerSession
     ) {
         $this->fileFactory = $fileFactory;
-        $this->zip = $zip;
+        $this->archive = $archive;
         $this->filesystem = $filesystem;
         $this->config = $config;
         $this->exportManagement = $exportManagement;
@@ -157,9 +157,9 @@ class Export extends AbstractPrivacy
             throw new NotFoundException(new Phrase('File "%1" not found.', [$source]));
         }
 
-        $zipFile = $this->zip->pack($source, $tmpWrite->getAbsolutePath($destination));
+        $archive = $this->archive->pack($source, $tmpWrite->getAbsolutePath($destination));
         $fileDriver->deleteFile($source);
 
-        return $zipFile;
+        return $archive;
     }
 }

@@ -9,6 +9,7 @@
         "rgpd"
     ],
     "require": {
+        "ext-zip": "*",
         "magento/framework": ">=100.1.0",
         "magento/module-backend": ">=100.0.0",
         "magento/module-config": ">=100.0.2",

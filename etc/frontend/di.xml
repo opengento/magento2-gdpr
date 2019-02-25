@@ -19,4 +19,9 @@
     <type name="Opengento\Gdpr\Controller\Privacy\UndoDelete">
         <plugin name="check_is_undo_allowed" type="Opengento\Gdpr\Plugin\Controller\DeleteActionPlugin" sortOrder="0" />
     </type>
+    <type name="Opengento\Gdpr\Controller\Privacy\Export">
+        <arguments>
+            <argument name="archive" xsi:type="object">Opengento\Gdpr\Model\Archive\Zip</argument>
+        </arguments>
+    </type>
 </config>
