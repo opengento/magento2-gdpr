@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -31,6 +31,7 @@ abstract class AbstractRenderer implements RendererInterface
 
     /**
      * {@inheritdoc}
+     * @throws \Magento\Framework\Exception\FileSystemException
      */
     public function saveData(string $fileName, array $data): string
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -60,7 +60,7 @@ final class OrderDataProcessor implements ProcessorInterface
 
     /**
      * {@inheritdoc}
-     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function execute(int $customerId): bool
     {

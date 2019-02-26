@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -19,7 +19,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     /**
      * {@inheritdoc}
      */
-    protected function _construct()
+    protected function _construct(): void
     {
         $this->_init(EraseCustomerResource::class);
     }

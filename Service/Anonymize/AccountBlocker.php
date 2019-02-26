@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -15,7 +15,6 @@ use Magento\Framework\Intl\DateTimeFactory;
 use Magento\Framework\Math\Random;
 use Magento\Framework\Session\Config;
 use Magento\Framework\Session\SaveHandlerInterface;
-use Magento\Framework\Session\SessionManagerInterface;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Store\Model\ScopeInterface;
 
@@ -28,11 +27,6 @@ final class AccountBlocker
      * @var \Magento\Customer\Model\CustomerRegistry
      */
     private $customerRegistry;
-
-    /**
-     * @var \Magento\Framework\Session\SessionManagerInterface
-     */
-    private $sessionManager;
 
     /**
      * @var \Magento\Framework\Session\SaveHandlerInterface
@@ -67,7 +61,6 @@ final class AccountBlocker
     /**
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Framework\Session\SessionManagerInterface $sessionManager
      * @param \Magento\Framework\Session\SaveHandlerInterface $saveHandler
      * @param \Magento\Customer\Model\ResourceModel\Visitor\CollectionFactory $visitorCollectionFactory
      * @param \Magento\Framework\Intl\DateTimeFactory $dateTimeFactory
@@ -77,7 +70,6 @@ final class AccountBlocker
     public function __construct(
         CustomerRegistry $customerRegistry,
         EncryptorInterface $encryptor,
-        SessionManagerInterface $sessionManager,
         SaveHandlerInterface $saveHandler,
         VisitorCollectionFactory $visitorCollectionFactory,
         DateTimeFactory $dateTimeFactory,
@@ -85,7 +77,6 @@ final class AccountBlocker
         ScopeConfigInterface $scopeConfig
     ) {
         $this->customerRegistry = $customerRegistry;
-        $this->sessionManager = $sessionManager;
         $this->saveHandler = $saveHandler;
         $this->visitorCollectionFactory = $visitorCollectionFactory;
         $this->encryptor = $encryptor;
@@ -137,14 +128,12 @@ final class AccountBlocker
 
         /** @var \Magento\Customer\Model\ResourceModel\Visitor\Collection $visitorCollection */
         $visitorCollection = $this->visitorCollectionFactory->create();
-        $visitorCollection->addFieldToFilter('customer_id', $customerId);
+        $visitorCollection->addFieldToFilter('customer_id', ['eq' => $customerId]);
         $visitorCollection->addFieldToFilter('last_visit_at', ['from' => $time->format(DateTime::DATETIME_PHP_FORMAT)]);
 
         /** @var \Magento\Customer\Model\Visitor $visitor */
         foreach ($visitorCollection->getItems() as $visitor) {
-            $this->sessionManager->start();
             $this->saveHandler->destroy($visitor->getData('session_id'));
-            $this->sessionManager->writeClose();
         }
 
         return true;

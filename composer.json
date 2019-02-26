@@ -9,17 +9,17 @@
         "rgpd"
     ],
     "require": {
-        "magento/framework": "^101.0.7",
-        "magento/module-backend": "^100.2.7",
-        "magento/module-config": "^101.0.7",
-        "magento/module-customer": "^101.0.7",
-        "magento/module-quote": "^101.0.6",
-        "magento/module-sales": "^101.0.6",
-        "magento/module-review": "^100.2.7",
-        "magento/module-email": "^100.2.5",
-        "magento/module-newsletter": "^100.2.6",
-        "magento/module-cms": "^102.0.7",
-        "magento/module-theme": "^100.2.7"
+        "magento/framework": "^102.0.0",
+        "magento/module-backend": "^101.0.0",
+        "magento/module-config": "^101.1.0",
+        "magento/module-customer": "^102.0.0",
+        "magento/module-quote": "^101.1.0",
+        "magento/module-sales": "^102.0.0",
+        "magento/module-review": "^100.3.0",
+        "magento/module-email": "^101.0.0",
+        "magento/module-newsletter": "^100.3.0",
+        "magento/module-cms": "^103.0.0",
+        "magento/module-theme": "^101.0.0"
     },
     "require-dev": {
         "magento/marketplace-eqp": "^1.0.0",

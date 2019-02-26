@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -8,12 +8,11 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Export\Renderer;
 
 use Opengento\Gdpr\Service\Export\AbstractRenderer;
-use Opengento\Gdpr\Service\Export\RendererInterface;
 
 /**
  * Class CsvRenderer
  */
-final class CsvRenderer extends AbstractRenderer implements RendererInterface
+final class CsvRenderer extends AbstractRenderer
 {
     /**
      * {@inheritdoc}

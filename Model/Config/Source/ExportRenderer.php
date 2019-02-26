@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -38,7 +38,7 @@ class ExportRenderer implements OptionSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function toOptionArray()
+    public function toOptionArray(): array
     {
         if (!$this->options) {
             foreach ($this->retrieveRenderers() as $rendererName => $renderer) {
@@ -60,9 +60,9 @@ class ExportRenderer implements OptionSourceInterface
         $typePreference = $this->objectManagerConfig->getPreference('Opengento\Gdpr\Service\Export\RendererPool');
         $arguments = $this->objectManagerConfig->getArguments($typePreference);
 
+        // Workaround for compiled mode
         if (isset($arguments['array'])) {
-            // Workaround for compiled mode.
-            $processors = isset($arguments['array']['_v_']) ? $arguments['array']['_v_'] : $arguments['array'];
+            $processors = $arguments['array']['_v_'] ?? $arguments['array'];
         }
 
         return $processors;

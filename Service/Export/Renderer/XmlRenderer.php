@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -10,12 +10,11 @@ namespace Opengento\Gdpr\Service\Export\Renderer;
 use Magento\Framework\Convert\ConvertArray;
 use Magento\Framework\Filesystem;
 use Opengento\Gdpr\Service\Export\AbstractRenderer;
-use Opengento\Gdpr\Service\Export\RendererInterface;
 
 /**
  * Class XmlRenderer
  */
-final class XmlRenderer extends AbstractRenderer implements RendererInterface
+final class XmlRenderer extends AbstractRenderer
 {
     /**
      * @var \Magento\Framework\Convert\ConvertArray
@@ -36,6 +35,7 @@ final class XmlRenderer extends AbstractRenderer implements RendererInterface
 
     /**
      * {@inheritdoc}
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function render(array $data): string
     {

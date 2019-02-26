@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -11,6 +11,7 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
+use Magento\Framework\Stdlib\DateTime\DateTime;
 use Opengento\Gdpr\Api\Data\EraseCustomerInterface;
 use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
 use Opengento\Gdpr\Api\EraseCustomerRepositoryInterface;
@@ -18,7 +19,7 @@ use Opengento\Gdpr\Model\Config;
 use Psr\Log\LoggerInterface;
 
 /**
- * Scheduler to clean accounts marked to be deleted or anonymized
+ * Scheduler to clean accounts marked to be deleted or anonymize
  */
 final class Erasure
 {
@@ -53,12 +54,18 @@ final class Erasure
     private $searchCriteriaBuilder;
 
     /**
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime 
+     */
+    private $dateTime;
+
+    /**
      * @param \Psr\Log\LoggerInterface $logger
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Framework\Registry $registry
      * @param \Opengento\Gdpr\Api\EraseCustomerManagementInterface $eraseCustomerManagement
      * @param \Opengento\Gdpr\Api\EraseCustomerRepositoryInterface $eraseCustomerRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
      */
     public function __construct(
         LoggerInterface $logger,
@@ -66,7 +73,8 @@ final class Erasure
         Registry $registry,
         EraseCustomerManagementInterface $eraseCustomerManagement,
         EraseCustomerRepositoryInterface $eraseCustomerRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        DateTime $dateTime
     ) {
         $this->logger = $logger;
         $this->config = $config;
@@ -74,6 +82,7 @@ final class Erasure
         $this->eraseCustomerManagement = $eraseCustomerManagement;
         $this->eraseCustomerRepository = $eraseCustomerRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->dateTime = $dateTime;
     }
 
     /**
@@ -81,7 +90,7 @@ final class Erasure
      *
      * @return void
      */
-    public function execute()
+    public function execute(): void
     {
         if ($this->config->isModuleEnabled() && $this->config->isErasureEnabled()) {
             $oldValue = $this->registry->registry('isSecureArea');
@@ -107,7 +116,11 @@ final class Erasure
      */
     private function retrieveEraseCustomerList(): SearchResultsInterface
     {
-        $this->searchCriteriaBuilder->addFilter(EraseCustomerInterface::SCHEDULED_AT, new \DateTime(), 'lteq');
+        $this->searchCriteriaBuilder->addFilter(
+            EraseCustomerInterface::SCHEDULED_AT, 
+            $this->dateTime->date(), 
+            'lteq'
+        );
         $this->searchCriteriaBuilder->addFilter(
             EraseCustomerInterface::STATE,
             EraseCustomerInterface::STATE_COMPLETE,

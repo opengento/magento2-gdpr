@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -9,6 +9,7 @@ namespace Opengento\Gdpr\Block\Messages;
 
 use Magento\Cms\Block\Block;
 use Magento\Cms\Helper\Page as HelperPage;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
@@ -19,7 +20,7 @@ use Opengento\Gdpr\Model\Config;
  */
 class PrivacyMessagePopup extends Template
 {
-    const COOKIE_NAME = 'cookies-policy';
+    public const COOKIE_NAME = 'cookies-policy';
 
     /**
      * @var \Opengento\Gdpr\Model\Config
@@ -37,11 +38,6 @@ class PrivacyMessagePopup extends Template
     private $jsonSerializer;
 
     /**
-     * @var string
-     */
-    protected $_template = 'Opengento_Gdpr::messages/popup.phtml';
-
-    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Cms\Helper\Page $helperPage
@@ -53,7 +49,9 @@ class PrivacyMessagePopup extends Template
         Config $config,
         HelperPage $helperPage,
         Json $jsonSerializer,
-        array $data = []
+        array $data = [
+            'template' => 'Opengento_Gdpr::messages/popup.phtml',
+        ]
     ) {
         $this->config = $config;
         $this->helperPage = $helperPage;
@@ -64,7 +62,7 @@ class PrivacyMessagePopup extends Template
     /**
      * {@inheritdoc}
      */
-    public function getJsLayout()
+    public function getJsLayout(): string
     {
         $this->jsLayout['components']['enhanced-privacy-cookie-policy']['config'] = [
             'cookieName' => self::COOKIE_NAME,
@@ -78,7 +76,7 @@ class PrivacyMessagePopup extends Template
     /**
      * {@inheritdoc}
      */
-    protected function _toHtml()
+    protected function _toHtml(): string
     {
         return $this->config->isCookieDisclosureEnabled() ? parent::_toHtml() : '';
     }
@@ -87,17 +85,20 @@ class PrivacyMessagePopup extends Template
      * Retrieve the cookie disclosure information html
      *
      * @return string
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
     private function getCookieDisclosureInformation(): string
     {
         if (!$this->hasData('cookie_disclosure_information')) {
-            $block = $this->getLayout()->createBlock(
-                Block::class,
-                'opengento.gdpr.cookie.disclosure.information',
-                ['data' => ['block_id' => $this->config->getCookieDisclosureInformationBlockId()]]
-            );
-            $this->setData('cookie_disclosure_information', $block->toHtml());
+            try {
+                $block = $this->getLayout()->createBlock(
+                    Block::class,
+                    'opengento.gdpr.cookie.disclosure.information',
+                    ['data' => ['block_id' => $this->config->getCookieDisclosureInformationBlockId()]]
+                );
+                $this->setData('cookie_disclosure_information', $block->toHtml());
+            } catch (LocalizedException $e) {
+                $this->setData('cookie_disclosure_information', '');
+            }
         }
         
         return (string) $this->_getData('cookie_disclosure_information');

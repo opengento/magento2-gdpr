@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -27,8 +27,8 @@ final class ExportCommand extends Command
     /**#@+
      * Input Variables Names
      */
-    const INPUT_ARGUMENT_CUSTOMER = 'customer';
-    const INPUT_OPTION_FILENAME = 'filename';
+    private const INPUT_ARGUMENT_CUSTOMER = 'customer';
+    private const INPUT_OPTION_FILENAME = 'filename';
     /**#@-*/
 
     /**
@@ -67,7 +67,7 @@ final class ExportCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
 
@@ -91,7 +91,7 @@ final class ExportCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->appState->setAreaCode(Area::AREA_GLOBAL);
 

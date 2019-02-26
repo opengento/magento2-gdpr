@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -78,19 +78,17 @@ final class QuoteDataProcessor implements ProcessorInterface
 
             /** @var \Magento\Quote\Api\Data\AddressInterface $quoteAddress */
             foreach ([$quote->getBillingAddress(), $quote->getShippingAddress()] as $quoteAddress) {
-                if ($quoteAddress) {
-                    $quoteAddress->setFirstname($anonymousValue);
-                    $quoteAddress->setMiddlename($anonymousValue);
-                    $quoteAddress->setLastname($anonymousValue);
-                    $quoteAddress->setPostcode($this->anonymizeTool->randomValue(5, Random::CHARS_DIGITS));
-                    $quoteAddress->setCity($anonymousValue);
-                    $quoteAddress->setStreet([$anonymousValue]);
-                    $quoteAddress->setEmail($this->anonymizeTool->anonymousEmail());
-                    $quoteAddress->setTelephone($this->anonymizeTool->anonymousPhone());
+                $quoteAddress->setFirstname($anonymousValue);
+                $quoteAddress->setMiddlename($anonymousValue);
+                $quoteAddress->setLastname($anonymousValue);
+                $quoteAddress->setPostcode($this->anonymizeTool->randomValue(5, Random::CHARS_DIGITS));
+                $quoteAddress->setCity($anonymousValue);
+                $quoteAddress->setStreet([$anonymousValue]);
+                $quoteAddress->setEmail($this->anonymizeTool->anonymousEmail());
+                $quoteAddress->setTelephone($this->anonymizeTool->anonymousPhone());
 
-                    /** @var \Magento\Quote\Model\Quote\Address $quoteAddress */
-                    $this->quoteAddressResourceModel->save($quoteAddress);
-                }
+                /** @var \Magento\Quote\Model\Quote\Address $quoteAddress */
+                $this->quoteAddressResourceModel->save($quoteAddress);
             }
         }
 

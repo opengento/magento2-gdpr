@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -18,23 +18,23 @@ final class Config
     /**#@+
      * Scope Config: Data Settings Paths
      */
-    const CONFIG_PATH_GENERAL_ENABLED = 'gdpr/general/enabled';
-    const CONFIG_PATH_GENERAL_INFORMATION_PAGE = 'gdpr/general/page_id';
-    const CONFIG_PATH_GENERAL_INFORMATION_BLOCK = 'gdpr/general/block_id';
-    const CONFIG_PATH_ERASURE_ENABLED = 'gdpr/erasure/enabled';
-    const CONFIG_PATH_ERASURE_STRATEGY = 'gdpr/erasure/strategy';
-    const CONFIG_PATH_ERASURE_TIME_LAPSE = 'gdpr/erasure/time_lapse';
-    const CONFIG_PATH_ERASURE_INFORMATION_BLOCK = 'gdpr/erasure/block_id';
-    const CONFIG_PATH_ERASURE_REMOVE_CUSTOMER = 'gdpr/erasure/remove_customer';
-    const CONFIG_PATH_ERASURE_STRATEGY_COMPONENTS = 'gdpr/erasure/components';
-    const CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK = 'gdpr/anonymize/block_id';
-    const CONFIG_PATH_EXPORT_ENABLED = 'gdpr/export/enabled';
-    const CONFIG_PATH_EXPORT_INFORMATION_BLOCK = 'gdpr/export/block_id';
-    const CONFIG_PATH_EXPORT_RENDERER = 'gdpr/export/renderer';
-    const CONFIG_PATH_EXPORT_CUSTOMER_ATTRIBUTES = 'gdpr/export/customer_attributes';
-    const CONFIG_PATH_EXPORT_CUSTOMER_ADDRESS_ATTRIBUTES = 'gdpr/export/customer_address_attributes';
-    const CONFIG_PATH_COOKIE_DISCLOSURE_ENABLED = 'gdpr/cookie/enabled';
-    const CONFIG_PATH_COOKIE_INFORMATION_BLOCK = 'gdpr/cookie/block_id';
+    public const CONFIG_PATH_GENERAL_ENABLED = 'gdpr/general/enabled';
+    public const CONFIG_PATH_GENERAL_INFORMATION_PAGE = 'gdpr/general/page_id';
+    public const CONFIG_PATH_GENERAL_INFORMATION_BLOCK = 'gdpr/general/block_id';
+    public const CONFIG_PATH_ERASURE_ENABLED = 'gdpr/erasure/enabled';
+    public const CONFIG_PATH_ERASURE_STRATEGY = 'gdpr/erasure/strategy';
+    public const CONFIG_PATH_ERASURE_TIME_LAPSE = 'gdpr/erasure/time_lapse';
+    public const CONFIG_PATH_ERASURE_INFORMATION_BLOCK = 'gdpr/erasure/block_id';
+    public const CONFIG_PATH_ERASURE_REMOVE_CUSTOMER = 'gdpr/erasure/remove_customer';
+    public const CONFIG_PATH_ERASURE_STRATEGY_COMPONENTS = 'gdpr/erasure/components';
+    public const CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK = 'gdpr/anonymize/block_id';
+    public const CONFIG_PATH_EXPORT_ENABLED = 'gdpr/export/enabled';
+    public const CONFIG_PATH_EXPORT_INFORMATION_BLOCK = 'gdpr/export/block_id';
+    public const CONFIG_PATH_EXPORT_RENDERER = 'gdpr/export/renderer';
+    public const CONFIG_PATH_EXPORT_CUSTOMER_ATTRIBUTES = 'gdpr/export/customer_attributes';
+    public const CONFIG_PATH_EXPORT_CUSTOMER_ADDRESS_ATTRIBUTES = 'gdpr/export/customer_address_attributes';
+    public const CONFIG_PATH_COOKIE_DISCLOSURE_ENABLED = 'gdpr/cookie/enabled';
+    public const CONFIG_PATH_COOKIE_INFORMATION_BLOCK = 'gdpr/cookie/block_id';
     /**#@-*/
 
     /**

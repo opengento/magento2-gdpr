@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 
@@ -17,29 +17,29 @@ interface EraseCustomerInterface extends ExtensibleDataInterface
     /**#@+
      * Constants for fields keys
      */
-    const ID = 'entity_id';
-    const CUSTOMER_ID = 'customer_id';
-    const SCHEDULED_AT = 'scheduled_at';
-    const STATE = 'state';
-    const STATUS = 'status';
-    const ERASED_AT = 'erased_at';
+    public const ID = 'entity_id';
+    public const CUSTOMER_ID = 'customer_id';
+    public const SCHEDULED_AT = 'scheduled_at';
+    public const STATE = 'state';
+    public const STATUS = 'status';
+    public const ERASED_AT = 'erased_at';
     /**#@-*/
 
     /**#@+
      * Constants for State values
      */
-    const STATE_PENDING = 'pending';
-    const STATE_PROCESSING = 'processing';
-    const STATE_COMPLETE = 'complete';
+    public const STATE_PENDING = 'pending';
+    public const STATE_PROCESSING = 'processing';
+    public const STATE_COMPLETE = 'complete';
     /**#@-*/
 
     /**#@+
      * Constants for Status values
      */
-    const STATUS_READY = 'ready';
-    const STATUS_RUNNING = 'running';
-    const STATUS_FAILED = 'failed';
-    const STATUS_SUCCEED = 'succeed';
+    public const STATUS_READY = 'ready';
+    public const STATUS_RUNNING = 'running';
+    public const STATUS_FAILED = 'failed';
+    public const STATUS_SUCCEED = 'succeed';
     /**#@-*/
 
     /**
@@ -122,7 +122,7 @@ interface EraseCustomerInterface extends ExtensibleDataInterface
      *
      * @return string|null
      */
-    public function getErasedAt();
+    public function getErasedAt(): ?string;
 
     /**
      * Set the erased at

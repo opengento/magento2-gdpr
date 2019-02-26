@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -55,7 +55,7 @@ class ErasureComponentStrategy
     public function getComponentStrategy(string $component): string
     {
         foreach ($this->componentsStrategies as $strategy => $componentsStrategy) {
-            if (\in_array($component, $componentsStrategy)) {
+            if (\in_array($component, $componentsStrategy, true)) {
                 return $strategy;
             }
         }
@@ -124,7 +124,7 @@ class ErasureComponentStrategy
      * @param string[] $components
      * @return void
      */
-    private function initComponentsStrategies(array $components)
+    private function initComponentsStrategies(array $components): void
     {
         $this->componentsStrategies = [
             ErasureStrategy::STRATEGY_ANONYMIZE => [],
@@ -164,9 +164,9 @@ class ErasureComponentStrategy
         $typePreference = $this->objectManagerConfig->getPreference($processorPool);
         $arguments = $this->objectManagerConfig->getArguments($typePreference);
 
+        // Workaround for compiled mode
         if (isset($arguments['array'])) {
-            // Workaround for compiled mode.
-            $processors = isset($arguments['array']['_v_']) ? $arguments['array']['_v_'] : $arguments['array'];
+            $processors = $arguments['array']['_v_'] ?? $arguments['array'];
         }
 
         return $processors;

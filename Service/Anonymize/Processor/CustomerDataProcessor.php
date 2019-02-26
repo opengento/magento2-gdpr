@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -101,7 +101,7 @@ final class CustomerDataProcessor implements ProcessorInterface
             $customer->setEmail(
                 $this->anonymizeTool->anonymousEmail((string) $customer->getStoreId(), (string) $customerId)
             );
-            $customer->setTaxvat(null);
+            $customer->setTaxvat('');
 
             $this->accountBlocker->invalid($customerId);
 

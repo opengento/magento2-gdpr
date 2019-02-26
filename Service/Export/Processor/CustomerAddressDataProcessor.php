@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -59,7 +59,6 @@ final class CustomerAddressDataProcessor implements ProcessorInterface
 
     /**
      * {@inheritdoc}
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function execute(int $customerId, array $data): array

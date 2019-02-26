@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -9,11 +9,10 @@ namespace Opengento\Gdpr\Controller\Privacy;
 
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\ActionInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\App\ResponseInterface;
-use Magento\Framework\Archive\Zip;
+use Magento\Framework\Archive\ArchiveInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\Filesystem;
@@ -26,7 +25,7 @@ use Opengento\Gdpr\Service\ExportStrategy;
 /**
  * Action Export Export
  */
-class Export extends AbstractPrivacy implements ActionInterface
+class Export extends AbstractPrivacy
 {
     /**
      * @var \Magento\Framework\App\Response\Http\FileFactory
@@ -34,9 +33,9 @@ class Export extends AbstractPrivacy implements ActionInterface
     private $fileFactory;
 
     /**
-     * @var \Magento\Framework\Archive\Zip
+     * @var \Magento\Framework\Archive\ArchiveInterface
      */
-    private $zip;
+    private $archive;
 
     /**
      * @var \Magento\Framework\Filesystem
@@ -66,7 +65,7 @@ class Export extends AbstractPrivacy implements ActionInterface
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\Framework\Archive\Zip $zip
+     * @param \Magento\Framework\Archive\ArchiveInterface $archive
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Opengento\Gdpr\Service\ExportManagement $exportManagement
@@ -76,7 +75,7 @@ class Export extends AbstractPrivacy implements ActionInterface
     public function __construct(
         Context $context,
         FileFactory $fileFactory,
-        Zip $zip,
+        ArchiveInterface $archive,
         Filesystem $filesystem,
         Config $config,
         ExportManagement $exportManagement,
@@ -84,7 +83,7 @@ class Export extends AbstractPrivacy implements ActionInterface
         Session $customerSession
     ) {
         $this->fileFactory = $fileFactory;
-        $this->zip = $zip;
+        $this->archive = $archive;
         $this->filesystem = $filesystem;
         $this->config = $config;
         $this->exportManagement = $exportManagement;
@@ -109,7 +108,9 @@ class Export extends AbstractPrivacy implements ActionInterface
 
             /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
             $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-            return $resultRedirect->setPath('customer/privacy/settings');
+            $resultRedirect->setRefererOrBaseUrl();
+
+            return $resultRedirect;
         }
     }
 
@@ -156,9 +157,9 @@ class Export extends AbstractPrivacy implements ActionInterface
             throw new NotFoundException(new Phrase('File "%1" not found.', [$source]));
         }
 
-        $zipFile = $this->zip->pack($source, $tmpWrite->getAbsolutePath($destination));
+        $archive = $this->archive->pack($source, $tmpWrite->getAbsolutePath($destination));
         $fileDriver->deleteFile($source);
 
-        return $zipFile;
+        return $archive;
     }
 }

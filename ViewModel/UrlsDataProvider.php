@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -20,11 +20,11 @@ final class UrlsDataProvider implements ArgumentInterface
     /**#@+
      * Routes Path Data
      */
-    const ROUTE_PATH_SETTINGS = 'customer/privacy/settings';
-    const ROUTE_PATH_DELETE = 'customer/privacy/delete';
-    const ROUTE_PATH_DELETE_POST = 'customer/privacy/deletepost';
-    const ROUTE_PATH_UNDO_DELETE = 'customer/privacy/undodelete';
-    const ROUTE_PATH_EXPORT = 'customer/privacy/export';
+    public const ROUTE_PATH_SETTINGS = 'customer/privacy/settings';
+    public const ROUTE_PATH_DELETE = 'customer/privacy/delete';
+    public const ROUTE_PATH_DELETE_POST = 'customer/privacy/deletepost';
+    public const ROUTE_PATH_UNDO_DELETE = 'customer/privacy/undodelete';
+    public const ROUTE_PATH_EXPORT = 'customer/privacy/export';
     /**#@-*/
 
     /**

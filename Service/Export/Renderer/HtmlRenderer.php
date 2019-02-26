@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -12,12 +12,11 @@ use Magento\Framework\Filesystem;
 use Magento\Framework\View\Layout\BuilderFactory;
 use Magento\Framework\View\LayoutFactory;
 use Opengento\Gdpr\Service\Export\AbstractRenderer;
-use Opengento\Gdpr\Service\Export\RendererInterface;
 
 /**
  * Class HtmlRenderer
  */
-final class HtmlRenderer extends AbstractRenderer implements RendererInterface
+final class HtmlRenderer extends AbstractRenderer
 {
     /**
      * @var \Magento\Framework\View\LayoutFactory

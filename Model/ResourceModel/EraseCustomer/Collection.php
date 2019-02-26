@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2018 OpenGento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -18,15 +18,11 @@ use Opengento\Gdpr\Model\ResourceModel\EraseCustomer as EraseCustomerResourceMod
 class Collection extends AbstractCollection
 {
     /**
-     * @var string
-     */
-    protected $_idFieldName = EraseCustomerInterface::ID;
-
-    /**
      * {@inheritdoc}
      */
-    protected function _construct()
+    protected function _construct(): void
     {
         $this->_init(EraseCustomer::class, EraseCustomerResourceModel::class);
+        $this->_setIdFieldName(EraseCustomerInterface::ID);
     }
 }
