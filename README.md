@@ -15,6 +15,7 @@ This extension allows customers to delete, anonymize, and export their personal 
    - [Extends Deletion](#extends-deletion)
    - [Extends Anonymization](#extends-anonymization)
    - [Erasure Strategy](#erasure-strategy)
+   - [How to override class and methods](#how-to-override-class-and-methods)
  - [Support](#support)
  - [Authors](#authors)
  - [License](#license)
@@ -180,7 +181,7 @@ Do not forget to use the right services managers, but you are free to use yours:
 - `Opengento\Gdpr\Service\AnonymizeManagement`
 - `Opengento\Gdpr\Service\DeleteManagement`
 
-## How to override class and methods
+### How to override class and methods
 
 Plugins and preferences are not needed here to override and extends the GDPR module core code.  
 Actually, you should apply patterns to achieve it.
@@ -230,7 +231,7 @@ Override by:
     </arguments>
 </type>
 ```
-Congrats! You have overriden class A without extending it!
+Congrats! You have overridden class A without extending it!
 
 ## Support
 
