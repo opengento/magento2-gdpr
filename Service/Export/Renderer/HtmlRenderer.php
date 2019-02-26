@@ -125,7 +125,7 @@ final class HtmlRenderer extends AbstractRenderer
      */
     public function render(array $data): string
     {
-        $layout = $this->addConfigLayout($this->initLayout($this->createLayout()));
+        $layout = $this->initLayout();
 
         $addBlock = $layout->getBlock('head.additional');
         $requireJs = $layout->getBlock('require.js');
@@ -144,7 +144,7 @@ final class HtmlRenderer extends AbstractRenderer
             'layoutContent' => $layout->getOutput(),
         ]);
         $this->translateInline->processResponseBody($output);
-        
+
         return $output;
     }
 
@@ -183,7 +183,14 @@ final class HtmlRenderer extends AbstractRenderer
      */
     private function addConfigLayout(LayoutInterface $layout): LayoutInterface
     {
-        $this->pageConfig->publicBuild();
+        $this->layoutBuilderFactory->create(
+            BuilderFactory::TYPE_PAGE,
+            [
+                'layout' => $layout,
+                'pageConfig' => $this->pageConfig,
+                'pageLayoutReader' => $this->pageLayoutReader,
+            ]
+        )->build();
 
         /** @var \Magento\Framework\View\Model\Layout\Merge $update */
         $update = $layout->getUpdate();
@@ -202,11 +209,17 @@ final class HtmlRenderer extends AbstractRenderer
     /**
      * Init the page layout instructions
      *
-     * @param \Magento\Framework\View\LayoutInterface $layout
      * @return \Magento\Framework\View\LayoutInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    private function initLayout(LayoutInterface $layout): LayoutInterface
+    private function initLayout(): LayoutInterface
     {
+        $layout = $this->layoutFactory->create([
+            'cacheable' => false,
+            'reader' => $this->layoutReaderPool,
+            'generatorPool' => $this->layoutGeneratorPool,
+        ]);
+
         $layout->getUpdate()->addHandle('default');
         $layout->getUpdate()->addHandle(self::DEFAULT_LAYOUT_HANDLE);
         /** @var \Magento\Framework\View\Model\Layout\Merge $update */
@@ -215,31 +228,6 @@ final class HtmlRenderer extends AbstractRenderer
             $update->removeHandle('default');
         }
 
-        return $layout;
-    }
-
-    /**
-     * Create the page layout
-     *
-     * @return \Magento\Framework\View\LayoutInterface
-     */
-    private function createLayout(): LayoutInterface
-    {
-        $layout = $this->layoutFactory->create([
-            'cacheable' => false,
-            'reader' => $this->layoutReaderPool,
-            'generatorPool' => $this->layoutGeneratorPool,
-        ]);
-
-        $this->layoutBuilderFactory->create(
-            BuilderFactory::TYPE_PAGE,
-            [
-                'layout' => $layout,
-                'pageConfig' => $this->pageConfig,
-                'pageLayoutReader' => $this->pageLayoutReader,
-            ]
-        );
-
-        return $layout;
+        return $this->addConfigLayout($layout);
     }
 }
