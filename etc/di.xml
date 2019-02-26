@@ -73,6 +73,13 @@
         </arguments>
     </type>
     <!-- Export Strategy -->
+    <type name="Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer">
+        <arguments>
+            <argument name="layoutReaderPool" xsi:type="object">pageConfigRenderPool</argument>
+            <argument name="layoutGeneratorPool" xsi:type="object">pageLayoutGeneratorPool</argument>
+            <argument name="template" xsi:type="string">Magento_Theme::root.phtml</argument>
+        </arguments>
+    </type>
     <virtualType name="Opengento\Gdpr\Service\Export\RendererPool" type="Magento\Framework\ObjectManager\TMap">
         <arguments>
             <argument name="type" xsi:type="string">Opengento\Gdpr\Service\Export\RendererInterface</argument>

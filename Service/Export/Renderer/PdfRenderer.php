@@ -19,7 +19,7 @@ final class PdfRenderer extends AbstractRenderer
      */
     public function render(array $data): string
     {
-        // todo
+        // todo use htmlRenderer + wkhtmltopdf
         throw new \LogicException('Not implemented yet!');
     }
 }

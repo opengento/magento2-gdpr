@@ -10,10 +10,10 @@
 $viewModel = $block->getData('viewModel');
 ?>
 <?php foreach ($viewModel->getData() as $key => $value): ?>
-    <div class="block">
-        <div class="title"><?= $block->escapeHtml($key) ?></div>
-        <div class="content">
-            <?php if ($value && is_array($value)): ?>
+    <section class="export-data-<?= $block->escapeHtmlAttr($key) ?>">
+        <header><?= $block->escapeHtml($key) ?></header>
+        <article>
+            <?php if (\is_array($value)): ?>
                 <?= $block->getLayout()->createBlock(
                         \Magento\Framework\View\Element\Template::class,
                         $block->getNameInLayout() . '_' . $key,
@@ -25,8 +25,8 @@ $viewModel = $block->getData('viewModel');
                         ]
                     )->toHtml() ?>
             <?php elseif ($value): ?>
-                <span><?= $block->escapeHtml($value) ?></span>
+                <p><?= $block->escapeHtml($value) ?></p>
             <?php endif; ?>
-        </div>
-    </div>
+        </article>
+    </section>
 <?php endforeach; ?>
