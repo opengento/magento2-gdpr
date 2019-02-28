@@ -30,7 +30,7 @@ final class XmlRenderer extends AbstractRenderer
         ConvertArray $convertArray
     ) {
         $this->convertArray = $convertArray;
-        parent::__construct($filesystem);
+        parent::__construct($filesystem, 'xml');
     }
 
     /**

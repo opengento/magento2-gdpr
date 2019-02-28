@@ -116,7 +116,7 @@ final class HtmlRenderer extends AbstractRenderer
         $this->translateInline = $translateInline;
         $this->viewFileSystem = $viewFileSystem;
         $this->template = $template;
-        parent::__construct($filesystem);
+        parent::__construct($filesystem, 'html');
     }
 
     /**
@@ -135,7 +135,7 @@ final class HtmlRenderer extends AbstractRenderer
 
         $output = $this->renderPage([
             'requireJs' => $requireJs ? $requireJs->toHtml() : null,
-            'headContent' => $this->pageConfigRenderer->renderHeadContent(),
+            'headContent' => $this->pageConfigRenderer->renderHeadContent(),//todo replace style to inline css
             'headAdditional' => $addBlock ? $addBlock->toHtml() : null,
             'htmlAttributes' => $this->pageConfigRenderer->renderElementAttributes(Config::ELEMENT_TYPE_HTML),
             'headAttributes' => $this->pageConfigRenderer->renderElementAttributes(Config::ELEMENT_TYPE_HEAD),

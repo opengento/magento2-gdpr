@@ -21,12 +21,20 @@ abstract class AbstractRenderer implements RendererInterface
     protected $fileSystem;
 
     /**
+     * @var string
+     */
+    protected $fileExtension;
+
+    /**
      * @param \Magento\Framework\Filesystem $filesystem
+     * @param string $fileExtension
      */
     public function __construct(
-        Filesystem $filesystem
+        Filesystem $filesystem,
+        string $fileExtension
     ) {
         $this->fileSystem = $filesystem;
+        $this->fileExtension = $fileExtension;
     }
 
     /**
@@ -35,6 +43,7 @@ abstract class AbstractRenderer implements RendererInterface
      */
     public function saveData(string $fileName, array $data): string
     {
+        $fileName .= '.' . $this->fileExtension;
         $tmpWrite = $this->fileSystem->getDirectoryWrite(DirectoryList::TMP);
         $tmpWrite->writeFile($fileName, $this->render($data));
 
