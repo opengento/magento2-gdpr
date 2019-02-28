@@ -72,7 +72,7 @@ final class QuoteDataProcessor implements ProcessorInterface
 
         /** @var \Magento\Quote\Api\Data\CartInterface $entity */
         foreach ($searchResults->getItems() as $entity) {
-            $data[$entity->getId()] = $this->hydrator->extract($entity);
+            $data['quote_id_' . $entity->getId()] = $this->hydrator->extract($entity);
         }
 
         return $data;

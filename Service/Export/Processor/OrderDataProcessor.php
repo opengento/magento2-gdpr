@@ -73,7 +73,7 @@ final class OrderDataProcessor implements ProcessorInterface
 
         /** @var \Magento\Sales\Api\Data\OrderInterface $entity */
         foreach ($searchResults->getItems() as $entity) {
-            $data[$entity->getEntityId()] = $this->hydrator->extract($entity);
+            $data['order_id_' . $entity->getEntityId()] = $this->hydrator->extract($entity);
         }
 
         return $data;

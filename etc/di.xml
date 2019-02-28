@@ -57,6 +57,21 @@
     <!-- Export Management -->
     <virtualType name="Opengento\Gdpr\Service\Export\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
         <arguments>
+            <argument name="type" xsi:type="string">Opengento\Gdpr\Service\Export\Processor\Utils\DataFilterProcessorInterface</argument>
+            <argument name="array" xsi:type="array">
+                <item name="data_filter" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Utils\DataFilterProcessor</item>
+                <item name="custom_attributes" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Utils\CustomAttributesFilterProcessor</item>
+                <item name="extensible_data" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Utils\ExtensibleDataFilterProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Opengento\Gdpr\Service\Export\Processor\Utils\CompositeDataFilterProcessor">
+        <arguments>
+            <argument name="processorPool" xsi:type="object">Opengento\Gdpr\Service\Export\ProcessorPool</argument>
+        </arguments>
+    </type>
+    <virtualType name="Opengento\Gdpr\Service\Export\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
+        <arguments>
             <argument name="type" xsi:type="string">Opengento\Gdpr\Service\Export\ProcessorInterface</argument>
             <argument name="array" xsi:type="array">
                 <item name="customer_data" xsi:type="string">Opengento\Gdpr\Service\Export\Processor\CustomerDataProcessor</item>

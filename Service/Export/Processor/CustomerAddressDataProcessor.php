@@ -91,7 +91,7 @@ final class CustomerAddressDataProcessor implements ProcessorInterface
                 }
             }
 
-            $result[$entity->getId()] = $data;
+            $result['customer_address_id_' . $entity->getId()] = $data;
         }
 
         return $result;
