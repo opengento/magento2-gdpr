@@ -9,6 +9,7 @@ namespace Opengento\Gdpr\Controller\Privacy;
 
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
@@ -17,7 +18,7 @@ use Opengento\Gdpr\Controller\AbstractPrivacy;
 /**
  * Action Index Delete
  */
-class Delete extends AbstractPrivacy
+class Delete extends AbstractPrivacy implements HttpGetActionInterface
 {
     /**
      * @var \Magento\Customer\Model\Session

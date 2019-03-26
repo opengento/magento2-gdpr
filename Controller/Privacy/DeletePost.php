@@ -10,6 +10,7 @@ namespace Opengento\Gdpr\Controller\Privacy;
 use Magento\Customer\Model\AuthenticationInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Data\Form\FormKey\Validator;
 use Magento\Framework\Exception\AlreadyExistsException;
@@ -22,7 +23,7 @@ use Opengento\Gdpr\Controller\AbstractPrivacy;
 /**
  * Action Delete Delete
  */
-class DeletePost extends AbstractPrivacy
+class DeletePost extends AbstractPrivacy implements HttpPostActionInterface
 {
     /**
      * @var \Magento\Framework\Data\Form\FormKey\Validator
