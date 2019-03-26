@@ -33,7 +33,7 @@ final class CsvRenderer extends AbstractRenderer
 
         foreach ($data as $key => $value) {
             $csv .= \is_array($value)
-                ? $key . ',' . \trim($this->render($value), ',') . \PHP_EOL
+                ? $key . ',' . \rtrim($this->render($value), ',') . \PHP_EOL
                 : '"' . \str_replace('"', '""', $value) . '",';
         }
 
