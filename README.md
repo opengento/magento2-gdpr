@@ -15,6 +15,7 @@ This extension allows customers to delete, anonymize, and export their personal 
    - [Extends Deletion](#extends-deletion)
    - [Extends Anonymization](#extends-anonymization)
    - [Erasure Strategy](#erasure-strategy)
+   - [How to override class and methods](#how-to-override-class-and-methods)
  - [Support](#support)
  - [Authors](#authors)
  - [License](#license)
@@ -179,6 +180,58 @@ Warning, if you want to implement your own strategy type, you must create your o
 Do not forget to use the right services managers, but you are free to use yours:  
 - `Opengento\Gdpr\Service\AnonymizeManagement`
 - `Opengento\Gdpr\Service\DeleteManagement`
+
+### How to override class and methods
+
+Plugins and preferences are not needed here to override and extends the GDPR module core code.  
+Actually, you should apply patterns to achieve it.
+
+The pool pattern already allows you to override the class of your choice.  
+However you wont be able to extends the existing class, because of the "final" keyword. Indeed, you need to create your 
+own class which implements the same interface. Then, simply add the class you want to "extends" as a composition. You will be able to 
+exploit the result and override it in your method.
+
+Eg: 
+```php
+interface I { public function execute(array $data): array; }
+final class A implements I { public function execute(array $data): array { //process $data } }
+
+final class B implements I {
+    private $a;
+    
+    public function __construct(A $a) { $this->a = $a; }
+    
+    public function execute(array $data): array
+    {
+        $resultA = $this->a->execute($data);
+
+        $resultB = $resultA; // transform $resultA
+        
+        return $resultB;
+    }
+}
+```
+Then:  
+```xml
+<type name="Pool">
+    <arguments>
+        <argument name="array" xsi:type="array">
+            <argument name="a" xsi:type="string">A</argument>        
+        </argument>
+    </arguments>
+</type>
+```
+Override by:  
+```xml
+<type name="Pool">
+    <arguments>
+        <argument name="array" xsi:type="array">
+            <argument name="a" xsi:type="string">B</argument>        
+        </argument>
+    </arguments>
+</type>
+```
+Congrats! You have overridden class A without extending it!
 
 ## Support
 

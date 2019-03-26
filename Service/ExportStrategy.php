@@ -57,7 +57,6 @@ final class ExportStrategy implements RendererInterface
      */
     public function saveData(string $fileName, array $data): string
     {
-        $fileName .= '.' . $this->config->getExportRendererCode();
         return $this->resolveRenderer()->saveData($fileName, $data);
     }
 

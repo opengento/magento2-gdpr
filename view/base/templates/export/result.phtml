@@ -6,27 +6,16 @@
 
 /** @var \Magento\Framework\View\Element\Template $block */
 
+/** @var \Magento\Framework\View\Element\RendererList $rendererList */
+$rendererList = $block->getChildBlock('exportRenderer');
+
 /** @var \Magento\Framework\DataObject $viewModel */
 $viewModel = $block->getData('viewModel');
 ?>
 <?php foreach ($viewModel->getData() as $key => $value): ?>
-    <div class="block">
-        <div class="title"><?= $block->escapeHtml($key) ?></div>
-        <div class="content">
-            <?php if ($value && is_array($value)): ?>
-                <?= $block->getLayout()->createBlock(
-                        \Magento\Framework\View\Element\Template::class,
-                        $block->getNameInLayout() . '_' . $key,
-                        [
-                            'data' => [
-                                'viewModel' => new \Magento\Framework\DataObject($value),
-                                'template' => 'Opengento_Gdpr::export/result.phtml'
-                            ]
-                        ]
-                    )->toHtml() ?>
-            <?php elseif ($value): ?>
-                <span><?= $block->escapeHtml($value) ?></span>
-            <?php endif; ?>
-        </div>
-    </div>
+    <?=
+        $rendererList->getRenderer($key, 'default', 'Opengento_Gdpr::export/renderer/default.phtml')
+                     ->setData('viewModel', new \Magento\Framework\DataObject([$key => $value]))
+                     ->toHtml()
+    ?>
 <?php endforeach; ?>

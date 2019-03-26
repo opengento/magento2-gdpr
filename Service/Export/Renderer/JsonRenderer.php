@@ -30,7 +30,7 @@ final class JsonRenderer extends AbstractRenderer
         Json $jsonSerializer
     ) {
         $this->jsonSerializer = $jsonSerializer;
-        parent::__construct($filesystem);
+        parent::__construct($filesystem, 'json');
     }
 
     /**
