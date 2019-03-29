@@ -15,7 +15,7 @@ use Magento\Framework\Filesystem;
  * Zip compressed file archive with local file name.
  * @api
  */
-class Zip implements ArchiveInterface
+final class Zip implements ArchiveInterface
 {
     /**
      * @var \Magento\Framework\Filesystem

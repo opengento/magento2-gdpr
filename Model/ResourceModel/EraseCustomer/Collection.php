@@ -15,7 +15,7 @@ use Opengento\Gdpr\Model\ResourceModel\EraseCustomer as EraseCustomerResourceMod
 /**
  * Erase Customer Scheduler Collection
  */
-class Collection extends AbstractCollection
+final class Collection extends AbstractCollection
 {
     /**
      * {@inheritdoc}
