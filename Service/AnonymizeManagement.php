@@ -62,6 +62,7 @@ final class AnonymizeManagement
 
         /** @var \Opengento\Gdpr\Service\Anonymize\ProcessorInterface $processor */
         $processor = $this->processorPool->offsetGet($processorName);
+
         return $processor->execute($customerId);
     }
 }

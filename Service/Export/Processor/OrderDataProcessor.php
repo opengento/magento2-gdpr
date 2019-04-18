@@ -8,10 +8,9 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Export\Processor;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Framework\Api\SearchResultsInterface;
-use Magento\Framework\EntityManager\Hydrator;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
+use Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Service\Export\ProcessorInterface;
 
 /**
@@ -30,23 +29,23 @@ final class OrderDataProcessor implements ProcessorInterface
     private $searchCriteriaBuilder;
 
     /**
-     * @var \Magento\Framework\EntityManager\Hydrator
+     * @var \Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface
      */
-    private $hydrator;
+    private $dataCollector;
 
     /**
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Magento\Framework\EntityManager\Hydrator $hydrator
+     * @param \Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface $dataCollector
      */
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        Hydrator $hydrator
+        DataCollectorInterface $dataCollector
     ) {
         $this->orderRepository = $orderRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->hydrator = $hydrator;
+        $this->dataCollector = $dataCollector;
     }
 
     /**
@@ -56,24 +55,10 @@ final class OrderDataProcessor implements ProcessorInterface
     {
         $searchCriteria = $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
         $orderList = $this->orderRepository->getList($searchCriteria->create());
-        $data['orders'] = $this->generateArray($orderList);
-
-        return $data;
-    }
-
-    /**
-     * Collect the customer orders data to export
-     *
-     * @param \Magento\Framework\Api\SearchResultsInterface $searchResults
-     * @return array
-     */
-    private function generateArray(SearchResultsInterface $searchResults): array
-    {
-        $data = [];
 
         /** @var \Magento\Sales\Api\Data\OrderInterface $entity */
-        foreach ($searchResults->getItems() as $entity) {
-            $data['order_id_' . $entity->getEntityId()] = $this->hydrator->extract($entity);
+        foreach ($orderList->getItems() as $entity) {
+            $data['orders']['order_id_' . $entity->getEntityId()] = $this->dataCollector->collect($entity);
         }
 
         return $data;

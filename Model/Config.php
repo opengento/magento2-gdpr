@@ -31,8 +31,6 @@ final class Config
     public const CONFIG_PATH_EXPORT_ENABLED = 'gdpr/export/enabled';
     public const CONFIG_PATH_EXPORT_INFORMATION_BLOCK = 'gdpr/export/block_id';
     public const CONFIG_PATH_EXPORT_RENDERER = 'gdpr/export/renderer';
-    public const CONFIG_PATH_EXPORT_CUSTOMER_ATTRIBUTES = 'gdpr/export/customer_attributes';
-    public const CONFIG_PATH_EXPORT_CUSTOMER_ADDRESS_ATTRIBUTES = 'gdpr/export/customer_address_attributes';
     public const CONFIG_PATH_COOKIE_DISCLOSURE_ENABLED = 'gdpr/cookie/enabled';
     public const CONFIG_PATH_COOKIE_INFORMATION_BLOCK = 'gdpr/cookie/block_id';
     /**#@-*/
@@ -179,26 +177,6 @@ final class Config
     public function getExportRendererCode(): string
     {
         return $this->getValueString(self::CONFIG_PATH_EXPORT_RENDERER, ScopeInterface::SCOPE_STORE);
-    }
-
-    /**
-     * Retrieve the export customer attributes codes
-     *
-     * @return array
-     */
-    public function getExportCustomerAttributes(): array
-    {
-        return $this->getValueArray(self::CONFIG_PATH_EXPORT_CUSTOMER_ATTRIBUTES, ScopeInterface::SCOPE_STORE);
-    }
-
-    /**
-     * Retrieve the export customer address attributes codes
-     *
-     * @return array
-     */
-    public function getExportCustomerAddressAttributes(): array
-    {
-        return $this->getValueArray(self::CONFIG_PATH_EXPORT_CUSTOMER_ADDRESS_ATTRIBUTES, ScopeInterface::SCOPE_STORE);
     }
 
     /**

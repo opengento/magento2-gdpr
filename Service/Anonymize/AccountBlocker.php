@@ -91,6 +91,7 @@ final class AccountBlocker
      * @param int $customerId
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function invalid(int $customerId): bool
     {
@@ -103,6 +104,7 @@ final class AccountBlocker
      * @param int $customerId
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     private function resetPassword(int $customerId): bool
     {

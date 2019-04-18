@@ -62,6 +62,7 @@ final class ExportManagement
 
         /** @var \Opengento\Gdpr\Service\Export\ProcessorInterface $processor */
         $processor = $this->processorPool->offsetGet($processorName);
+
         return $processor->execute($customerId, []);
     }
 }

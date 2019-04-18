@@ -62,6 +62,7 @@ final class DeleteManagement
 
         /** @var \Opengento\Gdpr\Service\Delete\ProcessorInterface $processor */
         $processor = $this->processorPool->offsetGet($processorName);
+
         return $processor->execute($customerId);
     }
 }

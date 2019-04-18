@@ -8,9 +8,8 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Export\Processor;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Framework\Api\SearchResultsInterface;
-use Magento\Framework\EntityManager\Hydrator;
 use Magento\Quote\Api\CartRepositoryInterface;
+use Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Service\Export\ProcessorInterface;
 
 /**
@@ -29,23 +28,23 @@ final class QuoteDataProcessor implements ProcessorInterface
     private $searchCriteriaBuilder;
 
     /**
-     * @var \Magento\Framework\EntityManager\Hydrator
+     * @var \Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface
      */
-    private $hydrator;
+    private $dataCollector;
 
     /**
      * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Magento\Framework\EntityManager\Hydrator $hydrator
+     * @param \Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface $dataCollector
      */
     public function __construct(
         CartRepositoryInterface $quoteRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        Hydrator $hydrator
+        DataCollectorInterface $dataCollector
     ) {
         $this->quoteRepository = $quoteRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->hydrator = $hydrator;
+        $this->dataCollector = $dataCollector;
     }
 
     /**
@@ -55,24 +54,10 @@ final class QuoteDataProcessor implements ProcessorInterface
     {
         $searchCriteria = $this->searchCriteriaBuilder->addFilter('customer_id', $customerId);
         $quoteList = $this->quoteRepository->getList($searchCriteria->create());
-        $data['quotes'] = $this->generateArray($quoteList);
-
-        return $data;
-    }
-
-    /**
-     * Collect the customer quotes data to export
-     *
-     * @param \Magento\Framework\Api\SearchResultsInterface $searchResults
-     * @return array
-     */
-    private function generateArray(SearchResultsInterface $searchResults): array
-    {
-        $data = [];
 
         /** @var \Magento\Quote\Api\Data\CartInterface $entity */
-        foreach ($searchResults->getItems() as $entity) {
-            $data['quote_id_' . $entity->getId()] = $this->hydrator->extract($entity);
+        foreach ($quoteList->getItems() as $entity) {
+            $data['quotes']['quote_id_' . $entity->getId()] = $this->dataCollector->collect($entity);
         }
 
         return $data;

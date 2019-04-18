@@ -5,23 +5,23 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Service\Anonymize\Processor\EntityValue;
+namespace Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue;
 
 use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
-use Opengento\Gdpr\Service\Anonymize\ConfigInterface;
+use Opengento\Gdpr\Service\Anonymize\Processor\Entity\ConfigInterface;
 
 /**
- * Class VirtualProcessor
+ * Class Processor
  */
-class VirtualProcessor implements EntityValueProcessorInterface
+final class Processor implements EntityValueProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Service\Anonymize\ConfigInterface
+     * @var \Opengento\Gdpr\Service\Anonymize\Processor\Entity\ConfigInterface
      */
     private $config;
 
     /**
-     * @param \Opengento\Gdpr\Service\Anonymize\ConfigInterface $config
+     * @param \Opengento\Gdpr\Service\Anonymize\Processor\Entity\ConfigInterface $config
      */
     public function __construct(
         ConfigInterface $config
@@ -34,7 +34,7 @@ class VirtualProcessor implements EntityValueProcessorInterface
      */
     public function process($entity, string $key, $value): void
     {
-        if (\in_array($key, $this->config->getAttributes())) {
+        if (\in_array($key, $this->config->getAttributes(), true)) {
             // todo anonymize value and push it in the entity object
         }
     }

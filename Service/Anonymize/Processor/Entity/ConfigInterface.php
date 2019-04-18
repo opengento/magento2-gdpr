@@ -4,7 +4,7 @@
  * See LICENSE bundled with this library for license details.
  */
 
-namespace Opengento\Gdpr\Service\Anonymize;
+namespace Opengento\Gdpr\Service\Anonymize\Processor\Entity;
 
 /**
  * Interface ConfigInterface

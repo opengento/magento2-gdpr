@@ -27,7 +27,9 @@ class StrategyProcessor implements EntityValueProcessorInterface
     ) {
         $this->processors = (static function (EntityValueProcessorInterface ...$processors): array {
             return $processors;
-        })(...$processors);
+        })(...\array_values($processors));
+
+        $this->processors = \array_combine(\array_keys($processors), $this->processors);
     }
 
     /**

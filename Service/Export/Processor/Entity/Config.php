@@ -5,14 +5,14 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Service\Export;
+namespace Opengento\Gdpr\Service\Export\Processor\Entity;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 
 /**
- * Class VirtualConfig
+ * Class Config
  */
-class VirtualConfig implements ConfigInterface
+final class Config implements ConfigInterface
 {
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
