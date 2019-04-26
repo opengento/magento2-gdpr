@@ -54,7 +54,7 @@ final class Erasure
     private $searchCriteriaBuilder;
 
     /**
-     * @var \Magento\Framework\Stdlib\DateTime\DateTime 
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     private $dateTime;
 
@@ -117,8 +117,8 @@ final class Erasure
     private function retrieveEraseCustomerList(): SearchResultsInterface
     {
         $this->searchCriteriaBuilder->addFilter(
-            EraseCustomerInterface::SCHEDULED_AT, 
-            $this->dateTime->date(), 
+            EraseCustomerInterface::SCHEDULED_AT,
+            $this->dateTime->date(),
             'lteq'
         );
         $this->searchCriteriaBuilder->addFilter(

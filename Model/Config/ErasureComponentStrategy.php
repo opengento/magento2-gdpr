@@ -86,7 +86,7 @@ class ErasureComponentStrategy
 
     /**
      * Retrieve the delete components names
-     * 
+     *
      * @return string[]
      */
     public function getDeleteComponentsNames(): array

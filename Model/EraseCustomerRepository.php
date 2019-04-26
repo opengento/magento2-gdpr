@@ -177,7 +177,8 @@ final class EraseCustomerRepository implements EraseCustomerRepositoryInterface
             $this->eraseCustomerResource->delete($entity);
         } catch (\Exception $e) {
             throw new CouldNotDeleteException(
-                new Phrase('Could not delete entity with id "%1".', [$entity->getEntityId()]), $e
+                new Phrase('Could not delete entity with id "%1".', [$entity->getEntityId()]),
+                $e
             );
         }
 

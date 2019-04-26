@@ -211,8 +211,7 @@ final class Config
         string $path,
         string $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
         string $scopeCode = ''
-    ): string
-    {
+    ): string {
         return (string) $this->scopeConfig->getValue($path, $scopeType, $scopeCode ?: null);
     }
 
@@ -228,10 +227,9 @@ final class Config
         string $path,
         string $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
         string $scopeCode = ''
-    ): array
-    {
+    ): array {
         $value = $this->scopeConfig->getValue($path, $scopeType, $scopeCode ?: null);
 
-        return $value ? \explode(',',  $value) : [];
+        return $value ? \explode(',', $value) : [];
     }
 }

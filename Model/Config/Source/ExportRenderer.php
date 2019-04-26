@@ -41,7 +41,7 @@ class ExportRenderer implements OptionSourceInterface
     public function toOptionArray(): array
     {
         if (!$this->options) {
-            foreach ($this->retrieveRenderers() as $rendererName => $renderer) {
+            foreach (\array_keys($this->retrieveRenderers()) as $rendererName) {
                 $this->options[] = ['label' => new Phrase($rendererName), 'value' => $rendererName];
             }
         }

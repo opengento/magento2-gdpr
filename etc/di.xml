@@ -448,10 +448,16 @@
         </arguments>
     </type>
     <!-- Export Strategy -->
-    <type name="Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer">
+    <type name="Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiator">
         <arguments>
             <argument name="layoutReaderPool" xsi:type="object">pageConfigRenderPool</argument>
             <argument name="layoutGeneratorPool" xsi:type="object">pageLayoutGeneratorPool</argument>
+            <argument name="defaultLayoutHandle" xsi:type="string">customer_privacy_export_personal_data</argument>
+        </arguments>
+    </type>
+    <type name="Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer">
+        <arguments>
+            <argument name="layoutInitiator" xsi:type="object">Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiator</argument>
             <argument name="template" xsi:type="string">Magento_Theme::root.phtml</argument>
         </arguments>
     </type>
