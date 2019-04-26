@@ -66,7 +66,7 @@ class DeletePost extends AbstractPrivacy
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function execute()
     {

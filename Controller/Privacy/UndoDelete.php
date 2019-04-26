@@ -45,7 +45,7 @@ class UndoDelete extends AbstractPrivacy
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function execute()
     {

@@ -36,7 +36,7 @@ class ErasureComponents implements OptionSourceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function toOptionArray(): array
     {

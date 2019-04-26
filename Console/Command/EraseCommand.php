@@ -62,7 +62,7 @@ final class EraseCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function configure(): void
     {
@@ -79,7 +79,7 @@ final class EraseCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

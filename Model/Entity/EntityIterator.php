@@ -37,7 +37,7 @@ class EntityIterator implements EntityIteratorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function iterate($entity): void
     {

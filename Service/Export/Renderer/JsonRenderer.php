@@ -34,7 +34,7 @@ final class JsonRenderer extends AbstractRenderer
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function render(array $data): string
     {

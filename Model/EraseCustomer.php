@@ -17,7 +17,7 @@ use Opengento\Gdpr\Model\ResourceModel\EraseCustomer as EraseCustomerResource;
 final class EraseCustomer extends AbstractExtensibleModel implements EraseCustomerInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function _construct(): void
     {
@@ -25,7 +25,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getEntityId(): int
     {
@@ -33,7 +33,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setEntityId($entityId): EraseCustomerInterface
     {
@@ -43,7 +43,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCustomerId(): int
     {
@@ -51,7 +51,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setCustomerId(int $customerId): EraseCustomerInterface
     {
@@ -59,7 +59,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getScheduledAt(): string
     {
@@ -67,7 +67,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setScheduledAt(string $scheduledAt): EraseCustomerInterface
     {
@@ -75,7 +75,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getState(): string
     {
@@ -83,7 +83,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setState(string $state): EraseCustomerInterface
     {
@@ -91,7 +91,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getStatus(): string
     {
@@ -99,7 +99,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setStatus(string $status): EraseCustomerInterface
     {
@@ -107,7 +107,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getErasedAt(): string
     {
@@ -115,7 +115,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setErasedAt(string $erasedAt): EraseCustomerInterface
     {

@@ -45,7 +45,7 @@ class Delete extends AbstractPrivacy
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function execute()
     {

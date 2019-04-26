@@ -60,7 +60,7 @@ class PrivacyMessagePopup extends Template
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getJsLayout(): string
     {
@@ -74,7 +74,7 @@ class PrivacyMessagePopup extends Template
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function _toHtml(): string
     {

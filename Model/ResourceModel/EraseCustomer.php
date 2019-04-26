@@ -18,7 +18,7 @@ final class EraseCustomer extends AbstractDb
     public const TABLE = 'opengento_gdpr_erase_customer';
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function _construct(): void
     {

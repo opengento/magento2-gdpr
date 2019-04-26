@@ -17,7 +17,7 @@ use Opengento\Gdpr\Service\ErasureStrategy;
 class EraseStrategy implements OptionSourceInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function toOptionArray(): array
     {

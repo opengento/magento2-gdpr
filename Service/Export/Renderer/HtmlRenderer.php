@@ -73,7 +73,7 @@ final class HtmlRenderer extends AbstractRenderer
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws \Exception
      */
     public function render(array $data): string

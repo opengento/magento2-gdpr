@@ -16,7 +16,7 @@ use Opengento\Gdpr\Controller\AbstractPrivacy;
 class Settings extends AbstractPrivacy
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function execute()
     {

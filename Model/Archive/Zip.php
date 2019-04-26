@@ -40,7 +40,7 @@ final class Zip implements ArchiveInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function pack($source, $destination): string
     {
@@ -55,7 +55,7 @@ final class Zip implements ArchiveInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function unpack($source, $destination): string
     {

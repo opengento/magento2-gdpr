@@ -45,7 +45,7 @@ final class Config implements ConfigInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAttributes(?string $scopeCode = null): array
     {

@@ -30,7 +30,7 @@ class ExtensibleDataProcessor implements EntityValueProcessorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function process($entity, string $key, $value): void
     {

@@ -49,7 +49,7 @@ final class OrderDataProcessor implements ProcessorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function execute(int $customerId, array $data): array
     {

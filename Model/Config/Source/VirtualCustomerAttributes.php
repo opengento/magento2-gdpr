@@ -39,7 +39,7 @@ class VirtualCustomerAttributes implements OptionSourceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function toOptionArray(): array
     {

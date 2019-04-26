@@ -83,7 +83,7 @@ final class EraseCustomerRepository implements EraseCustomerRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function save(EraseCustomerInterface $entity): EraseCustomerInterface
     {
@@ -100,7 +100,7 @@ final class EraseCustomerRepository implements EraseCustomerRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getById(int $entityId, bool $forceReload = false): EraseCustomerInterface
     {
@@ -121,7 +121,7 @@ final class EraseCustomerRepository implements EraseCustomerRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getByCustomerId(int $entityId, bool $forceReload = false): EraseCustomerInterface
     {
@@ -144,7 +144,7 @@ final class EraseCustomerRepository implements EraseCustomerRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface
     {
@@ -163,7 +163,7 @@ final class EraseCustomerRepository implements EraseCustomerRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete(EraseCustomerInterface $entity): bool
     {
@@ -186,7 +186,7 @@ final class EraseCustomerRepository implements EraseCustomerRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function deleteById(int $entityId): bool
     {

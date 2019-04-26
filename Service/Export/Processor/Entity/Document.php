@@ -26,7 +26,7 @@ final class Document implements DocumentInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setData(array $data): void
     {
@@ -34,7 +34,7 @@ final class Document implements DocumentInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function addData(string $key, $value): void
     {
@@ -42,7 +42,7 @@ final class Document implements DocumentInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getData(): array
     {

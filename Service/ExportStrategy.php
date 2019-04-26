@@ -45,7 +45,7 @@ final class ExportStrategy implements RendererInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function render(array $data): string
     {
@@ -53,7 +53,7 @@ final class ExportStrategy implements RendererInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function saveData(string $fileName, array $data): string
     {

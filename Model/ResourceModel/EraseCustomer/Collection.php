@@ -18,7 +18,7 @@ use Opengento\Gdpr\Model\ResourceModel\EraseCustomer as EraseCustomerResourceMod
 final class Collection extends AbstractCollection
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function _construct(): void
     {

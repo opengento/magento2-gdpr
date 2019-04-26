@@ -71,7 +71,7 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function create(int $customerId): EraseCustomerInterface
     {
@@ -90,7 +90,7 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function cancel(int $customerId): bool
     {
@@ -106,7 +106,7 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function process(EraseCustomerInterface $entity): EraseCustomerInterface
     {
@@ -134,7 +134,7 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function exists(int $customerId): bool
     {
@@ -147,7 +147,7 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function canBeCanceled(EraseCustomerInterface $entity): bool
     {
@@ -156,7 +156,7 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function canBeProcessed(EraseCustomerInterface $entity): bool
     {

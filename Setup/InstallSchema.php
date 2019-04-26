@@ -21,7 +21,7 @@ use Opengento\Gdpr\Model\ResourceModel\EraseCustomer;
 final class InstallSchema implements InstallSchemaInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws \Zend_Db_Exception
      */
     public function install(SchemaSetupInterface $setup, ModuleContextInterface $context): void

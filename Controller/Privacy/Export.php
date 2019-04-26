@@ -93,7 +93,7 @@ class Export extends AbstractPrivacy
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function execute()
     {

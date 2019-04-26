@@ -19,7 +19,7 @@ use Opengento\Gdpr\Model\ResourceModel\EraseCustomer;
 final class Uninstall implements UninstallInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function uninstall(SchemaSetupInterface $setup, ModuleContextInterface $context): void
     {

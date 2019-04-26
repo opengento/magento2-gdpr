@@ -58,7 +58,7 @@ final class QuoteDataProcessor implements ProcessorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws \Exception
      */
     public function execute(int $customerId): bool

@@ -38,7 +38,7 @@ abstract class AbstractRenderer implements RendererInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws \Magento\Framework\Exception\FileSystemException
      */
     public function saveData(string $fileName, array $data): string

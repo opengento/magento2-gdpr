@@ -39,7 +39,7 @@ final class CustomerDataProcessor implements ProcessorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */

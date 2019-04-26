@@ -37,7 +37,7 @@ final class DataCollector implements DataCollectorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function collect($entity): array
     {

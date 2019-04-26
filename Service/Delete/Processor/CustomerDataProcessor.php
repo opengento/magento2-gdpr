@@ -31,7 +31,7 @@ final class CustomerDataProcessor implements ProcessorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function execute(int $customerId): bool
