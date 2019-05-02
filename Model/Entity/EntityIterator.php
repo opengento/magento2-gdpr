@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Entity;
 
-use Magento\Framework\EntityManager\HydratorInterface;
+use Magento\Framework\EntityManager\HydratorPool;
 
 /**
  * Class EntityIterator
@@ -15,9 +15,9 @@ use Magento\Framework\EntityManager\HydratorInterface;
 class EntityIterator implements EntityIteratorInterface
 {
     /**
-     * @var \Magento\Framework\EntityManager\HydratorInterface
+     * @var \Magento\Framework\EntityManager\HydratorPool
      */
-    private $hydrator;
+    private $hydratorPool;
 
     /**
      * @var \Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface
@@ -25,14 +25,14 @@ class EntityIterator implements EntityIteratorInterface
     private $processor;
 
     /**
-     * @param \Magento\Framework\EntityManager\HydratorInterface $hydrator
+     * @param \Magento\Framework\EntityManager\HydratorPool $hydratorPool
      * @param \Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface $processor
      */
     public function __construct(
-        HydratorInterface $hydrator,
+        HydratorPool $hydratorPool,
         EntityValueProcessorInterface $processor
     ) {
-        $this->hydrator = $hydrator;
+        $this->hydratorPool = $hydratorPool;
         $this->processor = $processor;
     }
 
@@ -41,7 +41,7 @@ class EntityIterator implements EntityIteratorInterface
      */
     public function iterate($entity): void
     {
-        foreach ($this->hydrator->extract($entity) as $key => $value) {
+        foreach ($this->hydratorPool->getHydrator($entity)->extract($entity) as $key => $value) {
             $this->processor->process($entity, $key, $value);
         }
     }
