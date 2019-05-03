@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2019 Opengento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -13,7 +13,7 @@ use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
 /**
  * Class CustomAttributesProcessor
  */
-class CustomAttributesProcessor implements EntityValueProcessorInterface
+final class CustomAttributesProcessor implements EntityValueProcessorInterface
 {
     /**
      * @var \Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface
@@ -32,10 +32,12 @@ class CustomAttributesProcessor implements EntityValueProcessorInterface
     /**
      * @inheritdoc
      */
-    public function process($entity, string $key, $value): void
+    public function process($entity, string $key, $values): void
     {
-        if ($this->isValid($entity, $key)) {
-            $this->processor->process($entity, $key, $value);
+        if ($this->isValid($entity, $key, $values)) {
+            foreach ($values as $value) {
+                $this->processor->process($entity, $key, $value);
+            }
         }
     }
 
@@ -44,11 +46,13 @@ class CustomAttributesProcessor implements EntityValueProcessorInterface
      *
      * @param object $entity
      * @param string $key
+     * @param mixed $values
      * @return bool
      */
-    private function isValid($entity, string $key): bool
+    private function isValid($entity, string $key, $values): bool
     {
         return $entity instanceof CustomAttributesDataInterface &&
-            $key === CustomAttributesDataInterface::CUSTOM_ATTRIBUTES;
+            $key === CustomAttributesDataInterface::CUSTOM_ATTRIBUTES &&
+            \is_iterable($values);
     }
 }

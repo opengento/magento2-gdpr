@@ -4,13 +4,13 @@
  * See LICENSE bundled with this library for license details.
  */
 
-namespace Opengento\Gdpr\Service\Anonymize\Processor\Entity;
+namespace Opengento\Gdpr\Model\Entity;
 
 /**
- * Interface ConfigInterface
+ * Interface MetadataInterface
  * @api
  */
-interface ConfigInterface
+interface MetadataInterface
 {
     /**
      * Retrieve the allowed attributes to export

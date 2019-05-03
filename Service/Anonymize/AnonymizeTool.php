@@ -67,7 +67,7 @@ final class AnonymizeTool
      * Retrieve a random value
      *
      * @param int $length
-     * @param null|string $chars
+     * @param string $chars
      * @return string
      * @throws \Magento\Framework\Exception\LocalizedException
      */

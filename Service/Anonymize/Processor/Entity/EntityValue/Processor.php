@@ -7,8 +7,10 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue;
 
+use Opengento\Gdpr\Model\Entity\DocumentInterface;
 use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
-use Opengento\Gdpr\Service\Anonymize\Processor\Entity\ConfigInterface;
+use Opengento\Gdpr\Model\Entity\MetadataInterface;
+use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
 /**
  * Class Processor
@@ -16,17 +18,33 @@ use Opengento\Gdpr\Service\Anonymize\Processor\Entity\ConfigInterface;
 final class Processor implements EntityValueProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Service\Anonymize\Processor\Entity\ConfigInterface
+     * @var \Opengento\Gdpr\Model\Entity\DocumentInterface
      */
-    private $config;
+    public $document;
 
     /**
-     * @param \Opengento\Gdpr\Service\Anonymize\Processor\Entity\ConfigInterface $config
+     * @var \Opengento\Gdpr\Model\Entity\MetadataInterface
+     */
+    private $metadata;
+
+    /**
+     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface
+     */
+    private $anonymizer;
+
+    /**
+     * @param \Opengento\Gdpr\Model\Entity\DocumentInterface $document
+     * @param \Opengento\Gdpr\Model\Entity\MetadataInterface $metadata
+     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface $anonymizer
      */
     public function __construct(
-        ConfigInterface $config
+        DocumentInterface $document,
+        MetadataInterface $metadata,
+        AnonymizerInterface $anonymizer
     ) {
-        $this->config = $config;
+        $this->document = $document;
+        $this->metadata = $metadata;
+        $this->anonymizer = $anonymizer;
     }
 
     /**
@@ -34,8 +52,8 @@ final class Processor implements EntityValueProcessorInterface
      */
     public function process($entity, string $key, $value): void
     {
-        if (\in_array($key, $this->config->getAttributes(), true)) {
-            // todo anonymize value and push it in the entity object
+        if (\in_array($key, $this->metadata->getAttributes(), true)) {
+            $this->document->addData($key, $this->anonymizer->anonymize($value));
         }
     }
 }

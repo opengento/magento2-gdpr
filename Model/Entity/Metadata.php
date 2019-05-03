@@ -5,14 +5,14 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Service\Anonymize\Processor\Entity;
+namespace Opengento\Gdpr\Model\Entity;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 
 /**
- * Class Config
+ * Class Metadata
  */
-final class Config implements ConfigInterface
+final class Metadata implements MetadataInterface
 {
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface

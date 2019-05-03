@@ -5,9 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Service\Export\Processor\Entity;
-
-use Opengento\Gdpr\Model\Entity\EntityIteratorInterface;
+namespace Opengento\Gdpr\Model\Entity;
 
 /**
  * Class DataCollector
@@ -20,13 +18,13 @@ final class DataCollector implements DataCollectorInterface
     private $entityIterator;
 
     /**
-     * @var \Opengento\Gdpr\Service\Export\Processor\Entity\DocumentInterface
+     * @var \Opengento\Gdpr\Model\Entity\DocumentInterface
      */
     private $document;
 
     /**
      * @param \Opengento\Gdpr\Model\Entity\EntityIteratorInterface $entityIterator
-     * @param \Opengento\Gdpr\Service\Export\Processor\Entity\DocumentInterface $document
+     * @param \Opengento\Gdpr\Model\Entity\DocumentInterface $document
      */
     public function __construct(
         EntityIteratorInterface $entityIterator,

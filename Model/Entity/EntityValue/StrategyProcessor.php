@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2019 Opengento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 declare(strict_types=1);
@@ -12,7 +12,7 @@ use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
 /**
  * Class StrategyProcessor
  */
-class StrategyProcessor implements EntityValueProcessorInterface
+final class StrategyProcessor implements EntityValueProcessorInterface
 {
     /**
      * @var \Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface[]

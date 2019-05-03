@@ -4,7 +4,7 @@
  * See LICENSE bundled with this library for license details.
  */
 
-namespace Opengento\Gdpr\Service\Export\Processor\Entity;
+namespace Opengento\Gdpr\Model\Entity;
 
 /**
  * Interface DocumentInterface

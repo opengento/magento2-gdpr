@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Export\Processor;
 
 use Magento\Newsletter\Model\SubscriberFactory;
-use Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface;
+use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Service\Export\ProcessorInterface;
 
 /**
@@ -22,13 +22,13 @@ final class SubscriberDataProcessor implements ProcessorInterface
     private $subscriberFactory;
 
     /**
-     * @var \Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface
+     * @var \Opengento\Gdpr\Model\Entity\DataCollectorInterface
      */
     private $dataCollector;
 
     /**
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param \Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface $dataCollector
+     * @param \Opengento\Gdpr\Model\Entity\DataCollectorInterface $dataCollector
      */
     public function __construct(
         SubscriberFactory $subscriberFactory,

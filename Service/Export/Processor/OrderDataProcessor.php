@@ -10,7 +10,7 @@ namespace Opengento\Gdpr\Service\Export\Processor;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
-use Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface;
+use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Service\Export\ProcessorInterface;
 
 /**
@@ -29,14 +29,14 @@ final class OrderDataProcessor implements ProcessorInterface
     private $searchCriteriaBuilder;
 
     /**
-     * @var \Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface
+     * @var \Opengento\Gdpr\Model\Entity\DataCollectorInterface
      */
     private $dataCollector;
 
     /**
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface $dataCollector
+     * @param \Opengento\Gdpr\Model\Entity\DataCollectorInterface $dataCollector
      */
     public function __construct(
         OrderRepositoryInterface $orderRepository,

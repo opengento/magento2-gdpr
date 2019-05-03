@@ -20,12 +20,6 @@ Area:
 
 Add attributes configuration for:
 
-- Quotes
-- Orders
 - Invoices
 - Shipment
 - ...
-
-## Renderer
-
-Implement and debug outputs: PDF, CSV

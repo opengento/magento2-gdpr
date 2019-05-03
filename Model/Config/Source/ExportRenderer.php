@@ -56,15 +56,10 @@ class ExportRenderer implements OptionSourceInterface
      */
     private function retrieveRenderers(): array
     {
-        $processors = [];
-        $typePreference = $this->objectManagerConfig->getPreference('Opengento\Gdpr\Service\Export\RendererPool');
-        $arguments = $this->objectManagerConfig->getArguments($typePreference);
+        $arguments = $this->objectManagerConfig->getArguments(
+            $this->objectManagerConfig->getPreference('Opengento\Gdpr\Service\Export\RendererPool')
+        );
 
-        // Workaround for compiled mode
-        if (isset($arguments['array'])) {
-            $processors = $arguments['array']['_v_'] ?? $arguments['array'];
-        }
-
-        return $processors;
+        return $arguments['array']['_v_'] ?? $arguments['array'] ?? [];
     }
 }

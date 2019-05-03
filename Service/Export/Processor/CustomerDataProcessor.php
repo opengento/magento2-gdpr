@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Export\Processor;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface;
+use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Service\Export\ProcessorInterface;
 
 /**
@@ -22,13 +22,13 @@ final class CustomerDataProcessor implements ProcessorInterface
     private $customerRepository;
 
     /**
-     * @var \Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface
+     * @var \Opengento\Gdpr\Model\Entity\DataCollectorInterface
      */
     private $dataCollector;
 
     /**
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-     * @param \Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface $dataCollector
+     * @param \Opengento\Gdpr\Model\Entity\DataCollectorInterface $dataCollector
      */
     public function __construct(
         CustomerRepositoryInterface $customerRepository,

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2019 Opengento, All rights reserved.
+ * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
 

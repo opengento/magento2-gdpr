@@ -9,7 +9,7 @@ namespace Opengento\Gdpr\Service\Export\Processor;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Quote\Api\CartRepositoryInterface;
-use Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface;
+use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Service\Export\ProcessorInterface;
 
 /**
@@ -28,14 +28,14 @@ final class QuoteDataProcessor implements ProcessorInterface
     private $searchCriteriaBuilder;
 
     /**
-     * @var \Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface
+     * @var \Opengento\Gdpr\Model\Entity\DataCollectorInterface
      */
     private $dataCollector;
 
     /**
      * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Opengento\Gdpr\Service\Export\Processor\Entity\DataCollectorInterface $dataCollector
+     * @param \Opengento\Gdpr\Model\Entity\DataCollectorInterface $dataCollector
      */
     public function __construct(
         CartRepositoryInterface $quoteRepository,

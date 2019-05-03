@@ -7,9 +7,9 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue;
 
+use Opengento\Gdpr\Model\Entity\DocumentInterface;
 use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
-use Opengento\Gdpr\Service\Export\Processor\Entity\ConfigInterface;
-use Opengento\Gdpr\Service\Export\Processor\Entity\DocumentInterface;
+use Opengento\Gdpr\Model\Entity\MetadataInterface;
 
 /**
  * Class Processor
@@ -17,25 +17,25 @@ use Opengento\Gdpr\Service\Export\Processor\Entity\DocumentInterface;
 final class Processor implements EntityValueProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Service\Export\Processor\Entity\DocumentInterface
+     * @var \Opengento\Gdpr\Model\Entity\DocumentInterface
      */
     public $document;
 
     /**
-     * @var \Opengento\Gdpr\Service\Export\Processor\Entity\ConfigInterface
+     * @var \Opengento\Gdpr\Model\Entity\MetadataInterface
      */
-    private $config;
+    private $metadata;
 
     /**
-     * @param \Opengento\Gdpr\Service\Export\Processor\Entity\DocumentInterface $document
-     * @param \Opengento\Gdpr\Service\Export\Processor\Entity\ConfigInterface $config
+     * @param \Opengento\Gdpr\Model\Entity\DocumentInterface $document
+     * @param \Opengento\Gdpr\Model\Entity\MetadataInterface $metadata
      */
     public function __construct(
         DocumentInterface $document,
-        ConfigInterface $config
+        MetadataInterface $metadata
     ) {
         $this->document = $document;
-        $this->config = $config;
+        $this->metadata = $metadata;
     }
 
     /**
@@ -43,7 +43,7 @@ final class Processor implements EntityValueProcessorInterface
      */
     public function process($entity, string $key, $value): void
     {
-        if (\in_array($key, $this->config->getAttributes(), true)) {
+        if (\in_array($key, $this->metadata->getAttributes(), true)) {
             $this->document->addData($key, $value);
         }
     }

@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Service\Export\Processor\Entity;
+namespace Opengento\Gdpr\Model\Entity;
 
 /**
  * Class Document

@@ -71,7 +71,7 @@ class ErasureComponentStrategy
      */
     public function getComponentsByStrategy(string $strategy): array
     {
-        return $this->componentsStrategies[$strategy] ?: [];
+        return $this->componentsStrategies[$strategy] ?? [];
     }
 
     /**
@@ -135,15 +135,8 @@ class ErasureComponentStrategy
             if (!isset($this->componentsStrategies[$strategy])) {
                 $this->componentsStrategies[$strategy] = [];
             }
-            try {
-                $strategy = $this->getComponentStrategy($component);
 
-                throw new \InvalidArgumentException(
-                    \sprintf('Strategy is already set for the component name "%s".', $component)
-                );
-            } catch (\InvalidArgumentException $e) {
-                $this->componentsStrategies[$strategy][] = $component;
-            }
+            $this->componentsStrategies[$strategy][] = $component;
         }
 
         $this->componentsStrategies = \array_merge_recursive(
@@ -160,15 +153,10 @@ class ErasureComponentStrategy
      */
     private function retrieveProcessorNames(string $processorPool): array
     {
-        $processors = [];
-        $typePreference = $this->objectManagerConfig->getPreference($processorPool);
-        $arguments = $this->objectManagerConfig->getArguments($typePreference);
+        $arguments = $this->objectManagerConfig->getArguments(
+            $this->objectManagerConfig->getPreference($processorPool)
+        );
 
-        // Workaround for compiled mode
-        if (isset($arguments['array'])) {
-            $processors = $arguments['array']['_v_'] ?? $arguments['array'];
-        }
-
-        return $processors;
+        return $arguments['array']['_v_'] ?? $arguments['array'] ?? [];
     }
 }
