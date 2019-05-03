@@ -49,9 +49,7 @@ class PrivacyMessagePopup extends Template
         Config $config,
         HelperPage $helperPage,
         Json $jsonSerializer,
-        array $data = [
-            'template' => 'Opengento_Gdpr::messages/popup.phtml',
-        ]
+        array $data = []
     ) {
         $this->config = $config;
         $this->helperPage = $helperPage;

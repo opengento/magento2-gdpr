@@ -10,6 +10,7 @@
         <referenceContainer name="before.body.end">
             <block class="Opengento\Gdpr\Block\Messages\PrivacyMessagePopup" name="privacy_message_popup" after="-" ifconfig="gdpr/general/enabled">
                 <arguments>
+                    <argument name="template" xsi:type="string">Opengento_Gdpr::messages/popup.phtml</argument>
                     <argument name="jsLayout" xsi:type="array">
                         <item name="components" xsi:type="array">
                             <item name="enhanced-privacy-cookie-policy" xsi:type="array">
