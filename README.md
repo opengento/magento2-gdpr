@@ -87,6 +87,11 @@ The settings are divided as following:
   * Export Renderer option
   * Customer Attributes to export
   * Customer Address Attributes to export
+  * Quote Attributes to export
+  * Quote Address Attributes to export
+  * Order Attributes to export
+  * Order Address Attributes to export
+  * Subscriber Attributes to export
 * Cookie Settings
   * Enable the cookie disclosure
   * Cookie Policy Information CMS Block
@@ -94,6 +99,8 @@ The settings are divided as following:
 ## Developers
 
 The following documentation explains how to add your own processors to the workflow.
+
+**Further documentation is available at [our website](https://opengento.fr/magento2-gdpr/).**
 
 ### Extends Export
 
@@ -105,7 +112,7 @@ Then, register your processor to the following pool `\Opengento\Gdpr\Service\Exp
 <type name="Opengento\Gdpr\Service\Export\ProcessorPool">
     <arguments>
         <argument name="array" xsi:type="array">
-            <item name="my_component" xsi:type="string">\Vendor\Module\ExportProcessor</item>
+            <item name="my_component" xsi:type="string">Vendor\Module\ExportProcessor</item>
         </argument>
     </arguments>
 </type>
@@ -119,7 +126,7 @@ Then, register your renderer to the following pool `\Opengento\Gdpr\Service\Expo
 <type name="Opengento\Gdpr\Service\Export\RendererPool">
     <arguments>
         <argument name="array" xsi:type="array">
-            <item name="my_renderer" xsi:type="string">\Vendor\Module\ExportRenderer</item>
+            <item name="my_renderer" xsi:type="string">Vendor\Module\ExportRenderer</item>
         </argument>
     </arguments>
 </type>
@@ -135,7 +142,7 @@ Then, register your processor to the following pool `\Opengento\Gdpr\Service\Del
 <type name="Opengento\Gdpr\Service\Delete\ProcessorPool">
     <arguments>
         <argument name="array" xsi:type="array">
-            <item name="my_component" xsi:type="string">\Vendor\Module\DeleteProcessor</item>
+            <item name="my_component" xsi:type="string">Vendor\Module\DeleteProcessor</item>
         </argument>
     </arguments>
 </type>
@@ -151,87 +158,11 @@ Then, register your processor to the following pool `\Opengento\Gdpr\Service\Ano
 <type name="Opengento\Gdpr\Service\Anonymize\ProcessorPool">
     <arguments>
         <argument name="array" xsi:type="array">
-            <item name="my_component" xsi:type="string">\Vendor\Module\AnonymizeProcessor</item>
+            <item name="my_component" xsi:type="string">Vendor\Module\AnonymizeProcessor</item>
         </argument>
     </arguments>
 </type>
 ```
-
-### Erasure Strategy
-
-This module allows you to define the strategy to apply for the different processors.  
-You can configure it thanks to the admin system configuration, but you can also cheat and
-define the strategy to apply for them via the `etc/di.xml` file. Be careful, the settings from the configuration
-are always checked in top priority. To make it via the code, add your preferences as following:
-
-```xml
-<type name="Opengento\Gdpr\Model\Config\ErasureComponentStrategy">
-    <arguments>
-        <argument name="componentsStrategies" xsi:type="array">
-            <item name="component_name_1" xsi:type="const">Opengento\Gdpr\Service\ErasureStrategy::STRATEGY_ANONYMIZE</item>        
-            <item name="component_name_2" xsi:type="const">Opengento\Gdpr\Service\ErasureStrategy::STRATEGY_DELETE</item>        
-            <item name="component_name_3" xsi:type="string">custom_strategy_code</item>        
-        </argument>
-    </arguments>
-</type>
-```
-
-Warning, if you want to implement your own strategy type, you must create your own strategy class object, but you will be able to use the `Opengento\Gdpr\Model\Config\ErasureComponentStrategy` to serve your components by strategy.  
-Do not forget to use the right services managers, but you are free to use yours:  
-- `Opengento\Gdpr\Service\AnonymizeManagement`
-- `Opengento\Gdpr\Service\DeleteManagement`
-
-### How to override class and methods
-
-Plugins and preferences are not needed here to override and extends the GDPR module core code.  
-Actually, you should apply patterns to achieve it.
-
-The pool pattern already allows you to override the class of your choice.  
-However you wont be able to extends the existing class, because of the "final" keyword. Indeed, you need to create your 
-own class which implements the same interface. Then, simply add the class you want to "extends" as a composition. You will be able to 
-exploit the result and override it in your method.
-
-Eg: 
-```php
-interface I { public function execute(array $data): array; }
-final class A implements I { public function execute(array $data): array { //process $data } }
-
-final class B implements I {
-    private $a;
-    
-    public function __construct(A $a) { $this->a = $a; }
-    
-    public function execute(array $data): array
-    {
-        $resultA = $this->a->execute($data);
-
-        $resultB = $resultA; // transform $resultA
-        
-        return $resultB;
-    }
-}
-```
-Then:  
-```xml
-<type name="Pool">
-    <arguments>
-        <argument name="array" xsi:type="array">
-            <argument name="a" xsi:type="string">A</argument>        
-        </argument>
-    </arguments>
-</type>
-```
-Override by:  
-```xml
-<type name="Pool">
-    <arguments>
-        <argument name="array" xsi:type="array">
-            <argument name="a" xsi:type="string">B</argument>        
-        </argument>
-    </arguments>
-</type>
-```
-Congrats! You have overridden class A without extending it!
 
 ## Support
 
@@ -243,13 +174,6 @@ Please provide your Magento 2 version and the module version. Explain how to rep
 - **Initial Inspiration** - *`Cookie PopUp` sources* - [flurrybox](https://github.com/flurrybox)
 - **Opengento Community** - *Lead* - [They're awesome!](https://github.com/opengento)
 - **Contributors** - *Contributor* - [Many thanks!](https://github.com/opengento/magento2-gdpr/graphs/contributors)
-
-## Similar Magento 2 GDPR Module
-
-- https://github.com/AdFabConnect/magento2gdpr
-- https://github.com/mageplaza/magento-2-gdpr
-- https://github.com/staempfli/magento2-module-gdpr
-- https://github.com/flurrybox/enhanced-privacy
 
 ## License
 

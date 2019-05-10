@@ -27,3 +27,7 @@ Area:
 
 - Payment Data
 - Invitation Data
+
+## Config
+
+- Improve UI of fields: attributes list instead of text field

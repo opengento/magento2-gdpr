@@ -32,6 +32,8 @@ final class AnonymizerPool
         $this->anonymizers = (static function (AnonymizerInterface ...$anonymizers): array {
             return $anonymizers;
         })(...\array_values($anonymizers));
+
+        $this->anonymizers = \array_combine(\array_keys($anonymizers), $this->anonymizers);
     }
 
     /**
