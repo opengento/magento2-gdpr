@@ -8,10 +8,9 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Anonymize\Processor;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Framework\Math\Random;
 use Magento\Quote\Model\QuoteRepository;
 use Magento\Quote\Model\ResourceModel\Quote\Address;
-use Opengento\Gdpr\Service\Anonymize\AnonymizeTool;
+use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
 
 /**
@@ -20,9 +19,9 @@ use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
 final class QuoteDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizeTool
+     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface
      */
-    private $anonymizeTool;
+    private $anonymizer;
 
     /**
      * @var \Magento\Quote\Model\QuoteRepository
@@ -40,18 +39,18 @@ final class QuoteDataProcessor implements ProcessorInterface
     private $searchCriteriaBuilder;
 
     /**
-     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizeTool $anonymizeTool
+     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface $anonymizer
      * @param \Magento\Quote\Model\QuoteRepository $quoteRepository
      * @param \Magento\Quote\Model\ResourceModel\Quote\Address $quoteAddressResourceModel
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
-        AnonymizeTool $anonymizeTool,
+        AnonymizerInterface $anonymizer,
         QuoteRepository $quoteRepository,
         Address $quoteAddressResourceModel,
         SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
-        $this->anonymizeTool = $anonymizeTool;
+        $this->anonymizer = $anonymizer;
         $this->quoteRepository = $quoteRepository;
         $this->quoteAddressResourceModel = $quoteAddressResourceModel;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
@@ -65,30 +64,16 @@ final class QuoteDataProcessor implements ProcessorInterface
     {
         $searchCriteria = $this->searchCriteriaBuilder->addFilter('customer_id', $customerId);
         $quoteList = $this->quoteRepository->getList($searchCriteria->create());
-        $anonymousValue = $this->anonymizeTool->anonymousValue();
 
         /** @var \Magento\Quote\Model\Quote $quote */
         foreach ($quoteList->getItems() as $quote) {
-            $quote->setCustomerFirstname($anonymousValue);
-            $quote->setCustomerLastname($anonymousValue);
-            $quote->setCustomerMiddlename($anonymousValue);
-            $quote->setCustomerEmail($this->anonymizeTool->anonymousEmail());
+            $this->quoteRepository->save($this->anonymizer->anonymize($quote));
 
-            $this->quoteRepository->save($quote);
-
-            /** @var \Magento\Quote\Api\Data\AddressInterface $quoteAddress */
+            /** @var \Magento\Quote\Model\Quote\Address|null $quoteAddress */
             foreach ([$quote->getBillingAddress(), $quote->getShippingAddress()] as $quoteAddress) {
-                $quoteAddress->setFirstname($anonymousValue);
-                $quoteAddress->setMiddlename($anonymousValue);
-                $quoteAddress->setLastname($anonymousValue);
-                $quoteAddress->setPostcode($this->anonymizeTool->randomValue(5, Random::CHARS_DIGITS));
-                $quoteAddress->setCity($anonymousValue);
-                $quoteAddress->setStreet([$anonymousValue]);
-                $quoteAddress->setEmail($this->anonymizeTool->anonymousEmail());
-                $quoteAddress->setTelephone($this->anonymizeTool->anonymousPhone());
-
-                /** @var \Magento\Quote\Model\Quote\Address $quoteAddress */
-                $this->quoteAddressResourceModel->save($quoteAddress);
+                if ($quoteAddress) {
+                    $this->quoteAddressResourceModel->save($this->anonymizer->anonymize($quoteAddress));
+                }
             }
         }
 

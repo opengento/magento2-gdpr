@@ -14,7 +14,7 @@ use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Service\Anonymize\AccountBlocker;
-use Opengento\Gdpr\Service\Anonymize\AnonymizeTool;
+use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
 
 /**
@@ -23,9 +23,9 @@ use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
 final class CustomerDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizeTool
+     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface
      */
-    private $anonymizeTool;
+    private $anonymizer;
 
     /**
      * @var \Opengento\Gdpr\Service\Anonymize\AccountBlocker
@@ -53,7 +53,7 @@ final class CustomerDataProcessor implements ProcessorInterface
     private $config;
 
     /**
-     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizeTool $anonymizeTool
+     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface $anonymizer
      * @param \Opengento\Gdpr\Service\Anonymize\AccountBlocker $accountBlocker
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
@@ -61,14 +61,14 @@ final class CustomerDataProcessor implements ProcessorInterface
      * @param \Opengento\Gdpr\Model\Config $config
      */
     public function __construct(
-        AnonymizeTool $anonymizeTool,
+        AnonymizerInterface $anonymizer,
         AccountBlocker $accountBlocker,
         CustomerRepositoryInterface $customerRepository,
         OrderRepositoryInterface $orderRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         Config $config
     ) {
-        $this->anonymizeTool = $anonymizeTool;
+        $this->anonymizer = $anonymizer;
         $this->accountBlocker = $accountBlocker;
         $this->customerRepository = $customerRepository;
         $this->orderRepository = $orderRepository;
@@ -94,20 +94,12 @@ final class CustomerDataProcessor implements ProcessorInterface
                 }
             }
 
-            $customer = $this->customerRepository->getById($customerId);
-            $customer->setFirstname($this->anonymizeTool->anonymousValue());
-            $customer->setMiddlename($this->anonymizeTool->anonymousValue());
-            $customer->setLastname($this->anonymizeTool->anonymousValue());
-            $customer->setEmail(
-                $this->anonymizeTool->anonymousEmail((string) $customer->getStoreId(), (string) $customerId)
-            );
-            $customer->setTaxvat('');
-
             $this->accountBlocker->invalid($customerId);
-
-            $this->customerRepository->save($customer);
+            $this->customerRepository->save(
+                $this->anonymizer->anonymize($this->customerRepository->getById($customerId))
+            );
         } catch (NoSuchEntityException $e) {
-            /** Silence is golden */
+            return false;
         }
 
         return true;

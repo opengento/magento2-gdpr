@@ -13,5 +13,11 @@ namespace Opengento\Gdpr\Service\Anonymize;
  */
 interface AnonymizerInterface
 {
+    /**
+     * Anonymize the value
+     *
+     * @param mixed $value
+     * @return mixed
+     */
     public function anonymize($value);
 }

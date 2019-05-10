@@ -15,7 +15,8 @@ interface MetadataInterface
     /**
      * Retrieve the allowed attributes to export
      *
+     * @param string|null $scopeCode
      * @return string[]
      */
-    public function getAttributes(): array;
+    public function getAttributes(?string $scopeCode = null): array;
 }

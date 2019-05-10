@@ -18,8 +18,12 @@ Area:
 
 ## Export
 
-Add attributes configuration for:
+- Payment Data
+- Invitation Data
+- Orders Addresses 
+- Quotes Addresses
 
-- Invoices
-- Shipment
-- ...
+## Anonymizer
+
+- Payment Data
+- Invitation Data

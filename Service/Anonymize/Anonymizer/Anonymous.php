@@ -12,14 +12,14 @@ use Magento\Framework\Phrase;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
 /**
- * Class Email
+ * Class Anonymous
  */
-class Email implements AnonymizerInterface
+class Anonymous implements AnonymizerInterface
 {
     /**#@+
-     * Constants for value anonymizer
+     * Constants for anonymous anonymizer
      */
-    private const PHRASE = '%1anonymous%2@gdpr.org';
+    private const PHRASE = '%1Anonymous%2';
     private const PREFIX_LENGTH = 3;
     private const SUFFIX_LENGTH = 2;
     /**#@-*/

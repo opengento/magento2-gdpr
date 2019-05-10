@@ -36,6 +36,523 @@
             <argument name="processorPool" xsi:type="object">Opengento\Gdpr\Service\Anonymize\ProcessorPool</argument>
         </arguments>
     </type>
+    <type name="Opengento\Gdpr\Service\Anonymize\AnonymizerPool">
+        <arguments>
+            <argument name="anonymizers" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Anonymous\Proxy</item>
+                <item name="anonymous" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Anonymous\Proxy</item>
+                <item name="date" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Date\Proxy</item>
+                <item name="email" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Email\Proxy</item>
+                <item name="phone" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Phone\Proxy</item>
+                <item name="number" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Number\Proxy</item>
+                <item name="alphaLower" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaLower\Proxy</item>
+                <item name="alphaUpper" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaUpper\Proxy</item>
+                <item name="alphaNum" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaNum\Proxy</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Entity\DataCollectorPool" type="Opengento\Gdpr\Model\Entity\DataCollectorPool">
+        <arguments>
+            <argument name="dataCollectors" xsi:type="array">
+                <item name="Magento\Customer\Api\Data\CustomerInterface" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Customer\DataCollector</item>
+                <item name="Magento\Customer\Api\Data\AddressInterface" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\DataCollector</item>
+                <item name="Magento\Quote\Api\Data\CartInterface" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Quote\DataCollector</item>
+                <item name="Magento\Quote\Api\Data\AddressInterface" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\DataCollector</item>
+                <item name="Magento\Sales\Api\Data\OrderInterface" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Order\DataCollector</item>
+                <item name="Magento\Sales\Api\Data\OrderAddressInterface" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\DataCollector</item>
+                <item name="Magento\Newsletter\Model\Subscriber" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\DataCollector</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Opengento\Gdpr\Service\Anonymize\Anonymizer\Entity">
+        <arguments>
+            <argument name="dataCollectorPool" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Entity\DataCollectorPool</argument>
+        </arguments>
+    </type>
+    <preference for="Opengento\Gdpr\Service\Anonymize\AnonymizerInterface" type="Opengento\Gdpr\Service\Anonymize\Anonymizer\Entity"/>
+    <!-- Customer Anonymize Management -->
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Customer\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Customer\Config\AttributesConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/customer_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Customer\Config\CustomAttributesConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/customer_custom_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Customer\Config\ExtensibleDataConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/customer_extensible_data</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Customer\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Customer\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Customer\Config\AttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Customer\CustomAttributesStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Customer\EntityValue\CustomAttributesProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Customer\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Customer\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Customer\Config\CustomAttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Customer\ExtensibleDataStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Customer\EntityValue\ExtensibleDataProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Customer\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Customer\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Customer\Config\ExtensibleDataConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Customer\StrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Customer\EntityValue\AttributesProcessor</item>
+                <item name="custom_attributes" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Customer\CustomAttributesStrategyProcessor</item>
+                <item name="extensible_data" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Customer\ExtensibleDataStrategyProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Customer\EntityIterator" type="Opengento\Gdpr\Model\Entity\EntityIterator">
+        <arguments>
+            <argument name="processor" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Customer\StrategyProcessor</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Customer\DataCollector" type="Opengento\Gdpr\Model\Entity\DataCollector">
+        <arguments>
+            <argument name="entityIterator" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Customer\EntityIterator</argument>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Customer\Document</argument>
+        </arguments>
+    </virtualType>
+    <!-- Customer Address Anonymize Management -->
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\Config\AttributesConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/customer_address_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\Config\CustomAttributesConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/customer_address_custom_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\Config\ExtensibleDataConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/customer_address_extensible_data</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\Config\AttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\CustomAttributesStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\EntityValue\CustomAttributesProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\Config\CustomAttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\ExtensibleDataStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\EntityValue\ExtensibleDataProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\Config\ExtensibleDataConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\StrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\EntityValue\AttributesProcessor</item>
+                <item name="custom_attributes" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\CustomAttributesStrategyProcessor</item>
+                <item name="extensible_data" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\ExtensibleDataStrategyProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\EntityIterator" type="Opengento\Gdpr\Model\Entity\EntityIterator">
+        <arguments>
+            <argument name="processor" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\StrategyProcessor</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\DataCollector" type="Opengento\Gdpr\Model\Entity\DataCollector">
+        <arguments>
+            <argument name="entityIterator" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\EntityIterator</argument>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddress\Document</argument>
+        </arguments>
+    </virtualType>
+    <!-- Quote Anonymize Management -->
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Quote\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Quote\Config\AttributesConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/quote_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Quote\Config\CustomAttributesConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/quote_custom_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Quote\Config\ExtensibleDataConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/quote_extensible_data</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Quote\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Quote\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Quote\Config\AttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Quote\CustomAttributesStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Quote\EntityValue\CustomAttributesProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Quote\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Quote\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Quote\Config\CustomAttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Quote\ExtensibleDataStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Quote\EntityValue\ExtensibleDataProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Quote\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Quote\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Quote\Config\ExtensibleDataConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Quote\StrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Quote\EntityValue\AttributesProcessor</item>
+                <item name="custom_attributes" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Quote\CustomAttributesStrategyProcessor</item>
+                <item name="extensible_data" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Quote\ExtensibleDataStrategyProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Quote\EntityIterator" type="Opengento\Gdpr\Model\Entity\EntityIterator">
+        <arguments>
+            <argument name="processor" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Quote\StrategyProcessor</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Quote\DataCollector" type="Opengento\Gdpr\Model\Entity\DataCollector">
+        <arguments>
+            <argument name="entityIterator" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Quote\EntityIterator</argument>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Quote\Document</argument>
+        </arguments>
+    </virtualType>
+    <!-- Quote Address Anonymize Management -->
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\Config\AttributesConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/quote_address_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\Config\CustomAttributesConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/quote_address_custom_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\Config\ExtensibleDataConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/quote_address_extensible_data</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\Config\AttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\CustomAttributesStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\EntityValue\CustomAttributesProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\Config\CustomAttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\ExtensibleDataStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\EntityValue\ExtensibleDataProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\Config\ExtensibleDataConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\StrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\EntityValue\AttributesProcessor</item>
+                <item name="custom_attributes" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\CustomAttributesStrategyProcessor</item>
+                <item name="extensible_data" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\ExtensibleDataStrategyProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\EntityIterator" type="Opengento\Gdpr\Model\Entity\EntityIterator">
+        <arguments>
+            <argument name="processor" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\StrategyProcessor</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\DataCollector" type="Opengento\Gdpr\Model\Entity\DataCollector">
+        <arguments>
+            <argument name="entityIterator" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\EntityIterator</argument>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\Document</argument>
+        </arguments>
+    </virtualType>
+    <!-- Order Anonymize Management -->
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Order\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Order\Config\AttributesConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/order_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Order\Config\CustomAttributesConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/order_custom_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Order\Config\ExtensibleDataConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/order_extensible_data</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Order\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Order\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Order\Config\AttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Order\CustomAttributesStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Order\EntityValue\CustomAttributesProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Order\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Order\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Order\Config\CustomAttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Order\ExtensibleDataStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Order\EntityValue\ExtensibleDataProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Order\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Order\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Order\Config\ExtensibleDataConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Order\StrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Order\EntityValue\AttributesProcessor</item>
+                <item name="custom_attributes" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Order\CustomAttributesStrategyProcessor</item>
+                <item name="extensible_data" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Order\ExtensibleDataStrategyProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Order\EntityIterator" type="Opengento\Gdpr\Model\Entity\EntityIterator">
+        <arguments>
+            <argument name="processor" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Order\StrategyProcessor</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Order\DataCollector" type="Opengento\Gdpr\Model\Entity\DataCollector">
+        <arguments>
+            <argument name="entityIterator" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Order\EntityIterator</argument>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Order\Document</argument>
+        </arguments>
+    </virtualType>
+    <!-- Order Address Anonymize Management -->
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\Config\AttributesConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/order_address_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\Config\CustomAttributesConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/order_address_custom_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\Config\ExtensibleDataConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/order_address_extensible_data</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\Config\AttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\CustomAttributesStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\EntityValue\CustomAttributesProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\Config\CustomAttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\ExtensibleDataStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\EntityValue\ExtensibleDataProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\Config\ExtensibleDataConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\StrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\EntityValue\AttributesProcessor</item>
+                <item name="custom_attributes" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\CustomAttributesStrategyProcessor</item>
+                <item name="extensible_data" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\ExtensibleDataStrategyProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\EntityIterator" type="Opengento\Gdpr\Model\Entity\EntityIterator">
+        <arguments>
+            <argument name="processor" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\StrategyProcessor</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\DataCollector" type="Opengento\Gdpr\Model\Entity\DataCollector">
+        <arguments>
+            <argument name="entityIterator" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\EntityIterator</argument>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\Document</argument>
+        </arguments>
+    </virtualType>
+    <!-- Subscriber Anonymize Management -->
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\Config\AttributesConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/subscriber_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\Config\CustomAttributesConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/subscriber_custom_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\Config\ExtensibleDataConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/anonymize/subscriber_extensible_data</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\Config\AttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\CustomAttributesStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\EntityValue\CustomAttributesProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\Config\CustomAttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\ExtensibleDataStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\EntityValue\ExtensibleDataProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\SmartProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\Config\ExtensibleDataConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\StrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\EntityValue\AttributesProcessor</item>
+                <item name="custom_attributes" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\CustomAttributesStrategyProcessor</item>
+                <item name="extensible_data" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\ExtensibleDataStrategyProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\EntityIterator" type="Opengento\Gdpr\Model\Entity\EntityIterator">
+        <arguments>
+            <argument name="processor" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\StrategyProcessor</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\DataCollector" type="Opengento\Gdpr\Model\Entity\DataCollector">
+        <arguments>
+            <argument name="entityIterator" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\EntityIterator</argument>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\Document</argument>
+        </arguments>
+    </virtualType>
     <!-- Delete Management -->
     <virtualType name="Opengento\Gdpr\Service\Delete\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
         <arguments>

@@ -8,11 +8,10 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Anonymize\Processor;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Framework\Math\Random;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order\AddressRepository;
 use Magento\Sales\Model\OrderRepository;
-use Opengento\Gdpr\Service\Anonymize\AnonymizeTool;
+use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
 
 /**
@@ -21,9 +20,9 @@ use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
 final class OrderDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizeTool
+     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface
      */
-    private $anonymizeTool;
+    private $anonymizer;
 
     /**
      * @var \Magento\Sales\Model\OrderRepository
@@ -41,18 +40,18 @@ final class OrderDataProcessor implements ProcessorInterface
     private $searchCriteriaBuilder;
 
     /**
-     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizeTool $anonymizeTool
+     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface $anonymizer
      * @param \Magento\Sales\Model\OrderRepository $orderRepository
      * @param \Magento\Sales\Model\Order\AddressRepository $orderAddressRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
-        AnonymizeTool $anonymizeTool,
+        AnonymizerInterface $anonymizer,
         OrderRepository $orderRepository,
         AddressRepository $orderAddressRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
-        $this->anonymizeTool = $anonymizeTool;
+        $this->anonymizer = $anonymizer;
         $this->orderRepository = $orderRepository;
         $this->orderAddressRepository = $orderAddressRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
@@ -66,30 +65,15 @@ final class OrderDataProcessor implements ProcessorInterface
     {
         $searchCriteria = $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
         $orderList = $this->orderRepository->getList($searchCriteria->create());
-        $anonymousValue = $this->anonymizeTool->anonymousValue();
 
         /** @var \Magento\Sales\Model\Order $order */
         foreach ($orderList->getItems() as $order) {
-            $order->setCustomerFirstname($anonymousValue);
-            $order->setCustomerLastname($anonymousValue);
-            $order->setCustomerMiddlename($anonymousValue);
-            $order->setCustomerEmail($this->anonymizeTool->anonymousEmail());
+            $this->orderRepository->save($this->anonymizer->anonymize($order));
 
-            $this->orderRepository->save($order);
-
-            /** @var \Magento\Sales\Api\Data\OrderAddressInterface $orderAddress */
+            /** @var \Magento\Sales\Api\Data\OrderAddressInterface|null $orderAddress */
             foreach ([$order->getBillingAddress(), $order->getShippingAddress()] as $orderAddress) {
                 if ($orderAddress) {
-                    $orderAddress->setFirstname($anonymousValue);
-                    $orderAddress->setMiddlename($anonymousValue);
-                    $orderAddress->setLastname($anonymousValue);
-                    $orderAddress->setPostcode($this->anonymizeTool->randomValue(5, Random::CHARS_DIGITS));
-                    $orderAddress->setCity($anonymousValue);
-                    $orderAddress->setStreet([$anonymousValue]);
-                    $orderAddress->setEmail($this->anonymizeTool->anonymousEmail());
-                    $orderAddress->setTelephone($this->anonymizeTool->randomValue(10, Random::CHARS_DIGITS));
-
-                    $this->orderAddressRepository->save($orderAddress);
+                    $this->orderAddressRepository->save($this->anonymizer->anonymize($orderAddress));
                 }
             }
         }

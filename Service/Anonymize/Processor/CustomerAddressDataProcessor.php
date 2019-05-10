@@ -9,7 +9,7 @@ namespace Opengento\Gdpr\Service\Anonymize\Processor;
 
 use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Opengento\Gdpr\Service\Anonymize\AnonymizeTool;
+use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
 
 /**
@@ -18,9 +18,9 @@ use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
 final class CustomerAddressDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizeTool
+     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface
      */
-    private $anonymizeTool;
+    private $anonymizer;
 
     /**
      * @var \Magento\Customer\Api\AddressRepositoryInterface
@@ -33,16 +33,16 @@ final class CustomerAddressDataProcessor implements ProcessorInterface
     private $searchCriteriaBuilder;
 
     /**
-     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizeTool $anonymizeTool
+     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface $anonymizer
      * @param \Magento\Customer\Api\AddressRepositoryInterface $customerAddressRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
-        AnonymizeTool $anonymizeTool,
+        AnonymizerInterface $anonymizer,
         AddressRepositoryInterface $customerAddressRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
-        $this->anonymizeTool = $anonymizeTool;
+        $this->anonymizer = $anonymizer;
         $this->customerAddressRepository = $customerAddressRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
@@ -55,18 +55,9 @@ final class CustomerAddressDataProcessor implements ProcessorInterface
     {
         $this->searchCriteriaBuilder->addFilter('parent_id', $customerId);
         $addressList = $this->customerAddressRepository->getList($this->searchCriteriaBuilder->create());
-        $anonymousValue = $this->anonymizeTool->anonymousValue();
 
         foreach ($addressList->getItems() as $address) {
-            $address->setFirstname($anonymousValue);
-            $address->setMiddlename($anonymousValue);
-            $address->setLastname($anonymousValue);
-            $address->setStreet([$anonymousValue]);
-            $address->setCity($anonymousValue);
-            $address->setTelephone($anonymousValue);
-            $address->setPostcode($anonymousValue);
-
-            $this->customerAddressRepository->save($address);
+            $this->customerAddressRepository->save($this->anonymizer->anonymize($address));
         }
 
         return true;

@@ -9,7 +9,7 @@ namespace Opengento\Gdpr\Service\Anonymize\Processor;
 
 use Magento\Newsletter\Model\ResourceModel\Subscriber as ResourceSubscriber;
 use Magento\Newsletter\Model\SubscriberFactory;
-use Opengento\Gdpr\Service\Anonymize\AnonymizeTool;
+use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
 
 /**
@@ -18,9 +18,9 @@ use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
 final class SubscriberDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizeTool
+     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface
      */
-    private $anonymizeTool;
+    private $anonymizer;
 
     /**
      * @var \Magento\Newsletter\Model\SubscriberFactory
@@ -33,16 +33,16 @@ final class SubscriberDataProcessor implements ProcessorInterface
     private $subscriberResourceModel;
 
     /**
-     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizeTool $anonymizeTool
+     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface $anonymizer
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Newsletter\Model\ResourceModel\Subscriber $subscriberResourceModel
      */
     public function __construct(
-        AnonymizeTool $anonymizeTool,
+        AnonymizerInterface $anonymizer,
         SubscriberFactory $subscriberFactory,
         ResourceSubscriber $subscriberResourceModel
     ) {
-        $this->anonymizeTool = $anonymizeTool;
+        $this->anonymizer = $anonymizer;
         $this->subscriberFactory = $subscriberFactory;
         $this->subscriberResourceModel = $subscriberResourceModel;
     }
@@ -56,8 +56,7 @@ final class SubscriberDataProcessor implements ProcessorInterface
         /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
         $subscriber = $this->subscriberFactory->create();
         $subscriber->loadByCustomerId($customerId);
-        $subscriber->setEmail($this->anonymizeTool->anonymousEmail());
-        $this->subscriberResourceModel->save($subscriber);
+        $this->subscriberResourceModel->save($this->anonymizer->anonymize($subscriber));
 
         return true;
     }

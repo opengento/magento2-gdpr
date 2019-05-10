@@ -8,20 +8,17 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Anonymize\Anonymizer;
 
 use Magento\Framework\Math\Random;
-use Magento\Framework\Phrase;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
 /**
- * Class Email
+ * Class AlphaUpper
  */
-class Email implements AnonymizerInterface
+class AlphaUpper implements AnonymizerInterface
 {
     /**#@+
-     * Constants for value anonymizer
+     * Constants for alpha upper anonymizer
      */
-    private const PHRASE = '%1anonymous%2@gdpr.org';
-    private const PREFIX_LENGTH = 3;
-    private const SUFFIX_LENGTH = 2;
+    private const DEFAULT_LENGTH = 5;
     /**#@-*/
 
     /**
@@ -30,12 +27,20 @@ class Email implements AnonymizerInterface
     private $mathRandom;
 
     /**
+     * @var int
+     */
+    private $length;
+
+    /**
      * @param \Magento\Framework\Math\Random $mathRandom
+     * @param int $length
      */
     public function __construct(
-        Random $mathRandom
+        Random $mathRandom,
+        int $length = self::DEFAULT_LENGTH
     ) {
         $this->mathRandom = $mathRandom;
+        $this->length = $length;
     }
 
     /**
@@ -44,14 +49,6 @@ class Email implements AnonymizerInterface
      */
     public function anonymize($value): string
     {
-        $phrase = new Phrase(
-            self::PHRASE,
-            [
-                $this->mathRandom->getRandomString(self::PREFIX_LENGTH),
-                $this->mathRandom->getRandomString(self::SUFFIX_LENGTH),
-            ]
-        );
-
-        return $phrase->render();
+        return $this->mathRandom->getRandomString($this->length, Random::CHARS_UPPERS);
     }
 }

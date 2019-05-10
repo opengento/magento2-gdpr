@@ -24,7 +24,7 @@
             </depends>
             <config_path>gdpr/export/block_id</config_path>
         </field>
-        <field id="renderer" type="select" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
+        <field id="renderer" type="select" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
             <label>Renderer</label>
             <source_model>Opengento\Gdpr\Model\Config\Source\ExportRenderer</source_model>
             <depends>
@@ -34,7 +34,7 @@
         </field>
         <group id="customer" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
             <label>Customer</label>
-            <field id="customer_attributes" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+            <field id="customer_attributes" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Customer Attributes</label>
                 <comment>This attributes list will be exported when processed.</comment>
                 <source_model>Opengento\Gdpr\Model\Config\Source\CustomerAttributes</source_model>
@@ -47,7 +47,7 @@
         </group>
         <group id="customer_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
             <label>Customer Address</label>
-            <field id="customer_address_attributes" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+            <field id="customer_address_attributes" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Customer Address Attributes</label>
                 <comment>This address attributes list will be exported when processed.</comment>
                 <source_model>Opengento\Gdpr\Model\Config\Source\CustomerAddressAttributes</source_model>
@@ -60,7 +60,7 @@
         </group>
         <group id="quote" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60">
             <label>Quote</label>
-            <field id="quote_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+            <field id="quote_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Quote Attributes</label>
                 <comment>Attributes must be separated with comma.</comment>
                 <can_be_empty>1</can_be_empty>
@@ -72,7 +72,7 @@
         </group>
         <group id="order" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70">
             <label>Order</label>
-            <field id="order_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+            <field id="order_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Order Attributes</label>
                 <comment>Attributes must be separated with comma.</comment>
                 <can_be_empty>1</can_be_empty>
@@ -84,7 +84,7 @@
         </group>
         <group id="subscriber" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
             <label>Subscriber</label>
-            <field id="subscriber_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+            <field id="subscriber_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Subscriber Attributes</label>
                 <comment>Attributes must be separated with comma.</comment>
                 <can_be_empty>1</can_be_empty>
