@@ -28,6 +28,7 @@ Area:
 - Check customer only closed/completed orders 
 - Payment Data
 - Invitation Data
+- Customer Erasure Entity not created and saved from console command
 
 ## Config
 
