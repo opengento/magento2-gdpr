@@ -36,6 +36,14 @@
             <argument name="processorPool" xsi:type="object">Opengento\Gdpr\Service\Anonymize\ProcessorPool</argument>
         </arguments>
     </type>
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Anonymizer\Street" type="Opengento\Gdpr\Service\Anonymize\Anonymizer\ArrayValue">
+        <arguments>
+            <argument name="anonymizers" xsi:type="array">
+                <item name="0" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Number</item>
+                <item name="1" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaLower</item>
+            </argument>
+        </arguments>
+    </virtualType>
     <type name="Opengento\Gdpr\Service\Anonymize\AnonymizerPool">
         <arguments>
             <argument name="anonymizers" xsi:type="array">
@@ -48,6 +56,8 @@
                 <item name="alphaLower" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaLower\Proxy</item>
                 <item name="alphaUpper" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaUpper\Proxy</item>
                 <item name="alphaNum" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaNum\Proxy</item>
+                <item name="nullValue" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\NullValue\Proxy</item>
+                <item name="street" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Street</item>
             </argument>
         </arguments>
     </type>
@@ -70,6 +80,30 @@
         </arguments>
     </type>
     <preference for="Opengento\Gdpr\Service\Anonymize\AnonymizerInterface" type="Opengento\Gdpr\Service\Anonymize\Anonymizer\Entity"/>
+    <!-- @todo FIX for missing configuration in the Magento2 Core -->
+
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="Magento\Customer\Api\Data\AddressInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">customer_address_entity</item>
+                    <item name="eavEntityType" xsi:type="string">customer_address</item>
+                    <item name="identifierField" xsi:type="string">entity_id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\HydratorPool">
+        <arguments>
+            <argument name="hydrators" xsi:type="array">
+                <item name="Magento\Quote\Api\Data\CartInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Magento\Quote\Api\Data\AddressInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Magento\Sales\Api\Data\OrderInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Magento\Sales\Api\Data\OrderAddressInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+            </argument>
+        </arguments>
+    </type>
+
     <!-- Customer Anonymize Management -->
     <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Customer\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
     <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Customer\Config\AttributesConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">

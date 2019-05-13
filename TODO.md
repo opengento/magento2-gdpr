@@ -25,6 +25,7 @@ Area:
 
 ## Anonymizer
 
+- Check customer only closed/completed orders 
 - Payment Data
 - Invitation Data
 

@@ -19,7 +19,7 @@ class Email implements AnonymizerInterface
     /**#@+
      * Constants for value anonymizer
      */
-    private const PHRASE = '%1anonymous%2@gdpr.org';
+    private const PHRASE = '%1-anonymous-%2@gdpr.org';
     private const PREFIX_LENGTH = 3;
     private const SUFFIX_LENGTH = 2;
     /**#@-*/
@@ -47,8 +47,8 @@ class Email implements AnonymizerInterface
         $phrase = new Phrase(
             self::PHRASE,
             [
-                $this->mathRandom->getRandomString(self::PREFIX_LENGTH),
-                $this->mathRandom->getRandomString(self::SUFFIX_LENGTH),
+                $this->mathRandom->getRandomString(self::PREFIX_LENGTH, Random::CHARS_LOWERS),
+                $this->mathRandom->getRandomString(self::SUFFIX_LENGTH, Random::CHARS_LOWERS),
             ]
         );
 

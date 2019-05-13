@@ -30,7 +30,7 @@
                     <![CDATA[[
                         {"attribute":"city","anonymizer":"alphaUpper"},
                         {"attribute":"company","anonymizer":"anonymous"},
-                        {"attribute":"country_id","anonymizer":"alphaUpper"},
+                        {"attribute":"country_id","anonymizer":"nullValue"},
                         {"attribute":"fax","anonymizer":"phone"},
                         {"attribute":"prefix","anonymizer":"alphaUpper"},
                         {"attribute":"firstname","anonymizer":"anonymous"},
@@ -38,8 +38,8 @@
                         {"attribute":"middlename","anonymizer":"anonymous"},
                         {"attribute":"suffix","anonymizer":"alphaUpper"},
                         {"attribute":"postcode","anonymizer":"number"},
-                        {"attribute":"region","anonymizer":"alphaUpper"},
-                        {"attribute":"street","anonymizer":"alphaLower"},
+                        {"attribute":"region","anonymizer":"nullValue"},
+                        {"attribute":"street","anonymizer":"street"},
                         {"attribute":"telephone","anonymizer":"phone"},
                         {"attribute":"vat_id","anonymizer":"alphaNum"}
                     ]]]>
@@ -62,7 +62,7 @@
                     <![CDATA[[
                         {"attribute":"city","anonymizer":"alphaUpper"},
                         {"attribute":"company","anonymizer":"anonymous"},
-                        {"attribute":"country_id","anonymizer":"alphaUpper"},
+                        {"attribute":"country_id","anonymizer":"nullValue"},
                         {"attribute":"fax","anonymizer":"phone"},
                         {"attribute":"email","anonymizer":"email"},
                         {"attribute":"prefix","anonymizer":"alphaUpper"},
@@ -71,8 +71,8 @@
                         {"attribute":"middlename","anonymizer":"anonymous"},
                         {"attribute":"suffix","anonymizer":"alphaUpper"},
                         {"attribute":"postcode","anonymizer":"number"},
-                        {"attribute":"region","anonymizer":"alphaUpper"},
-                        {"attribute":"street","anonymizer":"alphaLower"},
+                        {"attribute":"region","anonymizer":"nullValue"},
+                        {"attribute":"street","anonymizer":"street"},
                         {"attribute":"telephone","anonymizer":"phone"},
                         {"attribute":"vat_id","anonymizer":"alphaNum"}
                     ]]]>
@@ -96,7 +96,7 @@
                     <![CDATA[[
                         {"attribute":"city","anonymizer":"alphaUpper"},
                         {"attribute":"company","anonymizer":"anonymous"},
-                        {"attribute":"country_id","anonymizer":"alphaUpper"},
+                        {"attribute":"country_id","anonymizer":"nullValue"},
                         {"attribute":"fax","anonymizer":"phone"},
                         {"attribute":"email","anonymizer":"email"},
                         {"attribute":"prefix","anonymizer":"alphaUpper"},
@@ -105,8 +105,8 @@
                         {"attribute":"middlename","anonymizer":"anonymous"},
                         {"attribute":"suffix","anonymizer":"alphaUpper"},
                         {"attribute":"postcode","anonymizer":"number"},
-                        {"attribute":"region","anonymizer":"alphaUpper"},
-                        {"attribute":"street","anonymizer":"alphaLower"},
+                        {"attribute":"region","anonymizer":"nullValue"},
+                        {"attribute":"street","anonymizer":"street"},
                         {"attribute":"telephone","anonymizer":"phone"},
                         {"attribute":"vat_id","anonymizer":"alphaNum"}
                     ]]]>

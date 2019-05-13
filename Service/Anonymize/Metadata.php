@@ -36,7 +36,7 @@ final class Metadata implements MetadataInterface
     private $scopeType;
 
     /**
-     * @var string[]
+     * @var string[][]
      */
     private $cache;
 
@@ -70,7 +70,7 @@ final class Metadata implements MetadataInterface
                 $this->scopeConfig->getValue($this->configPath, $this->scopeType, $scopeCode) ?? '{}'
             );
 
-            $this->cache = \array_combine(
+            $this->cache[$scope] = \array_combine(
                 \array_column($metadata, 'attribute'),
                 \array_column($metadata, 'anonymizer')
             );

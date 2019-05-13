@@ -29,7 +29,8 @@ class Date implements AnonymizerInterface
      */
     public function anonymize($value): string
     {
-        $dateTime = new \DateTime((string) Random::getRandomNumber(self::MIN_TIMESTAMP, self::MAX_TIMESTAMP));
+        $dateTime = new \DateTime();
+        $dateTime->setTimestamp(Random::getRandomNumber(self::MIN_TIMESTAMP, self::MAX_TIMESTAMP));
 
         return $dateTime->format(DateTime::DATE_PHP_FORMAT);
     }
