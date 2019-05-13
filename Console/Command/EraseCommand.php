@@ -11,7 +11,7 @@ use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
 use Magento\Framework\Registry;
-use Opengento\Gdpr\Service\ErasureStrategy;
+use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,25 +39,25 @@ final class EraseCommand extends Command
     private $registry;
 
     /**
-     * @var \Opengento\Gdpr\Service\ErasureStrategy
+     * @var \Opengento\Gdpr\Api\EraseCustomerManagementInterface
      */
-    private $erasureStrategy;
+    private $eraseCustomerManagement;
 
     /**
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Registry $registry
-     * @param \Opengento\Gdpr\Service\ErasureStrategy $erasureStrategy
-     * @param null|string $name
+     * @param \Opengento\Gdpr\Api\EraseCustomerManagementInterface $eraseCustomerManagement
+     * @param string $name
      */
     public function __construct(
         State $appState,
         Registry $registry,
-        ErasureStrategy $erasureStrategy,
+        EraseCustomerManagementInterface $eraseCustomerManagement,
         string $name = 'gdpr:customer:erase'
     ) {
         $this->appState = $appState;
         $this->registry = $registry;
-        $this->erasureStrategy = $erasureStrategy;
+        $this->eraseCustomerManagement = $eraseCustomerManagement;
         parent::__construct($name);
     }
 
@@ -80,6 +80,7 @@ final class EraseCommand extends Command
 
     /**
      * @inheritdoc
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -91,8 +92,11 @@ final class EraseCommand extends Command
 
         try {
             foreach ($input->getArgument(self::INPUT_ARGUMENT_CUSTOMER) as $customerId) {
-                $this->erasureStrategy->execute((int) $customerId);
-                $output->writeln('<info>Customer\'s ("' . $customerId . '") personal data has been erased.</info>');
+                $output->writeln(
+                    $this->eraseCustomer((int) $customerId)
+                    ? '<info>Customer\'s ("' . $customerId . '") personal data has been erased.</info>'
+                    : '<comment>Customer\'s ("' . $customerId . '") personal data is already being erased.</comment>'
+                );
             }
         } catch (\Exception $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');
@@ -102,5 +106,26 @@ final class EraseCommand extends Command
         $this->registry->register('isSecureArea', $oldValue, true);
 
         return $returnCode;
+    }
+
+    /**
+     * Erase the customer data by its ID
+     *
+     * @param int $customerId
+     * @return bool
+     * @throws \Magento\Framework\Exception\AlreadyExistsException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    private function eraseCustomer(int $customerId): bool
+    {
+        if ($this->eraseCustomerManagement->exists($customerId)) {
+            $this->eraseCustomerManagement->process($this->eraseCustomerManagement->create($customerId));
+
+            return true;
+        }
+
+        return false;
     }
 }

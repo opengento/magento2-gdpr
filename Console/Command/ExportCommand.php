@@ -90,6 +90,7 @@ final class ExportCommand extends Command
 
     /**
      * @inheritdoc
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
