@@ -11,7 +11,7 @@ Otherwise read how to [setup](/magento2-gdpr/setup) the module firstly.
 
 ***Stores > Settings > Configuration > Customers > GDPR Compliance***
 
-* [General Settings](/magento2-gdpr/user-guide/config/general/#settings)
-* [Erasure Settings](/magento2-gdpr/user-guide/config/erase-customer-data/#settings)
-* [Export Settings](/magento2-gdpr/user-guide/config/export-customer-data/#settings)
-* [Cookie Settings](/magento2-gdpr/user-guide/config/cookie-disclosure/#settings)
+* [General Settings](/magento2-gdpr/user-guide/config/general#settings)
+* [Erasure Settings](/magento2-gdpr/user-guide/config/erase-customer-data#settings)
+* [Export Settings](/magento2-gdpr/user-guide/config/export-customer-data#settings)
+* [Cookie Settings](/magento2-gdpr/user-guide/config/cookie-disclosure#settings)

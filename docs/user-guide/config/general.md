@@ -5,9 +5,9 @@
 ___
 
 * General Settings
-* [Erasure Settings](/magento2-gdpr/user-guide/config/erase-customer-data/#settings)
-* [Export Settings](/magento2-gdpr/user-guide/config/export-customer-data/#settings)
-* [Cookie Settings](/magento2-gdpr/user-guide/config/cookie-disclosure/#settings)
+* [Erasure Settings](/magento2-gdpr/user-guide/config/erase-customer-data#settings)
+* [Export Settings](/magento2-gdpr/user-guide/config/export-customer-data#settings)
+* [Cookie Settings](/magento2-gdpr/user-guide/config/cookie-disclosure#settings)
 
 ## Settings
 

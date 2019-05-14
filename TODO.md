@@ -32,3 +32,9 @@ Area:
 ## Config
 
 - Improve UI of fields: attributes list instead of text field
+
+## Doc
+
+- Add images
+- Complete developer guide
+- Attributes, Custom Attributes, Extensible Data 
