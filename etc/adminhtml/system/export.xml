@@ -124,7 +124,37 @@
                 <config_path>gdpr/export/quote_extensible_data</config_path>
             </field>
         </group>
-        <group id="order" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70">
+        <group id="quote_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70">
+            <label>Quote Address</label>
+            <field id="quote_address_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                <label>Quote Address Attributes</label>
+                <comment>Attributes must be separated with comma.</comment>
+                <can_be_empty>1</can_be_empty>
+                <depends>
+                    <field id="customer/gdpr/export/enabled">1</field>
+                </depends>
+                <config_path>gdpr/export/quote_address_attributes</config_path>
+            </field>
+            <field id="quote_address_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                <label>Quote Address Custom Attributes</label>
+                <comment>Attributes must be separated with comma.</comment>
+                <can_be_empty>1</can_be_empty>
+                <depends>
+                    <field id="customer/gdpr/export/enabled">1</field>
+                </depends>
+                <config_path>gdpr/export/quote_address_custom_attributes</config_path>
+            </field>
+            <field id="quote_address_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                <label>Quote Address Extensible Data</label>
+                <comment>Attributes must be separated with comma.</comment>
+                <can_be_empty>1</can_be_empty>
+                <depends>
+                    <field id="customer/gdpr/export/enabled">1</field>
+                </depends>
+                <config_path>gdpr/export/quote_address_extensible_data</config_path>
+            </field>
+        </group>
+        <group id="order" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
             <label>Order</label>
             <field id="order_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Order Attributes</label>
@@ -154,7 +184,37 @@
                 <config_path>gdpr/export/order_extensible_data</config_path>
             </field>
         </group>
-        <group id="subscriber" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
+        <group id="order_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="90">
+            <label>Order Address</label>
+            <field id="order_address_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                <label>Order Address Attributes</label>
+                <comment>Attributes must be separated with comma.</comment>
+                <can_be_empty>1</can_be_empty>
+                <depends>
+                    <field id="customer/gdpr/export/enabled">1</field>
+                </depends>
+                <config_path>gdpr/export/order_address_attributes</config_path>
+            </field>
+            <field id="order_address_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                <label>Order Address Custom Attributes</label>
+                <comment>Attributes must be separated with comma.</comment>
+                <can_be_empty>1</can_be_empty>
+                <depends>
+                    <field id="customer/gdpr/export/enabled">1</field>
+                </depends>
+                <config_path>gdpr/export/order_address_custom_attributes</config_path>
+            </field>
+            <field id="order_address_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                <label>Order Address Extensible Data</label>
+                <comment>Attributes must be separated with comma.</comment>
+                <can_be_empty>1</can_be_empty>
+                <depends>
+                    <field id="customer/gdpr/export/enabled">1</field>
+                </depends>
+                <config_path>gdpr/export/order_address_extensible_data</config_path>
+            </field>
+        </group>
+        <group id="subscriber" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100">
             <label>Subscriber</label>
             <field id="subscriber_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Subscriber Attributes</label>

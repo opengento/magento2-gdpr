@@ -9,8 +9,8 @@ namespace Opengento\Gdpr\Service\Anonymize\Processor;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
-use Magento\Sales\Model\Order\AddressRepository;
-use Magento\Sales\Model\OrderRepository;
+use Magento\Sales\Api\OrderAddressRepositoryInterface;
+use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
 
@@ -25,12 +25,12 @@ final class OrderDataProcessor implements ProcessorInterface
     private $anonymizer;
 
     /**
-     * @var \Magento\Sales\Model\OrderRepository
+     * @var \Magento\Sales\Api\OrderRepositoryInterface
      */
     private $orderRepository;
 
     /**
-     * @var \Magento\Sales\Model\Order\AddressRepository
+     * @var \Magento\Sales\Api\OrderAddressRepositoryInterface
      */
     private $orderAddressRepository;
 
@@ -41,14 +41,14 @@ final class OrderDataProcessor implements ProcessorInterface
 
     /**
      * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface $anonymizer
-     * @param \Magento\Sales\Model\OrderRepository $orderRepository
-     * @param \Magento\Sales\Model\Order\AddressRepository $orderAddressRepository
+     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
+     * @param \Magento\Sales\Api\OrderAddressRepositoryInterface $orderAddressRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         AnonymizerInterface $anonymizer,
-        OrderRepository $orderRepository,
-        AddressRepository $orderAddressRepository,
+        OrderRepositoryInterface $orderRepository,
+        OrderAddressRepositoryInterface $orderAddressRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
         $this->anonymizer = $anonymizer;
@@ -59,7 +59,6 @@ final class OrderDataProcessor implements ProcessorInterface
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function execute(int $customerId): bool
     {

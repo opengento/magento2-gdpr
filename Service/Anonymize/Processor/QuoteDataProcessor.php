@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Anonymize\Processor;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Quote\Model\QuoteRepository;
+use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Model\ResourceModel\Quote\Address;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Anonymize\ProcessorInterface;
@@ -40,13 +40,13 @@ final class QuoteDataProcessor implements ProcessorInterface
 
     /**
      * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface $anonymizer
-     * @param \Magento\Quote\Model\QuoteRepository $quoteRepository
+     * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
      * @param \Magento\Quote\Model\ResourceModel\Quote\Address $quoteAddressResourceModel
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         AnonymizerInterface $anonymizer,
-        QuoteRepository $quoteRepository,
+        CartRepositoryInterface $quoteRepository,
         Address $quoteAddressResourceModel,
         SearchCriteriaBuilder $searchCriteriaBuilder
     ) {

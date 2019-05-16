@@ -16,7 +16,7 @@
             <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
             <config_path>gdpr/erasure/enabled</config_path>
         </field>
-        <field id="strategy" type="select" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
+        <field id="strategy" type="select" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
             <label>Default Erasure Strategy</label>
             <source_model>Opengento\Gdpr\Model\Config\Source\EraseStrategy</source_model>
             <depends>

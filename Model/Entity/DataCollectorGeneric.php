@@ -54,6 +54,6 @@ final class DataCollectorGeneric implements DataCollectorInterface
             );
         }
 
-        return $this->dataCollectors[$entityType];
+        return $this->dataCollectors[$entityType]->collect($entity);
     }
 }

@@ -614,7 +614,7 @@
                 <item name="customer_address_data" xsi:type="string">Opengento\Gdpr\Service\Export\Processor\CustomerAddressDataProcessor</item>
                 <item name="quote" xsi:type="string">Opengento\Gdpr\Service\Export\Processor\QuoteDataProcessor</item>
                 <item name="order" xsi:type="string">Opengento\Gdpr\Service\Export\Processor\OrderDataProcessor</item>
-                <item name="subscriber" xsi:type="string">Opengento\Gdpr\Service\Export\Processor\SubscriberDataProcessor</item>
+<!--                <item name="subscriber" xsi:type="string">Opengento\Gdpr\Service\Export\Processor\SubscriberDataProcessor</item>-->
             </argument>
         </arguments>
     </virtualType>
@@ -632,7 +632,9 @@
                 <item name="Magento\Quote\Api\Data\AddressInterface" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\DataCollector</item>
                 <item name="Magento\Sales\Api\Data\OrderInterface" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\DataCollector</item>
                 <item name="Magento\Sales\Api\Data\OrderAddressInterface" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\DataCollector</item>
-                <item name="Magento\Newsletter\Model\Subscriber" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Subscriber\DataCollector</item>
+<!--                <item name="Magento\Newsletter\Model\Subscriber" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Subscriber\DataCollector</item>-->
+<!--                <item name="Magento\Newsletter\Model\Subscriber\Interceptor" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Subscriber\DataCollector</item>-->
+<!--                <item name="Magento\Newsletter\Model\Subscriber\Proxy" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Subscriber\DataCollector</item>-->
             </argument>
         </arguments>
     </virtualType>
@@ -658,19 +660,19 @@
             <argument name="configPath" xsi:type="string">gdpr/export/customer_extensible_data</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Customer\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\Processor">
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Customer\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
         <arguments>
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Customer\Document</argument>
             <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Customer\Config\AttributesConfig</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Customer\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\Processor">
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Customer\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
         <arguments>
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Customer\Document</argument>
             <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Customer\Config\CustomAttributesConfig</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Customer\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\Processor">
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Customer\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
         <arguments>
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Customer\Document</argument>
             <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Customer\Config\ExtensibleDataConfig</argument>
@@ -737,19 +739,19 @@
             <argument name="configPath" xsi:type="string">gdpr/export/customer_address_extensible_data</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Service\Export\Processor\CustomerAddress\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\Processor">
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\CustomerAddress\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
         <arguments>
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\CustomerAddress\Document</argument>
             <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\CustomerAddress\Config\AttributesConfig</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Service\Export\Processor\CustomerAddress\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\Processor">
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\CustomerAddress\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
         <arguments>
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\CustomerAddress\Document</argument>
             <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\CustomerAddress\Config\CustomAttributesConfig</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Service\Export\Processor\CustomerAddress\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\Processor">
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\CustomerAddress\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
         <arguments>
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\CustomerAddress\Document</argument>
             <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\CustomerAddress\Config\ExtensibleDataConfig</argument>
@@ -816,19 +818,19 @@
             <argument name="configPath" xsi:type="string">gdpr/export/quote_extensible_data</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Quote\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\Processor">
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Quote\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
         <arguments>
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Quote\Document</argument>
             <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Quote\Config\AttributesConfig</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Quote\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\Processor">
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Quote\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
         <arguments>
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Quote\Document</argument>
             <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Quote\Config\CustomAttributesConfig</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Quote\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\Processor">
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Quote\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
         <arguments>
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Quote\Document</argument>
             <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Quote\Config\ExtensibleDataConfig</argument>
@@ -878,6 +880,85 @@
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Quote\Document</argument>
         </arguments>
     </virtualType>
+    <!-- Export Quote Address Management -->
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\QuoteAddress\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\QuoteAddress\Config\AttributesConfig" type="Opengento\Gdpr\Model\Entity\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/export/quote_address_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\QuoteAddress\Config\CustomAttributesConfig" type="Opengento\Gdpr\Model\Entity\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/export/quote_address_custom_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\QuoteAddress\Config\ExtensibleDataConfig" type="Opengento\Gdpr\Model\Entity\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/export/quote_address_extensible_data</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\QuoteAddress\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\Config\AttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\QuoteAddress\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\Config\CustomAttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\QuoteAddress\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\Config\ExtensibleDataConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\QuoteAddress\CustomAttributesStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\EntityValue\CustomAttributesProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\QuoteAddress\CustomAttributesProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\CustomAttributesProcessor">
+        <arguments>
+            <argument name="processor" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\CustomAttributesStrategyProcessor</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\QuoteAddress\ExtensibleDataStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\EntityValue\ExtensibleDataProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\QuoteAddress\ExtensibleDataProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\ExtensibleDataProcessor">
+        <arguments>
+            <argument name="processor" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\ExtensibleDataStrategyProcessor</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\QuoteAddress\StrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\EntityValue\AttributesProcessor</item>
+                <item name="custom_attributes" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\CustomAttributesProcessor</item>
+                <item name="extensible_data" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\ExtensibleDataProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\QuoteAddress\EntityIterator" type="Opengento\Gdpr\Model\Entity\EntityIterator">
+        <arguments>
+            <argument name="processor" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\StrategyProcessor</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\QuoteAddress\DataCollector" type="Opengento\Gdpr\Model\Entity\DataCollector">
+        <arguments>
+            <argument name="entityIterator" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\EntityIterator</argument>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\Document</argument>
+        </arguments>
+    </virtualType>
     <!-- Export Order Management -->
     <virtualType name="Opengento\Gdpr\Service\Export\Processor\Order\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
     <virtualType name="Opengento\Gdpr\Service\Export\Processor\Order\Config\AttributesConfig" type="Opengento\Gdpr\Model\Entity\Metadata">
@@ -895,19 +976,19 @@
             <argument name="configPath" xsi:type="string">gdpr/export/order_extensible_data</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Order\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\Processor">
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Order\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
         <arguments>
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\Document</argument>
             <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\Config\AttributesConfig</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Order\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\Processor">
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Order\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
         <arguments>
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\Document</argument>
             <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\Config\CustomAttributesConfig</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Order\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\Processor">
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Order\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
         <arguments>
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\Document</argument>
             <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\Config\ExtensibleDataConfig</argument>
@@ -937,12 +1018,21 @@
             <argument name="processor" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\ExtensibleDataStrategyProcessor</argument>
         </arguments>
     </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\OrderAddress" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\EntityProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\Config\AttributesConfig</argument>
+            <argument name="dataCollector" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\DataCollector</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="Opengento\Gdpr\Service\Export\Processor\Order\StrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
                 <item name="default" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\EntityValue\AttributesProcessor</item>
                 <item name="custom_attributes" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\CustomAttributesProcessor</item>
                 <item name="extensible_data" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\ExtensibleDataProcessor</item>
+                <item name="shipping_address" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress</item>
+                <item name="billing_address" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress</item>
             </argument>
         </arguments>
     </virtualType>
@@ -955,6 +1045,85 @@
         <arguments>
             <argument name="entityIterator" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\EntityIterator</argument>
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\Document</argument>
+        </arguments>
+    </virtualType>
+    <!-- Export Order Address Management -->
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\OrderAddress\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\OrderAddress\Config\AttributesConfig" type="Opengento\Gdpr\Model\Entity\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/export/order_address_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\OrderAddress\Config\CustomAttributesConfig" type="Opengento\Gdpr\Model\Entity\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/export/order_address_custom_attributes</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\OrderAddress\Config\ExtensibleDataConfig" type="Opengento\Gdpr\Model\Entity\Metadata">
+        <arguments>
+            <argument name="configPath" xsi:type="string">gdpr/export/order_address_extensible_data</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\OrderAddress\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\Config\AttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\OrderAddress\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\Config\CustomAttributesConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\OrderAddress\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
+        <arguments>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\Document</argument>
+            <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\Config\ExtensibleDataConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\OrderAddress\CustomAttributesStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\EntityValue\CustomAttributesProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\OrderAddress\CustomAttributesProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\CustomAttributesProcessor">
+        <arguments>
+            <argument name="processor" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\CustomAttributesStrategyProcessor</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\OrderAddress\ExtensibleDataStrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\EntityValue\ExtensibleDataProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\OrderAddress\ExtensibleDataProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\ExtensibleDataProcessor">
+        <arguments>
+            <argument name="processor" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\ExtensibleDataStrategyProcessor</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\OrderAddress\StrategyProcessor" type="Opengento\Gdpr\Model\Entity\EntityValue\StrategyProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\EntityValue\AttributesProcessor</item>
+                <item name="custom_attributes" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\CustomAttributesProcessor</item>
+                <item name="extensible_data" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\ExtensibleDataProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\OrderAddress\EntityIterator" type="Opengento\Gdpr\Model\Entity\EntityIterator">
+        <arguments>
+            <argument name="processor" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\StrategyProcessor</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\OrderAddress\DataCollector" type="Opengento\Gdpr\Model\Entity\DataCollector">
+        <arguments>
+            <argument name="entityIterator" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\EntityIterator</argument>
+            <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\Document</argument>
         </arguments>
     </virtualType>
     <!-- Export Subscriber Management -->
@@ -974,19 +1143,19 @@
             <argument name="configPath" xsi:type="string">gdpr/export/subscriber_extensible_data</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Subscriber\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\Processor">
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Subscriber\EntityValue\AttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
         <arguments>
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Subscriber\Document</argument>
             <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Subscriber\Config\AttributesConfig</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Subscriber\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\Processor">
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Subscriber\EntityValue\CustomAttributesProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
         <arguments>
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Subscriber\Document</argument>
             <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Subscriber\Config\CustomAttributesConfig</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Subscriber\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\Processor">
+    <virtualType name="Opengento\Gdpr\Service\Export\Processor\Subscriber\EntityValue\ExtensibleDataProcessor" type="Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue\DataProcessor">
         <arguments>
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Subscriber\Document</argument>
             <argument name="metadata" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Subscriber\Config\ExtensibleDataConfig</argument>

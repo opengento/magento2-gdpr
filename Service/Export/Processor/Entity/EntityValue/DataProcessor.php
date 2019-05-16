@@ -12,9 +12,9 @@ use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
 use Opengento\Gdpr\Model\Entity\MetadataInterface;
 
 /**
- * Class Processor
+ * Class DataProcessor
  */
-final class Processor implements EntityValueProcessorInterface
+final class DataProcessor implements EntityValueProcessorInterface
 {
     /**
      * @var \Opengento\Gdpr\Model\Entity\DocumentInterface
