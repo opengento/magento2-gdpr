@@ -10,12 +10,11 @@ namespace Opengento\Gdpr\Service\Export\Processor;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
-use Opengento\Gdpr\Service\Export\ProcessorInterface;
 
 /**
  * Class QuoteDataProcessor
  */
-final class QuoteDataProcessor implements ProcessorInterface
+final class QuoteDataProcessor extends AbstractDataProcessor
 {
     /**
      * @var \Magento\Quote\Api\CartRepositoryInterface
@@ -26,11 +25,6 @@ final class QuoteDataProcessor implements ProcessorInterface
      * @var \Magento\Framework\Api\SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
-
-    /**
-     * @var \Opengento\Gdpr\Model\Entity\DataCollectorInterface
-     */
-    private $dataCollector;
 
     /**
      * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
@@ -44,7 +38,7 @@ final class QuoteDataProcessor implements ProcessorInterface
     ) {
         $this->quoteRepository = $quoteRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->dataCollector = $dataCollector;
+        parent::__construct($dataCollector);
     }
 
     /**
@@ -57,7 +51,7 @@ final class QuoteDataProcessor implements ProcessorInterface
 
         /** @var \Magento\Quote\Api\Data\CartInterface $entity */
         foreach ($quoteList->getItems() as $entity) {
-            $data['quotes']['quote_id_' . $entity->getId()] = $this->dataCollector->collect($entity);
+            $data['quotes']['quote_id_' . $entity->getId()] = $this->collectData($entity);
         }
 
         return $data;

@@ -11,12 +11,11 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
-use Opengento\Gdpr\Service\Export\ProcessorInterface;
 
 /**
  * Class QuoteDataProcessor
  */
-final class OrderDataProcessor implements ProcessorInterface
+final class OrderDataProcessor extends AbstractDataProcessor
 {
     /**
      * @var \Magento\Sales\Api\OrderRepositoryInterface
@@ -27,11 +26,6 @@ final class OrderDataProcessor implements ProcessorInterface
      * @var \Magento\Framework\Api\SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
-
-    /**
-     * @var \Opengento\Gdpr\Model\Entity\DataCollectorInterface
-     */
-    private $dataCollector;
 
     /**
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
@@ -45,7 +39,7 @@ final class OrderDataProcessor implements ProcessorInterface
     ) {
         $this->orderRepository = $orderRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->dataCollector = $dataCollector;
+        parent::__construct($dataCollector);
     }
 
     /**
@@ -58,7 +52,7 @@ final class OrderDataProcessor implements ProcessorInterface
 
         /** @var \Magento\Sales\Api\Data\OrderInterface $entity */
         foreach ($orderList->getItems() as $entity) {
-            $data['orders']['order_id_' . $entity->getEntityId()] = $this->dataCollector->collect($entity);
+            $data['orders']['order_id_' . $entity->getEntityId()] = $this->collectData($entity);
         }
 
         return $data;

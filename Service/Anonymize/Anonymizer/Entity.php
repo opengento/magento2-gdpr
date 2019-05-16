@@ -9,7 +9,7 @@ namespace Opengento\Gdpr\Service\Anonymize\Anonymizer;
 
 use Magento\Framework\EntityManager\HydratorPool;
 use Magento\Framework\EntityManager\TypeResolver;
-use Opengento\Gdpr\Model\Entity\DataCollectorPool;
+use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
 /**
@@ -18,9 +18,9 @@ use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 class Entity implements AnonymizerInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\Entity\DataCollectorPool
+     * @var \Opengento\Gdpr\Model\Entity\DataCollectorInterface
      */
-    private $dataCollectorPool;
+    private $dataCollector;
 
     /**
      * @var \Magento\Framework\EntityManager\TypeResolver
@@ -33,16 +33,16 @@ class Entity implements AnonymizerInterface
     private $hydratorPool;
 
     /**
-     * @param \Opengento\Gdpr\Model\Entity\DataCollectorPool $dataCollectorPool
+     * @param \Opengento\Gdpr\Model\Entity\DataCollectorInterface $dataCollector
      * @param \Magento\Framework\EntityManager\TypeResolver $typeResolver
      * @param \Magento\Framework\EntityManager\HydratorPool $hydratorPool
      */
     public function __construct(
-        DataCollectorPool $dataCollectorPool,
+        DataCollectorInterface $dataCollector,
         TypeResolver $typeResolver,
         HydratorPool $hydratorPool
     ) {
-        $this->dataCollectorPool = $dataCollectorPool;
+        $this->dataCollector = $dataCollector;
         $this->typeResolver = $typeResolver;
         $this->hydratorPool = $hydratorPool;
     }
@@ -59,10 +59,8 @@ class Entity implements AnonymizerInterface
             );
         }
 
-        $entityType = $this->typeResolver->resolve($entity);
-        $hydrator = $this->hydratorPool->getHydrator($entityType);
-        $dataCollector = $this->dataCollectorPool->getDataCollector($entityType);
-        $hydrator->hydrate($entity, $dataCollector->collect($entity));
+        $hydrator = $this->hydratorPool->getHydrator($this->typeResolver->resolve($entity));
+        $hydrator->hydrate($entity, $this->dataCollector->collect($entity));
 
         return $entity;
     }

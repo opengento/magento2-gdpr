@@ -61,7 +61,7 @@
             </argument>
         </arguments>
     </type>
-    <virtualType name="Opengento\Gdpr\Service\Anonymize\Entity\DataCollectorPool" type="Opengento\Gdpr\Model\Entity\DataCollectorPool">
+    <virtualType name="Opengento\Gdpr\Service\Anonymize\Entity\DataCollectorGeneric" type="Opengento\Gdpr\Model\Entity\DataCollectorGeneric">
         <arguments>
             <argument name="dataCollectors" xsi:type="array">
                 <item name="Magento\Customer\Api\Data\CustomerInterface" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Customer\DataCollector</item>
@@ -76,7 +76,7 @@
     </virtualType>
     <type name="Opengento\Gdpr\Service\Anonymize\Anonymizer\Entity">
         <arguments>
-            <argument name="dataCollectorPool" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Entity\DataCollectorPool</argument>
+            <argument name="dataCollector" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Entity\DataCollectorGeneric</argument>
         </arguments>
     </type>
     <preference for="Opengento\Gdpr\Service\Anonymize\AnonymizerInterface" type="Opengento\Gdpr\Service\Anonymize\Anonymizer\Entity"/>
@@ -623,6 +623,24 @@
             <argument name="processorPool" xsi:type="object">Opengento\Gdpr\Service\Export\ProcessorPool</argument>
         </arguments>
     </type>
+    <virtualType name="Opengento\Gdpr\Service\Export\Entity\DataCollectorGeneric" type="Opengento\Gdpr\Model\Entity\DataCollectorGeneric">
+        <arguments>
+            <argument name="dataCollectors" xsi:type="array">
+                <item name="Magento\Customer\Api\Data\CustomerInterface" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Customer\DataCollector</item>
+                <item name="Magento\Customer\Api\Data\AddressInterface" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\CustomerAddress\DataCollector</item>
+                <item name="Magento\Quote\Api\Data\CartInterface" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Quote\DataCollector</item>
+                <item name="Magento\Quote\Api\Data\AddressInterface" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\DataCollector</item>
+                <item name="Magento\Sales\Api\Data\OrderInterface" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\DataCollector</item>
+                <item name="Magento\Sales\Api\Data\OrderAddressInterface" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\DataCollector</item>
+                <item name="Magento\Newsletter\Model\Subscriber" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Subscriber\DataCollector</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Opengento\Gdpr\Service\Export\Processor\AbstractDataProcessor">
+        <arguments>
+            <argument name="dataCollector" xsi:type="object">Opengento\Gdpr\Service\Export\Entity\DataCollectorGeneric</argument>
+        </arguments>
+    </type>
     <!-- Export Customer Management -->
     <virtualType name="Opengento\Gdpr\Service\Export\Processor\Customer\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
     <virtualType name="Opengento\Gdpr\Service\Export\Processor\Customer\Config\AttributesConfig" type="Opengento\Gdpr\Model\Entity\Metadata">
@@ -702,11 +720,6 @@
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Customer\Document</argument>
         </arguments>
     </virtualType>
-    <type name="Opengento\Gdpr\Service\Export\Processor\CustomerDataProcessor">
-        <arguments>
-            <argument name="dataCollector" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Customer\DataCollector</argument>
-        </arguments>
-    </type>
     <!-- Export Customer Address Management -->
     <virtualType name="Opengento\Gdpr\Service\Export\Processor\CustomerAddress\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
     <virtualType name="Opengento\Gdpr\Service\Export\Processor\CustomerAddress\Config\AttributesConfig" type="Opengento\Gdpr\Model\Entity\Metadata">
@@ -786,11 +799,6 @@
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\CustomerAddress\Document</argument>
         </arguments>
     </virtualType>
-    <type name="Opengento\Gdpr\Service\Export\Processor\CustomerAddressDataProcessor">
-        <arguments>
-            <argument name="dataCollector" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\CustomerAddress\DataCollector</argument>
-        </arguments>
-    </type>
     <!-- Export Quote Management -->
     <virtualType name="Opengento\Gdpr\Service\Export\Processor\Quote\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
     <virtualType name="Opengento\Gdpr\Service\Export\Processor\Quote\Config\AttributesConfig" type="Opengento\Gdpr\Model\Entity\Metadata">
@@ -870,11 +878,6 @@
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Quote\Document</argument>
         </arguments>
     </virtualType>
-    <type name="Opengento\Gdpr\Service\Export\Processor\QuoteDataProcessor">
-        <arguments>
-            <argument name="dataCollector" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Quote\DataCollector</argument>
-        </arguments>
-    </type>
     <!-- Export Order Management -->
     <virtualType name="Opengento\Gdpr\Service\Export\Processor\Order\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
     <virtualType name="Opengento\Gdpr\Service\Export\Processor\Order\Config\AttributesConfig" type="Opengento\Gdpr\Model\Entity\Metadata">
@@ -954,11 +957,6 @@
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\Document</argument>
         </arguments>
     </virtualType>
-    <type name="Opengento\Gdpr\Service\Export\Processor\OrderDataProcessor">
-        <arguments>
-            <argument name="dataCollector" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\DataCollector</argument>
-        </arguments>
-    </type>
     <!-- Export Subscriber Management -->
     <virtualType name="Opengento\Gdpr\Service\Export\Processor\Subscriber\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
     <virtualType name="Opengento\Gdpr\Service\Export\Processor\Subscriber\Config\AttributesConfig" type="Opengento\Gdpr\Model\Entity\Metadata">
@@ -1038,11 +1036,6 @@
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Subscriber\Document</argument>
         </arguments>
     </virtualType>
-    <type name="Opengento\Gdpr\Service\Export\Processor\SubscriberDataProcessor">
-        <arguments>
-            <argument name="dataCollector" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Subscriber\DataCollector</argument>
-        </arguments>
-    </type>
     <!-- Export Strategy -->
     <type name="Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiator">
         <arguments>

@@ -9,22 +9,16 @@ namespace Opengento\Gdpr\Service\Export\Processor;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
-use Opengento\Gdpr\Service\Export\ProcessorInterface;
 
 /**
  * Class CustomerDataProcessor
  */
-final class CustomerDataProcessor implements ProcessorInterface
+final class CustomerDataProcessor extends AbstractDataProcessor
 {
     /**
      * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
     private $customerRepository;
-
-    /**
-     * @var \Opengento\Gdpr\Model\Entity\DataCollectorInterface
-     */
-    private $dataCollector;
 
     /**
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
@@ -35,7 +29,7 @@ final class CustomerDataProcessor implements ProcessorInterface
         DataCollectorInterface $dataCollector
     ) {
         $this->customerRepository = $customerRepository;
-        $this->dataCollector = $dataCollector;
+        parent::__construct($dataCollector);
     }
 
     /**
@@ -45,7 +39,7 @@ final class CustomerDataProcessor implements ProcessorInterface
      */
     public function execute(int $customerId, array $data): array
     {
-        $data['customer'] = $this->dataCollector->collect($this->customerRepository->getById($customerId));
+        $data['customer'] = $this->collectData($this->customerRepository->getById($customerId));
 
         return $data;
     }
