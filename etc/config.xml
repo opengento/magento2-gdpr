@@ -130,9 +130,9 @@
                 <renderer>pdf</renderer>
                 <customer_attributes>prefix,firstname,middlename,lastname,suffix,email,dob,gender,taxvat</customer_attributes>
                 <customer_address_attributes>prefix,firstname,middlename,lastname,suffix,company,street,city,country_id,province,postcode,fax,telephone,vat_id</customer_address_attributes>
-                <quote_attributes>customer_email,customer_prefix,customer_middlename,customer_lastname,customer_suffix,customer_dob,customer_gender,customer_taxvat,remote_ip,shipping_address,billing_address</quote_attributes>
+                <quote_attributes>customer_email,customer_prefix,customer_middlename,customer_lastname,customer_suffix,customer_dob,customer_gender,customer_taxvat,remote_ip</quote_attributes>
                 <quote_address_attributes>city,company,country_id,fax,email,prefix,firstname,middlename,lastname,suffix,postcode,region,street,telephone,vat_id</quote_address_attributes>
-                <order_attributes>customer_email,customer_prefix,customer_middlename,customer_lastname,customer_suffix,customer_dob,customer_gender,customer_taxvat,remote_ip,x_forwarded_for,shipping_address,billing_address</order_attributes>
+                <order_attributes>customer_email,customer_prefix,customer_middlename,customer_lastname,customer_suffix,customer_dob,customer_gender,customer_taxvat,remote_ip,x_forwarded_for</order_attributes>
                 <order_address_attributes>city,company,country_id,fax,email,prefix,firstname,middlename,lastname,suffix,postcode,region,street,telephone,vat_id</order_address_attributes>
                 <subscriber_attributes>email</subscriber_attributes>
             </export>

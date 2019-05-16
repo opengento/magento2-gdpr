@@ -50,9 +50,17 @@ final class OrderDataProcessor extends AbstractDataProcessor
         $searchCriteria = $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
         $orderList = $this->orderRepository->getList($searchCriteria->create());
 
-        /** @var \Magento\Sales\Api\Data\OrderInterface $entity */
-        foreach ($orderList->getItems() as $entity) {
-            $data['orders']['order_id_' . $entity->getEntityId()] = $this->collectData($entity);
+        /** @var \Magento\Sales\Model\Order $order */
+        foreach ($orderList->getItems() as $order) {
+            $key = 'order_id_' . $order->getEntityId();
+            $data['orders'][$key] = $this->collectData($order);
+
+            /** @var \Magento\Sales\Api\Data\OrderAddressInterface|null $orderAddress */
+            foreach ([$order->getBillingAddress(), $order->getShippingAddress()] as $orderAddress) {
+                if ($orderAddress) {
+                    $data['orders'][$key][$orderAddress->getAddressType()] = $this->collectData($orderAddress);
+                }
+            }
         }
 
         return $data;

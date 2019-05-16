@@ -20,8 +20,8 @@ Area:
 
 - Payment Data
 - Invitation Data
-- Orders Addresses 
-- Quotes Addresses
+- Subscriber Model issue
+- Multiple export in command line result in filename expanded at each iteration
 
 ## Anonymizer
 

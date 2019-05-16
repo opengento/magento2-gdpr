@@ -49,9 +49,17 @@ final class QuoteDataProcessor extends AbstractDataProcessor
         $searchCriteria = $this->searchCriteriaBuilder->addFilter('customer_id', $customerId);
         $quoteList = $this->quoteRepository->getList($searchCriteria->create());
 
-        /** @var \Magento\Quote\Api\Data\CartInterface $entity */
-        foreach ($quoteList->getItems() as $entity) {
-            $data['quotes']['quote_id_' . $entity->getId()] = $this->collectData($entity);
+        /** @var \Magento\Quote\Model\Quote $quote */
+        foreach ($quoteList->getItems() as $quote) {
+            $key = 'quote_id_' . $quote->getId();
+            $data['quotes'][$key] = $this->collectData($quote);
+
+            /** @var \Magento\Quote\Model\Quote\Address|null $quoteAddress */
+            foreach ([$quote->getBillingAddress(), $quote->getShippingAddress()] as $quoteAddress) {
+                if ($quoteAddress) {
+                    $data['quotes'][$key][$quoteAddress->getAddressType()] = $this->collectData($quoteAddress);
+                }
+            }
         }
 
         return $data;
