@@ -12,7 +12,7 @@ use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 /**
  * Class NullValue
  */
-class NullValue implements AnonymizerInterface
+final class NullValue implements AnonymizerInterface
 {
     /**
      * @inheritdoc

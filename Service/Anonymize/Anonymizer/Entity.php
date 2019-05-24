@@ -15,7 +15,7 @@ use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 /**
  * Class Entity
  */
-class Entity implements AnonymizerInterface
+final class Entity implements AnonymizerInterface
 {
     /**
      * @var \Opengento\Gdpr\Model\Entity\DataCollectorInterface

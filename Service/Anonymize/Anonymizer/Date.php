@@ -14,7 +14,7 @@ use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 /**
  * Class Date
  */
-class Date implements AnonymizerInterface
+final class Date implements AnonymizerInterface
 {
     /**#@+
      * Constants for date anonymizer

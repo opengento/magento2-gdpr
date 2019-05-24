@@ -13,7 +13,7 @@ use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 /**
  * Class AlphaUpper
  */
-class AlphaUpper implements AnonymizerInterface
+final class AlphaUpper implements AnonymizerInterface
 {
     /**#@+
      * Constants for alpha upper anonymizer

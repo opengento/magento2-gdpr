@@ -37,7 +37,7 @@ final class ProcessorFactory
     }
 
     /**
-     * Retrieve the processor instance by its code
+     * Retrieve the processor instance by its key code
      *
      * @param string $processorCode
      * @return \Opengento\Gdpr\Service\Erase\ProcessorInterface

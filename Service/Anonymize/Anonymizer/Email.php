@@ -14,7 +14,7 @@ use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 /**
  * Class Email
  */
-class Email implements AnonymizerInterface
+final class Email implements AnonymizerInterface
 {
     /**#@+
      * Constants for value anonymizer

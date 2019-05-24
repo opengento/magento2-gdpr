@@ -12,7 +12,7 @@ use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 /**
  * Class ArrayValue
  */
-class ArrayValue implements AnonymizerInterface
+final class ArrayValue implements AnonymizerInterface
 {
     /**
      * @var \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface[]

@@ -13,7 +13,7 @@ use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 /**
  * Class Number
  */
-class Number implements AnonymizerInterface
+final class Number implements AnonymizerInterface
 {
     /**
      * @var int|null

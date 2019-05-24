@@ -41,19 +41,19 @@
             </argument>
         </arguments>
     </virtualType>
-    <type name="Opengento\Gdpr\Service\Anonymize\AnonymizerPool">
+    <type name="Opengento\Gdpr\Service\Anonymize\AnonymizerFactory">
         <arguments>
             <argument name="anonymizers" xsi:type="array">
-                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Anonymous\Proxy</item>
-                <item name="anonymous" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Anonymous\Proxy</item>
-                <item name="date" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Date\Proxy</item>
-                <item name="email" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Email\Proxy</item>
-                <item name="phone" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Phone\Proxy</item>
-                <item name="number" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Number\Proxy</item>
-                <item name="alphaLower" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaLower\Proxy</item>
-                <item name="alphaUpper" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaUpper\Proxy</item>
-                <item name="alphaNum" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaNum\Proxy</item>
-                <item name="nullValue" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\NullValue\Proxy</item>
+                <item name="default" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Anonymous</item>
+                <item name="anonymous" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Anonymous</item>
+                <item name="date" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Date</item>
+                <item name="email" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Email</item>
+                <item name="phone" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Phone</item>
+                <item name="number" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Number</item>
+                <item name="alphaLower" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaLower</item>
+                <item name="alphaUpper" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaUpper</item>
+                <item name="alphaNum" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaNum</item>
+                <item name="nullValue" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\NullValue</item>
                 <item name="street" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Street</item>
             </argument>
         </arguments>

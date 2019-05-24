@@ -10,7 +10,7 @@ namespace Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue;
 use Opengento\Gdpr\Model\Entity\DocumentInterface;
 use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
-use Opengento\Gdpr\Service\Anonymize\AnonymizerPool;
+use Opengento\Gdpr\Service\Anonymize\AnonymizerFactory;
 use Opengento\Gdpr\Service\Anonymize\MetadataInterface;
 
 /**
@@ -29,23 +29,23 @@ final class SmartProcessor implements EntityValueProcessorInterface
     private $metadata;
 
     /**
-     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizerPool
+     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizerFactory
      */
-    private $anonymizerPool;
+    private $anonymizerFactory;
 
     /**
      * @param \Opengento\Gdpr\Model\Entity\DocumentInterface $document
      * @param \Opengento\Gdpr\Service\Anonymize\MetadataInterface $metadata
-     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerPool $anonymizerPool
+     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerFactory $anonymizerFactory
      */
     public function __construct(
         DocumentInterface $document,
         MetadataInterface $metadata,
-        AnonymizerPool $anonymizerPool
+        AnonymizerFactory $anonymizerFactory
     ) {
         $this->document = $document;
         $this->metadata = $metadata;
-        $this->anonymizerPool = $anonymizerPool;
+        $this->anonymizerFactory = $anonymizerFactory;
     }
 
     /**
@@ -66,8 +66,8 @@ final class SmartProcessor implements EntityValueProcessorInterface
      */
     private function resolveAnonymizer(string $key): AnonymizerInterface
     {
-        return $this->anonymizerPool->getAnonymizer(
-            $this->metadata->getAnonymizerStrategiesByAttributes()[$key] ?? AnonymizerPool::DEFAULT_ANONYMIZER
+        return $this->anonymizerFactory->get(
+            $this->metadata->getAnonymizerStrategiesByAttributes()[$key] ?? AnonymizerFactory::DEFAULT_ANONYMIZER
         );
     }
 }

@@ -12,7 +12,7 @@ use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 /**
  * Class Phone
  */
-class Phone implements AnonymizerInterface
+final class Phone implements AnonymizerInterface
 {
     /**#@+
      * Constants for phone number anonymizer
