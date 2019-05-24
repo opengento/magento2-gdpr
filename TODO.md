@@ -28,13 +28,21 @@ Area:
 - Check customer only closed/completed orders 
 - Payment Data
 - Invitation Data
+- Subscriber Model issue
 
 ## Config
 
 - Improve UI of fields: attributes list instead of text field
+- refactor config: map component/strategy
 
 ## Doc
 
 - Add images
 - Complete developer guide
 - Attributes, Custom Attributes, Extensible Data 
+
+## Facade
+
+GDPR facade for customer actions
+
+=> new api for services entries?

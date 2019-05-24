@@ -10,12 +10,12 @@ namespace Opengento\Gdpr\Model\Config\Source;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\ObjectManager\ConfigInterface;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Service\Export\RendererFactory;
+use Opengento\Gdpr\Service\Erase\ProcessorFactory;
 
 /**
- * Class ExportRenderer
+ * Class EraseProcessors
  */
-class ExportRenderer implements OptionSourceInterface
+class EraseProcessors implements OptionSourceInterface
 {
     /**
      * @var \Magento\Framework\ObjectManager\ConfigInterface
@@ -23,7 +23,7 @@ class ExportRenderer implements OptionSourceInterface
     private $objectManagerConfig;
 
     /**
-     * @var array
+     * @var string[][]
      */
     private $options;
 
@@ -42,8 +42,8 @@ class ExportRenderer implements OptionSourceInterface
     public function toOptionArray(): array
     {
         if (!$this->options) {
-            foreach (\array_keys($this->retrieveRenderers()) as $rendererName) {
-                $this->options[] = ['label' => new Phrase($rendererName), 'value' => $rendererName];
+            foreach ($this->retrieveProcessorsNames() as $processorName) {
+                $this->options[] = ['value' => $processorName, 'label' => new Phrase($processorName)];
             }
         }
 
@@ -51,16 +51,16 @@ class ExportRenderer implements OptionSourceInterface
     }
 
     /**
-     * Retrieve the renderers from the di settings
+     * Retrieve the processors names
      *
-     * @return string[]
+     * @return array
      */
-    private function retrieveRenderers(): array
+    private function retrieveProcessorsNames(): array
     {
         $arguments = $this->objectManagerConfig->getArguments(
-            $this->objectManagerConfig->getPreference(RendererFactory::class)
+            $this->objectManagerConfig->getPreference(ProcessorFactory::class)
         );
 
-        return $arguments['renderers']['_v_'] ?? $arguments['renderers'] ?? [];
+        return \array_keys($arguments['processors']['_v_'] ?? $arguments['processors'] ?? []);
     }
 }

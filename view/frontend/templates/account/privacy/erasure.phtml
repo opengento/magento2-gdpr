@@ -31,11 +31,9 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
                 </div>
             </div>
         <?php elseif ($erasureDataProvider->canBeProcessed()): ?>
-            <?php if ($erasureDataProvider->isAnonymizeStrategy()): ?>
-                <div class="widget block block-static-block">
-                    <?= $erasureDataProvider->getAnonymizeInformation() ?>
-                </div>
-            <?php endif; ?>
+            <div class="widget block block-static-block">
+                <?= $erasureDataProvider->getAnonymizeInformation() ?>
+            </div>
             <div class="actions-toolbar">
                 <div class="primary">
                     <a href="<?= $block->escapeUrl($urlsDataProvider->getDeletePageUrl()) ?>" class="action submit primary primary-danger" id="delete">

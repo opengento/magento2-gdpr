@@ -20,7 +20,6 @@ use Magento\Framework\Phrase;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Service\ExportManagement;
-use Opengento\Gdpr\Service\ExportStrategy;
 
 /**
  * Action Export Export
@@ -53,11 +52,6 @@ class Export extends AbstractPrivacy
     private $exportManagement;
 
     /**
-     * @var \Opengento\Gdpr\Service\ExportStrategy
-     */
-    private $exportStrategy;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     private $customerSession;
@@ -69,7 +63,6 @@ class Export extends AbstractPrivacy
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Opengento\Gdpr\Service\ExportManagement $exportManagement
-     * @param \Opengento\Gdpr\Service\ExportStrategy $exportStrategy
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
@@ -79,7 +72,6 @@ class Export extends AbstractPrivacy
         Filesystem $filesystem,
         Config $config,
         ExportManagement $exportManagement,
-        ExportStrategy $exportStrategy,
         Session $customerSession
     ) {
         $this->fileFactory = $fileFactory;
@@ -87,7 +79,6 @@ class Export extends AbstractPrivacy
         $this->filesystem = $filesystem;
         $this->config = $config;
         $this->exportManagement = $exportManagement;
-        $this->exportStrategy = $exportStrategy;
         $this->customerSession = $customerSession;
         parent::__construct($context);
     }
@@ -124,9 +115,9 @@ class Export extends AbstractPrivacy
      */
     public function download(): ResponseInterface
     {
-        $privacyData = $this->exportManagement->execute((int) $this->customerSession->getCustomerId());
-        $fileName = $this->exportStrategy->saveData('personal_data', $privacyData);
-        $zipFileName = 'customer_privacy_data_' . $this->customerSession->getCustomerId() . '.zip';
+        $customerId = (int) $this->customerSession->getCustomerId();
+        $fileName = $this->exportManagement->exportToFile($customerId, 'personal_data');
+        $zipFileName = 'customer_privacy_data_' . $customerId . '.zip';
 
         return $this->fileFactory->create(
             $zipFileName,

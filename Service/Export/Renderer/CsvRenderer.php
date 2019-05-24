@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Export\Renderer;
 
 use Magento\Framework\Filesystem;
-use Opengento\Gdpr\Service\Export\AbstractRenderer;
 
 /**
  * Class CsvRenderer

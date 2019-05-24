@@ -11,7 +11,6 @@ use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
 use Opengento\Gdpr\Service\ExportManagement;
-use Opengento\Gdpr\Service\ExportStrategy;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -42,25 +41,17 @@ final class ExportCommand extends Command
     private $exportManagement;
 
     /**
-     * @var \Opengento\Gdpr\Service\ExportStrategy
-     */
-    private $exportStrategy;
-
-    /**
      * @param \Magento\Framework\App\State $appState
      * @param \Opengento\Gdpr\Service\ExportManagement $exportManagement
-     * @param \Opengento\Gdpr\Service\ExportStrategy $exportStrategy
      * @param null|string $name
      */
     public function __construct(
         State $appState,
         ExportManagement $exportManagement,
-        ExportStrategy $exportStrategy,
         string $name = 'gdpr:customer:export'
     ) {
         $this->appState = $appState;
         $this->exportManagement = $exportManagement;
-        $this->exportStrategy = $exportStrategy;
         parent::__construct($name);
     }
 
@@ -102,8 +93,7 @@ final class ExportCommand extends Command
 
         try {
             foreach ($customerIds as $customerId) {
-                $personalData = $this->exportManagement->execute((int) $customerId);
-                $fileName = $this->exportStrategy->saveData($fileName . '_' . $customerId, $personalData);
+                $fileName = $this->exportManagement->exportToFile((int) $customerId, $fileName . '_' . $customerId);
                 $output->writeln('<info>Customer\'s personal data have been exported to: ' . $fileName . '.</info>');
             }
         } catch (\Exception $e) {

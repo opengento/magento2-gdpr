@@ -7,7 +7,8 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service;
 
-use Magento\Framework\ObjectManager\TMap;
+use Opengento\Gdpr\Service\Export\ProcessorInterface;
+use Opengento\Gdpr\Service\Export\RendererInterface;
 
 /**
  * Class ExportManagement
@@ -16,53 +17,36 @@ use Magento\Framework\ObjectManager\TMap;
 final class ExportManagement
 {
     /**
-     * @var \Magento\Framework\ObjectManager\TMap
+     * @var \Opengento\Gdpr\Service\Export\ProcessorInterface
      */
-    private $processorPool;
+    private $exportProcessor;
 
     /**
-     * @param \Magento\Framework\ObjectManager\TMap $processorPool
+     * @var \Opengento\Gdpr\Service\Export\RendererInterface
+     */
+    private $exportRenderer;
+
+    /**
+     * @param \Opengento\Gdpr\Service\Export\ProcessorInterface $exportProcessor
+     * @param \Opengento\Gdpr\Service\Export\RendererInterface $exportRenderer
      */
     public function __construct(
-        TMap $processorPool
+        ProcessorInterface $exportProcessor,
+        RendererInterface $exportRenderer
     ) {
-        $this->processorPool = $processorPool;
+        $this->exportProcessor = $exportProcessor;
+        $this->exportRenderer = $exportRenderer;
     }
 
     /**
-     * Export all data related to a given entity ID
+     * Export all data related to a given entity ID to the file
      *
      * @param int $customerId
-     * @return array
+     * @param string $fileName
+     * @return string
      */
-    public function execute(int $customerId): array
+    public function exportToFile(int $customerId, string $fileName): string
     {
-        $data = [];
-
-        /** @var \Opengento\Gdpr\Service\Export\ProcessorInterface $processor */
-        foreach ($this->processorPool as $processor) {
-            $data = $processor->execute($customerId, $data);
-        }
-
-        return $data;
-    }
-
-    /**
-     * Execute an export processor by name
-     *
-     * @param string $processorName
-     * @param int $customerId
-     * @return array
-     */
-    public function executeProcessor(string $processorName, int $customerId): array
-    {
-        if (!$this->processorPool->offsetExists($processorName)) {
-            throw new \InvalidArgumentException(\sprintf('Unknown processor type "%s".', $processorName));
-        }
-
-        /** @var \Opengento\Gdpr\Service\Export\ProcessorInterface $processor */
-        $processor = $this->processorPool->offsetGet($processorName);
-
-        return $processor->execute($customerId, []);
+        return $this->exportRenderer->saveData($fileName, $this->exportProcessor->execute($customerId, []));
     }
 }

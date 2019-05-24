@@ -119,11 +119,18 @@
             </anonymize>
             <erasure>
                 <enabled>0</enabled>
-                <strategy>anonymize</strategy>
                 <time_lapse>3600</time_lapse>
                 <schedule>* * * * *</schedule>
                 <remove_customer>1</remove_customer>
-                <components>customer_address,subscriber</components>
+                <components_processors>
+                    <![CDATA[[
+                        {"component":"customer","processor":"anonymize"},
+                        {"component":"customer_address","processor":"anonymize"},
+                        {"component":"quote","processor":"delete"},
+                        {"component":"order","processor":"anonymize"},
+                        {"component":"subscriber","processor":"delete"}
+                    ]]]>
+                </components_processors>
             </erasure>
             <export>
                 <enabled>0</enabled>

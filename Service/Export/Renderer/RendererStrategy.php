@@ -5,22 +5,21 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Service;
+namespace Opengento\Gdpr\Service\Export\Renderer;
 
-use Magento\Framework\ObjectManager\TMap;
 use Opengento\Gdpr\Model\Config;
+use Opengento\Gdpr\Service\Export\RendererFactory;
 use Opengento\Gdpr\Service\Export\RendererInterface;
 
 /**
- * Class ExportStrategy
- * @api
+ * Class RendererStrategy
  */
-final class ExportStrategy implements RendererInterface
+final class RendererStrategy implements RendererInterface
 {
     /**
-     * @var \Magento\Framework\ObjectManager\TMap
+     * @var \Opengento\Gdpr\Service\Export\RendererFactory
      */
-    private $rendererPool;
+    private $exportRendererFactory;
 
     /**
      * @var \Opengento\Gdpr\Model\Config
@@ -33,14 +32,14 @@ final class ExportStrategy implements RendererInterface
     private $renderer;
 
     /**
-     * @param \Magento\Framework\ObjectManager\TMap $rendererPool
+     * @param \Opengento\Gdpr\Service\Export\RendererFactory $exportRendererFactory
      * @param \Opengento\Gdpr\Model\Config $config
      */
     public function __construct(
-        TMap $rendererPool,
+        RendererFactory $exportRendererFactory,
         Config $config
     ) {
-        $this->rendererPool = $rendererPool;
+        $this->exportRendererFactory = $exportRendererFactory;
         $this->config = $config;
     }
 
@@ -67,16 +66,7 @@ final class ExportStrategy implements RendererInterface
      */
     private function resolveRenderer(): RendererInterface
     {
-        if (!$this->renderer) {
-            $rendererCode = $this->config->getExportRendererCode();
-
-            if (!$this->rendererPool->offsetExists($rendererCode)) {
-                throw new \InvalidArgumentException(\sprintf('Unknown renderer type "%s".', $rendererCode));
-            }
-
-            $this->renderer = $this->rendererPool->offsetGet($rendererCode);
-        }
-
-        return $this->renderer;
+        return $this->renderer ??
+            $this->renderer = $this->exportRendererFactory->create($this->config->getExportRendererCode());
     }
 }

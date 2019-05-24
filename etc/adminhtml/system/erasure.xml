@@ -16,14 +16,6 @@
             <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
             <config_path>gdpr/erasure/enabled</config_path>
         </field>
-        <field id="strategy" type="select" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
-            <label>Default Erasure Strategy</label>
-            <source_model>Opengento\Gdpr\Model\Config\Source\EraseStrategy</source_model>
-            <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
-            </depends>
-            <config_path>gdpr/erasure/strategy</config_path>
-        </field>
         <field id="time_lapse" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
             <label>Erasure Time Laps</label>
             <comment>Erasure time lapse in seconds before the execution by the cron.</comment>
@@ -48,11 +40,21 @@
             </depends>
             <config_path>gdpr/erasure/block_id</config_path>
         </field>
-        <group id="anonymize" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60">
+        <field id="components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
+            <label>Component Erasure Strategy</label>
+            <comment>Defines the components erasure strategy with the component/erase processor mapper.</comment>
+            <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\EraseComponentsProcessors</frontend_model>
+            <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+            <depends>
+                <field id="customer/gdpr/erasure/enabled">1</field>
+            </depends>
+            <can_be_empty>1</can_be_empty>
+            <config_path>gdpr/erasure/components_processors</config_path>
+        </field>
+        <group id="anonymize" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70">
             <label>Anonymization</label>
             <depends>
                 <field id="customer/gdpr/erasure/enabled">1</field>
-                <field id="customer/gdpr/erasure/strategy">anonymize</field>
             </depends>
             <field id="block_id" type="select" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
                 <label>Information</label>
@@ -61,18 +63,11 @@
             </field>
             <field id="remove_customer" type="select" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
                 <label>Delete Customer if no Orders</label>
-                <comment>We will delete the customer if he has no orders.</comment>
+                <comment>We will delete the customer if he has no orders. It's only applicable if the component "customer" use the "anonymize" processor.</comment>
                 <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 <config_path>gdpr/erasure/remove_customer</config_path>
             </field>
-            <field id="components" type="editablemultiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
-                <label>Apply Deletion Strategy</label>
-                <comment>This processors list allows to configure specific erasure strategy by component.</comment>
-                <source_model>Opengento\Gdpr\Model\Config\Source\ErasureComponents</source_model>
-                <can_be_empty>1</can_be_empty>
-                <config_path>gdpr/erasure/components</config_path>
-            </field>
-            <group id="customer" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
+            <group id="customer" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
                 <label>Customer</label>
                 <field id="customer_attributes" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                     <label>Customer Attributes Anonymizers</label>

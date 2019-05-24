@@ -139,16 +139,6 @@ final class ErasureDataProvider extends DataObject implements ArgumentInterface
     }
 
     /**
-     * Check if the anonymize strategy is enabled
-     *
-     * @return bool
-     */
-    public function isAnonymizeStrategy(): bool
-    {
-        return ($this->config->getDefaultStrategy() === ErasureStrategy::STRATEGY_ANONYMIZE);
-    }
-
-    /**
      * Retrieve the anonymize information html
      *
      * @return string

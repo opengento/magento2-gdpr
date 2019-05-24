@@ -9,7 +9,6 @@ namespace Opengento\Gdpr\Service\Export\Renderer;
 
 use Magento\Framework\Filesystem;
 use mikehaertl\wkhtmlto\PdfFactory;
-use Opengento\Gdpr\Service\Export\AbstractRenderer;
 
 /**
  * Class PdfRenderer

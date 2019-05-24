@@ -17,7 +17,7 @@ use Opengento\Gdpr\Api\Data\EraseCustomerInterface;
 use Opengento\Gdpr\Api\Data\EraseCustomerInterfaceFactory;
 use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
 use Opengento\Gdpr\Api\EraseCustomerRepositoryInterface;
-use Opengento\Gdpr\Service\ErasureStrategy;
+use Opengento\Gdpr\Service\EraseManagement;
 
 /**
  * Class EraseCustomerManagement
@@ -35,9 +35,9 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
     private $eraseCustomerRepository;
 
     /**
-     * @var \Opengento\Gdpr\Service\ErasureStrategy
+     * @var \Opengento\Gdpr\Service\EraseManagement
      */
-    private $erasureStrategy;
+    private $eraseManagement;
 
     /**
      * @var \Opengento\Gdpr\Model\Config
@@ -52,20 +52,20 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
     /**
      * @param \Opengento\Gdpr\Api\Data\EraseCustomerInterfaceFactory $eraseCustomerFactory
      * @param \Opengento\Gdpr\Api\EraseCustomerRepositoryInterface $eraseCustomerRepository
-     * @param \Opengento\Gdpr\Service\ErasureStrategy $erasureStrategy
+     * @param \Opengento\Gdpr\Service\EraseManagement $eraseManagement
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $localeDate
      */
     public function __construct(
         EraseCustomerInterfaceFactory $eraseCustomerFactory,
         EraseCustomerRepositoryInterface $eraseCustomerRepository,
-        ErasureStrategy $erasureStrategy,
+        EraseManagement $eraseManagement,
         Config $config,
         DateTime $localeDate
     ) {
         $this->eraseCustomerFactory = $eraseCustomerFactory;
         $this->eraseCustomerRepository = $eraseCustomerRepository;
-        $this->erasureStrategy = $erasureStrategy;
+        $this->eraseManagement = $eraseManagement;
         $this->config = $config;
         $this->localeDate = $localeDate;
     }
@@ -121,7 +121,7 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
         $entity = $this->eraseCustomerRepository->save($entity);
 
         try {
-            $this->erasureStrategy->execute($entity->getCustomerId());
+            $this->eraseManagement->erase($entity->getCustomerId());
             $entity->setState(EraseCustomerInterface::STATE_COMPLETE);
             $entity->setStatus(EraseCustomerInterface::STATUS_SUCCEED);
             $entity->setErasedAt($this->localeDate->gmtDate());

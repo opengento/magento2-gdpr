@@ -13,7 +13,6 @@ use Magento\Framework\Translate\InlineInterface;
 use Magento\Framework\View\FileSystem as ViewFileSystem;
 use Magento\Framework\View\Page\Config;
 use Magento\Framework\View\Page\Config\RendererFactory;
-use Opengento\Gdpr\Service\Export\AbstractRenderer;
 use Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiatorInterface;
 
 /**

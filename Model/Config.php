@@ -22,11 +22,9 @@ final class Config
     public const CONFIG_PATH_GENERAL_INFORMATION_PAGE = 'gdpr/general/page_id';
     public const CONFIG_PATH_GENERAL_INFORMATION_BLOCK = 'gdpr/general/block_id';
     public const CONFIG_PATH_ERASURE_ENABLED = 'gdpr/erasure/enabled';
-    public const CONFIG_PATH_ERASURE_STRATEGY = 'gdpr/erasure/strategy';
     public const CONFIG_PATH_ERASURE_TIME_LAPSE = 'gdpr/erasure/time_lapse';
     public const CONFIG_PATH_ERASURE_INFORMATION_BLOCK = 'gdpr/erasure/block_id';
     public const CONFIG_PATH_ERASURE_REMOVE_CUSTOMER = 'gdpr/erasure/remove_customer';
-    public const CONFIG_PATH_ERASURE_STRATEGY_COMPONENTS = 'gdpr/erasure/components';
     public const CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK = 'gdpr/anonymize/block_id';
     public const CONFIG_PATH_EXPORT_ENABLED = 'gdpr/export/enabled';
     public const CONFIG_PATH_EXPORT_INFORMATION_BLOCK = 'gdpr/export/block_id';
@@ -90,16 +88,6 @@ final class Config
     }
 
     /**
-     * Retrieve the default strategy to apply
-     *
-     * @return string
-     */
-    public function getDefaultStrategy(): string
-    {
-        return $this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_STRATEGY, ScopeInterface::SCOPE_STORE);
-    }
-
-    /**
      * Check if the customer can be removed if he has no orders
      *
      * @return bool
@@ -107,16 +95,6 @@ final class Config
     public function isCustomerRemovedNoOrders(): bool
     {
         return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_ERASURE_REMOVE_CUSTOMER, ScopeInterface::SCOPE_STORE);
-    }
-
-    /**
-     * Retrieve the components configured for the deletion strategy
-     *
-     * @return array
-     */
-    public function getErasureStrategyComponents(): array
-    {
-        return $this->getValueArray(self::CONFIG_PATH_ERASURE_STRATEGY_COMPONENTS, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -204,32 +182,14 @@ final class Config
      *
      * @param string $path
      * @param string $scopeType
-     * @param string $scopeCode [optional]
+     * @param string|null $scopeCode [optional]
      * @return string
      */
     private function getValueString(
         string $path,
         string $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
-        string $scopeCode = ''
+        ?string $scopeCode = null
     ): string {
-        return (string) $this->scopeConfig->getValue($path, $scopeType, $scopeCode ?: null);
-    }
-
-    /**
-     * Retrieve the scope config value as an array
-     *
-     * @param string $path
-     * @param string $scopeType
-     * @param string $scopeCode [optional]
-     * @return array
-     */
-    private function getValueArray(
-        string $path,
-        string $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
-        string $scopeCode = ''
-    ): array {
-        $value = $this->scopeConfig->getValue($path, $scopeType, $scopeCode ?: null);
-
-        return $value ? \explode(',', $value) : [];
+        return (string) $this->scopeConfig->getValue($path, $scopeType, $scopeCode);
     }
 }

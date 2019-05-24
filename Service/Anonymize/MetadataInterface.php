@@ -15,7 +15,7 @@ use Opengento\Gdpr\Model\Entity\MetadataInterface as EntityMetadataInterface;
 interface MetadataInterface extends EntityMetadataInterface
 {
     /**
-     * Retrieve the anonymizer strategies by attribute code
+     * Retrieve the anonymizer strategies associated by attribute code
      *
      * @param string|null $scopeCode
      * @return array
