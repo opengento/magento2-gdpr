@@ -18,7 +18,7 @@ class Settings extends AbstractPrivacy
     /**
      * @inheritdoc
      */
-    public function execute()
+    protected function executeAction()
     {
         return $this->resultFactory->create(ResultFactory::TYPE_PAGE);
     }

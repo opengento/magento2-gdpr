@@ -13,6 +13,7 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
+use Opengento\Gdpr\Model\Config;
 
 /**
  * Action Index Delete
@@ -31,23 +32,25 @@ class Delete extends AbstractPrivacy
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
+     * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Customer\Model\Session $session
      * @param \Opengento\Gdpr\Api\EraseCustomerManagementInterface $eraseCustomerManagement
      */
     public function __construct(
         Context $context,
+        Config $config,
         Session $session,
         EraseCustomerManagementInterface $eraseCustomerManagement
     ) {
-        parent::__construct($context);
         $this->session = $session;
         $this->eraseCustomerManagement = $eraseCustomerManagement;
+        parent::__construct($context, $config);
     }
 
     /**
      * @inheritdoc
      */
-    public function execute()
+    protected function executeAction()
     {
         if ($this->eraseCustomerManagement->exists((int) $this->session->getCustomerId())) {
             $this->messageManager->addErrorMessage(new Phrase('Your account is already being removed.'));
