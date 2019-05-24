@@ -16,6 +16,14 @@
             <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
             <config_path>gdpr/erasure/enabled</config_path>
         </field>
+        <field id="block_id" type="select" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
+            <label>Information</label>
+            <source_model>Magento\Cms\Model\Config\Source\Block</source_model>
+            <depends>
+                <field id="customer/gdpr/erasure/enabled">1</field>
+            </depends>
+            <config_path>gdpr/erasure/block_id</config_path>
+        </field>
         <field id="time_lapse" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
             <label>Erasure Time Laps</label>
             <comment>Erasure time lapse in seconds before the execution by the cron.</comment>
@@ -32,15 +40,7 @@
             </depends>
             <config_path>gdpr/erasure/schedule</config_path>
         </field>
-        <field id="block_id" type="select" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
-            <label>Information</label>
-            <source_model>Magento\Cms\Model\Config\Source\Block</source_model>
-            <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
-            </depends>
-            <config_path>gdpr/erasure/block_id</config_path>
-        </field>
-        <field id="components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
+        <field id="components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50" canRestore="1">
             <label>Component Erasure Strategy</label>
             <comment>Defines the components erasure strategy with the component/erase processor mapper.</comment>
             <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\EraseComponentsProcessors</frontend_model>
@@ -51,7 +51,7 @@
             <can_be_empty>1</can_be_empty>
             <config_path>gdpr/erasure/components_processors</config_path>
         </field>
-        <group id="anonymize" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70">
+        <group id="anonymize" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60">
             <label>Anonymization</label>
             <depends>
                 <field id="customer/gdpr/erasure/enabled">1</field>
