@@ -16,7 +16,6 @@ use Magento\Framework\View\Element\BlockFactory;
 use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
 use Opengento\Gdpr\Api\EraseCustomerRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
-use Opengento\Gdpr\Service\ErasureStrategy;
 
 /**
  * Class ErasureDataProvider
