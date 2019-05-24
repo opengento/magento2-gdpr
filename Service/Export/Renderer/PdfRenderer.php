@@ -67,6 +67,10 @@ final class PdfRenderer extends AbstractRenderer
 
         $pdf->addPage($this->htmlRenderer->render($data));
 
-        return $pdf->toString();
+        if (($result = $pdf->toString()) === false) {
+            throw new \RuntimeException('The PDF was not created successfully.');
+        }
+
+        return $result;
     }
 }

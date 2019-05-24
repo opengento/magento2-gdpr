@@ -17,7 +17,7 @@ use Opengento\Gdpr\Api\Data\EraseCustomerInterface;
 use Opengento\Gdpr\Api\Data\EraseCustomerInterfaceFactory;
 use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
 use Opengento\Gdpr\Api\EraseCustomerRepositoryInterface;
-use Opengento\Gdpr\Service\EraseManagement;
+use Opengento\Gdpr\Api\EraseInterface;
 
 /**
  * Class EraseCustomerManagement
@@ -35,7 +35,7 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
     private $eraseCustomerRepository;
 
     /**
-     * @var \Opengento\Gdpr\Service\EraseManagement
+     * @var \Opengento\Gdpr\Api\EraseInterface
      */
     private $eraseManagement;
 
@@ -52,14 +52,14 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
     /**
      * @param \Opengento\Gdpr\Api\Data\EraseCustomerInterfaceFactory $eraseCustomerFactory
      * @param \Opengento\Gdpr\Api\EraseCustomerRepositoryInterface $eraseCustomerRepository
-     * @param \Opengento\Gdpr\Service\EraseManagement $eraseManagement
+     * @param \Opengento\Gdpr\Api\EraseInterface $eraseManagement
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $localeDate
      */
     public function __construct(
         EraseCustomerInterfaceFactory $eraseCustomerFactory,
         EraseCustomerRepositoryInterface $eraseCustomerRepository,
-        EraseManagement $eraseManagement,
+        EraseInterface $eraseManagement,
         Config $config,
         DateTime $localeDate
     ) {

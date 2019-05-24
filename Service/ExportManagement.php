@@ -7,14 +7,14 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service;
 
+use Opengento\Gdpr\Api\ExportInterface;
 use Opengento\Gdpr\Service\Export\ProcessorInterface;
 use Opengento\Gdpr\Service\Export\RendererInterface;
 
 /**
  * Class ExportManagement
- * @api
  */
-final class ExportManagement
+final class ExportManagement implements ExportInterface
 {
     /**
      * @var \Opengento\Gdpr\Service\Export\ProcessorInterface
@@ -39,11 +39,7 @@ final class ExportManagement
     }
 
     /**
-     * Export all data related to a given entity ID to the file
-     *
-     * @param int $customerId
-     * @param string $fileName
-     * @return string
+     * @inheritdoc
      */
     public function exportToFile(int $customerId, string $fileName): string
     {

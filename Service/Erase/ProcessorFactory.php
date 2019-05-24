@@ -44,7 +44,7 @@ final class ProcessorFactory
      */
     public function get(string $processorCode): ProcessorInterface
     {
-        if (!isset($this->renderers[$processorCode])) {
+        if (!isset($this->processors[$processorCode])) {
             throw new \InvalidArgumentException(\sprintf('Unknown renderer type "%s".', $processorCode));
         }
 

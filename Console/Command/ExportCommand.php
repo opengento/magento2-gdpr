@@ -10,7 +10,7 @@ namespace Opengento\Gdpr\Console\Command;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
-use Opengento\Gdpr\Service\ExportManagement;
+use Opengento\Gdpr\Api\ExportInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,18 +36,18 @@ final class ExportCommand extends Command
     private $appState;
 
     /**
-     * @var \Opengento\Gdpr\Service\ExportManagement
+     * @var \Opengento\Gdpr\Api\ExportInterface
      */
     private $exportManagement;
 
     /**
      * @param \Magento\Framework\App\State $appState
-     * @param \Opengento\Gdpr\Service\ExportManagement $exportManagement
-     * @param null|string $name
+     * @param \Opengento\Gdpr\Api\ExportInterface $exportManagement
+     * @param string $name
      */
     public function __construct(
         State $appState,
-        ExportManagement $exportManagement,
+        ExportInterface $exportManagement,
         string $name = 'gdpr:customer:export'
     ) {
         $this->appState = $appState;

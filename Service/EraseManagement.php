@@ -7,14 +7,14 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service;
 
+use Opengento\Gdpr\Api\EraseInterface;
 use Opengento\Gdpr\Model\Config\Source\EraseComponents;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
 /**
  * Class EraseManagement
- * @api
  */
-final class EraseManagement
+final class EraseManagement implements EraseInterface
 {
     /**
      * @var \Opengento\Gdpr\Service\Erase\ProcessorInterface
@@ -39,15 +39,14 @@ final class EraseManagement
     }
 
     /**
-     * Execute the processors by strategy type
-     *
-     * @param int $customerId
-     * @return bool
+     * @inheritdoc
      */
     public function erase(int $customerId): bool
     {
         foreach (\array_column($this->eraseComponents->toOptionArray(), 'value') as $component) {
-            $this->eraseProcessor->execute($component, $customerId);
+            if (!$this->eraseProcessor->execute($component, $customerId)) {
+                return false;
+            }
         }
 
         return true;
