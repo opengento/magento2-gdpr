@@ -9,7 +9,7 @@ namespace Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select;
 
 use Magento\Framework\View\Element\Context;
 use Magento\Framework\View\Element\Html\Select;
-use Opengento\Gdpr\Model\Config\Source\EraseComponents as EraseComponentsSrouce ;
+use Opengento\Gdpr\Model\Config\Source\EraseComponents as EraseComponentsSrouce;
 
 /**
  * Class EraseComponents
