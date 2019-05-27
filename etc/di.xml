@@ -1237,15 +1237,4 @@
             </argument>
         </arguments>
     </type>
-    <!-- Config Settings -->
-    <virtualType name="Opengento\Gdpr\Model\Config\Source\CustomerAttributes" type="Opengento\Gdpr\Model\Config\Source\VirtualCustomerAttributes">
-        <arguments>
-            <argument name="metadata" xsi:type="object">Magento\Customer\Api\CustomerMetadataInterface</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Config\Source\CustomerAddressAttributes" type="Opengento\Gdpr\Model\Config\Source\VirtualCustomerAttributes">
-        <arguments>
-            <argument name="metadata" xsi:type="object">Magento\Customer\Api\AddressMetadataInterface</argument>
-        </arguments>
-    </virtualType>
 </config>

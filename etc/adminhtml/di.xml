@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Config Settings -->
+    <virtualType name="Opengento\Gdpr\Model\Config\Source\CustomerAttributes" type="Opengento\Gdpr\Model\Config\Source\VirtualCustomerAttributes">
+        <arguments>
+            <argument name="metadata" xsi:type="object">Magento\Customer\Api\CustomerMetadataInterface</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Config\Source\CustomerAddressAttributes" type="Opengento\Gdpr\Model\Config\Source\VirtualCustomerAttributes">
+        <arguments>
+            <argument name="metadata" xsi:type="object">Magento\Customer\Api\AddressMetadataInterface</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Config\Source\ExportRenderer" type="Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList">
+        <arguments>
+            <argument name="className" xsi:type="string">Opengento\Gdpr\Service\Export\RendererFactory</argument>
+            <argument name="argumentName" xsi:type="string">renderers</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Config\Source\Anonymizers" type="Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList">
+        <arguments>
+            <argument name="className" xsi:type="string">Opengento\Gdpr\Service\Anonymize\AnonymizerFactory</argument>
+            <argument name="argumentName" xsi:type="string">anonymizers</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Config\Source\EraseProcessors" type="Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList">
+        <arguments>
+            <argument name="className" xsi:type="string">Opengento\Gdpr\Service\Erase\ProcessorFactory</argument>
+            <argument name="argumentName" xsi:type="string">processors</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Anonymizers" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\VirtualArrayArgumentSelect">
+        <arguments>
+            <argument name="arrayArgumentList" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Anonymizers</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseProcessors" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\VirtualArrayArgumentSelect">
+        <arguments>
+            <argument name="arrayArgumentList" xsi:type="object">Opengento\Gdpr\Model\Config\Source\EraseProcessors</argument>
+        </arguments>
+    </virtualType>
+</config>

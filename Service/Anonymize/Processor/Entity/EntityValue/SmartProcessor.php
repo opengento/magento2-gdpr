@@ -9,8 +9,8 @@ namespace Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue;
 
 use Opengento\Gdpr\Model\Entity\DocumentInterface;
 use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
-use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerFactory;
+use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Anonymize\MetadataInterface;
 
 /**

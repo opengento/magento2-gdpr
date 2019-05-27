@@ -10,26 +10,28 @@ namespace Opengento\Gdpr\Block\Adminhtml\Config\Form\Field;
 use Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
 use Magento\Framework\DataObject;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Anonymizers;
+use Magento\Framework\View\Element\Html\Select;
 
 /**
  * Class AttributesAnonymizers
  */
 class AttributesAnonymizers extends AbstractFieldArray
 {
+    private const ANONYMIZERS_SELECT = '\Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Anonymizers';
+
     /**
      * Retrieve the anonymizers select renderer
      *
-     * @return \Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Anonymizers
+     * @return \Magento\Framework\View\Element\Html\Select
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getAnonymizersSelectRenderer(): Anonymizers
+    public function getAnonymizersSelectRenderer(): Select
     {
         if (!$this->hasData('anonymizers_select_renderer')) {
             $this->setData(
                 'anonymizers_select_renderer',
                 $this->getLayout()->createBlock(
-                    Anonymizers::class,
+                    self::ANONYMIZERS_SELECT,
                     '',
                     ['data' => ['is_render_to_js_template' => true]]
                 )

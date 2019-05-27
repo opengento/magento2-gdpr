@@ -10,17 +10,26 @@ namespace Opengento\Gdpr\Model\Config\Source;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\ObjectManager\ConfigInterface;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Service\Export\RendererFactory;
 
 /**
- * Class ExportRenderer
+ * Class VirtualArrayArgumentList
  */
-class ExportRenderer implements OptionSourceInterface
+class VirtualArrayArgumentList implements OptionSourceInterface
 {
     /**
      * @var \Magento\Framework\ObjectManager\ConfigInterface
      */
     private $objectManagerConfig;
+
+    /**
+     * @var string
+     */
+    private $className;
+
+    /**
+     * @var string
+     */
+    private $argumentName;
 
     /**
      * @var array
@@ -29,11 +38,17 @@ class ExportRenderer implements OptionSourceInterface
 
     /**
      * @param \Magento\Framework\ObjectManager\ConfigInterface $objectManagerConfig
+     * @param string $className
+     * @param string $argumentName
      */
     public function __construct(
-        ConfigInterface $objectManagerConfig
+        ConfigInterface $objectManagerConfig,
+        string $className,
+        string $argumentName
     ) {
         $this->objectManagerConfig = $objectManagerConfig;
+        $this->className = $className;
+        $this->argumentName = $argumentName;
     }
 
     /**
@@ -42,8 +57,8 @@ class ExportRenderer implements OptionSourceInterface
     public function toOptionArray(): array
     {
         if (!$this->options) {
-            foreach (\array_keys($this->retrieveRenderers()) as $rendererName) {
-                $this->options[] = ['label' => new Phrase($rendererName), 'value' => $rendererName];
+            foreach (\array_keys($this->retrieveItems()) as $item) {
+                $this->options[] = ['label' => new Phrase($item), 'value' => $item];
             }
         }
 
@@ -51,16 +66,16 @@ class ExportRenderer implements OptionSourceInterface
     }
 
     /**
-     * Retrieve the renderers from the di settings
+     * Retrieve the items from the di settings
      *
      * @return string[]
      */
-    private function retrieveRenderers(): array
+    private function retrieveItems(): array
     {
         $arguments = $this->objectManagerConfig->getArguments(
-            $this->objectManagerConfig->getPreference(RendererFactory::class)
+            $this->objectManagerConfig->getPreference($this->className)
         );
 
-        return $arguments['renderers']['_v_'] ?? $arguments['renderers'] ?? [];
+        return $arguments[$this->argumentName]['_v_'] ?? $arguments[$this->argumentName] ?? [];
     }
 }

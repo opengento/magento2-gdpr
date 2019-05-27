@@ -98,7 +98,7 @@ class PrivacyMessagePopup extends Template
                 $this->setData('cookie_disclosure_information', '');
             }
         }
-        
+
         return (string) $this->_getData('cookie_disclosure_information');
     }
 }

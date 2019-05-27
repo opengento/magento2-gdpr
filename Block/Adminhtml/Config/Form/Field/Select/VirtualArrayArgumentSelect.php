@@ -9,29 +9,29 @@ namespace Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select;
 
 use Magento\Framework\View\Element\Context;
 use Magento\Framework\View\Element\Html\Select;
-use Opengento\Gdpr\Model\Config\Source\EraseProcessors as EraseProcessorsSource;
+use Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList;
 
 /**
- * Class EraseProcessors
+ * Class VirtualArrayArgumentSelect
  */
-class EraseProcessors extends Select
+class VirtualArrayArgumentSelect extends Select
 {
     /**
-     * @var \Opengento\Gdpr\Model\Config\Source\EraseProcessors
+     * @var \Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList
      */
-    private $eraseProcessorSource;
+    private $arrayArgumentList;
 
     /**
      * @param \Magento\Framework\View\Element\Context $context
-     * @param \Opengento\Gdpr\Model\Config\Source\EraseProcessors $eraseProcessorSource
+     * @param \Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList $arrayArgumentList
      * @param array $data
      */
     public function __construct(
         Context $context,
-        EraseProcessorsSource $eraseProcessorSource,
+        VirtualArrayArgumentList $arrayArgumentList,
         array $data = []
     ) {
-        $this->eraseProcessorSource = $eraseProcessorSource;
+        $this->arrayArgumentList = $arrayArgumentList;
         parent::__construct($context, $data);
     }
 
@@ -52,7 +52,7 @@ class EraseProcessors extends Select
     protected function _toHtml(): string
     {
         if (!$this->getOptions()) {
-            $this->setOptions($this->eraseProcessorSource->toOptionArray());
+            $this->setOptions($this->arrayArgumentList->toOptionArray());
         }
 
         return parent::_toHtml();
