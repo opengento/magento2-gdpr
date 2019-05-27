@@ -14,7 +14,7 @@ use Opengento\Gdpr\Model\Config\Source\EraseComponents as EraseComponentsSrouce;
 /**
  * Class EraseComponents
  */
-class EraseComponents extends Select
+final class EraseComponents extends Select
 {
     /**
      * @var \Opengento\Gdpr\Model\Config\Source\EraseComponents

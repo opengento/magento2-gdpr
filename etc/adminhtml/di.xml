@@ -35,14 +35,14 @@
             <argument name="argumentName" xsi:type="string">processors</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Anonymizers" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\VirtualArrayArgumentSelect">
+    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Anonymizers" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\OptionSourceSelect">
         <arguments>
-            <argument name="arrayArgumentList" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Anonymizers</argument>
+            <argument name="optionSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Anonymizers</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseProcessors" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\VirtualArrayArgumentSelect">
+    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseProcessors" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\OptionSourceSelect">
         <arguments>
-            <argument name="arrayArgumentList" xsi:type="object">Opengento\Gdpr\Model\Config\Source\EraseProcessors</argument>
+            <argument name="optionSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\EraseProcessors</argument>
         </arguments>
     </virtualType>
 </config>

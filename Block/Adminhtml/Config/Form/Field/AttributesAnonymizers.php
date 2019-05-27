@@ -15,7 +15,7 @@ use Magento\Framework\View\Element\Html\Select;
 /**
  * Class AttributesAnonymizers
  */
-class AttributesAnonymizers extends AbstractFieldArray
+final class AttributesAnonymizers extends AbstractFieldArray
 {
     private const ANONYMIZERS_SELECT = '\Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Anonymizers';
 

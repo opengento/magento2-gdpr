@@ -15,7 +15,7 @@ use Opengento\Gdpr\Service\Erase\ProcessorFactory;
 /**
  * Class EraseComponents
  */
-class EraseComponents implements OptionSourceInterface
+final class EraseComponents implements OptionSourceInterface
 {
     /**
      * @var \Magento\Framework\ObjectManager\ConfigInterface

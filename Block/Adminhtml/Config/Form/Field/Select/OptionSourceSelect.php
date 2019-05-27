@@ -7,31 +7,31 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select;
 
+use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\View\Element\Context;
 use Magento\Framework\View\Element\Html\Select;
-use Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList;
 
 /**
- * Class VirtualArrayArgumentSelect
+ * Class OptionSourceSelect
  */
-class VirtualArrayArgumentSelect extends Select
+final class OptionSourceSelect extends Select
 {
     /**
-     * @var \Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList
+     * @var \Magento\Framework\Data\OptionSourceInterface
      */
-    private $arrayArgumentList;
+    private $optionSource;
 
     /**
      * @param \Magento\Framework\View\Element\Context $context
-     * @param \Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList $arrayArgumentList
+     * @param \Magento\Framework\Data\OptionSourceInterface $optionSource
      * @param array $data
      */
     public function __construct(
         Context $context,
-        VirtualArrayArgumentList $arrayArgumentList,
+        OptionSourceInterface $optionSource,
         array $data = []
     ) {
-        $this->arrayArgumentList = $arrayArgumentList;
+        $this->optionSource = $optionSource;
         parent::__construct($context, $data);
     }
 
@@ -52,7 +52,7 @@ class VirtualArrayArgumentSelect extends Select
     protected function _toHtml(): string
     {
         if (!$this->getOptions()) {
-            $this->setOptions($this->arrayArgumentList->toOptionArray());
+            $this->setOptions($this->optionSource->toOptionArray());
         }
 
         return parent::_toHtml();

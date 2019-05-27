@@ -16,7 +16,7 @@ use Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseComponents;
 /**
  * Class EraseComponentsProcessors
  */
-class EraseComponentsProcessors extends AbstractFieldArray
+final class EraseComponentsProcessors extends AbstractFieldArray
 {
     private const ERASE_PROCESSORS_SELECT = '\Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseProcessors';
 

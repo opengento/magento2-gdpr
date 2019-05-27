@@ -18,7 +18,7 @@ use Opengento\Gdpr\Model\Config;
 /**
  * Class PrivacyMessagePopup
  */
-class PrivacyMessagePopup extends Template
+final class PrivacyMessagePopup extends Template
 {
     public const COOKIE_NAME = 'cookies-policy';
 

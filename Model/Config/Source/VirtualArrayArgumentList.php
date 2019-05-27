@@ -14,7 +14,7 @@ use Magento\Framework\Phrase;
 /**
  * Class VirtualArrayArgumentList
  */
-class VirtualArrayArgumentList implements OptionSourceInterface
+final class VirtualArrayArgumentList implements OptionSourceInterface
 {
     /**
      * @var \Magento\Framework\ObjectManager\ConfigInterface

@@ -14,7 +14,7 @@ use Magento\Framework\Exception\LocalizedException;
 /**
  * Class VirtualCustomerAttributes
  */
-class VirtualCustomerAttributes implements OptionSourceInterface
+final class VirtualCustomerAttributes implements OptionSourceInterface
 {
     /**
      * @var \Magento\Customer\Api\MetadataInterface
