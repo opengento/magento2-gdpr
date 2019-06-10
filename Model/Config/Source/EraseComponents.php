@@ -92,6 +92,8 @@ final class EraseComponents implements OptionSourceInterface
             ?? $arguments[$argumentName]['_vn_']
             ?? $arguments[$argumentName]['_a_']
             ?? $arguments[$argumentName]['_d_']
+            ?? $arguments[$argumentName]['instance']
+            ?? $arguments[$argumentName]['argument']
             ?? $arguments[$argumentName]
             ?? $defaultValue;
     }

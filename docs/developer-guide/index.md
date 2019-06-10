@@ -16,8 +16,6 @@ ___
 
 ___
 
-## Services Documentation
-
 The following documentation explains how to add your own processors to the workflow.
 
 * Developer Guide
