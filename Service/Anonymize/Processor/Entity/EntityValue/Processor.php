@@ -14,7 +14,6 @@ use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
 /**
  * Class Processor
- * @todo documentation: Use this class as virtualType for specific attribute processing
  */
 final class Processor implements EntityValueProcessorInterface
 {

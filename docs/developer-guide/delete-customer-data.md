@@ -18,10 +18,11 @@ ___
 
 The following documentation explains how to add your own processors to the workflow.
 
-* [Erase Customer Data](/magento2-gdpr/developer-guide/erase-customer-data/)
-    * [Anonymize Customer Data](/magento2-gdpr/developer-guide/anonymize-customer-data/)
+* [Developer Guide](/magento2-gdpr/developer-guide/)
+* [Erase Customer Data](/magento2-gdpr/developer-guide/erase-customer-data)
+    * [Anonymize Customer Data](/magento2-gdpr/developer-guide/anonymize-customer-data)
     * Delete Customer Data
-* [Export Customer Data](/magento2-gdpr/developer-guide/export-customer-data/)
+* [Export Customer Data](/magento2-gdpr/developer-guide/export-customer-data)
 
 ## Delete Customer Data
 

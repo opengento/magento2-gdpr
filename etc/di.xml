@@ -77,8 +77,7 @@
         </arguments>
     </type>
     <preference for="Opengento\Gdpr\Service\Anonymize\AnonymizerInterface" type="Opengento\Gdpr\Service\Anonymize\Anonymizer\Entity"/>
-    <!-- @todo FIX for missing configuration in the Magento2 Core -->
-
+    <!-- FIX for missing configuration in the Magento2 Core -->
     <type name="Magento\Framework\EntityManager\MetadataPool">
         <arguments>
             <argument name="metadata" xsi:type="array">
@@ -100,7 +99,7 @@
             </argument>
         </arguments>
     </type>
-
+    <!-- EOF for missing configuration in the Magento2 Core -->
     <!-- Customer Anonymize Management -->
     <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Customer\Document" type="Opengento\Gdpr\Model\Entity\Document"/>
     <virtualType name="Opengento\Gdpr\Service\Anonymize\Processor\Customer\Config\AttributesConfig" type="Opengento\Gdpr\Service\Anonymize\Metadata">
@@ -627,7 +626,7 @@
                 <item name="customer_address_data" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\CustomerAddressDataProcessor</item>
                 <item name="quote" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteDataProcessor</item>
                 <item name="order" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderDataProcessor</item>
-<!--todo                <item name="subscriber" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\SubscriberDataProcessor</item>-->
+                <item name="subscriber" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\SubscriberDataProcessor</item>
             </argument>
         </arguments>
     </type>
