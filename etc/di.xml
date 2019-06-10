@@ -67,7 +67,7 @@
                 <item name="Magento\Quote\Api\Data\AddressInterface" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\QuoteAddress\DataCollector</item>
                 <item name="Magento\Sales\Api\Data\OrderInterface" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Order\DataCollector</item>
                 <item name="Magento\Sales\Api\Data\OrderAddressInterface" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\OrderAddress\DataCollector</item>
-                <item name="Magento\Newsletter\Model\Subscriber" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\DataCollector</item>
+                <item name="Opengento\Gdpr\Model\Newsletter\Subscriber" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Processor\Subscriber\DataCollector</item>
             </argument>
         </arguments>
     </virtualType>
@@ -640,7 +640,7 @@
                 <item name="Magento\Quote\Api\Data\AddressInterface" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteAddress\DataCollector</item>
                 <item name="Magento\Sales\Api\Data\OrderInterface" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Order\DataCollector</item>
                 <item name="Magento\Sales\Api\Data\OrderAddressInterface" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderAddress\DataCollector</item>
-<!--todo                <item name="Magento\Newsletter\Model\Subscriber" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Subscriber\DataCollector</item>-->
+                <item name="Opengento\Gdpr\Model\Newsletter\Subscriber" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Subscriber\DataCollector</item>
             </argument>
         </arguments>
     </virtualType>

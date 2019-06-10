@@ -39,3 +39,13 @@ Then, register your renderer to the following factory `\Opengento\Gdpr\Service\E
     </arguments>
 </type>
 ```
+
+## Important
+
+The newsletter integration in Magento does not follows the Service Contract Pattern applied to the Magento 2 core.  
+Actually the `Subscriber` model only exists as its own `AbstarctModel` and has no preference over an API interface.  
+As the existing model is not final, it can be plugged and an interceptor is generation on the compilation.  
+It has for side effect to break the data collector resolve by type hitting.  
+That's why the subscriber model is extender in our own class and marked as final.
+
+`\Opengento\Gdpr\Model\Newsletter\Subscriber` class is the final state of `\Magento\Newsletter\Model\Subscriber`.

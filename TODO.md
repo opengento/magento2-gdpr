@@ -28,7 +28,6 @@ Area:
 - Check customer only closed/completed orders 
 - Payment Data
 - Invitation Data
-- Subscriber Model issue
 
 ## Config
 
@@ -40,6 +39,7 @@ Area:
 - Add images
 - Complete developer guide
 - Attributes, Custom Attributes, Extensible Data 
+- \Opengento\Gdpr\Model\Newsletter subscriber final fix issue
 
 ## Facade
 
