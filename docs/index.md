@@ -18,7 +18,7 @@ It allows the customers to delete, and/or anonymize, and/or export their persona
  - [GDPR Compliance Scope](#gdpr-compliance-scope)
  - [Setup](/magento2-gdpr/setup)
  - [User Guide](/magento2-gdpr/user-guide)
- - [Developer Guide](/developer-guide)
+ - [Developer Guide](/magento2-gdpr/developer-guide)
  - [Community](#community)
    - [Authors & Contributors](#authors-&-contributors)
    - [Similar Magento 2 GDPR Module](#similar-magento-2-gdpr-module)

@@ -16,9 +16,40 @@ ___
 
 ___
 
+## Services Documentation
+
 The following documentation explains how to add your own processors to the workflow.
 
-### How to override class and methods
+* [Erase Customer Data](/magento2-gdpr/developer-guide/erase-customer-data/)
+    * [Anonymize Customer Data](/magento2-gdpr/developer-guide/anonymize-customer-data/)
+    * [Delete Customer Data](/magento2-gdpr/developer-guide/delete-customer-data/)
+* [Export Customer Data](/magento2-gdpr/developer-guide/export-customer-data/)
+
+### How to extends/plug class and methods
+
+The module try to be as compliant as possible to the SOLID principles.  
+In that way the code is open to extensibility, but closed to modification.  
+
+A concrete class should be write as it's its final state. That's why almost all class are final.  
+However you have noticed that Magento 2 frameworks require that the class must not be final if you
+want to add a plugin over it. Actually you should not use the Magento plugin feature if possible, in any case
+(but it's an another talk ¯\\_(ツ)_/¯ ). 
+
+- **How to extend controllers in Magento 2**
+
+A controller action should never be override with a di preference!  
+Please use the `routes.xml` configuration file, it allows you to add controllers and actions to an existing route.   
+In that case you can fetch your action before or after the original one (or specified one). Your action is executed,
+as defined, after or before. In the first case, if the existing action does not returns a `\Magento\Framework\Controller\ResultInterface`
+or `\Magento\Framework\App\ResponseInterface` object, your action is called.  
+
+By default it's suggested to declare your module in a route with `after`, so if Magento introduce new actions,
+these actions are free of your modifications.
+If you need to replace an action, use the `before` declaration, then returns a valid response.  
+If you want to change the response of an action, use the `before` declaration too, but use the original action in your own,
+call the `execute` method and apply your changes, then returns the result.
+
+- **How to extend class in Magento 2**
 
 Plugins and preferences are not needed here to override and extends the GDPR module core code.  
 Actually, you should apply patterns to achieve it.

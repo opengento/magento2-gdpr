@@ -38,11 +38,9 @@ Area:
 
 - Add images
 - Complete developer guide
-- Attributes, Custom Attributes, Extensible Data 
-- \Opengento\Gdpr\Model\Newsletter subscriber final fix issue
+- Attributes, Custom Attributes, Extensible Data
 
 ## Facade
 
 GDPR facade for customer actions
 
-=> new api for services entries?
