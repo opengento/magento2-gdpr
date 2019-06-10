@@ -20,7 +20,6 @@ Area:
 
 - Payment Data
 - Invitation Data
-- Subscriber Model issue
 - Multiple export in command line result in filename expanded at each iteration
 
 ## Anonymizer
@@ -32,7 +31,6 @@ Area:
 ## Config
 
 - Improve UI of fields: attributes list instead of text field
-- refactor config: map component/strategy
 
 ## Doc
 
@@ -43,4 +41,3 @@ Area:
 ## Facade
 
 GDPR facade for customer actions
-

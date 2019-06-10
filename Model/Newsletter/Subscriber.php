@@ -7,12 +7,12 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Newsletter;
 
-use Magento\Newsletter\Model\Subscriber as SubscriberModel;
+use Magento\Newsletter\Model\SubscriberFactory;
 
 /**
  * `\Opengento\Gdpr\Model\Newsletter\Subscriber` class is the final state of `\Magento\Newsletter\Model\Subscriber`.
  */
-final class Subscriber extends SubscriberModel
+final class Subscriber
 {
     /**
      * @var \Magento\Newsletter\Model\Subscriber
@@ -20,12 +20,14 @@ final class Subscriber extends SubscriberModel
     private $subscriber;
 
     /**
-     * @param \Magento\Newsletter\Model\Subscriber $subscriber
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param array $data [optional]
      */
     public function __construct(
-        SubscriberModel $subscriber
+        SubscriberFactory $subscriberFactory,
+        array $data = []
     ) {
-        $this->subscriber = $subscriber;
+        $this->subscriber = $subscriberFactory->create(['data' => $data]);
     }
 
     /**

@@ -18,10 +18,10 @@ Magento 2 Open Source or Commerce edition is required.
 | :---               | :---           |
 | 3.x                | 2.3.x          |
 | 2.x                | 2.2.x          |
-| 1.x                | 2.1.x          |
+| 1.x[^deprVersion]  | 2.1.x          |
 | N/A[^deprVersion]  | 2.0.x          |
 
-[^deprVersion]: This module does not support Magento `2.0.x`, as this version is not anymore maintained.  
+[^deprVersion]: This module does not support the specified Magento version, as it's not anymore maintained.  
 
 ### Download the package
 
