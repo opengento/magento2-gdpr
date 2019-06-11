@@ -41,3 +41,17 @@ Area:
 ## Facade
 
 GDPR facade for customer actions
+
+## Guest
+
+Export: 
+- Renderer: OK
+- Processor: deeper
+
+Erase:
+- Processor: deeper
+- Strategy Scope: following:
+
+```php
+$processor = $this->processorFactory->get($this->metadata->getComponentProcessor($component));
+```

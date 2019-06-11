@@ -32,7 +32,7 @@ In the module, that case is represented as a "erase processor", its goal is to a
 over a component (a scope of an entity type), passed as a key code, and a customer entity id.  
 Each strategy is defined as the following interface and must implements it:
 
-`\Opengento\Gdpr\Service\Erase\ProcessorInterface`
+- `\Opengento\Gdpr\Service\Erase\ProcessorInterface`
 
 The existing ones are: 
 
@@ -85,6 +85,6 @@ The anonymize and delete processors are described in the following topics:
 Today, if you create a new strategy (as anonymize or delete),
 your constructor must have the following argument, which contain the components codes:
 
-`\Magento\Framework\ObjectManager\TMap $processorPool`
+- `\Magento\Framework\ObjectManager\TMap $processorPool`
 
 However, the implementation of the processor is up to you.
