@@ -26,9 +26,13 @@ The following documentation explains how to add your own processors to the workf
 
 ## Export Customer Data
 
-In order to export your custom component, you must create a new processor.  
-To create a new processor, you must implement the following interface: `\Opengento\Gdpr\Service\Export\ProcessorInterface`.  
-Then, register your processor to the following composite `\Opengento\Gdpr\Service\Export\Processor\CompositeProcessor`, as described as following:
+The export processor job is to loop through the customer data and export the result as an array type. It implements
+the following interface:
+
+- `\Opengento\Gdpr\Service\Export\ProcessorInterface`
+
+The processors are registered to the following composite, if you want to register you own implementation,
+add it to the composite via the `di.xml` file configuration:
 
 ```xml
 <type name="Opengento\Gdpr\Service\Export\Processor\CompositeProcessor">
@@ -44,9 +48,12 @@ Then, register your processor to the following composite `\Opengento\Gdpr\Servic
 </type>
 ```
 
-You can also create your custom export renderer to make it as be like you want to be.  
-To achieve this, you must implement the following interface: `\Opengento\Gdpr\Service\Export\RendererInterface`  
-Then, register your renderer to the following factory `\Opengento\Gdpr\Service\Export\RendererFactory`, as described as following:
+The export renderer job is to export a result into a file. It implements the following interface: 
+
+- `\Opengento\Gdpr\Service\Export\RendererInterface`
+
+The renderers are registered to the following factory, if you want to register
+your own implementation, add it to the factory via the `di.xml` file configuration:
 
 ```xml
 <type name="Opengento\Gdpr\Service\Export\RendererFactory">
@@ -62,12 +69,15 @@ Then, register your renderer to the following factory `\Opengento\Gdpr\Service\E
 </type>
 ```
 
+When the renderers are registered in the factory, they are available to use on the administrator configuration view.
+
 ## Important
 
 The newsletter integration in Magento does not follows the Service Contract Pattern applied to the Magento 2 core.  
-Actually the `Subscriber` model only exists as its own `AbstarctModel` and has no preference over an API interface.  
-As the existing model is not final, it can be plugged and an interceptor is generation on the compilation.  
-It has for side effect to break the data collector resolve by type hitting.  
-That's why the subscriber model is extender in our own class and marked as final.
+Actually the `Subscriber` model only exists as its own `AbstractModel` and has no preference over an API interface.  
+As the existing model is not final, it can be plugged and an interceptor is create on the compilation.  
+It has side effect and break the data collector resolver by type hitting.  
+That's why the subscriber model is used in composition in our own class and marked as final. All call are delegated to
+the original subscriber model (with their plugin and preferences).
 
 `\Opengento\Gdpr\Model\Newsletter\Subscriber` class is the final state of `\Magento\Newsletter\Model\Subscriber`.

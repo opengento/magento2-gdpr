@@ -26,16 +26,27 @@ The following documentation explains how to add your own processors to the workf
 
 ## Delete Customer Data
 
-In order to delete your custom component, you must create a new processor.  
-To create a new processor, you must implement the following interface: `\Opengento\Gdpr\Service\Delete\ProcessorInterface`.  
-Then, register your processor to the following pool `\Opengento\Gdpr\Service\Delete\ProcessorPool`, as described:
+Deleting the customer data is one the erasure strategy. Whole data given to this type of processor is deleted.  
+It implements the following interface:
+
+- `\Opengento\Gdpr\Service\Delete\ProcessorInterface`  
+
+The processors are registered to the following pool, if you want to register you own implementation,
+add it to the pool via the `di.xml` file configuration:
+
+- `\Opengento\Gdpr\Service\Delete\ProcessorPool`
 
 ```xml
-<type name="Opengento\Gdpr\Service\Delete\ProcessorPool">
+<virtualType name="Opengento\Gdpr\Service\Delete\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
     <arguments>
+        <argument name="type" xsi:type="string">Opengento\Gdpr\Service\Delete\ProcessorInterface</argument>
         <argument name="array" xsi:type="array">
-            <item name="my_component" xsi:type="string">Vendor\Module\DeleteProcessor</item>
+            <item name="customer" xsi:type="string">Opengento\Gdpr\Service\Delete\Processor\CustomerDataProcessor</item>
+            <item name="customer_address" xsi:type="string">Opengento\Gdpr\Service\Delete\Processor\CustomerAddressDataProcessor</item>
+            <item name="quote" xsi:type="string">Opengento\Gdpr\Service\Delete\Processor\QuoteDataProcessor</item>
+            <item name="order" xsi:type="string">Opengento\Gdpr\Service\Delete\Processor\OrderDataProcessor</item>
+            <item name="subscriber" xsi:type="string">Opengento\Gdpr\Service\Delete\Processor\SubscriberDataProcessor</item>
         </argument>
     </arguments>
-</type>
+</virtualType>
 ```

@@ -26,27 +26,86 @@ The following documentation explains how to add your own processors to the workf
 
 ## Anonymize Customer Data
 
-In order to anonymize your custom component, you must create a new processor.  
-To create a new processor, you must implement the following interface: `\Opengento\Gdpr\Service\Anonymize\ProcessorInterface`.  
-Then, register your processor to the following pool `\Opengento\Gdpr\Service\Anonymize\ProcessorPool`, as described:
+Anonymize the customer data is one of the erasure strategy, rather than removing the data it actually process to set the
+information not identifiable by any other parties.   
+It implements the following interface:
+
+- `\Opengento\Gdpr\Service\Anonymize\ProcessorInterface`
+
+The processors are registered to the following pool, if you want to register you own implementation,
+add it to the pool via the `di.xml` file configuration:
+
+- `\Opengento\Gdpr\Service\Anonymize\ProcessorPool`
 
 ```xml
-<type name="Opengento\Gdpr\Service\Anonymize\ProcessorPool">
+<virtualType name="Opengento\Gdpr\Service\Anonymize\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
     <arguments>
+        <argument name="type" xsi:type="string">Opengento\Gdpr\Service\Anonymize\ProcessorInterface</argument>
         <argument name="array" xsi:type="array">
-            <item name="my_component" xsi:type="string">Vendor\Module\AnonymizeProcessor</item>
+            <item name="customer" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\CustomerDataProcessor</item>
+            <item name="customer_address" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddressDataProcessor</item>
+            <item name="quote" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\QuoteDataProcessor</item>
+            <item name="order" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\OrderDataProcessor</item>
+            <item name="subscriber" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\SubscriberDataProcessor</item>
+        </argument>
+    </arguments>
+</virtualType>
+```
+
+### Anonymize Service Package
+
+This parts describe the interfaces, classes and methods that can be used over your implementation.
+
+#### Anonymizer
+
+The anonymizer role is to obfuscate a value. It implements the following interface:
+
+- `\Opengento\Gdpr\Service\Anonymize\AnonymizerInterface`
+
+The anonymizers are registered in the following factory, if you want to register
+your own implementation, add it to the factory via the `di.xml` file configuration:
+
+- `\Opengento\Gdpr\Service\Anonymize\AnonymizerFactory`
+
+```xml
+<type name="Opengento\Gdpr\Service\Anonymize\AnonymizerFactory">
+    <arguments>
+        <argument name="anonymizers" xsi:type="array">
+            <item name="default" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Anonymizer\Anonymous</item>
+            <item name="anonymous" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Anonymizer\Anonymous</item>
+            <item name="date" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Anonymizer\Date</item>
+            <item name="email" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Anonymizer\Email</item>
+            <item name="phone" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Anonymizer\Phone</item>
+            <item name="number" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Anonymizer\Number</item>
+            <item name="alphaLower" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaLower</item>
+            <item name="alphaUpper" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaUpper</item>
+            <item name="alphaNum" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaNum</item>
+            <item name="nullValue" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Anonymizer\NullValue</item>
+            <item name="street" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Anonymizer\Street</item>
         </argument>
     </arguments>
 </type>
 ```
 
-### Anonymize Specific Data
+When the anonymizers are registered in the factory, they are available to use on the administrator configuration view.
+The anonymizer can be used for one or many selected attributes.
+
+#### Anonymize Specific Data
+
+The existing components processors uses an advanced tool which allows to loop through an entity attributes and apply a
+specific call over them. This tool is described in the following package:
+
+- `\Opengento\Gdpr\Model\Entity`
+
+This package is used in the anonymizer processor of each components, it allows to reuse generic stuff and so on is
+easier to maintain/configure.
 
 See the following implementation of `\Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface`:
 
-`\Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\Processor`
+- `\Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue\Processor`
 
-Instantiate this class with a list of attributes codes and the anonymize to apply with, and a document to storage the results:
+Instantiate this class with a list of attributes codes and the anonymize to apply with,
+and a document to storage the results:
 
 - `\Opengento\Gdpr\Model\Entity\DocumentInterface`
 - `\Opengento\Gdpr\Model\Entity\MetadataInterface`
@@ -55,9 +114,10 @@ Instantiate this class with a list of attributes codes and the anonymize to appl
 ## Important
 
 The newsletter integration in Magento does not follows the Service Contract Pattern applied to the Magento 2 core.  
-Actually the `Subscriber` model only exists as its own `AbstarctModel` and has no preference over an API interface.  
-As the existing model is not final, it can be plugged and an interceptor is generation on the compilation.  
-It has for side effect to break the data collector resolve by type hitting.  
-That's why the subscriber model is extender in our own class and marked as final.
+Actually the `Subscriber` model only exists as its own `AbstractModel` and has no preference over an API interface.  
+As the existing model is not final, it can be plugged and an interceptor is create on the compilation.  
+It has side effect and break the data collector resolver by type hitting.  
+That's why the subscriber model is used in composition in our own class and marked as final. All call are delegated to
+the original subscriber model (with their plugin and preferences).
 
 `\Opengento\Gdpr\Model\Newsletter\Subscriber` class is the final state of `\Magento\Newsletter\Model\Subscriber`.

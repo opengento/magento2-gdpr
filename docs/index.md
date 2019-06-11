@@ -29,10 +29,12 @@ It allows the customers to delete, and/or anonymize, and/or export their persona
 * **[Art. 17 GDPR](https://gdpr-info.eu/art-17-gdpr/)**
   * Account deletion and anonymization can be done in 'My Account > Privacy Settings'.
   * Customers can use their 'right to be forgotten'. The password is required to ensure the customer legibility.
-    The account will be erased within 1 hour, or as specified in configuration. The customer can undo the action in this time span.
+    The account will be erased within 1 hour, or as specified in configuration.
+    The customer can undo the action in this time span.
 * **[Art. 20 GDPR](https://gdpr-info.eu/art-20-gdpr/)**
   * Personal data export can be done in 'My Account > Privacy Settings'.
-  * Customers can export their data in `.zip` archive containing file, `.html` (many others are available), with personal data.
+  * Customers can export their data in `.zip` archive containing file, `.html` (many others are available),
+    with personal data.
 * Cookie Policy in a disclosure popup are shown at the first time customer visit.
 
 ## Community
