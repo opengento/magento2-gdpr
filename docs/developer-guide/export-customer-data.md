@@ -28,7 +28,7 @@ The following documentation explains how to add your own processors to the workf
 
 In order to export your custom component, you must create a new processor.  
 To create a new processor, you must implement the following interface: `\Opengento\Gdpr\Service\Export\ProcessorInterface`.  
-Then, register your processor to the following composite `\Opengento\Gdpr\Service\Export\Processor\CompositeProcessor`, as described:
+Then, register your processor to the following composite `\Opengento\Gdpr\Service\Export\Processor\CompositeProcessor`, as described as following:
 
 ```xml
 <type name="Opengento\Gdpr\Service\Export\Processor\CompositeProcessor">
@@ -46,7 +46,7 @@ Then, register your processor to the following composite `\Opengento\Gdpr\Servic
 
 You can also create your custom export renderer to make it as be like you want to be.  
 To achieve this, you must implement the following interface: `\Opengento\Gdpr\Service\Export\RendererInterface`  
-Then, register your renderer to the following factory `\Opengento\Gdpr\Service\Export\RendererFactory`, as described:
+Then, register your renderer to the following factory `\Opengento\Gdpr\Service\Export\RendererFactory`, as described as following:
 
 ```xml
 <type name="Opengento\Gdpr\Service\Export\RendererFactory">

@@ -26,37 +26,36 @@ The following documentation explains how to add your own processors to the workf
 
 ### How to extends/plug class and methods
 
-The module try to be as compliant as possible to the SOLID principles.  
+The module tries to be as compliant as possible to the SOLID principles.  
 In that way the code is open to extensibility, but closed to modification.  
 
-A concrete class should be write as it's its final state. That's why almost all class are final.  
-However you have noticed that Magento 2 frameworks require that the class must not be final if you
-want to add a plugin over it. Actually you should not use the Magento plugin feature if possible, in any case
-(but it's an another talk ¯\\_(ツ)_/¯ ). 
+A concrete class should be write as it's its final state. That's why almost all classes are final in the codebase.  
+However you may have noticed that the Magento 2 frameworks requires that the class should not be final if you
+want to add a plugin over it (and in this case you must implements the `\Magento\Framework\ObjectManager\NoninterceptableInterface` interface).
+Actually you should never use the Magento plugin feature if possible, (but it's an another talk ¯\\_(ツ)_/¯ ). 
 
 - **How to extend controllers in Magento 2**
 
-A controller action should never be override with a di preference!  
+A controller action should never be override with a di preference setting!  
 Please use the `routes.xml` configuration file, it allows you to add controllers and actions to an existing route.   
 In that case you can fetch your action before or after the original one (or specified one). Your action is executed,
 as defined, after or before. In the first case, if the existing action does not returns a `\Magento\Framework\Controller\ResultInterface`
 or `\Magento\Framework\App\ResponseInterface` object, your action is called.  
 
 By default it's suggested to declare your module in a route with `after`, so if Magento introduce new actions,
-these actions are free of your modifications.
-If you need to replace an action, use the `before` declaration, then returns a valid response.  
-If you want to change the response of an action, use the `before` declaration too, but use the original action in your own,
-call the `execute` method and apply your changes, then returns the result.
+these actions are free of your modifications. If you need to replace an action, use the `before` declaration,
+then returns a valid response. If you want to change the response of an action, use the `before` declaration too,
+but use the original action in your own, call the `execute` method and apply your changes, then returns the result.
 
 - **How to extend class in Magento 2**
 
 Plugins and preferences are not needed here to override and extends the GDPR module core code.  
 Actually, you should apply patterns to achieve it.
 
-The pool pattern already allows you to override the class of your choice.  
-However you wont be able to extends the existing class, because of the "final" keyword. Indeed, you need to create your 
-own class which implements the same interface. Then, simply add the class you want to "extends" as a composition. You will be able to 
-exploit the result and override it in your method.
+The pool/factory pattern already allows you to override the class of your choice.  
+However you won't be able to extends the existing class, because of the "final" keyword. Indeed, you need to create your 
+own class which implements the same interface. Then, simply add the class you want to "extends" as a composition.
+You will be able to apply your modification over the result in your method.
 
 Eg: 
 ```php
