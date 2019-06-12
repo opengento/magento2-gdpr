@@ -115,21 +115,20 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
     /**
      * @inheritdoc
      */
-    public function process(int $customerId): EraseCustomerInterface
+    public function process(EraseCustomerInterface $entity): EraseCustomerInterface
     {
-        if (!$this->eraseCustomerChecker->canProcess($customerId)) {
+        if (!$this->eraseCustomerChecker->canProcess($entity->getCustomerId())) {
             throw new LocalizedException(
                 new Phrase('Impossible to process the erasure, there is still pending orders.')
             );
         }
 
-        $entity = $this->eraseCustomerRepository->getByCustomerId($customerId);
         $entity->setState(EraseCustomerInterface::STATE_PROCESSING);
         $entity->setStatus(EraseCustomerInterface::STATUS_RUNNING);
         $entity = $this->eraseCustomerRepository->save($entity);
 
         try {
-            $this->eraseManagement->erase($customerId);
+            $this->eraseManagement->erase($entity->getCustomerId());
             $entity->setState(EraseCustomerInterface::STATE_COMPLETE);
             $entity->setStatus(EraseCustomerInterface::STATUS_SUCCEED);
             $entity->setErasedAt($this->localeDate->gmtDate());

@@ -39,10 +39,10 @@ interface EraseCustomerManagementInterface
     /**
      * Run and process the erase customer scheduler command
      *
-     * @param int $customerId
+     * @param \Opengento\Gdpr\Api\Data\EraseCustomerInterface $entity
      * @return \Opengento\Gdpr\Api\Data\EraseCustomerInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function process(int $customerId): EraseCustomerInterface;
+    public function process(EraseCustomerInterface $entity): EraseCustomerInterface;
 }
