@@ -12,16 +12,16 @@ $settingsDataProvider = $block->getData('settingsDataProvider');
 $urlsDataProvider = $block->getData('urlsDataProvider');
 ?>
 <form class="form form-edit-account"
-      action="<?= $block->escapeUrl($urlsDataProvider->getDeleteActionUrl()) ?>"
+      action="<?= $block->escapeUrl($urlsDataProvider->getEraseActionUrl()) ?>"
       method="post"
       id="form-validate"
       data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
       autocomplete="off"
       novalidate="novalidate">
-    <fieldset class="fieldset" data-container="delete-account">
+    <fieldset class="fieldset" data-container="erase-account">
         <?= $block->getBlockHtml('formkey') ?>
         <legend class="legend">
-            <span><?= $block->escapeHtml(__('Required Fields')) ?></span>
+            <span><?= $block->escapeHtml(__('Confirm password to continue')) ?></span>
         </legend>
         <div class="field password current required">
             <label class="label" for="password">
@@ -33,8 +33,8 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
         </div>
         <div class="actions-toolbar">
             <div class="primary">
-                <button type="submit" class="action submit primary primary-danger" id="delete" title="<?= $block->escapeHtmlAttr(__('Delete Account')) ?>">
-                    <span><?= $block->escapeHtml(__('Delete Account')) ?></span>
+                <button type="submit" class="action submit primary primary-danger" id="erase" title="<?= $block->escapeHtmlAttr(__('Erase Account')) ?>">
+                    <span><?= $block->escapeHtml(__('Erase Account')) ?></span>
                 </button>
             </div>
             <div class="secondary">
@@ -58,12 +58,12 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
 
         dataForm.mage('validation', {ignore: ':hidden'}).find('input').attr('autocomplete', 'off');
 
-        $('#delete').on('click', function (e) {
+        $('#erase').on('click', function (e) {
             e.preventDefault();
             if (dataForm.validation('isValid')) {
                 confirm({
-                    title: $.mage.__('Attention'),
-                    content: $.mage.__('Do you really want to delete your account?'),
+                    title: $.mage.__('Warning'),
+                    content: $.mage.__('Do you really want to erase your account?'),
                     actions: {
                         confirm: function () {
                             dataForm.submit();

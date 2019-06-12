@@ -11,14 +11,14 @@ use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
+use Opengento\Gdpr\Api\EraseCustomerCheckerInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Config;
 
 /**
- * Action Index Delete
+ * Action Index Erase
  */
-class Delete extends AbstractPrivacy
+class Erase extends AbstractPrivacy
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -26,24 +26,24 @@ class Delete extends AbstractPrivacy
     private $session;
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseCustomerManagementInterface
+     * @var \Opengento\Gdpr\Api\EraseCustomerCheckerInterface
      */
-    private $eraseCustomerManagement;
+    private $eraseCustomerChecker;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Customer\Model\Session $session
-     * @param \Opengento\Gdpr\Api\EraseCustomerManagementInterface $eraseCustomerManagement
+     * @param \Opengento\Gdpr\Api\EraseCustomerCheckerInterface $eraseCustomerChecker
      */
     public function __construct(
         Context $context,
         Config $config,
         Session $session,
-        EraseCustomerManagementInterface $eraseCustomerManagement
+        EraseCustomerCheckerInterface $eraseCustomerChecker
     ) {
         $this->session = $session;
-        $this->eraseCustomerManagement = $eraseCustomerManagement;
+        $this->eraseCustomerChecker = $eraseCustomerChecker;
         parent::__construct($context, $config);
     }
 
@@ -52,7 +52,7 @@ class Delete extends AbstractPrivacy
      */
     protected function executeAction()
     {
-        if ($this->eraseCustomerManagement->exists((int) $this->session->getCustomerId())) {
+        if ($this->eraseCustomerChecker->exists((int) $this->session->getCustomerId())) {
             $this->messageManager->addErrorMessage(new Phrase('Your account is already being removed.'));
             /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
             $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);

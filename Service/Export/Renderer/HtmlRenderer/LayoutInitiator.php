@@ -7,8 +7,6 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer;
 
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Phrase;
 use Magento\Framework\View\Layout\BuilderFactory;
 use Magento\Framework\View\Layout\GeneratorPool;
 use Magento\Framework\View\Layout\ReaderPool;
@@ -88,7 +86,6 @@ final class LayoutInitiator implements LayoutInitiatorInterface
      * Create and initialize the page layout instructions
      *
      * @return \Magento\Framework\View\LayoutInterface
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function createLayout(): LayoutInterface
     {
@@ -114,7 +111,6 @@ final class LayoutInitiator implements LayoutInitiatorInterface
      *
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @return \Magento\Framework\View\LayoutInterface
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
     private function addConfigLayout(LayoutInterface $layout): LayoutInterface
     {
@@ -132,7 +128,7 @@ final class LayoutInitiator implements LayoutInitiatorInterface
         $pageLayout = $this->pageConfig->getPageLayout() ?: $update->getPageLayout();
 
         if (!$pageLayout) {
-            throw new LocalizedException(new Phrase('Page layout is missing.'));
+            throw new \LogicException('Page layout is missing.');
         }
 
         $this->pageConfig->addBodyClass(\str_replace('_', '-', $this->defaultLayoutHandle));

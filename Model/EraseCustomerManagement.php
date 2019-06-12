@@ -7,14 +7,13 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model;
 
-use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Phrase;
 use Magento\Framework\Stdlib\DateTime as DateTimeFormat;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Opengento\Gdpr\Api\Data\EraseCustomerInterface;
 use Opengento\Gdpr\Api\Data\EraseCustomerInterfaceFactory;
+use Opengento\Gdpr\Api\EraseCustomerCheckerInterface;
 use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
 use Opengento\Gdpr\Api\EraseCustomerRepositoryInterface;
 use Opengento\Gdpr\Api\EraseInterface;
@@ -35,6 +34,11 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
     private $eraseCustomerRepository;
 
     /**
+     * @var \Opengento\Gdpr\Api\EraseCustomerCheckerInterface
+     */
+    private $eraseCustomerChecker;
+
+    /**
      * @var \Opengento\Gdpr\Api\EraseInterface
      */
     private $eraseManagement;
@@ -52,6 +56,7 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
     /**
      * @param \Opengento\Gdpr\Api\Data\EraseCustomerInterfaceFactory $eraseCustomerFactory
      * @param \Opengento\Gdpr\Api\EraseCustomerRepositoryInterface $eraseCustomerRepository
+     * @param \Opengento\Gdpr\Api\EraseCustomerCheckerInterface $eraseCustomerChecker
      * @param \Opengento\Gdpr\Api\EraseInterface $eraseManagement
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $localeDate
@@ -59,12 +64,14 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
     public function __construct(
         EraseCustomerInterfaceFactory $eraseCustomerFactory,
         EraseCustomerRepositoryInterface $eraseCustomerRepository,
+        EraseCustomerCheckerInterface $eraseCustomerChecker,
         EraseInterface $eraseManagement,
         Config $config,
         DateTime $localeDate
     ) {
         $this->eraseCustomerFactory = $eraseCustomerFactory;
         $this->eraseCustomerRepository = $eraseCustomerRepository;
+        $this->eraseCustomerChecker = $eraseCustomerChecker;
         $this->eraseManagement = $eraseManagement;
         $this->config = $config;
         $this->localeDate = $localeDate;
@@ -75,8 +82,12 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
      */
     public function create(int $customerId): EraseCustomerInterface
     {
-        if ($this->exists($customerId)) {
-            throw new AlreadyExistsException(new Phrase('Entity for customer id "%1" already exists.', [$customerId]));
+        if (!$this->eraseCustomerChecker->canCreate($customerId)) {
+            throw new LocalizedException(
+                new Phrase(
+                    'Impossible to initiate the erasure, it\'s already processing or there is still pending orders.'
+                )
+            );
         }
 
         /** @var \Opengento\Gdpr\Api\Data\EraseCustomerInterface $entity */
@@ -94,34 +105,31 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
      */
     public function cancel(int $customerId): bool
     {
-        $entity = $this->eraseCustomerRepository->getByCustomerId($customerId);
-
-        if (!$this->canBeCanceled($entity)) {
-            throw new LocalizedException(
-                new Phrase('Customer with id "%1" is already being removed.', [$customerId])
-            );
+        if (!$this->eraseCustomerChecker->canCancel($customerId)) {
+            throw new LocalizedException(new Phrase('The erasure process is running and cannot be undone.'));
         }
 
-        return $this->eraseCustomerRepository->delete($entity);
+        return $this->eraseCustomerRepository->delete($this->eraseCustomerRepository->getByCustomerId($customerId));
     }
 
     /**
      * @inheritdoc
      */
-    public function process(EraseCustomerInterface $entity): EraseCustomerInterface
+    public function process(int $customerId): EraseCustomerInterface
     {
-        if (!$this->canBeProcessed($entity)) {
+        if (!$this->eraseCustomerChecker->canProcess($customerId)) {
             throw new LocalizedException(
-                new Phrase('Entity with id "%1" could not be processed.', [$entity->getEntityId()])
+                new Phrase('Impossible to process the erasure, there is still pending orders.')
             );
         }
 
+        $entity = $this->eraseCustomerRepository->getByCustomerId($customerId);
         $entity->setState(EraseCustomerInterface::STATE_PROCESSING);
         $entity->setStatus(EraseCustomerInterface::STATUS_RUNNING);
         $entity = $this->eraseCustomerRepository->save($entity);
 
         try {
-            $this->eraseManagement->erase($entity->getCustomerId());
+            $this->eraseManagement->erase($customerId);
             $entity->setState(EraseCustomerInterface::STATE_COMPLETE);
             $entity->setStatus(EraseCustomerInterface::STATUS_SUCCEED);
             $entity->setErasedAt($this->localeDate->gmtDate());
@@ -131,39 +139,6 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
         }
 
         return $this->eraseCustomerRepository->save($entity);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function exists(int $customerId): bool
-    {
-        try {
-            $this->eraseCustomerRepository->getByCustomerId($customerId);
-            return true;
-        } catch (NoSuchEntityException $e) {
-            return false;
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function canBeCanceled(EraseCustomerInterface $entity): bool
-    {
-        return $entity->getState() === EraseCustomerInterface::STATE_PENDING
-            && $entity->getStatus() === EraseCustomerInterface::STATUS_READY;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function canBeProcessed(EraseCustomerInterface $entity): bool
-    {
-        return ($entity->getState() === EraseCustomerInterface::STATE_PENDING
-            && $entity->getStatus() === EraseCustomerInterface::STATUS_READY)
-            || ($entity->getState() === EraseCustomerInterface::STATE_PROCESSING
-            && $entity->getStatus() === EraseCustomerInterface::STATUS_FAILED);
     }
 
     /**

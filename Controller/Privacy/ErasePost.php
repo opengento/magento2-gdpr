@@ -12,8 +12,8 @@ use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Data\Form\FormKey\Validator;
-use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\InvalidEmailOrPasswordException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\State\UserLockedException;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
@@ -21,9 +21,9 @@ use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Config;
 
 /**
- * Action Delete Delete
+ * Action Erase Post
  */
-class DeletePost extends AbstractPrivacy
+class ErasePost extends AbstractPrivacy
 {
     /**
      * @var \Magento\Framework\Data\Form\FormKey\Validator
@@ -96,8 +96,8 @@ class DeletePost extends AbstractPrivacy
                 new Phrase('You did not sign in correctly or your account is temporarily disabled.')
             );
             $resultRedirect->setPath('customer/account/login');
-        } catch (AlreadyExistsException $e) {
-            $this->messageManager->addErrorMessage(new Phrase('Your account is already being removed.'));
+        } catch (LocalizedException $e) {
+            $this->messageManager->addErrorMessage($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }

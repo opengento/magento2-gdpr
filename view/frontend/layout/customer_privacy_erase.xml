@@ -8,7 +8,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="customer_account"/>
     <head>
-        <title>Delete Account</title>
+        <title>Erase Account</title>
     </head>
     <body>
         <referenceBlock name="customer-account-navigation-privacy-link">
@@ -17,7 +17,7 @@
             </arguments>
         </referenceBlock>
         <referenceContainer name="content">
-            <block class="Magento\Framework\View\Element\Template" name="customer-account-privacy-delete" template="Opengento_Gdpr::account/delete.phtml" ifconfig="gdpr/erasure/enabled" cacheable="false">
+            <block class="Magento\Framework\View\Element\Template" name="customer-account-privacy-erase" template="Opengento_Gdpr::account/erase.phtml" ifconfig="gdpr/erasure/enabled" cacheable="false">
                 <arguments>
                     <argument name="settingsDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Privacy\SettingsDataProvider</argument>
                     <argument name="urlsDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\UrlsDataProvider</argument>

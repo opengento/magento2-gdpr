@@ -10,6 +10,7 @@ namespace Opengento\Gdpr\Console\Command;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
 use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
 use Symfony\Component\Console\Command\Command;
@@ -92,13 +93,10 @@ final class EraseCommand extends Command
 
         try {
             foreach ($input->getArgument(self::INPUT_ARGUMENT_CUSTOMER) as $customerId) {
-                $output->writeln(
-                    $this->eraseCustomer((int) $customerId)
-                    ? '<info>Customer\'s ("' . $customerId . '") personal data has been erased.</info>'
-                    : '<comment>Customer\'s ("' . $customerId . '") personal data is already being erased.</comment>'
-                );
+                $this->eraseCustomerManagement->process($this->eraseCustomerManagement->create((int) $customerId));
+                $output->writeln('<info>Customer\'s ("' . $customerId . '") personal data has been erased.</info>');
             }
-        } catch (\Exception $e) {
+        } catch (LocalizedException $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');
             $returnCode = Cli::RETURN_FAILURE;
         }
@@ -106,26 +104,5 @@ final class EraseCommand extends Command
         $this->registry->register('isSecureArea', $oldValue, true);
 
         return $returnCode;
-    }
-
-    /**
-     * Erase the customer data by its ID
-     *
-     * @param int $customerId
-     * @return bool
-     * @throws \Magento\Framework\Exception\AlreadyExistsException
-     * @throws \Magento\Framework\Exception\CouldNotSaveException
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    private function eraseCustomer(int $customerId): bool
-    {
-        if ($this->eraseCustomerManagement->exists($customerId)) {
-            $this->eraseCustomerManagement->process($this->eraseCustomerManagement->create($customerId));
-
-            return true;
-        }
-
-        return false;
     }
 }

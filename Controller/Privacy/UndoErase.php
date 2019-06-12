@@ -10,15 +10,16 @@ namespace Opengento\Gdpr\Controller\Privacy;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Config;
 
 /**
- * Action Undo Delete
+ * Action Undo Erase
  */
-class UndoDelete extends AbstractPrivacy
+class UndoErase extends AbstractPrivacy
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -58,6 +59,8 @@ class UndoDelete extends AbstractPrivacy
         try {
             $this->eraseCustomerManagement->cancel((int) $this->session->getCustomerId());
             $this->messageManager->addSuccessMessage(new Phrase('You canceled your account deletion.'));
+        } catch (LocalizedException $e) {
+            $this->messageManager->addErrorMessage($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }

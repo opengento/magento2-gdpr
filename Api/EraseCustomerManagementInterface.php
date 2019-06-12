@@ -21,7 +21,7 @@ interface EraseCustomerManagementInterface
      * @param int $customerId
      * @return \Opengento\Gdpr\Api\Data\EraseCustomerInterface
      * @throws \Magento\Framework\Exception\CouldNotSaveException
-     * @throws \Magento\Framework\Exception\AlreadyExistsException
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function create(int $customerId): EraseCustomerInterface;
 
@@ -39,34 +39,10 @@ interface EraseCustomerManagementInterface
     /**
      * Run and process the erase customer scheduler command
      *
-     * @param \Opengento\Gdpr\Api\Data\EraseCustomerInterface $entity
+     * @param int $customerId
      * @return \Opengento\Gdpr\Api\Data\EraseCustomerInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function process(EraseCustomerInterface $entity): EraseCustomerInterface;
-
-    /**
-     * Check if an erase scheduler already exists for this customer ID
-     *
-     * @param int $customerId
-     * @return bool
-     */
-    public function exists(int $customerId): bool;
-
-    /**
-     * Check if an erase scheduler can be canceled
-     *
-     * @param \Opengento\Gdpr\Api\Data\EraseCustomerInterface $entity
-     * @return bool
-     */
-    public function canBeCanceled(EraseCustomerInterface $entity): bool;
-
-    /**
-     * Check if an erase scheduler can be processed
-     *
-     * @param \Opengento\Gdpr\Api\Data\EraseCustomerInterface $entity
-     * @return bool
-     */
-    public function canBeProcessed(EraseCustomerInterface $entity): bool;
+    public function process(int $customerId): EraseCustomerInterface;
 }

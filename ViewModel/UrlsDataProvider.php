@@ -21,9 +21,9 @@ final class UrlsDataProvider implements ArgumentInterface
      * Routes Path Data
      */
     public const ROUTE_PATH_SETTINGS = 'customer/privacy/settings';
-    public const ROUTE_PATH_DELETE = 'customer/privacy/delete';
-    public const ROUTE_PATH_DELETE_POST = 'customer/privacy/deletepost';
-    public const ROUTE_PATH_UNDO_DELETE = 'customer/privacy/undodelete';
+    public const ROUTE_PATH_ERASE = 'customer/privacy/erase';
+    public const ROUTE_PATH_ERASE_POST = 'customer/privacy/erasepost';
+    public const ROUTE_PATH_UNDO_ERASE = 'customer/privacy/undoerase';
     public const ROUTE_PATH_EXPORT = 'customer/privacy/export';
     /**#@-*/
 
@@ -78,33 +78,33 @@ final class UrlsDataProvider implements ArgumentInterface
     }
 
     /**
-     * Retrieve the delete page url
+     * Retrieve the erase page url
      *
      * @return string
      */
-    public function getDeletePageUrl(): string
+    public function getErasePageUrl(): string
     {
-        return $this->urlBuilder->getUrl(self::ROUTE_PATH_DELETE);
+        return $this->urlBuilder->getUrl(self::ROUTE_PATH_ERASE);
     }
 
     /**
-     * Retrieve the delete action url
+     * Retrieve the erase action url
      *
      * @return string
      */
-    public function getDeleteActionUrl(): string
+    public function getEraseActionUrl(): string
     {
-        return $this->urlBuilder->getUrl(self::ROUTE_PATH_DELETE_POST);
+        return $this->urlBuilder->getUrl(self::ROUTE_PATH_ERASE_POST);
     }
 
     /**
-     * Retrieve the undo delete action url
+     * Retrieve the undo erase action url
      *
      * @return string
      */
-    public function getUndoDeleteActionUrl(): string
+    public function getUndoEraseActionUrl(): string
     {
-        return $this->urlBuilder->getUrl(self::ROUTE_PATH_UNDO_DELETE);
+        return $this->urlBuilder->getUrl(self::ROUTE_PATH_UNDO_ERASE);
     }
 
     /**

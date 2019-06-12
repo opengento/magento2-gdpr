@@ -10,11 +10,9 @@ namespace Opengento\Gdpr\ViewModel\Privacy;
 use Magento\Cms\Block\Block;
 use Magento\Customer\Model\Session;
 use Magento\Framework\DataObject;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\Element\BlockFactory;
-use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
-use Opengento\Gdpr\Api\EraseCustomerRepositoryInterface;
+use Opengento\Gdpr\Api\EraseCustomerCheckerInterface;
 use Opengento\Gdpr\Model\Config;
 
 /**
@@ -23,14 +21,9 @@ use Opengento\Gdpr\Model\Config;
 final class ErasureDataProvider extends DataObject implements ArgumentInterface
 {
     /**
-     * @var \Opengento\Gdpr\Api\EraseCustomerRepositoryInterface
+     * @var \Opengento\Gdpr\Api\EraseCustomerCheckerInterface
      */
-    private $eraseCustomerRepository;
-
-    /**
-     * @var \Opengento\Gdpr\Api\EraseCustomerManagementInterface
-     */
-    private $eraseCustomerManagement;
+    private $eraseCustomerChecker;
 
     /**
      * @var \Opengento\Gdpr\Model\Config
@@ -48,23 +41,20 @@ final class ErasureDataProvider extends DataObject implements ArgumentInterface
     private $blockFactory;
 
     /**
-     * @param \Opengento\Gdpr\Api\EraseCustomerRepositoryInterface $eraseCustomerRepository
-     * @param \Opengento\Gdpr\Api\EraseCustomerManagementInterface $eraseCustomerManagement
+     * @param \Opengento\Gdpr\Api\EraseCustomerCheckerInterface $eraseCustomerChecker
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
      * @param array $data
      */
     public function __construct(
-        EraseCustomerRepositoryInterface $eraseCustomerRepository,
-        EraseCustomerManagementInterface $eraseCustomerManagement,
+        EraseCustomerCheckerInterface $eraseCustomerChecker,
         Config $config,
         Session $session,
         BlockFactory $blockFactory,
         array $data = []
     ) {
-        $this->eraseCustomerRepository = $eraseCustomerRepository;
-        $this->eraseCustomerManagement = $eraseCustomerManagement;
+        $this->eraseCustomerChecker = $eraseCustomerChecker;
         $this->config = $config;
         $this->session = $session;
         $this->blockFactory = $blockFactory;
@@ -104,18 +94,13 @@ final class ErasureDataProvider extends DataObject implements ArgumentInterface
      *
      * @return bool
      */
-    public function canBeCanceled(): bool
+    public function canCancel(): bool
     {
-        if (!$this->hasData('can_be_canceled')) {
-            try {
-                $entity = $this->eraseCustomerRepository->getByCustomerId((int) $this->session->getCustomerId());
-                $this->setData('can_be_canceled', $this->eraseCustomerManagement->canBeCanceled($entity));
-            } catch (NoSuchEntityException $e) {
-                $this->setData('can_be_canceled', false);
-            }
+        if (!$this->hasData('can_cancel')) {
+            $this->setData('can_cancel', $this->eraseCustomerChecker->canCancel((int) $this->session->getCustomerId()));
         }
 
-        return (bool) $this->_getData('can_be_canceled');
+        return (bool) $this->_getData('can_cancel');
     }
 
     /**
@@ -123,18 +108,13 @@ final class ErasureDataProvider extends DataObject implements ArgumentInterface
      *
      * @return bool
      */
-    public function canBeProcessed(): bool
+    public function canCreate(): bool
     {
-        if (!$this->hasData('can_be_processed')) {
-            try {
-                $entity = $this->eraseCustomerRepository->getByCustomerId((int) $this->session->getCustomerId());
-                $this->setData('can_be_processed', $this->eraseCustomerManagement->canBeProcessed($entity));
-            } catch (NoSuchEntityException $e) {
-                $this->setData('can_be_processed', true);
-            }
+        if (!$this->hasData('can_create')) {
+            $this->setData('can_create', $this->eraseCustomerChecker->canCreate((int) $this->session->getCustomerId()));
         }
 
-        return (bool) $this->_getData('can_be_processed');
+        return (bool) $this->_getData('can_create');
     }
 
     /**

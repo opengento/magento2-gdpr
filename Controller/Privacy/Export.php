@@ -13,6 +13,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Archive\ArchiveInterface;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Phrase;
@@ -103,15 +104,17 @@ class Export extends AbstractPrivacy
                 ],
                 DirectoryList::TMP
             );
+        } catch (LocalizedException $e) {
+            $this->messageManager->addErrorMessage($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
-
-            /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
-            $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-            $resultRedirect->setRefererOrBaseUrl();
-
-            return $resultRedirect;
         }
+
+        /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+        $resultRedirect->setRefererOrBaseUrl();
+
+        return $resultRedirect;
     }
 
     /**
@@ -129,7 +132,7 @@ class Export extends AbstractPrivacy
         $fileDriver = $tmpWrite->getDriver();
 
         if (!$fileDriver->isExists($source)) {
-            throw new NotFoundException(new Phrase('File "%1" not found.', [$source]));
+            throw new NotFoundException(new Phrase('File "%1" does not exists.', [$source]));
         }
 
         $archive = $this->archive->pack($source, $tmpWrite->getAbsolutePath($destination));
