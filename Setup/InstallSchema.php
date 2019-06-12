@@ -80,6 +80,13 @@ final class InstallSchema implements InstallSchemaInterface
                 'Status'
             )
             ->addColumn(
+                EraseCustomerInterface::MESSAGE,
+                Table::TYPE_TEXT,
+                255,
+                ['nullable' => true],
+                'Message'
+            )
+            ->addColumn(
                 EraseCustomerInterface::ERASED_AT,
                 Table::TYPE_TIMESTAMP,
                 null,
@@ -105,7 +112,7 @@ final class InstallSchema implements InstallSchemaInterface
                 EraseCustomerInterface::CUSTOMER_ID,
                 $setup->getTable('customer_entity'),
                 'entity_id',
-                Table::ACTION_NO_ACTION
+                Table::ACTION_CASCADE
             )
             ->setComment('Customer Erase Scheduler');
 

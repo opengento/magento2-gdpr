@@ -23,8 +23,7 @@ Area:
 - Multiple export in command line result in filename expanded at each iteration
 
 ## Anonymizer
-
-- Check customer only closed/completed orders 
+ 
 - Payment Data
 - Invitation Data
 

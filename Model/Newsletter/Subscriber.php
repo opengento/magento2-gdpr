@@ -7,10 +7,13 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Newsletter;
 
+use \Magento\Newsletter\Model\Subscriber as SubscriberModel;
 use Magento\Newsletter\Model\SubscriberFactory;
 
 /**
  * `\Opengento\Gdpr\Model\Newsletter\Subscriber` class is the final state of `\Magento\Newsletter\Model\Subscriber`.
+ *
+ * @method SubscriberModel loadByCustomerId(int $customerId)
  */
 final class Subscriber
 {
@@ -28,6 +31,16 @@ final class Subscriber
         array $data = []
     ) {
         $this->subscriber = $subscriberFactory->create(['data' => $data]);
+    }
+
+    /**
+     * Retrieve the real subscriber subject
+     *
+     * @return \Magento\Newsletter\Model\Subscriber
+     */
+    public function getRealSubscriber(): SubscriberModel
+    {
+        return $this->subscriber;
     }
 
     /**

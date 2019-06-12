@@ -23,6 +23,7 @@ interface EraseCustomerInterface extends ExtensibleDataInterface
     public const SCHEDULED_AT = 'scheduled_at';
     public const STATE = 'state';
     public const STATUS = 'status';
+    public const MESSAGE = 'message';
     public const ERASED_AT = 'erased_at';
     /**#@-*/
 
@@ -117,6 +118,21 @@ interface EraseCustomerInterface extends ExtensibleDataInterface
      * @return \Opengento\Gdpr\Api\Data\EraseCustomerInterface
      */
     public function setStatus(string $status): EraseCustomerInterface;
+
+    /**
+     * Retrieve the error message
+     *
+     * @return string|null
+     */
+    public function getMessage(): ?string;
+
+    /**
+     * Set the error message
+     *
+     * @param string|null $message
+     * @return \Opengento\Gdpr\Api\Data\EraseCustomerInterface
+     */
+    public function setMessage(?string $message): EraseCustomerInterface;
 
     /**
      * Retrieve the erased at if it exists

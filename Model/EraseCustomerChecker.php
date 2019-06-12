@@ -91,6 +91,6 @@ final class EraseCustomerChecker implements EraseCustomerCheckerInterface
                 && $entity->getStatus() === EraseCustomerInterface::STATUS_READY)
             || ($entity->getState() === EraseCustomerInterface::STATE_PROCESSING
                 && $entity->getStatus() === EraseCustomerInterface::STATUS_FAILED))
-            && $this->customerChecker->hasPendingOrders($entity->getCustomerId());
+            && !$this->customerChecker->hasPendingOrders($entity->getCustomerId());
     }
 }

@@ -109,6 +109,22 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     /**
      * @inheritdoc
      */
+    public function getMessage(): ?string
+    {
+        return $this->_getData(self::MESSAGE) === null ? null : (string) $this->_getData(self::MESSAGE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setMessage(?string $message): EraseCustomerInterface
+    {
+        return $this->setData(self::MESSAGE, $message);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getErasedAt(): string
     {
         return (string) $this->_getData(self::ERASED_AT);

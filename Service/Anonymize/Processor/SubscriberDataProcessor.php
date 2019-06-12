@@ -53,10 +53,11 @@ final class SubscriberDataProcessor implements ProcessorInterface
      */
     public function execute(int $customerId): bool
     {
-        /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
+        /** @var \Opengento\Gdpr\Model\Newsletter\Subscriber $subscriber */
         $subscriber = $this->subscriberFactory->create();
         $subscriber->loadByCustomerId($customerId);
-        $this->subscriberResourceModel->save($this->anonymizer->anonymize($subscriber));
+        $this->anonymizer->anonymize($subscriber);
+        $this->subscriberResourceModel->save($subscriber->getRealSubscriber());
 
         return true;
     }

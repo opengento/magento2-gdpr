@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Delete\Processor;
 
 use Magento\Newsletter\Model\ResourceModel\Subscriber as ResourceSubscriber;
-use Opengento\Gdpr\Model\Newsletter\SubscriberFactory;
+use Magento\Newsletter\Model\SubscriberFactory;
 use Opengento\Gdpr\Service\Delete\ProcessorInterface;
 
 /**
@@ -17,7 +17,7 @@ use Opengento\Gdpr\Service\Delete\ProcessorInterface;
 final class SubscriberDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\Newsletter\SubscriberFactory
+     * @var \Magento\Newsletter\Model\SubscriberFactory
      */
     private $subscriberFactory;
 
@@ -27,7 +27,7 @@ final class SubscriberDataProcessor implements ProcessorInterface
     private $subscriberResourceModel;
 
     /**
-     * @param \Opengento\Gdpr\Model\Newsletter\SubscriberFactory $subscriberFactory
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Newsletter\Model\ResourceModel\Subscriber $subscriberResourceModel
      */
     public function __construct(

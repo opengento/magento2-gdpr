@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <listingToolbar name="listing_top">
+        <massaction name="listing_massaction">
+            <action name="erase">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want to erase the selected customers?</message>
+                        <title translate="true">Erase items</title>
+                    </confirm>
+                    <url path="customer/privacy/massErase"/>
+                    <type>erase</type>
+                    <label translate="true">Erase (GDPR)</label>
+                </settings>
+            </action>
+        </massaction>
+    </listingToolbar>
+</listing>

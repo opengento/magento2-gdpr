@@ -114,6 +114,7 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
 
     /**
      * @inheritdoc
+     * @throws \Exception
      */
     public function process(EraseCustomerInterface $entity): EraseCustomerInterface
     {
@@ -128,14 +129,47 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
         $entity = $this->eraseCustomerRepository->save($entity);
 
         try {
-            $this->eraseManagement->erase($entity->getCustomerId());
-            $entity->setState(EraseCustomerInterface::STATE_COMPLETE);
-            $entity->setStatus(EraseCustomerInterface::STATUS_SUCCEED);
-            $entity->setErasedAt($this->localeDate->gmtDate());
+            if ($this->eraseManagement->erase($entity->getCustomerId())) {
+                return $this->success($entity);
+            }
+
+            return $this->fail($entity);
         } catch (\Exception $e) {
-            $entity->setState(EraseCustomerInterface::STATE_PROCESSING);
-            $entity->setStatus(EraseCustomerInterface::STATUS_FAILED);
+            $this->fail($entity, $e->getMessage());
+            throw $e;
         }
+    }
+
+    /**
+     * Erasure has succeeded
+     *
+     * @param \Opengento\Gdpr\Api\Data\EraseCustomerInterface $entity
+     * @return \Opengento\Gdpr\Api\Data\EraseCustomerInterface
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     */
+    private function success(EraseCustomerInterface $entity): EraseCustomerInterface
+    {
+        $entity->setState(EraseCustomerInterface::STATE_COMPLETE);
+        $entity->setStatus(EraseCustomerInterface::STATUS_SUCCEED);
+        $entity->setErasedAt($this->localeDate->gmtDate());
+        $entity->setMessage(null);
+
+        return $this->eraseCustomerRepository->save($entity);
+    }
+
+    /**
+     * Erasure has failed
+     *
+     * @param \Opengento\Gdpr\Api\Data\EraseCustomerInterface $entity
+     * @param string|null $message
+     * @return \Opengento\Gdpr\Api\Data\EraseCustomerInterface
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     */
+    private function fail(EraseCustomerInterface $entity, ?string $message = null): EraseCustomerInterface
+    {
+        $entity->setState(EraseCustomerInterface::STATE_PROCESSING);
+        $entity->setStatus(EraseCustomerInterface::STATUS_FAILED);
+        $entity->setMessage($message);
 
         return $this->eraseCustomerRepository->save($entity);
     }
