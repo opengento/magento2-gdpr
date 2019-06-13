@@ -97,6 +97,7 @@
                 <item name="Magento\Quote\Api\Data\AddressInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
                 <item name="Magento\Sales\Api\Data\OrderInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
                 <item name="Magento\Sales\Api\Data\OrderAddressInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Opengento\Gdpr\Model\Newsletter\Subscriber" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
             </argument>
         </arguments>
     </type>
