@@ -22,6 +22,8 @@ use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
  */
 class MassErase extends AbstractMassAction
 {
+    public const ADMIN_RESOURCE = 'Opengento_Gdpr::customer_erase';
+
     /**
      * @var \Opengento\Gdpr\Api\EraseCustomerManagementInterface
      */

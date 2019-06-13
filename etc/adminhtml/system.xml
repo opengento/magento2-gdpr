@@ -11,7 +11,7 @@
             <class>separator-top</class>
             <label>GDPR Compliance</label>
             <tab>customer</tab>
-            <resource>Opengento_Gdpr::settings</resource>
+            <resource>Opengento_Gdpr::config</resource>
             <!-- Global Settings -->
             <include path="Opengento_Gdpr::system/general.xml" />
             <!-- Erasure Settings -->

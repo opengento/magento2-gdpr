@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Newsletter;
 
-use \Magento\Newsletter\Model\Subscriber as SubscriberModel;
+use Magento\Newsletter\Model\Subscriber as SubscriberModel;
 use Magento\Newsletter\Model\SubscriberFactory;
 
 /**
