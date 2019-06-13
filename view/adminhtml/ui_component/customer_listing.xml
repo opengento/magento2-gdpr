@@ -19,6 +19,17 @@
                     <label translate="true">Erase (GDPR)</label>
                 </settings>
             </action>
+            <action name="export">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want to export the selected customers?</message>
+                        <title translate="true">Export items</title>
+                    </confirm>
+                    <url path="customer/privacy/massExport"/>
+                    <type>export</type>
+                    <label translate="true">Export (GDPR)</label>
+                </settings>
+            </action>
         </massaction>
     </listingToolbar>
 </listing>

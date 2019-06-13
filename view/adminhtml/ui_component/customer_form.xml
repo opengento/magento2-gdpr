@@ -9,6 +9,7 @@
     <settings>
         <buttons>
             <button name="erase" class="Opengento\Gdpr\Block\Adminhtml\Customer\Edit\EraseButton"/>
+            <button name="export" class="Opengento\Gdpr\Block\Adminhtml\Customer\Edit\ExportButton"/>
         </buttons>
     </settings>
 </form>

@@ -6,9 +6,14 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <type name="Opengento\Gdpr\Controller\Privacy\Export">
+    <virtualType name="Opengento\Gdpr\Model\Archive\MoveToZip" type="Opengento\Gdpr\Model\Archive\MoveToArchive">
         <arguments>
             <argument name="archive" xsi:type="object">Opengento\Gdpr\Model\Archive\Zip</argument>
+        </arguments>
+    </virtualType>
+    <type name="Opengento\Gdpr\Controller\Privacy\Export">
+        <arguments>
+            <argument name="moveToArchive" xsi:type="object">Opengento\Gdpr\Model\Archive\MoveToZip</argument>
         </arguments>
     </type>
 </config>

@@ -5,25 +5,25 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Controller\Privacy;
+namespace Opengento\Gdpr\Controller\Adminhtml\Privacy;
 
-use Magento\Customer\Model\Session;
-use Magento\Framework\App\Action\Context;
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\ExportInterface;
-use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
-use Opengento\Gdpr\Model\Config;
 
 /**
- * Action Export Export
+ * Class Export
  */
-class Export extends AbstractPrivacy
+class Export extends Action
 {
+    public const ADMIN_RESOURCE = 'Opengento_Gdpr::customer_export';
+
     /**
      * @var \Magento\Framework\App\Response\Http\FileFactory
      */
@@ -40,48 +40,30 @@ class Export extends AbstractPrivacy
     private $exportManagement;
 
     /**
-     * @var \Magento\Customer\Model\Session
-     */
-    private $customerSession;
-
-    /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Opengento\Gdpr\Model\Config $config
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Opengento\Gdpr\Model\Archive\MoveToArchive $moveToArchive
      * @param \Opengento\Gdpr\Api\ExportInterface $exportManagement
-     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         Context $context,
-        Config $config,
         FileFactory $fileFactory,
         MoveToArchive $moveToArchive,
-        ExportInterface $exportManagement,
-        Session $customerSession
+        ExportInterface $exportManagement
     ) {
         $this->fileFactory = $fileFactory;
         $this->moveToArchive = $moveToArchive;
         $this->exportManagement = $exportManagement;
-        $this->customerSession = $customerSession;
-        parent::__construct($context, $config);
+        parent::__construct($context);
     }
 
     /**
      * @inheritdoc
      */
-    protected function isAllowed(): bool
-    {
-        return parent::isAllowed() && $this->config->isExportEnabled();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function executeAction()
+    public function execute()
     {
         try {
-            $customerId = (int) $this->customerSession->getCustomerId();
+            $customerId = (int) $this->getRequest()->getParam('id');
             $fileName = $this->exportManagement->exportToFile($customerId, 'personal_data');
             $archiveFileName = 'customer_privacy_data_' . $customerId . '.zip';
 
@@ -97,10 +79,10 @@ class Export extends AbstractPrivacy
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
         } catch (\Exception $e) {
-            $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
+            $this->messageManager->addExceptionMessage($e, new Phrase('An error occurred on the server.'));
         }
 
-        /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+        /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
         return $resultRedirect->setRefererOrBaseUrl();

@@ -13,6 +13,7 @@
                     <resource id="Magento_Customer::manage">
                         <resource id="Magento_Customer::actions">
                             <resource id="Opengento_Gdpr::customer_erase" title="GDPR Compliance Erase Customer" translate="title" sortOrder="15"/>
+                            <resource id="Opengento_Gdpr::customer_export" title="GDPR Compliance Export Customer" translate="title" sortOrder="40"/>
                         </resource>
                     </resource>
                 </resource>
