@@ -93,8 +93,8 @@ final class ExportCommand extends Command
 
         try {
             foreach ($customerIds as $customerId) {
-                $fileName = $this->exportManagement->exportToFile((int) $customerId, $fileName . '_' . $customerId);
-                $output->writeln('<info>Customer\'s personal data have been exported to: ' . $fileName . '.</info>');
+                $exportFile = $this->exportManagement->exportToFile((int) $customerId, $fileName . '_' . $customerId);
+                $output->writeln('<info>Customer\'s personal data have been exported to: ' . $exportFile . '.</info>');
             }
         } catch (\Exception $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');
