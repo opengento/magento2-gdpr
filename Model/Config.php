@@ -22,7 +22,8 @@ final class Config
     public const CONFIG_PATH_GENERAL_INFORMATION_PAGE = 'gdpr/general/page_id';
     public const CONFIG_PATH_GENERAL_INFORMATION_BLOCK = 'gdpr/general/block_id';
     public const CONFIG_PATH_ERASURE_ENABLED = 'gdpr/erasure/enabled';
-    public const CONFIG_PATH_ERASURE_TIME_LAPSE = 'gdpr/erasure/time_lapse';
+    public const CONFIG_PATH_ERASURE_DELAY = 'gdpr/erasure/delay';
+    public const CONFIG_PATH_ERASURE_ALLOWED_STATES = 'gdpr/erasure/allowed_states';
     public const CONFIG_PATH_ERASURE_INFORMATION_BLOCK = 'gdpr/erasure/block_id';
     public const CONFIG_PATH_ERASURE_REMOVE_CUSTOMER = 'gdpr/erasure/remove_customer';
     public const CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK = 'gdpr/anonymize/block_id';
@@ -54,7 +55,10 @@ final class Config
      */
     public function isModuleEnabled(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_GENERAL_ENABLED, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_GENERAL_ENABLED,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -64,7 +68,10 @@ final class Config
      */
     public function getPrivacyInformationPageId(): string
     {
-        return $this->getValueString(self::CONFIG_PATH_GENERAL_INFORMATION_PAGE, ScopeInterface::SCOPE_STORE);
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_GENERAL_INFORMATION_PAGE,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -74,7 +81,10 @@ final class Config
      */
     public function getPrivacyInformationBlockId(): string
     {
-        return $this->getValueString(self::CONFIG_PATH_GENERAL_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_GENERAL_INFORMATION_BLOCK,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -84,7 +94,10 @@ final class Config
      */
     public function isErasureEnabled(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_ERASURE_ENABLED, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_ERASURE_ENABLED,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -94,17 +107,36 @@ final class Config
      */
     public function isCustomerRemovedNoOrders(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_ERASURE_REMOVE_CUSTOMER, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_ERASURE_REMOVE_CUSTOMER,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
-     * Retrieve the erasure time lapse before execution
+     * Retrieve the erasure delay in minutes before execution
      *
      * @return int
      */
-    public function getErasureTimeLapse(): int
+    public function getErasureDelay(): int
     {
-        return (int) $this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_TIME_LAPSE, ScopeInterface::SCOPE_STORE);
+        return (int) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_ERASURE_DELAY,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Retrieve the allowed order states to erase
+     *
+     * @return string[]
+     */
+    public function getAllowedStatesToErase(): array
+    {
+        return \explode(',', (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_ERASURE_ALLOWED_STATES,
+            ScopeInterface::SCOPE_STORE
+        ));
     }
 
     /**
@@ -114,7 +146,10 @@ final class Config
      */
     public function getErasureInformationBlockId(): string
     {
-        return $this->getValueString(self::CONFIG_PATH_ERASURE_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_ERASURE_INFORMATION_BLOCK,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -124,7 +159,10 @@ final class Config
      */
     public function getAnonymizeInformationBlockId(): string
     {
-        return $this->getValueString(self::CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -134,7 +172,10 @@ final class Config
      */
     public function isExportEnabled(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_EXPORT_ENABLED, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_EXPORT_ENABLED,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -144,7 +185,10 @@ final class Config
      */
     public function getExportInformationBlockId(): string
     {
-        return $this->getValueString(self::CONFIG_PATH_EXPORT_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_EXPORT_INFORMATION_BLOCK,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -154,7 +198,10 @@ final class Config
      */
     public function getExportRendererCode(): string
     {
-        return $this->getValueString(self::CONFIG_PATH_EXPORT_RENDERER, ScopeInterface::SCOPE_STORE);
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_EXPORT_RENDERER,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -164,7 +211,10 @@ final class Config
      */
     public function isCookieDisclosureEnabled(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_COOKIE_DISCLOSURE_ENABLED, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_COOKIE_DISCLOSURE_ENABLED,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -174,22 +224,9 @@ final class Config
      */
     public function getCookieDisclosureInformationBlockId(): string
     {
-        return $this->getValueString(self::CONFIG_PATH_COOKIE_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
-    }
-
-    /**
-     * Retrieve the scope config value as a string
-     *
-     * @param string $path
-     * @param string $scopeType
-     * @param string|null $scopeCode [optional]
-     * @return string
-     */
-    private function getValueString(
-        string $path,
-        string $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
-        ?string $scopeCode = null
-    ): string {
-        return (string) $this->scopeConfig->getValue($path, $scopeType, $scopeCode);
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_COOKIE_INFORMATION_BLOCK,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 }

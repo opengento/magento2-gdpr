@@ -58,7 +58,7 @@ final class VirtualArrayArgumentList implements OptionSourceInterface
     {
         if (!$this->options) {
             foreach (\array_keys($this->retrieveItems()) as $item) {
-                $this->options[] = ['label' => new Phrase($item), 'value' => $item];
+                $this->options[] = ['value' => $item, 'label' => new Phrase($item)];
             }
         }
 

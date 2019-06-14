@@ -183,7 +183,7 @@ final class EraseCustomerManagement implements EraseCustomerManagementInterface
     {
         return $this->localeDate->gmtDate(
             DateTimeFormat::DATETIME_PHP_FORMAT,
-            $this->config->getErasureTimeLapse() + $this->localeDate->gmtTimestamp()
+            $this->config->getErasureDelay() * 60 + $this->localeDate->gmtTimestamp()
         );
     }
 }

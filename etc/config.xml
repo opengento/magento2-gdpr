@@ -119,8 +119,9 @@
             </anonymize>
             <erasure>
                 <enabled>0</enabled>
-                <time_lapse>3600</time_lapse>
+                <delay>3600</delay>
                 <schedule>* * * * *</schedule>
+                <allowed_states>canceled,closed,complete</allowed_states>
                 <remove_customer>1</remove_customer>
                 <components_processors>
                     <![CDATA[[
@@ -143,6 +144,9 @@
                 <order_address_attributes>city,company,country_id,fax,email,prefix,firstname,middlename,lastname,suffix,postcode,region,street,telephone,vat_id</order_address_attributes>
                 <subscriber_attributes>email</subscriber_attributes>
             </export>
+            <cookie>
+                <enabled>0</enabled>
+            </cookie>
         </gdpr>
     </default>
 </config>

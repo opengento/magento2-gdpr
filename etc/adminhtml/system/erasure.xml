@@ -24,14 +24,14 @@
             </depends>
             <config_path>gdpr/erasure/block_id</config_path>
         </field>
-        <field id="time_lapse" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
-            <label>Erasure Time Laps</label>
-            <comment>Erasure time lapse in seconds before the execution by the cron.</comment>
-            <frontend_class>validate-number</frontend_class>
+        <field id="delay" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+            <label>Erasure Delay</label>
+            <comment>Erasure delay in minute before the execution by the cron.</comment>
+            <validate>validate-number validate-number-range number-range-60-43800</validate>
             <depends>
                 <field id="customer/gdpr/erasure/enabled">1</field>
             </depends>
-            <config_path>gdpr/erasure/time_lapse</config_path>
+            <config_path>gdpr/erasure/delay</config_path>
         </field>
         <field id="schedule" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
             <label>Cron Schedule</label>
@@ -40,7 +40,16 @@
             </depends>
             <config_path>gdpr/erasure/schedule</config_path>
         </field>
-        <field id="components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50" canRestore="1">
+        <field id="allowed_states" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50" canRestore="1">
+            <label>Allowed Order States to Erase</label>
+            <source_model>Opengento\Gdpr\Model\Config\Source\OrderPendingStates</source_model>
+            <depends>
+                <field id="customer/gdpr/erasure/enabled">1</field>
+            </depends>
+            <can_be_empty>0</can_be_empty>
+            <config_path>gdpr/erasure/allowed_states</config_path>
+        </field>
+        <field id="components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
             <label>Component Erasure Strategy</label>
             <comment>Defines the components erasure strategy with the component/erase processor mapper.</comment>
             <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\EraseComponentsProcessors</frontend_model>
@@ -51,7 +60,7 @@
             <can_be_empty>1</can_be_empty>
             <config_path>gdpr/erasure/components_processors</config_path>
         </field>
-        <group id="anonymize" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60">
+        <group id="anonymize" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70">
             <label>Anonymization</label>
             <depends>
                 <field id="customer/gdpr/erasure/enabled">1</field>

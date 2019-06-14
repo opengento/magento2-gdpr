@@ -10,7 +10,7 @@ namespace Opengento\Gdpr\Model\Customer;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
-use Magento\Sales\Model\Order;
+use Opengento\Gdpr\Model\Config;
 
 /**
  * Class CustomerChecker
@@ -28,6 +28,11 @@ final class CustomerChecker
     private $searchCriteriaBuilder;
 
     /**
+     * @var \Opengento\Gdpr\Model\Config
+     */
+    private $config;
+
+    /**
      * @var bool[]
      */
     private $cache;
@@ -35,13 +40,16 @@ final class CustomerChecker
     /**
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Opengento\Gdpr\Model\Config $config
      */
     public function __construct(
         OrderRepositoryInterface $orderRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        Config $config
     ) {
         $this->orderRepository = $orderRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->config = $config;
         $this->cache = [];
     }
 
@@ -55,11 +63,7 @@ final class CustomerChecker
     public function hasPendingOrders(int $customerId, bool $forceReload = false): bool
     {
         if ($forceReload || !isset($this->cache[$customerId])) {
-            $this->searchCriteriaBuilder->addFilter(
-                OrderInterface::STATE,
-                [Order::STATE_CANCELED, Order::STATE_CLOSED, Order::STATE_COMPLETE],
-                'nin'
-            );
+            $this->searchCriteriaBuilder->addFilter(OrderInterface::STATE, $this->config->getAllowedStatesToErase(), 'nin');
             $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
             $orderList = $this->orderRepository->getList($this->searchCriteriaBuilder->create());
 
