@@ -17,14 +17,14 @@ use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
 use Magento\Sales\Controller\AbstractController\OrderLoaderInterface;
 use Opengento\Gdpr\Api\ExportGuestInterface;
-use Opengento\Gdpr\Controller\AbstractPrivacy;
+use Opengento\Gdpr\Controller\AbstractAction;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
 use Opengento\Gdpr\Model\Config;
 
 /**
  * Class Export
  */
-class Export extends AbstractPrivacy
+class Export extends AbstractAction
 {
     /**
      * @var \Magento\Framework\App\Response\Http\FileFactory
