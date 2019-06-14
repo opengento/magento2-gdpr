@@ -14,7 +14,7 @@ namespace Opengento\Gdpr\Api;
 interface EraseInterface
 {
     /**
-     * Execute the processors by strategy type
+     * Erase the customer related personal data
      *
      * @param int $customerId
      * @return bool

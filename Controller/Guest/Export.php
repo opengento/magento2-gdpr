@@ -11,20 +11,19 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\ResultFactory;
-use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
 use Magento\Sales\Controller\AbstractController\OrderLoaderInterface;
 use Opengento\Gdpr\Api\ExportGuestInterface;
-use Opengento\Gdpr\Controller\AbstractAction;
+use Opengento\Gdpr\Controller\AbstractGuest;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
 use Opengento\Gdpr\Model\Config;
 
 /**
  * Class Export
  */
-class Export extends AbstractAction
+class Export extends AbstractGuest
 {
     /**
      * @var \Magento\Framework\App\Response\Http\FileFactory
@@ -40,16 +39,6 @@ class Export extends AbstractAction
      * @var \Opengento\Gdpr\Api\ExportGuestInterface
      */
     private $exportManagement;
-
-    /**
-     * @var \Magento\Sales\Controller\AbstractController\OrderLoaderInterface
-     */
-    private $orderLoader;
-
-    /**
-     * @var \Magento\Framework\Registry
-     */
-    private $registry;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
@@ -72,9 +61,7 @@ class Export extends AbstractAction
         $this->fileFactory = $fileFactory;
         $this->moveToArchive = $moveToArchive;
         $this->exportManagement = $exportManagement;
-        $this->orderLoader = $orderLoader;
-        $this->registry = $registry;
-        parent::__construct($context, $config);
+        parent::__construct($context, $config, $orderLoader, $registry);
     }
 
     /**
@@ -90,10 +77,6 @@ class Export extends AbstractAction
      */
     protected function executeAction()
     {
-        if (($result = $this->orderLoader->load($this->getRequest())) instanceof ResultInterface) {
-            return $result;
-        }
-
         try {
             /** @var \Magento\Sales\Api\Data\OrderInterface $order */
             $order = $this->registry->registry('current_order');

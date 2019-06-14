@@ -28,6 +28,11 @@ $eraseGuestDataProvider = $block->getData('eraseGuestDataProvider');
             confirm({
                 title: "<?= $block->escapeJs($block->escapeHtml(__('Warning'))) ?>",
                 content: "<?= $block->escapeJs($block->escapeHtml(__('Do you really want to erase your personal data?'))) ?>",
+                actions: {
+                    confirm: function () {
+                        window.location = "<?= $block->escapeJs($block->escapeHtml($block->escapeUrl($block->getData('actionUrl')))) ?>";
+                    }
+                }
             });
         });
     });

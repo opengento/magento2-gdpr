@@ -47,6 +47,7 @@ final class EraseGuestDataProvider extends DataObject implements ArgumentInterfa
      * Check if the guest order can erase its personal data
      *
      * @return bool
+     * @todo move code to dedicated service
      */
     public function canErase(): bool
     {

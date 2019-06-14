@@ -13,6 +13,7 @@
     <preference for="Opengento\Gdpr\Api\EraseCustomerManagementInterface" type="Opengento\Gdpr\Model\EraseCustomerManagement" />
     <preference for="Opengento\Gdpr\Api\EraseCustomerCheckerInterface" type="Opengento\Gdpr\Model\EraseCustomerChecker" />
     <preference for="Opengento\Gdpr\Api\EraseInterface" type="Opengento\Gdpr\Service\EraseManagement"/>
+    <preference for="Opengento\Gdpr\Api\EraseGuestInterface" type="Opengento\Gdpr\Service\EraseGuestManagement"/>
     <preference for="Opengento\Gdpr\Api\ExportInterface" type="Opengento\Gdpr\Service\ExportManagement"/>
     <preference for="Opengento\Gdpr\Api\ExportGuestInterface" type="Opengento\Gdpr\Service\ExportGuestManagement"/>
     <type name="Magento\Framework\Model\Entity\RepositoryFactory">

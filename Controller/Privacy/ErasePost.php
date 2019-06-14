@@ -85,7 +85,7 @@ class ErasePost extends AbstractPrivacy
             $customerId = (int) $this->session->getCustomerId();
             $this->authentication->authenticate($customerId, $this->getRequest()->getParam('password'));
             $this->eraseCustomerManagement->create($customerId);
-            $this->messageManager->addWarningMessage(new Phrase('Your account is being removed.'));
+            $this->messageManager->addWarningMessage(new Phrase('Your personal data is being removed.'));
         } catch (InvalidEmailOrPasswordException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
             $resultRedirect->setRefererOrBaseUrl();

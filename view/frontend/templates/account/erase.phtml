@@ -48,19 +48,19 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
 
 <script>
     require([
-        'jquery',
-        'Magento_Ui/js/modal/confirm',
-        'mage/validation'
+        "jquery",
+        "Magento_Ui/js/modal/confirm",
+        "mage/validation"
     ], function ($, confirm) {
-        'use strict';
+        "use strict";
 
-        var dataForm = $('#form-validate');
+        var dataForm = $("#form-validate");
 
-        dataForm.mage('validation', {ignore: ':hidden'}).find('input').attr('autocomplete', 'off');
+        dataForm.mage("validation", {ignore: ":hidden"}).find("input").attr("autocomplete", "off");
 
-        $('#erase').on('click', function (e) {
+        $("#erase").on("click", function (e) {
             e.preventDefault();
-            if (dataForm.validation('isValid')) {
+            if (dataForm.validation("isValid")) {
                 confirm({
                     title: "<?= $block->escapeJs($block->escapeHtml(__('Warning'))) ?>",
                     content: "<?= $block->escapeJs($block->escapeHtml(__('Do you really want to erase your personal data?'))) ?>",
