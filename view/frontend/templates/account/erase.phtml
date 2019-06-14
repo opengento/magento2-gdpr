@@ -46,7 +46,7 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
     </fieldset>
 </form>
 
-<script type="text/javascript">
+<script>
     require([
         'jquery',
         'Magento_Ui/js/modal/confirm',
@@ -62,8 +62,8 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
             e.preventDefault();
             if (dataForm.validation('isValid')) {
                 confirm({
-                    title: $.mage.__('Warning'),
-                    content: $.mage.__('Do you really want to erase your account?'),
+                    title: "<?= $block->escapeJs($block->escapeHtml(__('Warning'))) ?>",
+                    content: "<?= $block->escapeJs($block->escapeHtml(__('Do you really want to erase your personal data?'))) ?>",
                     actions: {
                         confirm: function () {
                             dataForm.submit();

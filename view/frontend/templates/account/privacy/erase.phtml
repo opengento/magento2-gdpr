@@ -6,8 +6,10 @@
 
 /** @var \Magento\Framework\View\Element\Template $block */
 
-/** @var \Opengento\Gdpr\ViewModel\Privacy\ErasureDataProvider $erasureDataProvider */
-$erasureDataProvider = $block->getData('erasureDataProvider');
+/** @var \Opengento\Gdpr\ViewModel\Privacy\EraseDataProvider $eraseDataProvider */
+$eraseDataProvider = $block->getData('eraseDataProvider');
+/** @var \Opengento\Gdpr\ViewModel\Privacy\EraseCustomerDataProvider $eraseCustomerDataProvider */
+$eraseCustomerDataProvider = $block->getData('eraseCustomerDataProvider');
 /** @var \Opengento\Gdpr\ViewModel\UrlsDataProvider $urlsDataProvider */
 $urlsDataProvider = $block->getData('urlsDataProvider');
 ?>
@@ -17,9 +19,9 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
     </div>
     <div class="block-content">
         <div class="widget block block-static-block">
-            <?= $erasureDataProvider->getErasureInformation() ?>
+            <?= $eraseDataProvider->getErasureInformation() ?>
         </div>
-        <?php if ($erasureDataProvider->canCancel()): ?>
+        <?php if ($eraseCustomerDataProvider->canCancel()): ?>
             <div class="message warning">
                 <span><?= $block->escapeHtml(__('Your account will be erased soon. You can undo this action.')) ?></span>
             </div>
@@ -30,9 +32,9 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
                     </a>
                 </div>
             </div>
-        <?php elseif ($erasureDataProvider->canCreate()): ?>
+        <?php elseif ($eraseCustomerDataProvider->canCreate()): ?>
             <div class="widget block block-static-block">
-                <?= $erasureDataProvider->getAnonymizeInformation() ?>
+                <?= $eraseDataProvider->getAnonymizeInformation() ?>
             </div>
             <div class="actions-toolbar">
                 <div class="primary">

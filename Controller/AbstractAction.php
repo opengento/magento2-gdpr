@@ -13,6 +13,9 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Opengento\Gdpr\Model\Config;
 
+/**
+ * Class AbstractAction
+ */
 abstract class AbstractAction extends Action
 {
     /**
