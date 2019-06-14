@@ -14,6 +14,7 @@
     <preference for="Opengento\Gdpr\Api\EraseCustomerCheckerInterface" type="Opengento\Gdpr\Model\EraseCustomerChecker" />
     <preference for="Opengento\Gdpr\Api\EraseInterface" type="Opengento\Gdpr\Service\EraseManagement"/>
     <preference for="Opengento\Gdpr\Api\ExportInterface" type="Opengento\Gdpr\Service\ExportManagement"/>
+    <preference for="Opengento\Gdpr\Api\ExportGuestInterface" type="Opengento\Gdpr\Service\ExportGuestManagement"/>
     <type name="Magento\Framework\Model\Entity\RepositoryFactory">
         <arguments>
             <argument name="entities" xsi:type="array">
@@ -1203,6 +1204,22 @@
             <argument name="document" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\Subscriber\Document</argument>
         </arguments>
     </virtualType>
+    <!-- Guest Management -->
+    <preference for="Opengento\Gdpr\Service\Guest\Export\ProcessorInterface" type="Opengento\Gdpr\Service\Guest\Export\Processor\CompositeProcessor"/>
+    <type name="Opengento\Gdpr\Service\Guest\Export\Processor\CompositeProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="quote" xsi:type="object">Opengento\Gdpr\Service\Guest\Export\Processor\QuoteDataProcessor</item>
+                <item name="order" xsi:type="object">Opengento\Gdpr\Service\Guest\Export\Processor\OrderDataProcessor</item>
+                <item name="subscriber" xsi:type="object">Opengento\Gdpr\Service\Guest\Export\Processor\SubscriberDataProcessor</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Opengento\Gdpr\Service\Guest\Export\Processor\AbstractDataProcessor">
+        <arguments>
+            <argument name="dataCollector" xsi:type="object">Opengento\Gdpr\Service\Export\Entity\DataCollectorGeneric</argument>
+        </arguments>
+    </type>
     <!-- Export Strategy -->
     <type name="Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiator">
         <arguments>

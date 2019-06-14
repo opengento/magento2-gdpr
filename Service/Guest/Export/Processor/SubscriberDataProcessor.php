@@ -5,8 +5,9 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Service\Export\Processor;
+namespace Opengento\Gdpr\Service\Guest\Export\Processor;
 
+use Magento\Sales\Api\Data\OrderInterface;
 use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Model\Newsletter\SubscriberFactory;
 
@@ -35,11 +36,11 @@ final class SubscriberDataProcessor extends AbstractDataProcessor
     /**
      * @inheritdoc
      */
-    public function execute(int $customerId, array $data): array
+    public function execute(OrderInterface $order, array $data): array
     {
         /** @var \Opengento\Gdpr\Model\Newsletter\Subscriber $subscriber */
         $subscriber = $this->subscriberFactory->create();
-        $subscriber->loadByCustomerId($customerId);
+        $subscriber->loadByEmail($order->getCustomerEmail());
         $data['subscriber'] = $this->collectData($subscriber);
 
         return $data;

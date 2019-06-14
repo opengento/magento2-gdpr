@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="sales.order.info.buttons">
+            <block class="Magento\Framework\View\Element\Template" as="buttons.export" name="sales.order.info.buttons.export" template="Opengento_Gdpr::order/info/buttons/export.phtml" cacheable="false">
+                <arguments>
+                    <argument name="actionUrl" xsi:type="url" path="customer/guest/export"/>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

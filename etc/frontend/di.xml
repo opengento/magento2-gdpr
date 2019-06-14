@@ -16,4 +16,10 @@
             <argument name="moveToArchive" xsi:type="object">Opengento\Gdpr\Model\Archive\MoveToZip</argument>
         </arguments>
     </type>
+    <type name="Opengento\Gdpr\Controller\Guest\Export">
+        <arguments>
+            <argument name="moveToArchive" xsi:type="object">Opengento\Gdpr\Model\Archive\MoveToZip</argument>
+            <argument name="orderLoader" xsi:type="object">Magento\Sales\Controller\Guest\OrderLoader</argument>
+        </arguments>
+    </type>
 </config>

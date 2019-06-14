@@ -1,0 +1,11 @@
+<?php
+/**
+ * Copyright © OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+
+/** @var \Magento\Framework\View\Element\Template $block */
+?>
+<a href="<?= $block->escapeHtmlAttr($block->escapeUrl($block->getUrl($block->getData('actionUrl')))) ?>" class="action export">
+    <span><?= $block->escapeHtml(__('Export Personal Data')) ?></span>
+</a>
