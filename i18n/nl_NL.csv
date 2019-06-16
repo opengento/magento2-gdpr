@@ -1,0 +1,57 @@
+"Your account is already being to be removed.","Het verzoek tot verwijderen van uw account is al in behandeling."
+"Your account is being removed.","Uw account word verwijderd."
+"You did not sign in correctly or your account is temporarily disabled.","Uw inlog gegevens zijn niet juist of uw account is tijdelijk uitgeschakeld."
+"Something went wrong, please try again later!","Er ging iets mis, probeer het later opnieuw!"
+"File ""%1"" not found.","Bestand ""%1"" niet gevonden."
+"You canceled your account deletion.","U heeft het verzoek om uw account te verwijderen ingetrokken."
+Delete,Verwijder
+Anonymize,Anonimiseer
+"Entity for customer id ""%1"" already exists.","De gegevens voor klant id ""%1"" bestaan al."
+"Customer with id ""%1"" is already being removed.","Het verwijderen van klant met id ""%1"" is al in behandeling."
+"Entity with id ""%1"" could not be processed.","De gegevens van id ""%1"" kunnen niet worden verwerkt."
+"Could not save the entity.","Kan de gegevens niet opslaan."
+"Entity with id ""%1"" does not exists.","Gegevens van id ""%1"" bestaan niet."
+"Entity with customer id ""%1"" does not exist.","Gegevens van klant id ""%1"" bestaan niet."
+"Could not delete entity with id ""%1"".","Kan gegevens niet verwijderen van id ""%1""."
+%1Anonymous%2,%1Anoniem%2
+%1anonymous%2@gdpr.org,%1anoniem%2@avg.nl
+"* Required Fields","* Vereiste Velden"
+"Required Fields","Vereiste Velden"
+Password,Wachtwoord
+"Delete Account","Verwijder Account"
+Back,Terug
+"Right to be forgotten","Recht om vergeten te worden"
+"Your account will be deleted soon. You can undo this action.","Uw account zal binnenkort worden verwijderd. Deze actie is herroepelijk."
+"Undo Action","Actie Ongedaan Maken"
+"Export Personal Data","Exporteer Persoonlijke Gegevens"
+Information,Informatie
+"Cookie Disclosure","Cookie Informatie"
+"Read More","Lees Meer"
+Accept,Accepteren
+Attention,Let op!
+"Do you really want to delete your account?","Weet u zeker dat u uw account wil verwijderen?"
+"Customer Privacy (GDPR)","Klant Privacy (AVG)"
+"Cookie Settings","Cookie Instellingen"
+"Right To Erasure","Recht Op Verwijdering"
+Erasure,Wissen
+"Default Erasure Strategy","Standaard Verwijder Strategie"
+"Erasure Time Laps","Startuitstel Verwijderverzoek"
+"Erasure time lapse in seconds before the execution","Tijd in seconden voor het verwijderen zal plaatsvinden"
+"Cron Schedule","Planning (Geplande Taken)"
+Anonymization,Anonimiseren
+"Delete Customer if no Orders","Verwijder klant als deze geen orders heeft"
+"We will delete the customer if he has no orders.","We zullen de klant verwijderen als deze geen orders heeft."
+"Apply Deletion Strategy","Verwijder Strategie Toepassen"
+"This processors list allows to configure specific erasure strategy by component.","Deze lijst met verwerkers staat toe om specifieke verwijder strategieëen per component in te stellen."
+"Privacy Settings","Instellingen voor Privacy"
+"Export Settings","Instellingen voor Exporteren"
+Export,Exporteer
+Renderer,Weergeven
+"Customer Attributes","Klant Gegevens"
+"This attributes list will be exported when processed.","Deze lijst met gegevens zal geëxporteerd worden."
+"Customer Address Attributes","Klant Adres Gegevens"
+"This address attributes list will be exported when processed.","Deze lijst met adres gegevens zal geëxporteerd worden."
+General,Algemeen
+Enabled,Ingeschakeld
+"Information page","Informatie pagina"
+"This page should store information about privacy and GDPR policy.","Deze pagina moet informatie bevatten over privacy en de AVG wetgeving."
