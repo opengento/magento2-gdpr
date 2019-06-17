@@ -49,18 +49,29 @@
             <can_be_empty>0</can_be_empty>
             <config_path>gdpr/erasure/allowed_states</config_path>
         </field>
-        <field id="components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
-            <label>Component Erasure Strategy</label>
-            <comment>Defines the components erasure strategy with the component/erase processor mapper.</comment>
+        <field id="customer_components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
+            <label>Customer Component Erasure Strategy</label>
+            <comment>Defines the components erasure strategy with the component/erase processor mapper for the customers.</comment>
             <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\EraseComponentsProcessors</frontend_model>
             <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
             <depends>
                 <field id="customer/gdpr/erasure/enabled">1</field>
             </depends>
             <can_be_empty>1</can_be_empty>
-            <config_path>gdpr/erasure/components_processors</config_path>
+            <config_path>gdpr/erasure/customer_components_processors</config_path>
         </field>
-        <group id="anonymize" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70">
+        <field id="guest_components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70" canRestore="1">
+            <label>Guest Component Erasure Strategy</label>
+            <comment>Defines the components erasure strategy with the component/erase processor mapper for the guests.</comment>
+            <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\EraseComponentsProcessors</frontend_model>
+            <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+            <depends>
+                <field id="customer/gdpr/erasure/enabled">1</field>
+            </depends>
+            <can_be_empty>1</can_be_empty>
+            <config_path>gdpr/erasure/guest_components_processors</config_path>
+        </field>
+        <group id="anonymize" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
             <label>Anonymization</label>
             <depends>
                 <field id="customer/gdpr/erasure/enabled">1</field>
