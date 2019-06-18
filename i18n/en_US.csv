@@ -1,6 +1,6 @@
 "Attribute Code","Attribute Code"
 Anonymizer,Anonymizer
-"Add Storefront Default Qty","Add Storefront Default Qty"
+"Add Attribute's Anonymizer","Add Attribute's Anonymizer"
 Component,Component
 Processor,Processor
 "Add Component Erasure Strategy","Add Component Erasure Strategy"
@@ -86,7 +86,6 @@ Customer,Customer
 "Attributes must be separated with comma.","Attributes must be separated with comma."
 "Customer Extensible Data","Customer Extensible Data"
 "Customer Address Attributes","Customer Address Attributes"
-"This address attributes list will be exported when processed.","This address attributes list will be exported when processed."
 "Customer Address Custom Attributes","Customer Address Custom Attributes"
 "Customer Address Extensible Data","Customer Address Extensible Data"
 "Quote Attributes","Quote Attributes"

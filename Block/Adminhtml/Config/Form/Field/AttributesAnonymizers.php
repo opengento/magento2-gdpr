@@ -62,7 +62,7 @@ final class AttributesAnonymizers extends AbstractFieldArray
             ]
         );
         $this->_addAfter = false;
-        $this->_addButtonLabel = (new Phrase('Add Storefront Default Qty'))->render();
+        $this->_addButtonLabel = (new Phrase('Add Attribute\'s Anonymizer'))->render();
     }
 
     /**

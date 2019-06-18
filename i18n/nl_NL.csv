@@ -1,6 +1,6 @@
 "Attribute Code","Attribuut Code"
 Anonymizer,Anonimiseren
-"Add Storefront Default Qty","Storefront standaard hoeveelheid toevoegen"
+"Add Attribute's Anonymizer","Anonymizer van attribuut toevoegen"
 Component,Component
 Processor,Verwerker
 "Add Component Erasure Strategy","Verwijder strategie aan component toevoegen"
@@ -86,7 +86,6 @@ Customer,Klant
 "Attributes must be separated with comma.","Attributen moeten gescheiden worden door een komma."
 "Customer Extensible Data","Uitgebreide Klant Gegevens"
 "Customer Address Attributes","Klant Adres Attributen"
-"This address attributes list will be exported when processed.","Deze lijst met adres gegevens zal geëxporteerd worden."
 "Customer Address Custom Attributes","Aangepaste Klant Adres Attributen"
 "Customer Address Extensible Data","Uitgebreide Klant Adres Gegevens"
 "Quote Attributes","Offerte Attributen"

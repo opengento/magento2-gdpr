@@ -67,7 +67,7 @@
             <label>Customer Address</label>
             <field id="customer_address_attributes" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Customer Address Attributes</label>
-                <comment>This address attributes list will be exported when processed.</comment>
+                <comment>This attributes list will be exported when processed.</comment>
                 <source_model>Opengento\Gdpr\Model\Config\Source\CustomerAddressAttributes</source_model>
                 <can_be_empty>1</can_be_empty>
                 <depends>
