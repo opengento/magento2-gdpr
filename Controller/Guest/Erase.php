@@ -61,6 +61,7 @@ class Erase extends AbstractGuest
 
         try {
             //todo refactor with eraseCustomer accepting guest?
+            //todo check erase is possible for the current guest order
             $this->eraseGuest->erase($this->retrieveOrder());
             $this->messageManager->addWarningMessage(new Phrase('Your personal data is being removed.'));
         } catch (LocalizedException $e) {
