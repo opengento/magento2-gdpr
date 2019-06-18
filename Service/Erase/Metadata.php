@@ -15,8 +15,6 @@ use Magento\Framework\Serialize\SerializerInterface;
  */
 final class Metadata implements MetadataInterface
 {
-    private const CONFIG_PATH_ERASURE_COMPONENTS_PROCESSORS = 'gdpr/erasure/components_processors';
-
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
@@ -51,7 +49,7 @@ final class Metadata implements MetadataInterface
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         SerializerInterface $serializer,
-        string $configPath = self::CONFIG_PATH_ERASURE_COMPONENTS_PROCESSORS,
+        string $configPath,
         string $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT
     ) {
         $this->scopeConfig = $scopeConfig;

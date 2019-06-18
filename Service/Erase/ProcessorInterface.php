@@ -17,9 +17,8 @@ interface ProcessorInterface
      * Execute the erase processor for the given entity ID.
      * It allows to erase the related data.
      *
-     * @param string $component
-     * @param int $customerId
+     * @param int $entityId
      * @return bool
      */
-    public function execute(string $component, int $customerId): bool;
+    public function execute(int $entityId): bool;
 }

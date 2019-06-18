@@ -41,12 +41,36 @@ Area:
 
 GDPR facade for customer actions
 
-## Guest
+## Split
 
-Erase:
-- Processor: deeper
-- Strategy Scope: following:
-
-```php
-$processor = $this->processorFactory->get($this->metadata->getComponentProcessor($component));
-```
+- API (OK)
+- GDPR (api implementation) (OK)
+- Erase (OK)
+  - Logged In Customer (OK)
+    - Customer (OK)
+    - Customer Address (OK)
+    - Order (OK)
+    - Quote (OK)
+    - Subscriber (OK)
+  - Guest (OK)
+    - Customer (OK)
+    - Customer Address (OK)
+    - Order (OK)
+    - Quote (OK)
+    - Subscriber (OK)
+- Export (OK)
+  - Logged In Customer (OK)
+    - Customer (OK)
+    - Customer Address (OK)
+    - Order (OK)
+    - Quote (OK)
+    - Subscriber (OK)
+  - Guest (OK)
+    - Customer (OK)
+    - Customer Address (OK)
+    - Order (OK)
+    - Quote (OK)
+    - Subscriber (OK)
+- Admin UI (OK)
+- Frontend UI (OK)
+- Console (OK)

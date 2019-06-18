@@ -17,9 +17,9 @@ interface ProcessorInterface
      * Execute the export processor for the given entity ID.
      * It allows to retrieve the related data as an array.
      *
-     * @param int $customerId
+     * @param int $entityId
      * @param array $data
      * @return array
      */
-    public function execute(int $customerId, array $data): array;
+    public function execute(int $entityId, array $data): array;
 }

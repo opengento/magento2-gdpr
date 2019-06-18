@@ -10,7 +10,6 @@ namespace Opengento\Gdpr\Model\Config\Source;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\ObjectManager\ConfigInterface;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Service\Erase\ProcessorFactory;
 
 /**
  * Class EraseComponents
@@ -23,17 +22,27 @@ final class EraseComponents implements OptionSourceInterface
     private $objectManagerConfig;
 
     /**
+     * Class must be an instance of `\Opengento\Gdpr\Service\Erase\ProcessorResolverFactory`
+     *
+     * @var string
+     */
+    private $processorResolverFactoryClassName;
+
+    /**
      * @var string[][]
      */
     private $options;
 
     /**
      * @param \Magento\Framework\ObjectManager\ConfigInterface $objectManagerConfig
+     * @param string $processorResolverFactoryClassName
      */
     public function __construct(
-        ConfigInterface $objectManagerConfig
+        ConfigInterface $objectManagerConfig,
+        string $processorResolverFactoryClassName
     ) {
         $this->objectManagerConfig = $objectManagerConfig;
+        $this->processorResolverFactoryClassName = $processorResolverFactoryClassName;
     }
 
     /**
@@ -59,8 +68,8 @@ final class EraseComponents implements OptionSourceInterface
     {
         $delegateProcessors = [];
 
-        foreach ($this->retrieveArgument(ProcessorFactory::class, 'processors', []) as $eraseProcessor) {
-            $processorPool = $this->retrieveArgument($eraseProcessor, 'processorPool');
+        foreach ($this->retrieveArgument($this->processorResolverFactoryClassName, 'processors', []) as $processor) {
+            $processorPool = $this->retrieveArgument($processor, 'processorPool');
 
             if ($processorPool) {
                 $delegateProcessors[] = $this->retrieveArgument($processorPool, 'array', []);
