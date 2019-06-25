@@ -14,11 +14,12 @@ namespace Opengento\Gdpr\Api;
 interface ExportInterface
 {
     /**
-     * Export all data related to a given entity ID to the file
+     * Export all data related to a given entity to the file
      *
-     * @param int $customerId
+     * @param int $entityId
+     * @param string $entityType
      * @param string $fileName
      * @return string
      */
-    public function exportToFile(int $customerId, string $fileName): string;
+    public function exportToFile(int $entityId, string $entityType, string $fileName): string;
 }

@@ -13,7 +13,7 @@ namespace Opengento\Gdpr\Model\Entity;
 interface MetadataInterface
 {
     /**
-     * Retrieve the allowed attributes to export
+     * Retrieve the registered attributes
      *
      * @param string|null $scopeCode
      * @return string[]

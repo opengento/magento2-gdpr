@@ -74,3 +74,7 @@ GDPR facade for customer actions
 - Admin UI (OK)
 - Frontend UI (OK)
 - Console (OK)
+
+## yu
+
+https://github.com/magento/architecture/pull/145/files

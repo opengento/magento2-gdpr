@@ -12,7 +12,7 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
+use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Config;
 
@@ -27,24 +27,24 @@ class UndoErase extends AbstractPrivacy
     private $session;
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseCustomerManagementInterface
+     * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
      */
-    private $eraseCustomerManagement;
+    private $eraseEntityManagement;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Customer\Model\Session $session
-     * @param \Opengento\Gdpr\Api\EraseCustomerManagementInterface $eraseCustomerManagement
+     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
      */
     public function __construct(
         Context $context,
         Config $config,
         Session $session,
-        EraseCustomerManagementInterface $eraseCustomerManagement
+        EraseEntityManagementInterface $eraseEntityManagement
     ) {
         $this->session = $session;
-        $this->eraseCustomerManagement = $eraseCustomerManagement;
+        $this->eraseEntityManagement = $eraseEntityManagement;
         parent::__construct($context, $config);
     }
 
@@ -57,7 +57,7 @@ class UndoErase extends AbstractPrivacy
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
         try {
-            $this->eraseCustomerManagement->cancel((int) $this->session->getCustomerId());
+            $this->eraseEntityManagement->cancel((int) $this->session->getCustomerId(), 'customer');
             $this->messageManager->addSuccessMessage(new Phrase('You canceled your account deletion.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());

@@ -15,7 +15,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
 use Magento\Sales\Controller\AbstractController\OrderLoaderInterface;
-use Opengento\Gdpr\Api\ExportGuestInterface;
+use Opengento\Gdpr\Api\ExportInterface;
 use Opengento\Gdpr\Controller\AbstractGuest;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
 use Opengento\Gdpr\Model\Config;
@@ -36,7 +36,7 @@ class Export extends AbstractGuest
     private $moveToArchive;
 
     /**
-     * @var \Opengento\Gdpr\Api\ExportGuestInterface
+     * @var \Opengento\Gdpr\Api\ExportInterface
      */
     private $exportManagement;
 
@@ -45,7 +45,7 @@ class Export extends AbstractGuest
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Opengento\Gdpr\Model\Archive\MoveToArchive $moveToArchive
-     * @param \Opengento\Gdpr\Api\ExportGuestInterface $exportManagement
+     * @param \Opengento\Gdpr\Api\ExportInterface $exportManagement
      * @param \Magento\Sales\Controller\AbstractController\OrderLoaderInterface $orderLoader
      * @param \Magento\Framework\Registry $registry
      */
@@ -54,7 +54,7 @@ class Export extends AbstractGuest
         Config $config,
         FileFactory $fileFactory,
         MoveToArchive $moveToArchive,
-        ExportGuestInterface $exportManagement,
+        ExportInterface $exportManagement,
         OrderLoaderInterface $orderLoader,
         Registry $registry
     ) {
@@ -80,7 +80,7 @@ class Export extends AbstractGuest
         try {
             /** @var \Magento\Sales\Api\Data\OrderInterface $order */
             $order = $this->registry->registry('current_order');
-            $fileName = $this->exportManagement->exportToFile($order, 'personal_data');
+            $fileName = $this->exportManagement->exportToFile($order->getEntityId(), 'order', 'personal_data');
             $archiveFileName = 'customer_privacy_data_' . $order->getCustomerLastname() . '.zip';
 
             return $this->fileFactory->create(

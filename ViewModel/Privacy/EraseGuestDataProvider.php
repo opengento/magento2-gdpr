@@ -11,7 +11,7 @@ use Magento\Framework\DataObject;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Sales\Api\Data\OrderInterface;
-use Opengento\Gdpr\Model\Config;
+use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 
 /**
  * Class EraseGuestDataProvider
@@ -19,47 +19,67 @@ use Opengento\Gdpr\Model\Config;
 final class EraseGuestDataProvider extends DataObject implements ArgumentInterface
 {
     /**
+     * @var \Opengento\Gdpr\Api\EraseEntityCheckerInterface
+     */
+    private $eraseEntityChecker;
+
+    /**
      * @var \Magento\Framework\Registry
      */
     private $registry;
 
     /**
-     * @var \Opengento\Gdpr\Model\Config
-     */
-    private $config;
-
-    /**
+     * @param \Opengento\Gdpr\Api\EraseEntityCheckerInterface $eraseEntityChecker
      * @param \Magento\Framework\Registry $registry
-     * @param \Opengento\Gdpr\Model\Config $config
      * @param array $data
      */
     public function __construct(
+        EraseEntityCheckerInterface $eraseEntityChecker,
         Registry $registry,
-        Config $config,
         array $data = []
     ) {
+        $this->eraseEntityChecker = $eraseEntityChecker;
         $this->registry = $registry;
-        $this->config = $config;
         parent::__construct($data);
     }
 
     /**
-     * Check if the guest order can erase its personal data
+     * Check if the erasure is already planned and could be canceled
      *
      * @return bool
-     * @todo move code to dedicated service
      */
-    public function canErase(): bool
+    public function canCancel(): bool
     {
-        if (!$this->hasData('can_erase')) {
-            $order = $this->registry->registry('current_order');
-            $canErase = $order &&
-                $order instanceof OrderInterface &&
-                \in_array($order->getState(), $this->config->getAllowedStatesToErase(), true);
-
-            $this->setData('can_erase', $canErase);
+        if (!$this->hasData('can_cancel')) {
+            $canCancel = $this->eraseEntityChecker->canCancel((int) $this->resolveOrder()->getEntityId(), 'order');
+            $this->setData('can_cancel', $canCancel);
         }
 
-        return $this->_getData('can_erase');
+        return (bool) $this->_getData('can_cancel');
+    }
+
+    /**
+     * Check if the erasure can be planned and processed
+     *
+     * @return bool
+     */
+    public function canCreate(): bool
+    {
+        if (!$this->hasData('can_create')) {
+            $canCreate = $this->eraseEntityChecker->canCreate((int) $this->resolveOrder()->getEntityId(), 'order');
+            $this->setData('can_create', $canCreate);
+        }
+
+        return (bool) $this->_getData('can_create');
+    }
+
+    /**
+     * Resolve the current order
+     *
+     * @return \Magento\Sales\Api\Data\OrderInterface
+     */
+    private function resolveOrder(): OrderInterface
+    {
+        return $this->registry->registry('current_order');
     }
 }

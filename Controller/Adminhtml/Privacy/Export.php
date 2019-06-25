@@ -64,7 +64,7 @@ class Export extends Action
     {
         try {
             $customerId = (int) $this->getRequest()->getParam('id');
-            $fileName = $this->exportManagement->exportToFile($customerId, 'personal_data');
+            $fileName = $this->exportManagement->exportToFile($customerId, 'personal_data', 'customer');
             $archiveFileName = 'customer_privacy_data_' . $customerId . '.zip';
 
             return $this->fileFactory->create(

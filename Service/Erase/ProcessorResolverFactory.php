@@ -11,6 +11,7 @@ use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Class ProcessorResolverFactory
+ * @api
  */
 final class ProcessorResolverFactory
 {

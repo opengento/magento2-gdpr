@@ -12,7 +12,7 @@ use Magento\Customer\Block\Adminhtml\Edit\GenericButton;
 use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
-use Opengento\Gdpr\Api\EraseCustomerCheckerInterface;
+use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 
 /**
  * Class EraseButton
@@ -20,19 +20,19 @@ use Opengento\Gdpr\Api\EraseCustomerCheckerInterface;
 final class EraseButton extends GenericButton implements ButtonProviderInterface
 {
     /**
-     * @var \Opengento\Gdpr\Api\EraseCustomerCheckerInterface
+     * @var \Opengento\Gdpr\Api\EraseEntityCheckerInterface
      */
     private $eraseCustomerChecker;
 
     /**
      * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Opengento\Gdpr\Api\EraseCustomerCheckerInterface $eraseCustomerChecker
+     * @param \Opengento\Gdpr\Api\EraseEntityCheckerInterface $eraseCustomerChecker
      */
     public function __construct(
         Context $context,
         Registry $registry,
-        EraseCustomerCheckerInterface $eraseCustomerChecker
+        EraseEntityCheckerInterface $eraseCustomerChecker
     ) {
         $this->eraseCustomerChecker = $eraseCustomerChecker;
         parent::__construct($context, $registry);
@@ -46,7 +46,7 @@ final class EraseButton extends GenericButton implements ButtonProviderInterface
         $customerId = $this->getCustomerId();
         $buttonData = [];
 
-        if ($customerId && $this->eraseCustomerChecker->canCreate($customerId)) {
+        if ($customerId && $this->eraseCustomerChecker->canCreate($customerId, 'customer')) {
             $buttonData = [
                 'label' => new Phrase('Erase Customer'),
                 'class' => 'erase',

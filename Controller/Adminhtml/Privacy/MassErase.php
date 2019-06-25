@@ -15,7 +15,7 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Ui\Component\MassAction\Filter;
-use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
+use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 
 /**
  * Class MassErase
@@ -25,23 +25,23 @@ class MassErase extends AbstractMassAction
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::customer_erase';
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseCustomerManagementInterface
+     * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
      */
-    private $eraseCustomerManagement;
+    private $eraseEntityManagement;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Ui\Component\MassAction\Filter $filter
      * @param \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $collectionFactory
-     * @param \Opengento\Gdpr\Api\EraseCustomerManagementInterface $eraseCustomerManagement
+     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
      */
     public function __construct(
         Context $context,
         Filter $filter,
         CollectionFactory $collectionFactory,
-        EraseCustomerManagementInterface $eraseCustomerManagement
+        EraseEntityManagementInterface $eraseEntityManagement
     ) {
-        $this->eraseCustomerManagement = $eraseCustomerManagement;
+        $this->eraseEntityManagement = $eraseEntityManagement;
         parent::__construct($context, $filter, $collectionFactory);
     }
 
@@ -54,7 +54,7 @@ class MassErase extends AbstractMassAction
 
         foreach ($collection->getAllIds() as $customerId) {
             try {
-                $this->eraseCustomerManagement->process($this->eraseCustomerManagement->create((int) $customerId));
+                $this->eraseEntityManagement->process($this->eraseEntityManagement->create((int) $customerId, 'customer'));
                 $customerErased++;
             } catch (LocalizedException $e) {
                 $this->messageManager->addErrorMessage(

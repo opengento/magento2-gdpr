@@ -8,14 +8,24 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model;
 
 use Magento\Framework\Model\AbstractExtensibleModel;
-use Opengento\Gdpr\Api\Data\EraseCustomerInterface;
-use Opengento\Gdpr\Model\ResourceModel\EraseCustomer as EraseCustomerResource;
+use Opengento\Gdpr\Api\Data\EraseEntityInterface;
+use Opengento\Gdpr\Model\ResourceModel\EraseEntity as EraseCustomerResource;
 
 /**
- * Erase Customer Model
+ * Class EraseEntity
  */
-final class EraseCustomer extends AbstractExtensibleModel implements EraseCustomerInterface
+final class EraseEntity extends AbstractExtensibleModel implements EraseEntityInterface
 {
+    /**
+     * @inheritdoc
+     */
+    protected $_eventPrefix = 'opengento_gdpr_erase_entity';
+
+    /**
+     * @inheritdoc
+     */
+    protected $_eventObject = 'erase_entity';
+
     /**
      * @inheritdoc
      */
@@ -27,35 +37,49 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     /**
      * @inheritdoc
      */
+    public function getEraseId(): int
+    {
+        return (int) $this->getId();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setEraseId(int $eraseId): EraseEntityInterface
+    {
+        return $this->setId($eraseId);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getEntityId(): int
     {
-        return (int) parent::getEntityId();
+        return (int) $this->_getData(self::ENTITY_ID);
     }
 
     /**
      * @inheritdoc
      */
-    public function setEntityId($entityId): EraseCustomerInterface
+    public function setEntityId($entityId): EraseEntityInterface
     {
-        parent::setEntityId((int) $entityId);
-
-        return $this;
+        return $this->setData(self::ENTITY_ID, $entityId);
     }
 
     /**
      * @inheritdoc
      */
-    public function getCustomerId(): int
+    public function getEntityType(): string
     {
-        return (int) $this->_getData(self::CUSTOMER_ID);
+        return (string) $this->_getData(self::ENTITY_TYPE);
     }
 
     /**
      * @inheritdoc
      */
-    public function setCustomerId(int $customerId): EraseCustomerInterface
+    public function setEntityType(string $entityType): EraseEntityInterface
     {
-        return $this->setData(self::CUSTOMER_ID, $customerId);
+        return $this->setData(self::ENTITY_TYPE, $entityType);
     }
 
     /**
@@ -69,7 +93,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     /**
      * @inheritdoc
      */
-    public function setScheduledAt(string $scheduledAt): EraseCustomerInterface
+    public function setScheduledAt(string $scheduledAt): EraseEntityInterface
     {
         return $this->setData(self::SCHEDULED_AT, $scheduledAt);
     }
@@ -85,7 +109,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     /**
      * @inheritdoc
      */
-    public function setState(string $state): EraseCustomerInterface
+    public function setState(string $state): EraseEntityInterface
     {
         return $this->setData(self::STATE, $state);
     }
@@ -101,7 +125,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     /**
      * @inheritdoc
      */
-    public function setStatus(string $status): EraseCustomerInterface
+    public function setStatus(string $status): EraseEntityInterface
     {
         return $this->setData(self::STATUS, $status);
     }
@@ -117,7 +141,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     /**
      * @inheritdoc
      */
-    public function setMessage(?string $message): EraseCustomerInterface
+    public function setMessage(?string $message): EraseEntityInterface
     {
         return $this->setData(self::MESSAGE, $message);
     }
@@ -133,7 +157,7 @@ final class EraseCustomer extends AbstractExtensibleModel implements EraseCustom
     /**
      * @inheritdoc
      */
-    public function setErasedAt(string $erasedAt): EraseCustomerInterface
+    public function setErasedAt(string $erasedAt): EraseEntityInterface
     {
         return $this->setData(self::ERASED_AT, $erasedAt);
     }

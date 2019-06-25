@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model;
 
 use Opengento\Gdpr\Api\ExportInterface;
-use Opengento\Gdpr\Service\Export\ProcessorInterface;
+use Opengento\Gdpr\Service\Export\ProcessorFactory;
 use Opengento\Gdpr\Service\Export\RendererInterface;
 
 /**
@@ -17,9 +17,9 @@ use Opengento\Gdpr\Service\Export\RendererInterface;
 final class ExportManagement implements ExportInterface
 {
     /**
-     * @var \Opengento\Gdpr\Service\Export\ProcessorInterface
+     * @var \Opengento\Gdpr\Service\Export\ProcessorFactory
      */
-    private $exportProcessor;
+    private $exportProcessorFactory;
 
     /**
      * @var \Opengento\Gdpr\Service\Export\RendererInterface
@@ -27,22 +27,24 @@ final class ExportManagement implements ExportInterface
     private $exportRenderer;
 
     /**
-     * @param \Opengento\Gdpr\Service\Export\ProcessorInterface $exportProcessor
+     * @param \Opengento\Gdpr\Service\Export\ProcessorFactory $exportProcessorFactory
      * @param \Opengento\Gdpr\Service\Export\RendererInterface $exportRenderer
      */
     public function __construct(
-        ProcessorInterface $exportProcessor,
+        ProcessorFactory $exportProcessorFactory,
         RendererInterface $exportRenderer
     ) {
-        $this->exportProcessor = $exportProcessor;
+        $this->exportProcessorFactory = $exportProcessorFactory;
         $this->exportRenderer = $exportRenderer;
     }
 
     /**
      * @inheritdoc
      */
-    public function exportToFile(int $customerId, string $fileName): string
+    public function exportToFile(int $entityId, string $entityType, string $fileName): string
     {
-        return $this->exportRenderer->saveData($fileName, $this->exportProcessor->execute($customerId, []));
+        $exporter = $this->exportProcessorFactory->get($entityType);
+
+        return $this->exportRenderer->saveData($fileName, $exporter->execute($entityId, []));
     }
 }

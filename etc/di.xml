@@ -7,19 +7,16 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!-- Service Contract -->
-    <preference for="Opengento\Gdpr\Api\Data\EraseCustomerInterface" type="Opengento\Gdpr\Model\EraseCustomer" />
-    <preference for="Opengento\Gdpr\Api\Data\EraseCustomerSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
-    <preference for="Opengento\Gdpr\Api\EraseCustomerRepositoryInterface" type="Opengento\Gdpr\Model\EraseCustomerRepository" />
-    <preference for="Opengento\Gdpr\Api\EraseCustomerManagementInterface" type="Opengento\Gdpr\Model\EraseCustomerManagement" />
-    <preference for="Opengento\Gdpr\Api\EraseCustomerCheckerInterface" type="Opengento\Gdpr\Model\EraseCustomerChecker" />
-    <preference for="Opengento\Gdpr\Api\EraseInterface" type="Opengento\Gdpr\Model\EraseManagement"/>
-    <preference for="Opengento\Gdpr\Api\EraseGuestInterface" type="Opengento\Gdpr\Model\EraseGuestManagement"/>
+    <preference for="Opengento\Gdpr\Api\Data\EraseEntityInterface" type="Opengento\Gdpr\Model\EraseEntity" />
+    <preference for="Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Opengento\Gdpr\Api\EraseEntityRepositoryInterface" type="Opengento\Gdpr\Model\EraseEntityRepository" />
+    <preference for="Opengento\Gdpr\Api\EraseEntityManagementInterface" type="Opengento\Gdpr\Model\EraseEntityManagement" />
+    <preference for="Opengento\Gdpr\Api\EraseEntityCheckerInterface" type="Opengento\Gdpr\Model\EraseEntityChecker" />
     <preference for="Opengento\Gdpr\Api\ExportInterface" type="Opengento\Gdpr\Model\ExportManagement"/>
-    <preference for="Opengento\Gdpr\Api\ExportGuestInterface" type="Opengento\Gdpr\Model\ExportGuestManagement"/>
     <type name="Magento\Framework\Model\Entity\RepositoryFactory">
         <arguments>
             <argument name="entities" xsi:type="array">
-                <item name="Opengento\Gdpr\Api\Data\EraseCustomerInterface" xsi:type="string">Opengento\Gdpr\Api\EraseCustomerRepositoryInterface</item>
+                <item name="Opengento\Gdpr\Api\Data\EraseEntityInterface" xsi:type="string">Opengento\Gdpr\Api\EraseEntityRepositoryInterface</item>
             </argument>
         </arguments>
     </type>
@@ -623,7 +620,7 @@
             </argument>
         </arguments>
     </virtualType>
-    <!-- Erase Customer Management -->
+    <!-- Erase Logged In Customer Management -->
     <virtualType name="Opengento\Gdpr\Model\Customer\Erase\ProcessorResolver\AnonymizeProcessorResolver" type="Opengento\Gdpr\Service\Erase\ProcessorResolver\AnonymizeProcessorResolver">
         <arguments>
             <argument name="processorPool" xsi:type="object">Opengento\Gdpr\Model\Customer\Anonymize\ProcessorPool</argument>
@@ -664,11 +661,6 @@
             <argument name="eraseComponents" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Customer\EraseComponents</argument>
         </arguments>
     </virtualType>
-    <type name="Opengento\Gdpr\Model\EraseManagement">
-        <arguments>
-            <argument name="processor" xsi:type="object">Opengento\Gdpr\Model\Customer\Erase\Processor\EraseProcessor</argument>
-        </arguments>
-    </type>
     <!-- Erase Guest Management -->
     <virtualType name="Opengento\Gdpr\Model\Order\Erase\ProcessorResolver\AnonymizeProcessorResolver" type="Opengento\Gdpr\Service\Erase\ProcessorResolver\AnonymizeProcessorResolver">
         <arguments>
@@ -710,12 +702,24 @@
             <argument name="eraseComponents" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Order\EraseComponents</argument>
         </arguments>
     </virtualType>
-    <type name="Opengento\Gdpr\Model\EraseGuestManagement">
+    <!-- Erase Management -->
+    <type name="Opengento\Gdpr\Model\Entity\EntityCheckerFactory">
         <arguments>
-            <argument name="processor" xsi:type="object">Opengento\Gdpr\Model\Order\Erase\Processor\EraseProcessor</argument>
+            <argument name="checkers" xsi:type="array">
+                <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\CustomerChecker</item>
+                <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\OrderChecker</item>
+            </argument>
         </arguments>
     </type>
-    <!-- Export Customer Management -->
+    <type name="Opengento\Gdpr\Service\Erase\ProcessorFactory">
+        <arguments>
+            <argument name="erasers" xsi:type="array">
+                <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\Processor\EraseProcessor</item>
+                <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\Processor\EraseProcessor</item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- Export Logged In Customer Management -->
     <virtualType name="Opengento\Gdpr\Model\Customer\Export\Processor\CompositeProcessor" type="Opengento\Gdpr\Service\Export\Processor\CompositeProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
@@ -727,11 +731,6 @@
             </argument>
         </arguments>
     </virtualType>
-    <type name="Opengento\Gdpr\Model\ExportManagement">
-        <arguments>
-            <argument name="exportProcessor" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Processor\CompositeProcessor</argument>
-        </arguments>
-    </type>
     <!-- Export Guest Management -->
     <virtualType name="Opengento\Gdpr\Model\Order\Export\Processor\CompositeProcessor" type="Opengento\Gdpr\Service\Export\Processor\CompositeProcessor">
         <arguments>
@@ -759,6 +758,14 @@
     <type name="Opengento\Gdpr\Service\Export\Processor\AbstractDataProcessor">
         <arguments>
             <argument name="dataCollector" xsi:type="object">Opengento\Gdpr\Service\Export\Entity\DataCollectorGeneric</argument>
+        </arguments>
+    </type>
+    <type name="Opengento\Gdpr\Service\Export\ProcessorFactory">
+        <arguments>
+            <argument name="exporters" xsi:type="array">
+                <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Export\Processor\CompositeProcessor</item>
+                <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Export\Processor\CompositeProcessor</item>
+            </argument>
         </arguments>
     </type>
     <!-- Export Customer Management -->
@@ -1344,8 +1351,8 @@
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="gdpr_customer_erase" xsi:type="object">Opengento\Gdpr\Console\Command\EraseCommand</item>
-                <item name="gdpr_customer_export" xsi:type="object">Opengento\Gdpr\Console\Command\ExportCommand</item>
+                <item name="gdpr_entity_erase" xsi:type="object">Opengento\Gdpr\Console\Command\EraseCommand</item>
+                <item name="gdpr_entity_export" xsi:type="object">Opengento\Gdpr\Console\Command\ExportCommand</item>
             </argument>
         </arguments>
     </type>

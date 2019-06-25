@@ -11,6 +11,7 @@ use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Class ExportFactory
+ * @api
  */
 final class RendererFactory
 {

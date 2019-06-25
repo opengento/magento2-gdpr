@@ -19,14 +19,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class ExportCommand
- * @package Opengento\Gdpr\Console\Command
  */
 final class ExportCommand extends Command
 {
     /**#@+
      * Input Variables Names
      */
-    private const INPUT_ARGUMENT_CUSTOMER = 'customer';
+    private const INPUT_ARGUMENT_ENTITY_ID = 'entity_id';
+    private const INPUT_ARGUMENT_ENTITY_TYPE = 'entity_type';
     private const INPUT_OPTION_FILENAME = 'filename';
     /**#@-*/
 
@@ -48,7 +48,7 @@ final class ExportCommand extends Command
     public function __construct(
         State $appState,
         ExportInterface $exportManagement,
-        string $name = 'gdpr:customer:export'
+        string $name = 'gdpr:entity:export'
     ) {
         $this->appState = $appState;
         $this->exportManagement = $exportManagement;
@@ -62,12 +62,17 @@ final class ExportCommand extends Command
     {
         parent::configure();
 
-        $this->setDescription('Export the customer\'s personal data.');
+        $this->setDescription('Export the entity\'s related data.');
         $this->setDefinition([
             new InputArgument(
-                self::INPUT_ARGUMENT_CUSTOMER,
+                self::INPUT_ARGUMENT_ENTITY_TYPE,
+                InputArgument::REQUIRED,
+                'Entity Type'
+            ),
+            new InputArgument(
+                self::INPUT_ARGUMENT_ENTITY_ID,
                 InputArgument::REQUIRED + InputArgument::IS_ARRAY,
-                'Customer ID'
+                'Entity ID'
             ),
             new InputOption(
                 self::INPUT_OPTION_FILENAME,
@@ -88,13 +93,14 @@ final class ExportCommand extends Command
         $this->appState->setAreaCode(Area::AREA_GLOBAL);
 
         $resultCode = Cli::RETURN_SUCCESS;
-        $customerIds = $input->getArgument(self::INPUT_ARGUMENT_CUSTOMER);
+        $entityIds = $input->getArgument(self::INPUT_ARGUMENT_ENTITY_ID);
+        $entityType = $input->getArgument(self::INPUT_ARGUMENT_ENTITY_TYPE);
         $fileName = $input->getOption(self::INPUT_OPTION_FILENAME);
 
         try {
-            foreach ($customerIds as $customerId) {
-                $exportFile = $this->exportManagement->exportToFile((int) $customerId, $fileName . '_' . $customerId);
-                $output->writeln('<info>Customer\'s personal data have been exported to: ' . $exportFile . '.</info>');
+            foreach ($entityIds as $entityId) {
+                $out = $this->exportManagement->exportToFile((int) $entityId, $entityType, $fileName . '_' . $entityId);
+                $output->writeln('<info>Entity\'s related data have been exported to: ' . $out . '.</info>');
             }
         } catch (\Exception $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');

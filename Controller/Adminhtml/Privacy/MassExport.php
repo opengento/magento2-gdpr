@@ -75,7 +75,7 @@ class MassExport extends AbstractMassAction
             foreach ($collection->getAllIds() as $customerId) {
                 $this->moveToArchive->prepareArchive(
                     $this->moveToArchive->prepareArchive(
-                        $this->exportManagement->exportToFile((int) $customerId, 'personal_data'),
+                        $this->exportManagement->exportToFile((int) $customerId, 'personal_data', 'customer'),
                         'customer_privacy_data_' . $customerId . '.zip'
                     ),
                     $archiveFileName

@@ -12,7 +12,7 @@ use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
-use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
+use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,7 +26,8 @@ final class EraseCommand extends Command
     /**#@+
      * Input Variables Names
      */
-    private const INPUT_ARGUMENT_CUSTOMER = 'customer';
+    private const INPUT_ARGUMENT_ENTITY_ID = 'entity_id';
+    private const INPUT_ARGUMENT_ENTITY_TYPE = 'entity_type';
     /**#@-*/
 
     /**
@@ -40,25 +41,25 @@ final class EraseCommand extends Command
     private $registry;
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseCustomerManagementInterface
+     * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
      */
-    private $eraseCustomerManagement;
+    private $eraseEntityManagement;
 
     /**
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Registry $registry
-     * @param \Opengento\Gdpr\Api\EraseCustomerManagementInterface $eraseCustomerManagement
+     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
      * @param string $name
      */
     public function __construct(
         State $appState,
         Registry $registry,
-        EraseCustomerManagementInterface $eraseCustomerManagement,
-        string $name = 'gdpr:customer:erase'
+        EraseEntityManagementInterface $eraseEntityManagement,
+        string $name = 'gdpr:entity:erase'
     ) {
         $this->appState = $appState;
         $this->registry = $registry;
-        $this->eraseCustomerManagement = $eraseCustomerManagement;
+        $this->eraseEntityManagement = $eraseEntityManagement;
         parent::__construct($name);
     }
 
@@ -69,13 +70,18 @@ final class EraseCommand extends Command
     {
         parent::configure();
 
-        $this->setDescription('Erase the customer\'s personal data.');
+        $this->setDescription('Erase the entity\'s related data.');
         $this->setDefinition([
             new InputArgument(
-                self::INPUT_ARGUMENT_CUSTOMER,
+                self::INPUT_ARGUMENT_ENTITY_TYPE,
+                InputArgument::REQUIRED,
+                'Entity Type'
+            ),
+            new InputArgument(
+                self::INPUT_ARGUMENT_ENTITY_ID,
                 InputArgument::REQUIRED + InputArgument::IS_ARRAY,
-                'Customer ID'
-            )
+                'Entity ID'
+            ),
         ]);
     }
 
@@ -91,10 +97,17 @@ final class EraseCommand extends Command
 
         $returnCode = Cli::RETURN_SUCCESS;
 
+        $entityIds = $input->getArgument(self::INPUT_ARGUMENT_ENTITY_ID);
+        $entityType = $input->getArgument(self::INPUT_ARGUMENT_ENTITY_TYPE);
+
         try {
-            foreach ($input->getArgument(self::INPUT_ARGUMENT_CUSTOMER) as $customerId) {
-                $this->eraseCustomerManagement->process($this->eraseCustomerManagement->create((int) $customerId));
-                $output->writeln('<info>Customer\'s ("' . $customerId . '") personal data has been erased.</info>');
+            foreach ($entityIds as $entityId) {
+                $this->eraseEntityManagement->process(
+                    $this->eraseEntityManagement->create((int) $entityId, $entityType)
+                );
+                $output->writeln(
+                    '<info>Entity\'s (' . $entityType . ') with ID "' . $entityId . '" has been erased.</info>'
+                );
             }
         } catch (LocalizedException $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');

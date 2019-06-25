@@ -10,16 +10,17 @@ namespace Opengento\Gdpr\Api\Data;
 use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
- * Interface EraseCustomerInterface
+ * Interface EraseEntityInterface
  * @api
  */
-interface EraseCustomerInterface extends ExtensibleDataInterface
+interface EraseEntityInterface extends ExtensibleDataInterface
 {
     /**#@+
      * Constants for fields keys
      */
-    public const ID = 'entity_id';
-    public const CUSTOMER_ID = 'customer_id';
+    public const ID = 'erase_id';
+    public const ENTITY_ID = 'entity_id';
+    public const ENTITY_TYPE = 'entity_type';
     public const SCHEDULED_AT = 'scheduled_at';
     public const STATE = 'state';
     public const STATUS = 'status';
@@ -45,6 +46,21 @@ interface EraseCustomerInterface extends ExtensibleDataInterface
     /**#@-*/
 
     /**
+     * Retrieve the erase ID
+     *
+     * @return int
+     */
+    public function getEraseId(): int;
+
+    /**
+     * Set the erase ID
+     *
+     * @param int $eraseId
+     * @return \Opengento\Gdpr\Api\Data\EraseEntityInterface
+     */
+    public function setEraseId(int $eraseId): EraseEntityInterface;
+
+    /**
      * Retrieve the entity ID
      *
      * @return int
@@ -55,24 +71,25 @@ interface EraseCustomerInterface extends ExtensibleDataInterface
      * Set the entity ID
      *
      * @param int $entityId
-     * @return \Opengento\Gdpr\Api\Data\EraseCustomerInterface
+     * @return \Opengento\Gdpr\Api\Data\EraseEntityInterface
+     * @todo force type in php7.4
      */
-    public function setEntityId($entityId): EraseCustomerInterface;
+    public function setEntityId($entityId): EraseEntityInterface;
 
     /**
-     * Retrieve the customer ID
+     * Retrieve the entity type
      *
-     * @return int
+     * @return string
      */
-    public function getCustomerId(): int;
+    public function getEntityType(): string;
 
     /**
-     * Set the customer ID
+     * Set the entity type
      *
-     * @param int $customerId
-     * @return \Opengento\Gdpr\Api\Data\EraseCustomerInterface
+     * @param string $entityType
+     * @return \Opengento\Gdpr\Api\Data\EraseEntityInterface
      */
-    public function setCustomerId(int $customerId): EraseCustomerInterface;
+    public function setEntityType(string $entityType): EraseEntityInterface;
 
     /**
      * Retrieve the scheduled at
@@ -85,9 +102,9 @@ interface EraseCustomerInterface extends ExtensibleDataInterface
      * Set the schedule at
      *
      * @param string $scheduledAt
-     * @return \Opengento\Gdpr\Api\Data\EraseCustomerInterface
+     * @return \Opengento\Gdpr\Api\Data\EraseEntityInterface
      */
-    public function setScheduledAt(string $scheduledAt): EraseCustomerInterface;
+    public function setScheduledAt(string $scheduledAt): EraseEntityInterface;
 
     /**
      * Retrieve the state
@@ -100,9 +117,9 @@ interface EraseCustomerInterface extends ExtensibleDataInterface
      * Set the state
      *
      * @param string $state
-     * @return \Opengento\Gdpr\Api\Data\EraseCustomerInterface
+     * @return \Opengento\Gdpr\Api\Data\EraseEntityInterface
      */
-    public function setState(string $state): EraseCustomerInterface;
+    public function setState(string $state): EraseEntityInterface;
 
     /**
      * Retrieve the status
@@ -115,9 +132,9 @@ interface EraseCustomerInterface extends ExtensibleDataInterface
      * Set the status
      *
      * @param string $status
-     * @return \Opengento\Gdpr\Api\Data\EraseCustomerInterface
+     * @return \Opengento\Gdpr\Api\Data\EraseEntityInterface
      */
-    public function setStatus(string $status): EraseCustomerInterface;
+    public function setStatus(string $status): EraseEntityInterface;
 
     /**
      * Retrieve the error message
@@ -130,9 +147,9 @@ interface EraseCustomerInterface extends ExtensibleDataInterface
      * Set the error message
      *
      * @param string|null $message
-     * @return \Opengento\Gdpr\Api\Data\EraseCustomerInterface
+     * @return \Opengento\Gdpr\Api\Data\EraseEntityInterface
      */
-    public function setMessage(?string $message): EraseCustomerInterface;
+    public function setMessage(?string $message): EraseEntityInterface;
 
     /**
      * Retrieve the erased at if it exists
@@ -145,7 +162,7 @@ interface EraseCustomerInterface extends ExtensibleDataInterface
      * Set the erased at
      *
      * @param string $erasedAt
-     * @return \Opengento\Gdpr\Api\Data\EraseCustomerInterface
+     * @return \Opengento\Gdpr\Api\Data\EraseEntityInterface
      */
-    public function setErasedAt(string $erasedAt): EraseCustomerInterface;
+    public function setErasedAt(string $erasedAt): EraseEntityInterface;
 }

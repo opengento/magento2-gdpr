@@ -10,7 +10,7 @@ namespace Opengento\Gdpr\ViewModel\Privacy;
 use Magento\Customer\Model\Session;
 use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
-use Opengento\Gdpr\Api\EraseCustomerCheckerInterface;
+use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 
 /**
  * Class EraseCustomerDataProvider
@@ -18,9 +18,9 @@ use Opengento\Gdpr\Api\EraseCustomerCheckerInterface;
 final class EraseCustomerDataProvider extends DataObject implements ArgumentInterface
 {
     /**
-     * @var \Opengento\Gdpr\Api\EraseCustomerCheckerInterface
+     * @var \Opengento\Gdpr\Api\EraseEntityCheckerInterface
      */
-    private $eraseCustomerChecker;
+    private $eraseEntityChecker;
 
     /**
      * @var \Magento\Customer\Model\Session
@@ -28,16 +28,16 @@ final class EraseCustomerDataProvider extends DataObject implements ArgumentInte
     private $session;
 
     /**
-     * @param \Opengento\Gdpr\Api\EraseCustomerCheckerInterface $eraseCustomerChecker
+     * @param \Opengento\Gdpr\Api\EraseEntityCheckerInterface $eraseEntityChecker
      * @param \Magento\Customer\Model\Session $session
      * @param array $data
      */
     public function __construct(
-        EraseCustomerCheckerInterface $eraseCustomerChecker,
+        EraseEntityCheckerInterface $eraseEntityChecker,
         Session $session,
         array $data = []
     ) {
-        $this->eraseCustomerChecker = $eraseCustomerChecker;
+        $this->eraseEntityChecker = $eraseEntityChecker;
         $this->session = $session;
         parent::__construct($data);
     }
@@ -50,7 +50,8 @@ final class EraseCustomerDataProvider extends DataObject implements ArgumentInte
     public function canCancel(): bool
     {
         if (!$this->hasData('can_cancel')) {
-            $this->setData('can_cancel', $this->eraseCustomerChecker->canCancel((int) $this->session->getCustomerId()));
+            $canCancel = $this->eraseEntityChecker->canCancel((int) $this->session->getCustomerId(), 'customer');
+            $this->setData('can_cancel', $canCancel);
         }
 
         return (bool) $this->_getData('can_cancel');
@@ -64,7 +65,8 @@ final class EraseCustomerDataProvider extends DataObject implements ArgumentInte
     public function canCreate(): bool
     {
         if (!$this->hasData('can_create')) {
-            $this->setData('can_create', $this->eraseCustomerChecker->canCreate((int) $this->session->getCustomerId()));
+            $canCreate = $this->eraseEntityChecker->canCreate((int) $this->session->getCustomerId(), 'customer');
+            $this->setData('can_create', $canCreate);
         }
 
         return (bool) $this->_getData('can_create');

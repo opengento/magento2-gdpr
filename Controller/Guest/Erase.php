@@ -13,32 +13,36 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
 use Magento\Sales\Controller\AbstractController\OrderLoaderInterface;
-use Opengento\Gdpr\Api\EraseGuestInterface;
+use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Controller\AbstractGuest;
 use Opengento\Gdpr\Model\Config;
+use Opengento\Gdpr\Model\EraseEntityType;
 
 /**
  * Class Erase
  */
 class Erase extends AbstractGuest
 {
-    private $eraseGuest;
+    /**
+     * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
+     */
+    private $eraseEntityManagement;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Sales\Controller\AbstractController\OrderLoaderInterface $orderLoader
-     * @param \Opengento\Gdpr\Api\EraseGuestInterface $eraseGuest
+     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
      * @param \Magento\Framework\Registry $registry
      */
     public function __construct(
         Context $context,
         Config $config,
         OrderLoaderInterface $orderLoader,
-        EraseGuestInterface $eraseGuest,
+        EraseEntityManagementInterface $eraseEntityManagement,
         Registry $registry
     ) {
-        $this->eraseGuest = $eraseGuest;
+        $this->eraseEntityManagement = $eraseEntityManagement;
         parent::__construct($context, $config, $orderLoader, $registry);
     }
 
@@ -60,9 +64,7 @@ class Erase extends AbstractGuest
         $resultRedirect->setRefererOrBaseUrl();
 
         try {
-            //todo refactor with eraseCustomer accepting guest?
-            //todo check erase is possible for the current guest order
-            $this->eraseGuest->erase($this->retrieveOrder());
+            $this->eraseEntityManagement->create($this->retrieveOrder()->getEntityId(), 'order');
             $this->messageManager->addWarningMessage(new Phrase('Your personal data is being removed.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());

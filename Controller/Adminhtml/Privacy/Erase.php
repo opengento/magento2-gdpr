@@ -13,7 +13,7 @@ use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\EraseCustomerManagementInterface;
+use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 
 /**
  * Class Erase
@@ -23,19 +23,19 @@ class Erase extends Action implements HttpPostActionInterface
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::customer_erase';
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseCustomerManagementInterface
+     * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
      */
-    private $eraseCustomerManagement;
+    private $eraseEntityManagement;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Opengento\Gdpr\Api\EraseCustomerManagementInterface $eraseCustomerManagement
+     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
      */
     public function __construct(
         Context $context,
-        EraseCustomerManagementInterface $eraseCustomerManagement
+        EraseEntityManagementInterface $eraseEntityManagement
     ) {
-        $this->eraseCustomerManagement = $eraseCustomerManagement;
+        $this->eraseEntityManagement = $eraseEntityManagement;
         parent::__construct($context);
     }
 
@@ -45,8 +45,8 @@ class Erase extends Action implements HttpPostActionInterface
     public function execute()
     {
         try {
-            $this->eraseCustomerManagement->process(
-                $this->eraseCustomerManagement->create((int) $this->getRequest()->getParam('id'))
+            $this->eraseEntityManagement->process(
+                $this->eraseEntityManagement->create((int) $this->getRequest()->getParam('id'), 'customer')
             );
             $this->messageManager->addSuccessMessage(new Phrase('You erased the customer.'));
         } catch (LocalizedException $e) {

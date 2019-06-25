@@ -11,11 +11,12 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
+use Opengento\Gdpr\Model\Entity\EntityCheckerInterface;
 
 /**
  * Class CustomerChecker
  */
-final class CustomerChecker
+final class CustomerChecker implements EntityCheckerInterface
 {
     /**
      * @var \Magento\Sales\Api\OrderRepositoryInterface
@@ -54,11 +55,7 @@ final class CustomerChecker
     }
 
     /**
-     * Check if the customer has pending orders
-     *
-     * @param int $customerId
-     * @param bool $forceReload [optional]
-     * @return bool
+     * @inheritdoc
      */
     public function hasPendingOrders(int $customerId, bool $forceReload = false): bool
     {
