@@ -51,6 +51,14 @@ class UndoErase extends AbstractPrivacy
     /**
      * @inheritdoc
      */
+    protected function isAllowed(): bool
+    {
+        return parent::isAllowed() && $this->config->isErasureEnabled();
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function executeAction()
     {
         /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */

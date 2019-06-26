@@ -80,7 +80,7 @@ class Export extends AbstractGuest
         try {
             /** @var \Magento\Sales\Api\Data\OrderInterface $order */
             $order = $this->registry->registry('current_order');
-            $fileName = $this->exportManagement->exportToFile($order->getEntityId(), 'order', 'personal_data');
+            $fileName = $this->exportManagement->exportToFile($this->retrieveOrderId(), 'order', 'personal_data');
             $archiveFileName = 'customer_privacy_data_' . $order->getCustomerLastname() . '.zip';
 
             return $this->fileFactory->create(

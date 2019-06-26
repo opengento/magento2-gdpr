@@ -8,14 +8,15 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="sales.order.info.buttons">
-            <block class="Magento\Framework\View\Element\Template" name="sales.order.info.buttons.export" as="buttons.export" template="Opengento_Gdpr::order/info/buttons/export.phtml" ifconfig="gdpr/export/enabled">
+            <block class="Magento\Framework\View\Element\Template" name="sales.order.info.buttons.export" as="buttons.export" template="Opengento_Gdpr::order/info/buttons/export.phtml" ifconfig="gdpr/export/enabled" cacheable="false">
                 <arguments>
                     <argument name="actionUrl" xsi:type="url" path="customer/guest/export"/>
                 </arguments>
             </block>
-            <block class="Magento\Framework\View\Element\Template" name="sales.order.info.buttons.erase" as="buttons.erase" template="Opengento_Gdpr::order/info/buttons/erase.phtml" ifconfig="gdpr/erasure/enabled">
+            <block class="Magento\Framework\View\Element\Template" name="sales.order.info.buttons.erase" as="buttons.erase" template="Opengento_Gdpr::order/info/buttons/erase.phtml" ifconfig="gdpr/erasure/enabled" cacheable="false">
                 <arguments>
-                    <argument name="actionUrl" xsi:type="url" path="customer/guest/erase"/>
+                    <argument name="eraseActionUrl" xsi:type="url" path="customer/guest/erase"/>
+                    <argument name="undoActionUrl" xsi:type="url" path="customer/guest/undoerase"/>
                     <argument name="eraseGuestDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Privacy\EraseGuestDataProvider</argument>
                 </arguments>
             </block>

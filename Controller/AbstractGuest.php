@@ -62,12 +62,14 @@ abstract class AbstractGuest extends AbstractAction
     }
 
     /**
-     * Retrieve the current guest order
+     * Retrieve the current guest order ID
      *
-     * @return \Magento\Sales\Api\Data\OrderInterface
+     * @return int
      */
-    protected function retrieveOrder(): OrderInterface
+    protected function retrieveOrderId(): int
     {
-        return $this->registry->registry('current_order');
+        $order = $this->registry->registry('current_order');
+
+        return $order && $order instanceof OrderInterface ? (int) $order->getEntityId() : -1;
     }
 }

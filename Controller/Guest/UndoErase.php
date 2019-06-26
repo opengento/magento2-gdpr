@@ -18,9 +18,9 @@ use Opengento\Gdpr\Controller\AbstractGuest;
 use Opengento\Gdpr\Model\Config;
 
 /**
- * Class Erase
+ * Class UndoErase
  */
-class Erase extends AbstractGuest
+class UndoErase extends AbstractGuest
 {
     /**
      * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
@@ -63,8 +63,8 @@ class Erase extends AbstractGuest
         $resultRedirect->setRefererOrBaseUrl();
 
         try {
-            $this->eraseEntityManagement->create($this->retrieveOrderId(), 'order');
-            $this->messageManager->addWarningMessage(new Phrase('Your personal data is being removed soon.'));
+            $this->eraseEntityManagement->cancel($this->retrieveOrderId(), 'order');
+            $this->messageManager->addWarningMessage(new Phrase('You canceled your personal data deletion.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
         } catch (\Exception $e) {

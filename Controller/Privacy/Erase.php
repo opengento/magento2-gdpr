@@ -50,6 +50,14 @@ class Erase extends AbstractPrivacy
     /**
      * @inheritdoc
      */
+    protected function isAllowed(): bool
+    {
+        return parent::isAllowed() && $this->config->isErasureEnabled();
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function executeAction()
     {
         if ($this->eraseCustomerChecker->exists((int) $this->session->getCustomerId(), 'customer')) {

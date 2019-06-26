@@ -71,6 +71,14 @@ class ErasePost extends AbstractPrivacy
     /**
      * @inheritdoc
      */
+    protected function isAllowed(): bool
+    {
+        return parent::isAllowed() && $this->config->isErasureEnabled();
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function executeAction()
     {
         /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
@@ -85,7 +93,7 @@ class ErasePost extends AbstractPrivacy
             $customerId = (int) $this->session->getCustomerId();
             $this->authentication->authenticate($customerId, $this->getRequest()->getParam('password'));
             $this->eraseEntityManagement->create($customerId, 'customer');
-            $this->messageManager->addWarningMessage(new Phrase('Your personal data is being removed.'));
+            $this->messageManager->addWarningMessage(new Phrase('Your personal data is being removed soon.'));
         } catch (InvalidEmailOrPasswordException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
             $resultRedirect->setRefererOrBaseUrl();

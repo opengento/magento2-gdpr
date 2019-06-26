@@ -735,9 +735,9 @@
     <virtualType name="Opengento\Gdpr\Model\Order\Export\Processor\CompositeProcessor" type="Opengento\Gdpr\Service\Export\Processor\CompositeProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
-                <item name="quote" xsi:type="object">Opengento\Gdpr\Service\Guest\Export\Processor\QuoteDataProcessor</item>
-                <item name="order" xsi:type="object">Opengento\Gdpr\Service\Guest\Export\Processor\OrderDataProcessor</item>
-                <item name="subscriber" xsi:type="object">Opengento\Gdpr\Service\Guest\Export\Processor\SubscriberDataProcessor</item>
+                <item name="quote" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Processor\QuoteDataProcessor</item>
+                <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Processor\OrderDataProcessor</item>
+                <item name="subscriber" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Processor\SubscriberDataProcessor</item>
             </argument>
         </arguments>
     </virtualType>
