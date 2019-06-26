@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class ExportCommand
  */
-final class ExportCommand extends Command
+class ExportCommand extends Command
 {
     /**#@+
      * Input Variables Names
