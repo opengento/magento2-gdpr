@@ -59,7 +59,7 @@ final class EraseEntityChecker implements EraseEntityCheckerInterface
     {
         $entityChecker = $this->entityCheckerFactory->get($entityType);
 
-        return !$this->exists($entityId, $entityType) && !$entityChecker->hasPendingOrders($entityId);
+        return !$this->exists($entityId, $entityType) && $entityChecker->canErase($entityId);
     }
 
     /**
@@ -93,6 +93,6 @@ final class EraseEntityChecker implements EraseEntityCheckerInterface
                 && $entity->getStatus() === EraseEntityInterface::STATUS_READY)
             || ($entity->getState() === EraseEntityInterface::STATE_PROCESSING
                 && $entity->getStatus() === EraseEntityInterface::STATUS_FAILED))
-            && !$entityChecker->hasPendingOrders($entityId);
+            && $entityChecker->canErase($entityId);
     }
 }

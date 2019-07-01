@@ -7,14 +7,15 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model;
 
-use Opengento\Gdpr\Api\ExportInterface;
+use Opengento\Gdpr\Api\Data\ExportEntityInterface;
+use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Service\Export\ProcessorFactory;
 use Opengento\Gdpr\Service\Export\RendererInterface;
 
 /**
- * Class ExportManagement
+ * Class ExportEntityManagement
  */
-final class ExportManagement implements ExportInterface
+final class ExportEntityManagement implements ExportEntityManagementInterface
 {
     /**
      * @var \Opengento\Gdpr\Service\Export\ProcessorFactory
@@ -41,10 +42,13 @@ final class ExportManagement implements ExportInterface
     /**
      * @inheritdoc
      */
-    public function exportToFile(int $entityId, string $entityType, string $fileName): string
+    public function export(ExportEntityInterface $exportEntity): string
     {
-        $exporter = $this->exportProcessorFactory->get($entityType);
+        $exporter = $this->exportProcessorFactory->get($exportEntity->getEntityType());
 
-        return $this->exportRenderer->saveData($fileName, $exporter->execute($entityId, []));
+        return $this->exportRenderer->saveData(
+            $exportEntity->getFileName(),
+            $exporter->execute($exportEntity->getEntityId(), [])
+        );
     }
 }

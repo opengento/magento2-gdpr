@@ -15,10 +15,11 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
 use Magento\Sales\Controller\AbstractController\OrderLoaderInterface;
-use Opengento\Gdpr\Api\ExportInterface;
+use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Controller\AbstractGuest;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
 use Opengento\Gdpr\Model\Config;
+use Opengento\Gdpr\Model\Export\ExportEntityFactory;
 
 /**
  * Class Export
@@ -36,16 +37,22 @@ class Export extends AbstractGuest
     private $moveToArchive;
 
     /**
-     * @var \Opengento\Gdpr\Api\ExportInterface
+     * @var \Opengento\Gdpr\Api\ExportEntityManagementInterface
      */
     private $exportManagement;
+
+    /**
+     * @var \Opengento\Gdpr\Model\Export\ExportEntityFactory
+     */
+    private $exportEntityFactory;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Opengento\Gdpr\Model\Archive\MoveToArchive $moveToArchive
-     * @param \Opengento\Gdpr\Api\ExportInterface $exportManagement
+     * @param \Opengento\Gdpr\Api\ExportEntityManagementInterface $exportManagement
+     * @param \Opengento\Gdpr\Model\Export\ExportEntityFactory $exportEntityFactory
      * @param \Magento\Sales\Controller\AbstractController\OrderLoaderInterface $orderLoader
      * @param \Magento\Framework\Registry $registry
      */
@@ -54,13 +61,15 @@ class Export extends AbstractGuest
         Config $config,
         FileFactory $fileFactory,
         MoveToArchive $moveToArchive,
-        ExportInterface $exportManagement,
+        ExportEntityManagementInterface $exportManagement,
+        ExportEntityFactory $exportEntityFactory,
         OrderLoaderInterface $orderLoader,
         Registry $registry
     ) {
         $this->fileFactory = $fileFactory;
         $this->moveToArchive = $moveToArchive;
         $this->exportManagement = $exportManagement;
+        $this->exportEntityFactory = $exportEntityFactory;
         parent::__construct($context, $config, $orderLoader, $registry);
     }
 
@@ -80,7 +89,7 @@ class Export extends AbstractGuest
         try {
             /** @var \Magento\Sales\Api\Data\OrderInterface $order */
             $order = $this->registry->registry('current_order');
-            $fileName = $this->exportManagement->exportToFile($this->retrieveOrderId(), 'order', 'personal_data');
+            $fileName = $this->exportManagement->export($this->exportEntityFactory->create($this->retrieveOrderId()));
             $archiveFileName = 'customer_privacy_data_' . $order->getCustomerLastname() . '.zip';
 
             return $this->fileFactory->create(

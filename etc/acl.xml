@@ -17,6 +17,16 @@
                         </resource>
                     </resource>
                 </resource>
+                <resource id="Magento_Sales::sales">
+                    <resource id="Magento_Sales::sales_operation">
+                        <resource id="Magento_Sales::sales_order">
+                            <resource id="Magento_Sales::actions">
+                                <resource id="Opengento_Gdpr::order_erase" title="GDPR Compliance Erase Guest Order" translate="title" sortOrder="160"/>
+                                <resource id="Opengento_Gdpr::order_export" title="GDPR Compliance Export Guest Order" translate="title" sortOrder="170"/>
+                            </resource>
+                        </resource>
+                    </resource>
+                </resource>
                 <resource id="Magento_Backend::stores">
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config">

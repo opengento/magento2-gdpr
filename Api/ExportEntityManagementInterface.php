@@ -7,19 +7,19 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Api;
 
+use Opengento\Gdpr\Api\Data\ExportEntityInterface;
+
 /**
- * Interface ExportInterface
+ * Interface ExportEntityManagementInterface
  * @api
  */
-interface ExportInterface
+interface ExportEntityManagementInterface
 {
     /**
      * Export all data related to a given entity to the file
      *
-     * @param int $entityId
-     * @param string $entityType
-     * @param string $fileName
+     * @param \Opengento\Gdpr\Api\Data\ExportEntityInterface $exportEntity
      * @return string
      */
-    public function exportToFile(int $entityId, string $entityType, string $fileName): string;
+    public function export(ExportEntityInterface $exportEntity): string;
 }

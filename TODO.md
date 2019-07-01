@@ -75,6 +75,14 @@ GDPR facade for customer actions
 - Frontend UI (OK)
 - Console (OK)
 
+## Notification
+
+notify customer from its requests
+
+## Admin
+
+enable action for guests (guest orders)
+
 ## yu
 
 https://github.com/magento/architecture/pull/145/files

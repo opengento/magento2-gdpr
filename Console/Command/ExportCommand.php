@@ -10,7 +10,8 @@ namespace Opengento\Gdpr\Console\Command;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
-use Opengento\Gdpr\Api\ExportInterface;
+use Opengento\Gdpr\Api\ExportEntityManagementInterface;
+use Opengento\Gdpr\Model\ExportEntity;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,18 +37,18 @@ class ExportCommand extends Command
     private $appState;
 
     /**
-     * @var \Opengento\Gdpr\Api\ExportInterface
+     * @var \Opengento\Gdpr\Api\ExportEntityManagementInterface
      */
     private $exportManagement;
 
     /**
      * @param \Magento\Framework\App\State $appState
-     * @param \Opengento\Gdpr\Api\ExportInterface $exportManagement
+     * @param \Opengento\Gdpr\Api\ExportEntityManagementInterface $exportManagement
      * @param string $name
      */
     public function __construct(
         State $appState,
-        ExportInterface $exportManagement,
+        ExportEntityManagementInterface $exportManagement,
         string $name = 'gdpr:entity:export'
     ) {
         $this->appState = $appState;
@@ -99,7 +100,9 @@ class ExportCommand extends Command
 
         try {
             foreach ($entityIds as $entityId) {
-                $out = $this->exportManagement->exportToFile((int) $entityId, $entityType, $fileName . '_' . $entityId);
+                $out = $this->exportManagement->export(
+                    new ExportEntity((int) $entityId, $entityType, $fileName . '_' . $entityId)
+                );
                 $output->writeln('<info>Entity\'s related data have been exported to: ' . $out . '.</info>');
             }
         } catch (\Exception $e) {

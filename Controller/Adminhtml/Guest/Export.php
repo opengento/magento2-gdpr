@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Controller\Adminhtml\Privacy;
+namespace Opengento\Gdpr\Controller\Adminhtml\Guest;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
@@ -23,7 +23,7 @@ use Opengento\Gdpr\Model\Export\ExportEntityFactory;
  */
 class Export extends Action
 {
-    public const ADMIN_RESOURCE = 'Opengento_Gdpr::customer_export';
+    public const ADMIN_RESOURCE = 'Opengento_Gdpr::order_export';
 
     /**
      * @var \Magento\Framework\App\Response\Http\FileFactory
@@ -72,9 +72,9 @@ class Export extends Action
     public function execute()
     {
         try {
-            $customerId = (int) $this->getRequest()->getParam('id');
-            $fileName = $this->exportManagement->export($this->exportEntityFactory->create($customerId));
-            $archiveFileName = 'customer_privacy_data_' . $customerId . '.zip';
+            $entityId = (int) $this->getRequest()->getParam('id');
+            $fileName = $this->exportManagement->export($this->exportEntityFactory->create($entityId));
+            $archiveFileName = 'guest_privacy_data_' . $entityId . '.zip';
 
             return $this->fileFactory->create(
                 $archiveFileName,

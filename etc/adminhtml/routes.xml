@@ -10,5 +10,8 @@
         <route id="customer">
             <module name="Opengento_Gdpr" after="Magento_Customer"/>
         </route>
+        <route id="sales">
+            <module name="Opengento_Gdpr" after="Magento_Sales"/>
+        </route>
     </router>
 </config>

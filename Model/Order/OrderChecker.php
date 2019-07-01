@@ -41,10 +41,10 @@ final class OrderChecker implements EntityCheckerInterface
     /**
      * @inheritdoc
      */
-    public function hasPendingOrders(int $orderId, bool $forceReload = false): bool
+    public function canErase(int $orderId, bool $forceReload = false): bool
     {
         $order = $this->orderRepository->get($orderId);
 
-        return \in_array($order->getState(), $this->config->getAllowedStatesToErase(), true);
+        return !$order->getCustomerId() && \in_array($order->getState(), $this->config->getAllowedStatesToErase(), true);
     }
 }

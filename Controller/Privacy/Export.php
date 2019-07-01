@@ -14,10 +14,11 @@ use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\ExportInterface;
+use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
 use Opengento\Gdpr\Model\Config;
+use Opengento\Gdpr\Model\Export\ExportEntityFactory;
 
 /**
  * Action Export Export
@@ -35,9 +36,14 @@ class Export extends AbstractPrivacy
     private $moveToArchive;
 
     /**
-     * @var \Opengento\Gdpr\Api\ExportInterface
+     * @var \Opengento\Gdpr\Api\ExportEntityManagementInterface
      */
     private $exportManagement;
+
+    /**
+     * @var \Opengento\Gdpr\Model\Export\ExportEntityFactory
+     */
+    private $exportEntityFactory;
 
     /**
      * @var \Magento\Customer\Model\Session
@@ -49,7 +55,8 @@ class Export extends AbstractPrivacy
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Opengento\Gdpr\Model\Archive\MoveToArchive $moveToArchive
-     * @param \Opengento\Gdpr\Api\ExportInterface $exportManagement
+     * @param \Opengento\Gdpr\Api\ExportEntityManagementInterface $exportManagement
+     * @param \Opengento\Gdpr\Model\Export\ExportEntityFactory $exportEntityFactory
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
@@ -57,12 +64,14 @@ class Export extends AbstractPrivacy
         Config $config,
         FileFactory $fileFactory,
         MoveToArchive $moveToArchive,
-        ExportInterface $exportManagement,
+        ExportEntityManagementInterface $exportManagement,
+        ExportEntityFactory $exportEntityFactory,
         Session $customerSession
     ) {
         $this->fileFactory = $fileFactory;
         $this->moveToArchive = $moveToArchive;
         $this->exportManagement = $exportManagement;
+        $this->exportEntityFactory = $exportEntityFactory;
         $this->customerSession = $customerSession;
         parent::__construct($context, $config);
     }
@@ -82,7 +91,7 @@ class Export extends AbstractPrivacy
     {
         try {
             $customerId = (int) $this->customerSession->getCustomerId();
-            $fileName = $this->exportManagement->exportToFile($customerId, 'customer', 'personal_data');
+            $fileName = $this->exportManagement->export($this->exportEntityFactory->create($customerId));
             $archiveFileName = 'customer_privacy_data_' . $customerId . '.zip';
 
             return $this->fileFactory->create(

@@ -17,8 +17,9 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Ui\Component\MassAction\Filter;
-use Opengento\Gdpr\Api\ExportInterface;
+use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
+use Opengento\Gdpr\Model\Export\ExportEntityFactory;
 
 /**
  * Class MassExport
@@ -38,9 +39,14 @@ class MassExport extends AbstractMassAction
     private $moveToArchive;
 
     /**
-     * @var \Opengento\Gdpr\Api\ExportInterface
+     * @var \Opengento\Gdpr\Api\ExportEntityManagementInterface
      */
     private $exportManagement;
+
+    /**
+     * @var \Opengento\Gdpr\Model\Export\ExportEntityFactory
+     */
+    private $exportEntityFactory;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
@@ -48,7 +54,8 @@ class MassExport extends AbstractMassAction
      * @param \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $collectionFactory
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Opengento\Gdpr\Model\Archive\MoveToArchive $moveToArchive
-     * @param \Opengento\Gdpr\Api\ExportInterface $exportManagement
+     * @param \Opengento\Gdpr\Api\ExportEntityManagementInterface $exportManagement
+     * @param \Opengento\Gdpr\Model\Export\ExportEntityFactory $exportEntityFactory
      */
     public function __construct(
         Context $context,
@@ -56,11 +63,13 @@ class MassExport extends AbstractMassAction
         CollectionFactory $collectionFactory,
         FileFactory $fileFactory,
         MoveToArchive $moveToArchive,
-        ExportInterface $exportManagement
+        ExportEntityManagementInterface $exportManagement,
+        ExportEntityFactory $exportEntityFactory
     ) {
         $this->fileFactory = $fileFactory;
         $this->moveToArchive = $moveToArchive;
         $this->exportManagement = $exportManagement;
+        $this->exportEntityFactory = $exportEntityFactory;
         parent::__construct($context, $filter, $collectionFactory);
     }
 
@@ -75,7 +84,7 @@ class MassExport extends AbstractMassAction
             foreach ($collection->getAllIds() as $customerId) {
                 $this->moveToArchive->prepareArchive(
                     $this->moveToArchive->prepareArchive(
-                        $this->exportManagement->exportToFile((int) $customerId, 'personal_data', 'customer'),
+                        $this->exportManagement->export($this->exportEntityFactory->create((int) $customerId)),
                         'customer_privacy_data_' . $customerId . '.zip'
                     ),
                     $archiveFileName

@@ -19,5 +19,5 @@ interface EntityCheckerInterface
      * @param int $entityId
      * @return bool
      */
-    public function hasPendingOrders(int $entityId): bool;
+    public function canErase(int $entityId): bool;
 }
