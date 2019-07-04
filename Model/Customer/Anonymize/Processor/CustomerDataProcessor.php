@@ -13,7 +13,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
-use Opengento\Gdpr\Service\Anonymize\AccountBlocker;
+use Opengento\Gdpr\Model\Customer\Anonymize\AccountBlocker;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
@@ -28,7 +28,7 @@ final class CustomerDataProcessor implements ProcessorInterface
     private $anonymizer;
 
     /**
-     * @var \Opengento\Gdpr\Service\Anonymize\AccountBlocker
+     * @var \Opengento\Gdpr\Model\Customer\Anonymize\AccountBlocker
      */
     private $accountBlocker;
 
@@ -54,7 +54,7 @@ final class CustomerDataProcessor implements ProcessorInterface
 
     /**
      * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface $anonymizer
-     * @param \Opengento\Gdpr\Service\Anonymize\AccountBlocker $accountBlocker
+     * @param \Opengento\Gdpr\Model\Customer\Anonymize\AccountBlocker $accountBlocker
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder

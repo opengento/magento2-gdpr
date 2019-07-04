@@ -19,9 +19,9 @@ use Opengento\Gdpr\Model\Config;
 use Psr\Log\LoggerInterface;
 
 /**
- * Scheduler to clean accounts marked to be deleted or anonymize
+ * Class EraseEntity
  */
-final class Erasure
+final class EraseEntity
 {
     /**
      * @var \Psr\Log\LoggerInterface
@@ -86,7 +86,7 @@ final class Erasure
     }
 
     /**
-     * Process all scheduled erase customer
+     * Process erase of all scheduled entities
      *
      * @return void
      */
@@ -96,10 +96,10 @@ final class Erasure
             $oldValue = $this->registry->registry('isSecureArea');
             $this->registry->register('isSecureArea', true, true);
 
-            /** @var \Opengento\Gdpr\Api\Data\EraseEntityInterface $eraseCustomer */
-            foreach ($this->retrieveEraseCustomerList()->getItems() as $eraseCustomer) {
+            /** @var \Opengento\Gdpr\Api\Data\EraseEntityInterface $eraseEntity */
+            foreach ($this->retrieveEraseEntityList()->getItems() as $eraseEntity) {
                 try {
-                    $this->eraseEntityManagement->process($eraseCustomer);
+                    $this->eraseEntityManagement->process($eraseEntity);
                 } catch (\Exception $e) {
                     $this->logger->error($e->getMessage());
                 }
@@ -110,11 +110,11 @@ final class Erasure
     }
 
     /**
-     * Retrieve erase customer scheduler list
+     * Retrieve erase entity scheduler list
      *
      * @return \Magento\Framework\Api\SearchResultsInterface
      */
-    private function retrieveEraseCustomerList(): SearchResultsInterface
+    private function retrieveEraseEntityList(): SearchResultsInterface
     {
         $this->searchCriteriaBuilder->addFilter(
             EraseEntityInterface::SCHEDULED_AT,
