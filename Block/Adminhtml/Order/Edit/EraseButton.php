@@ -1,0 +1,69 @@
+<?php
+/**
+ * Copyright © OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+declare(strict_types=1);
+
+namespace Opengento\Gdpr\Block\Adminhtml\Order\Edit;
+
+use Magento\Backend\Block\AbstractBlock;
+use Magento\Backend\Block\Context;
+use Magento\Framework\Phrase;
+use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
+
+/**
+ * Class EraseButton
+ */
+final class EraseButton extends AbstractBlock
+{
+    /**
+     * @var \Opengento\Gdpr\Api\EraseEntityCheckerInterface
+     */
+    private $eraseEntityChecker;
+
+    /**
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Opengento\Gdpr\Api\EraseEntityCheckerInterface $eraseEntityChecker
+     * @param array $data
+     */
+    public function __construct(
+        Context $context,
+        EraseEntityCheckerInterface $eraseEntityChecker,
+        array $data = []
+    ) {
+        $this->_authorization = $context->getAuthorization();
+        $this->eraseEntityChecker = $eraseEntityChecker;
+        parent::__construct($context, $data);
+    }
+
+    /**
+     * @inheritdoc
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    protected function _construct(): void
+    {
+        parent::_construct();
+
+        /** @var \Magento\Sales\Block\Adminhtml\Order\View $orderView */
+        $orderView = $this->getLayout()->getBlock('sales_order_edit');
+        $orderId = (int) $orderView->getOrderId();
+
+        if ($this->_authorization->isAllowed('Opengento_Gdpr::order_erase') &&
+            $this->eraseEntityChecker->canCreate($orderId, 'order')
+        ) {
+            $confirmMessage = new Phrase('Are you sure you want to do this?');
+            $eraseUrl = $this->getUrl('sales/guest/erase', ['id' => $orderId]);
+
+            $orderView->addButton(
+                'order-view-erase-button',
+                [
+                    'label' => new Phrase('Erase Personal Data'),
+                    'class' => 'action-secondary erase',
+                    'onclick' => 'deleteConfirm("' . $confirmMessage . '", "' . $eraseUrl . '", {"data":{}})',
+                ],
+                1
+            );
+        }
+    }
+}

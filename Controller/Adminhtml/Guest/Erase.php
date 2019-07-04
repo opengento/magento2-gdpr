@@ -7,18 +7,19 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Adminhtml\Guest;
 
-use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
+use Opengento\Gdpr\Controller\Adminhtml\AbstractAction;
+use Opengento\Gdpr\Model\Config;
 
 /**
  * Class Erase
  */
-class Erase extends Action implements HttpPostActionInterface
+class Erase extends AbstractAction implements HttpPostActionInterface
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::order_erase';
 
@@ -29,20 +30,22 @@ class Erase extends Action implements HttpPostActionInterface
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
+     * @param \Opengento\Gdpr\Model\Config $config
      * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
      */
     public function __construct(
         Context $context,
+        Config $config,
         EraseEntityManagementInterface $eraseEntityManagement
     ) {
         $this->eraseEntityManagement = $eraseEntityManagement;
-        parent::__construct($context);
+        parent::__construct($context, $config);
     }
 
     /**
      * @inheritdoc
      */
-    public function execute()
+    protected function executeAction()
     {
         try {
             $this->eraseEntityManagement->process(

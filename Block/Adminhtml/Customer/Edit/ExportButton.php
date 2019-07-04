@@ -7,15 +7,37 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Block\Adminhtml\Customer\Edit;
 
+use Magento\Backend\Block\Widget\Context;
 use Magento\Customer\Block\Adminhtml\Edit\GenericButton;
 use Magento\Framework\Phrase;
+use Magento\Framework\Registry;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
+use Opengento\Gdpr\Model\Config;
 
 /**
  * Class ExportButton
  */
 final class ExportButton extends GenericButton implements ButtonProviderInterface
 {
+    /**
+     * @var \Opengento\Gdpr\Model\Config
+     */
+    private $config;
+
+    /**
+     * @param \Magento\Backend\Block\Widget\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Opengento\Gdpr\Model\Config $config
+     */
+    public function __construct(
+        Context $context,
+        Registry $registry,
+        Config $config
+    ) {
+        $this->config = $config;
+        parent::__construct($context, $registry);
+    }
+
     /**
      * @inheritdoc
      */
@@ -24,9 +46,9 @@ final class ExportButton extends GenericButton implements ButtonProviderInterfac
         $customerId = $this->getCustomerId();
         $buttonData = [];
 
-        if ($customerId) {
+        if ($customerId && $this->config->isModuleEnabled()) {
             $buttonData = [
-                'label' => new Phrase('Export Customer'),
+                'label' => new Phrase('Export Personal Data'),
                 'class' => 'Export',
                 'id' => 'customer-edit-export-button',
                 'on_click' => 'deleteConfirm("' . new Phrase('Are you sure you want to do this?') . '", '

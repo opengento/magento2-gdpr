@@ -12,6 +12,7 @@
             <label>Enabled</label>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
             <config_path>gdpr/general/enabled</config_path>
+            <comment>It will enable the module features in the admin and frontend ui.</comment>
         </field>
         <field id="information_page" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
             <label>Information page</label>

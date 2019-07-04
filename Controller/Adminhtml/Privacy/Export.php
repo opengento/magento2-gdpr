@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Adminhtml\Privacy;
 
-use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
@@ -15,13 +14,15 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
+use Opengento\Gdpr\Controller\Adminhtml\AbstractAction;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
+use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\Export\ExportEntityFactory;
 
 /**
  * Class Export
  */
-class Export extends Action
+class Export extends AbstractAction
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::customer_export';
 
@@ -47,6 +48,7 @@ class Export extends Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
+     * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Opengento\Gdpr\Model\Archive\MoveToArchive $moveToArchive
      * @param \Opengento\Gdpr\Api\ExportEntityManagementInterface $exportManagement
@@ -54,6 +56,7 @@ class Export extends Action
      */
     public function __construct(
         Context $context,
+        Config $config,
         FileFactory $fileFactory,
         MoveToArchive $moveToArchive,
         ExportEntityManagementInterface $exportManagement,
@@ -63,13 +66,13 @@ class Export extends Action
         $this->moveToArchive = $moveToArchive;
         $this->exportManagement = $exportManagement;
         $this->exportEntityFactory = $exportEntityFactory;
-        parent::__construct($context);
+        parent::__construct($context, $config);
     }
 
     /**
      * @inheritdoc
      */
-    public function execute()
+    protected function executeAction()
     {
         try {
             $customerId = (int) $this->getRequest()->getParam('id');
