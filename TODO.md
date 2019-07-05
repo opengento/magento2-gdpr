@@ -37,10 +37,6 @@ Area:
 - Complete developer guide
 - Attributes, Custom Attributes, Extensible Data
 
-## Facade
-
-GDPR facade for customer actions
-
 ## Split
 
 - API (OK)
@@ -78,10 +74,6 @@ GDPR facade for customer actions
 ## Notification
 
 notify customer from its requests
-
-## Admin
-
-enable action for guests (guest orders)
 
 ## yu
 
