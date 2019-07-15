@@ -7,18 +7,19 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Entity;
 
+use Magento\Framework\Data\Collection;
 use Magento\Framework\ObjectManagerInterface;
 
 /**
- * Class EntityCheckerFactory
+ * Class SourceProviderFactory
  * @api
  */
-final class EntityCheckerFactory
+final class SourceProviderFactory
 {
     /**
      * @var string[]
      */
-    private $checkers;
+    private $sourceProviders;
 
     /**
      * @var \Magento\Framework\ObjectManagerInterface
@@ -26,29 +27,29 @@ final class EntityCheckerFactory
     private $objectManager;
 
     /**
-     * @param string[] $checkers
+     * @param string[] $sourceProviders
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      */
     public function __construct(
-        array $checkers,
+        array $sourceProviders,
         ObjectManagerInterface $objectManager
     ) {
-        $this->checkers = $checkers;
+        $this->sourceProviders = $sourceProviders;
         $this->objectManager = $objectManager;
     }
 
     /**
-     * Retrieve the export processor by entity type
+     * Create a new source provider by entity type
      *
      * @param string $entityType
-     * @return \Opengento\Gdpr\Model\Entity\EntityCheckerInterface
+     * @return \Magento\Framework\Data\Collection
      */
-    public function get(string $entityType): EntityCheckerInterface
+    public function create(string $entityType): Collection
     {
-        if (!isset($this->checkers[$entityType])) {
-            throw new \InvalidArgumentException(\sprintf('Unknown checker for entity type "%s".', $entityType));
+        if (!isset($this->sourceProviders[$entityType])) {
+            throw new \InvalidArgumentException(\sprintf('Unknown source provider for entity type "%s".', $entityType));
         }
 
-        return $this->objectManager->get($this->checkers[$entityType]);
+        return $this->objectManager->create($this->sourceProviders[$entityType]);
     }
 }

@@ -120,7 +120,11 @@
             <erasure>
                 <enabled>0</enabled>
                 <delay>3600</delay>
-                <schedule>* * * * *</schedule>
+                <entity_schedule>* * * * *</entity_schedule>
+<!--                <entity_max_age>1095</entity_max_age>-->
+                <entity_max_age>30</entity_max_age>
+<!--                <entity_max_age_schedule>0 1 * * *</entity_max_age_schedule>-->
+                <entity_max_age_schedule>* * * * *</entity_max_age_schedule>
                 <allowed_states>canceled,closed,complete</allowed_states>
                 <remove_customer>1</remove_customer>
                 <components_processors>

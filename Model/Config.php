@@ -23,6 +23,7 @@ final class Config
     public const CONFIG_PATH_GENERAL_INFORMATION_BLOCK = 'gdpr/general/block_id';
     public const CONFIG_PATH_ERASURE_ENABLED = 'gdpr/erasure/enabled';
     public const CONFIG_PATH_ERASURE_DELAY = 'gdpr/erasure/delay';
+    public const CONFIG_PATH_ERASURE_MAX_AGE = 'gdpr/erasure/entity_max_age';
     public const CONFIG_PATH_ERASURE_ALLOWED_STATES = 'gdpr/erasure/allowed_states';
     public const CONFIG_PATH_ERASURE_INFORMATION_BLOCK = 'gdpr/erasure/block_id';
     public const CONFIG_PATH_ERASURE_REMOVE_CUSTOMER = 'gdpr/erasure/remove_customer';
@@ -122,6 +123,19 @@ final class Config
     {
         return (int) $this->scopeConfig->getValue(
             self::CONFIG_PATH_ERASURE_DELAY,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Retrieve the maximum age for the entities before the erasure
+     *
+     * @return int
+     */
+    public function getErasureMaxAge(): int
+    {
+        return (int) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_ERASURE_MAX_AGE,
             ScopeInterface::SCOPE_STORE
         );
     }

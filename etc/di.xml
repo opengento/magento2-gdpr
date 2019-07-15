@@ -662,6 +662,19 @@
             <argument name="eraseComponents" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Customer\EraseComponents</argument>
         </arguments>
     </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Customer\SourceProvider\FilterModifier" type="Opengento\Gdpr\Model\Entity\SourceProvider\FilterModifier">
+        <arguments>
+            <argument name="filterIdentifier" xsi:type="string">created_at</argument>
+            <argument name="fieldToFilter" xsi:type="const">Magento\Customer\Api\Data\CustomerInterface::CREATED_AT</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Customer\SourceProvider\ModifierComposite" type="Opengento\Gdpr\Model\Entity\SourceProvider\ModifierComposite">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="filter" xsi:type="object">Opengento\Gdpr\Model\Customer\SourceProvider\FilterModifier</item>
+            </argument>
+        </arguments>
+    </virtualType>
     <!-- Erase Guest Management -->
     <virtualType name="Opengento\Gdpr\Model\Order\Erase\ProcessorResolver\AnonymizeProcessorResolver" type="Opengento\Gdpr\Service\Erase\ProcessorResolver\AnonymizeProcessorResolver">
         <arguments>
@@ -703,6 +716,19 @@
             <argument name="eraseComponents" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Order\EraseComponents</argument>
         </arguments>
     </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Order\SourceProvider\FilterModifier" type="Opengento\Gdpr\Model\Entity\SourceProvider\FilterModifier">
+        <arguments>
+            <argument name="filterIdentifier" xsi:type="string">created_at</argument>
+            <argument name="fieldToFilter" xsi:type="const">Magento\Sales\Api\Data\OrderInterface::CREATED_AT</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Order\SourceProvider\ModifierComposite" type="Opengento\Gdpr\Model\Entity\SourceProvider\ModifierComposite">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="filter" xsi:type="object">Opengento\Gdpr\Model\Order\SourceProvider\FilterModifier</item>
+            </argument>
+        </arguments>
+    </virtualType>
     <!-- Erase Management -->
     <type name="Opengento\Gdpr\Model\Entity\EntityCheckerFactory">
         <arguments>
@@ -717,6 +743,45 @@
             <argument name="erasers" xsi:type="array">
                 <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\Processor\EraseProcessor</item>
                 <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\Processor\EraseProcessor</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Opengento\Gdpr\Model\Entity\SourceProvider\DefaultFilterModifier" type="Opengento\Gdpr\Model\Entity\SourceProvider\FilterModifier">
+        <arguments>
+            <argument name="filterIdentifier" xsi:type="string">created_at</argument>
+            <argument name="fieldToFilter" xsi:type="string">created_at</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Entity\SourceProvider\DefaultModifierComposite" type="Opengento\Gdpr\Model\Entity\SourceProvider\ModifierComposite">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="filter" xsi:type="object">Opengento\Gdpr\Model\Entity\SourceProvider\DefaultFilterModifier</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Opengento\Gdpr\Model\Entity\SourceProvider\ModifierFactory">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="default" xsi:type="string">Opengento\Gdpr\Model\Entity\SourceProvider\DefaultModifierComposite</item>
+                <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\SourceProvider\ModifierComposite</item>
+                <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\SourceProvider\ModifierComposite</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Opengento\Gdpr\Model\Entity\SourceProviderFactory">
+        <arguments>
+            <argument name="sourceProviders" xsi:type="array">
+                <item name="customer" xsi:type="string">Magento\Customer\Model\ResourceModel\Customer\Collection</item>
+                <item name="order" xsi:type="string">Magento\Sales\Model\ResourceModel\Order\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- ToDo: Improve registration of the entity types -->
+    <type name="Opengento\Gdpr\Cron\EraseEntityScheduler">
+        <arguments>
+            <argument name="entityTypes" xsi:type="array">
+                <item name="customer" xsi:type="string">customer</item>
+                <item name="guest" xsi:type="string">order</item>
             </argument>
         </arguments>
     </type>

@@ -34,14 +34,30 @@
             </depends>
             <config_path>gdpr/erasure/delay</config_path>
         </field>
-        <field id="schedule" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
-            <label>Cron Schedule</label>
+        <field id="entity_schedule" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
+            <label>Erase Entity Cron Schedule</label>
             <depends>
                 <field id="customer/gdpr/erasure/enabled">1</field>
             </depends>
-            <config_path>gdpr/erasure/schedule</config_path>
+            <config_path>gdpr/erasure/entity_schedule</config_path>
         </field>
-        <field id="allowed_states" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50" canRestore="1">
+        <field id="entity_max_age" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50" canRestore="1">
+            <label>Entities Lifetime</label>
+            <comment>The time is in days.</comment>
+            <validate>validate-number validate-number-range number-range-0-1095</validate>
+            <depends>
+                <field id="customer/gdpr/erasure/enabled">1</field>
+            </depends>
+            <config_path>gdpr/erasure/entity_max_age</config_path>
+        </field>
+        <field id="entity_max_age_schedule" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
+            <label>Erase Old Entities Cron Schedule</label>
+            <depends>
+                <field id="customer/gdpr/erasure/enabled">1</field>
+            </depends>
+            <config_path>gdpr/erasure/entity_max_age_schedule</config_path>
+        </field>
+        <field id="allowed_states" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70" canRestore="1">
             <label>Allowed Order States to Erase</label>
             <source_model>Opengento\Gdpr\Model\Config\Source\OrderPendingStates</source_model>
             <depends>
@@ -50,7 +66,7 @@
             <can_be_empty>0</can_be_empty>
             <config_path>gdpr/erasure/allowed_states</config_path>
         </field>
-        <field id="customer_components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
+        <field id="customer_components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80" canRestore="1">
             <label>Customer Component Erasure Strategy</label>
             <comment>Defines the components erasure strategy with the component/erase processor mapper for the customers.</comment>
             <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\EraseComponentsProcessors</frontend_model>
@@ -61,7 +77,7 @@
             <can_be_empty>1</can_be_empty>
             <config_path>gdpr/erasure/customer_components_processors</config_path>
         </field>
-        <field id="guest_components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70" canRestore="1">
+        <field id="guest_components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="90" canRestore="1">
             <label>Guest Component Erasure Strategy</label>
             <comment>Defines the components erasure strategy with the component/erase processor mapper for the guests.</comment>
             <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\EraseComponentsProcessors</frontend_model>
@@ -72,7 +88,7 @@
             <can_be_empty>1</can_be_empty>
             <config_path>gdpr/erasure/guest_components_processors</config_path>
         </field>
-        <group id="anonymize" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
+        <group id="anonymize" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100">
             <label>Anonymization</label>
             <depends>
                 <field id="customer/gdpr/erasure/enabled">1</field>
