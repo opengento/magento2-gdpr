@@ -45,6 +45,8 @@ final class OrderChecker implements EntityCheckerInterface
     {
         $order = $this->orderRepository->get($orderId);
 
-        return !$order->getCustomerId() && \in_array($order->getState(), $this->config->getAllowedStatesToErase(), true);
+        return !$order->getCustomerId() &&
+            $order->getCustomerIsGuest() &&
+            \in_array($order->getState(), $this->config->getAllowedStatesToErase(), true);
     }
 }

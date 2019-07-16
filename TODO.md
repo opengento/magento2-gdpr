@@ -78,3 +78,7 @@ notify customer from its requests
 ## yu
 
 https://github.com/magento/architecture/pull/145/files
+
+## Improvements
+
+Disable checks and validators on mass actions (including cron)
