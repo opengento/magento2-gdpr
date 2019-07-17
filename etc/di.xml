@@ -662,12 +662,6 @@
             <argument name="eraseComponents" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Customer\EraseComponents</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Customer\SourceProvider\FilterModifier" type="Opengento\Gdpr\Model\Entity\SourceProvider\FilterModifier">
-        <arguments>
-            <argument name="filterIdentifier" xsi:type="string">created_at</argument>
-            <argument name="fieldToFilter" xsi:type="const">Magento\Customer\Api\Data\CustomerInterface::CREATED_AT</argument>
-        </arguments>
-    </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Customer\SourceProvider\ModifierComposite" type="Opengento\Gdpr\Model\Entity\SourceProvider\ModifierComposite">
         <arguments>
             <argument name="modifiers" xsi:type="array">
@@ -719,7 +713,7 @@
     <virtualType name="Opengento\Gdpr\Model\Order\SourceProvider\FilterModifier" type="Opengento\Gdpr\Model\Entity\SourceProvider\FilterModifier">
         <arguments>
             <argument name="filterIdentifier" xsi:type="string">created_at</argument>
-            <argument name="fieldToFilter" xsi:type="const">Magento\Sales\Api\Data\OrderInterface::CREATED_AT</argument>
+            <argument name="fieldToFilter" xsi:type="const">Magento\Sales\Api\Data\OrderInterface::UPDATED_AT</argument>
         </arguments>
     </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Order\SourceProvider\ModifierComposite" type="Opengento\Gdpr\Model\Entity\SourceProvider\ModifierComposite">
@@ -731,6 +725,7 @@
         </arguments>
     </virtualType>
     <!-- Erase Management -->
+    <preference for="Opengento\Gdpr\Model\Erase\EraseSalesInformationInterface" type="Opengento\Gdpr\Model\Erase\EraseSalesInformation"/>
     <type name="Opengento\Gdpr\Model\Entity\EntityCheckerFactory">
         <arguments>
             <argument name="checkers" xsi:type="array">

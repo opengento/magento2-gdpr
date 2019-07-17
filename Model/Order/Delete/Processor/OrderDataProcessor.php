@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Order\Delete\Processor;
 
 use Magento\Sales\Api\OrderRepositoryInterface;
+use Opengento\Gdpr\Model\Erase\EraseSalesInformationInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
 /**
@@ -21,19 +22,37 @@ final class OrderDataProcessor implements ProcessorInterface
     private $orderRepository;
 
     /**
+     * @var \Opengento\Gdpr\Model\Erase\EraseSalesInformationInterface
+     */
+    private $eraseSalesInformation;
+
+    /**
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
+     * @param \Opengento\Gdpr\Model\Erase\EraseSalesInformationInterface $eraseSalesInformation
      */
     public function __construct(
-        OrderRepositoryInterface $orderRepository
+        OrderRepositoryInterface $orderRepository,
+        EraseSalesInformationInterface $eraseSalesInformation
     ) {
         $this->orderRepository = $orderRepository;
+        $this->eraseSalesInformation = $eraseSalesInformation;
     }
 
     /**
      * @inheritdoc
+     * @throws \Exception
      */
     public function execute(int $orderId): bool
     {
-        return $this->orderRepository->delete($this->orderRepository->get($orderId));
+        $order = $this->orderRepository->get($orderId);
+        $lastActive = new \DateTime($order->getUpdatedAt());
+
+        if ($this->eraseSalesInformation->isAlive($lastActive)) {
+            $this->eraseSalesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive);
+
+            return true;
+        }
+
+        return $this->orderRepository->delete($order);
     }
 }

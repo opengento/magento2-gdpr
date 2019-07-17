@@ -38,6 +38,6 @@ final class XmlRenderer extends AbstractRenderer
      */
     public function render(array $data): string
     {
-        return $this->convertArray->assocToXml($data)->__toString();
+        return (string) $this->convertArray->assocToXml($data);
     }
 }

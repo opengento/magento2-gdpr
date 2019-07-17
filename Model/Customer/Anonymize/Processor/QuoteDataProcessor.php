@@ -62,8 +62,8 @@ final class QuoteDataProcessor implements ProcessorInterface
      */
     public function execute(int $customerId): bool
     {
-        $searchCriteria = $this->searchCriteriaBuilder->addFilter('customer_id', $customerId);
-        $quoteList = $this->quoteRepository->getList($searchCriteria->create());
+        $this->searchCriteriaBuilder->addFilter('customer_id', $customerId);
+        $quoteList = $this->quoteRepository->getList($this->searchCriteriaBuilder->create());
 
         /** @var \Magento\Quote\Model\Quote $quote */
         foreach ($quoteList->getItems() as $quote) {

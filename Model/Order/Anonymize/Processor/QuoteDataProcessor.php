@@ -7,9 +7,10 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Order\Anonymize\Processor;
 
-use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Model\ResourceModel\Quote\Address;
+use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
@@ -24,6 +25,11 @@ final class QuoteDataProcessor implements ProcessorInterface
     private $anonymizer;
 
     /**
+     * @var \Magento\Sales\Api\OrderRepositoryInterface
+     */
+    private $orderRepository;
+
+    /**
      * @var \Magento\Quote\Api\CartRepositoryInterface
      */
     private $quoteRepository;
@@ -34,39 +40,34 @@ final class QuoteDataProcessor implements ProcessorInterface
     private $quoteAddressResourceModel;
 
     /**
-     * @var \Magento\Framework\Api\SearchCriteriaBuilder
-     */
-    private $searchCriteriaBuilder;
-
-    /**
      * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface $anonymizer
+     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
      * @param \Magento\Quote\Model\ResourceModel\Quote\Address $quoteAddressResourceModel
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         AnonymizerInterface $anonymizer,
+        OrderRepositoryInterface $orderRepository,
         CartRepositoryInterface $quoteRepository,
-        Address $quoteAddressResourceModel,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        Address $quoteAddressResourceModel
     ) {
         $this->anonymizer = $anonymizer;
+        $this->orderRepository = $orderRepository;
         $this->quoteRepository = $quoteRepository;
         $this->quoteAddressResourceModel = $quoteAddressResourceModel;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
     /**
      * @inheritdoc
      * @throws \Exception
      */
-    public function execute(int $customerId): bool
+    public function execute(int $orderId): bool
     {
-        $searchCriteria = $this->searchCriteriaBuilder->addFilter('customer_id', $customerId);
-        $quoteList = $this->quoteRepository->getList($searchCriteria->create());
+        try {
+            $order = $this->orderRepository->get($orderId);
 
-        /** @var \Magento\Quote\Model\Quote $quote */
-        foreach ($quoteList->getItems() as $quote) {
+            /** @var \Magento\Quote\Model\Quote $quote */
+            $quote = $this->quoteRepository->get($order->getQuoteId());
             $this->quoteRepository->save($this->anonymizer->anonymize($quote));
 
             /** @var \Magento\Quote\Model\Quote\Address|null $quoteAddress */
@@ -75,6 +76,8 @@ final class QuoteDataProcessor implements ProcessorInterface
                     $this->quoteAddressResourceModel->save($this->anonymizer->anonymize($quoteAddress));
                 }
             }
+        } catch (NoSuchEntityException $e) {
+            /** Silence is golden */
         }
 
         return true;

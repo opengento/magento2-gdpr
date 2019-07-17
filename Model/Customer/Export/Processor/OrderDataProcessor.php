@@ -48,8 +48,8 @@ final class OrderDataProcessor extends AbstractDataProcessor
      */
     public function execute(int $customerId, array $data): array
     {
-        $searchCriteria = $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
-        $orderList = $this->orderRepository->getList($searchCriteria->create());
+        $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
+        $orderList = $this->orderRepository->getList($this->searchCriteriaBuilder->create());
 
         /** @var \Magento\Sales\Model\Order $order */
         foreach ($orderList->getItems() as $order) {

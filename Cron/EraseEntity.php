@@ -99,6 +99,7 @@ final class EraseEntity
             /** @var \Opengento\Gdpr\Api\Data\EraseEntityInterface $eraseEntity */
             foreach ($this->retrieveEraseEntityList()->getItems() as $eraseEntity) {
                 try {
+                    // todo disable individual check: use mass validator
                     $this->eraseEntityManagement->process($eraseEntity);
                 } catch (\Exception $e) {
                     $this->logger->error($e->getMessage());

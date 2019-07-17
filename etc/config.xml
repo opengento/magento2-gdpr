@@ -123,6 +123,7 @@
                 <entity_schedule>* * * * *</entity_schedule>
                 <entity_max_age>1095</entity_max_age>
                 <entity_max_age_schedule>0 1 * * *</entity_max_age_schedule>
+                <sales_max_age>3650</sales_max_age>
                 <allowed_states>canceled,closed,complete</allowed_states>
                 <remove_customer>1</remove_customer>
                 <components_processors>

@@ -47,8 +47,8 @@ final class QuoteDataProcessor extends AbstractDataProcessor
      */
     public function execute(int $customerId, array $data): array
     {
-        $searchCriteria = $this->searchCriteriaBuilder->addFilter('customer_id', $customerId);
-        $quoteList = $this->quoteRepository->getList($searchCriteria->create());
+        $this->searchCriteriaBuilder->addFilter('customer_id', $customerId);
+        $quoteList = $this->quoteRepository->getList($this->searchCriteriaBuilder->create());
 
         /** @var \Magento\Quote\Model\Quote $quote */
         foreach ($quoteList->getItems() as $quote) {

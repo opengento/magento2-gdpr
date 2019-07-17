@@ -54,6 +54,7 @@ class MassErase extends AbstractMassAction
 
         foreach ($collection->getAllIds() as $customerId) {
             try {
+                // todo disable individual check: use mass validator
                 $this->eraseEntityManagement->process($this->eraseEntityManagement->create((int) $customerId, 'customer'));
                 $customerErased++;
             } catch (LocalizedException $e) {

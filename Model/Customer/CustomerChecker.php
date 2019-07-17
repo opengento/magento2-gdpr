@@ -56,6 +56,7 @@ final class CustomerChecker implements EntityCheckerInterface
 
     /**
      * @inheritdoc
+     * @param bool $forceReload [optional] Flush the cache.
      */
     public function canErase(int $customerId, bool $forceReload = false): bool
     {
