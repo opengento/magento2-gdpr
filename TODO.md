@@ -20,7 +20,6 @@ Area:
 
 - Payment Data
 - Invitation Data
-- Multiple export in command line result in filename expanded at each iteration
 
 ## Anonymizer
  
