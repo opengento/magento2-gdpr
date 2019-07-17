@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\Model\Erase;
+namespace Opengento\Gdpr\Api;
 
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 

@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Order\Delete\Processor;
 
 use Magento\Sales\Api\OrderRepositoryInterface;
-use Opengento\Gdpr\Model\Erase\EraseSalesInformationInterface;
+use Opengento\Gdpr\Api\EraseSalesInformationInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
 /**
@@ -22,13 +22,13 @@ final class OrderDataProcessor implements ProcessorInterface
     private $orderRepository;
 
     /**
-     * @var \Opengento\Gdpr\Model\Erase\EraseSalesInformationInterface
+     * @var \Opengento\Gdpr\Api\EraseSalesInformationInterface
      */
     private $eraseSalesInformation;
 
     /**
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     * @param \Opengento\Gdpr\Model\Erase\EraseSalesInformationInterface $eraseSalesInformation
+     * @param \Opengento\Gdpr\Api\EraseSalesInformationInterface $eraseSalesInformation
      */
     public function __construct(
         OrderRepositoryInterface $orderRepository,

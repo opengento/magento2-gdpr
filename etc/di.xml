@@ -13,6 +13,7 @@
     <preference for="Opengento\Gdpr\Api\EraseEntityRepositoryInterface" type="Opengento\Gdpr\Model\EraseEntityRepository"/>
     <preference for="Opengento\Gdpr\Api\EraseEntityManagementInterface" type="Opengento\Gdpr\Model\EraseEntityManagement"/>
     <preference for="Opengento\Gdpr\Api\EraseEntityCheckerInterface" type="Opengento\Gdpr\Model\EraseEntityChecker"/>
+    <preference for="Opengento\Gdpr\Api\EraseSalesInformationInterface" type="Opengento\Gdpr\Model\Erase\EraseSalesInformation"/>
     <preference for="Opengento\Gdpr\Api\ExportEntityManagementInterface" type="Opengento\Gdpr\Model\ExportEntityManagement"/>
     <type name="Magento\Framework\Model\Entity\RepositoryFactory">
         <arguments>
@@ -725,7 +726,6 @@
         </arguments>
     </virtualType>
     <!-- Erase Management -->
-    <preference for="Opengento\Gdpr\Model\Erase\EraseSalesInformationInterface" type="Opengento\Gdpr\Model\Erase\EraseSalesInformation"/>
     <type name="Opengento\Gdpr\Model\Entity\EntityCheckerFactory">
         <arguments>
             <argument name="checkers" xsi:type="array">

@@ -9,7 +9,7 @@ namespace Opengento\Gdpr\Model\Order\Anonymize\Processor;
 
 use Magento\Sales\Api\OrderAddressRepositoryInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
-use Opengento\Gdpr\Model\Erase\EraseSalesInformationInterface;
+use Opengento\Gdpr\Api\EraseSalesInformationInterface;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
@@ -34,7 +34,7 @@ final class OrderDataProcessor implements ProcessorInterface
     private $orderAddressRepository;
 
     /**
-     * @var \Opengento\Gdpr\Model\Erase\EraseSalesInformationInterface
+     * @var \Opengento\Gdpr\Api\EraseSalesInformationInterface
      */
     private $eraseSalesInformation;
 
@@ -42,7 +42,7 @@ final class OrderDataProcessor implements ProcessorInterface
      * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface $anonymizer
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      * @param \Magento\Sales\Api\OrderAddressRepositoryInterface $orderAddressRepository
-     * @param \Opengento\Gdpr\Model\Erase\EraseSalesInformationInterface $eraseSalesInformation
+     * @param \Opengento\Gdpr\Api\EraseSalesInformationInterface $eraseSalesInformation
      */
     public function __construct(
         AnonymizerInterface $anonymizer,

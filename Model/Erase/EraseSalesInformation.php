@@ -11,6 +11,7 @@ use Magento\Framework\Stdlib\DateTime;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory;
 use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
+use Opengento\Gdpr\Api\EraseSalesInformationInterface;
 use Opengento\Gdpr\Model\Config;
 
 /**

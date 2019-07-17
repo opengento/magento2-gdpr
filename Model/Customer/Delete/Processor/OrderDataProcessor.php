@@ -10,7 +10,7 @@ namespace Opengento\Gdpr\Model\Customer\Delete\Processor;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
-use Opengento\Gdpr\Model\Erase\EraseSalesInformationInterface;
+use Opengento\Gdpr\Api\EraseSalesInformationInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
 /**
@@ -29,14 +29,14 @@ final class OrderDataProcessor implements ProcessorInterface
     private $searchCriteriaBuilder;
 
     /**
-     * @var \Opengento\Gdpr\Model\Erase\EraseSalesInformationInterface
+     * @var \Opengento\Gdpr\Api\EraseSalesInformationInterface
      */
     private $eraseSalesInformation;
 
     /**
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Opengento\Gdpr\Model\Erase\EraseSalesInformationInterface $eraseSalesInformation
+     * @param \Opengento\Gdpr\Api\EraseSalesInformationInterface $eraseSalesInformation
      */
     public function __construct(
         OrderRepositoryInterface $orderRepository,
