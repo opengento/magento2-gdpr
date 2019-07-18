@@ -122,7 +122,7 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
      */
     public function getByEntity(int $entityId, string $entityType, bool $forceReload = false): EraseEntityInterface
     {
-        if ($forceReload || !isset($this->instancesByCustomer[$entityId])) {
+        if ($forceReload || !isset($this->instancesByEntity[$entityId])) {
             /** @var \Opengento\Gdpr\Api\Data\EraseEntityInterface $entity */
             $entity = $this->eraseCustomerFactory->create();
             $this->eraseCustomerResource->load(
