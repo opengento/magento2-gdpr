@@ -7,25 +7,9 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller;
 
-use Magento\Customer\Controller\AbstractAccount;
-use Magento\Framework\Controller\ResultFactory;
-use Magento\Framework\Controller\ResultInterface;
-
 /**
  * Controller AbstractPrivacy
  */
-abstract class AbstractPrivacy extends AbstractAccount
+abstract class AbstractPrivacy extends AbstractAction
 {
-    /**
-     * Create a result forward to 404
-     *
-     * @return \Magento\Framework\Controller\ResultInterface
-     */
-    public function forwardNoRoute(): ResultInterface
-    {
-        /** @var \Magento\Framework\Controller\Result\Forward $resultForward */
-        $resultForward = $this->resultFactory->create(ResultFactory::TYPE_FORWARD);
-
-        return $resultForward->forward('no_route');
-    }
 }

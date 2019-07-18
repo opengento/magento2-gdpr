@@ -8,57 +8,22 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Export\Renderer;
 
 use Magento\Framework\DataObject;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filesystem;
-use Magento\Framework\Phrase;
 use Magento\Framework\Translate\InlineInterface;
 use Magento\Framework\View\FileSystem as ViewFileSystem;
-use Magento\Framework\View\Layout\BuilderFactory;
-use Magento\Framework\View\Layout\GeneratorPool;
-use Magento\Framework\View\Layout\ReaderPool;
-use Magento\Framework\View\LayoutFactory;
-use Magento\Framework\View\LayoutInterface;
 use Magento\Framework\View\Page\Config;
 use Magento\Framework\View\Page\Config\RendererFactory;
-use Magento\Framework\View\Page\Layout\Reader;
-use Opengento\Gdpr\Service\Export\AbstractRenderer;
+use Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiatorInterface;
 
 /**
  * Class HtmlRenderer
  */
 final class HtmlRenderer extends AbstractRenderer
 {
-    private const DEFAULT_LAYOUT_HANDLE = 'customer_privacy_export_personal_data';
-
     /**
-     * @var \Magento\Framework\View\LayoutFactory
+     * @var \Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiatorInterface
      */
-    private $layoutFactory;
-
-    /**
-     * @var \Magento\Framework\View\Layout\BuilderFactory
-     */
-    private $layoutBuilderFactory;
-
-    /**
-     * @var \Magento\Framework\View\Layout\ReaderPool
-     */
-    private $layoutReaderPool;
-
-    /**
-     * @var \Magento\Framework\View\Layout\GeneratorPool
-     */
-    private $layoutGeneratorPool;
-
-    /**
-     * @var \Magento\Framework\View\Page\Layout\Reader
-     */
-    private $pageLayoutReader;
-
-    /**
-     * @var \Magento\Framework\View\Page\Config
-     */
-    private $pageConfig;
+    private $layoutInitiator;
 
     /**
      * @var \Magento\Framework\View\Page\Config\Renderer
@@ -82,11 +47,7 @@ final class HtmlRenderer extends AbstractRenderer
 
     /**
      * @param \Magento\Framework\Filesystem $filesystem
-     * @param \Magento\Framework\View\LayoutFactory $layoutFactory
-     * @param \Magento\Framework\View\Layout\BuilderFactory $layoutBuilderFactory
-     * @param \Magento\Framework\View\Layout\ReaderPool $layoutReaderPool
-     * @param \Magento\Framework\View\Layout\GeneratorPool $layoutGeneratorPool
-     * @param \Magento\Framework\View\Page\Layout\Reader $pageLayoutReader
+     * @param \Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiatorInterface $layoutInitiator
      * @param \Magento\Framework\View\Page\Config $pageConfig
      * @param \Magento\Framework\View\Page\Config\RendererFactory $pageConfigRendererFactory
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
@@ -95,23 +56,14 @@ final class HtmlRenderer extends AbstractRenderer
      */
     public function __construct(
         Filesystem $filesystem,
-        LayoutFactory $layoutFactory,
-        BuilderFactory $layoutBuilderFactory,
-        ReaderPool $layoutReaderPool,
-        GeneratorPool $layoutGeneratorPool,
-        Reader $pageLayoutReader,
+        LayoutInitiatorInterface $layoutInitiator,
         Config $pageConfig,
         RendererFactory $pageConfigRendererFactory,
         InlineInterface $translateInline,
         ViewFileSystem $viewFileSystem,
         string $template
     ) {
-        $this->layoutFactory = $layoutFactory;
-        $this->layoutBuilderFactory = $layoutBuilderFactory;
-        $this->layoutReaderPool = $layoutReaderPool;
-        $this->layoutGeneratorPool = $layoutGeneratorPool;
-        $this->pageLayoutReader = $pageLayoutReader;
-        $this->pageConfig = $pageConfig;
+        $this->layoutInitiator = $layoutInitiator;
         $this->pageConfigRenderer = $pageConfigRendererFactory->create(['pageConfig' => $pageConfig]);
         $this->translateInline = $translateInline;
         $this->viewFileSystem = $viewFileSystem;
@@ -120,12 +72,12 @@ final class HtmlRenderer extends AbstractRenderer
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws \Exception
      */
     public function render(array $data): string
     {
-        $layout = $this->initLayout();
+        $layout = $this->layoutInitiator->createLayout();
 
         $addBlock = $layout->getBlock('head.additional');
         $requireJs = $layout->getBlock('require.js');
@@ -172,62 +124,5 @@ final class HtmlRenderer extends AbstractRenderer
         }
 
         return \ob_get_clean();
-    }
-
-    /**
-     * Add the default configuration to the page layout
-     *
-     * @param \Magento\Framework\View\LayoutInterface $layout
-     * @return \Magento\Framework\View\LayoutInterface
-     * @throws \Magento\Framework\Exception\LocalizedException
-     */
-    private function addConfigLayout(LayoutInterface $layout): LayoutInterface
-    {
-        $this->layoutBuilderFactory->create(
-            BuilderFactory::TYPE_PAGE,
-            [
-                'layout' => $layout,
-                'pageConfig' => $this->pageConfig,
-                'pageLayoutReader' => $this->pageLayoutReader,
-            ]
-        )->build();
-
-        /** @var \Magento\Framework\View\Model\Layout\Merge $update */
-        $update = $layout->getUpdate();
-        $pageLayout = $this->pageConfig->getPageLayout() ?: $update->getPageLayout();
-
-        if (!$pageLayout) {
-            throw new LocalizedException(new Phrase('Page layout is missing.'));
-        }
-
-        $this->pageConfig->addBodyClass(\str_replace('_', '-', self::DEFAULT_LAYOUT_HANDLE));
-        $this->pageConfig->addBodyClass('page-layout-' . $pageLayout);
-
-        return $layout;
-    }
-
-    /**
-     * Init the page layout instructions
-     *
-     * @return \Magento\Framework\View\LayoutInterface
-     * @throws \Magento\Framework\Exception\LocalizedException
-     */
-    private function initLayout(): LayoutInterface
-    {
-        $layout = $this->layoutFactory->create([
-            'cacheable' => false,
-            'reader' => $this->layoutReaderPool,
-            'generatorPool' => $this->layoutGeneratorPool,
-        ]);
-
-        $layout->getUpdate()->addHandle('default');
-        $layout->getUpdate()->addHandle(self::DEFAULT_LAYOUT_HANDLE);
-        /** @var \Magento\Framework\View\Model\Layout\Merge $update */
-        $update = $layout->getUpdate();
-        if ($update->isLayoutDefined()) {
-            $update->removeHandle('default');
-        }
-
-        return $this->addConfigLayout($layout);
     }
 }

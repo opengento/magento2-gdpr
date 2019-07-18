@@ -15,7 +15,7 @@ use Magento\Framework\Filesystem;
  * Zip compressed file archive with local file name.
  * @api
  */
-class Zip implements ArchiveInterface
+final class Zip implements ArchiveInterface
 {
     /**
      * @var \Magento\Framework\Filesystem
@@ -40,7 +40,7 @@ class Zip implements ArchiveInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function pack($source, $destination): string
     {
@@ -55,7 +55,7 @@ class Zip implements ArchiveInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function unpack($source, $destination): string
     {

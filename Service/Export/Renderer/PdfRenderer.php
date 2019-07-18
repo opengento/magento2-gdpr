@@ -9,7 +9,6 @@ namespace Opengento\Gdpr\Service\Export\Renderer;
 
 use Magento\Framework\Filesystem;
 use mikehaertl\wkhtmlto\PdfFactory;
-use Opengento\Gdpr\Service\Export\AbstractRenderer;
 
 /**
  * Class PdfRenderer
@@ -42,7 +41,7 @@ final class PdfRenderer extends AbstractRenderer
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws \Exception
      */
     public function render(array $data): string
@@ -68,6 +67,10 @@ final class PdfRenderer extends AbstractRenderer
 
         $pdf->addPage($this->htmlRenderer->render($data));
 
-        return $pdf->toString();
+        if (($result = $pdf->toString()) === false) {
+            throw new \RuntimeException('The PDF was not created successfully.');
+        }
+
+        return $result;
     }
 }

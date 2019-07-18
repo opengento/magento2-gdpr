@@ -17,9 +17,9 @@ use Opengento\Gdpr\Controller\AbstractPrivacy;
 class Settings extends AbstractPrivacy implements HttpGetActionInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function execute()
+    protected function executeAction()
     {
         return $this->resultFactory->create(ResultFactory::TYPE_PAGE);
     }

@@ -18,7 +18,7 @@ use Opengento\Gdpr\Model\Config;
 /**
  * Class PrivacyMessagePopup
  */
-class PrivacyMessagePopup extends Template
+final class PrivacyMessagePopup extends Template
 {
     public const COOKIE_NAME = 'cookies-policy';
 
@@ -49,9 +49,7 @@ class PrivacyMessagePopup extends Template
         Config $config,
         HelperPage $helperPage,
         Json $jsonSerializer,
-        array $data = [
-            'template' => 'Opengento_Gdpr::messages/popup.phtml',
-        ]
+        array $data = []
     ) {
         $this->config = $config;
         $this->helperPage = $helperPage;
@@ -60,7 +58,7 @@ class PrivacyMessagePopup extends Template
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getJsLayout(): string
     {
@@ -74,7 +72,7 @@ class PrivacyMessagePopup extends Template
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function _toHtml(): string
     {
@@ -100,7 +98,7 @@ class PrivacyMessagePopup extends Template
                 $this->setData('cookie_disclosure_information', '');
             }
         }
-        
+
         return (string) $this->_getData('cookie_disclosure_information');
     }
 }

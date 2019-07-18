@@ -9,7 +9,6 @@ namespace Opengento\Gdpr\Service\Export\Renderer;
 
 use Magento\Framework\Convert\ConvertArray;
 use Magento\Framework\Filesystem;
-use Opengento\Gdpr\Service\Export\AbstractRenderer;
 
 /**
  * Class XmlRenderer
@@ -34,11 +33,11 @@ final class XmlRenderer extends AbstractRenderer
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function render(array $data): string
     {
-        return $this->convertArray->assocToXml($data)->__toString();
+        return (string) $this->convertArray->assocToXml($data);
     }
 }

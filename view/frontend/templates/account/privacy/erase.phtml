@@ -1,0 +1,52 @@
+<?php
+/**
+ * Copyright © OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+
+/** @var \Magento\Framework\View\Element\Template $block */
+
+/** @var \Opengento\Gdpr\ViewModel\Privacy\EraseDataProvider $eraseDataProvider */
+$eraseDataProvider = $block->getData('eraseDataProvider');
+/** @var \Opengento\Gdpr\ViewModel\Privacy\EraseCustomerDataProvider $eraseCustomerDataProvider */
+$eraseCustomerDataProvider = $block->getData('eraseCustomerDataProvider');
+/** @var \Opengento\Gdpr\ViewModel\UrlsDataProvider $urlsDataProvider */
+$urlsDataProvider = $block->getData('urlsDataProvider');
+?>
+<div class="block block-dashboard-info">
+    <div class="block-title">
+        <strong><?= $block->escapeHtml(__('Right to be forgotten')) ?></strong>
+    </div>
+    <div class="block-content">
+        <div class="widget block block-static-block">
+            <?= $eraseDataProvider->getErasureInformation() ?>
+        </div>
+        <?php if ($eraseCustomerDataProvider->canCancel()): ?>
+            <div class="message warning">
+                <span><?= $block->escapeHtml(__('Your account will be erased soon. You can undo this action.')) ?></span>
+            </div>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <a href="<?= $block->escapeUrl($urlsDataProvider->getUndoEraseActionUrl()) ?>" class="action submit primary" id="undo_deletion">
+                        <span><?= $block->escapeHtml(__('Undo Action')) ?></span>
+                    </a>
+                </div>
+            </div>
+        <?php elseif ($eraseCustomerDataProvider->canCreate()): ?>
+            <div class="widget block block-static-block">
+                <?= $eraseDataProvider->getAnonymizeInformation() ?>
+            </div>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <a href="<?= $block->escapeUrl($urlsDataProvider->getErasePageUrl()) ?>" class="action submit primary primary-danger" id="delete">
+                        <span><?= $block->escapeHtml(__('Erase Personal Data')) ?></span>
+                    </a>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="message info">
+                <span><?= $block->escapeHtml(__('Your account cannot be erased while you have pending orders.')) ?></span>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>

@@ -6,17 +6,18 @@
  */
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <group id="cookie" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+    <group id="cookie" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
         <label>Cookie Settings</label>
         <depends>
             <field id="gdpr/general/enabled">1</field>
         </depends>
-        <field id="enabled" type="select" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+        <field id="enabled" type="select" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
             <label>Cookie Disclosure</label>
             <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
             <config_path>gdpr/cookie/enabled</config_path>
+            <comment>It will enable the cookie disclosure popin to the storefront.</comment>
         </field>
-        <field id="block_id" type="select" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+        <field id="block_id" type="select" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
             <label>Information</label>
             <source_model>Magento\Cms\Model\Config\Source\Block</source_model>
             <depends>

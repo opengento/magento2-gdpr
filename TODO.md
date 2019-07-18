@@ -18,14 +18,66 @@ Area:
 
 ## Export
 
-Add attributes configuration for:
+- Payment Data
+- Invitation Data
 
-- Quotes
-- Orders
-- Invoices
-- Shipment
-- ...
+## Anonymizer
+ 
+- Payment Data
+- Invitation Data
 
-## Renderer
+## Config
 
-Implement and debug outputs: PDF, CSV
+- Improve UI of fields: attributes list instead of text field
+
+## Doc
+
+- Add images
+- Complete developer guide
+- Attributes, Custom Attributes, Extensible Data
+
+## Split
+
+- API (OK)
+- GDPR (api implementation) (OK)
+- Erase (OK)
+  - Logged In Customer (OK)
+    - Customer (OK)
+    - Customer Address (OK)
+    - Order (OK)
+    - Quote (OK)
+    - Subscriber (OK)
+  - Guest (OK)
+    - Customer (OK)
+    - Customer Address (OK)
+    - Order (OK)
+    - Quote (OK)
+    - Subscriber (OK)
+- Export (OK)
+  - Logged In Customer (OK)
+    - Customer (OK)
+    - Customer Address (OK)
+    - Order (OK)
+    - Quote (OK)
+    - Subscriber (OK)
+  - Guest (OK)
+    - Customer (OK)
+    - Customer Address (OK)
+    - Order (OK)
+    - Quote (OK)
+    - Subscriber (OK)
+- Admin UI (OK)
+- Frontend UI (OK)
+- Console (OK)
+
+## Notification
+
+notify customer from its requests
+
+## yu
+
+https://github.com/magento/architecture/pull/145/files
+
+## Improvements
+
+Disable checks and validators on mass actions (including cron)

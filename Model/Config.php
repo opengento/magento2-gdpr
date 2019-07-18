@@ -22,17 +22,16 @@ final class Config
     public const CONFIG_PATH_GENERAL_INFORMATION_PAGE = 'gdpr/general/page_id';
     public const CONFIG_PATH_GENERAL_INFORMATION_BLOCK = 'gdpr/general/block_id';
     public const CONFIG_PATH_ERASURE_ENABLED = 'gdpr/erasure/enabled';
-    public const CONFIG_PATH_ERASURE_STRATEGY = 'gdpr/erasure/strategy';
-    public const CONFIG_PATH_ERASURE_TIME_LAPSE = 'gdpr/erasure/time_lapse';
+    public const CONFIG_PATH_ERASURE_DELAY = 'gdpr/erasure/delay';
+    public const CONFIG_PATH_ERASURE_MAX_AGE = 'gdpr/erasure/entity_max_age';
+    public const CONFIG_PATH_ERASURE_SALES_MAX_AGE = 'gdpr/erasure/sales_max_age';
+    public const CONFIG_PATH_ERASURE_ALLOWED_STATES = 'gdpr/erasure/allowed_states';
     public const CONFIG_PATH_ERASURE_INFORMATION_BLOCK = 'gdpr/erasure/block_id';
     public const CONFIG_PATH_ERASURE_REMOVE_CUSTOMER = 'gdpr/erasure/remove_customer';
-    public const CONFIG_PATH_ERASURE_STRATEGY_COMPONENTS = 'gdpr/erasure/components';
     public const CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK = 'gdpr/anonymize/block_id';
     public const CONFIG_PATH_EXPORT_ENABLED = 'gdpr/export/enabled';
     public const CONFIG_PATH_EXPORT_INFORMATION_BLOCK = 'gdpr/export/block_id';
     public const CONFIG_PATH_EXPORT_RENDERER = 'gdpr/export/renderer';
-    public const CONFIG_PATH_EXPORT_CUSTOMER_ATTRIBUTES = 'gdpr/export/customer_attributes';
-    public const CONFIG_PATH_EXPORT_CUSTOMER_ADDRESS_ATTRIBUTES = 'gdpr/export/customer_address_attributes';
     public const CONFIG_PATH_COOKIE_DISCLOSURE_ENABLED = 'gdpr/cookie/enabled';
     public const CONFIG_PATH_COOKIE_INFORMATION_BLOCK = 'gdpr/cookie/block_id';
     /**#@-*/
@@ -58,7 +57,10 @@ final class Config
      */
     public function isModuleEnabled(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_GENERAL_ENABLED, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_GENERAL_ENABLED,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -68,7 +70,10 @@ final class Config
      */
     public function getPrivacyInformationPageId(): string
     {
-        return $this->getValueString(self::CONFIG_PATH_GENERAL_INFORMATION_PAGE, ScopeInterface::SCOPE_STORE);
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_GENERAL_INFORMATION_PAGE,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -78,7 +83,10 @@ final class Config
      */
     public function getPrivacyInformationBlockId(): string
     {
-        return $this->getValueString(self::CONFIG_PATH_GENERAL_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_GENERAL_INFORMATION_BLOCK,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -88,17 +96,10 @@ final class Config
      */
     public function isErasureEnabled(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_ERASURE_ENABLED, ScopeInterface::SCOPE_STORE);
-    }
-
-    /**
-     * Retrieve the default strategy to apply
-     *
-     * @return string
-     */
-    public function getDefaultStrategy(): string
-    {
-        return $this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_STRATEGY, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_ERASURE_ENABLED,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -108,27 +109,62 @@ final class Config
      */
     public function isCustomerRemovedNoOrders(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_ERASURE_REMOVE_CUSTOMER, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_ERASURE_REMOVE_CUSTOMER,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
-     * Retrieve the components configured for the deletion strategy
-     *
-     * @return array
-     */
-    public function getErasureStrategyComponents(): array
-    {
-        return $this->getValueArray(self::CONFIG_PATH_ERASURE_STRATEGY_COMPONENTS, ScopeInterface::SCOPE_STORE);
-    }
-
-    /**
-     * Retrieve the erasure time lapse before execution
+     * Retrieve the erasure delay in minutes before execution
      *
      * @return int
      */
-    public function getErasureTimeLapse(): int
+    public function getErasureDelay(): int
     {
-        return (int) $this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_TIME_LAPSE, ScopeInterface::SCOPE_STORE);
+        return (int) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_ERASURE_DELAY,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Retrieve the maximum age for the entities before the erasure
+     *
+     * @return int
+     */
+    public function getErasureMaxAge(): int
+    {
+        return (int) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_ERASURE_MAX_AGE,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Retrieve the maximum age for the sales information before the erasure
+     *
+     * @return int
+     */
+    public function getErasureSalesMaxAge(): int
+    {
+        return (int) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_ERASURE_SALES_MAX_AGE,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Retrieve the allowed order states to erase
+     *
+     * @return string[]
+     */
+    public function getAllowedStatesToErase(): array
+    {
+        return \explode(',', (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_ERASURE_ALLOWED_STATES,
+            ScopeInterface::SCOPE_STORE
+        ));
     }
 
     /**
@@ -138,7 +174,10 @@ final class Config
      */
     public function getErasureInformationBlockId(): string
     {
-        return $this->getValueString(self::CONFIG_PATH_ERASURE_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_ERASURE_INFORMATION_BLOCK,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -148,7 +187,10 @@ final class Config
      */
     public function getAnonymizeInformationBlockId(): string
     {
-        return $this->getValueString(self::CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -158,7 +200,10 @@ final class Config
      */
     public function isExportEnabled(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_EXPORT_ENABLED, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_EXPORT_ENABLED,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -168,7 +213,10 @@ final class Config
      */
     public function getExportInformationBlockId(): string
     {
-        return $this->getValueString(self::CONFIG_PATH_EXPORT_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_EXPORT_INFORMATION_BLOCK,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -178,27 +226,10 @@ final class Config
      */
     public function getExportRendererCode(): string
     {
-        return $this->getValueString(self::CONFIG_PATH_EXPORT_RENDERER, ScopeInterface::SCOPE_STORE);
-    }
-
-    /**
-     * Retrieve the export customer attributes codes
-     *
-     * @return array
-     */
-    public function getExportCustomerAttributes(): array
-    {
-        return $this->getValueArray(self::CONFIG_PATH_EXPORT_CUSTOMER_ATTRIBUTES, ScopeInterface::SCOPE_STORE);
-    }
-
-    /**
-     * Retrieve the export customer address attributes codes
-     *
-     * @return array
-     */
-    public function getExportCustomerAddressAttributes(): array
-    {
-        return $this->getValueArray(self::CONFIG_PATH_EXPORT_CUSTOMER_ADDRESS_ATTRIBUTES, ScopeInterface::SCOPE_STORE);
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_EXPORT_RENDERER,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -208,7 +239,10 @@ final class Config
      */
     public function isCookieDisclosureEnabled(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_COOKIE_DISCLOSURE_ENABLED, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_COOKIE_DISCLOSURE_ENABLED,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -218,42 +252,9 @@ final class Config
      */
     public function getCookieDisclosureInformationBlockId(): string
     {
-        return $this->getValueString(self::CONFIG_PATH_COOKIE_INFORMATION_BLOCK, ScopeInterface::SCOPE_STORE);
-    }
-
-    /**
-     * Retrieve the scope config value as a string
-     *
-     * @param string $path
-     * @param string $scopeType
-     * @param string $scopeCode [optional]
-     * @return string
-     */
-    private function getValueString(
-        string $path,
-        string $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
-        string $scopeCode = ''
-    ): string
-    {
-        return (string) $this->scopeConfig->getValue($path, $scopeType, $scopeCode ?: null);
-    }
-
-    /**
-     * Retrieve the scope config value as an array
-     *
-     * @param string $path
-     * @param string $scopeType
-     * @param string $scopeCode [optional]
-     * @return array
-     */
-    private function getValueArray(
-        string $path,
-        string $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
-        string $scopeCode = ''
-    ): array
-    {
-        $value = $this->scopeConfig->getValue($path, $scopeType, $scopeCode ?: null);
-
-        return $value ? \explode(',',  $value) : [];
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_COOKIE_INFORMATION_BLOCK,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 }

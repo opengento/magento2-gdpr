@@ -12,20 +12,144 @@
                 <enabled>0</enabled>
                 <page_id>privacy-policy-cookie-restriction-mode</page_id>
             </general>
+            <anonymize>
+                <customer_attributes>
+                    <![CDATA[[
+                        {"attribute":"email","anonymizer":"email"},
+                        {"attribute":"prefix","anonymizer":"alphaUpper"},
+                        {"attribute":"firstname","anonymizer":"anonymous"},
+                        {"attribute":"middlename","anonymizer":"anonymous"},
+                        {"attribute":"lastname","anonymizer":"anonymous"},
+                        {"attribute":"suffix","anonymizer":"alphaUpper"},
+                        {"attribute":"dob","anonymizer":"date"},
+                        {"attribute":"gender","anonymizer":"number"},
+                        {"attribute":"taxvat","anonymizer":"alphaNum"}
+                    ]]]>
+                </customer_attributes>
+                <customer_address_attributes>
+                    <![CDATA[[
+                        {"attribute":"city","anonymizer":"alphaUpper"},
+                        {"attribute":"company","anonymizer":"anonymous"},
+                        {"attribute":"country_id","anonymizer":"nullValue"},
+                        {"attribute":"fax","anonymizer":"phone"},
+                        {"attribute":"prefix","anonymizer":"alphaUpper"},
+                        {"attribute":"firstname","anonymizer":"anonymous"},
+                        {"attribute":"lastname","anonymizer":"anonymous"},
+                        {"attribute":"middlename","anonymizer":"anonymous"},
+                        {"attribute":"suffix","anonymizer":"alphaUpper"},
+                        {"attribute":"postcode","anonymizer":"number"},
+                        {"attribute":"region","anonymizer":"nullValue"},
+                        {"attribute":"street","anonymizer":"street"},
+                        {"attribute":"telephone","anonymizer":"phone"},
+                        {"attribute":"vat_id","anonymizer":"alphaNum"}
+                    ]]]>
+                </customer_address_attributes>
+                <quote_attributes>
+                    <![CDATA[[
+                        {"attribute":"customer_email","anonymizer":"email"},
+                        {"attribute":"customer_prefix","anonymizer":"anonymous"},
+                        {"attribute":"customer_firstname","anonymizer":"anonymous"},
+                        {"attribute":"customer_middlename","anonymizer":"anonymous"},
+                        {"attribute":"customer_lastname","anonymizer":"anonymous"},
+                        {"attribute":"customer_suffix","anonymizer":"anonymous"},
+                        {"attribute":"customer_dob","anonymizer":"date"},
+                        {"attribute":"customer_gender","anonymizer":"number"},
+                        {"attribute":"customer_taxvat","anonymizer":"email"},
+                        {"attribute":"remote_ip","anonymizer":"alphaNum"}
+                    ]]]>
+                </quote_attributes>
+                <quote_address_attributes>
+                    <![CDATA[[
+                        {"attribute":"city","anonymizer":"alphaUpper"},
+                        {"attribute":"company","anonymizer":"anonymous"},
+                        {"attribute":"country_id","anonymizer":"nullValue"},
+                        {"attribute":"fax","anonymizer":"phone"},
+                        {"attribute":"email","anonymizer":"email"},
+                        {"attribute":"prefix","anonymizer":"alphaUpper"},
+                        {"attribute":"firstname","anonymizer":"anonymous"},
+                        {"attribute":"lastname","anonymizer":"anonymous"},
+                        {"attribute":"middlename","anonymizer":"anonymous"},
+                        {"attribute":"suffix","anonymizer":"alphaUpper"},
+                        {"attribute":"postcode","anonymizer":"number"},
+                        {"attribute":"region","anonymizer":"nullValue"},
+                        {"attribute":"street","anonymizer":"street"},
+                        {"attribute":"telephone","anonymizer":"phone"},
+                        {"attribute":"vat_id","anonymizer":"alphaNum"}
+                    ]]]>
+                </quote_address_attributes>
+                <order_attributes>
+                    <![CDATA[[
+                        {"attribute":"customer_email","anonymizer":"email"},
+                        {"attribute":"customer_prefix","anonymizer":"anonymous"},
+                        {"attribute":"customer_firstname","anonymizer":"anonymous"},
+                        {"attribute":"customer_middlename","anonymizer":"anonymous"},
+                        {"attribute":"customer_lastname","anonymizer":"anonymous"},
+                        {"attribute":"customer_suffix","anonymizer":"anonymous"},
+                        {"attribute":"customer_dob","anonymizer":"date"},
+                        {"attribute":"customer_gender","anonymizer":"number"},
+                        {"attribute":"customer_taxvat","anonymizer":"email"},
+                        {"attribute":"remote_ip","anonymizer":"alphaNum"},
+                        {"attribute":"x_forwarded_for","anonymizer":"anonymous"}
+                    ]]]>
+                </order_attributes>
+                <order_address_attributes>
+                    <![CDATA[[
+                        {"attribute":"city","anonymizer":"alphaUpper"},
+                        {"attribute":"company","anonymizer":"anonymous"},
+                        {"attribute":"country_id","anonymizer":"nullValue"},
+                        {"attribute":"fax","anonymizer":"phone"},
+                        {"attribute":"email","anonymizer":"email"},
+                        {"attribute":"prefix","anonymizer":"alphaUpper"},
+                        {"attribute":"firstname","anonymizer":"anonymous"},
+                        {"attribute":"lastname","anonymizer":"anonymous"},
+                        {"attribute":"middlename","anonymizer":"anonymous"},
+                        {"attribute":"suffix","anonymizer":"alphaUpper"},
+                        {"attribute":"postcode","anonymizer":"number"},
+                        {"attribute":"region","anonymizer":"nullValue"},
+                        {"attribute":"street","anonymizer":"street"},
+                        {"attribute":"telephone","anonymizer":"phone"},
+                        {"attribute":"vat_id","anonymizer":"alphaNum"}
+                    ]]]>
+                </order_address_attributes>
+                <subscriber_attributes>
+                    <![CDATA[[
+                        {"attribute":"email","anonymizer":"email"}
+                    ]]]>
+                </subscriber_attributes>
+            </anonymize>
             <erasure>
                 <enabled>0</enabled>
-                <strategy>anonymize</strategy>
-                <time_lapse>3600</time_lapse>
-                <schedule>* * * * *</schedule>
+                <delay>3600</delay>
+                <entity_schedule>* * * * *</entity_schedule>
+                <entity_max_age>1095</entity_max_age>
+                <entity_max_age_schedule>0 1 * * *</entity_max_age_schedule>
+                <sales_max_age>3650</sales_max_age>
+                <allowed_states>canceled,closed,complete</allowed_states>
                 <remove_customer>1</remove_customer>
-                <components>customer_address,subscriber</components>
+                <components_processors>
+                    <![CDATA[[
+                        {"component":"customer","processor":"anonymize"},
+                        {"component":"customer_address","processor":"anonymize"},
+                        {"component":"quote","processor":"delete"},
+                        {"component":"order","processor":"anonymize"},
+                        {"component":"subscriber","processor":"delete"}
+                    ]]]>
+                </components_processors>
             </erasure>
             <export>
                 <enabled>0</enabled>
-                <renderer>html</renderer>
+                <renderer>pdf</renderer>
                 <customer_attributes>prefix,firstname,middlename,lastname,suffix,email,dob,gender,taxvat</customer_attributes>
                 <customer_address_attributes>prefix,firstname,middlename,lastname,suffix,company,street,city,country_id,province,postcode,fax,telephone,vat_id</customer_address_attributes>
+                <quote_attributes>customer_email,customer_prefix,customer_middlename,customer_lastname,customer_suffix,customer_dob,customer_gender,customer_taxvat,remote_ip</quote_attributes>
+                <quote_address_attributes>city,company,country_id,fax,email,prefix,firstname,middlename,lastname,suffix,postcode,region,street,telephone,vat_id</quote_address_attributes>
+                <order_attributes>customer_email,customer_prefix,customer_middlename,customer_lastname,customer_suffix,customer_dob,customer_gender,customer_taxvat,remote_ip,x_forwarded_for</order_attributes>
+                <order_address_attributes>city,company,country_id,fax,email,prefix,firstname,middlename,lastname,suffix,postcode,region,street,telephone,vat_id</order_address_attributes>
+                <subscriber_attributes>email</subscriber_attributes>
             </export>
+            <cookie>
+                <enabled>0</enabled>
+            </cookie>
         </gdpr>
     </default>
 </config>

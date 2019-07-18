@@ -23,9 +23,10 @@
                         <argument name="urlsDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\UrlsDataProvider</argument>
                     </arguments>
                 </block>
-                <block class="Magento\Framework\View\Element\Template" name="customer-account-privacy-erasure" as="erasure" template="Opengento_Gdpr::account/privacy/erasure.phtml" ifconfig="gdpr/erasure/enabled" cacheable="false">
+                <block class="Magento\Framework\View\Element\Template" name="customer-account-privacy-erasure" as="erasure" template="Opengento_Gdpr::account/privacy/erase.phtml" ifconfig="gdpr/erasure/enabled" cacheable="false">
                     <arguments>
-                        <argument name="erasureDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Privacy\ErasureDataProvider</argument>
+                        <argument name="eraseDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Privacy\EraseDataProvider</argument>
+                        <argument name="eraseCustomerDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Privacy\EraseCustomerDataProvider</argument>
                         <argument name="urlsDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\UrlsDataProvider</argument>
                     </arguments>
                 </block>

@@ -7,11 +7,11 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-        <section id="gdpr" translate="label" sortOrder="135" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="gdpr" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="200">
             <class>separator-top</class>
-            <label>Customer Privacy (GDPR)</label>
+            <label>GDPR Compliance</label>
             <tab>customer</tab>
-            <resource>Opengento_Gdpr::settings</resource>
+            <resource>Opengento_Gdpr::config</resource>
             <!-- Global Settings -->
             <include path="Opengento_Gdpr::system/general.xml" />
             <!-- Erasure Settings -->

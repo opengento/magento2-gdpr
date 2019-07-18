@@ -10,8 +10,8 @@ namespace Opengento\Gdpr\Console\Command;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
-use Opengento\Gdpr\Service\ExportManagement;
-use Opengento\Gdpr\Service\ExportStrategy;
+use Opengento\Gdpr\Api\ExportEntityManagementInterface;
+use Opengento\Gdpr\Model\ExportEntity;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,14 +20,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class ExportCommand
- * @package Opengento\Gdpr\Console\Command
  */
-final class ExportCommand extends Command
+class ExportCommand extends Command
 {
     /**#@+
      * Input Variables Names
      */
-    private const INPUT_ARGUMENT_CUSTOMER = 'customer';
+    private const INPUT_ARGUMENT_ENTITY_ID = 'entity_id';
+    private const INPUT_ARGUMENT_ENTITY_TYPE = 'entity_type';
     private const INPUT_OPTION_FILENAME = 'filename';
     /**#@-*/
 
@@ -37,46 +37,43 @@ final class ExportCommand extends Command
     private $appState;
 
     /**
-     * @var \Opengento\Gdpr\Service\ExportManagement
+     * @var \Opengento\Gdpr\Api\ExportEntityManagementInterface
      */
     private $exportManagement;
 
     /**
-     * @var \Opengento\Gdpr\Service\ExportStrategy
-     */
-    private $exportStrategy;
-
-    /**
      * @param \Magento\Framework\App\State $appState
-     * @param \Opengento\Gdpr\Service\ExportManagement $exportManagement
-     * @param \Opengento\Gdpr\Service\ExportStrategy $exportStrategy
-     * @param null|string $name
+     * @param \Opengento\Gdpr\Api\ExportEntityManagementInterface $exportManagement
+     * @param string $name
      */
     public function __construct(
         State $appState,
-        ExportManagement $exportManagement,
-        ExportStrategy $exportStrategy,
-        string $name = 'gdpr:customer:export'
+        ExportEntityManagementInterface $exportManagement,
+        string $name = 'gdpr:entity:export'
     ) {
         $this->appState = $appState;
         $this->exportManagement = $exportManagement;
-        $this->exportStrategy = $exportStrategy;
         parent::__construct($name);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function configure(): void
     {
         parent::configure();
 
-        $this->setDescription('Export the customer\'s personal data.');
+        $this->setDescription('Export the entity\'s related data.');
         $this->setDefinition([
             new InputArgument(
-                self::INPUT_ARGUMENT_CUSTOMER,
+                self::INPUT_ARGUMENT_ENTITY_TYPE,
+                InputArgument::REQUIRED,
+                'Entity Type'
+            ),
+            new InputArgument(
+                self::INPUT_ARGUMENT_ENTITY_ID,
                 InputArgument::REQUIRED + InputArgument::IS_ARRAY,
-                'Customer ID'
+                'Entity ID'
             ),
             new InputOption(
                 self::INPUT_OPTION_FILENAME,
@@ -89,21 +86,24 @@ final class ExportCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->appState->setAreaCode(Area::AREA_GLOBAL);
 
         $resultCode = Cli::RETURN_SUCCESS;
-        $customerIds = $input->getArgument(self::INPUT_ARGUMENT_CUSTOMER);
+        $entityIds = $input->getArgument(self::INPUT_ARGUMENT_ENTITY_ID);
+        $entityType = $input->getArgument(self::INPUT_ARGUMENT_ENTITY_TYPE);
         $fileName = $input->getOption(self::INPUT_OPTION_FILENAME);
 
         try {
-            foreach ($customerIds as $customerId) {
-                $personalData = $this->exportManagement->execute((int) $customerId);
-                $fileName = $this->exportStrategy->saveData($fileName . '_' . $customerId, $personalData);
-                $output->writeln('<info>Customer\'s personal data have been exported to: ' . $fileName . '.</info>');
+            foreach ($entityIds as $entityId) {
+                $out = $this->exportManagement->export(
+                    new ExportEntity((int) $entityId, $entityType, $fileName . '_' . $entityId)
+                );
+                $output->writeln('<info>Entity\'s related data have been exported to: ' . $out . '.</info>');
             }
         } catch (\Exception $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');

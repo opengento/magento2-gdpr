@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="opengento_gdpr_erase_entity" resource="default" engine="innodb" comment="Entity Erase Scheduler">
+        <column xsi:type="smallint" name="erase_id" padding="11" unsigned="true" nullable="false" identity="true" comment="Erase ID"/>
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" comment="Entity ID"/>
+        <column xsi:type="varchar" name="entity_type" length="255" nullable="false" comment="Entity Type"/>
+        <column xsi:type="timestamp" name="scheduled_at" nullable="false" comment="Scheduled At"/>
+        <column xsi:type="varchar" name="state" length="255" nullable="false" comment="State"/>
+        <column xsi:type="varchar" name="status" length="255" nullable="false" comment="Status"/>
+        <column xsi:type="text" name="message" nullable="true" comment="Message"/>
+        <column xsi:type="timestamp" name="erased_at" nullable="true" comment="Erased At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="erase_id"/>
+        </constraint>
+        <index referenceId="OPENGENTO_GDPR_ERASE_ENTITY_ENTITY_ID" indexType="btree">
+            <column name="entity_id"/>
+        </index>
+        <index referenceId="OPENGENTO_GDPR_ERASE_ENTITY_ENTITY_TYPE" indexType="btree">
+            <column name="entity_type"/>
+        </index>
+    </table>
+</schema>

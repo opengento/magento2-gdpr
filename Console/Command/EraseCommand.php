@@ -10,8 +10,9 @@ namespace Opengento\Gdpr\Console\Command;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
-use Opengento\Gdpr\Service\ErasureStrategy;
+use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,12 +21,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class EraseCommand
  */
-final class EraseCommand extends Command
+class EraseCommand extends Command
 {
     /**#@+
      * Input Variables Names
      */
-    private const INPUT_ARGUMENT_CUSTOMER = 'customer';
+    private const INPUT_ARGUMENT_ENTITY_ID = 'entity_id';
+    private const INPUT_ARGUMENT_ENTITY_TYPE = 'entity_type';
     /**#@-*/
 
     /**
@@ -39,47 +41,53 @@ final class EraseCommand extends Command
     private $registry;
 
     /**
-     * @var \Opengento\Gdpr\Service\ErasureStrategy
+     * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
      */
-    private $erasureStrategy;
+    private $eraseEntityManagement;
 
     /**
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Registry $registry
-     * @param \Opengento\Gdpr\Service\ErasureStrategy $erasureStrategy
-     * @param null|string $name
+     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
+     * @param string $name
      */
     public function __construct(
         State $appState,
         Registry $registry,
-        ErasureStrategy $erasureStrategy,
-        string $name = 'gdpr:customer:erase'
+        EraseEntityManagementInterface $eraseEntityManagement,
+        string $name = 'gdpr:entity:erase'
     ) {
         $this->appState = $appState;
         $this->registry = $registry;
-        $this->erasureStrategy = $erasureStrategy;
+        $this->eraseEntityManagement = $eraseEntityManagement;
         parent::__construct($name);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function configure(): void
     {
         parent::configure();
 
-        $this->setDescription('Erase the customer\'s personal data.');
+        $this->setDescription('Erase the entity\'s related data.');
         $this->setDefinition([
             new InputArgument(
-                self::INPUT_ARGUMENT_CUSTOMER,
+                self::INPUT_ARGUMENT_ENTITY_TYPE,
+                InputArgument::REQUIRED,
+                'Entity Type'
+            ),
+            new InputArgument(
+                self::INPUT_ARGUMENT_ENTITY_ID,
                 InputArgument::REQUIRED + InputArgument::IS_ARRAY,
-                'Customer ID'
-            )
+                'Entity ID'
+            ),
         ]);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -89,12 +97,20 @@ final class EraseCommand extends Command
 
         $returnCode = Cli::RETURN_SUCCESS;
 
+        $entityIds = $input->getArgument(self::INPUT_ARGUMENT_ENTITY_ID);
+        $entityType = $input->getArgument(self::INPUT_ARGUMENT_ENTITY_TYPE);
+
         try {
-            foreach ($input->getArgument(self::INPUT_ARGUMENT_CUSTOMER) as $customerId) {
-                $this->erasureStrategy->execute((int) $customerId);
-                $output->writeln('<info>Customer\'s ("' . $customerId . '") personal data has been erased.</info>');
+            foreach ($entityIds as $entityId) {
+                // todo disable individual check: use mass validator
+                $this->eraseEntityManagement->process(
+                    $this->eraseEntityManagement->create((int) $entityId, $entityType)
+                );
+                $output->writeln(
+                    '<info>Entity\'s (' . $entityType . ') with ID "' . $entityId . '" has been erased.</info>'
+                );
             }
-        } catch (\Exception $e) {
+        } catch (LocalizedException $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');
             $returnCode = Cli::RETURN_FAILURE;
         }

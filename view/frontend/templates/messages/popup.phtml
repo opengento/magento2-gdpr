@@ -5,13 +5,13 @@
  */
 /** @var \Opengento\Gdpr\Block\Messages\PrivacyMessagePopup $block */
 ?>
-<div class="enhanced-privacy-cookie-policy" data-bind="scope: 'enhanced-privacy-cookie-policy'">
+<div class="enhanced-privacy-cookie-policy" data-type="cookie-policy" data-bind="scope: 'enhanced-privacy-cookie-policy'">
     <!-- ko template: getTemplate() --><!-- /ko -->
 </div>
 <script type="text/x-magento-init">
     {
-        ".enhanced-privacy-cookie-policy": {
-            "Magento_Ui/js/core/app": <?= $block->getJsLayout(); ?>
+        "[data-type='cookie-policy']": {
+            "Magento_Ui/js/core/app": <?= $block->getJsLayout() ?>
         }
     }
 </script>

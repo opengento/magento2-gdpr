@@ -1,0 +1,42 @@
+<?php
+/**
+ * Copyright © OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+
+/** @var \Magento\Framework\View\Element\Template $block */
+
+/** @var \Opengento\Gdpr\ViewModel\Privacy\EraseGuestDataProvider $eraseGuestDataProvider */
+$eraseGuestDataProvider = $block->getData('eraseGuestDataProvider');
+?>
+<?php if ($eraseGuestDataProvider->canCreate()): ?>
+    <a href="<?= $block->escapeHtmlAttr($block->escapeUrl($block->getData('eraseActionUrl'))) ?>" class="action action-danger" id="erase">
+        <span><?= $block->escapeHtml(__('Erase Personal Data')) ?></span>
+    </a>
+    <script>
+        require([
+            "jquery",
+            "Magento_Ui/js/modal/confirm"
+        ], function ($, confirm) {
+            'use strict';
+
+            $("#erase").on("click", function (e) {
+                e.preventDefault();
+                confirm({
+                    title: "<?= $block->escapeJs($block->escapeHtml(__('Warning'))) ?>",
+                    content: "<?= $block->escapeJs($block->escapeHtml(__('Do you really want to erase your personal data?'))) ?>",
+                    actions: {
+                        confirm: function () {
+                            window.location = "<?= $block->escapeJs($block->escapeHtml($block->escapeUrl($block->getData('eraseActionUrl')))) ?>";
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+<?php endif; ?>
+<?php if ($eraseGuestDataProvider->canCancel()): ?>
+    <a href="<?= $block->escapeUrl($block->escapeUrl($block->getData('undoActionUrl'))) ?>" class="action undo" id="undo_deletion">
+        <span><?= $block->escapeHtml(__('Undo Erase Personal Data')) ?></span>
+    </a>
+<?php endif; ?>
