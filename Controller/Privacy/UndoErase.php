@@ -29,22 +29,22 @@ class UndoErase extends AbstractPrivacy
     /**
      * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
      */
-    private $eraseEntityManagement;
+    private $eraseManagement;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Customer\Model\Session $session
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
+     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseManagement
      */
     public function __construct(
         Context $context,
         Config $config,
         Session $session,
-        EraseEntityManagementInterface $eraseEntityManagement
+        EraseEntityManagementInterface $eraseManagement
     ) {
         $this->session = $session;
-        $this->eraseEntityManagement = $eraseEntityManagement;
+        $this->eraseManagement = $eraseManagement;
         parent::__construct($context, $config);
     }
 
@@ -65,7 +65,7 @@ class UndoErase extends AbstractPrivacy
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
         try {
-            $this->eraseEntityManagement->cancel((int) $this->session->getCustomerId(), 'customer');
+            $this->eraseManagement->cancel((int) $this->session->getCustomerId(), 'customer');
             $this->messageManager->addSuccessMessage(new Phrase('You canceled your account deletion.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());

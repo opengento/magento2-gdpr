@@ -26,19 +26,19 @@ class Erase extends AbstractAction implements HttpPostActionInterface
     /**
      * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
      */
-    private $eraseEntityManagement;
+    private $eraseManagement;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
+     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseManagement
      */
     public function __construct(
         Context $context,
         Config $config,
-        EraseEntityManagementInterface $eraseEntityManagement
+        EraseEntityManagementInterface $eraseManagement
     ) {
-        $this->eraseEntityManagement = $eraseEntityManagement;
+        $this->eraseManagement = $eraseManagement;
         parent::__construct($context, $config);
     }
 
@@ -48,8 +48,8 @@ class Erase extends AbstractAction implements HttpPostActionInterface
     protected function executeAction()
     {
         try {
-            $this->eraseEntityManagement->process(
-                $this->eraseEntityManagement->create((int) $this->getRequest()->getParam('id'), 'customer')
+            $this->eraseManagement->process(
+                $this->eraseManagement->create((int) $this->getRequest()->getParam('id'), 'customer')
             );
             $this->messageManager->addSuccessMessage(new Phrase('You erased the customer.'));
         } catch (LocalizedException $e) {

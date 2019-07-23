@@ -30,21 +30,21 @@ final class EraseEntityScheduler
     /**
      * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
      */
-    private $eraseEntityManagement;
+    private $eraseManagement;
 
     /**
      * @param \Opengento\Gdpr\Model\Entity\SourceProviderFactory $sourceProviderFactory
      * @param \Opengento\Gdpr\Model\Entity\SourceProvider\ModifierFactory $sourceProviderModifierFactory
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
+     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseManagement
      */
     public function __construct(
         SourceProviderFactory $sourceProviderFactory,
         ModifierFactory $sourceProviderModifierFactory,
-        EraseEntityManagementInterface $eraseEntityManagement
+        EraseEntityManagementInterface $eraseManagement
     ) {
         $this->sourceProviderFactory = $sourceProviderFactory;
         $this->sourceProviderModifierFactory = $sourceProviderModifierFactory;
-        $this->eraseEntityManagement = $eraseEntityManagement;
+        $this->eraseManagement = $eraseManagement;
     }
 
     /**
@@ -59,7 +59,7 @@ final class EraseEntityScheduler
     {
         foreach ($this->collectEntityIds($entityTypes, $filter) as $entityType => $entityIds) {
             foreach ($entityIds as $entityId) {
-                $this->eraseEntityManagement->create((int) $entityId, $entityType);
+                $this->eraseManagement->create((int) $entityId, $entityType);
             }
         }
     }

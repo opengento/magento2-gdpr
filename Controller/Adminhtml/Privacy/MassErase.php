@@ -27,21 +27,21 @@ class MassErase extends AbstractMassAction
     /**
      * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
      */
-    private $eraseEntityManagement;
+    private $eraseManagement;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Ui\Component\MassAction\Filter $filter
      * @param \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $collectionFactory
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
+     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseManagement
      */
     public function __construct(
         Context $context,
         Filter $filter,
         CollectionFactory $collectionFactory,
-        EraseEntityManagementInterface $eraseEntityManagement
+        EraseEntityManagementInterface $eraseManagement
     ) {
-        $this->eraseEntityManagement = $eraseEntityManagement;
+        $this->eraseManagement = $eraseManagement;
         parent::__construct($context, $filter, $collectionFactory);
     }
 
@@ -55,7 +55,7 @@ class MassErase extends AbstractMassAction
         foreach ($collection->getAllIds() as $customerId) {
             try {
                 // todo disable individual check: use mass validator
-                $this->eraseEntityManagement->process($this->eraseEntityManagement->create((int) $customerId, 'customer'));
+                $this->eraseManagement->process($this->eraseManagement->create((int) $customerId, 'customer'));
                 $customerErased++;
             } catch (LocalizedException $e) {
                 $this->messageManager->addErrorMessage(

@@ -43,23 +43,23 @@ class EraseCommand extends Command
     /**
      * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
      */
-    private $eraseEntityManagement;
+    private $eraseManagement;
 
     /**
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Registry $registry
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
+     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseManagement
      * @param string $name
      */
     public function __construct(
         State $appState,
         Registry $registry,
-        EraseEntityManagementInterface $eraseEntityManagement,
+        EraseEntityManagementInterface $eraseManagement,
         string $name = 'gdpr:entity:erase'
     ) {
         $this->appState = $appState;
         $this->registry = $registry;
-        $this->eraseEntityManagement = $eraseEntityManagement;
+        $this->eraseManagement = $eraseManagement;
         parent::__construct($name);
     }
 
@@ -103,8 +103,8 @@ class EraseCommand extends Command
         try {
             foreach ($entityIds as $entityId) {
                 // todo disable individual check: use mass validator
-                $this->eraseEntityManagement->process(
-                    $this->eraseEntityManagement->create((int) $entityId, $entityType)
+                $this->eraseManagement->process(
+                    $this->eraseManagement->create((int) $entityId, $entityType)
                 );
                 $output->writeln(
                     '<info>Entity\'s (' . $entityType . ') with ID "' . $entityId . '" has been erased.</info>'

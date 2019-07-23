@@ -30,6 +30,11 @@
         </arguments>
     </type>
     <!-- Config Settings -->
+    <virtualType name="Opengento\Gdpr\Model\Config\Source\EntityAttributes" type="Opengento\Gdpr\Model\Config\Source\VirtualEntityAttributes">
+        <arguments>
+            <argument name="attributeProvider" xsi:type="object">Magento\Framework\Model\EntitySnapshot\AttributeProvider</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Config\Source\CustomerAttributes" type="Opengento\Gdpr\Model\Config\Source\VirtualCustomerAttributes">
         <arguments>
             <argument name="metadata" xsi:type="object">Magento\Customer\Api\CustomerMetadataInterface</argument>

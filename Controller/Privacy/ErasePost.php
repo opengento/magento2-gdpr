@@ -43,7 +43,7 @@ class ErasePost extends AbstractPrivacy
     /**
      * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
      */
-    private $eraseEntityManagement;
+    private $eraseManagement;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
@@ -51,7 +51,7 @@ class ErasePost extends AbstractPrivacy
      * @param \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
      * @param \Magento\Customer\Model\AuthenticationInterface $authentication
      * @param \Magento\Customer\Model\Session $session
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
+     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseManagement
      */
     public function __construct(
         Context $context,
@@ -59,12 +59,12 @@ class ErasePost extends AbstractPrivacy
         Validator $formKeyValidator,
         AuthenticationInterface $authentication,
         Session $session,
-        EraseEntityManagementInterface $eraseEntityManagement
+        EraseEntityManagementInterface $eraseManagement
     ) {
         $this->formKeyValidator = $formKeyValidator;
         $this->authentication = $authentication;
         $this->session = $session;
-        $this->eraseEntityManagement = $eraseEntityManagement;
+        $this->eraseManagement = $eraseManagement;
         parent::__construct($context, $config);
     }
 
@@ -92,7 +92,7 @@ class ErasePost extends AbstractPrivacy
         try {
             $customerId = (int) $this->session->getCustomerId();
             $this->authentication->authenticate($customerId, $this->getRequest()->getParam('password'));
-            $this->eraseEntityManagement->create($customerId, 'customer');
+            $this->eraseManagement->create($customerId, 'customer');
             $this->messageManager->addWarningMessage(new Phrase('Your personal data is being removed soon.'));
         } catch (InvalidEmailOrPasswordException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());

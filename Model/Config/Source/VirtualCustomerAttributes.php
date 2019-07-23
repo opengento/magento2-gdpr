@@ -66,6 +66,6 @@ final class VirtualCustomerAttributes implements OptionSourceInterface
             $options[] = ['value' => $attribute->getAttributeCode(), 'label' => $attribute->getFrontendLabel()];
         }
 
-        return \array_merge($options, $defaultOptions);
+        return \array_merge($defaultOptions, $options);
     }
 }

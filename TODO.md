@@ -69,10 +69,13 @@ Area:
 - Admin UI (OK)
 - Frontend UI (OK)
 - Console (OK)
+- Notifier (OK)
 
 ## Notification
 
 notify customer from its requests
+- Configuration
+- Mail templates
 
 ## yu
 

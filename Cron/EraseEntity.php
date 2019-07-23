@@ -41,7 +41,7 @@ final class EraseEntity
     /**
      * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
      */
-    private $eraseEntityManagement;
+    private $eraseManagement;
 
     /**
      * @var \Opengento\Gdpr\Api\EraseEntityRepositoryInterface
@@ -62,7 +62,7 @@ final class EraseEntity
      * @param \Psr\Log\LoggerInterface $logger
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Framework\Registry $registry
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
+     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseManagement
      * @param \Opengento\Gdpr\Api\EraseEntityRepositoryInterface $eraseEntityRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
@@ -71,7 +71,7 @@ final class EraseEntity
         LoggerInterface $logger,
         Config $config,
         Registry $registry,
-        EraseEntityManagementInterface $eraseEntityManagement,
+        EraseEntityManagementInterface $eraseManagement,
         EraseEntityRepositoryInterface $eraseEntityRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         DateTime $dateTime
@@ -79,7 +79,7 @@ final class EraseEntity
         $this->logger = $logger;
         $this->config = $config;
         $this->registry = $registry;
-        $this->eraseEntityManagement = $eraseEntityManagement;
+        $this->eraseManagement = $eraseManagement;
         $this->eraseEntityRepository = $eraseEntityRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->dateTime = $dateTime;
@@ -100,7 +100,7 @@ final class EraseEntity
             foreach ($this->retrieveEraseEntityList()->getItems() as $eraseEntity) {
                 try {
                     // todo disable individual check: use mass validator
-                    $this->eraseEntityManagement->process($eraseEntity);
+                    $this->eraseManagement->process($eraseEntity);
                 } catch (\Exception $e) {
                     $this->logger->error($e->getMessage());
                 }

@@ -25,23 +25,23 @@ class UndoErase extends AbstractGuest
     /**
      * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
      */
-    private $eraseEntityManagement;
+    private $eraseManagement;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Sales\Controller\AbstractController\OrderLoaderInterface $orderLoader
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
+     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseManagement
      * @param \Magento\Framework\Registry $registry
      */
     public function __construct(
         Context $context,
         Config $config,
         OrderLoaderInterface $orderLoader,
-        EraseEntityManagementInterface $eraseEntityManagement,
+        EraseEntityManagementInterface $eraseManagement,
         Registry $registry
     ) {
-        $this->eraseEntityManagement = $eraseEntityManagement;
+        $this->eraseManagement = $eraseManagement;
         parent::__construct($context, $config, $orderLoader, $registry);
     }
 
@@ -63,7 +63,7 @@ class UndoErase extends AbstractGuest
         $resultRedirect->setRefererOrBaseUrl();
 
         try {
-            $this->eraseEntityManagement->cancel($this->retrieveOrderId(), 'order');
+            $this->eraseManagement->cancel($this->retrieveOrderId(), 'order');
             $this->messageManager->addWarningMessage(new Phrase('You canceled your personal data deletion.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
