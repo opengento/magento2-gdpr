@@ -147,6 +147,71 @@
                 <order_address_attributes>city,company,country_id,fax,email,prefix,firstname,middlename,lastname,suffix,postcode,region,street,telephone,vat_id</order_address_attributes>
                 <subscriber_attributes>email</subscriber_attributes>
             </export>
+            <notification>
+                <general>
+                    <enabled>0</enabled>
+                </general>
+                <erasure>
+                    <pending>
+                        <customer>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_erase_pending_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </customer>
+                        <order>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_erase_pending_guest_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </order>
+                    </pending>
+                    <succeeded>
+                        <customer>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_erase_succeeded_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </customer>
+                        <order>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_erase_succeeded_guest_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </order>
+                    </succeeded>
+                    <canceled>
+                        <customer>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_erase_canceled_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </customer>
+                        <order>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_erase_canceled_guest_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </order>
+                    </canceled>
+                </erasure>
+                <export>
+                    <succeeded>
+                        <customer>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_export_succeeded_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </customer>
+                        <order>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_export_succeeded_guest_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </order>
+                    </succeeded>
+                </export>
+            </notification>
             <cookie>
                 <enabled>0</enabled>
             </cookie>

@@ -654,7 +654,7 @@
     </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Config\Source\Customer\EraseComponents" type="Opengento\Gdpr\Model\Config\Source\EraseComponents">
         <arguments>
-            <argument name="processorResolverFactoryClassName" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\ProcessorResolver\ProcessorResolverStrategy</argument>
+            <argument name="processorResolverFactoryClassName" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\ProcessorResolverFactory</argument>
         </arguments>
     </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Customer\Erase\Processor\EraseProcessor" type="Opengento\Gdpr\Service\Erase\Processor\EraseProcessor">
@@ -702,7 +702,7 @@
     </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Config\Source\Order\EraseComponents" type="Opengento\Gdpr\Model\Config\Source\EraseComponents">
         <arguments>
-            <argument name="processorResolverFactoryClassName" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\ProcessorResolver\ProcessorResolverStrategy</argument>
+            <argument name="processorResolverFactoryClassName" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\ProcessorResolverFactory</argument>
         </arguments>
     </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Order\Erase\Processor\EraseProcessor" type="Opengento\Gdpr\Service\Erase\Processor\EraseProcessor">

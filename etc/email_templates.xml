@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_notification:etc/notification_templates.xsd">
+    <template id="gdpr_notification_erase_pending_template" label="Pending Erase" file="erase_pending.html" type="html" module="Opengento_Gdpr" area="frontend"/>
+    <template id="gdpr_notification_erase_pending_guest_template" label="Pending Erase for Guest" file="erase_pending_guest.html" type="html" module="Opengento_Gdpr" area="frontend"/>
+    <template id="gdpr_notification_erase_succeeded_template" label="Succeeded Erasure" file="erase_succeeded.html" type="html" module="Opengento_Gdpr" area="frontend"/>
+    <template id="gdpr_notification_erase_succeeded_guest_template" label="Succeeded Erasure for Guest" file="erase_succeeded_guest.html" type="html" module="Opengento_Gdpr" area="frontend"/>
+    <template id="gdpr_notification_erase_canceled_template" label="Canceled Erasure" file="erase_canceled.html" type="html" module="Opengento_Gdpr" area="frontend"/>
+    <template id="gdpr_notification_erase_canceled_guest_template" label="Canceled Erasure for Guest" file="erase_canceled_guest.html" type="html" module="Opengento_Gdpr" area="frontend"/>
+    <template id="gdpr_notification_export_succeeded_template" label="Export Succeeded" file="export_succeeded.html" type="html" module="Opengento_Gdpr" area="frontend"/>
+    <template id="gdpr_notification_export_succeeded_guest_template" label="Export Succeeded for Guest" file="export_succeeded_guest.html" type="html" module="Opengento_Gdpr" area="frontend"/>
+</config>

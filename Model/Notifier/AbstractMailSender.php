@@ -60,15 +60,45 @@ abstract class AbstractMailSender
     protected function sendMail(string $to, ?string $name = null, ?int $storeId = null, array $vars = []): void
     {
         if ($this->isAvailable($storeId)) {
-            $transport = $this->transportBuilder->setTemplateIdentifier($this->getTemplateIdentifier($storeId))
-                ->setTemplateOptions(['area' => Area::AREA_FRONTEND, 'store' => $storeId])
-                ->setTemplateVars($vars)
-                ->setFromByScope($this->getFrom($storeId), $storeId)
-                ->addTo($to, $name)
-                ->getTransport();
+            $copyTo = $this->getCopyTo($storeId);
+
+            if ($copyTo) {
+                $copyMethod = $this->getCopyMethod($storeId);
+                if ($copyMethod === 'copy') {
+                    foreach ($copyTo as $email) {
+                        $this->prepareMail($email, $name, $storeId, $vars);
+                        $this->transportBuilder->getTransport()->sendMessage();
+                    }
+                } elseif ($copyMethod === 'bcc') {
+                    foreach ($copyTo as $email) {
+                        $this->transportBuilder->addBcc($email);
+                    }
+                }
+            }
+
+            $this->prepareMail($to, $name, $storeId, $vars);
+            $transport = $this->transportBuilder->getTransport();
 
             $transport->sendMessage();
         }
+    }
+
+    /**
+     * Prepare the mail to send
+     *
+     * @param string $to
+     * @param string|null $name
+     * @param int|null $storeId
+     * @param array $vars
+     * @throws \Magento\Framework\Exception\MailException
+     */
+    protected function prepareMail(string $to, ?string $name = null, ?int $storeId = null, array $vars = []): void
+    {
+        $this->transportBuilder->setTemplateIdentifier($this->getTemplateIdentifier($storeId))
+            ->setTemplateOptions(['area' => Area::AREA_FRONTEND, 'store' => $storeId])
+            ->setTemplateVars($vars)
+            ->setFromByScope($this->getFrom($storeId), $storeId)
+            ->addTo($to, $name);
     }
 
     /**
@@ -96,6 +126,39 @@ abstract class AbstractMailSender
     {
         return (string) $this->scopeConfig->getValue(
             $this->configPaths['from'],
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Retrieve the email copy to
+     *
+     * @param int|null $storeId [optional] Retrieves the value by scope.
+     * @return array
+     */
+    protected function getCopyTo(?int $storeId = null): array
+    {
+        return \explode(
+            ',',
+            $this->scopeConfig->getValue(
+                $this->configPaths['copy_to'],
+                ScopeInterface::SCOPE_STORE,
+                $storeId
+            ) ?? ''
+        );
+    }
+
+    /**
+     * Retrieve the email copy method
+     *
+     * @param int|null $storeId [optional] Retrieves the value by scope.
+     * @return string
+     */
+    protected function getCopyMethod(?int $storeId = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            $this->configPaths['copy_method'],
             ScopeInterface::SCOPE_STORE,
             $storeId
         );

@@ -18,6 +18,8 @@
             <include path="Opengento_Gdpr::system/erasure.xml" />
             <!-- Export Settings -->
             <include path="Opengento_Gdpr::system/export.xml" />
+            <!-- Notification Settings -->
+            <include path="Opengento_Gdpr::system/notification.xml" />
             <!-- Cookie Settings -->
             <include path="Opengento_Gdpr::system/cookie.xml" />
         </section>

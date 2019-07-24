@@ -60,9 +60,14 @@
     <virtualType name="Opengento\Gdpr\Model\Config\Source\EraseProcessors" type="Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList">
         <arguments>
             <argument name="className" xsi:type="string">Opengento\Gdpr\Service\Erase\ProcessorFactory</argument>
-            <argument name="argumentName" xsi:type="string">processors</argument>
+            <argument name="argumentName" xsi:type="string">erasers</argument>
         </arguments>
     </virtualType>
+    <type name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseComponents">
+        <arguments>
+            <argument name="eraseComponentSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Customer\EraseComponents</argument>
+        </arguments>
+    </type>
     <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Anonymizers" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\OptionSourceSelect">
         <arguments>
             <argument name="optionSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Anonymizers</argument>
