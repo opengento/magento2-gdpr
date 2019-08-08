@@ -14,7 +14,7 @@ use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 /**
  * Class EraseEntity
  */
-final class EraseEntity extends AbstractDb
+class EraseEntity extends AbstractDb
 {
     public const TABLE = 'opengento_gdpr_erase_entity';
 

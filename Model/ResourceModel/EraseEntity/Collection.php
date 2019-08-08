@@ -15,7 +15,7 @@ use Opengento\Gdpr\Model\ResourceModel\EraseEntity as EraseEntityResourceModel;
 /**
  * Class Collection
  */
-final class Collection extends AbstractCollection
+class Collection extends AbstractCollection
 {
     /**
      * @inheritdoc
