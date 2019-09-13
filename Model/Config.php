@@ -30,6 +30,8 @@ final class Config
     public const CONFIG_PATH_ERASURE_REMOVE_CUSTOMER = 'gdpr/erasure/remove_customer';
     public const CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK = 'gdpr/anonymize/block_id';
     public const CONFIG_PATH_EXPORT_ENABLED = 'gdpr/export/enabled';
+    public const CONFIG_PATH_EXPORT_FILE_NAME = 'gdpr/export/file_name';
+    public const CONFIG_PATH_EXPORT_LIFE_TIME = 'gdpr/export/life_time';
     public const CONFIG_PATH_EXPORT_INFORMATION_BLOCK = 'gdpr/export/block_id';
     public const CONFIG_PATH_EXPORT_RENDERER = 'gdpr/export/renderer';
     public const CONFIG_PATH_COOKIE_DISCLOSURE_ENABLED = 'gdpr/cookie/enabled';
@@ -202,6 +204,32 @@ final class Config
     {
         return $this->scopeConfig->isSetFlag(
             self::CONFIG_PATH_EXPORT_ENABLED,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Retrieve the export file name
+     *
+     * @return string
+     */
+    public function getExportFileName(): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_EXPORT_FILE_NAME,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Retrieve the export file life time in minutes
+     *
+     * @return int
+     */
+    public function getExportLifetime(): int
+    {
+        return (int) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_EXPORT_LIFE_TIME,
             ScopeInterface::SCOPE_STORE
         );
     }

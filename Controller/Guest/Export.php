@@ -19,7 +19,6 @@ use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Controller\AbstractGuest;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
 use Opengento\Gdpr\Model\Config;
-use Opengento\Gdpr\Model\Export\ExportEntityFactory;
 
 /**
  * Class Export
@@ -42,17 +41,11 @@ class Export extends AbstractGuest
     private $exportManagement;
 
     /**
-     * @var \Opengento\Gdpr\Model\Export\ExportEntityFactory
-     */
-    private $exportEntityFactory;
-
-    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Opengento\Gdpr\Model\Archive\MoveToArchive $moveToArchive
      * @param \Opengento\Gdpr\Api\ExportEntityManagementInterface $exportManagement
-     * @param \Opengento\Gdpr\Model\Export\ExportEntityFactory $exportEntityFactory
      * @param \Magento\Sales\Controller\AbstractController\OrderLoaderInterface $orderLoader
      * @param \Magento\Framework\Registry $registry
      */
@@ -62,14 +55,12 @@ class Export extends AbstractGuest
         FileFactory $fileFactory,
         MoveToArchive $moveToArchive,
         ExportEntityManagementInterface $exportManagement,
-        ExportEntityFactory $exportEntityFactory,
         OrderLoaderInterface $orderLoader,
         Registry $registry
     ) {
         $this->fileFactory = $fileFactory;
         $this->moveToArchive = $moveToArchive;
         $this->exportManagement = $exportManagement;
-        $this->exportEntityFactory = $exportEntityFactory;
         parent::__construct($context, $config, $orderLoader, $registry);
     }
 
@@ -89,7 +80,9 @@ class Export extends AbstractGuest
         try {
             /** @var \Magento\Sales\Api\Data\OrderInterface $order */
             $order = $this->registry->registry('current_order');
-            $fileName = $this->exportManagement->export($this->exportEntityFactory->create($this->retrieveOrderId()));
+            $fileName = $this->exportManagement->export(
+                $this->exportManagement->create($this->retrieveOrderId(), 'order')
+            );
             $archiveFileName = 'customer_privacy_data_' . $order->getCustomerLastname() . '.zip';
 
             return $this->fileFactory->create(

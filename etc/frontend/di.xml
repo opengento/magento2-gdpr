@@ -17,7 +17,6 @@
     <type name="Opengento\Gdpr\Controller\Privacy\Export">
         <arguments>
             <argument name="moveToArchive" xsi:type="object">Opengento\Gdpr\Model\Archive\MoveToZip</argument>
-            <argument name="exportEntityFactory" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\ExportCustomerFactory</argument>
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Controller\AbstractGuest">
@@ -28,7 +27,6 @@
     <type name="Opengento\Gdpr\Controller\Guest\Export">
         <arguments>
             <argument name="moveToArchive" xsi:type="object">Opengento\Gdpr\Model\Archive\MoveToZip</argument>
-            <argument name="exportEntityFactory" xsi:type="object">Opengento\Gdpr\Model\Order\Export\ExportOrderFactory</argument>
         </arguments>
     </type>
 </config>

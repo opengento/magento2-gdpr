@@ -18,7 +18,6 @@ use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
 use Opengento\Gdpr\Model\Config;
-use Opengento\Gdpr\Model\Export\ExportEntityFactory;
 
 /**
  * Action Export Export
@@ -41,11 +40,6 @@ class Export extends AbstractPrivacy
     private $exportManagement;
 
     /**
-     * @var \Opengento\Gdpr\Model\Export\ExportEntityFactory
-     */
-    private $exportEntityFactory;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     private $customerSession;
@@ -56,7 +50,6 @@ class Export extends AbstractPrivacy
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Opengento\Gdpr\Model\Archive\MoveToArchive $moveToArchive
      * @param \Opengento\Gdpr\Api\ExportEntityManagementInterface $exportManagement
-     * @param \Opengento\Gdpr\Model\Export\ExportEntityFactory $exportEntityFactory
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
@@ -65,13 +58,11 @@ class Export extends AbstractPrivacy
         FileFactory $fileFactory,
         MoveToArchive $moveToArchive,
         ExportEntityManagementInterface $exportManagement,
-        ExportEntityFactory $exportEntityFactory,
         Session $customerSession
     ) {
         $this->fileFactory = $fileFactory;
         $this->moveToArchive = $moveToArchive;
         $this->exportManagement = $exportManagement;
-        $this->exportEntityFactory = $exportEntityFactory;
         $this->customerSession = $customerSession;
         parent::__construct($context, $config);
     }
@@ -91,7 +82,7 @@ class Export extends AbstractPrivacy
     {
         try {
             $customerId = (int) $this->customerSession->getCustomerId();
-            $fileName = $this->exportManagement->export($this->exportEntityFactory->create($customerId));
+            $fileName = $this->exportManagement->export($this->exportManagement->create($customerId, 'customer'));
             $archiveFileName = 'customer_privacy_data_' . $customerId . '.zip';
 
             return $this->fileFactory->create(

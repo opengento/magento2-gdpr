@@ -33,7 +33,32 @@
             </depends>
             <config_path>gdpr/export/renderer</config_path>
         </field>
-        <group id="customer" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
+        <field id="file_name" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
+            <label>Export File Name</label>
+            <comment>We will use this value as file name of the document export.</comment>
+            <validate>validate-number</validate>
+            <depends>
+                <field id="customer/gdpr/export/enabled">1</field>
+            </depends>
+            <config_path>gdpr/export/file_name</config_path>
+        </field>
+        <field id="life_time" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50" canRestore="1">
+            <label>Export Life Time</label>
+            <comment>Export life time in minute before it is removed from the server.</comment>
+            <validate>validate-number</validate>
+            <depends>
+                <field id="customer/gdpr/export/enabled">1</field>
+            </depends>
+            <config_path>gdpr/export/life_time</config_path>
+        </field>
+        <field id="entity_expired_schedule" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
+            <label>Export Lige Time Schedule</label>
+            <depends>
+                <field id="customer/gdpr/export/enabled">1</field>
+            </depends>
+            <config_path>gdpr/export/entity_expired_schedule</config_path>
+        </field>
+        <group id="customer" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70">
             <label>Customer</label>
             <field id="customer_attributes" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Customer Attributes</label>
@@ -64,7 +89,7 @@
                 <config_path>gdpr/export/customer_extensible_data</config_path>
             </field>
         </group>
-        <group id="customer_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
+        <group id="customer_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
             <label>Customer Address</label>
             <field id="customer_address_attributes" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Customer Address Attributes</label>
@@ -95,7 +120,7 @@
                 <config_path>gdpr/export/customer_address_extensible_data</config_path>
             </field>
         </group>
-        <group id="quote" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60">
+        <group id="quote" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="90">
             <label>Quote</label>
             <field id="quote_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Quote Attributes</label>
@@ -125,7 +150,7 @@
                 <config_path>gdpr/export/quote_extensible_data</config_path>
             </field>
         </group>
-        <group id="quote_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70">
+        <group id="quote_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100">
             <label>Quote Address</label>
             <field id="quote_address_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Quote Address Attributes</label>
@@ -155,7 +180,7 @@
                 <config_path>gdpr/export/quote_address_extensible_data</config_path>
             </field>
         </group>
-        <group id="order" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
+        <group id="order" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="110">
             <label>Order</label>
             <field id="order_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Order Attributes</label>
@@ -185,7 +210,7 @@
                 <config_path>gdpr/export/order_extensible_data</config_path>
             </field>
         </group>
-        <group id="order_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="90">
+        <group id="order_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="120">
             <label>Order Address</label>
             <field id="order_address_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Order Address Attributes</label>
@@ -215,7 +240,7 @@
                 <config_path>gdpr/export/order_address_extensible_data</config_path>
             </field>
         </group>
-        <group id="subscriber" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100">
+        <group id="subscriber" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="130">
             <label>Subscriber</label>
             <field id="subscriber_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Subscriber Attributes</label>

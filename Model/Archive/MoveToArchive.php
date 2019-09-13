@@ -41,7 +41,7 @@ final class MoveToArchive
     }
 
     /**
-     * Pack the source and delete it to the file system
+     * Pack the source
      *
      * @param string $source
      * @param string $destination
@@ -58,9 +58,6 @@ final class MoveToArchive
             throw new NotFoundException(new Phrase('File "%1" does not exists.', [$source]));
         }
 
-        $archive = $this->archive->pack($source, $tmpWrite->getAbsolutePath($destination));
-        $fileDriver->deleteFile($source);
-
-        return $archive;
+        return $this->archive->pack($source, $tmpWrite->getAbsolutePath($destination));
     }
 }

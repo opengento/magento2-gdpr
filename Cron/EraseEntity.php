@@ -102,7 +102,7 @@ final class EraseEntity
                     // todo disable individual check: use mass validator
                     $this->eraseManagement->process($eraseEntity);
                 } catch (\Exception $e) {
-                    $this->logger->error($e->getMessage());
+                    $this->logger->error($e->getMessage(), $e->getTrace());
                 }
             }
 

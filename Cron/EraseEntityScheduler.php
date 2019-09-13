@@ -78,7 +78,7 @@ final class EraseEntityScheduler
                 // todo disable individual check: use mass validator
                 $this->eraseEntityScheduler->schedule($this->entityTypes, $this->filterBuilder->create());
             } catch (\Exception $e) {
-                $this->logger->error($e->getMessage());
+                $this->logger->error($e->getMessage(), $e->getTrace());
             }
         }
     }

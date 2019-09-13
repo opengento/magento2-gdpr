@@ -25,4 +25,23 @@
             <column name="entity_type"/>
         </index>
     </table>
+    <table name="opengento_gdpr_export_entity" resource="default" engine="innodb" comment="Entity Export Scheduler">
+        <column xsi:type="smallint" name="export_id" padding="11" unsigned="true" nullable="false" identity="true" comment="Export ID"/>
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" comment="Entity ID"/>
+        <column xsi:type="varchar" name="entity_type" length="255" nullable="false" comment="Entity Type"/>
+        <column xsi:type="varchar" name="file_name" length="255" nullable="false" comment="File Name"/>
+        <column xsi:type="text" name="file_path" nullable="true" comment="File Path"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="exported_at" nullable="true" comment="Exported At"/>
+        <column xsi:type="timestamp" name="expired_at" nullable="true" comment="Expired At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="export_id"/>
+        </constraint>
+        <index referenceId="OPENGENTO_GDPR_EXPORT_ENTITY_ENTITY_ID" indexType="btree">
+            <column name="entity_id"/>
+        </index>
+        <index referenceId="OPENGENTO_GDPR_EXPORT_ENTITY_ENTITY_TYPE" indexType="btree">
+            <column name="entity_type"/>
+        </index>
+    </table>
 </schema>

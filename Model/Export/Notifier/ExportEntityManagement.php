@@ -41,6 +41,14 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
     /**
      * @inheritdoc
      */
+    public function create(int $entityId, string $entityType, ?string $fileName = null): ExportEntityInterface
+    {
+        return $this->exportManagement->create($entityId, $entityType);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function export(ExportEntityInterface $exportEntity): string
     {
         $export = $this->exportManagement->export($exportEntity);

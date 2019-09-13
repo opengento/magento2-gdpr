@@ -9,7 +9,7 @@ namespace Opengento\Gdpr\Model;
 
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
-use Opengento\Gdpr\Model\ResourceModel\EraseEntity as EraseCustomerResource;
+use Opengento\Gdpr\Model\ResourceModel\EraseEntity as EraseEntityResource;
 
 /**
  * Class EraseEntity
@@ -31,7 +31,7 @@ class EraseEntity extends AbstractExtensibleModel implements EraseEntityInterfac
      */
     protected function _construct(): void
     {
-        $this->_init(EraseCustomerResource::class);
+        $this->_init(EraseEntityResource::class);
     }
 
     /**

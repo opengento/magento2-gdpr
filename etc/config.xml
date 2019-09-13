@@ -139,6 +139,9 @@
             <export>
                 <enabled>0</enabled>
                 <renderer>pdf</renderer>
+                <file_name>personal_data</file_name>
+                <life_time>3600</life_time>
+                <entity_expired_schedule>* * * * *</entity_expired_schedule>
                 <customer_attributes>prefix,firstname,middlename,lastname,suffix,email,dob,gender,taxvat</customer_attributes>
                 <customer_address_attributes>prefix,firstname,middlename,lastname,suffix,company,street,city,country_id,province,postcode,fax,telephone,vat_id</customer_address_attributes>
                 <quote_attributes>customer_email,customer_prefix,customer_middlename,customer_lastname,customer_suffix,customer_dob,customer_gender,customer_taxvat,remote_ip</quote_attributes>

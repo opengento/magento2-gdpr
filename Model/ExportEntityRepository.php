@@ -10,34 +10,36 @@ namespace Opengento\Gdpr\Model;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\SearchResultsInterface;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Filesystem;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\Data\EraseEntityInterface;
-use Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory;
-use Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterfaceFactory;
-use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
-use Opengento\Gdpr\Model\ResourceModel\EraseEntity as EraseEntityResource;
-use Opengento\Gdpr\Model\ResourceModel\EraseEntity\CollectionFactory;
+use Opengento\Gdpr\Api\Data\ExportEntityInterface;
+use Opengento\Gdpr\Api\Data\ExportEntityInterfaceFactory;
+use Opengento\Gdpr\Api\Data\ExportEntitySearchResultsInterfaceFactory;
+use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
+use Opengento\Gdpr\Model\ResourceModel\ExportEntity as ExportEntityResource;
+use Opengento\Gdpr\Model\ResourceModel\ExportEntity\CollectionFactory;
 
 /**
- * Class EraseEntityRepository
+ * Class ExportEntityRepository
  */
-final class EraseEntityRepository implements EraseEntityRepositoryInterface
+final class ExportEntityRepository implements ExportEntityRepositoryInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\ResourceModel\EraseEntity
+     * @var \Opengento\Gdpr\Model\ResourceModel\ExportEntity
      */
-    private $eraseEntityResource;
+    private $exportEntityResource;
 
     /**
-     * @var \Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory
+     * @var \Opengento\Gdpr\Api\Data\ExportEntityInterfaceFactory
      */
-    private $eraseCustomerFactory;
+    private $exportCustomerFactory;
 
     /**
-     * @var \Opengento\Gdpr\Model\ResourceModel\EraseEntity\CollectionFactory
+     * @var \Opengento\Gdpr\Model\ResourceModel\ExportEntity\CollectionFactory
      */
     private $collectionFactory;
 
@@ -47,36 +49,44 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
     private $collectionProcessor;
 
     /**
-     * @var \Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterfaceFactory
+     * @var \Opengento\Gdpr\Api\Data\ExportEntitySearchResultsInterfaceFactory
      */
     private $searchResultsFactory;
 
     /**
-     * @var \Opengento\Gdpr\Api\Data\EraseEntityInterface[]
+     * @var \Opengento\Gdpr\Api\Data\ExportEntityInterface[]
      */
     private $instances = [];
 
     /**
-     * @var \Opengento\Gdpr\Api\Data\EraseEntityInterface[]
+     * @var \Opengento\Gdpr\Api\Data\ExportEntityInterface[]
      */
     private $instancesByEntity = [];
 
     /**
-     * @param \Opengento\Gdpr\Model\ResourceModel\EraseEntity $eraseEntityResource
-     * @param \Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory $eraseCustomerFactory
-     * @param \Opengento\Gdpr\Model\ResourceModel\EraseEntity\CollectionFactory $collectionFactory
-     * @param \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface $collectionProcessor
-     * @param \Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterfaceFactory $searchResultsFactory
+     * @var \Magento\Framework\Filesystem
+     */
+    private $fileSystem;
+
+    /**
+     * @param ExportEntityResource $exportEntityResource
+     * @param ExportEntityInterfaceFactory $exportCustomerFactory
+     * @param CollectionFactory $collectionFactory
+     * @param CollectionProcessorInterface $collectionProcessor
+     * @param ExportEntitySearchResultsInterfaceFactory $searchResultsFactory
+     * @param Filesystem $filesystem
      */
     public function __construct(
-        EraseEntityResource $eraseEntityResource,
-        EraseEntityInterfaceFactory $eraseCustomerFactory,
+        ExportEntityResource $exportEntityResource,
+        ExportEntityInterfaceFactory $exportCustomerFactory,
         CollectionFactory $collectionFactory,
         CollectionProcessorInterface $collectionProcessor,
-        EraseEntitySearchResultsInterfaceFactory $searchResultsFactory
+        ExportEntitySearchResultsInterfaceFactory $searchResultsFactory,
+        Filesystem $filesystem
     ) {
-        $this->eraseEntityResource = $eraseEntityResource;
-        $this->eraseCustomerFactory = $eraseCustomerFactory;
+        $this->fileSystem = $filesystem;
+        $this->exportEntityResource = $exportEntityResource;
+        $this->exportCustomerFactory = $exportCustomerFactory;
         $this->collectionFactory = $collectionFactory;
         $this->collectionProcessor = $collectionProcessor;
         $this->searchResultsFactory = $searchResultsFactory;
@@ -85,10 +95,10 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
     /**
      * @inheritdoc
      */
-    public function save(EraseEntityInterface $entity): EraseEntityInterface
+    public function save(ExportEntityInterface $entity): ExportEntityInterface
     {
         try {
-            $this->eraseEntityResource->save($entity);
+            $this->exportEntityResource->save($entity);
             $this->register($entity);
         } catch (\Exception $e) {
             throw new CouldNotSaveException(new Phrase('Could not save the entity.'), $e);
@@ -100,12 +110,12 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
     /**
      * @inheritdoc
      */
-    public function getById(int $entityId, bool $forceReload = false): EraseEntityInterface
+    public function getById(int $entityId, bool $forceReload = false): ExportEntityInterface
     {
         if ($forceReload || !isset($this->instances[$entityId])) {
-            /** @var \Opengento\Gdpr\Api\Data\EraseEntityInterface $entity */
-            $entity = $this->eraseCustomerFactory->create();
-            $this->eraseEntityResource->load($entity, $entityId, EraseEntityInterface::ID);
+            /** @var \Opengento\Gdpr\Api\Data\ExportEntityInterface $entity */
+            $entity = $this->exportCustomerFactory->create();
+            $this->exportEntityResource->load($entity, $entityId, ExportEntityInterface::ID);
 
             if (!$entity->getEntityId()) {
                 throw new NoSuchEntityException(new Phrase('Entity with id "%1" does not exists.', [$entityId]));
@@ -120,15 +130,15 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
     /**
      * @inheritdoc
      */
-    public function getByEntity(int $entityId, string $entityType, bool $forceReload = false): EraseEntityInterface
+    public function getByEntity(int $entityId, string $entityType, bool $forceReload = false): ExportEntityInterface
     {
         if ($forceReload || !isset($this->instancesByEntity[$entityId])) {
-            /** @var \Opengento\Gdpr\Api\Data\EraseEntityInterface $entity */
-            $entity = $this->eraseCustomerFactory->create();
-            $this->eraseEntityResource->load(
+            /** @var \Opengento\Gdpr\Api\Data\ExportEntityInterface $entity */
+            $entity = $this->exportCustomerFactory->create();
+            $this->exportEntityResource->load(
                 $entity,
                 [$entityId, $entityType],
-                [EraseEntityInterface::ENTITY_ID, EraseEntityInterface::ENTITY_TYPE]
+                [ExportEntityInterface::ENTITY_ID, ExportEntityInterface::ENTITY_TYPE]
             );
 
             if (!$entity->getEntityId()) {
@@ -148,12 +158,12 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface
     {
-        /** @var \Opengento\Gdpr\Model\ResourceModel\EraseEntity\Collection $collection */
+        /** @var \Opengento\Gdpr\Model\ResourceModel\ExportEntity\Collection $collection */
         $collection = $this->collectionFactory->create();
 
         $this->collectionProcessor->process($searchCriteria, $collection);
 
-        /** @var \Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterface $searchResults */
+        /** @var \Opengento\Gdpr\Api\Data\ExportEntitySearchResultsInterface $searchResults */
         $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($searchCriteria);
         $searchResults->setItems($collection->getItems());
@@ -165,11 +175,12 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
     /**
      * @inheritdoc
      */
-    public function delete(EraseEntityInterface $entity): bool
+    public function delete(ExportEntityInterface $entity): bool
     {
         try {
+            $this->removeFile($entity);
             $this->remove($entity);
-            $this->eraseEntityResource->delete($entity);
+            $this->exportEntityResource->delete($entity);
         } catch (\Exception $e) {
             throw new CouldNotDeleteException(
                 new Phrase('Could not delete entity with id "%1".', [$entity->getEntityId()]),
@@ -183,10 +194,10 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
     /**
      * Register the entity into the registry
      *
-     * @param \Opengento\Gdpr\Api\Data\EraseEntityInterface $entity
+     * @param \Opengento\Gdpr\Api\Data\ExportEntityInterface $entity
      * @return void
      */
-    private function register(EraseEntityInterface $entity): void
+    private function register(ExportEntityInterface $entity): void
     {
         $this->instances[$entity->getEntityId()] = $entity;
         $this->instancesByEntity[$entity->getEntityType() . '_' . $entity->getEntityId()] = $entity;
@@ -195,14 +206,19 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
     /**
      * Remove the entity from the registry
      *
-     * @param \Opengento\Gdpr\Api\Data\EraseEntityInterface $entity
+     * @param \Opengento\Gdpr\Api\Data\ExportEntityInterface $entity
      * @return void
      */
-    private function remove(EraseEntityInterface $entity): void
+    private function remove(ExportEntityInterface $entity): void
     {
         unset(
             $this->instances[$entity->getEntityId()],
             $this->instancesByEntity[$entity->getEntityType() . '_' . $entity->getEntityId()]
         );
+    }
+
+    private function removeFile(ExportEntityInterface $entity): void
+    {
+        $this->fileSystem->getDirectoryWrite(DirectoryList::TMP)->delete($entity->getFileName());
     }
 }

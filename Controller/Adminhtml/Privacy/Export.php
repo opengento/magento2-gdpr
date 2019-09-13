@@ -17,7 +17,6 @@ use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Controller\Adminhtml\AbstractAction;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
 use Opengento\Gdpr\Model\Config;
-use Opengento\Gdpr\Model\Export\ExportEntityFactory;
 
 /**
  * Class Export
@@ -42,30 +41,22 @@ class Export extends AbstractAction
     private $exportManagement;
 
     /**
-     * @var \Opengento\Gdpr\Model\Export\ExportEntityFactory
-     */
-    private $exportEntityFactory;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Opengento\Gdpr\Model\Config $config
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Opengento\Gdpr\Model\Archive\MoveToArchive $moveToArchive
      * @param \Opengento\Gdpr\Api\ExportEntityManagementInterface $exportManagement
-     * @param \Opengento\Gdpr\Model\Export\ExportEntityFactory $exportEntityFactory
      */
     public function __construct(
         Context $context,
         Config $config,
         FileFactory $fileFactory,
         MoveToArchive $moveToArchive,
-        ExportEntityManagementInterface $exportManagement,
-        ExportEntityFactory $exportEntityFactory
+        ExportEntityManagementInterface $exportManagement
     ) {
         $this->fileFactory = $fileFactory;
         $this->moveToArchive = $moveToArchive;
         $this->exportManagement = $exportManagement;
-        $this->exportEntityFactory = $exportEntityFactory;
         parent::__construct($context, $config);
     }
 
@@ -76,7 +67,7 @@ class Export extends AbstractAction
     {
         try {
             $customerId = (int) $this->getRequest()->getParam('id');
-            $fileName = $this->exportManagement->export($this->exportEntityFactory->create($customerId));
+            $fileName = $this->exportManagement->export($this->exportManagement->create($customerId, 'customer'));
             $archiveFileName = 'customer_privacy_data_' . $customerId . '.zip';
 
             return $this->fileFactory->create(

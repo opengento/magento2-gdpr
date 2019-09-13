@@ -101,7 +101,7 @@ class ExportCommand extends Command
         try {
             foreach ($entityIds as $entityId) {
                 $out = $this->exportManagement->export(
-                    new ExportEntity((int) $entityId, $entityType, $fileName . '_' . $entityId)
+                    $this->exportManagement->create((int) $entityId, $entityType, $fileName . '_' . $entityId)
                 );
                 $output->writeln('<info>Entity\'s related data have been exported to: ' . $out . '.</info>');
             }

@@ -10,11 +10,15 @@
     <preference for="Opengento\Gdpr\Api\Data\EraseEntityInterface" type="Opengento\Gdpr\Model\EraseEntity"/>
     <preference for="Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
     <preference for="Opengento\Gdpr\Api\Data\ExportEntityInterface" type="Opengento\Gdpr\Model\ExportEntity"/>
+    <preference for="Opengento\Gdpr\Api\Data\ExportEntitySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
     <preference for="Opengento\Gdpr\Api\EraseEntityRepositoryInterface" type="Opengento\Gdpr\Model\EraseEntityRepository"/>
-    <preference for="Opengento\Gdpr\Api\EraseEntityManagementInterface" type="Opengento\Gdpr\Model\Erase\Notifier\EraseEntityManagement"/>
+    <preference for="Opengento\Gdpr\Api\ExportEntityRepositoryInterface" type="Opengento\Gdpr\Model\ExportEntityRepository"/>
+    <preference for="Opengento\Gdpr\Api\EraseEntityManagementInterface" type="Opengento\Gdpr\Model\EraseEntityManagement"/>
+<!--    <preference for="Opengento\Gdpr\Model\EraseEntityManagement" type="Opengento\Gdpr\Model\Erase\Notifier\EraseEntityManagement"/>-->
     <preference for="Opengento\Gdpr\Api\EraseEntityCheckerInterface" type="Opengento\Gdpr\Model\EraseEntityChecker"/>
     <preference for="Opengento\Gdpr\Api\EraseSalesInformationInterface" type="Opengento\Gdpr\Model\Erase\EraseSalesInformation"/>
-    <preference for="Opengento\Gdpr\Api\ExportEntityManagementInterface" type="Opengento\Gdpr\Model\Export\Notifier\ExportEntityManagement"/>
+    <preference for="Opengento\Gdpr\Api\ExportEntityManagementInterface" type="Opengento\Gdpr\Model\ExportEntityManagement"/>
+<!--    <preference for="Opengento\Gdpr\Model\ExportEntityManagement" type="Opengento\Gdpr\Model\Export\Notifier\ExportEntityManagement"/>-->
     <type name="Magento\Framework\Model\Entity\RepositoryFactory">
         <arguments>
             <argument name="entities" xsi:type="array">
@@ -726,11 +730,12 @@
         </arguments>
     </virtualType>
     <!-- Erase Management -->
-    <type name="Opengento\Gdpr\Model\Erase\Notifier\EraseEntityManagement">
-        <arguments>
-            <argument name="eraseManagement" xsi:type="object">Opengento\Gdpr\Model\EraseEntityManagement</argument>
-        </arguments>
-    </type>
+    <!-- todo -->
+<!--    <type name="Opengento\Gdpr\Model\Erase\Notifier\EraseEntityManagement">-->
+<!--        <arguments>-->
+<!--            <argument name="eraseManagement" xsi:type="object">Opengento\Gdpr\Model\EraseEntityManagement</argument>-->
+<!--        </arguments>-->
+<!--    </type>-->
     <type name="Opengento\Gdpr\Model\Entity\EntityCheckerFactory">
         <arguments>
             <argument name="checkers" xsi:type="array">
@@ -798,14 +803,6 @@
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Customer\Export\ExportCustomerFactory" type="Opengento\Gdpr\Model\Export\ExportEntityFactory">
-        <arguments>
-            <argument name="exportEntityList" xsi:type="array">
-                <item name="entityType" xsi:type="string">Opengento\Gdpr\Model\Customer\Export\ExportCustomer</item>
-                <item name="fileName" xsi:type="string">Opengento\Gdpr\Model\Export\ExportPersonalData</item>
-            </argument>
-        </arguments>
-    </virtualType>
     <!-- Export Guest Management -->
     <virtualType name="Opengento\Gdpr\Model\Order\Export\Processor\CompositeProcessor" type="Opengento\Gdpr\Service\Export\Processor\CompositeProcessor">
         <arguments>
@@ -816,20 +813,13 @@
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Order\Export\ExportOrderFactory" type="Opengento\Gdpr\Model\Export\ExportEntityFactory">
-        <arguments>
-            <argument name="exportEntityList" xsi:type="array">
-                <item name="entityType" xsi:type="string">Opengento\Gdpr\Model\Order\Export\ExportOrder</item>
-                <item name="fileName" xsi:type="string">Opengento\Gdpr\Model\Export\ExportPersonalData</item>
-            </argument>
-        </arguments>
-    </virtualType>
     <!-- Export Management -->
-    <type name="Opengento\Gdpr\Model\Export\Notifier\ExportEntityManagement">
-        <arguments>
-            <argument name="exportManagement" xsi:type="object">Opengento\Gdpr\Model\ExportEntityManagement</argument>
-        </arguments>
-    </type>
+    <!-- @todo -->
+<!--    <type name="Opengento\Gdpr\Model\Export\Notifier\ExportEntityManagement">-->
+<!--        <arguments>-->
+<!--            <argument name="exportManagement" xsi:type="object">Opengento\Gdpr\Model\ExportEntityManagement</argument>-->
+<!--        </arguments>-->
+<!--    </type>-->
     <virtualType name="Opengento\Gdpr\Service\Export\Entity\DataCollectorGeneric" type="Opengento\Gdpr\Model\Entity\DataCollectorGeneric">
         <arguments>
             <argument name="dataCollectors" xsi:type="array">

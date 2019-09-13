@@ -19,7 +19,6 @@ use Magento\Framework\Phrase;
 use Magento\Ui\Component\MassAction\Filter;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
-use Opengento\Gdpr\Model\Export\ExportEntityFactory;
 
 /**
  * Class MassExport
@@ -44,18 +43,12 @@ class MassExport extends AbstractMassAction
     private $exportManagement;
 
     /**
-     * @var \Opengento\Gdpr\Model\Export\ExportEntityFactory
-     */
-    private $exportEntityFactory;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Ui\Component\MassAction\Filter $filter
      * @param \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $collectionFactory
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Opengento\Gdpr\Model\Archive\MoveToArchive $moveToArchive
      * @param \Opengento\Gdpr\Api\ExportEntityManagementInterface $exportManagement
-     * @param \Opengento\Gdpr\Model\Export\ExportEntityFactory $exportEntityFactory
      */
     public function __construct(
         Context $context,
@@ -63,13 +56,11 @@ class MassExport extends AbstractMassAction
         CollectionFactory $collectionFactory,
         FileFactory $fileFactory,
         MoveToArchive $moveToArchive,
-        ExportEntityManagementInterface $exportManagement,
-        ExportEntityFactory $exportEntityFactory
+        ExportEntityManagementInterface $exportManagement
     ) {
         $this->fileFactory = $fileFactory;
         $this->moveToArchive = $moveToArchive;
         $this->exportManagement = $exportManagement;
-        $this->exportEntityFactory = $exportEntityFactory;
         parent::__construct($context, $filter, $collectionFactory);
     }
 
@@ -84,7 +75,7 @@ class MassExport extends AbstractMassAction
             foreach ($collection->getAllIds() as $customerId) {
                 $this->moveToArchive->prepareArchive(
                     $this->moveToArchive->prepareArchive(
-                        $this->exportManagement->export($this->exportEntityFactory->create((int) $customerId)),
+                        $this->exportManagement->export($this->exportManagement->create((int) $customerId, 'customer')),
                         'customer_privacy_data_' . $customerId . '.zip'
                     ),
                     $archiveFileName

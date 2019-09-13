@@ -6,7 +6,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Opengento_Gdpr" setup_version="1.0.0">
+    <module name="Opengento_Gdpr">
         <sequence>
             <module name="Magento_Theme" />
             <module name="Magento_Config" />
