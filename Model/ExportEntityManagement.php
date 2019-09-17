@@ -7,14 +7,19 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model;
 
-use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\AlreadyExistsException;
+use Magento\Framework\Phrase;
 use Magento\Framework\Stdlib\DateTime;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Api\Data\ExportEntityInterfaceFactory;
+use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Service\Export\ProcessorFactory;
 use Opengento\Gdpr\Service\Export\RendererInterface;
+use function md5;
+use function sha1;
+use const DIRECTORY_SEPARATOR;
 
 /**
  * Class ExportEntityManagement
@@ -30,6 +35,11 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
      * @var ExportEntityRepositoryInterface
      */
     private $exportEntityRepository;
+
+    /**
+     * @var ExportEntityCheckerInterface
+     */
+    private $exportEntityChecker;
 
     /**
      * @var \Opengento\Gdpr\Service\Export\ProcessorFactory
@@ -49,19 +59,22 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
     /**
      * @param ExportEntityInterfaceFactory $exportEntityFactory
      * @param ExportEntityRepositoryInterface $exportEntityRepository
+     * @param ExportEntityCheckerInterface $exportEntityChecker
      * @param ProcessorFactory $exportProcessorFactory
      * @param RendererInterface $exportRenderer
-     * @param \Opengento\Gdpr\Model\Config $config
+     * @param Config $config
      */
     public function __construct(
         ExportEntityInterfaceFactory $exportEntityFactory,
         ExportEntityRepositoryInterface $exportEntityRepository,
+        ExportEntityCheckerInterface $exportEntityChecker,
         ProcessorFactory $exportProcessorFactory,
         RendererInterface $exportRenderer,
         Config $config
     ) {
         $this->exportEntityFactory = $exportEntityFactory;
         $this->exportEntityRepository = $exportEntityRepository;
+        $this->exportEntityChecker = $exportEntityChecker;
         $this->exportProcessorFactory = $exportProcessorFactory;
         $this->exportRenderer = $exportRenderer;
         $this->config = $config;
@@ -72,16 +85,21 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
      */
     public function create(int $entityId, string $entityType, ?string $fileName = null): ExportEntityInterface
     {
-        try {
-            $exportEntity = $this->exportEntityRepository->getByEntity($entityId, $entityType);
-        } catch (NoSuchEntityException $e) {
-            /** @var ExportEntityInterface $exportEntity */
-            $exportEntity = $this->exportEntityFactory->create();
-            $exportEntity->setEntityId($entityId);
-            $exportEntity->setEntityType($entityType);
-            $exportEntity->setFileName($fileName ?? $this->config->getExportFileName());
-            $exportEntity = $this->exportEntityRepository->save($exportEntity);
+        if ($this->exportEntityChecker->exists($entityId, $entityType)) {
+            throw new AlreadyExistsException(
+                new Phrase(
+                    'An export entity already exists for the entity type "%1" with ID "%2".',
+                    [$entityType, $entityId]
+                )
+            );
         }
+
+        /** @var ExportEntityInterface $exportEntity */
+        $exportEntity = $this->exportEntityFactory->create();
+        $exportEntity->setEntityId($entityId);
+        $exportEntity->setEntityType($entityType);
+        $exportEntity->setFileName($fileName ?? $this->config->getExportFileName());
+        $exportEntity = $this->exportEntityRepository->save($exportEntity);
 
         return $exportEntity;
     }
@@ -91,13 +109,9 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
      */
     public function export(ExportEntityInterface $exportEntity): string
     {
-        if ($exportEntity->getFilePath()) {
-            return $exportEntity->getFilePath();
-        }
-
         $exporter = $this->exportProcessorFactory->get($exportEntity->getEntityType());
         $filePath = $this->exportRenderer->saveData(
-            $exportEntity->getFileName(),
+            $this->prepareFileName($exportEntity),
             $exporter->execute($exportEntity->getEntityId(), [])
         );
         $exportEntity->setFilePath($filePath);
@@ -110,5 +124,20 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
         $this->exportEntityRepository->save($exportEntity);
 
         return $filePath;
+    }
+
+    /**
+     * Prepare the file name with sub directory for the export entity
+     *
+     * @param ExportEntityInterface $exportEntity
+     * @return string
+     */
+    private function prepareFileName(ExportEntityInterface $exportEntity): string
+    {
+        return 'gdpr' .
+            DIRECTORY_SEPARATOR .
+            sha1($exportEntity->getEntityType() . $exportEntity->getExportId()) .
+            DIRECTORY_SEPARATOR .
+            $exportEntity->getFileName();
     }
 }

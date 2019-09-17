@@ -25,6 +25,7 @@ final class UrlsDataProvider implements ArgumentInterface
     public const ROUTE_PATH_ERASE_POST = 'customer/privacy/erasepost';
     public const ROUTE_PATH_UNDO_ERASE = 'customer/privacy/undoerase';
     public const ROUTE_PATH_EXPORT = 'customer/privacy/export';
+    public const ROUTE_PATH_DOWNLOAD = 'customer/privacy/download';
     /**#@-*/
 
     /**
@@ -115,5 +116,15 @@ final class UrlsDataProvider implements ArgumentInterface
     public function getExportActionUrl(): string
     {
         return $this->urlBuilder->getUrl(self::ROUTE_PATH_EXPORT);
+    }
+
+    /**
+     * Retrieve the download export action url
+     *
+     * @return string
+     */
+    public function getDownloadActionUrl(): string
+    {
+        return $this->urlBuilder->getUrl(self::ROUTE_PATH_DOWNLOAD);
     }
 }

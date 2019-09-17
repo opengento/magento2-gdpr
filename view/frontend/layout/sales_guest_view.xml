@@ -11,6 +11,13 @@
             <block class="Magento\Framework\View\Element\Template" name="sales.order.info.buttons.export" as="buttons.export" template="Opengento_Gdpr::order/info/buttons/export.phtml" ifconfig="gdpr/export/enabled" cacheable="false">
                 <arguments>
                     <argument name="actionUrl" xsi:type="url" path="customer/guest/export"/>
+                    <argument name="exportCustomerDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Privacy\ExportCustomerDataProvider</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Framework\View\Element\Template" name="sales.order.info.buttons.export.download" as="buttons.export.download" template="Opengento_Gdpr::order/info/buttons/download.phtml" ifconfig="gdpr/export/enabled" cacheable="false">
+                <arguments>
+                    <argument name="actionUrl" xsi:type="url" path="customer/guest/download"/>
+                    <argument name="exportCustomerDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Privacy\ExportCustomerDataProvider</argument>
                 </arguments>
             </block>
             <block class="Magento\Framework\View\Element\Template" name="sales.order.info.buttons.erase" as="buttons.erase" template="Opengento_Gdpr::order/info/buttons/erase.phtml" ifconfig="gdpr/erasure/enabled" cacheable="false">

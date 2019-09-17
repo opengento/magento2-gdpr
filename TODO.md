@@ -21,6 +21,11 @@ Area:
 - Payment Data
 - Invitation Data
 
+- send notification on ask for export (frontend di only)
+- send notification on ready for download (frontend di only)
+- invalidate export document when personal data are altered
+    - in this way, add plugin / observer, depends of the entity persistence
+
 ## Anonymizer
  
 - Payment Data

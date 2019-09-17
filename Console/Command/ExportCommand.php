@@ -11,7 +11,6 @@ use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
-use Opengento\Gdpr\Model\ExportEntity;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

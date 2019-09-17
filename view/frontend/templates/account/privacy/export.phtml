@@ -8,6 +8,8 @@
 
 /** @var \Opengento\Gdpr\ViewModel\Privacy\ExportDataProvider $exportDataProvider */
 $exportDataProvider = $block->getData('exportDataProvider');
+/** @var \Opengento\Gdpr\ViewModel\Privacy\ExportCustomerDataProvider $exportCustomerDataProvider */
+$exportCustomerDataProvider = $block->getData('exportCustomerDataProvider');
 /** @var \Opengento\Gdpr\ViewModel\UrlsDataProvider $urlsDataProvider */
 $urlsDataProvider = $block->getData('urlsDataProvider');
 ?>
@@ -21,9 +23,19 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
         </div>
         <div class="actions-toolbar">
             <div class="primary">
-                <a href="<?= $block->escapeUrl($urlsDataProvider->getExportActionUrl()) ?>" class="action submit primary" id="export">
-                    <span><?= $block->escapeHtml(__('Export Personal Data')) ?></span>
-                </a>
+                <?php if ($exportCustomerDataProvider->isExported()): ?>
+                    <a href="<?= $block->escapeUrl($urlsDataProvider->getDownloadActionUrl()) ?>" class="action submit primary" id="download">
+                        <span><?= $block->escapeHtml(__('Download Personal Data')) ?></span>
+                    </a>
+                <?php elseif (!$exportCustomerDataProvider->hasExport()): ?>
+                    <a href="<?= $block->escapeUrl($urlsDataProvider->getExportActionUrl()) ?>" class="action submit primary" id="export">
+                        <span><?= $block->escapeHtml(__('Export Personal Data')) ?></span>
+                    </a>
+                <?php else: ?>
+                    <div class="message info">
+                        <span><?= $block->escapeHtml(__('Your personal data document is pending export.')) ?></span>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>

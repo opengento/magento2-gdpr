@@ -9,31 +9,19 @@ namespace Opengento\Gdpr\Controller\Privacy;
 
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
-use Opengento\Gdpr\Model\Archive\MoveToArchive;
 use Opengento\Gdpr\Model\Config;
 
 /**
- * Action Export Export
+ * Action Prepare Export
  */
 class Export extends AbstractPrivacy
 {
-    /**
-     * @var \Magento\Framework\App\Response\Http\FileFactory
-     */
-    private $fileFactory;
-
-    /**
-     * @var \Opengento\Gdpr\Model\Archive\MoveToArchive
-     */
-    private $moveToArchive;
-
     /**
      * @var \Opengento\Gdpr\Api\ExportEntityManagementInterface
      */
@@ -45,23 +33,17 @@ class Export extends AbstractPrivacy
     private $customerSession;
 
     /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
-     * @param \Opengento\Gdpr\Model\Archive\MoveToArchive $moveToArchive
-     * @param \Opengento\Gdpr\Api\ExportEntityManagementInterface $exportManagement
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param Context $context
+     * @param Config $config
+     * @param ExportEntityManagementInterface $exportManagement
+     * @param Session $customerSession
      */
     public function __construct(
         Context $context,
         Config $config,
-        FileFactory $fileFactory,
-        MoveToArchive $moveToArchive,
         ExportEntityManagementInterface $exportManagement,
         Session $customerSession
     ) {
-        $this->fileFactory = $fileFactory;
-        $this->moveToArchive = $moveToArchive;
         $this->exportManagement = $exportManagement;
         $this->customerSession = $customerSession;
         parent::__construct($context, $config);
@@ -81,19 +63,10 @@ class Export extends AbstractPrivacy
     protected function executeAction()
     {
         try {
-            $customerId = (int) $this->customerSession->getCustomerId();
-            $fileName = $this->exportManagement->export($this->exportManagement->create($customerId, 'customer'));
-            $archiveFileName = 'customer_privacy_data_' . $customerId . '.zip';
-
-            return $this->fileFactory->create(
-                $archiveFileName,
-                [
-                    'type' => 'filename',
-                    'value' => $this->moveToArchive->prepareArchive($fileName, $archiveFileName),
-                    'rm' => true,
-                ],
-                DirectoryList::TMP
-            );
+            $this->exportManagement->create((int) $this->customerSession->getCustomerId(), 'customer');
+            $this->messageManager->addSuccessMessage(new Phrase('You will be notified when the export is ready.'));
+        } catch (AlreadyExistsException $e) {
+            $this->messageManager->addNoticeMessage(new Phrase('A document is already available in your account.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
         } catch (\Exception $e) {

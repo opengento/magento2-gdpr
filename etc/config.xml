@@ -140,6 +140,7 @@
                 <enabled>0</enabled>
                 <renderer>pdf</renderer>
                 <file_name>personal_data</file_name>
+                <entity_schedule>* * * * *</entity_schedule>
                 <life_time>3600</life_time>
                 <entity_expired_schedule>* * * * *</entity_expired_schedule>
                 <customer_attributes>prefix,firstname,middlename,lastname,suffix,email,dob,gender,taxvat</customer_attributes>

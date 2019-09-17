@@ -8,16 +8,14 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Guest;
 
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
 use Magento\Sales\Controller\AbstractController\OrderLoaderInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Controller\AbstractGuest;
-use Opengento\Gdpr\Model\Archive\MoveToArchive;
 use Opengento\Gdpr\Model\Config;
 
 /**
@@ -26,40 +24,24 @@ use Opengento\Gdpr\Model\Config;
 class Export extends AbstractGuest
 {
     /**
-     * @var \Magento\Framework\App\Response\Http\FileFactory
-     */
-    private $fileFactory;
-
-    /**
-     * @var \Opengento\Gdpr\Model\Archive\MoveToArchive
-     */
-    private $moveToArchive;
-
-    /**
      * @var \Opengento\Gdpr\Api\ExportEntityManagementInterface
      */
     private $exportManagement;
 
     /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
-     * @param \Opengento\Gdpr\Model\Archive\MoveToArchive $moveToArchive
-     * @param \Opengento\Gdpr\Api\ExportEntityManagementInterface $exportManagement
-     * @param \Magento\Sales\Controller\AbstractController\OrderLoaderInterface $orderLoader
-     * @param \Magento\Framework\Registry $registry
+     * @param Context $context
+     * @param Config $config
+     * @param ExportEntityManagementInterface $exportManagement
+     * @param OrderLoaderInterface $orderLoader
+     * @param Registry $registry
      */
     public function __construct(
         Context $context,
         Config $config,
-        FileFactory $fileFactory,
-        MoveToArchive $moveToArchive,
         ExportEntityManagementInterface $exportManagement,
         OrderLoaderInterface $orderLoader,
         Registry $registry
     ) {
-        $this->fileFactory = $fileFactory;
-        $this->moveToArchive = $moveToArchive;
         $this->exportManagement = $exportManagement;
         parent::__construct($context, $config, $orderLoader, $registry);
     }
@@ -78,22 +60,10 @@ class Export extends AbstractGuest
     protected function executeAction()
     {
         try {
-            /** @var \Magento\Sales\Api\Data\OrderInterface $order */
-            $order = $this->registry->registry('current_order');
-            $fileName = $this->exportManagement->export(
-                $this->exportManagement->create($this->retrieveOrderId(), 'order')
-            );
-            $archiveFileName = 'customer_privacy_data_' . $order->getCustomerLastname() . '.zip';
-
-            return $this->fileFactory->create(
-                $archiveFileName,
-                [
-                    'type' => 'filename',
-                    'value' => $this->moveToArchive->prepareArchive($fileName, $archiveFileName),
-                    'rm' => true,
-                ],
-                DirectoryList::TMP
-            );
+            $this->exportManagement->create($this->retrieveOrderId(), 'order');
+            $this->messageManager->addSuccessMessage(new Phrase('You will be notified when the export is ready.'));
+        } catch (AlreadyExistsException $e) {
+            $this->messageManager->addNoticeMessage(new Phrase('A document is already available in your order page.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
         } catch (\Exception $e) {

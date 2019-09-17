@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Api;
 
+use Magento\Framework\Exception\AlreadyExistsException;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 
 /**
@@ -22,6 +23,7 @@ interface ExportEntityManagementInterface
      * @param string $entityType
      * @param null|string $fileName [optional]
      * @return ExportEntityInterface
+     * @throws AlreadyExistsException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\LocalizedException
      */

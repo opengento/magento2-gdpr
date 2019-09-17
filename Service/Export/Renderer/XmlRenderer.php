@@ -15,20 +15,30 @@ use Magento\Framework\Filesystem;
  */
 final class XmlRenderer extends AbstractRenderer
 {
+    private const ROOT_NAME = 'data';
+
     /**
-     * @var \Magento\Framework\Convert\ConvertArray
+     * @var ConvertArray
      */
     private $convertArray;
 
     /**
-     * @param \Magento\Framework\Filesystem $filesystem
-     * @param \Magento\Framework\Convert\ConvertArray $convertArray
+     * @var string
+     */
+    private $rootName;
+
+    /**
+     * @param Filesystem $filesystem
+     * @param ConvertArray $convertArray
+     * @param string $rootName
      */
     public function __construct(
         Filesystem $filesystem,
-        ConvertArray $convertArray
+        ConvertArray $convertArray,
+        string $rootName = self::ROOT_NAME
     ) {
         $this->convertArray = $convertArray;
+        $this->rootName = $rootName;
         parent::__construct($filesystem, 'xml');
     }
 
@@ -38,6 +48,6 @@ final class XmlRenderer extends AbstractRenderer
      */
     public function render(array $data): string
     {
-        return (string) $this->convertArray->assocToXml($data);
+        return $this->convertArray->assocToXml($data, $this->rootName)->saveXML();
     }
 }

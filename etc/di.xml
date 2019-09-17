@@ -16,6 +16,7 @@
     <preference for="Opengento\Gdpr\Api\EraseEntityManagementInterface" type="Opengento\Gdpr\Model\EraseEntityManagement"/>
 <!--    <preference for="Opengento\Gdpr\Model\EraseEntityManagement" type="Opengento\Gdpr\Model\Erase\Notifier\EraseEntityManagement"/>-->
     <preference for="Opengento\Gdpr\Api\EraseEntityCheckerInterface" type="Opengento\Gdpr\Model\EraseEntityChecker"/>
+    <preference for="Opengento\Gdpr\Api\ExportEntityCheckerInterface" type="Opengento\Gdpr\Model\ExportEntityChecker"/>
     <preference for="Opengento\Gdpr\Api\EraseSalesInformationInterface" type="Opengento\Gdpr\Model\Erase\EraseSalesInformation"/>
     <preference for="Opengento\Gdpr\Api\ExportEntityManagementInterface" type="Opengento\Gdpr\Model\ExportEntityManagement"/>
 <!--    <preference for="Opengento\Gdpr\Model\ExportEntityManagement" type="Opengento\Gdpr\Model\Export\Notifier\ExportEntityManagement"/>-->

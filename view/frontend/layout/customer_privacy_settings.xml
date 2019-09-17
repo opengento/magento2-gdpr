@@ -20,6 +20,7 @@
                 <block class="Magento\Framework\View\Element\Template" name="customer-account-privacy-export" as="export" template="Opengento_Gdpr::account/privacy/export.phtml" ifconfig="gdpr/export/enabled" cacheable="false">
                     <arguments>
                         <argument name="exportDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Privacy\ExportDataProvider</argument>
+                        <argument name="exportCustomerDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Privacy\ExportCustomerDataProvider</argument>
                         <argument name="urlsDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\UrlsDataProvider</argument>
                     </arguments>
                 </block>

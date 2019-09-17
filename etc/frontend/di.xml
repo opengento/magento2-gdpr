@@ -14,7 +14,7 @@
             <argument name="archive" xsi:type="object">Opengento\Gdpr\Model\Archive\Zip</argument>
         </arguments>
     </virtualType>
-    <type name="Opengento\Gdpr\Controller\Privacy\Export">
+    <type name="Opengento\Gdpr\Controller\Privacy\Download">
         <arguments>
             <argument name="moveToArchive" xsi:type="object">Opengento\Gdpr\Model\Archive\MoveToZip</argument>
         </arguments>
@@ -24,7 +24,7 @@
             <argument name="orderLoader" xsi:type="object">Magento\Sales\Controller\Guest\OrderLoader</argument>
         </arguments>
     </type>
-    <type name="Opengento\Gdpr\Controller\Guest\Export">
+    <type name="Opengento\Gdpr\Controller\Guest\Download">
         <arguments>
             <argument name="moveToArchive" xsi:type="object">Opengento\Gdpr\Model\Archive\MoveToZip</argument>
         </arguments>
