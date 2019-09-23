@@ -14,9 +14,6 @@ use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
 use Psr\Log\LoggerInterface;
 
-/**
- * Class ExportEntity
- */
 final class ExportEntity
 {
     /**
@@ -44,13 +41,6 @@ final class ExportEntity
      */
     private $searchCriteriaBuilder;
 
-    /**
-     * @param LoggerInterface $logger
-     * @param Config $config
-     * @param ExportEntityRepositoryInterface $exportEntityRepository
-     * @param ExportEntityManagementInterface $exportEntityManagement
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     */
     public function __construct(
         LoggerInterface $logger,
         Config $config,

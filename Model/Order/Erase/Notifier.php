@@ -12,24 +12,21 @@ use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Model\Erase\NotifierInterface;
 use Opengento\Gdpr\Model\Order\Notifier\SenderInterface;
 
-/**
- * Class Notifier
- */
 final class Notifier implements NotifierInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\Order\Notifier\SenderInterface[]
+     * @var SenderInterface[]
      */
     private $senders;
 
     /**
-     * @var \Magento\Sales\Api\OrderRepositoryInterface
+     * @var OrderRepositoryInterface
      */
     private $orderRepository;
 
     /**
-     * @param \Opengento\Gdpr\Model\Order\Notifier\SenderInterface[] $senders
-     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
+     * @param SenderInterface[] $senders
+     * @param OrderRepositoryInterface $orderRepository
      */
     public function __construct(
         array $senders,
@@ -41,9 +38,6 @@ final class Notifier implements NotifierInterface
         $this->orderRepository = $orderRepository;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function notify(EraseEntityInterface $eraseEntity): void
     {
         $order = $this->orderRepository->get($eraseEntity->getEntityId());

@@ -19,14 +19,10 @@ use Magento\Newsletter\Model\SubscriberFactory;
 final class Subscriber
 {
     /**
-     * @var \Magento\Newsletter\Model\Subscriber
+     * @var SubscriberModel
      */
     private $subscriber;
 
-    /**
-     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param array $data [optional]
-     */
     public function __construct(
         SubscriberFactory $subscriberFactory,
         array $data = []
@@ -34,19 +30,11 @@ final class Subscriber
         $this->subscriber = $subscriberFactory->create(['data' => $data]);
     }
 
-    /**
-     * Retrieve the real subscriber subject
-     *
-     * @return \Magento\Newsletter\Model\Subscriber
-     */
     public function getRealSubscriber(): SubscriberModel
     {
         return $this->subscriber;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function __call($method, $args)
     {
         return $this->subscriber->{$method}(...$args);

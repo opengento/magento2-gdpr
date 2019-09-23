@@ -9,33 +9,25 @@ namespace Opengento\Gdpr\Controller\Privacy;
 
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Config;
 
-/**
- * Action Index Erase
- */
 class Erase extends AbstractPrivacy
 {
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var Session
      */
     private $session;
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityCheckerInterface
+     * @var EraseEntityCheckerInterface
      */
     private $eraseCustomerChecker;
 
-    /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Magento\Customer\Model\Session $session
-     * @param \Opengento\Gdpr\Api\EraseEntityCheckerInterface $eraseCustomerChecker
-     */
     public function __construct(
         Context $context,
         Config $config,
@@ -47,22 +39,16 @@ class Erase extends AbstractPrivacy
         parent::__construct($context, $config);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isAllowed(): bool
     {
         return parent::isAllowed() && $this->config->isErasureEnabled();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function executeAction()
     {
         if ($this->eraseCustomerChecker->exists((int) $this->session->getCustomerId(), 'customer')) {
             $this->messageManager->addErrorMessage(new Phrase('Your account is already being removed.'));
-            /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+            /** @var Redirect $resultRedirect */
             $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
             $resultRedirect->setRefererOrBaseUrl();
 

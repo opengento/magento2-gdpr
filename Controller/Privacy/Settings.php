@@ -10,14 +10,8 @@ namespace Opengento\Gdpr\Controller\Privacy;
 use Magento\Framework\Controller\ResultFactory;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 
-/**
- * Action Index Settings
- */
 class Settings extends AbstractPrivacy
 {
-    /**
-     * @inheritdoc
-     */
     protected function executeAction()
     {
         return $this->resultFactory->create(ResultFactory::TYPE_PAGE);

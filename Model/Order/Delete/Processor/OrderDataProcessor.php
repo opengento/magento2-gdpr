@@ -7,29 +7,23 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Order\Delete\Processor;
 
+use Exception;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Api\EraseSalesInformationInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-/**
- * Class OrderDataProcessor
- */
 final class OrderDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Magento\Sales\Api\OrderRepositoryInterface
+     * @var OrderRepositoryInterface
      */
     private $orderRepository;
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseSalesInformationInterface
+     * @var EraseSalesInformationInterface
      */
     private $eraseSalesInformation;
 
-    /**
-     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     * @param \Opengento\Gdpr\Api\EraseSalesInformationInterface $eraseSalesInformation
-     */
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         EraseSalesInformationInterface $eraseSalesInformation
@@ -40,7 +34,7 @@ final class OrderDataProcessor implements ProcessorInterface
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(int $orderId): bool
     {

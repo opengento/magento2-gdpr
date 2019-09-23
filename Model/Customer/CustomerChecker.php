@@ -13,23 +13,20 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\Entity\EntityCheckerInterface;
 
-/**
- * Class CustomerChecker
- */
 final class CustomerChecker implements EntityCheckerInterface
 {
     /**
-     * @var \Magento\Sales\Api\OrderRepositoryInterface
+     * @var OrderRepositoryInterface
      */
     private $orderRepository;
 
     /**
-     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     * @var SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
 
     /**
-     * @var \Opengento\Gdpr\Model\Config
+     * @var Config
      */
     private $config;
 
@@ -38,11 +35,6 @@ final class CustomerChecker implements EntityCheckerInterface
      */
     private $cache;
 
-    /**
-     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Opengento\Gdpr\Model\Config $config
-     */
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,

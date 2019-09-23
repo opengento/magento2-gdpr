@@ -11,13 +11,10 @@ use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\ObjectManager\ConfigInterface;
 use Magento\Framework\Phrase;
 
-/**
- * Class EraseComponents
- */
 final class EraseComponents implements OptionSourceInterface
 {
     /**
-     * @var \Magento\Framework\ObjectManager\ConfigInterface
+     * @var ConfigInterface
      */
     private $objectManagerConfig;
 
@@ -33,10 +30,6 @@ final class EraseComponents implements OptionSourceInterface
      */
     private $options;
 
-    /**
-     * @param \Magento\Framework\ObjectManager\ConfigInterface $objectManagerConfig
-     * @param string $processorResolverFactoryClassName
-     */
     public function __construct(
         ConfigInterface $objectManagerConfig,
         string $processorResolverFactoryClassName
@@ -45,9 +38,6 @@ final class EraseComponents implements OptionSourceInterface
         $this->processorResolverFactoryClassName = $processorResolverFactoryClassName;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function toOptionArray(): array
     {
         if (!$this->options) {
@@ -60,16 +50,16 @@ final class EraseComponents implements OptionSourceInterface
     }
 
     /**
-     * Retrieve the delegate processors
-     *
      * @return string[]
      */
     private function retrieveDelegateProcessors(): array
     {
         $delegateProcessors = [];
+        /** @var string[] $resolvers */
+        $resolvers = $this->retrieveArgument($this->processorResolverFactoryClassName, 'processorResolvers', []);
 
-        foreach ($this->retrieveArgument($this->processorResolverFactoryClassName, 'processorResolvers', []) as $processor) {
-            $processorPool = $this->retrieveArgument($processor, 'processorPool');
+        foreach ($resolvers as $resolver) {
+            $processorPool = $this->retrieveArgument($resolver, 'processorPool');
 
             if ($processorPool) {
                 $delegateProcessors[] = $this->retrieveArgument($processorPool, 'array', []);
@@ -84,7 +74,7 @@ final class EraseComponents implements OptionSourceInterface
      *
      * @param string $className
      * @param string $argumentName
-     * @param null $defaultValue
+     * @param mixed $defaultValue
      * @return mixed
      */
     private function retrieveArgument(string $className, string $argumentName, $defaultValue = null)

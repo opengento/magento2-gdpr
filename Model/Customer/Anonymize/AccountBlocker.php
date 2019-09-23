@@ -8,9 +8,13 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Customer\Anonymize;
 
 use Magento\Customer\Model\CustomerRegistry;
+use Magento\Customer\Model\ResourceModel\Visitor\Collection;
 use Magento\Customer\Model\ResourceModel\Visitor\CollectionFactory as VisitorCollectionFactory;
+use Magento\Customer\Model\Visitor;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Intl\DateTimeFactory;
 use Magento\Framework\Math\Random;
 use Magento\Framework\Session\Config;
@@ -18,55 +22,43 @@ use Magento\Framework\Session\SaveHandlerInterface;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Store\Model\ScopeInterface;
 
-/**
- * Class AccountBlocker
- */
 final class AccountBlocker
 {
     /**
-     * @var \Magento\Customer\Model\CustomerRegistry
+     * @var CustomerRegistry
      */
     private $customerRegistry;
 
     /**
-     * @var \Magento\Framework\Session\SaveHandlerInterface
+     * @var SaveHandlerInterface
      */
     private $saveHandler;
 
     /**
-     * @var \Magento\Customer\Model\ResourceModel\Visitor\CollectionFactory
+     * @var VisitorCollectionFactory
      */
     private $visitorCollectionFactory;
 
     /**
-     * @var \Magento\Framework\Encryption\EncryptorInterface
+     * @var EncryptorInterface
      */
     private $encryptor;
 
     /**
-     * @var \Magento\Framework\Intl\DateTimeFactory
+     * @var DateTimeFactory
      */
     private $dateTimeFactory;
 
     /**
-     * @var \Magento\Framework\Math\Random
+     * @var Random
      */
     private $mathRandom;
 
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     * @var ScopeConfigInterface
      */
     private $scopeConfig;
 
-    /**
-     * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
-     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Framework\Session\SaveHandlerInterface $saveHandler
-     * @param \Magento\Customer\Model\ResourceModel\Visitor\CollectionFactory $visitorCollectionFactory
-     * @param \Magento\Framework\Intl\DateTimeFactory $dateTimeFactory
-     * @param \Magento\Framework\Math\Random $mathRandom
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     */
     public function __construct(
         CustomerRegistry $customerRegistry,
         EncryptorInterface $encryptor,
@@ -86,12 +78,10 @@ final class AccountBlocker
     }
 
     /**
-     * Invalid a customer account
-     *
      * @param int $customerId
      * @return bool
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
      */
     public function invalid(int $customerId): bool
     {
@@ -99,12 +89,10 @@ final class AccountBlocker
     }
 
     /**
-     * Reset the customer password to unknown password
-     *
      * @param int $customerId
      * @return bool
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
      */
     private function resetPassword(int $customerId): bool
     {
@@ -117,8 +105,6 @@ final class AccountBlocker
     }
 
     /**
-     * Close all sessions related to the customer
-     *
      * @param int $customerId
      * @return bool
      */
@@ -128,12 +114,12 @@ final class AccountBlocker
         $dateTime = $this->dateTimeFactory->create();
         $time = $dateTime->setTimestamp($dateTime->getTimestamp() - $sessionLifetime);
 
-        /** @var \Magento\Customer\Model\ResourceModel\Visitor\Collection $visitorCollection */
+        /** @var Collection $visitorCollection */
         $visitorCollection = $this->visitorCollectionFactory->create();
         $visitorCollection->addFieldToFilter('customer_id', ['eq' => $customerId]);
         $visitorCollection->addFieldToFilter('last_visit_at', ['from' => $time->format(DateTime::DATETIME_PHP_FORMAT)]);
 
-        /** @var \Magento\Customer\Model\Visitor $visitor */
+        /** @var Visitor $visitor */
         foreach ($visitorCollection->getItems() as $visitor) {
             $this->saveHandler->destroy($visitor->getData('session_id'));
         }

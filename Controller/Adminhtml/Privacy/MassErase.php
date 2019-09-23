@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Adminhtml\Privacy;
 
 use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Customer\Controller\Adminhtml\Index\AbstractMassAction;
 use Magento\Customer\Model\ResourceModel\Customer\CollectionFactory;
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
@@ -17,24 +18,15 @@ use Magento\Framework\Phrase;
 use Magento\Ui\Component\MassAction\Filter;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 
-/**
- * Class MassErase
- */
 class MassErase extends AbstractMassAction
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::customer_erase';
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
+     * @var EraseEntityManagementInterface
      */
     private $eraseManagement;
 
-    /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Ui\Component\MassAction\Filter $filter
-     * @param \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $collectionFactory
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseManagement
-     */
     public function __construct(
         Context $context,
         Filter $filter,
@@ -45,9 +37,6 @@ class MassErase extends AbstractMassAction
         parent::__construct($context, $filter, $collectionFactory);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function massAction(AbstractCollection $collection)
     {
         $customerErased = 0;
@@ -72,7 +61,7 @@ class MassErase extends AbstractMassAction
             );
         }
 
-        /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
+        /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
         return $resultRedirect->setPath('customer/index/index');

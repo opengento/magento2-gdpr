@@ -7,26 +7,24 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Entity;
 
+use Exception;
 use Magento\Framework\EntityManager\TypeResolver;
 
-/**
- * Class DataCollectorGeneric
- */
 final class DataCollectorGeneric implements DataCollectorInterface
 {
     /**
-     * @var \Magento\Framework\EntityManager\TypeResolver
+     * @var TypeResolver
      */
     private $typeResolver;
 
     /**
-     * @var \Opengento\Gdpr\Model\Entity\DataCollectorInterface[]
+     * @var DataCollectorInterface[]
      */
     private $dataCollectors;
 
     /**
-     * @param \Magento\Framework\EntityManager\TypeResolver $typeResolver
-     * @param array $dataCollectors
+     * @param TypeResolver $typeResolver
+     * @param DataCollectorInterface[] $dataCollectors
      */
     public function __construct(
         TypeResolver $typeResolver,
@@ -42,7 +40,7 @@ final class DataCollectorGeneric implements DataCollectorInterface
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function collect($entity): array
     {

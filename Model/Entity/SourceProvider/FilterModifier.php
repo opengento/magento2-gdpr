@@ -9,10 +9,8 @@ namespace Opengento\Gdpr\Model\Entity\SourceProvider;
 
 use Magento\Framework\Api\Filter;
 use Magento\Framework\Data\Collection;
+use Magento\Framework\Exception\LocalizedException;
 
-/**
- * Class FilterModifier
- */
 final class FilterModifier implements ModifierInterface
 {
     /**
@@ -25,10 +23,6 @@ final class FilterModifier implements ModifierInterface
      */
     private $fieldToFilter;
 
-    /**
-     * @param string $filterIdentifier
-     * @param string $fieldToFilter
-     */
     public function __construct(
         string $filterIdentifier,
         string $fieldToFilter
@@ -39,7 +33,7 @@ final class FilterModifier implements ModifierInterface
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function apply(Collection $collection, Filter $filter): void
     {

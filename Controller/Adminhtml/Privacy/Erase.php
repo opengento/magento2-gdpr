@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Adminhtml\Privacy;
 
 use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
@@ -16,23 +17,15 @@ use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Controller\Adminhtml\AbstractAction;
 use Opengento\Gdpr\Model\Config;
 
-/**
- * Class Erase
- */
 class Erase extends AbstractAction implements HttpPostActionInterface
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::customer_erase';
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
+     * @var EraseEntityManagementInterface
      */
     private $eraseManagement;
 
-    /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseManagement
-     */
     public function __construct(
         Context $context,
         Config $config,
@@ -42,9 +35,6 @@ class Erase extends AbstractAction implements HttpPostActionInterface
         parent::__construct($context, $config);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function executeAction()
     {
         try {
@@ -58,7 +48,7 @@ class Erase extends AbstractAction implements HttpPostActionInterface
             $this->messageManager->addExceptionMessage($e, new Phrase('An error occurred on the server.'));
         }
 
-        /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
+        /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
         return $resultRedirect->setPath('customer/index');

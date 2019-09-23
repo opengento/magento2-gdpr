@@ -10,16 +10,9 @@ namespace Opengento\Gdpr\Model\Erase;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 
 /**
- * Interface NotifierInterface
  * @api
  */
 interface NotifierInterface
 {
-    /**
-     * Notify the user of the erase action
-     *
-     * @param \Opengento\Gdpr\Api\Data\EraseEntityInterface $eraseEntity
-     * @return void
-     */
     public function notify(EraseEntityInterface $eraseEntity): void;
 }

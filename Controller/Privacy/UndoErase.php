@@ -9,6 +9,7 @@ namespace Opengento\Gdpr\Controller\Privacy;
 
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
@@ -16,27 +17,18 @@ use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Config;
 
-/**
- * Action Undo Erase
- */
 class UndoErase extends AbstractPrivacy
 {
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var Session
      */
     private $session;
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
+     * @var EraseEntityManagementInterface
      */
     private $eraseManagement;
 
-    /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Magento\Customer\Model\Session $session
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseManagement
-     */
     public function __construct(
         Context $context,
         Config $config,
@@ -48,20 +40,14 @@ class UndoErase extends AbstractPrivacy
         parent::__construct($context, $config);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isAllowed(): bool
     {
         return parent::isAllowed() && $this->config->isErasureEnabled();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function executeAction()
     {
-        /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+        /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
         try {

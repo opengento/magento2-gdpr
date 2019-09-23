@@ -3,18 +3,16 @@
  * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
+declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Entity;
 
 /**
- * Interface EntityValueProcessorInterface
  * @api
  */
 interface EntityValueProcessorInterface
 {
     /**
-     * Process the entity by passing it a value and its key
-     *
      * @param object $entity
      * @param string $key
      * @param mixed $value

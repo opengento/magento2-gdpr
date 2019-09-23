@@ -13,26 +13,18 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 
-/**
- * Class EraseGuestDataProvider
- */
 final class EraseGuestDataProvider extends DataObject implements ArgumentInterface
 {
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityCheckerInterface
+     * @var EraseEntityCheckerInterface
      */
     private $eraseEntityChecker;
 
     /**
-     * @var \Magento\Framework\Registry
+     * @var Registry
      */
     private $registry;
 
-    /**
-     * @param \Opengento\Gdpr\Api\EraseEntityCheckerInterface $eraseEntityChecker
-     * @param \Magento\Framework\Registry $registry
-     * @param array $data
-     */
     public function __construct(
         EraseEntityCheckerInterface $eraseEntityChecker,
         Registry $registry,
@@ -43,43 +35,31 @@ final class EraseGuestDataProvider extends DataObject implements ArgumentInterfa
         parent::__construct($data);
     }
 
-    /**
-     * Check if the erasure is already planned and could be canceled
-     *
-     * @return bool
-     */
     public function canCancel(): bool
     {
         if (!$this->hasData('can_cancel')) {
-            $canCancel = $this->eraseEntityChecker->canCancel((int) $this->resolveOrder()->getEntityId(), 'order');
+            $canCancel = $this->eraseEntityChecker->canCancel($this->currentOrderId(), 'order');
             $this->setData('can_cancel', $canCancel);
         }
 
         return (bool) $this->_getData('can_cancel');
     }
 
-    /**
-     * Check if the erasure can be planned and processed
-     *
-     * @return bool
-     */
     public function canCreate(): bool
     {
         if (!$this->hasData('can_create')) {
-            $canCreate = $this->eraseEntityChecker->canCreate((int) $this->resolveOrder()->getEntityId(), 'order');
+            $canCreate = $this->eraseEntityChecker->canCreate($this->currentOrderId(), 'order');
             $this->setData('can_create', $canCreate);
         }
 
         return (bool) $this->_getData('can_create');
     }
 
-    /**
-     * Resolve the current order
-     *
-     * @return \Magento\Sales\Api\Data\OrderInterface
-     */
-    private function resolveOrder(): OrderInterface
+    private function currentOrderId(): int
     {
-        return $this->registry->registry('current_order');
+        /** @var OrderInterface $order */
+        $order = $this->registry->registry('current_order');
+
+        return (int) $order->getEntityId();
     }
 }

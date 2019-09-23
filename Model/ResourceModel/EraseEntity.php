@@ -8,32 +8,27 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\ResourceModel;
 
 use Magento\Framework\DB\Select;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 
-/**
- * Class EraseEntity
- */
 class EraseEntity extends AbstractDb
 {
     public const TABLE = 'opengento_gdpr_erase_entity';
 
-    /**
-     * @inheritdoc
-     */
     protected function _construct(): void
     {
         $this->_init(self::TABLE, EraseEntityInterface::ID);
     }
 
     /**
-     * Retrieve select object for load object data
-     *
+     * @inheritDoc
      * @param string|array $field
      * @param mixed $value
-     * @param \Magento\Framework\Model\AbstractModel $object
-     * @return \Magento\Framework\DB\Select
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @param AbstractModel $object
+     * @return Select
+     * @throws LocalizedException
      */
     protected function _getLoadSelect($field, $value, $object): Select
     {

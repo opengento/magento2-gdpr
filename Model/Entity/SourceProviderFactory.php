@@ -11,7 +11,6 @@ use Magento\Framework\Data\Collection;
 use Magento\Framework\ObjectManagerInterface;
 
 /**
- * Class SourceProviderFactory
  * @api
  */
 final class SourceProviderFactory
@@ -22,13 +21,13 @@ final class SourceProviderFactory
     private $sourceProviders;
 
     /**
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     private $objectManager;
 
     /**
      * @param string[] $sourceProviders
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
     public function __construct(
         array $sourceProviders,
@@ -38,12 +37,6 @@ final class SourceProviderFactory
         $this->objectManager = $objectManager;
     }
 
-    /**
-     * Create a new source provider by entity type
-     *
-     * @param string $entityType
-     * @return \Magento\Framework\Data\Collection
-     */
     public function create(string $entityType): Collection
     {
         if (!isset($this->sourceProviders[$entityType])) {

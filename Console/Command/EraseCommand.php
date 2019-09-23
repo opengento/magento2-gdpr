@@ -18,39 +18,29 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class EraseCommand
- */
 class EraseCommand extends Command
 {
-    /**#@+
+    /**
      * Input Variables Names
      */
     private const INPUT_ARGUMENT_ENTITY_ID = 'entity_id';
     private const INPUT_ARGUMENT_ENTITY_TYPE = 'entity_type';
-    /**#@-*/
 
     /**
-     * @var \Magento\Framework\App\State
+     * @var State
      */
     private $appState;
 
     /**
-     * @var \Magento\Framework\Registry
+     * @var Registry
      */
     private $registry;
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
+     * @var EraseEntityManagementInterface
      */
     private $eraseManagement;
 
-    /**
-     * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Framework\Registry $registry
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseManagement
-     * @param string $name
-     */
     public function __construct(
         State $appState,
         Registry $registry,
@@ -63,9 +53,6 @@ class EraseCommand extends Command
         parent::__construct($name);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function configure(): void
     {
         parent::configure();
@@ -87,7 +74,7 @@ class EraseCommand extends Command
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

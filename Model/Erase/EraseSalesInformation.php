@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Erase;
 
+use Exception;
+use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Stdlib\DateTime;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory;
@@ -14,31 +16,23 @@ use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Opengento\Gdpr\Api\EraseSalesInformationInterface;
 use Opengento\Gdpr\Model\Config;
 
-/**
- * Class EraseSalesInformation
- */
 final class EraseSalesInformation implements EraseSalesInformationInterface
 {
     /**
-     * @var \Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory
+     * @var EraseEntityInterfaceFactory
      */
     private $eraseEntityFactory;
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityRepositoryInterface
+     * @var EraseEntityRepositoryInterface
      */
     private $eraseEntityRepository;
 
     /**
-     * @var \Opengento\Gdpr\Model\Config
+     * @var Config
      */
     private $config;
 
-    /**
-     * @param \Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory $eraseEntityFactory
-     * @param \Opengento\Gdpr\Api\EraseEntityRepositoryInterface $eraseEntityRepository
-     * @param \Opengento\Gdpr\Model\Config $config
-     */
     public function __construct(
         EraseEntityInterfaceFactory $eraseEntityFactory,
         EraseEntityRepositoryInterface $eraseEntityRepository,
@@ -51,14 +45,14 @@ final class EraseSalesInformation implements EraseSalesInformationInterface
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @throws CouldNotSaveException
      */
     public function scheduleEraseEntity(int $entityId, string $entityType, \DateTime $lastActive): EraseEntityInterface
     {
         $dateTime = \DateTimeImmutable::createFromMutable($lastActive);
         $scheduleAt = $dateTime->modify('+' . $this->config->getErasureSalesMaxAge() . + 'days');
 
-        /** @var \Opengento\Gdpr\Api\Data\EraseEntityInterface $eraseEntity */
+        /** @var EraseEntityInterface $eraseEntity */
         $eraseEntity = $this->eraseEntityFactory->create();
         $eraseEntity->setEntityId($entityId);
         $eraseEntity->setEntityType($entityType);
@@ -73,7 +67,7 @@ final class EraseSalesInformation implements EraseSalesInformationInterface
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function isAlive(\DateTime $dateTime): bool
     {

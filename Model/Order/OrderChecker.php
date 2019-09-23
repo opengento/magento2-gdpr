@@ -11,25 +11,18 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\Entity\EntityCheckerInterface;
 
-/**
- * Class OrderChecker
- */
 final class OrderChecker implements EntityCheckerInterface
 {
     /**
-     * @var \Magento\Sales\Api\OrderRepositoryInterface
+     * @var OrderRepositoryInterface
      */
     private $orderRepository;
 
     /**
-     * @var \Opengento\Gdpr\Model\Config
+     * @var Config
      */
     private $config;
 
-    /**
-     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     * @param \Opengento\Gdpr\Model\Config $config
-     */
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         Config $config
@@ -38,9 +31,6 @@ final class OrderChecker implements EntityCheckerInterface
         $this->config = $config;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function canErase(int $orderId): bool
     {
         $order = $this->orderRepository->get($orderId);

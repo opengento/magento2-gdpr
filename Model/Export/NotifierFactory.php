@@ -10,7 +10,6 @@ namespace Opengento\Gdpr\Model\Export;
 use Magento\Framework\ObjectManagerInterface;
 
 /**
- * Class NotifierFactory
  * @api
  */
 final class NotifierFactory
@@ -21,13 +20,13 @@ final class NotifierFactory
     private $notifiers;
 
     /**
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     private $objectManager;
 
     /**
      * @param string[] $notifiers
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
     public function __construct(
         array $notifiers,
@@ -37,13 +36,6 @@ final class NotifierFactory
         $this->objectManager = $objectManager;
     }
 
-    /**
-     * Retrieve the notifier instance by action and entity type
-     *
-     * @param string $action
-     * @param string $entityType
-     * @return \Opengento\Gdpr\Model\Export\NotifierInterface
-     */
     public function get(string $action, string $entityType): NotifierInterface
     {
         if (!isset($this->notifiers[$action][$entityType])) {

@@ -7,29 +7,24 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Customer\Delete\Processor;
 
+use Exception;
 use Magento\Newsletter\Model\ResourceModel\Subscriber as ResourceSubscriber;
+use Magento\Newsletter\Model\Subscriber;
 use Magento\Newsletter\Model\SubscriberFactory;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-/**
- * Class SubscriberDataProcessor
- */
 final class SubscriberDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Magento\Newsletter\Model\SubscriberFactory
+     * @var SubscriberFactory
      */
     private $subscriberFactory;
 
     /**
-     * @var \Magento\Newsletter\Model\ResourceModel\Subscriber
+     * @var ResourceSubscriber
      */
     private $subscriberResourceModel;
 
-    /**
-     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param \Magento\Newsletter\Model\ResourceModel\Subscriber $subscriberResourceModel
-     */
     public function __construct(
         SubscriberFactory $subscriberFactory,
         ResourceSubscriber $subscriberResourceModel
@@ -40,11 +35,11 @@ final class SubscriberDataProcessor implements ProcessorInterface
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(int $customerId): bool
     {
-        /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
+        /** @var Subscriber $subscriber */
         $subscriber = $this->subscriberFactory->create();
         $subscriber->loadByCustomerId($customerId);
         $this->subscriberResourceModel->delete($subscriber);

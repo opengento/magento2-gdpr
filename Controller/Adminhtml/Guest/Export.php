@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Adminhtml\Guest;
 
 use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\ResultFactory;
@@ -17,15 +18,12 @@ use Opengento\Gdpr\Controller\Adminhtml\AbstractAction;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\Export\ExportEntityData;
 
-/**
- * Class Export
- */
 class Export extends AbstractAction
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::order_export';
 
     /**
-     * @var \Magento\Framework\App\Response\Http\FileFactory
+     * @var FileFactory
      */
     private $fileFactory;
 
@@ -34,12 +32,6 @@ class Export extends AbstractAction
      */
     private $exportEntityData;
 
-    /**
-     * @param Context $context
-     * @param Config $config
-     * @param FileFactory $fileFactory
-     * @param ExportEntityData $exportEntityData
-     */
     public function __construct(
         Context $context,
         Config $config,
@@ -51,9 +43,6 @@ class Export extends AbstractAction
         parent::__construct($context, $config);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function executeAction()
     {
         try {
@@ -74,7 +63,7 @@ class Export extends AbstractAction
             $this->messageManager->addExceptionMessage($e, new Phrase('An error occurred on the server.'));
         }
 
-        /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
+        /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
         return $resultRedirect->setRefererOrBaseUrl();

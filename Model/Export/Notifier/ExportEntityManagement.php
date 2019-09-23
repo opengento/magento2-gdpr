@@ -11,25 +11,18 @@ use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Model\Export\NotifierFactory;
 
-/**
- * Class ExportEntityManagement
- */
 final class ExportEntityManagement implements ExportEntityManagementInterface
 {
     /**
-     * @var \Opengento\Gdpr\Api\ExportEntityManagementInterface
+     * @var ExportEntityManagementInterface
      */
     private $exportManagement;
 
     /**
-     * @var \Opengento\Gdpr\Model\Export\NotifierFactory
+     * @var NotifierFactory
      */
     private $exportNotifierFactory;
 
-    /**
-     * @param \Opengento\Gdpr\Api\ExportEntityManagementInterface $exportManagement
-     * @param \Opengento\Gdpr\Model\Export\NotifierFactory $exportNotifierFactory
-     */
     public function __construct(
         ExportEntityManagementInterface $exportManagement,
         NotifierFactory $exportNotifierFactory
@@ -38,17 +31,11 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
         $this->exportNotifierFactory = $exportNotifierFactory;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function create(int $entityId, string $entityType, ?string $fileName = null): ExportEntityInterface
     {
         return $this->exportManagement->create($entityId, $entityType);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function export(ExportEntityInterface $exportEntity): string
     {
         $export = $this->exportManagement->export($exportEntity);

@@ -8,28 +8,26 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Customer\Export;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Model\Customer\Notifier\SenderInterface;
 use Opengento\Gdpr\Model\Export\NotifierInterface;
 
-/**
- * Class Notifier
- */
 final class Notifier implements NotifierInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\Customer\Notifier\SenderInterface[]
+     * @var SenderInterface[]
      */
     private $senders;
 
     /**
-     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     * @var CustomerRepositoryInterface
      */
     private $customerRepository;
 
     /**
-     * @param \Opengento\Gdpr\Model\Customer\Notifier\SenderInterface[] $senders
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     * @param SenderInterface[] $senders
+     * @param CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         array $senders,
@@ -43,7 +41,7 @@ final class Notifier implements NotifierInterface
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function notify(ExportEntityInterface $exportEntity): void
     {

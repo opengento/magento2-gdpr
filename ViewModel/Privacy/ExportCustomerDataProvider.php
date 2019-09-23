@@ -11,9 +11,6 @@ use Magento\Customer\Model\Session;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
 
-/**
- * Class ExportCustomerDataProvider
- */
 final class ExportCustomerDataProvider implements ArgumentInterface
 {
     /**
@@ -36,10 +33,6 @@ final class ExportCustomerDataProvider implements ArgumentInterface
      */
     private $isExported;
 
-    /**
-     * @param ExportEntityCheckerInterface $exportEntityChecker
-     * @param Session $session
-     */
     public function __construct(
         ExportEntityCheckerInterface $exportEntityChecker,
         Session $session
@@ -48,25 +41,20 @@ final class ExportCustomerDataProvider implements ArgumentInterface
         $this->session = $session;
     }
 
-    /**
-     * Check if the export entity exists for the current customer
-     *
-     * @return bool
-     */
     public function hasExport(): bool
     {
         return $this->isExportEntityExists ??
-            $this->isExportEntityExists = $this->exportEntityChecker->exists((int) $this->session->getCustomerId(), 'customer');
+            $this->isExportEntityExists = $this->exportEntityChecker->exists($this->currentCustomerId(), 'customer');
     }
 
-    /**
-     * Check if the export entity is ready for download
-     *
-     * @return bool
-     */
     public function isExported(): bool
     {
         return $this->isExported ??
-            $this->isExported = $this->exportEntityChecker->isExported((int) $this->session->getCustomerId(), 'customer');
+            $this->isExported = $this->exportEntityChecker->isExported($this->currentCustomerId(), 'customer');
+    }
+
+    private function currentCustomerId(): int
+    {
+        return (int) $this->session->getCustomerId();
     }
 }

@@ -10,23 +10,22 @@ namespace Opengento\Gdpr\Controller\Guest;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
+use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
+use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Controller\AbstractController\OrderLoaderInterface;
 use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Controller\AbstractGuest;
 use Opengento\Gdpr\Model\Config;
 
-/**
- * Class Download Export
- */
 class Download extends AbstractGuest
 {
     /**
-     * @var \Magento\Framework\App\Response\Http\FileFactory
+     * @var FileFactory
      */
     private $fileFactory;
 
@@ -35,14 +34,6 @@ class Download extends AbstractGuest
      */
     private $exportRepository;
 
-    /**
-     * @param Context $context
-     * @param Config $config
-     * @param FileFactory $fileFactory
-     * @param ExportEntityRepositoryInterface $exportRepository
-     * @param OrderLoaderInterface $orderLoader
-     * @param Registry $registry
-     */
     public function __construct(
         Context $context,
         Config $config,
@@ -56,21 +47,15 @@ class Download extends AbstractGuest
         parent::__construct($context, $config, $orderLoader, $registry);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isAllowed(): bool
     {
         return parent::isAllowed() && $this->config->isExportEnabled();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function executeAction()
     {
         try {
-            /** @var \Magento\Sales\Api\Data\OrderInterface $order */
+            /** @var OrderInterface $order */
             $order = $this->registry->registry('current_order');
 
             return $this->fileFactory->create(
@@ -92,7 +77,7 @@ class Download extends AbstractGuest
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }
 
-        /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+        /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
         return $resultRedirect->setRefererOrBaseUrl();

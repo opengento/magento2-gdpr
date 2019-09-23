@@ -9,21 +9,20 @@ namespace Opengento\Gdpr\Model\Notifier;
 
 use Magento\Framework\App\Area;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\MailException;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\ScopeInterface;
 
-/**
- * Class AbstractMailSender
- */
 abstract class AbstractMailSender
 {
     /**
-     * @var \Magento\Framework\Mail\Template\TransportBuilder
+     * @var TransportBuilder
      */
     protected $transportBuilder;
 
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     * @var ScopeConfigInterface
      */
     private $scopeConfig;
 
@@ -33,8 +32,8 @@ abstract class AbstractMailSender
     private $configPaths;
 
     /**
-     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param TransportBuilder $transportBuilder
+     * @param ScopeConfigInterface $scopeConfig
      * @param string[] $configPaths
      */
     public function __construct(
@@ -48,14 +47,12 @@ abstract class AbstractMailSender
     }
 
     /**
-     * Send an email to the recipient
-     *
      * @param string $to
-     * @param string|null $name
-     * @param int|null $storeId
+     * @param string|null $name [optional] Specify the to name.
+     * @param int|null $storeId [optional Current store ID is used by default.
      * @param array $vars
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\MailException
+     * @throws LocalizedException
+     * @throws MailException
      */
     protected function sendMail(string $to, ?string $name = null, ?int $storeId = null, array $vars = []): void
     {
@@ -84,13 +81,11 @@ abstract class AbstractMailSender
     }
 
     /**
-     * Prepare the mail to send
-     *
      * @param string $to
-     * @param string|null $name
-     * @param int|null $storeId
+     * @param string|null $name [optional] Specify the to name.
+     * @param int|null $storeId [optional Current store ID is used by default.
      * @param array $vars
-     * @throws \Magento\Framework\Exception\MailException
+     * @throws MailException
      */
     protected function prepareMail(string $to, ?string $name = null, ?int $storeId = null, array $vars = []): void
     {
@@ -102,8 +97,6 @@ abstract class AbstractMailSender
     }
 
     /**
-     * Check if the sender is currently available
-     *
      * @param int|null $storeId [optional] Retrieves the value by scope.
      * @return bool
      */
@@ -117,8 +110,6 @@ abstract class AbstractMailSender
     }
 
     /**
-     * Retrieve the email from
-     *
      * @param int|null $storeId [optional] Retrieves the value by scope.
      * @return string
      */
@@ -132,8 +123,6 @@ abstract class AbstractMailSender
     }
 
     /**
-     * Retrieve the email copy to
-     *
      * @param int|null $storeId [optional] Retrieves the value by scope.
      * @return array
      */
@@ -150,8 +139,6 @@ abstract class AbstractMailSender
     }
 
     /**
-     * Retrieve the email copy method
-     *
      * @param int|null $storeId [optional] Retrieves the value by scope.
      * @return string
      */
@@ -165,8 +152,6 @@ abstract class AbstractMailSender
     }
 
     /**
-     * Retrieve the email template identifier
-     *
      * @param int|null $storeId [optional] Retrieves the value by scope.
      * @return string
      */

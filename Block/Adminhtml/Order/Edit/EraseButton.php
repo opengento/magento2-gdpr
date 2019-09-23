@@ -9,24 +9,18 @@ namespace Opengento\Gdpr\Block\Adminhtml\Order\Edit;
 
 use Magento\Backend\Block\AbstractBlock;
 use Magento\Backend\Block\Context;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
+use Magento\Sales\Block\Adminhtml\Order\View;
 use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 
-/**
- * Class EraseButton
- */
 final class EraseButton extends AbstractBlock
 {
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityCheckerInterface
+     * @var EraseEntityCheckerInterface
      */
     private $eraseEntityChecker;
 
-    /**
-     * @param \Magento\Backend\Block\Context $context
-     * @param \Opengento\Gdpr\Api\EraseEntityCheckerInterface $eraseEntityChecker
-     * @param array $data
-     */
     public function __construct(
         Context $context,
         EraseEntityCheckerInterface $eraseEntityChecker,
@@ -43,13 +37,13 @@ final class EraseButton extends AbstractBlock
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     protected function _construct(): void
     {
         parent::_construct();
 
-        /** @var \Magento\Sales\Block\Adminhtml\Order\View $orderView */
+        /** @var View $orderView */
         $orderView = $this->getLayout()->getBlock('sales_order_edit');
         $orderId = (int) $orderView->getOrderId();
 

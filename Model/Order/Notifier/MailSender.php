@@ -7,19 +7,19 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Order\Notifier;
 
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\MailException;
 use Magento\Sales\Api\Data\OrderInterface;
+use Magento\Sales\Model\Order;
 use Opengento\Gdpr\Model\Notifier\AbstractMailSender;
 
-/**
- * Class MailSender
- */
 final class MailSender extends AbstractMailSender implements SenderInterface
 {
     /**
      * @inheritdoc
-     * @param \Magento\Sales\Model\Order $order
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\MailException
+     * @param Order $order
+     * @throws LocalizedException
+     * @throws MailException
      */
     public function send(OrderInterface $order): void
     {

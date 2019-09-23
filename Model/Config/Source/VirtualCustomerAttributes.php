@@ -11,13 +11,10 @@ use Magento\Customer\Api\MetadataInterface;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\Exception\LocalizedException;
 
-/**
- * Class VirtualCustomerAttributes
- */
 final class VirtualCustomerAttributes implements OptionSourceInterface
 {
     /**
-     * @var \Magento\Customer\Api\MetadataInterface
+     * @var MetadataInterface
      */
     private $metadata;
 
@@ -26,10 +23,6 @@ final class VirtualCustomerAttributes implements OptionSourceInterface
      */
     private $options;
 
-    /**
-     * @param \Magento\Customer\Api\MetadataInterface $metadata
-     * @param array $options
-     */
     public function __construct(
         MetadataInterface $metadata,
         array $options = []
@@ -38,9 +31,6 @@ final class VirtualCustomerAttributes implements OptionSourceInterface
         $this->options = $this->loadOptions($options);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function toOptionArray(): array
     {
         return $this->options;
@@ -49,7 +39,7 @@ final class VirtualCustomerAttributes implements OptionSourceInterface
     /**
      * Load an prepare customer address attributes options
      *
-     * @param array $defaultOptions
+     * @param array $defaultOptions [optional]
      * @return array
      */
     public function loadOptions(array $defaultOptions = []): array

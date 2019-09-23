@@ -7,36 +7,30 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Customer\Anonymize\Processor;
 
+use Exception;
 use Magento\Newsletter\Model\ResourceModel\Subscriber as ResourceSubscriber;
+use Opengento\Gdpr\Model\Newsletter\Subscriber;
 use Opengento\Gdpr\Model\Newsletter\SubscriberFactory;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-/**
- * Class SubscriberDataProcessor
- */
 final class SubscriberDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface
+     * @var AnonymizerInterface
      */
     private $anonymizer;
 
     /**
-     * @var \Opengento\Gdpr\Model\Newsletter\SubscriberFactory
+     * @var SubscriberFactory
      */
     private $subscriberFactory;
 
     /**
-     * @var \Magento\Newsletter\Model\ResourceModel\Subscriber
+     * @var ResourceSubscriber
      */
     private $subscriberResourceModel;
 
-    /**
-     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface $anonymizer
-     * @param \Opengento\Gdpr\Model\Newsletter\SubscriberFactory $subscriberFactory
-     * @param \Magento\Newsletter\Model\ResourceModel\Subscriber $subscriberResourceModel
-     */
     public function __construct(
         AnonymizerInterface $anonymizer,
         SubscriberFactory $subscriberFactory,
@@ -49,11 +43,11 @@ final class SubscriberDataProcessor implements ProcessorInterface
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(int $customerId): bool
     {
-        /** @var \Opengento\Gdpr\Model\Newsletter\Subscriber $subscriber */
+        /** @var Subscriber $subscriber */
         $subscriber = $this->subscriberFactory->create();
         $subscriber->loadByCustomerId($customerId);
         $this->anonymizer->anonymize($subscriber);

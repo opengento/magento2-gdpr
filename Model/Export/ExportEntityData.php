@@ -7,13 +7,16 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Export;
 
+use Magento\Framework\Exception\AlreadyExistsException;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 
 /**
- * Class ExportEntityData
+ * @api
  */
 final class ExportEntityData
 {
@@ -32,11 +35,6 @@ final class ExportEntityData
      */
     private $exportEntityChecker;
 
-    /**
-     * @param ExportEntityRepositoryInterface $exportEntityRepository
-     * @param ExportEntityManagementInterface $exportEntityManagement
-     * @param ExportEntityCheckerInterface $exportEntityChecker
-     */
     public function __construct(
         ExportEntityRepositoryInterface $exportEntityRepository,
         ExportEntityManagementInterface $exportEntityManagement,
@@ -53,9 +51,9 @@ final class ExportEntityData
      * @param int $entityId
      * @param string $entityType
      * @return string
-     * @throws \Magento\Framework\Exception\AlreadyExistsException
-     * @throws \Magento\Framework\Exception\CouldNotSaveException
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws AlreadyExistsException
+     * @throws CouldNotSaveException
+     * @throws LocalizedException
      */
     public function export(int $entityId, string $entityType): string
     {

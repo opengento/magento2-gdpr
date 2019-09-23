@@ -11,25 +11,18 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-/**
- * Class QuoteDataProcessor
- */
 final class QuoteDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Magento\Quote\Api\CartRepositoryInterface
+     * @var CartRepositoryInterface
      */
     private $quoteRepository;
 
     /**
-     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     * @var SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
 
-    /**
-     * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     */
     public function __construct(
         CartRepositoryInterface $quoteRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder
@@ -38,9 +31,6 @@ final class QuoteDataProcessor implements ProcessorInterface
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute(int $customerId): bool
     {
         $this->searchCriteriaBuilder->addFilter('customer_id', $customerId);

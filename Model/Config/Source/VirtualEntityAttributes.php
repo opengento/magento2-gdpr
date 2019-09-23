@@ -18,7 +18,7 @@ use Magento\Framework\Model\EntitySnapshot\AttributeProviderInterface;
 final class VirtualEntityAttributes implements OptionSourceInterface
 {
     /**
-     * @var \Magento\Framework\Model\EntitySnapshot\AttributeProviderInterface
+     * @var AttributeProviderInterface
      */
     private $attributeProvider;
 
@@ -32,10 +32,6 @@ final class VirtualEntityAttributes implements OptionSourceInterface
      */
     private $options;
 
-    /**
-     * @param \Magento\Framework\Model\EntitySnapshot\AttributeProviderInterface $attributeProvider
-     * @param string $entityType
-     */
     public function __construct(
         AttributeProviderInterface $attributeProvider,
         string $entityType
@@ -45,9 +41,6 @@ final class VirtualEntityAttributes implements OptionSourceInterface
         $this->options = [];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function toOptionArray(): array
     {
         if (!$this->options) {

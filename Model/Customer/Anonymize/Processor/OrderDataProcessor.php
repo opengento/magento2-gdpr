@@ -7,7 +7,9 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Customer\Anonymize\Processor;
 
+use Exception;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Sales\Api\Data\OrderAddressInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderAddressRepositoryInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
@@ -16,43 +18,33 @@ use Opengento\Gdpr\Api\EraseSalesInformationInterface;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-/**
- * Class OrderDataProcessor
- */
 final class OrderDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface
+     * @var AnonymizerInterface
      */
     private $anonymizer;
 
     /**
-     * @var \Magento\Sales\Api\OrderRepositoryInterface
+     * @var OrderRepositoryInterface
      */
     private $orderRepository;
 
     /**
-     * @var \Magento\Sales\Api\OrderAddressRepositoryInterface
+     * @var OrderAddressRepositoryInterface
      */
     private $orderAddressRepository;
 
     /**
-     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     * @var SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseSalesInformationInterface
+     * @var EraseSalesInformationInterface
      */
     private $eraseSalesInformation;
 
-    /**
-     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface $anonymizer
-     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     * @param \Magento\Sales\Api\OrderAddressRepositoryInterface $orderAddressRepository
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Opengento\Gdpr\Api\EraseSalesInformationInterface $eraseSalesInformation
-     */
     public function __construct(
         AnonymizerInterface $anonymizer,
         OrderRepositoryInterface $orderRepository,
@@ -69,14 +61,14 @@ final class OrderDataProcessor implements ProcessorInterface
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(int $customerId): bool
     {
         $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
         $orderList = $this->orderRepository->getList($this->searchCriteriaBuilder->create());
 
-        /** @var \Magento\Sales\Model\Order $order */
+        /** @var Order $order */
         foreach ($orderList->getItems() as $order) {
             $lastActive = new \DateTime($order->getUpdatedAt());
             if ($this->eraseSalesInformation->isAlive($lastActive)) {
@@ -89,17 +81,11 @@ final class OrderDataProcessor implements ProcessorInterface
         return true;
     }
 
-    /**
-     * Anonymize the order entity
-     *
-     * @param \Magento\Sales\Model\Order $order
-     * @return void
-     */
     private function anonymize(Order $order): void
     {
         $this->orderRepository->save($this->anonymizer->anonymize($order));
 
-        /** @var \Magento\Sales\Api\Data\OrderAddressInterface|null $orderAddress */
+        /** @var OrderAddressInterface|null $orderAddress */
         foreach ([$order->getBillingAddress(), $order->getShippingAddress()] as $orderAddress) {
             if ($orderAddress) {
                 $this->orderAddressRepository->save($this->anonymizer->anonymize($orderAddress));

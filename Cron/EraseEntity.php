@@ -18,55 +18,43 @@ use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
 use Psr\Log\LoggerInterface;
 
-/**
- * Class EraseEntity
- */
 final class EraseEntity
 {
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var LoggerInterface
      */
     private $logger;
 
     /**
-     * @var \Opengento\Gdpr\Model\Config
+     * @var Config
      */
     private $config;
 
     /**
-     * @var \Magento\Framework\Registry
+     * @var Registry
      */
     private $registry;
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
+     * @var EraseEntityManagementInterface
      */
     private $eraseManagement;
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityRepositoryInterface
+     * @var EraseEntityRepositoryInterface
      */
     private $eraseEntityRepository;
 
     /**
-     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     * @var SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
 
     /**
-     * @var \Magento\Framework\Stdlib\DateTime\DateTime
+     * @var DateTime
      */
     private $dateTime;
 
-    /**
-     * @param \Psr\Log\LoggerInterface $logger
-     * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Magento\Framework\Registry $registry
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseManagement
-     * @param \Opengento\Gdpr\Api\EraseEntityRepositoryInterface $eraseEntityRepository
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
-     */
     public function __construct(
         LoggerInterface $logger,
         Config $config,
@@ -87,8 +75,6 @@ final class EraseEntity
 
     /**
      * Process erase of all scheduled entities
-     *
-     * @return void
      */
     public function execute(): void
     {
@@ -96,7 +82,7 @@ final class EraseEntity
             $oldValue = $this->registry->registry('isSecureArea');
             $this->registry->register('isSecureArea', true, true);
 
-            /** @var \Opengento\Gdpr\Api\Data\EraseEntityInterface $eraseEntity */
+            /** @var EraseEntityInterface $eraseEntity */
             foreach ($this->retrieveEraseEntityList()->getItems() as $eraseEntity) {
                 try {
                     // todo disable individual check: use mass validator
@@ -110,11 +96,6 @@ final class EraseEntity
         }
     }
 
-    /**
-     * Retrieve erase entity scheduler list
-     *
-     * @return \Magento\Framework\Api\SearchResultsInterface
-     */
     private function retrieveEraseEntityList(): SearchResultsInterface
     {
         $this->searchCriteriaBuilder->addFilter(

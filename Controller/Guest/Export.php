@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Guest;
 
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\LocalizedException;
@@ -18,23 +19,13 @@ use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Controller\AbstractGuest;
 use Opengento\Gdpr\Model\Config;
 
-/**
- * Class Export
- */
 class Export extends AbstractGuest
 {
     /**
-     * @var \Opengento\Gdpr\Api\ExportEntityManagementInterface
+     * @var ExportEntityManagementInterface
      */
     private $exportManagement;
 
-    /**
-     * @param Context $context
-     * @param Config $config
-     * @param ExportEntityManagementInterface $exportManagement
-     * @param OrderLoaderInterface $orderLoader
-     * @param Registry $registry
-     */
     public function __construct(
         Context $context,
         Config $config,
@@ -46,17 +37,11 @@ class Export extends AbstractGuest
         parent::__construct($context, $config, $orderLoader, $registry);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isAllowed(): bool
     {
         return parent::isAllowed() && $this->config->isExportEnabled();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function executeAction()
     {
         try {
@@ -70,7 +55,7 @@ class Export extends AbstractGuest
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }
 
-        /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+        /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
         return $resultRedirect->setRefererOrBaseUrl();

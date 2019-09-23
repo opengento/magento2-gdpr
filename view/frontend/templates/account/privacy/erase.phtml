@@ -19,7 +19,7 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
     </div>
     <div class="block-content">
         <div class="widget block block-static-block">
-            <?= $eraseDataProvider->getErasureInformation() ?>
+            <?= $eraseDataProvider->getErasureInformationHtml() ?>
         </div>
         <?php if ($eraseCustomerDataProvider->canCancel()): ?>
             <div class="message warning">
@@ -34,7 +34,7 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
             </div>
         <?php elseif ($eraseCustomerDataProvider->canCreate()): ?>
             <div class="widget block block-static-block">
-                <?= $eraseDataProvider->getAnonymizeInformation() ?>
+                <?= $eraseDataProvider->getAnonymizeInformationHtml() ?>
             </div>
             <div class="actions-toolbar">
                 <div class="primary">

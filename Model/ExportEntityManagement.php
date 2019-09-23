@@ -7,8 +7,11 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model;
 
+use Exception;
 use Magento\Framework\Exception\AlreadyExistsException;
+use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\Phrase;
 use Magento\Framework\Stdlib\DateTime;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
@@ -22,9 +25,6 @@ use Opengento\Gdpr\Service\Export\RendererFactory;
 use function sha1;
 use const DIRECTORY_SEPARATOR;
 
-/**
- * Class ExportEntityManagement
- */
 final class ExportEntityManagement implements ExportEntityManagementInterface
 {
     /**
@@ -43,34 +43,25 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
     private $exportEntityChecker;
 
     /**
-     * @var \Opengento\Gdpr\Service\Export\ProcessorFactory
+     * @var ProcessorFactory
      */
     private $exportProcessorFactory;
 
     /**
-     * @var \Opengento\Gdpr\Service\Export\RendererFactory
+     * @var RendererFactory
      */
     private $exportRendererFactory;
 
     /**
-     * @var \Opengento\Gdpr\Model\Archive\MoveToArchive
+     * @var MoveToArchive
      */
     private $archive;
 
     /**
-     * @var \Opengento\Gdpr\Model\Config
+     * @var Config
      */
     private $config;
 
-    /**
-     * @param \Opengento\Gdpr\Api\Data\ExportEntityInterfaceFactory $exportEntityFactory
-     * @param \Opengento\Gdpr\Api\ExportEntityRepositoryInterface $exportEntityRepository
-     * @param \Opengento\Gdpr\Api\ExportEntityCheckerInterface $exportEntityChecker
-     * @param \Opengento\Gdpr\Service\Export\ProcessorFactory $exportProcessorFactory
-     * @param \Opengento\Gdpr\Service\Export\RendererFactory $exportRendererFactory
-     * @param \Opengento\Gdpr\Model\Archive\MoveToArchive $archive
-     * @param \Opengento\Gdpr\Model\Config $config
-     */
     public function __construct(
         ExportEntityInterfaceFactory $exportEntityFactory,
         ExportEntityRepositoryInterface $exportEntityRepository,
@@ -89,9 +80,6 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
         $this->config = $config;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function create(int $entityId, string $entityType, ?string $fileName = null): ExportEntityInterface
     {
         if ($this->exportEntityChecker->exists($entityId, $entityType)) {
@@ -115,9 +103,9 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\FileSystemException
-     * @throws \Magento\Framework\Exception\NotFoundException
-     * @throws \Exception
+     * @throws FileSystemException
+     * @throws NotFoundException
+     * @throws Exception
      */
     public function export(ExportEntityInterface $exportEntity): string
     {
@@ -130,6 +118,7 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
                 $fileName . '.zip'
             );
         }
+        //todo remove files after bundling
 
         if (!isset($filePath)) {
             throw new LocalizedException(
@@ -152,12 +141,6 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
         return $filePath;
     }
 
-    /**
-     * Prepare the file name with sub directory for the export entity
-     *
-     * @param ExportEntityInterface $exportEntity
-     * @return string
-     */
     private function prepareFileName(ExportEntityInterface $exportEntity): string
     {
         return 'gdpr' .

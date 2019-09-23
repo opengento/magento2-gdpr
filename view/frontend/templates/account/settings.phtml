@@ -11,14 +11,14 @@ $settingsDataProvider = $block->getData('settingsDataProvider');
 /** @var \Opengento\Gdpr\ViewModel\UrlsDataProvider $urlsDataProvider */
 $urlsDataProvider = $block->getData('urlsDataProvider');
 ?>
-<?php if ($settingsDataProvider->getPrivacyInformation()): ?>
+<?php if ($settingsDataProvider->getPrivacyInformationHtml()): ?>
 <div class="block block-dashboard-info">
     <div class="block-title">
         <strong><?= $block->escapeHtml(__('Information')) ?></strong>
     </div>
     <div class="block-content">
         <div class="widget block block-static-block">
-            <?= $settingsDataProvider->getPrivacyInformation() ?>
+            <?= $settingsDataProvider->getPrivacyInformationHtml() ?>
         </div>
     </div>
 </div>

@@ -12,14 +12,8 @@ use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Model\ExportEntity;
 use Opengento\Gdpr\Model\ResourceModel\ExportEntity as ExportEntityResourceModel;
 
-/**
- * Class Collection
- */
 class Collection extends AbstractCollection
 {
-    /**
-     * @inheritdoc
-     */
     protected function _construct(): void
     {
         $this->_init(ExportEntity::class, ExportEntityResourceModel::class);

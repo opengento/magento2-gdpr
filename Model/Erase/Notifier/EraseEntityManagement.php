@@ -12,31 +12,23 @@ use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Erase\NotifierFactory;
 
-/**
- * Class EraseEntityManagement
- */
 final class EraseEntityManagement implements EraseEntityManagementInterface
 {
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityRepositoryInterface
+     * @var EraseEntityRepositoryInterface
      */
     private $eraseRepository;
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
+     * @var EraseEntityManagementInterface
      */
     private $eraseManagement;
 
     /**
-     * @var \Opengento\Gdpr\Model\Erase\NotifierFactory
+     * @var NotifierFactory
      */
     private $eraseNotifierFactory;
 
-    /**
-     * @param \Opengento\Gdpr\Api\EraseEntityRepositoryInterface $eraseRepository
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseManagement
-     * @param \Opengento\Gdpr\Model\Erase\NotifierFactory $eraseNotifierFactory
-     */
     public function __construct(
         EraseEntityRepositoryInterface $eraseRepository,
         EraseEntityManagementInterface $eraseManagement,
@@ -47,9 +39,6 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
         $this->eraseNotifierFactory = $eraseNotifierFactory;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function create(int $entityId, string $entityType): EraseEntityInterface
     {
         $entity = $this->eraseManagement->create($entityId, $entityType);
@@ -58,9 +47,6 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
         return $entity;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function process(EraseEntityInterface $entity): EraseEntityInterface
     {
         $entity = $this->eraseManagement->process($entity);
@@ -69,9 +55,6 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
         return $entity;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function cancel(int $entityId, string $entityType): bool
     {
         $entity = $this->eraseRepository->getByEntity($entityId, $entityType);

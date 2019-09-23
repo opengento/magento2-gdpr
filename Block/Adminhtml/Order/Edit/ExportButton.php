@@ -9,22 +9,12 @@ namespace Opengento\Gdpr\Block\Adminhtml\Order\Edit;
 
 use Magento\Backend\Block\AbstractBlock;
 use Magento\Backend\Block\Context;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
+use Magento\Sales\Block\Adminhtml\Order\View;
 
-/**
- * Class ExportButton
- */
 final class ExportButton extends AbstractBlock
 {
-    /**
-     * @var \Magento\Framework\AuthorizationInterface
-     */
-    protected $_authorization;
-
-    /**
-     * @param \Magento\Backend\Block\Context $context
-     * @param array $data
-     */
     public function __construct(
         Context $context,
         array $data = []
@@ -39,13 +29,13 @@ final class ExportButton extends AbstractBlock
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     protected function _construct(): void
     {
         parent::_construct();
 
-        /** @var \Magento\Sales\Block\Adminhtml\Order\View $orderView */
+        /** @var View $orderView */
         $orderView = $this->getLayout()->getBlock('sales_order_edit');
         $orderId = (int) $orderView->getOrderId();
 

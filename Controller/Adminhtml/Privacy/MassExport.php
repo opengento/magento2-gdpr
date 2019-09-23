@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Adminhtml\Privacy;
 
 use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Customer\Controller\Adminhtml\Index\AbstractMassAction;
 use Magento\Customer\Model\ResourceModel\Customer\CollectionFactory;
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
@@ -20,20 +21,17 @@ use Magento\Ui\Component\MassAction\Filter;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
 use Opengento\Gdpr\Model\Export\ExportEntityData;
 
-/**
- * Class MassExport
- */
 class MassExport extends AbstractMassAction
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::customer_export';
 
     /**
-     * @var \Magento\Framework\App\Response\Http\FileFactory
+     * @var FileFactory
      */
     private $fileFactory;
 
     /**
-     * @var \Opengento\Gdpr\Model\Archive\MoveToArchive
+     * @var MoveToArchive
      */
     private $moveToArchive;
 
@@ -42,14 +40,6 @@ class MassExport extends AbstractMassAction
      */
     private $exportEntityData;
 
-    /**
-     * @param Context $context
-     * @param Filter $filter
-     * @param CollectionFactory $collectionFactory
-     * @param FileFactory $fileFactory
-     * @param MoveToArchive $moveToArchive
-     * @param ExportEntityData $exportEntityData
-     */
     public function __construct(
         Context $context,
         Filter $filter,
@@ -64,9 +54,6 @@ class MassExport extends AbstractMassAction
         parent::__construct($context, $filter, $collectionFactory);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function massAction(AbstractCollection $collection)
     {
         $archiveFileName = 'customers_privacy_data.zip';
@@ -96,7 +83,7 @@ class MassExport extends AbstractMassAction
             $this->messageManager->addExceptionMessage($e, new Phrase('An error occurred on the server.'));
         }
 
-        /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
+        /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
         return $resultRedirect->setPath('customer/index/index');

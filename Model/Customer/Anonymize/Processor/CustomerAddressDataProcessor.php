@@ -9,34 +9,27 @@ namespace Opengento\Gdpr\Model\Customer\Anonymize\Processor;
 
 use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Exception\LocalizedException;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-/**
- * Class CustomerAddressDataProcessor
- */
 final class CustomerAddressDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface
+     * @var AnonymizerInterface
      */
     private $anonymizer;
 
     /**
-     * @var \Magento\Customer\Api\AddressRepositoryInterface
+     * @var AddressRepositoryInterface
      */
     private $customerAddressRepository;
 
     /**
-     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     * @var SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
 
-    /**
-     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface $anonymizer
-     * @param \Magento\Customer\Api\AddressRepositoryInterface $customerAddressRepository
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     */
     public function __construct(
         AnonymizerInterface $anonymizer,
         AddressRepositoryInterface $customerAddressRepository,
@@ -49,7 +42,7 @@ final class CustomerAddressDataProcessor implements ProcessorInterface
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function execute(int $customerId): bool
     {

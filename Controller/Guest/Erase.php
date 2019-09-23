@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Guest;
 
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
@@ -17,23 +18,13 @@ use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Controller\AbstractGuest;
 use Opengento\Gdpr\Model\Config;
 
-/**
- * Class Erase
- */
 class Erase extends AbstractGuest
 {
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
+     * @var EraseEntityManagementInterface
      */
     private $eraseManagement;
 
-    /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Magento\Sales\Controller\AbstractController\OrderLoaderInterface $orderLoader
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseManagement
-     * @param \Magento\Framework\Registry $registry
-     */
     public function __construct(
         Context $context,
         Config $config,
@@ -45,20 +36,14 @@ class Erase extends AbstractGuest
         parent::__construct($context, $config, $orderLoader, $registry);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isAllowed(): bool
     {
         return parent::isAllowed() && $this->config->isErasureEnabled();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function executeAction()
     {
-        /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+        /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         $resultRedirect->setRefererOrBaseUrl();
 

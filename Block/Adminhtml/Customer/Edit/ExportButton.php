@@ -14,21 +14,13 @@ use Magento\Framework\Registry;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 use Opengento\Gdpr\Model\Config;
 
-/**
- * Class ExportButton
- */
 final class ExportButton extends GenericButton implements ButtonProviderInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\Config
+     * @var Config
      */
     private $config;
 
-    /**
-     * @param \Magento\Backend\Block\Widget\Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param \Opengento\Gdpr\Model\Config $config
-     */
     public function __construct(
         Context $context,
         Registry $registry,
@@ -38,9 +30,6 @@ final class ExportButton extends GenericButton implements ButtonProviderInterfac
         parent::__construct($context, $registry);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getButtonData(): array
     {
         $customerId = $this->getCustomerId();

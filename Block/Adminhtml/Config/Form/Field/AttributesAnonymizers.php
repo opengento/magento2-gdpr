@@ -9,21 +9,16 @@ namespace Opengento\Gdpr\Block\Adminhtml\Config\Form\Field;
 
 use Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
 use Magento\Framework\DataObject;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Framework\View\Element\Html\Select;
 
-/**
- * Class AttributesAnonymizers
- */
 final class AttributesAnonymizers extends AbstractFieldArray
 {
     private const ANONYMIZERS_SELECT = '\Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Anonymizers';
 
     /**
-     * Retrieve the anonymizers select renderer
-     *
-     * @return \Magento\Framework\View\Element\Html\Select
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function getAnonymizersSelectRenderer(): Select
     {
@@ -43,7 +38,7 @@ final class AttributesAnonymizers extends AbstractFieldArray
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     protected function _prepareToRender(): void
     {
@@ -67,7 +62,7 @@ final class AttributesAnonymizers extends AbstractFieldArray
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     protected function _prepareArrayRow(DataObject $row): void
     {

@@ -8,30 +8,24 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Customer\Export\Processor;
 
 use Magento\Customer\Api\AddressRepositoryInterface;
+use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Exception\LocalizedException;
 use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Service\Export\Processor\AbstractDataProcessor;
 
-/**
- * Class CustomerAddressDataProcessor
- */
 final class CustomerAddressDataProcessor extends AbstractDataProcessor
 {
     /**
-     * @var \Magento\Customer\Api\AddressRepositoryInterface
+     * @var AddressRepositoryInterface
      */
     private $addressRepository;
 
     /**
-     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     * @var SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
 
-    /**
-     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Opengento\Gdpr\Model\Entity\DataCollectorInterface $dataCollector
-     */
     public function __construct(
         AddressRepositoryInterface $addressRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
@@ -44,14 +38,14 @@ final class CustomerAddressDataProcessor extends AbstractDataProcessor
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function execute(int $customerId, array $data): array
     {
         $this->searchCriteriaBuilder->addFilter('parent_id', $customerId);
         $addressList = $this->addressRepository->getList($this->searchCriteriaBuilder->create());
 
-        /** @var \Magento\Customer\Api\Data\AddressInterface $entity */
+        /** @var AddressInterface $entity */
         foreach ($addressList->getItems() as $entity) {
             $data['customer_addresses']['customer_address_id_' . $entity->getId()] = $this->collectData($entity);
         }

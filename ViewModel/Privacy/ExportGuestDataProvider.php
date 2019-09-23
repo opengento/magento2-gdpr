@@ -12,9 +12,6 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
 
-/**
- * Class ExportGuestDataProvider
- */
 final class ExportGuestDataProvider implements ArgumentInterface
 {
     /**
@@ -28,19 +25,15 @@ final class ExportGuestDataProvider implements ArgumentInterface
     private $registry;
 
     /**
-     * @var null|bool
+     * @var bool|null
      */
     private $isExportEntityExists;
 
     /**
-     * @var null|bool
+     * @var bool|null
      */
     private $isExported;
 
-    /**
-     * @param ExportEntityCheckerInterface $exportEntityChecker
-     * @param Registry $registry
-     */
     public function __construct(
         ExportEntityCheckerInterface $exportEntityChecker,
         Registry $registry
@@ -49,34 +42,19 @@ final class ExportGuestDataProvider implements ArgumentInterface
         $this->registry = $registry;
     }
 
-    /**
-     * Check if the export entity exists for the current guest
-     *
-     * @return bool
-     */
     public function hasExport(): bool
     {
         return $this->isExportEntityExists ??
-            $this->isExportEntityExists = $this->exportEntityChecker->exists($this->resolveOrderId(), 'order');
+            $this->isExportEntityExists = $this->exportEntityChecker->exists($this->currentOrderId(), 'order');
     }
 
-    /**
-     * Check if the export entity is ready for download
-     *
-     * @return bool
-     */
     public function isExported(): bool
     {
         return $this->isExported ??
-            $this->isExported = $this->exportEntityChecker->isExported($this->resolveOrderId(), 'order');
+            $this->isExported = $this->exportEntityChecker->isExported($this->currentOrderId(), 'order');
     }
 
-    /**
-     * Resolve the current order ID
-     *
-     * @return int
-     */
-    private function resolveOrderId(): int
+    private function currentOrderId(): int
     {
         /** @var OrderInterface $order */
         $order = $this->registry->registry('current_order');

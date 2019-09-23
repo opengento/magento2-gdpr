@@ -14,27 +14,18 @@ use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Controller\AbstractController\OrderLoaderInterface;
 use Opengento\Gdpr\Model\Config;
 
-/**
- * Class AbstractGuest
- */
 abstract class AbstractGuest extends AbstractAction
 {
     /**
-     * @var \Magento\Sales\Controller\AbstractController\OrderLoaderInterface
+     * @var OrderLoaderInterface
      */
     protected $orderLoader;
 
     /**
-     * @var \Magento\Framework\Registry
+     * @var Registry
      */
     protected $registry;
 
-    /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Magento\Sales\Controller\AbstractController\OrderLoaderInterface $orderLoader
-     * @param \Magento\Framework\Registry $registry
-     */
     public function __construct(
         Context $context,
         Config $config,
@@ -46,9 +37,6 @@ abstract class AbstractGuest extends AbstractAction
         parent::__construct($context, $config);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute()
     {
         if (($result = $this->orderLoader->load($this->getRequest())) instanceof ResultInterface) {
@@ -61,11 +49,6 @@ abstract class AbstractGuest extends AbstractAction
         return parent::execute();
     }
 
-    /**
-     * Retrieve the current guest order ID
-     *
-     * @return int
-     */
     protected function retrieveOrderId(): int
     {
         $order = $this->registry->registry('current_order');

@@ -12,28 +12,25 @@ use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\Erase\EraseEntityScheduler as EraseEntitySchedulerService;
 use Psr\Log\LoggerInterface;
 
-/**
- * Class EraseEntityScheduler
- */
 final class EraseEntityScheduler
 {
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var LoggerInterface
      */
     private $logger;
 
     /**
-     * @var \Opengento\Gdpr\Model\Config
+     * @var Config
      */
     private $config;
 
     /**
-     * @var \Opengento\Gdpr\Model\Erase\EraseEntityScheduler
+     * @var EraseEntitySchedulerService
      */
     private $eraseEntityScheduler;
 
     /**
-     * @var \Magento\Framework\Api\FilterBuilder
+     * @var FilterBuilder
      */
     private $filterBuilder;
 
@@ -44,9 +41,9 @@ final class EraseEntityScheduler
 
     /**
      * @param \Psr\Log\LoggerInterface $logger
-     * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Opengento\Gdpr\Model\Erase\EraseEntityScheduler $eraseEntityScheduler
-     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
+     * @param Config $config
+     * @param EraseEntitySchedulerService $eraseEntityScheduler
+     * @param FilterBuilder $filterBuilder
      * @param string[] $entityTypes
      */
     public function __construct(
@@ -65,8 +62,6 @@ final class EraseEntityScheduler
 
     /**
      * Schedule entities to erase
-     *
-     * @return void
      */
     public function execute(): void
     {

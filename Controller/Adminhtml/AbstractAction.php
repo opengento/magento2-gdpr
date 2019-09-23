@@ -9,24 +9,20 @@ namespace Opengento\Gdpr\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\View\Result\Forward;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\NotFoundException;
 use Opengento\Gdpr\Model\Config;
 
-/**
- * Class AbstractAction
- */
 abstract class AbstractAction extends Action
 {
     /**
-     * @var \Opengento\Gdpr\Model\Config
+     * @var Config
      */
     protected $config;
 
-    /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Opengento\Gdpr\Model\Config $config
-     */
     public function __construct(
         Context $context,
         Config $config
@@ -35,9 +31,6 @@ abstract class AbstractAction extends Action
         parent::__construct($context);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute()
     {
         if ($this->isAllowed()) {
@@ -50,29 +43,19 @@ abstract class AbstractAction extends Action
     /**
      * Execute action based on request and return result
      *
-     * @return \Magento\Framework\Controller\ResultInterface|\Magento\Framework\App\ResponseInterface
-     * @throws \Magento\Framework\Exception\NotFoundException
+     * @return ResultInterface|ResponseInterface
+     * @throws NotFoundException
      */
     abstract protected function executeAction();
 
-    /**
-     * Check if the execution of the action is allowed
-     *
-     * @return bool
-     */
     protected function isAllowed(): bool
     {
         return $this->config->isModuleEnabled();
     }
 
-    /**
-     * Create a result forward to 404
-     *
-     * @return \Magento\Framework\Controller\ResultInterface
-     */
     protected function forwardNoRoute(): ResultInterface
     {
-        /** @var \Magento\Backend\Model\View\Result\Forward $resultForward */
+        /** @var Forward $resultForward */
         $resultForward = $this->resultFactory->create(ResultFactory::TYPE_FORWARD);
 
         return $resultForward->forward('no_route');

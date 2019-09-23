@@ -18,19 +18,15 @@ use Magento\Framework\Filesystem;
 final class Zip implements ArchiveInterface
 {
     /**
-     * @var \Magento\Framework\Filesystem
+     * @var Filesystem
      */
     private $filesystem;
 
     /**
-     * @var \Magento\Framework\Archive\Zip
+     * @var ArchiveZip
      */
     private $zip;
 
-    /**
-     * @param \Magento\Framework\Filesystem $filesystem
-     * @param \Magento\Framework\Archive\Zip $zip
-     */
     public function __construct(
         Filesystem $filesystem,
         ArchiveZip $zip
@@ -39,9 +35,6 @@ final class Zip implements ArchiveInterface
         $this->zip = $zip;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function pack($source, $destination): string
     {
         $directoryRead = $this->filesystem->getDirectoryReadByPath($source);
@@ -54,9 +47,6 @@ final class Zip implements ArchiveInterface
         return $destination;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function unpack($source, $destination): string
     {
         return $this->zip->unpack($source, $destination);

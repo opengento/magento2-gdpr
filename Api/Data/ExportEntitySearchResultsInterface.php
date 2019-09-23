@@ -10,7 +10,6 @@ namespace Opengento\Gdpr\Api\Data;
 use Magento\Framework\Api\SearchResultsInterface;
 
 /**
- * Interface ExportEntitySearchResultsInterface
  * @api
  */
 interface ExportEntitySearchResultsInterface extends SearchResultsInterface
@@ -18,15 +17,15 @@ interface ExportEntitySearchResultsInterface extends SearchResultsInterface
     /**
      * Retrieve the export entities list
      *
-     * @return \Opengento\Gdpr\Api\Data\ExportEntityInterface[]
+     * @return ExportEntityInterface[]
      */
     public function getItems(): array;
 
     /**
      * Set the export entities list
      *
-     * @param \Opengento\Gdpr\Api\Data\ExportEntityInterface[] $items
-     * @return \Opengento\Gdpr\Api\Data\ExportEntitySearchResultsInterface
+     * @param ExportEntityInterface[] $items
+     * @return ExportEntitySearchResultsInterface
      */
     public function setItems(array $items): ExportEntitySearchResultsInterface;
 }

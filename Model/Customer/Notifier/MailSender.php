@@ -10,23 +10,22 @@ namespace Opengento\Gdpr\Model\Customer\Notifier;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Helper\View;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\MailException;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Opengento\Gdpr\Model\Notifier\AbstractMailSender;
 
-/**
- * Class MailSender
- */
 final class MailSender extends AbstractMailSender implements SenderInterface
 {
     /**
-     * @var \Magento\Customer\Helper\View
+     * @var View
      */
     private $customerViewHelper;
 
     /**
-     * @param \Magento\Customer\Helper\View $customerViewHelper
-     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param View $customerViewHelper
+     * @param TransportBuilder $transportBuilder
+     * @param ScopeConfigInterface $scopeConfig
      * @param string[] $configPaths
      */
     public function __construct(
@@ -41,8 +40,8 @@ final class MailSender extends AbstractMailSender implements SenderInterface
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\MailException
+     * @throws LocalizedException
+     * @throws MailException
      */
     public function send(CustomerInterface $customer): void
     {

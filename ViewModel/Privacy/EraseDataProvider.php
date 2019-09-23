@@ -19,20 +19,15 @@ use Opengento\Gdpr\Model\Config;
 final class EraseDataProvider extends DataObject implements ArgumentInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\Config
+     * @var Config
      */
     private $config;
 
     /**
-     * @var \Magento\Framework\View\Element\BlockFactory
+     * @var BlockFactory
      */
     private $blockFactory;
 
-    /**
-     * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
-     * @param array $data
-     */
     public function __construct(
         Config $config,
         BlockFactory $blockFactory,
@@ -43,22 +38,12 @@ final class EraseDataProvider extends DataObject implements ArgumentInterface
         parent::__construct($data);
     }
 
-    /**
-     * Check if the erasure is enabled
-     *
-     * @return bool
-     */
     public function isErasureEnabled(): bool
     {
         return $this->config->isExportEnabled();
     }
 
-    /**
-     * Retrieve the erase information html
-     *
-     * @return string
-     */
-    public function getErasureInformation(): string
+    public function getErasureInformationHtml(): string
     {
         if (!$this->hasData('erasure_information')) {
             $block = $this->blockFactory->createBlock(
@@ -71,12 +56,7 @@ final class EraseDataProvider extends DataObject implements ArgumentInterface
         return (string) $this->_getData('erasure_information');
     }
 
-    /**
-     * Retrieve the anonymize information html
-     *
-     * @return string
-     */
-    public function getAnonymizeInformation(): string
+    public function getAnonymizeInformationHtml(): string
     {
         if (!$this->hasData('anonymize_information')) {
             $block = $this->blockFactory->createBlock(

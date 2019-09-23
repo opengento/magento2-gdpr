@@ -10,6 +10,7 @@ namespace Opengento\Gdpr\Controller\Privacy;
 use Magento\Customer\Model\AuthenticationInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Data\Form\FormKey\Validator;
 use Magento\Framework\Exception\InvalidEmailOrPasswordException;
@@ -20,39 +21,28 @@ use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Config;
 
-/**
- * Class ErasePost
- */
 class ErasePost extends AbstractPrivacy
 {
     /**
-     * @var \Magento\Framework\Data\Form\FormKey\Validator
+     * @var Validator
      */
     private $formKeyValidator;
 
     /**
-     * @var \Magento\Customer\Model\AuthenticationInterface
+     * @var AuthenticationInterface
      */
     private $authentication;
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var Session
      */
     private $session;
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
+     * @var EraseEntityManagementInterface
      */
     private $eraseManagement;
 
-    /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
-     * @param \Magento\Customer\Model\AuthenticationInterface $authentication
-     * @param \Magento\Customer\Model\Session $session
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseManagement
-     */
     public function __construct(
         Context $context,
         Config $config,
@@ -68,20 +58,14 @@ class ErasePost extends AbstractPrivacy
         parent::__construct($context, $config);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isAllowed(): bool
     {
         return parent::isAllowed() && $this->config->isErasureEnabled();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function executeAction()
     {
-        /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+        /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         $resultRedirect->setPath('customer/privacy/settings');
 
