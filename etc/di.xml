@@ -1582,6 +1582,19 @@
         </arguments>
     </virtualType>
     <!-- Console Commands Notifier Management -->
+    <type name="Opengento\Gdpr\Console\Command\EraseCommand">
+        <arguments>
+            <argument name="appState" xsi:type="object">Magento\Framework\App\State\Proxy</argument>
+            <argument name="registry" xsi:type="object">Magento\Framework\Registry\Proxy</argument>
+            <argument name="eraseManagement" xsi:type="object">Opengento\Gdpr\Api\EraseEntityManagementInterface\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Opengento\Gdpr\Console\Command\ExportCommand">
+        <arguments>
+            <argument name="appState" xsi:type="object">Magento\Framework\App\State\Proxy</argument>
+            <argument name="exportManagement" xsi:type="object">Opengento\Gdpr\Api\ExportEntityManagementInterface\Proxy</argument>
+        </arguments>
+    </type>
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
