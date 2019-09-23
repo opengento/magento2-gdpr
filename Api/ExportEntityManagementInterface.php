@@ -34,6 +34,8 @@ interface ExportEntityManagementInterface
      *
      * @param \Opengento\Gdpr\Api\Data\ExportEntityInterface $exportEntity
      * @return string
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function export(ExportEntityInterface $exportEntity): string;
 }

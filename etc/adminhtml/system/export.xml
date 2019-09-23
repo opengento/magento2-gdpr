@@ -25,13 +25,14 @@
             </depends>
             <config_path>gdpr/export/block_id</config_path>
         </field>
-        <field id="renderer" type="select" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
-            <label>Renderer</label>
+        <field id="renderers" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+            <label>Renderers</label>
+            <comment>Select formats of the export. Notice: At least one human and one machine readable format should be selected.</comment>
             <source_model>Opengento\Gdpr\Model\Config\Source\ExportRenderer</source_model>
             <depends>
                 <field id="customer/gdpr/export/enabled">1</field>
             </depends>
-            <config_path>gdpr/export/renderer</config_path>
+            <config_path>gdpr/export/renderers</config_path>
         </field>
         <field id="file_name" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
             <label>Export File Name</label>
@@ -79,7 +80,7 @@
             </field>
             <field id="customer_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
                 <label>Customer Custom Attributes</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -88,7 +89,7 @@
             </field>
             <field id="customer_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
                 <label>Customer Extensible Data</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -110,7 +111,7 @@
             </field>
             <field id="customer_address_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
                 <label>Customer Address Custom Attributes</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -119,7 +120,7 @@
             </field>
             <field id="customer_address_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
                 <label>Customer Address Extensible Data</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -131,7 +132,7 @@
             <label>Quote</label>
             <field id="quote_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Quote Attributes</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -140,7 +141,7 @@
             </field>
             <field id="quote_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
                 <label>Quote Custom Attributes</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -149,7 +150,7 @@
             </field>
             <field id="quote_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
                 <label>Quote Extensible Data</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -161,7 +162,7 @@
             <label>Quote Address</label>
             <field id="quote_address_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Quote Address Attributes</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -170,7 +171,7 @@
             </field>
             <field id="quote_address_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
                 <label>Quote Address Custom Attributes</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -179,7 +180,7 @@
             </field>
             <field id="quote_address_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
                 <label>Quote Address Extensible Data</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -191,7 +192,7 @@
             <label>Order</label>
             <field id="order_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Order Attributes</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -200,7 +201,7 @@
             </field>
             <field id="order_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
                 <label>Order Custom Attributes</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -209,7 +210,7 @@
             </field>
             <field id="order_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
                 <label>Order Extensible Data</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -221,7 +222,7 @@
             <label>Order Address</label>
             <field id="order_address_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Order Address Attributes</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -230,7 +231,7 @@
             </field>
             <field id="order_address_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
                 <label>Order Address Custom Attributes</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -239,7 +240,7 @@
             </field>
             <field id="order_address_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
                 <label>Order Address Extensible Data</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -251,7 +252,7 @@
             <label>Subscriber</label>
             <field id="subscriber_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
                 <label>Subscriber Attributes</label>
-                <comment>Attributes must be separated with comma.</comment>
+                <comment>Comma-separated</comment>
                 <can_be_empty>1</can_be_empty>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>

@@ -1425,7 +1425,16 @@
             </argument>
         </arguments>
     </type>
-    <preference for="Opengento\Gdpr\Service\Export\RendererInterface" type="Opengento\Gdpr\Service\Export\Renderer\RendererStrategy"/>
+    <virtualType name="Opengento\Gdpr\Model\Archive\MoveToZip" type="Opengento\Gdpr\Model\Archive\MoveToArchive">
+        <arguments>
+            <argument name="archive" xsi:type="object">Opengento\Gdpr\Model\Archive\Zip</argument>
+        </arguments>
+    </virtualType>
+    <type name="Opengento\Gdpr\Model\ExportEntityManagement">
+        <arguments>
+            <argument name="archive" xsi:type="object">Opengento\Gdpr\Model\Archive\MoveToZip</argument>
+        </arguments>
+    </type>
     <!-- Erase Notifier Management -->
     <type name="Opengento\Gdpr\Model\Erase\NotifierFactory">
         <arguments>

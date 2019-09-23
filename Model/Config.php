@@ -33,7 +33,7 @@ final class Config
     public const CONFIG_PATH_EXPORT_FILE_NAME = 'gdpr/export/file_name';
     public const CONFIG_PATH_EXPORT_LIFE_TIME = 'gdpr/export/life_time';
     public const CONFIG_PATH_EXPORT_INFORMATION_BLOCK = 'gdpr/export/block_id';
-    public const CONFIG_PATH_EXPORT_RENDERER = 'gdpr/export/renderer';
+    public const CONFIG_PATH_EXPORT_RENDERERS = 'gdpr/export/renderers';
     public const CONFIG_PATH_COOKIE_DISCLOSURE_ENABLED = 'gdpr/cookie/enabled';
     public const CONFIG_PATH_COOKIE_INFORMATION_BLOCK = 'gdpr/cookie/block_id';
     /**#@-*/
@@ -248,16 +248,16 @@ final class Config
     }
 
     /**
-     * Retrieve the export renderer code
+     * Retrieve the export renderer codes
      *
-     * @return string
+     * @return array
      */
-    public function getExportRendererCode(): string
+    public function getExportRendererCodes(): array
     {
-        return (string) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_EXPORT_RENDERER,
+        return \explode(',', (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_EXPORT_RENDERERS,
             ScopeInterface::SCOPE_STORE
-        );
+        ));
     }
 
     /**

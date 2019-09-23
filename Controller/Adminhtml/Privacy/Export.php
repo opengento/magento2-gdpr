@@ -14,7 +14,6 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Controller\Adminhtml\AbstractAction;
-use Opengento\Gdpr\Model\Archive\MoveToArchive;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\Export\ExportEntityData;
 
@@ -31,11 +30,6 @@ class Export extends AbstractAction
     private $fileFactory;
 
     /**
-     * @var \Opengento\Gdpr\Model\Archive\MoveToArchive
-     */
-    private $moveToArchive;
-
-    /**
      * @var ExportEntityData
      */
     private $exportEntityData;
@@ -44,18 +38,15 @@ class Export extends AbstractAction
      * @param Context $context
      * @param Config $config
      * @param FileFactory $fileFactory
-     * @param MoveToArchive $moveToArchive
      * @param ExportEntityData $exportEntityData
      */
     public function __construct(
         Context $context,
         Config $config,
         FileFactory $fileFactory,
-        MoveToArchive $moveToArchive,
         ExportEntityData $exportEntityData
     ) {
         $this->fileFactory = $fileFactory;
-        $this->moveToArchive = $moveToArchive;
         $this->exportEntityData = $exportEntityData;
         parent::__construct($context, $config);
     }
@@ -67,14 +58,12 @@ class Export extends AbstractAction
     {
         try {
             $customerId = (int) $this->getRequest()->getParam('id');
-            $fileName = $this->exportEntityData->export($customerId, 'customer');
-            $archiveFileName = 'customer_privacy_data_' . $customerId . '.zip';
 
             return $this->fileFactory->create(
-                $archiveFileName,
+                'customer_privacy_data_' . $customerId . '.zip',
                 [
                     'type' => 'filename',
-                    'value' => $this->moveToArchive->prepareArchive($fileName, $archiveFileName),
+                    'value' => $this->exportEntityData->export($customerId, 'customer'),
                     'rm' => true,
                 ],
                 DirectoryList::TMP

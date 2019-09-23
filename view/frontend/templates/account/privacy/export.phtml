@@ -27,14 +27,14 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
                     <a href="<?= $block->escapeUrl($urlsDataProvider->getDownloadActionUrl()) ?>" class="action submit primary" id="download">
                         <span><?= $block->escapeHtml(__('Download Personal Data')) ?></span>
                     </a>
-                <?php elseif (!$exportCustomerDataProvider->hasExport()): ?>
-                    <a href="<?= $block->escapeUrl($urlsDataProvider->getExportActionUrl()) ?>" class="action submit primary" id="export">
-                        <span><?= $block->escapeHtml(__('Export Personal Data')) ?></span>
-                    </a>
-                <?php else: ?>
+                <?php elseif ($exportCustomerDataProvider->hasExport()): ?>
                     <div class="message info">
                         <span><?= $block->escapeHtml(__('Your personal data document is pending export.')) ?></span>
                     </div>
+                <?php else: ?>
+                    <a href="<?= $block->escapeUrl($urlsDataProvider->getExportActionUrl()) ?>" class="action submit primary" id="export">
+                        <span><?= $block->escapeHtml(__('Export Personal Data')) ?></span>
+                    </a>
                 <?php endif; ?>
             </div>
         </div>

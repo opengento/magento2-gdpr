@@ -138,7 +138,7 @@
             </erasure>
             <export>
                 <enabled>0</enabled>
-                <renderer>pdf</renderer>
+                <renderers>pdf,xml</renderers>
                 <file_name>personal_data</file_name>
                 <entity_schedule>* * * * *</entity_schedule>
                 <life_time>3600</life_time>

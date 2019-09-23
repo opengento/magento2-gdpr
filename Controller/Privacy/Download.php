@@ -11,14 +11,12 @@ use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
-use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
-use Opengento\Gdpr\Model\Archive\MoveToArchive;
 use Opengento\Gdpr\Model\Config;
 
 /**
@@ -30,11 +28,6 @@ class Download extends AbstractPrivacy
      * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     private $fileFactory;
-
-    /**
-     * @var \Opengento\Gdpr\Model\Archive\MoveToArchive
-     */
-    private $moveToArchive;
 
     /**
      * @var ExportEntityRepositoryInterface
@@ -50,7 +43,6 @@ class Download extends AbstractPrivacy
      * @param Context $context
      * @param Config $config
      * @param FileFactory $fileFactory
-     * @param MoveToArchive $moveToArchive
      * @param ExportEntityRepositoryInterface $exportRepository
      * @param Session $customerSession
      */
@@ -58,12 +50,10 @@ class Download extends AbstractPrivacy
         Context $context,
         Config $config,
         FileFactory $fileFactory,
-        MoveToArchive $moveToArchive,
         ExportEntityRepositoryInterface $exportRepository,
         Session $customerSession
     ) {
         $this->fileFactory = $fileFactory;
-        $this->moveToArchive = $moveToArchive;
         $this->exportRepository = $exportRepository;
         $this->customerSession = $customerSession;
         parent::__construct($context, $config);
@@ -83,7 +73,17 @@ class Download extends AbstractPrivacy
     protected function executeAction()
     {
         try {
-            return $this->download();
+            $customerId = (int) $this->customerSession->getCustomerId();
+
+            return $this->fileFactory->create(
+                'customer_privacy_data_' . $customerId . '.zip',
+                [
+                    'type' => 'filename',
+                    'value' => $this->exportRepository->getByEntity($customerId, 'customer')->getFilePath(),
+                    'rm' => true,
+                ],
+                DirectoryList::TMP
+            );
         } catch (NoSuchEntityException $e) {
             $this->messageManager->addErrorMessage(
                 new Phrase('The document does not exists and may have expired. Please renew your demand.')
@@ -98,31 +98,5 @@ class Download extends AbstractPrivacy
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
         return $resultRedirect->setRefererOrBaseUrl();
-    }
-
-    /**
-     * Download the export document
-     *
-     * @return ResponseInterface
-     * @throws NoSuchEntityException
-     * @throws \Magento\Framework\Exception\FileSystemException
-     * @throws \Magento\Framework\Exception\NotFoundException
-     * @throws \Exception
-     */
-    private function download(): ResponseInterface
-    {
-        $customerId = (int)$this->customerSession->getCustomerId();
-        $export = $this->exportRepository->getByEntity($customerId, 'customer');
-        $archiveFileName = 'customer_privacy_data_' . $customerId . '.zip';
-
-        return $this->fileFactory->create(
-            $archiveFileName,
-            [
-                'type' => 'filename',
-                'value' => $this->moveToArchive->prepareArchive($export->getFilePath(), $archiveFileName),
-                'rm' => true,
-            ],
-            DirectoryList::TMP
-        );
     }
 }

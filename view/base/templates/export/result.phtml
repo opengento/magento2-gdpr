@@ -12,7 +12,7 @@ $rendererList = $block->getChildBlock('exportRenderer');
 /** @var \Magento\Framework\DataObject $viewModel */
 $viewModel = $block->getData('viewModel');
 ?>
-<?php foreach ($viewModel->getData() as $key => $value): ?>
+<?php foreach ($viewModel->toArray() as $key => $value): ?>
     <?=
         $rendererList->getRenderer($key, 'default', 'Opengento_Gdpr::export/renderer/default.phtml')
                      ->setData('viewModel', new \Magento\Framework\DataObject([$key => $value]))
