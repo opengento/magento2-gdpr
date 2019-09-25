@@ -70,7 +70,6 @@ final class EraseEntityScheduler
                 $this->filterBuilder->setField('created_at');
                 $this->filterBuilder->setValue(new \DateTime('-' . $this->config->getErasureMaxAge() . 'days'));
                 $this->filterBuilder->setConditionType('lteq');
-                // todo disable individual check: use mass validator
                 $this->eraseEntityScheduler->schedule($this->entityTypes, $this->filterBuilder->create());
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage(), $e->getTrace());

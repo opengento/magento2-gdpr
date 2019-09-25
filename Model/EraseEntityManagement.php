@@ -15,7 +15,6 @@ use Magento\Framework\Stdlib\DateTime as DateTimeFormat;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory;
-use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorFactory;
@@ -31,11 +30,6 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
      * @var EraseEntityRepositoryInterface
      */
     private $eraseEntityRepository;
-
-    /**
-     * @var EraseEntityCheckerInterface
-     */
-    private $eraseEntityChecker;
 
     /**
      * @var ProcessorFactory
@@ -55,14 +49,12 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
     public function __construct(
         EraseEntityInterfaceFactory $eraseEntityFactory,
         EraseEntityRepositoryInterface $eraseEntityRepository,
-        EraseEntityCheckerInterface $eraseEntityChecker,
         ProcessorFactory $eraseProcessorFactory,
         Config $config,
         DateTime $localeDate
     ) {
         $this->eraseEntityFactory = $eraseEntityFactory;
         $this->eraseEntityRepository = $eraseEntityRepository;
-        $this->eraseEntityChecker = $eraseEntityChecker;
         $this->eraseProcessorFactory = $eraseProcessorFactory;
         $this->config = $config;
         $this->localeDate = $localeDate;
@@ -70,14 +62,6 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
 
     public function create(int $entityId, string $entityType): EraseEntityInterface
     {
-        if (!$this->eraseEntityChecker->canCreate($entityId, $entityType)) {
-            throw new LocalizedException(
-                new Phrase(
-                    'Impossible to initiate the erasure, it\'s already processing or there is still pending orders.'
-                )
-            );
-        }
-
         /** @var EraseEntityInterface $entity */
         $entity = $this->eraseEntityFactory->create();
         $entity->setEntityId($entityId);
@@ -91,25 +75,11 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
 
     public function cancel(int $entityId, string $entityType): bool
     {
-        if (!$this->eraseEntityChecker->canCancel($entityId, $entityType)) {
-            throw new LocalizedException(new Phrase('The erasure process is running and cannot be undone.'));
-        }
-
         return $this->eraseEntityRepository->delete($this->eraseEntityRepository->getByEntity($entityId, $entityType));
     }
 
-    /**
-     * @inheritdoc
-     * @throws Exception
-     */
     public function process(EraseEntityInterface $entity): EraseEntityInterface
     {
-        if (!$this->eraseEntityChecker->canProcess($entity->getEntityId(), $entity->getEntityType())) {
-            throw new LocalizedException(
-                new Phrase('Impossible to process the erasure, there is still pending orders.')
-            );
-        }
-
         $entity->setState(EraseEntityInterface::STATE_PROCESSING);
         $entity->setStatus(EraseEntityInterface::STATUS_RUNNING);
         $entity = $this->eraseEntityRepository->save($entity);
@@ -123,7 +93,7 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
             return $this->fail($entity);
         } catch (Exception $e) {
             $this->fail($entity, $e->getMessage());
-            throw $e;
+            throw new LocalizedException(new Phrase('Impossible to process the erasure: %1', [$e->getMessage()]));
         }
     }
 

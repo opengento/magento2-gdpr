@@ -85,7 +85,6 @@ final class EraseEntity
             /** @var EraseEntityInterface $eraseEntity */
             foreach ($this->retrieveEraseEntityList()->getItems() as $eraseEntity) {
                 try {
-                    // todo disable individual check: use mass validator
                     $this->eraseManagement->process($eraseEntity);
                 } catch (\Exception $e) {
                     $this->logger->error($e->getMessage(), $e->getTrace());

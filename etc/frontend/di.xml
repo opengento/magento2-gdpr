@@ -14,4 +14,14 @@
             <argument name="orderLoader" xsi:type="object">Magento\Sales\Controller\Guest\OrderLoader</argument>
         </arguments>
     </type>
+    <type name="Opengento\Gdpr\Controller\Privacy\UndoErase">
+        <arguments>
+            <argument name="eraseManagement" xsi:type="object">Opengento\Gdpr\Model\Erase\SecureEraseEntityManagement</argument>
+        </arguments>
+    </type>
+    <type name="Opengento\Gdpr\Controller\Guest\UndoErase">
+        <arguments>
+            <argument name="eraseManagement" xsi:type="object">Opengento\Gdpr\Model\Erase\SecureEraseEntityManagement</argument>
+        </arguments>
+    </type>
 </config>

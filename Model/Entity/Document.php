@@ -31,10 +31,6 @@ final class Document implements DocumentInterface
 
     public function getData(): array
     {
-        /** @todo Hack: it actually empties the data after. It should'nt. */
-        $data = $this->data;
-        $this->data = [];
-
-        return $data;
+        return $this->data;
     }
 }

@@ -89,7 +89,6 @@ class EraseCommand extends Command
 
         try {
             foreach ($entityIds as $entityId) {
-                // todo disable individual check: use mass validator
                 $this->eraseManagement->process(
                     $this->eraseManagement->create((int) $entityId, $entityType)
                 );
