@@ -5,15 +5,14 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\ViewModel\Privacy;
+namespace Opengento\Gdpr\ViewModel\Customer\Privacy;
 
 use Magento\Cms\Block\Block;
-use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\Element\BlockFactory;
 use Opengento\Gdpr\Model\Config;
 
-final class ExportDataProvider extends DataObject implements ArgumentInterface
+final class ExportDataProvider implements ArgumentInterface
 {
     /**
      * @var Config
@@ -25,31 +24,25 @@ final class ExportDataProvider extends DataObject implements ArgumentInterface
      */
     private $blockFactory;
 
+    /**
+     * @var null|string
+     */
+    private $exportInformation;
+
     public function __construct(
         Config $config,
-        BlockFactory $blockFactory,
-        array $data = []
+        BlockFactory $blockFactory
     ) {
         $this->config = $config;
         $this->blockFactory = $blockFactory;
-        parent::__construct($data);
-    }
-
-    public function isExportEnabled(): bool
-    {
-        return $this->config->isExportEnabled();
     }
 
     public function getExportInformationHtml(): string
     {
-        if (!$this->hasData('export_information')) {
-            $block = $this->blockFactory->createBlock(
+        return $this->exportInformation ??
+            $this->exportInformation = $this->blockFactory->createBlock(
                 Block::class,
                 ['data' => ['block_id' => $this->config->getExportInformationBlockId()]]
-            );
-            $this->setData('export_information', $block->toHtml());
-        }
-
-        return (string) $this->_getData('export_information');
+            )->toHtml();
     }
 }

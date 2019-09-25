@@ -5,15 +5,14 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\ViewModel\Privacy;
+namespace Opengento\Gdpr\ViewModel\Customer\Privacy;
 
 use Magento\Cms\Block\Block;
-use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\Element\BlockFactory;
 use Opengento\Gdpr\Model\Config;
 
-final class SettingsDataProvider extends DataObject implements ArgumentInterface
+final class SettingsDataProvider implements ArgumentInterface
 {
     /**
      * @var Config
@@ -25,31 +24,25 @@ final class SettingsDataProvider extends DataObject implements ArgumentInterface
      */
     private $blockFactory;
 
+    /**
+     * @var null|string
+     */
+    private $privacyInformationHtml;
+
     public function __construct(
         Config $config,
-        BlockFactory $blockFactory,
-        array $data = []
+        BlockFactory $blockFactory
     ) {
         $this->config = $config;
         $this->blockFactory = $blockFactory;
-        parent::__construct($data);
-    }
-
-    public function isModuleEnabled(): bool
-    {
-        return $this->config->isModuleEnabled();
     }
 
     public function getPrivacyInformationHtml(): string
     {
-        if (!$this->hasData('privacy_information')) {
-            $block = $this->blockFactory->createBlock(
+        return $this->privacyInformationHtml ??
+            $this->privacyInformationHtml = $this->blockFactory->createBlock(
                 Block::class,
                 ['data' => ['block_id' => $this->config->getPrivacyInformationBlockId()]]
-            );
-            $this->setData('privacy_information', $block->toHtml());
-        }
-
-        return (string) $this->_getData('privacy_information');
+            )->toHtml();
     }
 }

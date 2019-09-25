@@ -6,25 +6,25 @@
 
 /** @var \Magento\Framework\View\Element\Template $block */
 
-/** @var \Opengento\Gdpr\ViewModel\Privacy\ExportDataProvider $exportDataProvider */
+/** @var \Opengento\Gdpr\ViewModel\Customer\Privacy\ExportDataProvider $exportDataProvider */
 $exportDataProvider = $block->getData('exportDataProvider');
-/** @var \Opengento\Gdpr\ViewModel\Privacy\ExportCustomerDataProvider $exportCustomerDataProvider */
+/** @var \Opengento\Gdpr\ViewModel\Customer\Privacy\ExportCustomerDataProvider $exportCustomerDataProvider */
 $exportCustomerDataProvider = $block->getData('exportCustomerDataProvider');
-/** @var \Opengento\Gdpr\ViewModel\UrlsDataProvider $urlsDataProvider */
-$urlsDataProvider = $block->getData('urlsDataProvider');
 ?>
 <div class="block block-dashboard-info">
     <div class="block-title">
         <strong><?= $block->escapeHtml(__('Export Personal Data')) ?></strong>
     </div>
     <div class="block-content">
-        <div class="widget block block-static-block">
-            <?= $exportDataProvider->getExportInformationHtml() ?>
-        </div>
+        <?php if ($exportDataProvider->getExportInformationHtml()): ?>
+            <div class="widget block block-static-block">
+                <?= $exportDataProvider->getExportInformationHtml() ?>
+            </div>
+        <?php endif; ?>
         <div class="actions-toolbar">
             <div class="primary">
                 <?php if ($exportCustomerDataProvider->isExported()): ?>
-                    <a href="<?= $block->escapeUrl($urlsDataProvider->getDownloadActionUrl()) ?>" class="action submit primary" id="download">
+                    <a href="<?= $block->escapeUrl($block->getData('downloadActionUrl')) ?>" class="action submit primary" id="download">
                         <span><?= $block->escapeHtml(__('Download Personal Data')) ?></span>
                     </a>
                 <?php elseif ($exportCustomerDataProvider->hasExport()): ?>
@@ -32,7 +32,7 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
                         <span><?= $block->escapeHtml(__('Your personal data document is pending export.')) ?></span>
                     </div>
                 <?php else: ?>
-                    <a href="<?= $block->escapeUrl($urlsDataProvider->getExportActionUrl()) ?>" class="action submit primary" id="export">
+                    <a href="<?= $block->escapeUrl($block->getData('exportActionUrl')) ?>" class="action submit primary" id="export">
                         <span><?= $block->escapeHtml(__('Export Personal Data')) ?></span>
                     </a>
                 <?php endif; ?>

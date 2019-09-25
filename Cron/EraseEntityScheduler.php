@@ -12,6 +12,9 @@ use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\Erase\EraseEntityScheduler as EraseEntitySchedulerService;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Schedule entities to erase
+ */
 final class EraseEntityScheduler
 {
     /**
@@ -60,9 +63,6 @@ final class EraseEntityScheduler
         $this->entityTypes = $entityTypes;
     }
 
-    /**
-     * Schedule entities to erase
-     */
     public function execute(): void
     {
         if ($this->config->isModuleEnabled() && $this->config->isErasureEnabled()) {

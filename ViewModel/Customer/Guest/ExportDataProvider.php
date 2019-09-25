@@ -5,13 +5,14 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\ViewModel\Privacy;
+namespace Opengento\Gdpr\ViewModel\Customer\Guest;
 
-use Magento\Customer\Model\Session;
+use Magento\Framework\Registry;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
+use Magento\Sales\Api\Data\OrderInterface;
 use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
 
-final class ExportCustomerDataProvider implements ArgumentInterface
+final class ExportDataProvider implements ArgumentInterface
 {
     /**
      * @var ExportEntityCheckerInterface
@@ -19,42 +20,45 @@ final class ExportCustomerDataProvider implements ArgumentInterface
     private $exportEntityChecker;
 
     /**
-     * @var Session
+     * @var Registry
      */
-    private $session;
+    private $registry;
 
     /**
-     * @var null|bool
+     * @var bool|null
      */
     private $isExportEntityExists;
 
     /**
-     * @var null|bool
+     * @var bool|null
      */
     private $isExported;
 
     public function __construct(
         ExportEntityCheckerInterface $exportEntityChecker,
-        Session $session
+        Registry $registry
     ) {
         $this->exportEntityChecker = $exportEntityChecker;
-        $this->session = $session;
+        $this->registry = $registry;
     }
 
     public function hasExport(): bool
     {
         return $this->isExportEntityExists ??
-            $this->isExportEntityExists = $this->exportEntityChecker->exists($this->currentCustomerId(), 'customer');
+            $this->isExportEntityExists = $this->exportEntityChecker->exists($this->currentOrderId(), 'order');
     }
 
     public function isExported(): bool
     {
         return $this->isExported ??
-            $this->isExported = $this->exportEntityChecker->isExported($this->currentCustomerId(), 'customer');
+            $this->isExported = $this->exportEntityChecker->isExported($this->currentOrderId(), 'order');
     }
 
-    private function currentCustomerId(): int
+    private function currentOrderId(): int
     {
-        return (int) $this->session->getCustomerId();
+        /** @var OrderInterface $order */
+        $order = $this->registry->registry('current_order');
+
+        return (int) $order->getEntityId();
     }
 }

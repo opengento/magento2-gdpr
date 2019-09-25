@@ -14,6 +14,9 @@ use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Export all scheduled entities
+ */
 final class ExportEntity
 {
     /**
@@ -55,11 +58,6 @@ final class ExportEntity
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
-    /**
-     * Export all scheduled entities
-     *
-     * @return void
-     */
     public function execute(): void
     {
         if ($this->config->isModuleEnabled() && $this->config->isExportEnabled()) {

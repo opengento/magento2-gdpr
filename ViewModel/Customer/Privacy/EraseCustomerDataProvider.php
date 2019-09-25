@@ -5,14 +5,13 @@
  */
 declare(strict_types=1);
 
-namespace Opengento\Gdpr\ViewModel\Privacy;
+namespace Opengento\Gdpr\ViewModel\Customer\Privacy;
 
 use Magento\Customer\Model\Session;
-use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 
-final class EraseCustomerDataProvider extends DataObject implements ArgumentInterface
+final class EraseCustomerDataProvider implements ArgumentInterface
 {
     /**
      * @var EraseEntityCheckerInterface
@@ -24,34 +23,34 @@ final class EraseCustomerDataProvider extends DataObject implements ArgumentInte
      */
     private $session;
 
+    /**
+     * @var null|bool
+     */
+    private $canCancel;
+
+    /**
+     * @var null|bool
+     */
+    private $canCreate;
+
     public function __construct(
         EraseEntityCheckerInterface $eraseEntityChecker,
-        Session $session,
-        array $data = []
+        Session $session
     ) {
         $this->eraseEntityChecker = $eraseEntityChecker;
         $this->session = $session;
-        parent::__construct($data);
     }
 
     public function canCancel(): bool
     {
-        if (!$this->hasData('can_cancel')) {
-            $canCancel = $this->eraseEntityChecker->canCancel($this->currentCustomerId(), 'customer');
-            $this->setData('can_cancel', $canCancel);
-        }
-
-        return (bool) $this->_getData('can_cancel');
+        return $this->canCancel ??
+            $this->canCancel = $this->eraseEntityChecker->canCancel($this->currentCustomerId(), 'customer');
     }
 
     public function canCreate(): bool
     {
-        if (!$this->hasData('can_create')) {
-            $canCreate = $this->eraseEntityChecker->canCreate($this->currentCustomerId(), 'customer');
-            $this->setData('can_create', $canCreate);
-        }
-
-        return (bool) $this->_getData('can_create');
+        return $this->canCreate ??
+            $this->canCreate = $this->eraseEntityChecker->canCreate($this->currentCustomerId(), 'customer');
     }
 
     private function currentCustomerId(): int

@@ -14,6 +14,9 @@ use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Delete all expired export entities
+ */
 final class ExportEntityExpired
 {
     /**
@@ -48,11 +51,6 @@ final class ExportEntityExpired
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
-    /**
-     * Delete all expired export entities
-     *
-     * @return void
-     */
     public function execute(): void
     {
         if ($this->config->isModuleEnabled() && $this->config->isExportEnabled()) {

@@ -18,6 +18,9 @@ use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Process erase of all scheduled entities
+ */
 final class EraseEntity
 {
     /**
@@ -73,9 +76,6 @@ final class EraseEntity
         $this->dateTime = $dateTime;
     }
 
-    /**
-     * Process erase of all scheduled entities
-     */
     public function execute(): void
     {
         if ($this->config->isModuleEnabled() && $this->config->isErasureEnabled()) {

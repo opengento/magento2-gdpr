@@ -6,16 +6,18 @@
 
 /** @var \Magento\Framework\View\Element\Template $block */
 
-/** @var \Opengento\Gdpr\ViewModel\Privacy\ExportDataProvider $exportDataProvider */
+/** @var \Opengento\Gdpr\ViewModel\Customer\Privacy\ExportDataProvider $exportDataProvider */
 $exportDataProvider = $block->getData('exportDataProvider');
 ?>
 <div class="block block-order-details-view">
     <div class="block-title">
         <strong><?= $block->escapeHtml(__('Export Personal Data')) ?></strong>
     </div>
-    <div class="block-content">
-        <div class="widget block block-static-block">
-            <?= $exportDataProvider->getExportInformationHtml() ?>
+    <?php if ($exportDataProvider->getExportInformationHtml()): ?>
+        <div class="block-content">
+            <div class="widget block block-static-block">
+                <?= $exportDataProvider->getExportInformationHtml() ?>
+            </div>
         </div>
-    </div>
+    <?php endif; ?>
 </div>
