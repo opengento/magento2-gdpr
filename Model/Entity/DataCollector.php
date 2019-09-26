@@ -27,12 +27,12 @@ final class DataCollector implements DataCollectorInterface
         $this->document = $document;
     }
 
-    public function collect($entity): array
+    public function collect(object $entity): array
     {
         $this->entityIterator->iterate($entity);
         $data = $this->document->getData();
         $this->document->setData([]);
 
-        return  $data;
+        return $data;
     }
 }

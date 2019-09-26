@@ -9,6 +9,7 @@ namespace Opengento\Gdpr\Model\Config\Source;
 
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\Model\EntitySnapshot\AttributeProviderInterface;
+use function array_keys;
 
 /**
  * Class VirtualEntityAttributes
@@ -44,7 +45,7 @@ final class VirtualEntityAttributes implements OptionSourceInterface
     public function toOptionArray(): array
     {
         if (!$this->options) {
-            foreach (\array_keys($this->attributeProvider->getAttributes($this->entityType)) as $attribute) {
+            foreach (array_keys($this->attributeProvider->getAttributes($this->entityType)) as $attribute) {
                 $this->options[] = ['value' => $attribute, 'label' => $attribute];
             }
         }

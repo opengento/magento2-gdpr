@@ -65,7 +65,7 @@ class ExportEntity extends AbstractExtensibleModel implements ExportEntityInterf
         return $this->_getData(self::FILE_PATH) === null ? null : (string) $this->_getData(self::FILE_PATH);
     }
 
-    public function setFilePath(string $filePath): ExportEntityInterface
+    public function setFilePath(?string $filePath): ExportEntityInterface
     {
         return $this->setData(self::FILE_PATH, $filePath);
     }

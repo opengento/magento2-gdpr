@@ -49,7 +49,7 @@ interface ExportEntityInterface
 
     public function getFilePath(): ?string;
 
-    public function setFilePath(string $filePath): ExportEntityInterface;
+    public function setFilePath(?string $filePath): ExportEntityInterface;
 
     public function getCreatedAt(): string;
 

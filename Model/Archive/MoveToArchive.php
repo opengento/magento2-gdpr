@@ -50,6 +50,9 @@ final class MoveToArchive
             throw new NotFoundException(new Phrase('File "%1" does not exists.', [$source]));
         }
 
-        return $this->archive->pack($source, $tmpWrite->getAbsolutePath($destination));
+        $archive = $this->archive->pack($source, $tmpWrite->getAbsolutePath($destination));
+        $fileDriver->deleteFile($source);
+
+        return $archive;
     }
 }

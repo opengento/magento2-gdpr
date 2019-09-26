@@ -10,6 +10,8 @@ namespace Opengento\Gdpr\Model\Config\Source;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\ObjectManager\ConfigInterface;
 use Magento\Framework\Phrase;
+use function array_keys;
+use function array_merge;
 
 final class EraseComponents implements OptionSourceInterface
 {
@@ -66,7 +68,7 @@ final class EraseComponents implements OptionSourceInterface
             }
         }
 
-        return \array_keys(\array_merge(...$delegateProcessors));
+        return array_keys(array_merge(...$delegateProcessors));
     }
 
     /**

@@ -24,38 +24,29 @@ final class VirtualCustomerAttributes implements OptionSourceInterface
     private $options;
 
     public function __construct(
-        MetadataInterface $metadata,
-        array $options = []
+        MetadataInterface $metadata
     ) {
         $this->metadata = $metadata;
-        $this->options = $this->loadOptions($options);
+        $this->options = [];
     }
 
     public function toOptionArray(): array
     {
+        if (!$this->options) {
+            try {
+                $attributes = $this->metadata->getAllAttributesMetadata();
+            } catch (LocalizedException $e) {
+                $attributes = [];
+            }
+
+            foreach ($attributes as $attribute) {
+                $this->options[] = [
+                    'value' => $attribute->getAttributeCode(),
+                    'label' => $attribute->getFrontendLabel(),
+                ];
+            }
+        }
+
         return $this->options;
-    }
-
-    /**
-     * Load an prepare customer address attributes options
-     *
-     * @param array $defaultOptions [optional]
-     * @return array
-     */
-    public function loadOptions(array $defaultOptions = []): array
-    {
-        $options = [];
-
-        try {
-            $attributes = $this->metadata->getAllAttributesMetadata();
-        } catch (LocalizedException $e) {
-            $attributes = [];
-        }
-
-        foreach ($attributes as $attribute) {
-            $options[] = ['value' => $attribute->getAttributeCode(), 'label' => $attribute->getFrontendLabel()];
-        }
-
-        return \array_merge($defaultOptions, $options);
     }
 }

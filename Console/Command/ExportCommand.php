@@ -20,9 +20,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ExportCommand extends Command
 {
-    /**
-     * Input Variables Names
-     */
     private const INPUT_ARGUMENT_ENTITY_ID = 'entity_id';
     private const INPUT_ARGUMENT_ENTITY_TYPE = 'entity_type';
     private const INPUT_OPTION_FILENAME = 'filename';

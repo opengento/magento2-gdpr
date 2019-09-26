@@ -9,9 +9,6 @@ namespace Opengento\Gdpr\Model;
 
 use Exception;
 use Magento\Framework\Exception\AlreadyExistsException;
-use Magento\Framework\Exception\FileSystemException;
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\Phrase;
 use Magento\Framework\Stdlib\DateTime;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
@@ -19,11 +16,7 @@ use Opengento\Gdpr\Api\Data\ExportEntityInterfaceFactory;
 use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
-use Opengento\Gdpr\Model\Archive\MoveToArchive;
-use Opengento\Gdpr\Service\Export\ProcessorFactory;
-use Opengento\Gdpr\Service\Export\RendererFactory;
-use function sha1;
-use const DIRECTORY_SEPARATOR;
+use Opengento\Gdpr\Model\Export\ExportToFile;
 
 final class ExportEntityManagement implements ExportEntityManagementInterface
 {
@@ -43,19 +36,9 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
     private $exportEntityChecker;
 
     /**
-     * @var ProcessorFactory
+     * @var ExportToFile
      */
-    private $exportProcessorFactory;
-
-    /**
-     * @var RendererFactory
-     */
-    private $exportRendererFactory;
-
-    /**
-     * @var MoveToArchive
-     */
-    private $archive;
+    private $exportToFile;
 
     /**
      * @var Config
@@ -66,17 +49,13 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
         ExportEntityInterfaceFactory $exportEntityFactory,
         ExportEntityRepositoryInterface $exportEntityRepository,
         ExportEntityCheckerInterface $exportEntityChecker,
-        ProcessorFactory $exportProcessorFactory,
-        RendererFactory $exportRendererFactory,
-        MoveToArchive $archive,
+        ExportToFile $exportToFile,
         Config $config
     ) {
         $this->exportEntityFactory = $exportEntityFactory;
         $this->exportEntityRepository = $exportEntityRepository;
         $this->exportEntityChecker = $exportEntityChecker;
-        $this->exportProcessorFactory = $exportProcessorFactory;
-        $this->exportRendererFactory = $exportRendererFactory;
-        $this->archive = $archive;
+        $this->exportToFile = $exportToFile;
         $this->config = $config;
     }
 
@@ -103,50 +82,17 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
 
     /**
      * @inheritdoc
-     * @throws FileSystemException
-     * @throws NotFoundException
      * @throws Exception
      */
     public function export(ExportEntityInterface $exportEntity): string
     {
-        $exporter = $this->exportProcessorFactory->get($exportEntity->getEntityType());
-        $fileName = $this->prepareFileName($exportEntity);
-        $data = $exporter->execute($exportEntity->getEntityId(), []);
-        foreach ($this->config->getExportRendererCodes() as $rendererCode) {
-            $filePath = $this->archive->prepareArchive(
-                $this->exportRendererFactory->get($rendererCode)->saveData($fileName, $data),
-                $fileName . '.zip'
-            );
-        }
-        //todo remove files after bundling
-
-        if (!isset($filePath)) {
-            throw new LocalizedException(
-                new Phrase(
-                    'The archive cannot be created for the entity type %& with ID %2.',
-                    [$exportEntity->getEntityType(), $exportEntity->getEntityId()]
-                )
-            );
-        }
-
-        $exportEntity->setFilePath($filePath);
+        $exportEntity->setFilePath($this->exportToFile->export($exportEntity));
         $exportEntity->setExpiredAt(
             (new \DateTime('+' . $this->config->getExportLifetime() . 'minutes'))->format(DateTime::DATETIME_PHP_FORMAT)
         );
-        $exportEntity->setExportedAt(
-            (new \DateTime())->format(DateTime::DATETIME_PHP_FORMAT)
-        );
+        $exportEntity->setExportedAt((new \DateTime())->format(DateTime::DATETIME_PHP_FORMAT));
         $this->exportEntityRepository->save($exportEntity);
 
-        return $filePath;
-    }
-
-    private function prepareFileName(ExportEntityInterface $exportEntity): string
-    {
-        return 'gdpr' .
-            DIRECTORY_SEPARATOR .
-            sha1($exportEntity->getEntityType() . $exportEntity->getExportId()) .
-            DIRECTORY_SEPARATOR .
-            $exportEntity->getFileName();
+        return $exportEntity->getFilePath();
     }
 }

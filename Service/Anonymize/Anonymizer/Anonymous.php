@@ -14,9 +14,6 @@ use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
 final class Anonymous implements AnonymizerInterface
 {
-    /**
-     * Constants for anonymous anonymizer
-     */
     private const PHRASE = '%1Anonymous%2';
     private const PREFIX_LENGTH = 3;
     private const SUFFIX_LENGTH = 2;

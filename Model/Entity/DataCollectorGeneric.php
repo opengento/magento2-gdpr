@@ -42,7 +42,7 @@ final class DataCollectorGeneric implements DataCollectorInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function collect($entity): array
+    public function collect(object $entity): array
     {
         $entityType = $this->typeResolver->resolve($entity);
 

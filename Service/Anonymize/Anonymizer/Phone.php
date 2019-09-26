@@ -11,9 +11,6 @@ use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
 final class Phone implements AnonymizerInterface
 {
-    /**
-     * Constants for phone number anonymizer
-     */
     private const PHONE_NUMBER = '9999999999';
 
     public function anonymize($value): string

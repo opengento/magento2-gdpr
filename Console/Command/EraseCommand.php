@@ -20,9 +20,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class EraseCommand extends Command
 {
-    /**
-     * Input Variables Names
-     */
     private const INPUT_ARGUMENT_ENTITY_ID = 'entity_id';
     private const INPUT_ARGUMENT_ENTITY_TYPE = 'entity_type';
 

@@ -14,9 +14,6 @@ use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
 final class Email implements AnonymizerInterface
 {
-    /**
-     * Constants for value anonymizer
-     */
     private const PHRASE = '%1-anonymous-%2@gdpr.org';
     private const PREFIX_LENGTH = 3;
     private const SUFFIX_LENGTH = 2;

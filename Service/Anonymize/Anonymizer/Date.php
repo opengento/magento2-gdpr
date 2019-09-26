@@ -14,9 +14,6 @@ use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
 final class Date implements AnonymizerInterface
 {
-    /**
-     * Constants for date anonymizer
-     */
     private const MIN_TIMESTAMP = 0;
     private const MAX_TIMESTAMP = 1557480188;
 

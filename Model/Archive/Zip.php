@@ -10,6 +10,7 @@ namespace Opengento\Gdpr\Model\Archive;
 use Magento\Framework\Archive\ArchiveInterface;
 use Magento\Framework\Archive\Zip as ArchiveZip;
 use Magento\Framework\Filesystem;
+use function basename;
 
 /**
  * Zip compressed file archive with local file name.
@@ -41,7 +42,7 @@ final class Zip implements ArchiveInterface
 
         $zip = new \ZipArchive();
         $zip->open($destination, \ZipArchive::CREATE);
-        $zip->addFile($source, $directoryRead->isDirectory($source) ? '' : \basename($source));
+        $zip->addFile($source, $directoryRead->isDirectory($source) ? '' : basename($source));
         $zip->close();
 
         return $destination;

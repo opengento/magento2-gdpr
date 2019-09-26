@@ -13,9 +13,6 @@ use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
 final class AlphaNum implements AnonymizerInterface
 {
-    /**
-     * Constants for alpha numeric anonymizer
-     */
     private const DEFAULT_LENGTH = 5;
 
     /**
