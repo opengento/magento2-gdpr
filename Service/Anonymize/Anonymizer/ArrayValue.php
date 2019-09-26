@@ -8,19 +8,17 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Anonymize\Anonymizer;
 
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
+use function array_reduce;
 
-/**
- * Class ArrayValue
- */
 final class ArrayValue implements AnonymizerInterface
 {
     /**
-     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface[]
+     * @var AnonymizerInterface[]
      */
     private $anonymizers;
 
     /**
-     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface[] $anonymizers
+     * @param AnonymizerInterface[] $anonymizers
      */
     public function __construct(
         array $anonymizers
@@ -30,12 +28,9 @@ final class ArrayValue implements AnonymizerInterface
         })(... $anonymizers);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function anonymize($value): array
     {
-        return \array_reduce(
+        return array_reduce(
             $this->anonymizers,
             static function ($array, AnonymizerInterface $anonymizer) use ($value) {
                 $array[] = $anonymizer->anonymize($value);

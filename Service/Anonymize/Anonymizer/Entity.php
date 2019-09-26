@@ -7,36 +7,33 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Anonymize\Anonymizer;
 
+use Exception;
+use InvalidArgumentException;
 use Magento\Framework\EntityManager\HydratorPool;
 use Magento\Framework\EntityManager\TypeResolver;
 use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
+use function gettype;
+use function is_object;
+use function sprintf;
 
-/**
- * Class Entity
- */
 final class Entity implements AnonymizerInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\Entity\DataCollectorInterface
+     * @var DataCollectorInterface
      */
     private $dataCollector;
 
     /**
-     * @var \Magento\Framework\EntityManager\TypeResolver
+     * @var TypeResolver
      */
     private $typeResolver;
 
     /**
-     * @var \Magento\Framework\EntityManager\HydratorPool
+     * @var HydratorPool
      */
     private $hydratorPool;
 
-    /**
-     * @param \Opengento\Gdpr\Model\Entity\DataCollectorInterface $dataCollector
-     * @param \Magento\Framework\EntityManager\TypeResolver $typeResolver
-     * @param \Magento\Framework\EntityManager\HydratorPool $hydratorPool
-     */
     public function __construct(
         DataCollectorInterface $dataCollector,
         TypeResolver $typeResolver,
@@ -49,13 +46,13 @@ final class Entity implements AnonymizerInterface
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function anonymize($entity)
     {
-        if (!\is_object($entity)) {
-            throw new \InvalidArgumentException(
-                \sprintf('Argument "$entity" must be an object, type "%s" given.', \gettype($entity))
+        if (!is_object($entity)) {
+            throw new InvalidArgumentException(
+                sprintf('Argument "$entity" must be an object, type "%s" given.', gettype($entity))
             );
         }
 

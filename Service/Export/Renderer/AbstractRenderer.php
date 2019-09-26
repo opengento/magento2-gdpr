@@ -8,16 +8,14 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Export\Renderer;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Filesystem;
 use Opengento\Gdpr\Service\Export\RendererInterface;
 
-/**
- * Class AbstractRenderer
- */
 abstract class AbstractRenderer implements RendererInterface
 {
     /**
-     * @var \Magento\Framework\Filesystem
+     * @var Filesystem
      */
     protected $fileSystem;
 
@@ -26,10 +24,6 @@ abstract class AbstractRenderer implements RendererInterface
      */
     protected $fileExtension;
 
-    /**
-     * @param \Magento\Framework\Filesystem $filesystem
-     * @param string $fileExtension
-     */
     public function __construct(
         Filesystem $filesystem,
         string $fileExtension
@@ -40,7 +34,7 @@ abstract class AbstractRenderer implements RendererInterface
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\FileSystemException
+     * @throws FileSystemException
      */
     public function saveData(string $fileName, array $data): string
     {

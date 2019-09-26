@@ -12,9 +12,5 @@ namespace Opengento\Gdpr\Model\Entity;
  */
 interface DataCollectorInterface
 {
-    /**
-     * @param object $entity
-     * @return array
-     */
-    public function collect($entity): array;
+    public function collect(object $entity): array;
 }

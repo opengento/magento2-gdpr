@@ -8,36 +8,34 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Export\Processor;
 
 use Opengento\Gdpr\Service\Export\ProcessorInterface;
+use function array_combine;
+use function array_keys;
+use function array_reduce;
+use function array_values;
 
-/**
- * Class CompositeProcessor
- */
 final class CompositeProcessor implements ProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Service\Export\ProcessorInterface[]
+     * @var ProcessorInterface[]
      */
     private $processors;
 
     /**
-     * @param \Opengento\Gdpr\Service\Export\ProcessorInterface[] $processors
+     * @param ProcessorInterface[] $processors
      */
     public function __construct(
         array $processors
     ) {
         $this->processors = (static function (ProcessorInterface ...$processors): array {
             return $processors;
-        })(...\array_values($processors));
+        })(...array_values($processors));
 
-        $this->processors = \array_combine(\array_keys($processors), $this->processors);
+        $this->processors = array_combine(array_keys($processors), $this->processors);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute(int $entityId, array $data): array
     {
-        return \array_reduce(
+        return array_reduce(
             $this->processors,
             static function (array $data, ProcessorInterface $processor) use ($entityId) {
                 return $processor->execute($entityId, $data);

@@ -7,21 +7,22 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Erase;
 
+use InvalidArgumentException;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Serialize\SerializerInterface;
+use function array_column;
+use function array_combine;
+use function sprintf;
 
-/**
- * Class Metadata
- */
 final class Metadata implements MetadataInterface
 {
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     * @var ScopeConfigInterface
      */
     private $scopeConfig;
 
     /**
-     * @var \Magento\Framework\Serialize\SerializerInterface
+     * @var SerializerInterface
      */
     private $serializer;
 
@@ -40,12 +41,6 @@ final class Metadata implements MetadataInterface
      */
     private $cache;
 
-    /**
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\Serialize\SerializerInterface $serializer
-     * @param string $configPath
-     * @param string $scopeType
-     */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         SerializerInterface $serializer,
@@ -58,9 +53,6 @@ final class Metadata implements MetadataInterface
         $this->scopeType = $scopeType;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getComponentsProcessors(?string $scopeCode = null): array
     {
         $scope = $scopeCode ?? 'current_scope';
@@ -70,9 +62,9 @@ final class Metadata implements MetadataInterface
                 $this->scopeConfig->getValue($this->configPath, $this->scopeType, $scopeCode) ?? '{}'
             );
 
-            $this->cache[$scope] = \array_combine(
-                \array_column($metadata, 'component'),
-                \array_column($metadata, 'processor')
+            $this->cache[$scope] = array_combine(
+                array_column($metadata, 'component'),
+                array_column($metadata, 'processor')
             );
         }
 
@@ -87,8 +79,8 @@ final class Metadata implements MetadataInterface
         $componentsProcessors = $this->getComponentsProcessors($scopeCode);
 
         if (!isset($componentsProcessors[$component])) {
-            throw new \InvalidArgumentException(
-                \sprintf('There is no erasure processor registered for the component "%s".', $component)
+            throw new InvalidArgumentException(
+                sprintf('There is no erasure processor registered for the component "%s".', $component)
             );
         }
 

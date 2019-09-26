@@ -10,7 +10,6 @@ namespace Opengento\Gdpr\Service\Export;
 use Magento\Framework\ObjectManagerInterface;
 
 /**
- * Class ProcessorFactory
  * @api
  */
 final class ProcessorFactory
@@ -21,13 +20,13 @@ final class ProcessorFactory
     private $exporters;
 
     /**
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     private $objectManager;
 
     /**
      * @param string[] $exporters
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
     public function __construct(
         array $exporters,
@@ -37,12 +36,6 @@ final class ProcessorFactory
         $this->objectManager = $objectManager;
     }
 
-    /**
-     * Create a new export processor
-     *
-     * @param string $entityType
-     * @return \Opengento\Gdpr\Service\Export\ProcessorInterface
-     */
     public function get(string $entityType): ProcessorInterface
     {
         if (!isset($this->exporters[$entityType])) {

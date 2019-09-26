@@ -10,7 +10,6 @@ namespace Opengento\Gdpr\Service\Export;
 use Magento\Framework\ObjectManagerInterface;
 
 /**
- * Class ExportFactory
  * @api
  */
 final class RendererFactory
@@ -21,13 +20,13 @@ final class RendererFactory
     private $renderers;
 
     /**
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     private $objectManager;
 
     /**
      * @param string[] $renderers
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
     public function __construct(
         array $renderers,
@@ -37,12 +36,6 @@ final class RendererFactory
         $this->objectManager = $objectManager;
     }
 
-    /**
-     * Retrieve an export renderer
-     *
-     * @param string $rendererCode
-     * @return \Opengento\Gdpr\Service\Export\RendererInterface
-     */
     public function get(string $rendererCode): RendererInterface
     {
         if (!isset($this->renderers[$rendererCode])) {

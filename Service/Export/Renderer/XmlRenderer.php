@@ -8,11 +8,9 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Export\Renderer;
 
 use Magento\Framework\Convert\ConvertArray;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filesystem;
 
-/**
- * Class XmlRenderer
- */
 final class XmlRenderer extends AbstractRenderer
 {
     private const ROOT_NAME = 'data';
@@ -27,11 +25,6 @@ final class XmlRenderer extends AbstractRenderer
      */
     private $rootName;
 
-    /**
-     * @param Filesystem $filesystem
-     * @param ConvertArray $convertArray
-     * @param string $rootName
-     */
     public function __construct(
         Filesystem $filesystem,
         ConvertArray $convertArray,
@@ -44,7 +37,7 @@ final class XmlRenderer extends AbstractRenderer
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function render(array $data): string
     {

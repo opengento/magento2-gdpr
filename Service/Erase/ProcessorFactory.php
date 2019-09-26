@@ -7,10 +7,11 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Erase;
 
+use InvalidArgumentException;
 use Magento\Framework\ObjectManagerInterface;
+use function sprintf;
 
 /**
- * Class ProcessorFactory
  * @api
  */
 final class ProcessorFactory
@@ -21,13 +22,13 @@ final class ProcessorFactory
     private $erasers;
 
     /**
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     private $objectManager;
 
     /**
      * @param string[] $erasers
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
     public function __construct(
         array $erasers,
@@ -37,16 +38,10 @@ final class ProcessorFactory
         $this->objectManager = $objectManager;
     }
 
-    /**
-     * Create a new eraser processor
-     *
-     * @param string $entityType
-     * @return \Opengento\Gdpr\Service\Erase\ProcessorInterface
-     */
     public function get(string $entityType): ProcessorInterface
     {
         if (!isset($this->erasers[$entityType])) {
-            throw new \InvalidArgumentException(\sprintf('Unknown eraser for entity type "%s".', $entityType));
+            throw new InvalidArgumentException(sprintf('Unknown eraser for entity type "%s".', $entityType));
         }
 
         return $this->objectManager->get($this->erasers[$entityType]);

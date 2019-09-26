@@ -11,32 +11,25 @@ use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Model\Entity\DocumentInterface;
 use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
 use Opengento\Gdpr\Model\Entity\MetadataInterface;
+use function in_array;
 
-/**
- * Class EntityProcessor
- */
 final class EntityProcessor implements EntityValueProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\Entity\DocumentInterface
+     * @var DocumentInterface
      */
     public $document;
 
     /**
-     * @var \Opengento\Gdpr\Model\Entity\MetadataInterface
+     * @var MetadataInterface
      */
     private $metadata;
 
     /**
-     * @var \Opengento\Gdpr\Model\Entity\DataCollectorInterface
+     * @var DataCollectorInterface
      */
     private $dataCollector;
 
-    /**
-     * @param \Opengento\Gdpr\Model\Entity\DocumentInterface $document
-     * @param \Opengento\Gdpr\Model\Entity\MetadataInterface $metadata
-     * @param \Opengento\Gdpr\Model\Entity\DataCollectorInterface $dataCollector
-     */
     public function __construct(
         DocumentInterface $document,
         MetadataInterface $metadata,
@@ -47,12 +40,9 @@ final class EntityProcessor implements EntityValueProcessorInterface
         $this->dataCollector = $dataCollector;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function process($entity, string $key, $value): void
     {
-        if (\in_array($key, $this->metadata->getAttributes(), true)) {
+        if (in_array($key, $this->metadata->getAttributes(), true)) {
             $this->document->addData($key, $this->dataCollector->collect($value));
         }
     }

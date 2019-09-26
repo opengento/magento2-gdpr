@@ -7,29 +7,23 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Export\Renderer;
 
+use Exception;
 use Magento\Framework\Filesystem;
+use mikehaertl\wkhtmlto\Pdf;
 use mikehaertl\wkhtmlto\PdfFactory;
 
-/**
- * Class PdfRenderer
- */
 final class PdfRenderer extends AbstractRenderer
 {
     /**
-     * @var \mikehaertl\wkhtmlto\PdfFactory
+     * @var PdfFactory
      */
     private $pdfFactory;
 
     /**
-     * @var \Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer
+     * @var HtmlRenderer
      */
     private $htmlRenderer;
 
-    /**
-     * @param \Magento\Framework\Filesystem $filesystem
-     * @param \mikehaertl\wkhtmlto\PdfFactory $pdfFactory
-     * @param \Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer $htmlRenderer
-     */
     public function __construct(
         Filesystem $filesystem,
         PdfFactory $pdfFactory,
@@ -42,11 +36,11 @@ final class PdfRenderer extends AbstractRenderer
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function render(array $data): string
     {
-        /** @var \mikehaertl\wkhtmlto\Pdf $pdf */
+        /** @var Pdf $pdf */
         $pdf = $this->pdfFactory->create([
             'options' => [
                 'ignoreWarnings' => true,

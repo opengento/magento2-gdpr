@@ -7,12 +7,10 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Anonymize\Anonymizer;
 
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Math\Random;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
-/**
- * Class Number
- */
 final class Number implements AnonymizerInterface
 {
     /**
@@ -25,10 +23,6 @@ final class Number implements AnonymizerInterface
      */
     private $max;
 
-    /**
-     * @param int|null $min
-     * @param int|null $max
-     */
     public function __construct(
         ?int $min = null,
         ?int $max = null
@@ -39,7 +33,7 @@ final class Number implements AnonymizerInterface
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function anonymize($value): int
     {

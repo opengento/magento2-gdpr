@@ -10,26 +10,20 @@ namespace Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue;
 use Opengento\Gdpr\Model\Entity\DocumentInterface;
 use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
 use Opengento\Gdpr\Model\Entity\MetadataInterface;
+use function in_array;
 
-/**
- * Class DataProcessor
- */
 final class DataProcessor implements EntityValueProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\Entity\DocumentInterface
+     * @var DocumentInterface
      */
     public $document;
 
     /**
-     * @var \Opengento\Gdpr\Model\Entity\MetadataInterface
+     * @var MetadataInterface
      */
     private $metadata;
 
-    /**
-     * @param \Opengento\Gdpr\Model\Entity\DocumentInterface $document
-     * @param \Opengento\Gdpr\Model\Entity\MetadataInterface $metadata
-     */
     public function __construct(
         DocumentInterface $document,
         MetadataInterface $metadata
@@ -38,12 +32,9 @@ final class DataProcessor implements EntityValueProcessorInterface
         $this->metadata = $metadata;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function process($entity, string $key, $value): void
     {
-        if (\in_array($key, $this->metadata->getAttributes(), true)) {
+        if (in_array($key, $this->metadata->getAttributes(), true)) {
             $this->document->addData($key, $value);
         }
     }

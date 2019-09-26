@@ -7,25 +7,22 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Anonymize\Anonymizer;
 
+use Exception;
 use Magento\Framework\Math\Random;
 use Magento\Framework\Stdlib\DateTime;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
-/**
- * Class Date
- */
 final class Date implements AnonymizerInterface
 {
-    /**#@+
+    /**
      * Constants for date anonymizer
      */
     private const MIN_TIMESTAMP = 0;
     private const MAX_TIMESTAMP = 1557480188;
-    /**#@-*/
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function anonymize($value): string
     {
