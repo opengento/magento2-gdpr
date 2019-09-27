@@ -33,7 +33,7 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
     /**
      * @var EraseEntityInterfaceFactory
      */
-    private $eraseCustomerFactory;
+    private $eraseEntityFactory;
 
     /**
      * @var CollectionFactory
@@ -62,13 +62,13 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
 
     public function __construct(
         EraseEntityResource $eraseEntityResource,
-        EraseEntityInterfaceFactory $eraseCustomerFactory,
+        EraseEntityInterfaceFactory $eraseEntityFactory,
         CollectionFactory $collectionFactory,
         CollectionProcessorInterface $collectionProcessor,
         EraseEntitySearchResultsInterfaceFactory $searchResultsFactory
     ) {
         $this->eraseEntityResource = $eraseEntityResource;
-        $this->eraseCustomerFactory = $eraseCustomerFactory;
+        $this->eraseEntityFactory = $eraseEntityFactory;
         $this->collectionFactory = $collectionFactory;
         $this->collectionProcessor = $collectionProcessor;
         $this->searchResultsFactory = $searchResultsFactory;
@@ -90,10 +90,10 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
     {
         if ($forceReload || !isset($this->instances[$entityId])) {
             /** @var EraseEntityInterface $entity */
-            $entity = $this->eraseCustomerFactory->create();
+            $entity = $this->eraseEntityFactory->create();
             $this->eraseEntityResource->load($entity, $entityId, EraseEntityInterface::ID);
 
-            if (!$entity->getEntityId()) {
+            if (!$entity->getEraseId()) {
                 throw new NoSuchEntityException(new Phrase('Entity with id "%1" does not exists.', [$entityId]));
             }
 
@@ -105,18 +105,18 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
 
     public function getByEntity(int $entityId, string $entityType, bool $forceReload = false): EraseEntityInterface
     {
-        if ($forceReload || !isset($this->instancesByEntity[$entityId])) {
+        if ($forceReload || !isset($this->instancesByEntity[$entityType . '_' . $entityId])) {
             /** @var EraseEntityInterface $entity */
-            $entity = $this->eraseCustomerFactory->create();
+            $entity = $this->eraseEntityFactory->create();
             $this->eraseEntityResource->load(
                 $entity,
                 [$entityId, $entityType],
                 [EraseEntityInterface::ENTITY_ID, EraseEntityInterface::ENTITY_TYPE]
             );
 
-            if (!$entity->getEntityId()) {
+            if (!$entity->getEraseId()) {
                 throw new NoSuchEntityException(
-                    new Phrase('Entity with customer id "%1" does not exist.', [$entityId])
+                    new Phrase('Entity with id "%1" does not exist.', [$entityId])
                 );
             }
 
@@ -149,7 +149,7 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
             $this->eraseEntityResource->delete($entity);
         } catch (\Exception $e) {
             throw new CouldNotDeleteException(
-                new Phrase('Could not delete entity with id "%1".', [$entity->getEntityId()]),
+                new Phrase('Could not delete entity with id "%1".', [$entity->getEraseId()]),
                 $e
             );
         }
@@ -159,14 +159,14 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
 
     private function register(EraseEntityInterface $entity): void
     {
-        $this->instances[$entity->getEntityId()] = $entity;
+        $this->instances[$entity->getEraseId()] = $entity;
         $this->instancesByEntity[$entity->getEntityType() . '_' . $entity->getEntityId()] = $entity;
     }
 
     private function remove(EraseEntityInterface $entity): void
     {
         unset(
-            $this->instances[$entity->getEntityId()],
+            $this->instances[$entity->getEraseId()],
             $this->instancesByEntity[$entity->getEntityType() . '_' . $entity->getEntityId()]
         );
     }

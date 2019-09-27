@@ -22,7 +22,7 @@ interface ExportEntityManagementInterface
      *
      * @param int $entityId
      * @param string $entityType
-     * @param null|string $fileName [optional]
+     * @param string|null $fileName [optional]
      * @return ExportEntityInterface
      * @throws AlreadyExistsException
      * @throws CouldNotSaveException

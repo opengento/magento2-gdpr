@@ -35,7 +35,7 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
     /**
      * @var ExportEntityInterfaceFactory
      */
-    private $exportCustomerFactory;
+    private $exportEntityFactory;
 
     /**
      * @var CollectionFactory
@@ -53,6 +53,11 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
     private $searchResultsFactory;
 
     /**
+     * @var Filesystem
+     */
+    private $fileSystem;
+
+    /**
      * @var ExportEntityInterface[]
      */
     private $instances = [];
@@ -62,25 +67,20 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
      */
     private $instancesByEntity = [];
 
-    /**
-     * @var Filesystem
-     */
-    private $fileSystem;
-
     public function __construct(
         ExportEntityResource $exportEntityResource,
-        ExportEntityInterfaceFactory $exportCustomerFactory,
+        ExportEntityInterfaceFactory $exportEntityFactory,
         CollectionFactory $collectionFactory,
         CollectionProcessorInterface $collectionProcessor,
         ExportEntitySearchResultsInterfaceFactory $searchResultsFactory,
         Filesystem $filesystem
     ) {
-        $this->fileSystem = $filesystem;
         $this->exportEntityResource = $exportEntityResource;
-        $this->exportCustomerFactory = $exportCustomerFactory;
+        $this->exportEntityFactory = $exportEntityFactory;
         $this->collectionFactory = $collectionFactory;
         $this->collectionProcessor = $collectionProcessor;
         $this->searchResultsFactory = $searchResultsFactory;
+        $this->fileSystem = $filesystem;
     }
 
     public function save(ExportEntityInterface $entity): ExportEntityInterface
@@ -99,10 +99,10 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
     {
         if ($forceReload || !isset($this->instances[$entityId])) {
             /** @var ExportEntityInterface $entity */
-            $entity = $this->exportCustomerFactory->create();
+            $entity = $this->exportEntityFactory->create();
             $this->exportEntityResource->load($entity, $entityId, ExportEntityInterface::ID);
 
-            if (!$entity->getEntityId()) {
+            if (!$entity->getExportId()) {
                 throw new NoSuchEntityException(new Phrase('Entity with id "%1" does not exists.', [$entityId]));
             }
 
@@ -114,18 +114,18 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
 
     public function getByEntity(int $entityId, string $entityType, bool $forceReload = false): ExportEntityInterface
     {
-        if ($forceReload || !isset($this->instancesByEntity[$entityId])) {
+        if ($forceReload || !isset($this->instancesByEntity[$entityType . '_' . $entityId])) {
             /** @var ExportEntityInterface $entity */
-            $entity = $this->exportCustomerFactory->create();
+            $entity = $this->exportEntityFactory->create();
             $this->exportEntityResource->load(
                 $entity,
                 [$entityId, $entityType],
                 [ExportEntityInterface::ENTITY_ID, ExportEntityInterface::ENTITY_TYPE]
             );
 
-            if (!$entity->getEntityId()) {
+            if (!$entity->getExportId()) {
                 throw new NoSuchEntityException(
-                    new Phrase('Entity with customer id "%1" does not exist.', [$entityId])
+                    new Phrase('Entity with id "%1" does not exist.', [$entityId])
                 );
             }
 
@@ -159,7 +159,7 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
             $this->exportEntityResource->delete($entity);
         } catch (\Exception $e) {
             throw new CouldNotDeleteException(
-                new Phrase('Could not delete entity with id "%1".', [$entity->getEntityId()]),
+                new Phrase('Could not delete entity with id "%1".', [$entity->getExportId()]),
                 $e
             );
         }
@@ -169,14 +169,14 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
 
     private function register(ExportEntityInterface $entity): void
     {
-        $this->instances[$entity->getEntityId()] = $entity;
+        $this->instances[$entity->getExportId()] = $entity;
         $this->instancesByEntity[$entity->getEntityType() . '_' . $entity->getEntityId()] = $entity;
     }
 
     private function remove(ExportEntityInterface $entity): void
     {
         unset(
-            $this->instances[$entity->getEntityId()],
+            $this->instances[$entity->getExportId()],
             $this->instancesByEntity[$entity->getEntityType() . '_' . $entity->getEntityId()]
         );
     }
