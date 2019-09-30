@@ -42,17 +42,12 @@ abstract class AbstractGuest extends AbstractAction
         if (($result = $this->orderLoader->load($this->getRequest())) instanceof ResultInterface) {
             return $result;
         }
-        if (!($this->registry->registry('current_order') instanceof OrderInterface)) {
-            return $this->forwardNoRoute();
-        }
 
         return parent::execute();
     }
 
-    protected function retrieveOrderId(): int
+    protected function currentOrder(): OrderInterface
     {
-        $order = $this->registry->registry('current_order');
-
-        return $order && $order instanceof OrderInterface ? (int) $order->getEntityId() : -1;
+        return $this->registry->registry('current_order');
     }
 }

@@ -17,8 +17,10 @@ use Magento\Framework\Exception\InvalidEmailOrPasswordException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\State\UserLockedException;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\EraseEntityManagementInterface;
+use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
+use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Config;
 
 class ErasePost extends AbstractPrivacy
@@ -36,25 +38,32 @@ class ErasePost extends AbstractPrivacy
     /**
      * @var Session
      */
-    private $session;
+    private $customerSession;
 
     /**
-     * @var EraseEntityManagementInterface
+     * @var ActionInterface
      */
-    private $eraseManagement;
+    private $action;
+
+    /**
+     * @var ContextBuilder
+     */
+    private $actionContextBuilder;
 
     public function __construct(
         Context $context,
         Config $config,
         Validator $formKeyValidator,
         AuthenticationInterface $authentication,
-        Session $session,
-        EraseEntityManagementInterface $eraseManagement
+        Session $customerSession,
+        ActionInterface $action,
+        ContextBuilder $actionContextBuilder
     ) {
         $this->formKeyValidator = $formKeyValidator;
         $this->authentication = $authentication;
-        $this->session = $session;
-        $this->eraseManagement = $eraseManagement;
+        $this->customerSession = $customerSession;
+        $this->action = $action;
+        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($context, $config);
     }
 
@@ -73,17 +82,23 @@ class ErasePost extends AbstractPrivacy
             return $resultRedirect->setRefererOrBaseUrl();
         }
 
+        $customerId = (int) $this->customerSession->getCustomerId();
+        $this->actionContextBuilder->setPerformedBy($this->customerSession->getCustomerData()->getEmail());
+        $this->actionContextBuilder->setParameters([
+            ArgumentReader::ENTITY_ID => $customerId,
+            ArgumentReader::ENTITY_TYPE => 'customer'
+        ]);
+
         try {
-            $customerId = (int) $this->session->getCustomerId();
             $this->authentication->authenticate($customerId, $this->getRequest()->getParam('password'));
-            $this->eraseManagement->create($customerId, 'customer');
+            $this->action->execute($this->actionContextBuilder->create());
             $this->messageManager->addWarningMessage(new Phrase('Your personal data is being removed soon.'));
         } catch (InvalidEmailOrPasswordException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
             $resultRedirect->setRefererOrBaseUrl();
         } catch (UserLockedException $e) {
-            $this->session->logout();
-            $this->session->start();
+            $this->customerSession->logout();
+            $this->customerSession->start();
             $this->messageManager->addErrorMessage(
                 new Phrase('You did not sign in correctly or your account is temporarily disabled.')
             );

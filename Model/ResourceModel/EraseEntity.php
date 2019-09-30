@@ -23,7 +23,7 @@ class EraseEntity extends AbstractDb
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      * @param string|array $field
      * @param mixed $value
      * @param AbstractModel $object

@@ -31,7 +31,7 @@ final class DataCollectorGeneric implements DataCollectorInterface
         array $dataCollectors
     ) {
         $this->typeResolver = $typeResolver;
-        $this->dataCollectors = (static function (DataCollectorInterface ...$dataCollectors) {
+        $this->dataCollectors = (static function (DataCollectorInterface ...$dataCollectors): array {
             return $dataCollectors;
         })(...\array_values($dataCollectors));
 

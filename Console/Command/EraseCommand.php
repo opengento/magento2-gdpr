@@ -12,7 +12,9 @@ use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
-use Opengento\Gdpr\Api\EraseEntityManagementInterface;
+use Opengento\Gdpr\Api\ActionInterface;
+use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,19 +36,26 @@ class EraseCommand extends Command
     private $registry;
 
     /**
-     * @var EraseEntityManagementInterface
+     * @var ActionInterface
      */
-    private $eraseManagement;
+    private $action;
+
+    /**
+     * @var ContextBuilder
+     */
+    private $actionContextBuilder;
 
     public function __construct(
         State $appState,
         Registry $registry,
-        EraseEntityManagementInterface $eraseManagement,
+        ActionInterface $action,
+        ContextBuilder $actionContextBuilder,
         string $name = 'gdpr:entity:erase'
     ) {
         $this->appState = $appState;
         $this->registry = $registry;
-        $this->eraseManagement = $eraseManagement;
+        $this->action = $action;
+        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($name);
     }
 
@@ -86,9 +95,13 @@ class EraseCommand extends Command
 
         try {
             foreach ($entityIds as $entityId) {
-                $this->eraseManagement->process(
-                    $this->eraseManagement->create((int) $entityId, $entityType)
-                );
+                $this->actionContextBuilder->setPerformedBy('console');
+                $this->actionContextBuilder->setParameters([
+                    ArgumentReader::ENTITY_ID => $entityId,
+                    ArgumentReader::ENTITY_TYPE => $entityType
+                ]);
+                $this->action->execute($this->actionContextBuilder->create());
+
                 $output->writeln(
                     '<info>Entity\'s (' . $entityType . ') with ID "' . $entityId . '" has been erased.</info>'
                 );

@@ -16,24 +16,33 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Ui\Component\MassAction\Filter;
-use Opengento\Gdpr\Api\EraseEntityManagementInterface;
+use Opengento\Gdpr\Api\ActionInterface;
+use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\ContextBuilder;
 
 class MassErase extends AbstractMassAction
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::customer_erase';
 
     /**
-     * @var EraseEntityManagementInterface
+     * @var ActionInterface
      */
-    private $eraseManagement;
+    private $action;
+
+    /**
+     * @var ContextBuilder
+     */
+    private $actionContextBuilder;
 
     public function __construct(
         Context $context,
         Filter $filter,
         CollectionFactory $collectionFactory,
-        EraseEntityManagementInterface $eraseManagement
+        ActionInterface $action,
+        ContextBuilder $actionContextBuilder
     ) {
-        $this->eraseManagement = $eraseManagement;
+        $this->action = $action;
+        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($context, $filter, $collectionFactory);
     }
 
@@ -42,8 +51,14 @@ class MassErase extends AbstractMassAction
         $customerErased = 0;
 
         foreach ($collection->getAllIds() as $customerId) {
+            $this->actionContextBuilder->setPerformedBy();//todo admin user name
+            $this->actionContextBuilder->setParameters([
+                ArgumentReader::ENTITY_ID => (int) $customerId,
+                ArgumentReader::ENTITY_TYPE => 'customer'
+            ]);
+
             try {
-                $this->eraseManagement->process($this->eraseManagement->create((int) $customerId, 'customer'));
+                $this->action->execute($this->actionContextBuilder->create());
                 $customerErased++;
             } catch (LocalizedException $e) {
                 $this->messageManager->addErrorMessage(

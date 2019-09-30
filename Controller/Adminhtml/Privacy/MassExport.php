@@ -18,8 +18,12 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Ui\Component\MassAction\Filter;
+use Opengento\Gdpr\Api\ActionInterface;
+use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
 use Opengento\Gdpr\Model\Export\ExportEntityData;
+use function reset;
 
 class MassExport extends AbstractMassAction
 {
@@ -36,9 +40,14 @@ class MassExport extends AbstractMassAction
     private $moveToArchive;
 
     /**
-     * @var ExportEntityData
+     * @var ActionInterface
      */
-    private $exportEntityData;
+    private $action;
+
+    /**
+     * @var ContextBuilder
+     */
+    private $actionContextBuilder;
 
     public function __construct(
         Context $context,
@@ -46,11 +55,13 @@ class MassExport extends AbstractMassAction
         CollectionFactory $collectionFactory,
         FileFactory $fileFactory,
         MoveToArchive $moveToArchive,
-        ExportEntityData $exportEntityData
+        ActionInterface $action,
+        ContextBuilder $actionContextBuilder
     ) {
         $this->fileFactory = $fileFactory;
         $this->moveToArchive = $moveToArchive;
-        $this->exportEntityData = $exportEntityData;
+        $this->action = $action;
+        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($context, $filter, $collectionFactory);
     }
 
@@ -60,10 +71,13 @@ class MassExport extends AbstractMassAction
 
         try {
             foreach ($collection->getAllIds() as $customerId) {
-                $this->moveToArchive->prepareArchive(
-                    $this->exportEntityData->export((int) $customerId, 'customer'),
-                    $archiveFileName
-                );
+                $this->actionContextBuilder->setPerformedBy();//todo admin user name
+                $this->actionContextBuilder->setParameters([
+                    ArgumentReader::ENTITY_ID => (int) $customerId,
+                    ArgumentReader::ENTITY_TYPE => 'customer'
+                ]);
+                $result = $this->action->execute($this->actionContextBuilder->create());
+                $this->moveToArchive->prepareArchive(reset($result), $archiveFileName);
             }
 
             return $this->fileFactory->create(

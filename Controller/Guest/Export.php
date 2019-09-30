@@ -15,25 +15,34 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
 use Magento\Sales\Controller\AbstractController\OrderLoaderInterface;
-use Opengento\Gdpr\Api\ExportEntityManagementInterface;
+use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Controller\AbstractGuest;
+use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Config;
 
 class Export extends AbstractGuest
 {
     /**
-     * @var ExportEntityManagementInterface
+     * @var ActionInterface
      */
-    private $exportManagement;
+    private $action;
+
+    /**
+     * @var ContextBuilder
+     */
+    private $actionContextBuilder;
 
     public function __construct(
         Context $context,
         Config $config,
-        ExportEntityManagementInterface $exportManagement,
         OrderLoaderInterface $orderLoader,
-        Registry $registry
+        Registry $registry,
+        ActionInterface $action,
+        ContextBuilder $actionContextBuilder
     ) {
-        $this->exportManagement = $exportManagement;
+        $this->action = $action;
+        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($context, $config, $orderLoader, $registry);
     }
 
@@ -44,8 +53,19 @@ class Export extends AbstractGuest
 
     protected function executeAction()
     {
+        /** @var Redirect $resultRedirect */
+        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+        $resultRedirect->setRefererOrBaseUrl();
+
+        $order = $this->currentOrder();
+        $this->actionContextBuilder->setPerformedBy($order->getCustomerEmail());
+        $this->actionContextBuilder->setParameters([
+            ArgumentReader::ENTITY_ID => (int) $order->getCustomerId(),
+            ArgumentReader::ENTITY_TYPE => 'order'
+        ]);
+
         try {
-            $this->exportManagement->create($this->retrieveOrderId(), 'order');
+            $this->action->execute($this->actionContextBuilder->create());
             $this->messageManager->addSuccessMessage(new Phrase('You will be notified when the export is ready.'));
         } catch (AlreadyExistsException $e) {
             $this->messageManager->addNoticeMessage(new Phrase('A document is already available in your order page.'));
@@ -55,9 +75,6 @@ class Export extends AbstractGuest
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }
 
-        /** @var Redirect $resultRedirect */
-        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-
-        return $resultRedirect->setRefererOrBaseUrl();
+        return $resultRedirect;
     }
 }

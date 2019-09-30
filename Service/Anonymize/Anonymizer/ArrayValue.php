@@ -23,7 +23,7 @@ final class ArrayValue implements AnonymizerInterface
     public function __construct(
         array $anonymizers
     ) {
-        $this->anonymizers = (static function (AnonymizerInterface ...$anonymizers) {
+        $this->anonymizers = (static function (AnonymizerInterface ...$anonymizers): array {
             return $anonymizers;
         })(... $anonymizers);
     }
@@ -32,7 +32,7 @@ final class ArrayValue implements AnonymizerInterface
     {
         return array_reduce(
             $this->anonymizers,
-            static function ($array, AnonymizerInterface $anonymizer) use ($value) {
+            static function ($array, AnonymizerInterface $anonymizer) use ($value): array {
                 $array[] = $anonymizer->anonymize($value);
 
                 return $array;

@@ -37,7 +37,7 @@ final class CompositeProcessor implements ProcessorInterface
     {
         return array_reduce(
             $this->processors,
-            static function (array $data, ProcessorInterface $processor) use ($entityId) {
+            static function (array $data, ProcessorInterface $processor) use ($entityId): array {
                 return $processor->execute($entityId, $data);
             },
             $data

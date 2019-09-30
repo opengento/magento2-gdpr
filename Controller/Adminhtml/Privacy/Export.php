@@ -14,7 +14,10 @@ use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
+use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Controller\Adminhtml\AbstractAction;
+use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\Export\ExportEntityData;
 
@@ -28,31 +31,45 @@ class Export extends AbstractAction
     private $fileFactory;
 
     /**
-     * @var ExportEntityData
+     * @var ActionInterface
      */
-    private $exportEntityData;
+    private $action;
+
+    /**
+     * @var ContextBuilder
+     */
+    private $actionContextBuilder;
 
     public function __construct(
         Context $context,
         Config $config,
         FileFactory $fileFactory,
-        ExportEntityData $exportEntityData
+        ActionInterface $action,
+        ContextBuilder $actionContextBuilder
     ) {
         $this->fileFactory = $fileFactory;
-        $this->exportEntityData = $exportEntityData;
+        $this->action = $action;
+        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($context, $config);
     }
 
     protected function executeAction()
     {
+        $customerId = (int) $this->getRequest()->getParam('id');
+        $this->actionContextBuilder->setPerformedBy();//todo admin user name
+        $this->actionContextBuilder->setParameters([
+            ArgumentReader::ENTITY_ID => $customerId,
+            ArgumentReader::ENTITY_TYPE => 'customer'
+        ]);
+
         try {
-            $customerId = (int) $this->getRequest()->getParam('id');
+            $result = $this->action->execute($this->actionContextBuilder->create());
 
             return $this->fileFactory->create(
                 'customer_privacy_data_' . $customerId . '.zip',
                 [
                     'type' => 'filename',
-                    'value' => $this->exportEntityData->export($customerId, 'customer'),
+                    'value' => reset($result),
                     'rm' => true,
                 ],
                 DirectoryList::TMP

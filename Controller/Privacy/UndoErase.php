@@ -13,8 +13,10 @@ use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\EraseEntityManagementInterface;
+use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
+use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Config;
 
 class UndoErase extends AbstractPrivacy
@@ -22,21 +24,26 @@ class UndoErase extends AbstractPrivacy
     /**
      * @var Session
      */
-    private $session;
+    private $customerSession;
 
     /**
-     * @var EraseEntityManagementInterface
+     * @var ActionInterface
      */
-    private $eraseManagement;
+    private $action;
+
+    /**
+     * @var ContextBuilder
+     */
+    private $actionContextBuilder;
 
     public function __construct(
         Context $context,
         Config $config,
-        Session $session,
-        EraseEntityManagementInterface $eraseManagement
+        Session $customerSession,
+        ActionInterface $action
     ) {
-        $this->session = $session;
-        $this->eraseManagement = $eraseManagement;
+        $this->customerSession = $customerSession;
+        $this->action = $action;
         parent::__construct($context, $config);
     }
 
@@ -49,9 +56,16 @@ class UndoErase extends AbstractPrivacy
     {
         /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+        $resultRedirect->setPath('customer/privacy/settings');
+
+        $this->actionContextBuilder->setPerformedBy($this->customerSession->getCustomerData()->getEmail());
+        $this->actionContextBuilder->setParameters([
+            ArgumentReader::ENTITY_ID => (int) $this->customerSession->getCustomerId(),
+            ArgumentReader::ENTITY_TYPE => 'customer'
+        ]);
 
         try {
-            $this->eraseManagement->cancel((int) $this->session->getCustomerId(), 'customer');
+            $this->action->execute($this->actionContextBuilder->create());
             $this->messageManager->addSuccessMessage(new Phrase('You canceled your account deletion.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
@@ -59,6 +73,6 @@ class UndoErase extends AbstractPrivacy
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }
 
-        return $resultRedirect->setPath('customer/privacy/settings');
+        return $resultRedirect;
     }
 }

@@ -14,16 +14,24 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
+use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
+use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Config;
 
 class Export extends AbstractPrivacy
 {
     /**
-     * @var ExportEntityManagementInterface
+     * @var ActionInterface
      */
-    private $exportManagement;
+    private $action;
+
+    /**
+     * @var ContextBuilder
+     */
+    private $actionContextBuilder;
 
     /**
      * @var Session
@@ -33,10 +41,12 @@ class Export extends AbstractPrivacy
     public function __construct(
         Context $context,
         Config $config,
-        ExportEntityManagementInterface $exportManagement,
+        ActionInterface $action,
+        ContextBuilder $actionContextBuilder,
         Session $customerSession
     ) {
-        $this->exportManagement = $exportManagement;
+        $this->action = $action;
+        $this->actionContextBuilder = $actionContextBuilder;
         $this->customerSession = $customerSession;
         parent::__construct($context, $config);
     }
@@ -48,8 +58,18 @@ class Export extends AbstractPrivacy
 
     protected function executeAction()
     {
+        /** @var Redirect $resultRedirect */
+        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+        $resultRedirect->setRefererOrBaseUrl();
+
+        $this->actionContextBuilder->setPerformedBy($this->customerSession->getCustomerData()->getEmail());
+        $this->actionContextBuilder->setParameters([
+            ArgumentReader::ENTITY_ID => (int) $this->customerSession->getCustomerId(),
+            ArgumentReader::ENTITY_TYPE => 'customer'
+        ]);
+
         try {
-            $this->exportManagement->create((int) $this->customerSession->getCustomerId(), 'customer');
+            $this->action->execute($this->actionContextBuilder->create());
             $this->messageManager->addSuccessMessage(new Phrase('You will be notified when the export is ready.'));
         } catch (AlreadyExistsException $e) {
             $this->messageManager->addNoticeMessage(new Phrase('A document is already available in your account.'));
@@ -59,9 +79,6 @@ class Export extends AbstractPrivacy
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }
 
-        /** @var Redirect $resultRedirect */
-        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-
-        return $resultRedirect->setRefererOrBaseUrl();
+        return $resultRedirect;
     }
 }

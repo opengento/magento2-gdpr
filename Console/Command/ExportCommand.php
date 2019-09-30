@@ -11,12 +11,16 @@ use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
-use Opengento\Gdpr\Api\ExportEntityManagementInterface;
+use Opengento\Gdpr\Api\ActionInterface;
+use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\Export\ArgumentReader as ExportArgumentReader;
+use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use function reset;
 
 class ExportCommand extends Command
 {
@@ -30,17 +34,24 @@ class ExportCommand extends Command
     private $appState;
 
     /**
-     * @var ExportEntityManagementInterface
+     * @var ActionInterface
      */
-    private $exportManagement;
+    private $action;
+
+    /**
+     * @var ContextBuilder
+     */
+    private $actionContextBuilder;
 
     public function __construct(
         State $appState,
-        ExportEntityManagementInterface $exportManagement,
+        ActionInterface $action,
+        ContextBuilder $actionContextBuilder,
         string $name = 'gdpr:entity:export'
     ) {
         $this->appState = $appState;
-        $this->exportManagement = $exportManagement;
+        $this->action = $action;
+        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($name);
     }
 
@@ -85,10 +96,15 @@ class ExportCommand extends Command
 
         try {
             foreach ($entityIds as $entityId) {
-                $out = $this->exportManagement->export(
-                    $this->exportManagement->create((int) $entityId, $entityType, $fileName . '_' . $entityId)
-                );
-                $output->writeln('<info>Entity\'s related data have been exported to: ' . $out . '.</info>');
+                $this->actionContextBuilder->setPerformedBy('console');
+                $this->actionContextBuilder->setParameters([
+                    ArgumentReader::ENTITY_ID => $entityId,
+                    ArgumentReader::ENTITY_TYPE => $entityType,
+                    ExportArgumentReader::EXPORT_FILE_NAME => $fileName . '_' . $entityId
+                ]);
+                $result = $this->action->execute($this->actionContextBuilder->create())->getResult();
+
+                $output->writeln('<info>Entity\'s related data have been exported to: ' . reset($result) . '.</info>');
             }
         } catch (\Exception $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');
