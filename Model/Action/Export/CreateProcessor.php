@@ -10,9 +10,9 @@ namespace Opengento\Gdpr\Model\Action\Export;
 use InvalidArgumentException;
 use Opengento\Gdpr\Api\Data\ActionEntityInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
-use Opengento\Gdpr\Model\Action\ProcessorInterface;
 use Opengento\Gdpr\Model\Action\ArgumentReader;
 use Opengento\Gdpr\Model\Action\Export\ArgumentReader as ExportArgumentReader;
+use Opengento\Gdpr\Model\Action\ProcessorInterface;
 
 final class CreateProcessor implements ProcessorInterface
 {

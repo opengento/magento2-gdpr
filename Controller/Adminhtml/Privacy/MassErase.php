@@ -16,6 +16,7 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Ui\Component\MassAction\Filter;
+use Magento\User\Model\User;
 use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Model\Action\ArgumentReader;
 use Opengento\Gdpr\Model\Action\ContextBuilder;
@@ -49,9 +50,12 @@ class MassErase extends AbstractMassAction
     protected function massAction(AbstractCollection $collection)
     {
         $customerErased = 0;
+        /** @var User $user */
+        $user = $this->_auth->getUser();
+        $performedBy = 'Admin: ' . $user->getUserName();
 
         foreach ($collection->getAllIds() as $customerId) {
-            $this->actionContextBuilder->setPerformedBy();//todo admin user name
+            $this->actionContextBuilder->setPerformedBy($performedBy);
             $this->actionContextBuilder->setParameters([
                 ArgumentReader::ENTITY_ID => (int) $customerId,
                 ArgumentReader::ENTITY_TYPE => 'customer'

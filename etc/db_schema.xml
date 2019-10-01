@@ -56,11 +56,8 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="action_id"/>
         </constraint>
-        <index referenceId="OPENGENTO_GDPR_ACTION_ENTITY_ENTITY_ID" indexType="btree">
-            <column name="entity_id"/>
-        </index>
-        <index referenceId="OPENGENTO_GDPR_ACTION_ENTITY_ENTITY_TYPE" indexType="btree">
-            <column name="entity_type"/>
+        <index referenceId="OPENGENTO_GDPR_ACTION_ENTITY_SCHEDULED_AT" indexType="btree">
+            <column name="scheduled_at"/>
         </index>
     </table>
 </schema>

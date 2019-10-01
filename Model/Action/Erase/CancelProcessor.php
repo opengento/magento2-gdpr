@@ -10,8 +10,8 @@ namespace Opengento\Gdpr\Model\Action\Erase;
 use InvalidArgumentException;
 use Opengento\Gdpr\Api\Data\ActionEntityInterface;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
-use Opengento\Gdpr\Model\Action\ProcessorInterface;
 use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\ProcessorInterface;
 
 final class CancelProcessor implements ProcessorInterface
 {

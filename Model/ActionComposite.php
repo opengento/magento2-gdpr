@@ -7,12 +7,14 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model;
 
+use DateTime;
 use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Api\Data\ActionContextInterface;
+use Opengento\Gdpr\Api\Data\ActionEntityInterface;
 use Opengento\Gdpr\Api\Data\ActionResultInterface;
 use Opengento\Gdpr\Model\Action\ContextBuilder;
+use Opengento\Gdpr\Model\Action\ResultBuilder;
 use function array_merge;
-use function array_reduce;
 use function array_values;
 
 final class ActionComposite implements ActionInterface
@@ -28,35 +30,48 @@ final class ActionComposite implements ActionInterface
     private $contextBuilder;
 
     /**
-     * ActionComposite constructor.
-     *
+     * @var ResultBuilder
+     */
+    private $resultBuilder;
+
+    /**
      * @param ActionInterface[] $actions
      * @param ContextBuilder $contextBuilder
+     * @param ResultBuilder $resultBuilder
      */
     public function __construct(
         array $actions,
-        ContextBuilder $contextBuilder
+        ContextBuilder $contextBuilder,
+        ResultBuilder $resultBuilder
     ) {
         $this->actions = (static function (ActionInterface ...$actions): array {
             return $actions;
         })(...array_values($actions));
         $this->contextBuilder = $contextBuilder;
+        $this->resultBuilder = $resultBuilder;
     }
 
     public function execute(ActionContextInterface $actionContext): ActionResultInterface
     {
-        return array_reduce(
-            $this->actions,
-            static function (ActionContextInterface $context, ActionInterface $action): ActionContextInterface {
-                $result = $action->execute($context);
+        foreach ($this->actions as $action) {
+            $result = $action->execute($actionContext);
 
-                $this->contextBuilder->setPerformedBy($context->getPerformedBy());
-                $this->contextBuilder->setParameters(array_merge($context->getParameters(), $result->getResult()));
-                $this->contextBuilder->setScheduledAt($context->getScheduledAt());
+            $this->contextBuilder->setPerformedBy($actionContext->getPerformedBy());
+            $this->contextBuilder->setParameters(array_merge($actionContext->getParameters(), $result->getResult()));
+            $this->contextBuilder->setScheduledAt($actionContext->getScheduledAt());
 
-                return $this->contextBuilder->create();
-            },
-            $actionContext
-        );
+            $actionContext = $this->contextBuilder->create();
+        }
+
+        return $result ?? $this->defaultResult();
+    }
+
+    private function defaultResult(): ActionResultInterface
+    {
+        $this->resultBuilder->setPerformedAt(new DateTime());
+        $this->resultBuilder->setState(ActionEntityInterface::STATE_FAILED);
+        $this->resultBuilder->setResult([]);
+
+        return $this->resultBuilder->create();
     }
 }

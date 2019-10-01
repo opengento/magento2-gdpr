@@ -19,7 +19,7 @@ final class ArgumentReader
         return $actionEntity->getParameters()[self::ENTITY_TYPE] ?? null;
     }
 
-    public static function getEntityId(ActionEntityInterface $actionEntity): ?string
+    public static function getEntityId(ActionEntityInterface $actionEntity): ?int
     {
         return $actionEntity->getParameters()[self::ENTITY_ID] ?? null;
     }

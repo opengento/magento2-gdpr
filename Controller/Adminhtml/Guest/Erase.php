@@ -13,6 +13,7 @@ use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
+use Magento\User\Model\User;
 use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Controller\Adminhtml\AbstractAction;
 use Opengento\Gdpr\Model\Action\ArgumentReader;
@@ -46,7 +47,10 @@ class Erase extends AbstractAction implements HttpPostActionInterface
 
     protected function executeAction()
     {
-        $this->actionContextBuilder->setPerformedBy();//todo admin user name
+        /** @var User $user */
+        $user = $this->_auth->getUser();
+
+        $this->actionContextBuilder->setPerformedBy('Admin: ' . $user->getUserName());
         $this->actionContextBuilder->setParameters([
             ArgumentReader::ENTITY_ID => (int) $this->getRequest()->getParam('id'),
             ArgumentReader::ENTITY_TYPE => 'order'

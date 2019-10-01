@@ -9,7 +9,6 @@ namespace Opengento\Gdpr\Model;
 
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Opengento\Gdpr\Api\Data\ActionEntityInterface;
-use Opengento\Gdpr\Api\Data\ActionResultInterface;
 use Opengento\Gdpr\Model\ResourceModel\ActionEntity as ActionEntityResource;
 
 class ActionEntity extends AbstractExtensibleModel implements ActionEntityInterface

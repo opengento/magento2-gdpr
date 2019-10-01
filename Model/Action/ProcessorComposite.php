@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Action;
 
 use Opengento\Gdpr\Api\Data\ActionEntityInterface;
-use function array_reduce;
+use function array_merge;
 use function array_values;
 
 /**
@@ -34,12 +34,12 @@ final class ProcessorComposite implements ProcessorInterface
 
     public function execute(ActionEntityInterface $actionEntity): array
     {
-        return array_reduce(
-            $this->processors,
-            static function (ProcessorInterface $processor) use ($actionEntity): array {
-                return $processor->execute($actionEntity);
-            },
-            []
-        );
+        $results = [];
+
+        foreach ($this->processors as $processor) {
+            $results[] = $processor->execute($actionEntity);
+        }
+
+        return array_merge(...$results);
     }
 }
