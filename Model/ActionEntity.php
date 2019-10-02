@@ -50,6 +50,16 @@ class ActionEntity extends AbstractExtensibleModel implements ActionEntityInterf
         return $this->setData(self::SCHEDULED_AT, $scheduledAt);
     }
 
+    public function getPerformedFrom(): ?string
+    {
+        return $this->_getData(self::PERFORMED_FROM) === null ? null : (string) $this->_getData(self::PERFORMED_FROM);
+    }
+
+    public function setPerformedFrom(?string $performedFrom): ActionEntityInterface
+    {
+        return $this->setData(self::PERFORMED_FROM, $performedFrom);
+    }
+
     public function getPerformedBy(): ?string
     {
         return $this->_getData(self::PERFORMED_BY) === null ? null : (string) $this->_getData(self::PERFORMED_BY);

@@ -20,6 +20,7 @@ interface ActionEntityInterface extends ExtensibleDataInterface
     public const ID = 'action_id';
     public const TYPE = 'type';
     public const SCHEDULED_AT = 'scheduled_at';
+    public const PERFORMED_FROM = 'performed_from';
     public const PERFORMED_BY = 'performed_by';
     public const PERFORMED_AT = 'performed_at';
     public const STATE = 'state';
@@ -47,6 +48,10 @@ interface ActionEntityInterface extends ExtensibleDataInterface
     public function getScheduledAt(): ?string;
 
     public function setScheduledAt(?string $scheduledAt): ActionEntityInterface;
+
+    public function getPerformedFrom(): ?string;
+
+    public function setPerformedFrom(?string $performedFrom): ActionEntityInterface;
 
     public function getPerformedBy(): ?string;
 

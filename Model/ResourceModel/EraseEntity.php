@@ -10,8 +10,9 @@ namespace Opengento\Gdpr\Model\ResourceModel;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\AbstractModel;
-use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
+use Magento\Framework\Model\ResourceModel\Db\VersionControl\AbstractDb;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
+use function is_array;
 
 class EraseEntity extends AbstractDb
 {
@@ -32,7 +33,7 @@ class EraseEntity extends AbstractDb
      */
     protected function _getLoadSelect($field, $value, $object): Select
     {
-        if (!\is_array($field) && !\is_array($value)) {
+        if (!is_array($field) && !is_array($value)) {
             return parent::_getLoadSelect($field, $value, $object);
         }
 

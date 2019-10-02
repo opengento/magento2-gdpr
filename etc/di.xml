@@ -39,6 +39,15 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Framework\EntityManager\HydratorPool">
+        <arguments>
+            <argument name="hydrators" xsi:type="array">
+                <item name="Opengento\Gdpr\Api\Data\ActionEntityInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Opengento\Gdpr\Api\Data\EraseEntityInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Opengento\Gdpr\Api\Data\ExportEntityInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+            </argument>
+        </arguments>
+    </type>
     <!-- Action Management -->
     <virtualType name="Opengento\Gdpr\Model\Action\EraseCreateProcessor" type="Opengento\Gdpr\Model\Action\ProcessorComposite">
         <arguments>
@@ -1688,6 +1697,20 @@
             </argument>
         </arguments>
     </virtualType>
+    <!-- Ui Component Settings -->
+    <virtualType name="Opengento\Gdpr\Model\ResourceModel\ActionEntity\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">opengento_gdpr_action_entity</argument>
+            <argument name="resourceModel" xsi:type="string">Opengento\Gdpr\Model\ResourceModel\ActionEntity</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="gdpr_action_listing_data_source" xsi:type="string">Opengento\Gdpr\Model\ResourceModel\ActionEntity\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
     <!-- Console Commands Notifier Management -->
     <type name="Opengento\Gdpr\Console\Command\EraseCommand">
         <arguments>

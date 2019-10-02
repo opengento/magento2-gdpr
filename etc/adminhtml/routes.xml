@@ -7,6 +7,9 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
     <router id="admin">
+        <route id="gdpr" frontName="gdpr">
+            <module name="Opengento_Gdpr" after="Magento_Backend"/>
+        </route>
         <route id="customer">
             <module name="Opengento_Gdpr" after="Magento_Customer"/>
         </route>
