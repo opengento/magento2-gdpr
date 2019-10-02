@@ -6,6 +6,15 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Opengento\Gdpr\Controller\Adminhtml\Action\InlineEdit">
+        <arguments>
+            <argument name="allowedAttributes" xsi:type="array">
+                <item name="scheduled_at" xsi:type="const">Opengento\Gdpr\Api\Data\ActionEntityInterface::SCHEDULED_AT</item>
+                <item name="message" xsi:type="const">Opengento\Gdpr\Api\Data\ActionEntityInterface::MESSAGE</item>
+                <item name="parameters" xsi:type="const">Opengento\Gdpr\Api\Data\ActionEntityInterface::PARAMETERS</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\Erase">
         <arguments>
             <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CreateExecute</argument><!-- todo use secure eraser -->

@@ -18,6 +18,9 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\ActionEntityRepositoryInterface;
 use Opengento\Gdpr\Api\Data\ActionEntityInterface;
+use Psr\Log\LoggerInterface;
+use function array_fill_keys;
+use function array_intersect_key;
 use function is_array;
 
 class InlineEdit extends Action implements HttpPostActionInterface
@@ -34,13 +37,27 @@ class InlineEdit extends Action implements HttpPostActionInterface
      */
     private $hydratorPool;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @var string[]
+     */
+    private $allowedAttributes;
+
     public function __construct(
         Context $context,
         ActionEntityRepositoryInterface $actionEntityRepository,
-        HydratorPool $hydratorPool
+        HydratorPool $hydratorPool,
+        LoggerInterface $logger,
+        array $allowedAttributes
     ) {
         $this->actionEntityRepository = $actionEntityRepository;
         $this->hydratorPool = $hydratorPool;
+        $this->logger = $logger;
+        $this->allowedAttributes = $allowedAttributes;
         parent::__construct($context);
     }
 
@@ -58,11 +75,12 @@ class InlineEdit extends Action implements HttpPostActionInterface
 
         foreach ($postItems as $actionId => $item) {
             try {
-                $this->edit($actionId);
+                $this->edit($actionId, $item);
             } catch (LocalizedException $e) {
                 $messages[] = new Phrase('Action with ID "%1": %2', [$actionId, $e->getMessage()]);
                 $error = true;
             } catch (Exception $e) {
+                $this->logger->error($e->getMessage(), $e->getTrace());
                 $messages[] = new Phrase(
                     'Action with ID "%1": %2',
                     [$actionId, new Phrase('An error occurred on the server.')]
@@ -74,21 +92,24 @@ class InlineEdit extends Action implements HttpPostActionInterface
         return $resultJson->setData(compact('messages', 'error'));
     }
 
-    private function edit(int $actionId): void
+    /**
+     * @param int $actionId
+     * @param array $data
+     * @return void
+     * @throws LocalizedException
+     */
+    private function edit(int $actionId, array $data): void
     {
-        $actionEntity = $this->actionEntityRepository->getById($actionId);
+        $hydrator = $this->hydratorPool->getHydrator(ActionEntityInterface::class);
 
-        $hydrator = $this->hydratorPool->getHydrator(ActionEntityRepositoryInterface::class);
         /** @var ActionEntityInterface $actionEntity */
-        $actionEntity = $hydrator->hydrate($actionEntity, $this->postData($actionId));
+        $actionEntity = $hydrator->hydrate(
+            $this->actionEntityRepository->getById($actionId),
+            array_intersect_key($data, array_fill_keys($this->allowedAttributes, null))
+        );
+
+        //todo disallow edit parameters and scheduled_at when state is not set to "pending"
 
         $this->actionEntityRepository->save($actionEntity);
-    }
-
-    private function postData(int $actionId): array
-    {
-        //todo filter input data
-
-        return [];
     }
 }

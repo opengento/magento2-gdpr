@@ -11,6 +11,13 @@
     <preference for="Opengento\Gdpr\Api\Data\ActionEntitySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
     <preference for="Opengento\Gdpr\Api\ActionEntityRepositoryInterface" type="Opengento\Gdpr\Model\ActionEntityRepository"/>
     <preference for="Opengento\Gdpr\Api\ActionEntityManagementInterface" type="Opengento\Gdpr\Model\ActionEntityManagement"/>
+    <type name="Opengento\Gdpr\Model\ResourceModel\ActionEntity\Validator">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="state" xsi:type="object">Opengento\Gdpr\Model\ResourceModel\ActionEntity\Validator\StateValidator</item>
+            </argument>
+        </arguments>
+    </type>
     <!-- Action Service Contract -->
     <preference for="Opengento\Gdpr\Api\ActionInterface" type="Opengento\Gdpr\Model\Action"/>
     <preference for="Opengento\Gdpr\Api\Data\ActionContextInterface" type="Opengento\Gdpr\Model\Action\Context"/>

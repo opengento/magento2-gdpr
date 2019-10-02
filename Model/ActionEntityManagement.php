@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model;
 
 use DateTime;
+use Magento\Framework\App\State;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Stdlib\DateTime as DateTimeFormat;
 use Magento\Framework\Stdlib\DateTime\DateTime as DateTimeManager;
@@ -29,6 +30,11 @@ final class ActionEntityManagement implements ActionEntityManagementInterface
     private $processorFactory;
 
     /**
+     * @var State
+     */
+    private $areaState;
+
+    /**
      * @var DateTimeManager
      */
     private $dateTime;
@@ -36,15 +42,18 @@ final class ActionEntityManagement implements ActionEntityManagementInterface
     public function __construct(
         ActionEntityRepositoryInterface $actionEntityRepository,
         ProcessorFactory $processorFactory,
+        State $areaState,
         DateTimeManager $dateTime
     ) {
         $this->actionEntityRepository = $actionEntityRepository;
         $this->processorFactory = $processorFactory;
+        $this->areaState = $areaState;
         $this->dateTime = $dateTime;
     }
 
     public function execute(ActionEntityInterface $actionEntity): ActionEntityInterface
     {
+        $actionEntity->setPerformedFrom($this->areaState->getAreaCode());
         $actionEntity->setPerformedAt($this->dateTime->date(DateTimeFormat::DATETIME_PHP_FORMAT));
         $actionEntity->setState(ActionEntityInterface::STATE_PROCESSING);
         $actionEntity->setMessage('');
@@ -63,6 +72,7 @@ final class ActionEntityManagement implements ActionEntityManagementInterface
 
     public function schedule(ActionEntityInterface $actionEntity, DateTime $scheduledAt): ActionEntityInterface
     {
+        $actionEntity->setPerformedFrom($this->areaState->getAreaCode());
         $actionEntity->setScheduledAt($scheduledAt->format(DateTimeFormat::DATETIME_PHP_FORMAT));
         $actionEntity->setState(ActionEntityInterface::STATE_PENDING);
         $actionEntity->setMessage('');

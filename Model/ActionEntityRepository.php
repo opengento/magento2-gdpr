@@ -92,7 +92,7 @@ final class ActionEntityRepository implements ActionEntityRepositoryInterface
                 throw new NoSuchEntityException(new Phrase('Entity with id "%1" does not exists.', [$entityId]));
             }
 
-            $this->instances[$entityId];
+            $this->instances[$entityId] = $entity;
         }
 
         return $this->instances[$entityId];
