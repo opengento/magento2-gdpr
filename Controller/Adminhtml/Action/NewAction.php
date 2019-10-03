@@ -13,18 +13,18 @@ use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Phrase;
 
-class Index extends Action implements HttpGetActionInterface
+class NewAction extends Action implements HttpGetActionInterface
 {
-    public const ADMIN_RESOURCE = 'Opengento_Gdpr::gdpr_action';
+    public const ADMIN_RESOURCE = 'Opengento_Gdpr::gdpr_actions_execute';
 
     public function execute()
     {
         /** @var Page $resultPage */
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
         $resultPage->setActiveMenu('Opengento_Gdpr::gdpr_actions');
-        $resultPage->getConfig()->getTitle()->set(new Phrase('View Actions'));
+        $resultPage->getConfig()->getTitle()->set(new Phrase('Execute New Action'));
         $resultPage->addBreadcrumb(new Phrase('GDPR'), new Phrase('GDPR'));
-        $resultPage->addBreadcrumb(new Phrase('View Actions'), new Phrase('View Actions'));
+        $resultPage->addBreadcrumb(new Phrase('Execute New Action'), new Phrase('Execute New Action'));
 
         return $resultPage;
     }

@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">gdpr_action_form.gdpr_action_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">New Action</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="save" class="Opengento\Gdpr\Block\Adminhtml\Action\Edit\ExecuteButton"/>
+            <button name="reset" class="Opengento\Gdpr\Block\Adminhtml\Action\Edit\ResetButton"/>
+            <button name="back" class="Opengento\Gdpr\Block\Adminhtml\Action\Edit\BackButton"/>
+        </buttons>
+        <namespace>gdpr_action_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>gdpr_action_form.gdpr_action_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="gdpr_action_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="gdpr/action/execute"/>
+        </settings>
+        <aclResource>Opengento_Gdpr::gdpr_actions_execute</aclResource>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="gdpr_action_form_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>action_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="general">
+        <settings>
+            <label translate="true">General</label>
+        </settings>
+        <field name="type" formElement="select">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Type</label>
+                <tooltip>
+                    <description translate="true">Action types are registered in the code.</description>
+                    <link>https://opengento.fr/magento2-gdpr/</link>
+                </tooltip>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataScope>type</dataScope>
+                <visible>true</visible>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Opengento\Gdpr\Model\Config\Source\ActionTypes"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="scheduled_at" formElement="date">
+            <settings>
+                <validation>
+                    <rule name="validate-optional-datetime" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Scheduled At</label>
+                <notice translate="true">Schedule the action in the time.</notice>
+                <dataScope>scheduled_at</dataScope>
+                <visible>true</visible>
+            </settings>
+            <formElements>
+                <date>
+                    <settings>
+                        <options>
+                            <option name="timeFormat" xsi:type="string">h:mm:ss A</option>
+                            <option name="dateFormat" xsi:type="string">MMM d, YYYY</option>
+                            <option name="showsTime" xsi:type="boolean">true</option>
+                        </options>
+                    </settings>
+                </date>
+            </formElements>
+        </field>
+        <container name="parameters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/dynamic-rows/dynamic-rows</item>
+                    <item name="template" xsi:type="string">ui/dynamic-rows/templates/default</item>
+                    <item name="componentType" xsi:type="string">dynamicRows</item>
+                    <item name="recordTemplate" xsi:type="string">parameter</item>
+                    <item name="addButtonLabel" xsi:type="string">Add Parameter</item>
+                    <item name="deleteProperty" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Parameters</item>
+                </item>
+            </argument>
+            <container name="parameter">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Parameter</item>
+                        <item name="component" xsi:type="string" translate="true">Magento_Ui/js/dynamic-rows/record</item>
+                        <item name="isTemplate" xsi:type="boolean">true</item>
+                        <item name="is_collection" xsi:type="boolean">true</item>
+                        <item name="showFallbackReset" xsi:type="boolean">false</item>
+                    </item>
+                </argument>
+                <field name="name" formElement="input">
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Name</label>
+                        <dataScope>name</dataScope>
+                        <visible>true</visible>
+                        <validation>
+                            <rule name="required-entry" xsi:type="boolean">true</rule>
+                        </validation>
+                    </settings>
+                </field>
+                <field name="value" formElement="input">
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Value</label>
+                        <dataScope>value</dataScope>
+                        <visible>true</visible>
+                        <validation>
+                            <rule name="required-entry" xsi:type="boolean">true</rule>
+                        </validation>
+                    </settings>
+                </field>
+                <actionDelete template="Magento_Backend/dynamic-rows/cells/action-delete">
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Actions</label>
+                        <additionalClasses>
+                            <class name="data-grid-actions-cell">true</class>
+                        </additionalClasses>
+                    </settings>
+                </actionDelete>
+                <field name="position" formElement="input">
+                    <settings>
+                        <dataType>number</dataType>
+                        <label translate="true">Position</label>
+                        <dataScope>position</dataScope>
+                        <visible>false</visible>
+                    </settings>
+                </field>
+            </container>
+        </container>
+    </fieldset>
+</form>

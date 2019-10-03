@@ -32,7 +32,7 @@
             <updateUrl path="mui/index/render"/>
         </settings>
         <aclResource>Opengento_Gdpr::gdpr_actions</aclResource>
-        <dataProvider class="Magento\Cms\Ui\Component\DataProvider" name="gdpr_action_listing_data_source">
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="gdpr_action_listing_data_source">
             <settings>
                 <requestFieldName>id</requestFieldName>
                 <primaryFieldName>action_id</primaryFieldName>

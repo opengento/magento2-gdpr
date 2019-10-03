@@ -30,8 +30,9 @@
                 <resource id="Magento_Backend::stores">
                     <resource id="Opengento_Gdpr::gdpr" title="GDPR" translate="title" sortOrder="100">
                         <resource id="Opengento_Gdpr::gdpr_actions" title="GDPR Actions" translate="title" sortOrder="10">
-                            <resource id="Opengento_Gdpr::gdpr_actions_edit" title="Edit Actions" translate="title" sortOrder="10"/>
-                            <resource id="Opengento_Gdpr::gdpr_actions_cancel" title="Cancel Actions" translate="title" sortOrder="10"/>
+                            <resource id="Opengento_Gdpr::gdpr_actions_execute" title="Execute Actions" translate="title" sortOrder="10"/>
+                            <resource id="Opengento_Gdpr::gdpr_actions_edit" title="Edit Actions" translate="title" sortOrder="20"/>
+                            <resource id="Opengento_Gdpr::gdpr_actions_cancel" title="Cancel Actions" translate="title" sortOrder="30"/>
                         </resource>
                     </resource>
                     <resource id="Magento_Backend::stores_settings">

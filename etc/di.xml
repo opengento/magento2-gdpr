@@ -1705,7 +1705,7 @@
         </arguments>
     </virtualType>
     <!-- Ui Component Settings -->
-    <virtualType name="Opengento\Gdpr\Model\ResourceModel\ActionEntity\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+    <virtualType name="Opengento\Gdpr\Model\ResourceModel\ActionEntity\SearchResult" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
             <argument name="mainTable" xsi:type="string">opengento_gdpr_action_entity</argument>
             <argument name="resourceModel" xsi:type="string">Opengento\Gdpr\Model\ResourceModel\ActionEntity</argument>
@@ -1714,7 +1714,8 @@
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
-                <item name="gdpr_action_listing_data_source" xsi:type="string">Opengento\Gdpr\Model\ResourceModel\ActionEntity\Grid\Collection</item>
+                <item name="gdpr_action_listing_data_source" xsi:type="string">Opengento\Gdpr\Model\ResourceModel\ActionEntity\SearchResult</item>
+                <item name="gdpr_action_form_data_source" xsi:type="string">Opengento\Gdpr\Model\ResourceModel\ActionEntity\SearchResult</item>
             </argument>
         </arguments>
     </type>
