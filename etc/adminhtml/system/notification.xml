@@ -6,7 +6,7 @@
  */
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <group id="notification" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
+    <group id="notification" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
         <label>Notification</label>
         <group id="general" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
             <label>General Settings</label>

@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Cron;
 
+use Exception;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
@@ -61,16 +62,17 @@ final class ExportEntity
     public function execute(): void
     {
         if ($this->config->isModuleEnabled() && $this->config->isExportEnabled()) {
+            $this->searchCriteriaBuilder->addFilter(ExportEntityInterface::EXPORTED_AT, true, 'null');
+            $this->searchCriteriaBuilder->addFilter(ExportEntityInterface::FILE_PATH, true, 'null');
+
             try {
-                $this->searchCriteriaBuilder->addFilter(ExportEntityInterface::EXPORTED_AT, true, 'null');
-                $this->searchCriteriaBuilder->addFilter(ExportEntityInterface::FILE_PATH, true, 'null');
                 $exportList = $this->exportEntityRepository->getList($this->searchCriteriaBuilder->create());
 
                 /** @var ExportEntityInterface $exportEntity */
                 foreach ($exportList->getItems() as $exportEntity) {
                     $this->exportEntityManagement->export($exportEntity);
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->logger->error($e->getMessage(), $e->getTrace());
             }
         }

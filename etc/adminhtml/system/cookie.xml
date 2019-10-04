@@ -6,7 +6,7 @@
  */
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <group id="cookie" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
+    <group id="cookie" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60">
         <label>Cookie Settings</label>
         <depends>
             <field id="customer/gdpr/general/enabled">1</field>

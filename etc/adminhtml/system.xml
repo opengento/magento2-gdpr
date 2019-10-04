@@ -14,6 +14,8 @@
             <resource>Opengento_Gdpr::config</resource>
             <!-- Global Settings -->
             <include path="Opengento_Gdpr::system/general.xml"/>
+            <!-- Action Settings -->
+            <include path="Opengento_Gdpr::system/action.xml"/>
             <!-- Erasure Settings -->
             <include path="Opengento_Gdpr::system/erasure.xml"/>
             <!-- Export Settings -->

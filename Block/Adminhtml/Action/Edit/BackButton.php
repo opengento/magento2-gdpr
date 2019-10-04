@@ -10,7 +10,6 @@ namespace Opengento\Gdpr\Block\Adminhtml\Action\Edit;
 use Magento\Framework\Phrase;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
-use function sprintf;
 
 final class BackButton implements ButtonProviderInterface
 {

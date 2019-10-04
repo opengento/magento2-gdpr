@@ -7,6 +7,9 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
     <group id="gdpr">
+        <job name="" instance="Opengento\Gdpr\Cron\ActionEntity" method="execute">
+            <config_path>gdpr/action/entity_schedule</config_path>
+        </job>
         <job name="gdpr_erase_entity" instance="Opengento\Gdpr\Cron\EraseEntity" method="execute">
             <config_path>gdpr/erasure/entity_schedule</config_path>
         </job>

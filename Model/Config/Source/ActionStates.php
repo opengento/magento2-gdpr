@@ -35,13 +35,14 @@ final class ActionStates implements OptionSourceInterface
     ) {
         $this->additionalOptions = $additionalOptions;
         $this->options = [];
+        $this->optionArray = [];
     }
 
     public function toOptionArray(): array
     {
         if (!$this->optionArray) {
             foreach ($this->loadOptions() as $value => $label) {
-                $this->optionArray[] = compact($value, $label);
+                $this->optionArray[] = compact('value', 'label');
             }
         }
 
@@ -50,7 +51,7 @@ final class ActionStates implements OptionSourceInterface
 
     public function getOptionText(string $state): ?string
     {
-        return $this->loadOptions()[$state] ?? null;
+        return isset($this->loadOptions()[$state]) ? (string) $this->loadOptions()[$state] : null;
     }
 
     private function loadOptions(): array

@@ -7,8 +7,8 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\ResourceModel;
 
-use Magento\Framework\Model\ResourceModel\Db\VersionControl\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Context;
+use Magento\Framework\Model\ResourceModel\Db\VersionControl\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\VersionControl\RelationComposite;
 use Magento\Framework\Model\ResourceModel\Db\VersionControl\Snapshot;
 use Magento\Framework\Validator\ValidatorInterface;

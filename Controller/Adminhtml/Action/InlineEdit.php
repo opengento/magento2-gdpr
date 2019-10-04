@@ -21,6 +21,7 @@ use Opengento\Gdpr\Api\Data\ActionEntityInterface;
 use Psr\Log\LoggerInterface;
 use function array_fill_keys;
 use function array_intersect_key;
+use function array_merge;
 use function is_array;
 
 class InlineEdit extends Action implements HttpPostActionInterface
@@ -45,19 +46,19 @@ class InlineEdit extends Action implements HttpPostActionInterface
     /**
      * @var string[]
      */
-    private $allowedAttributes;
+    private $allowedAttributesByState;
 
     public function __construct(
         Context $context,
         ActionEntityRepositoryInterface $actionEntityRepository,
         HydratorPool $hydratorPool,
         LoggerInterface $logger,
-        array $allowedAttributes
+        array $allowedAttributesByState
     ) {
         $this->actionEntityRepository = $actionEntityRepository;
         $this->hydratorPool = $hydratorPool;
         $this->logger = $logger;
-        $this->allowedAttributes = $allowedAttributes;
+        $this->allowedAttributesByState = $allowedAttributesByState;
         parent::__construct($context);
     }
 
@@ -97,20 +98,23 @@ class InlineEdit extends Action implements HttpPostActionInterface
      * @param array $data
      * @return void
      * @throws LocalizedException
+     * @todo improve extensibility: these settings should be global and be used to disable field in the ui grid
      */
     private function edit(int $actionId, array $data): void
     {
         $hydrator = $this->hydratorPool->getHydrator(ActionEntityInterface::class);
+        $actionEntity = $this->actionEntityRepository->getById($actionId);
 
-
+        $allowedAttributes = array_merge(
+            $this->allowedAttributesByState['*'] ?? [],
+            $this->allowedAttributesByState[$actionEntity->getState()] ?? []
+        );
 
         /** @var ActionEntityInterface $actionEntity */
         $actionEntity = $hydrator->hydrate(
-            $this->actionEntityRepository->getById($actionId),
-            array_intersect_key($data, array_fill_keys($this->allowedAttributes, null))
+            $actionEntity,
+            array_intersect_key($data, array_fill_keys($allowedAttributes, null))
         );
-
-        //todo disallow edit parameters and scheduled_at when state is not set to "pending"
 
         $this->actionEntityRepository->save($actionEntity);
     }

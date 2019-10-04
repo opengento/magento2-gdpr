@@ -12,6 +12,9 @@
                 <enabled>0</enabled>
                 <page_id>privacy-policy-cookie-restriction-mode</page_id>
             </general>
+            <action>
+                <entity_schedule>* * * * *</entity_schedule>
+            </action>
             <anonymize>
                 <customer_attributes>
                     <![CDATA[[

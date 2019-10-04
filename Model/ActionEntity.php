@@ -112,7 +112,7 @@ class ActionEntity extends AbstractExtensibleModel implements ActionEntityInterf
 
     public function getResult(): array
     {
-        return $this->_getData(self::RESULT);
+        return $this->_getData(self::RESULT) ?? [];
     }
 
     public function setResult(array $result): ActionEntityInterface

@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model;
 
+use Exception;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\SearchResultsInterface;
@@ -79,7 +80,7 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
         try {
             $this->eraseEntityResource->save($entity);
             $this->register($entity);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CouldNotSaveException(new Phrase('Could not save the entity.'), $e);
         }
 
@@ -147,7 +148,7 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
         try {
             $this->remove($entity);
             $this->eraseEntityResource->delete($entity);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CouldNotDeleteException(
                 new Phrase('Could not delete entity with id "%1".', [$entity->getEraseId()]),
                 $e

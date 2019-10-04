@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model;
 
+use Exception;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\SearchResultsInterface;
@@ -88,7 +89,7 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
         try {
             $this->exportEntityResource->save($entity);
             $this->register($entity);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CouldNotSaveException(new Phrase('Could not save the entity.'), $e);
         }
 
@@ -157,7 +158,7 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
             $this->fileSystem->getDirectoryWrite(DirectoryList::TMP)->delete($entity->getFilePath());
             $this->remove($entity);
             $this->exportEntityResource->delete($entity);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CouldNotDeleteException(
                 new Phrase('Could not delete entity with id "%1".', [$entity->getExportId()]),
                 $e

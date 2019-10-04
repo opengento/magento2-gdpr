@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Cron;
 
+use DateTime;
+use Exception;
 use Magento\Framework\Api\FilterBuilder;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\Erase\EraseEntityScheduler as EraseEntitySchedulerService;
@@ -68,10 +70,10 @@ final class EraseEntityScheduler
         if ($this->config->isModuleEnabled() && $this->config->isErasureEnabled()) {
             try {
                 $this->filterBuilder->setField('created_at');
-                $this->filterBuilder->setValue(new \DateTime('-' . $this->config->getErasureMaxAge() . 'days'));
+                $this->filterBuilder->setValue(new DateTime('-' . $this->config->getErasureMaxAge() . 'days'));
                 $this->filterBuilder->setConditionType('lteq');
                 $this->eraseEntityScheduler->schedule($this->entityTypes, $this->filterBuilder->create());
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->logger->error($e->getMessage(), $e->getTrace());
             }
         }

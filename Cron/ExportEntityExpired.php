@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Cron;
 
+use Exception;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Stdlib\DateTime;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
@@ -54,19 +55,20 @@ final class ExportEntityExpired
     public function execute(): void
     {
         if ($this->config->isModuleEnabled() && $this->config->isExportEnabled()) {
+            $this->searchCriteriaBuilder->addFilter(
+                ExportEntityInterface::EXPIRED_AT,
+                (new \DateTime())->format(DateTime::DATE_PHP_FORMAT),
+                'lteq'
+            );
+
             try {
-                $this->searchCriteriaBuilder->addFilter(
-                    ExportEntityInterface::EXPIRED_AT,
-                    (new \DateTime())->format(DateTime::DATE_PHP_FORMAT),
-                    'lteq'
-                );
                 $exportList = $this->exportEntityRepository->getList($this->searchCriteriaBuilder->create());
 
                 /** @var ExportEntityInterface $exportEntity */
                 foreach ($exportList->getItems() as $exportEntity) {
                     $this->exportEntityRepository->delete($exportEntity);
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->logger->error($e->getMessage(), $e->getTrace());
             }
         }
