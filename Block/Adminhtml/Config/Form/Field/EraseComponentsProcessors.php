@@ -16,8 +16,6 @@ use Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseComponents;
 
 final class EraseComponentsProcessors extends AbstractFieldArray
 {
-    private const ERASE_PROCESSORS_SELECT = '\Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseProcessors';
-
     /**
      * @throws LocalizedException
      */
@@ -46,7 +44,7 @@ final class EraseComponentsProcessors extends AbstractFieldArray
             $this->setData(
                 'erase_processors_select_renderer',
                 $this->getLayout()->createBlock(
-                    self::ERASE_PROCESSORS_SELECT,
+                    $this->getData('erase_processors_select'),
                     '',
                     ['data' => ['is_render_to_js_template' => true]]
                 )

@@ -129,7 +129,7 @@
                 <sales_max_age>3650</sales_max_age>
                 <allowed_states>canceled,closed,complete</allowed_states>
                 <remove_customer>1</remove_customer>
-                <components_processors>
+                <customer_components_processors>
                     <![CDATA[[
                         {"component":"customer","processor":"anonymize"},
                         {"component":"customer_address","processor":"anonymize"},
@@ -137,7 +137,14 @@
                         {"component":"order","processor":"anonymize"},
                         {"component":"subscriber","processor":"delete"}
                     ]]]>
-                </components_processors>
+                </customer_components_processors>
+                <guest_components_processors>
+                    <![CDATA[[
+                        {"component":"quote","processor":"delete"},
+                        {"component":"order","processor":"anonymize"},
+                        {"component":"subscriber","processor":"delete"}
+                    ]]]>
+                </guest_components_processors>
             </erasure>
             <export>
                 <enabled>0</enabled>

@@ -78,7 +78,7 @@
         <field id="customer_components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="90" canRestore="1">
             <label>Customer Component Erasure Strategy</label>
             <comment>Defines the components erasure strategy with the component/erase processor mapper for the customers.</comment>
-            <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\EraseComponentsProcessors</frontend_model>
+            <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Customer\EraseComponentsProcessors</frontend_model>
             <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
             <depends>
                 <field id="customer/gdpr/erasure/enabled">1</field>
@@ -89,7 +89,7 @@
         <field id="guest_components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100" canRestore="1">
             <label>Guest Component Erasure Strategy</label>
             <comment>Defines the components erasure strategy with the component/erase processor mapper for the guests.</comment>
-            <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\EraseComponentsProcessors</frontend_model>
+            <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Order\EraseComponentsProcessors</frontend_model>
             <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
             <depends>
                 <field id="customer/gdpr/erasure/enabled">1</field>
