@@ -6,6 +6,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Opengento\Gdpr\Model\Action\PerformedByInterface" type="Opengento\Gdpr\Model\Action\PerformedBy\AdminUser"/>
     <type name="Opengento\Gdpr\Controller\Adminhtml\Action\InlineEdit">
         <arguments>
             <argument name="allowedAttributesByState" xsi:type="array">

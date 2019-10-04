@@ -83,7 +83,6 @@ class ErasePost extends AbstractPrivacy
         }
 
         $customerId = (int) $this->customerSession->getCustomerId();
-        $this->actionContextBuilder->setPerformedBy($this->customerSession->getCustomerData()->getEmail());
         $this->actionContextBuilder->setParameters([
             ArgumentReader::ENTITY_ID => $customerId,
             ArgumentReader::ENTITY_TYPE => 'customer'

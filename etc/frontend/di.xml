@@ -6,6 +6,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Opengento\Gdpr\Model\Action\PerformedByInterface" type="Opengento\Gdpr\Model\Action\PerformedBy\FrontUser"/>
     <preference for="Opengento\Gdpr\Api\EraseEntityManagementInterface" type="Opengento\Gdpr\Model\Erase\SecureEraseEntityManagement"/>
     <type name="Opengento\Gdpr\Controller\AbstractPrivacy">
         <plugin name="customer_account" type="Magento\Customer\Controller\Plugin\Account"/>

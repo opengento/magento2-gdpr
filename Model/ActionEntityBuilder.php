@@ -11,6 +11,7 @@ use DateTime;
 use Magento\Framework\Stdlib\DateTime as DateTimeFormat;
 use Opengento\Gdpr\Api\Data\ActionEntityInterface;
 use Opengento\Gdpr\Api\Data\ActionEntityInterfaceFactory;
+use Opengento\Gdpr\Model\Action\PerformedByInterface;
 
 /**
  * @api
@@ -23,14 +24,21 @@ final class ActionEntityBuilder
     private $actionEntityFactory;
 
     /**
+     * @var PerformedByInterface
+     */
+    private $performedBy;
+
+    /**
      * @var array
      */
     private $data;
 
     public function __construct(
-        ActionEntityInterfaceFactory $actionEntityFactory
+        ActionEntityInterfaceFactory $actionEntityFactory,
+        PerformedByInterface $performedBy
     ) {
         $this->actionEntityFactory = $actionEntityFactory;
+        $this->performedBy = $performedBy;
         $this->data = [];
     }
 
@@ -71,6 +79,10 @@ final class ActionEntityBuilder
 
     public function create(): ActionEntityInterface
     {
+        if (!isset($this->data[ActionEntityInterface::PERFORMED_BY])) {
+            $this->data[ActionEntityInterface::PERFORMED_BY] = $this->performedBy->get();
+        }
+
         /** @var ActionEntityInterface $actionEntity */
         $actionEntity = $this->actionEntityFactory->create(['data' => $this->data]);
         $this->data = [];

@@ -11,6 +11,7 @@
     <preference for="Opengento\Gdpr\Api\Data\ActionEntitySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
     <preference for="Opengento\Gdpr\Api\ActionEntityRepositoryInterface" type="Opengento\Gdpr\Model\ActionEntityRepository"/>
     <preference for="Opengento\Gdpr\Api\ActionEntityManagementInterface" type="Opengento\Gdpr\Model\ActionEntityManagement"/>
+    <preference for="Opengento\Gdpr\Model\Action\PerformedByInterface" type="Opengento\Gdpr\Model\Action\PerformedBy\Console"/>
     <type name="Opengento\Gdpr\Model\ResourceModel\ActionEntity\Validator">
         <arguments>
             <argument name="validators" xsi:type="array">

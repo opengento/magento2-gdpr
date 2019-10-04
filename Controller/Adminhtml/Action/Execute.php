@@ -16,7 +16,6 @@ use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
-use Magento\User\Model\User;
 use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Api\ActionInterfaceFactory;
 use Opengento\Gdpr\Api\Data\ActionResultInterface;
@@ -78,12 +77,10 @@ class Execute extends Action implements HttpPostActionInterface
     /**
      * @return ActionResultInterface
      * @throws LocalizedException
+     * @throws Exception
      */
     private function proceed(): ActionResultInterface
     {
-        /** @var User $user */
-        $user = $this->_auth->getUser();
-
         $parameters = [];
         /** @var array $param */
         foreach ((array) $this->getRequest()->getParam('parameters', []) as $param) {
@@ -91,7 +88,6 @@ class Execute extends Action implements HttpPostActionInterface
         }
 
         $this->contextBuilder->setParameters($parameters);
-        $this->contextBuilder->setPerformedBy('Admin: ' . $user->getUserName());
         $this->contextBuilder->setScheduledAt(new DateTime($this->getRequest()->getParam('scheduled_at')));
 
         /** @var ActionInterface $action */

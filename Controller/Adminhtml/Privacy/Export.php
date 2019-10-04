@@ -14,7 +14,6 @@ use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
-use Magento\User\Model\User;
 use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Controller\Adminhtml\AbstractAction;
 use Opengento\Gdpr\Model\Action\ArgumentReader;
@@ -55,11 +54,8 @@ class Export extends AbstractAction
 
     protected function executeAction()
     {
-        /** @var User $user */
-        $user = $this->_auth->getUser();
         $customerId = (int) $this->getRequest()->getParam('id');
 
-        $this->actionContextBuilder->setPerformedBy('Admin: ' . $user->getUserName());
         $this->actionContextBuilder->setParameters([
             ArgumentReader::ENTITY_ID => $customerId,
             ArgumentReader::ENTITY_TYPE => 'customer'

@@ -18,7 +18,6 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Ui\Component\MassAction\Filter;
-use Magento\User\Model\User;
 use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Model\Action\ArgumentReader;
 use Opengento\Gdpr\Model\Action\ContextBuilder;
@@ -68,13 +67,9 @@ class MassExport extends AbstractMassAction
     protected function massAction(AbstractCollection $collection)
     {
         $archiveFileName = 'customers_privacy_data.zip';
-        /** @var User $user */
-        $user = $this->_auth->getUser();
-        $performedBy = 'Admin: ' . $user->getUserName();
 
         try {
             foreach ($collection->getAllIds() as $customerId) {
-                $this->actionContextBuilder->setPerformedBy($performedBy);
                 $this->actionContextBuilder->setParameters([
                     ArgumentReader::ENTITY_ID => (int) $customerId,
                     ArgumentReader::ENTITY_TYPE => 'customer'

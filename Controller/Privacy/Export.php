@@ -61,7 +61,6 @@ class Export extends AbstractPrivacy
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         $resultRedirect->setRefererOrBaseUrl();
 
-        $this->actionContextBuilder->setPerformedBy($this->customerSession->getCustomerData()->getEmail());
         $this->actionContextBuilder->setParameters([
             ArgumentReader::ENTITY_ID => (int) $this->customerSession->getCustomerId(),
             ArgumentReader::ENTITY_TYPE => 'customer'

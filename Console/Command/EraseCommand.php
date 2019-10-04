@@ -95,7 +95,6 @@ class EraseCommand extends Command
 
         try {
             foreach ($entityIds as $entityId) {
-                $this->actionContextBuilder->setPerformedBy('console');
                 $this->actionContextBuilder->setParameters([
                     ArgumentReader::ENTITY_ID => $entityId,
                     ArgumentReader::ENTITY_TYPE => $entityType
