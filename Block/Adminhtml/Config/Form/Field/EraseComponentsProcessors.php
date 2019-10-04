@@ -12,14 +12,13 @@ use Magento\Framework\DataObject;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Framework\View\Element\Html\Select;
-use Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseComponents;
 
 final class EraseComponentsProcessors extends AbstractFieldArray
 {
     /**
      * @throws LocalizedException
      */
-    public function getEraseComponentsSelectRenderer(): EraseComponents
+    public function getEraseComponentsSelectRenderer(): Select
     {
         if (!$this->hasData('erase_components_select_renderer')) {
             $this->setData(

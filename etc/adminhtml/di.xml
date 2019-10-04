@@ -102,14 +102,14 @@
             <argument name="optionSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Anonymizers</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Customer\EraseComponents" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseComponents">
+    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Customer\EraseComponents" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\OptionSourceSelect">
         <arguments>
-            <argument name="eraseComponentSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Customer\EraseComponents</argument>
+            <argument name="optionSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Customer\EraseComponents</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Order\EraseComponents" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseComponents">
+    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Order\EraseComponents" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\OptionSourceSelect">
         <arguments>
-            <argument name="eraseComponentSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Order\EraseComponents</argument>
+            <argument name="optionSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Order\EraseComponents</argument>
         </arguments>
     </virtualType>
     <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Customer\EraseProcessors" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\OptionSourceSelect">
