@@ -97,14 +97,19 @@
             <argument name="argumentName" xsi:type="string">processorResolvers</argument>
         </arguments>
     </virtualType>
-    <type name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseComponents">
-        <arguments>
-            <argument name="eraseComponentSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Customer\EraseComponents</argument>
-        </arguments>
-    </type>
     <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Anonymizers" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\OptionSourceSelect">
         <arguments>
             <argument name="optionSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Anonymizers</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Customer\EraseComponents" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseComponents">
+        <arguments>
+            <argument name="eraseComponentSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Customer\EraseComponents</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Order\EraseComponents" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseComponents">
+        <arguments>
+            <argument name="eraseComponentSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Order\EraseComponents</argument>
         </arguments>
     </virtualType>
     <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Customer\EraseProcessors" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\OptionSourceSelect">
@@ -120,6 +125,7 @@
     <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Customer\EraseComponentsProcessors" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\EraseComponentsProcessors">
         <arguments>
             <argument name="data" xsi:type="array">
+                <item name="erase_components_select" xsi:type="string">Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Customer\EraseComponents</item>
                 <item name="erase_processors_select" xsi:type="string">Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Customer\EraseProcessors</item>
             </argument>
         </arguments>
@@ -127,6 +133,7 @@
     <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Order\EraseComponentsProcessors" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\EraseComponentsProcessors">
         <arguments>
             <argument name="data" xsi:type="array">
+                <item name="erase_components_select" xsi:type="string">Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Order\EraseComponents</item>
                 <item name="erase_processors_select" xsi:type="string">Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Order\EraseProcessors</item>
             </argument>
         </arguments>

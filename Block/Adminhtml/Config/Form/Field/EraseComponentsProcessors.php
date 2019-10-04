@@ -25,7 +25,7 @@ final class EraseComponentsProcessors extends AbstractFieldArray
             $this->setData(
                 'erase_components_select_renderer',
                 $this->getLayout()->createBlock(
-                    EraseComponents::class,
+                    $this->getData('erase_components_select'),
                     '',
                     ['data' => ['is_render_to_js_template' => true]]
                 )
