@@ -32,7 +32,7 @@ class ActionEntity extends AbstractExtensibleModel implements ActionEntityInterf
 
     public function getType(): string
     {
-       return (string) $this->_getData(self::TYPE);
+        return (string) $this->_getData(self::TYPE);
     }
 
     public function setType(string $type): ActionEntityInterface

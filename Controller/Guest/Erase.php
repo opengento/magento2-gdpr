@@ -57,7 +57,7 @@ class Erase extends AbstractGuest
         $resultRedirect->setRefererOrBaseUrl();
 
         $this->actionContextBuilder->setParameters([
-            ArgumentReader::ENTITY_ID => (int) $this->currentOrder()->getCustomerId(),
+            ArgumentReader::ENTITY_ID => (int) $this->currentOrder()->getEntityId(),
             ArgumentReader::ENTITY_TYPE => 'order'
         ]);
 

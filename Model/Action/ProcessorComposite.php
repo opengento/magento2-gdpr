@@ -27,7 +27,7 @@ final class ProcessorComposite implements ProcessorInterface
     public function __construct(
         array $processors
     ) {
-        $this->processors = (static function(ProcessorInterface ...$processors): array {
+        $this->processors = (static function (ProcessorInterface ...$processors): array {
             return $processors;
         })(...array_values($processors));
     }

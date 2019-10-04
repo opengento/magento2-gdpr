@@ -62,7 +62,7 @@ class Download extends AbstractGuest
                 'customer_privacy_data_' . $order->getCustomerLastname() . '.zip',
                 [
                     'type' => 'filename',
-                    'value' => $this->exportRepository->getByEntity($this->retrieveOrderId(), 'order')->getFilePath(),
+                    'value' => $this->exportRepository->getByEntity((int) $order->getEntityId(), 'order')->getFilePath(),
                     'rm' => true,
                 ],
                 DirectoryList::TMP
