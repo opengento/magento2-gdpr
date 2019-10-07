@@ -18,32 +18,32 @@
     </type>
     <type name="Opengento\Gdpr\Controller\Privacy\ErasePost">
         <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\Create</argument>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateAction</argument>
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Controller\Guest\Erase">
         <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\Create</argument>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateAction</argument>
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Controller\Privacy\UndoErase">
         <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\Cancel</argument>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCancelAction</argument>
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Controller\Guest\UndoErase">
         <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\Cancel</argument>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCancelAction</argument>
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Controller\Privacy\Export">
         <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\Create</argument>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\ExportCreateAction</argument>
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Controller\Guest\Export">
         <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\Create</argument>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\ExportCreateAction</argument>
         </arguments>
     </type>
 </config>

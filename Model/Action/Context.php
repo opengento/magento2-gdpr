@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Action;
 
-use DateTime;
 use Opengento\Gdpr\Api\Data\ActionContextInterface;
 
 final class Context implements ActionContextInterface
@@ -22,16 +21,10 @@ final class Context implements ActionContextInterface
      */
     private $parameters;
 
-    /**
-     * @var DateTime|null
-     */
-    private $scheduledAt;
-
-    public function __construct(string $performedBy, array $parameters, ?DateTime $scheduledAt = null)
+    public function __construct(string $performedBy, array $parameters)
     {
         $this->performedBy = $performedBy;
         $this->parameters = $parameters;
-        $this->scheduledAt = $scheduledAt;
     }
 
     public function getPerformedBy(): string
@@ -42,10 +35,5 @@ final class Context implements ActionContextInterface
     public function getParameters(): array
     {
         return $this->parameters;
-    }
-
-    public function getScheduledAt(): ?DateTime
-    {
-        return $this->scheduledAt;
     }
 }

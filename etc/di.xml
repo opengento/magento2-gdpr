@@ -7,10 +7,11 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!-- Action Entity Service Contract -->
+    <preference for="Opengento\Gdpr\Api\Data\ActionContextInterface" type="Opengento\Gdpr\Model\Action\Context"/>
     <preference for="Opengento\Gdpr\Api\Data\ActionEntityInterface" type="Opengento\Gdpr\Model\ActionEntity"/>
+    <preference for="Opengento\Gdpr\Api\Data\ActionResultInterface" type="Opengento\Gdpr\Model\Action\Result"/>
     <preference for="Opengento\Gdpr\Api\Data\ActionEntitySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
     <preference for="Opengento\Gdpr\Api\ActionEntityRepositoryInterface" type="Opengento\Gdpr\Model\ActionEntityRepository"/>
-    <preference for="Opengento\Gdpr\Api\ActionEntityManagementInterface" type="Opengento\Gdpr\Model\ActionEntityManagement"/>
     <preference for="Opengento\Gdpr\Model\Action\PerformedByInterface" type="Opengento\Gdpr\Model\Action\PerformedBy\Console"/>
     <type name="Opengento\Gdpr\Model\ResourceModel\ActionEntity\Validator">
         <arguments>
@@ -19,10 +20,6 @@
             </argument>
         </arguments>
     </type>
-    <!-- Action Service Contract -->
-    <preference for="Opengento\Gdpr\Api\ActionInterface" type="Opengento\Gdpr\Model\Action"/>
-    <preference for="Opengento\Gdpr\Api\Data\ActionContextInterface" type="Opengento\Gdpr\Model\Action\Context"/>
-    <preference for="Opengento\Gdpr\Api\Data\ActionResultInterface" type="Opengento\Gdpr\Model\Action\Result"/>
     <!-- Erase Entity Service Contract -->
     <preference for="Opengento\Gdpr\Api\Data\EraseEntityInterface" type="Opengento\Gdpr\Model\EraseEntity"/>
     <preference for="Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
@@ -57,110 +54,71 @@
         </arguments>
     </type>
     <!-- Action Management -->
-    <virtualType name="Opengento\Gdpr\Model\Action\EraseCreateProcessor" type="Opengento\Gdpr\Model\Action\ProcessorComposite">
-        <arguments>
-            <argument name="processors" xsi:type="array">
-                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CreateProcessor</item>
-<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
-            </argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Action\EraseExecuteProcessor" type="Opengento\Gdpr\Model\Action\ProcessorComposite">
-        <arguments>
-            <argument name="processors" xsi:type="array">
-                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\ExecuteProcessor</item>
-<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
-            </argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Action\EraseCancelProcessor" type="Opengento\Gdpr\Model\Action\ProcessorComposite">
-        <arguments>
-            <argument name="processors" xsi:type="array">
-                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CancelProcessor</item>
-<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
-            </argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Action\ExportCreateProcessor" type="Opengento\Gdpr\Model\Action\ProcessorComposite">
-        <arguments>
-            <argument name="processors" xsi:type="array">
-                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateProcessor</item>
-<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
-            </argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Action\ExportExecuteProcessor" type="Opengento\Gdpr\Model\Action\ProcessorComposite">
-        <arguments>
-            <argument name="processors" xsi:type="array">
-                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\ExportProcessor</item>
-<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
-            </argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Action\ExportCreateOrExecuteProcessor" type="Opengento\Gdpr\Model\Action\ProcessorComposite">
-        <arguments>
-            <argument name="processors" xsi:type="array">
-                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateOrExportProcessor</item>
-<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
-            </argument>
-        </arguments>
-    </virtualType>
-    <type name="Opengento\Gdpr\Model\Action\ProcessorFactory">
-        <arguments>
-            <argument name="processors" xsi:type="array">
-                <item name="erase_create" xsi:type="string">Opengento\Gdpr\Model\Action\EraseCreateProcessor</item>
-                <item name="erase_execute" xsi:type="string">Opengento\Gdpr\Model\Action\EraseExecuteProcessor</item>
-                <item name="erase_cancel" xsi:type="string">Opengento\Gdpr\Model\Action\EraseCancelProcessor</item>
-                <item name="export_create" xsi:type="string">Opengento\Gdpr\Model\Action\ExportCreateProcessor</item>
-                <item name="export_execute" xsi:type="string">Opengento\Gdpr\Model\Action\ExportExecuteProcessor</item>
-                <item name="export_create_or_execute" xsi:type="string">Opengento\Gdpr\Model\Action\ExportCreateOrExecuteProcessor</item>
-            </argument>
-        </arguments>
-    </type>
-    <virtualType name="Opengento\Gdpr\Model\Action\Erase\Create" type="Opengento\Gdpr\Model\Action">
+    <!-- todo search replace old usage -->
+    <virtualType name="Opengento\Gdpr\Model\Action\EraseCreateAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
         <arguments>
             <argument name="type" xsi:type="string">erase_create</argument>
+            <argument name="actions" xsi:type="array">
+                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CreateAction</item>
+<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
+            </argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Action\Erase\Execute" type="Opengento\Gdpr\Model\Action">
+    <!-- todo search replace old usage -->
+    <virtualType name="Opengento\Gdpr\Model\Action\EraseExecuteAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
         <arguments>
             <argument name="type" xsi:type="string">erase_execute</argument>
+            <argument name="actions" xsi:type="array">
+                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\ExecuteAction</item>
+<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
+            </argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Action\Erase\Cancel" type="Opengento\Gdpr\Model\Action">
+    <!-- todo search replace old usage -->
+    <virtualType name="Opengento\Gdpr\Model\Action\EraseCancelAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
         <arguments>
             <argument name="type" xsi:type="string">erase_cancel</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Action\Erase\CreateExecute" type="Opengento\Gdpr\Model\ActionComposite">
-        <arguments>
             <argument name="actions" xsi:type="array">
-                <item name="create" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\Create</item>
-                <item name="execute" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\Execute</item>
+                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CancelAction</item>
+<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Action\Export\Create" type="Opengento\Gdpr\Model\Action">
+    <virtualType name="Opengento\Gdpr\Model\Action\EraseCreateExecuteAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
+        <arguments>
+            <argument name="actions" xsi:type="array">
+                <item name="create" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CreateAction</item>
+                <item name="execute" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\ExecuteAction</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- todo search replace old usage -->
+    <virtualType name="Opengento\Gdpr\Model\Action\ExportCreateAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
         <arguments>
             <argument name="type" xsi:type="string">export_create</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Action\Export\Execute" type="Opengento\Gdpr\Model\Action">
-        <arguments>
-            <argument name="type" xsi:type="string">export_execute</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Action\Export\CreateExecute" type="Opengento\Gdpr\Model\ActionComposite">
-        <arguments>
             <argument name="actions" xsi:type="array">
-                <item name="create" xsi:type="object">Opengento\Gdpr\Model\Action\Export\Create</item>
-                <item name="execute" xsi:type="object">Opengento\Gdpr\Model\Action\Export\Execute</item>
+                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateAction</item>
+<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Action\Export\CreateOrExecute" type="Opengento\Gdpr\Model\Action">
+    <!-- todo search replace old usage -->
+    <virtualType name="Opengento\Gdpr\Model\Action\ExportExecuteAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
+        <arguments>
+            <argument name="type" xsi:type="string">export_execute</argument>
+            <argument name="actions" xsi:type="array">
+                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\ExportAction</item>
+<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
         <arguments>
             <argument name="type" xsi:type="string">export_create_or_execute</argument>
+            <argument name="actions" xsi:type="array">
+                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateOrExportAction</item>
+<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
+            </argument>
         </arguments>
     </virtualType>
     <!-- Anonymize Management -->
@@ -1720,18 +1678,18 @@
             </argument>
         </arguments>
     </type>
-    <!-- Console Commands Notifier Management -->
+    <!-- Console Commands Management -->
     <type name="Opengento\Gdpr\Console\Command\EraseCommand">
         <arguments>
             <argument name="appState" xsi:type="object">Magento\Framework\App\State\Proxy</argument>
             <argument name="registry" xsi:type="object">Magento\Framework\Registry\Proxy</argument>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CreateExecute</argument>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</argument>
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Console\Command\ExportCommand">
         <arguments>
             <argument name="appState" xsi:type="object">Magento\Framework\App\State\Proxy</argument>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateExecute</argument>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Console\CommandList">

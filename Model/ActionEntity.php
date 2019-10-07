@@ -40,19 +40,9 @@ class ActionEntity extends AbstractExtensibleModel implements ActionEntityInterf
         return $this->setData(self::TYPE, $type);
     }
 
-    public function getScheduledAt(): ?string
+    public function getPerformedFrom(): string
     {
-        return $this->_getData(self::SCHEDULED_AT) === null ? null : (string) $this->_getData(self::SCHEDULED_AT);
-    }
-
-    public function setScheduledAt(?string $scheduledAt): ActionEntityInterface
-    {
-        return $this->setData(self::SCHEDULED_AT, $scheduledAt);
-    }
-
-    public function getPerformedFrom(): ?string
-    {
-        return $this->_getData(self::PERFORMED_FROM) === null ? null : (string) $this->_getData(self::PERFORMED_FROM);
+        return (string) $this->_getData(self::PERFORMED_FROM);
     }
 
     public function setPerformedFrom(?string $performedFrom): ActionEntityInterface
@@ -60,9 +50,9 @@ class ActionEntity extends AbstractExtensibleModel implements ActionEntityInterf
         return $this->setData(self::PERFORMED_FROM, $performedFrom);
     }
 
-    public function getPerformedBy(): ?string
+    public function getPerformedBy(): string
     {
-        return $this->_getData(self::PERFORMED_BY) === null ? null : (string) $this->_getData(self::PERFORMED_BY);
+        return (string) $this->_getData(self::PERFORMED_BY);
     }
 
     public function setPerformedBy(?string $performedBy): ActionEntityInterface

@@ -8,12 +8,14 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Action\Erase;
 
 use InvalidArgumentException;
-use Opengento\Gdpr\Api\Data\ActionEntityInterface;
+use Opengento\Gdpr\Api\Data\ActionContextInterface;
+use Opengento\Gdpr\Api\Data\ActionResultInterface;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
+use Opengento\Gdpr\Model\Action\AbstractAction;
 use Opengento\Gdpr\Model\Action\ArgumentReader;
-use Opengento\Gdpr\Model\Action\ProcessorInterface;
+use Opengento\Gdpr\Model\Action\ResultBuilder;
 
-final class CancelProcessor implements ProcessorInterface
+final class CreateAction extends AbstractAction
 {
     /**
      * @var EraseEntityManagementInterface
@@ -21,20 +23,24 @@ final class CancelProcessor implements ProcessorInterface
     private $eraseEntityManagement;
 
     public function __construct(
+        ResultBuilder $resultBuilder,
         EraseEntityManagementInterface $eraseEntityManagement
     ) {
         $this->eraseEntityManagement = $eraseEntityManagement;
+        parent::__construct($resultBuilder);
     }
 
-    public function execute(ActionEntityInterface $actionEntity): array
+    public function execute(ActionContextInterface $actionContext): ActionResultInterface
     {
-        $entityId = ArgumentReader::getEntityId($actionEntity);
-        $entityType = ArgumentReader::getEntityType($actionEntity);
+        $entityId = ArgumentReader::getEntityId($actionContext);
+        $entityType = ArgumentReader::getEntityType($actionContext);
 
         if ($entityId === null || $entityType === null) {
             throw new InvalidArgumentException('Arguments "entity_id" and "entity_type" are required.');
         }
 
-        return ['canceled' => $this->eraseEntityManagement->cancel($entityId, $entityType)];
+        return $this->createActionResult(
+            [ArgumentReader::ENTITY_TYPE => $this->eraseEntityManagement->create($entityId, $entityType)]
+        );
     }
 }

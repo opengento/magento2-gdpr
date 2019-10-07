@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Adminhtml\Action;
 
-use DateTime;
 use Exception;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
@@ -88,7 +87,6 @@ class Execute extends Action implements HttpPostActionInterface
         }
 
         $this->contextBuilder->setParameters($parameters);
-        $this->contextBuilder->setScheduledAt(new DateTime($this->getRequest()->getParam('scheduled_at')));
 
         /** @var ActionInterface $action */
         $action = $this->actionFactory->create(['type' => $this->getRequest()->getParam('type')]);

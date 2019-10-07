@@ -8,12 +8,14 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Action\Export;
 
 use InvalidArgumentException;
-use Opengento\Gdpr\Api\Data\ActionEntityInterface;
+use Opengento\Gdpr\Api\Data\ActionContextInterface;
+use Opengento\Gdpr\Api\Data\ActionResultInterface;
+use Opengento\Gdpr\Model\Action\AbstractAction;
 use Opengento\Gdpr\Model\Action\ArgumentReader;
-use Opengento\Gdpr\Model\Action\ProcessorInterface;
+use Opengento\Gdpr\Model\Action\ResultBuilder;
 use Opengento\Gdpr\Model\Export\ExportEntityData;
 
-final class CreateOrExportProcessor implements ProcessorInterface
+final class CreateOrExportAction extends AbstractAction
 {
     /**
      * @var ExportEntityData
@@ -21,20 +23,24 @@ final class CreateOrExportProcessor implements ProcessorInterface
     private $exportEntityData;
 
     public function __construct(
+        ResultBuilder $resultBuilder,
         ExportEntityData $exportEntityData
     ) {
         $this->exportEntityData = $exportEntityData;
+        parent::__construct($resultBuilder);
     }
 
-    public function execute(ActionEntityInterface $actionEntity): array
+    public function execute(ActionContextInterface $actionContext): ActionResultInterface
     {
-        $entityId = ArgumentReader::getEntityId($actionEntity);
-        $entityType = ArgumentReader::getEntityType($actionEntity);
+        $entityId = ArgumentReader::getEntityId($actionContext);
+        $entityType = ArgumentReader::getEntityType($actionContext);
 
         if ($entityId === null || $entityType === null) {
             throw new InvalidArgumentException('Arguments "entity_id" and "entity_type" are required.');
         }
 
-        return ['export_file_path' => $this->exportEntityData->export($entityId, $entityType)];
+        return $this->createActionResult(
+            ['export_file_path' => $this->exportEntityData->export($entityId, $entityType)]
+        );
     }
 }

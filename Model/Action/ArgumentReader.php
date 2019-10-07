@@ -7,20 +7,20 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Action;
 
-use Opengento\Gdpr\Api\Data\ActionEntityInterface;
+use Opengento\Gdpr\Api\Data\ActionContextInterface;
 
 final class ArgumentReader
 {
     public const ENTITY_TYPE = 'entity_type';
     public const ENTITY_ID = 'entity_id';
 
-    public static function getEntityType(ActionEntityInterface $actionEntity): ?string
+    public static function getEntityType(ActionContextInterface $actionContext): ?string
     {
-        return $actionEntity->getParameters()[self::ENTITY_TYPE] ?? null;
+        return $actionContext->getParameters()[self::ENTITY_TYPE] ?? null;
     }
 
-    public static function getEntityId(ActionEntityInterface $actionEntity): ?int
+    public static function getEntityId(ActionContextInterface $actionContext): ?int
     {
-        return $actionEntity->getParameters()[self::ENTITY_ID] ?? null;
+        return $actionContext->getParameters()[self::ENTITY_ID] ?? null;
     }
 }

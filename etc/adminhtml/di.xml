@@ -22,32 +22,32 @@
     </type>
     <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\Erase">
         <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CreateExecute</argument><!-- todo use secure eraser -->
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</argument><!-- todo use secure eraser -->
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Controller\Adminhtml\Guest\Erase">
         <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CreateExecute</argument><!-- todo use secure eraser -->
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</argument><!-- todo use secure eraser -->
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\MassErase">
         <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CreateExecute</argument>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</argument>
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\Export">
         <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateOrExecute</argument>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction</argument>
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Controller\Adminhtml\Guest\Export">
         <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateOrExecute</argument>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction</argument>
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\MassExport">
         <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateOrExecute</argument>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction</argument>
             <argument name="moveToArchive" xsi:type="object">Opengento\Gdpr\Model\Archive\MoveToZip</argument>
         </arguments>
     </type>

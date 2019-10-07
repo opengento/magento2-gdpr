@@ -59,17 +59,6 @@
                     <label translate="true">Edit</label>
                 </settings>
             </action>
-            <action name="cancel">
-                <settings>
-                    <confirm>
-                        <message translate="true">Are you sure you want to cancel the selected actions?</message>
-                        <title translate="true">Cancel Actions</title>
-                    </confirm>
-                    <url path="gdpr/action/massCancel"/>
-                    <type>cancel</type>
-                    <label translate="true">Cancel</label>
-                </settings>
-            </action>
         </massaction>
         <paging name="listing_paging"/>
     </listingToolbar>
@@ -175,10 +164,5 @@
                 <visible>true</visible>
             </settings>
         </column>
-        <actionsColumn name="actions" class="Opengento\Gdpr\Ui\Component\Listing\Column\Actions">
-            <settings>
-                <indexField>action_id</indexField>
-            </settings>
-        </actionsColumn>
     </columns>
 </listing>

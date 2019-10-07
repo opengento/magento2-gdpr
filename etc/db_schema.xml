@@ -47,7 +47,6 @@
     <table name="opengento_gdpr_action_entity" resource="default" engine="innodb" comment="Action Entity">
         <column xsi:type="smallint" name="action_id" padding="11" unsigned="true" nullable="false" identity="true" comment="Export ID"/>
         <column xsi:type="varchar" name="type" length="255" nullable="false" comment="Type"/>
-        <column xsi:type="timestamp" name="scheduled_at" nullable="true" comment="Scheduled At"/>
         <column xsi:type="text" name="performed_from" nullable="false" comment="Performed From"/>
         <column xsi:type="text" name="performed_by" nullable="true" comment="Performed By"/>
         <column xsi:type="timestamp" name="performed_at" nullable="false" comment="Performed At"/>

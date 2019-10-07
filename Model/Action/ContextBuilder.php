@@ -7,9 +7,11 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Action;
 
-use DateTime;
+use Magento\Framework\App\State;
+use Magento\Framework\Exception\LocalizedException;
 use Opengento\Gdpr\Api\Data\ActionContextInterface;
 use Opengento\Gdpr\Api\Data\ActionContextInterfaceFactory;
+use Opengento\Gdpr\Api\Data\ActionEntityInterface;
 
 /**
  * @api
@@ -22,14 +24,28 @@ final class ContextBuilder
     private $actionContextFactory;
 
     /**
+     * @var State
+     */
+    private $stateArea;
+
+    /**
+     * @var PerformedByInterface
+     */
+    private $performedBy;
+
+    /**
      * @var array
      */
     private $data;
 
     public function __construct(
-        ActionContextInterfaceFactory $actionContextFactory
+        ActionContextInterfaceFactory $actionContextFactory,
+        State $stateArea,
+        PerformedByInterface $performedBy
     ) {
         $this->actionContextFactory = $actionContextFactory;
+        $this->stateArea = $stateArea;
+        $this->performedBy = $performedBy;
         $this->data = [];
     }
 
@@ -47,15 +63,18 @@ final class ContextBuilder
         return $this;
     }
 
-    public function setScheduledAt(?DateTime $scheduledAt): ContextBuilder
-    {
-        $this->data['scheduledAt'] = $scheduledAt;
-
-        return $this;
-    }
-
+    /**
+     * @throws LocalizedException
+     */
     public function create(): ActionContextInterface
     {
+        if (!isset($this->data[ActionEntityInterface::PERFORMED_FROM])) {
+            $this->data[ActionEntityInterface::PERFORMED_FROM] = $this->stateArea->getAreaCode();
+        }
+        if (!isset($this->data[ActionEntityInterface::PERFORMED_BY])) {
+            $this->data[ActionEntityInterface::PERFORMED_BY] = $this->performedBy->get();
+        }
+
         /** @var ActionContextInterface $context */
         $context = $this->actionContextFactory->create($this->data);
         $this->data = [];

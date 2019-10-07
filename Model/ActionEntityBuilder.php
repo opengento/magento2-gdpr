@@ -8,10 +8,8 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model;
 
 use DateTime;
-use Magento\Framework\Stdlib\DateTime as DateTimeFormat;
 use Opengento\Gdpr\Api\Data\ActionEntityInterface;
 use Opengento\Gdpr\Api\Data\ActionEntityInterfaceFactory;
-use Opengento\Gdpr\Model\Action\PerformedByInterface;
 
 /**
  * @api
@@ -24,21 +22,14 @@ final class ActionEntityBuilder
     private $actionEntityFactory;
 
     /**
-     * @var PerformedByInterface
-     */
-    private $performedBy;
-
-    /**
      * @var array
      */
     private $data;
 
     public function __construct(
-        ActionEntityInterfaceFactory $actionEntityFactory,
-        PerformedByInterface $performedBy
+        ActionEntityInterfaceFactory $actionEntityFactory
     ) {
         $this->actionEntityFactory = $actionEntityFactory;
-        $this->performedBy = $performedBy;
         $this->data = [];
     }
 
@@ -49,9 +40,9 @@ final class ActionEntityBuilder
         return $this;
     }
 
-    public function setScheduledAt(DateTime $dateTime): ActionEntityBuilder
+    public function setPerformedFrom(string $performedFrom): ActionEntityBuilder
     {
-        $this->data[ActionEntityInterface::SCHEDULED_AT] = $dateTime->format(DateTimeFormat::DATETIME_PHP_FORMAT);
+        $this->data[ActionEntityInterface::PERFORMED_FROM] = $performedFrom;
 
         return $this;
     }
@@ -59,6 +50,13 @@ final class ActionEntityBuilder
     public function setPerformedBy(string $performedBy): ActionEntityBuilder
     {
         $this->data[ActionEntityInterface::PERFORMED_BY] = $performedBy;
+
+        return $this;
+    }
+
+    public function setPerformedAt(DateTime $performedAt): ActionEntityBuilder
+    {
+        $this->data[ActionEntityInterface::PERFORMED_AT] = $performedAt;
 
         return $this;
     }
@@ -77,12 +75,15 @@ final class ActionEntityBuilder
         return $this;
     }
 
+    public function setState(string $state): ActionEntityBuilder
+    {
+        $this->data[ActionEntityInterface::STATE] = $state;
+
+        return $this;
+    }
+
     public function create(): ActionEntityInterface
     {
-        if (!isset($this->data[ActionEntityInterface::PERFORMED_BY])) {
-            $this->data[ActionEntityInterface::PERFORMED_BY] = $this->performedBy->get();
-        }
-
         /** @var ActionEntityInterface $actionEntity */
         $actionEntity = $this->actionEntityFactory->create(['data' => $this->data]);
         $this->data = [];

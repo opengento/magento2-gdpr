@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Action\Export;
 
-use Opengento\Gdpr\Api\Data\ActionEntityInterface;
+use Opengento\Gdpr\Api\Data\ActionContextInterface;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 
 final class ArgumentReader
@@ -15,13 +15,13 @@ final class ArgumentReader
     public const EXPORT_ENTITY = 'export_entity';
     public const EXPORT_FILE_NAME = 'export_file_name';
 
-    public static function getEntity(ActionEntityInterface $actionEntity): ?ExportEntityInterface
+    public static function getEntity(ActionContextInterface $actionContext): ?ExportEntityInterface
     {
-        return $actionEntity->getParameters()[self::EXPORT_ENTITY] ?? null;
+        return $actionContext->getParameters()[self::EXPORT_ENTITY] ?? null;
     }
 
-    public static function getFileName(ActionEntityInterface $actionEntity): ?string
+    public static function getFileName(ActionContextInterface $actionContext): ?string
     {
-        return $actionEntity->getParameters()[self::EXPORT_FILE_NAME] ?? null;
+        return $actionContext->getParameters()[self::EXPORT_FILE_NAME] ?? null;
     }
 }

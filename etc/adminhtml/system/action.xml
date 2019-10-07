@@ -11,12 +11,5 @@
         <depends>
             <field id="customer/gdpr/general/enabled">1</field>
         </depends>
-        <field id="entity_schedule" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
-            <label>Action Entity Cron Schedule</label>
-            <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
-            </depends>
-            <config_path>gdpr/action/entity_schedule</config_path>
-        </field>
     </group>
 </include>
