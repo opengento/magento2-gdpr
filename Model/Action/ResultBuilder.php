@@ -33,6 +33,13 @@ final class ResultBuilder
         $this->data = [];
     }
 
+    public function setPerformedAt(DateTime $performedAt): ResultBuilder
+    {
+        $this->data['performedAt'] = $performedAt;
+
+        return $this;
+    }
+
     public function setState(string $state): ResultBuilder
     {
         $this->data['state'] = $state;
@@ -40,9 +47,9 @@ final class ResultBuilder
         return $this;
     }
 
-    public function setPerformedAt(DateTime $performedAt): ResultBuilder
+    public function setMessage(string $message): ResultBuilder
     {
-        $this->data['performedAt'] = $performedAt;
+        $this->data['message'] = $message;
 
         return $this;
     }

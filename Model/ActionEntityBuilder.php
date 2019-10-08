@@ -61,6 +61,20 @@ final class ActionEntityBuilder
         return $this;
     }
 
+    public function setState(string $state): ActionEntityBuilder
+    {
+        $this->data[ActionEntityInterface::STATE] = $state;
+
+        return $this;
+    }
+
+    public function setMessage(string $message): ActionEntityBuilder
+    {
+        $this->data[ActionEntityInterface::MESSAGE] = $message;
+
+        return $this;
+    }
+
     public function setParameters(array $parameters): ActionEntityBuilder
     {
         $this->data[ActionEntityInterface::PARAMETERS] = $parameters;
@@ -68,16 +82,9 @@ final class ActionEntityBuilder
         return $this;
     }
 
-    public function addParameter(string $key, $value): ActionEntityBuilder
+    public function setResult(array $result): ActionEntityBuilder
     {
-        $this->data[ActionEntityInterface::PARAMETERS][$key] = $value;
-
-        return $this;
-    }
-
-    public function setState(string $state): ActionEntityBuilder
-    {
-        $this->data[ActionEntityInterface::STATE] = $state;
+        $this->data[ActionEntityInterface::RESULT] = $result;
 
         return $this;
     }

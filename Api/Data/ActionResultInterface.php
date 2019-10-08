@@ -9,9 +9,11 @@ namespace Opengento\Gdpr\Api\Data;
 
 interface ActionResultInterface
 {
+    public function getPerformedAt()/*todo : DateTime*/;
+
     public function getState(): string;
 
-    public function getPerformedAt()/*todo : DateTime*/;
+    public function getMessage(): string;
 
     public function getResult(): array;
 }

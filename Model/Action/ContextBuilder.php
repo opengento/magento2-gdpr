@@ -11,7 +11,6 @@ use Magento\Framework\App\State;
 use Magento\Framework\Exception\LocalizedException;
 use Opengento\Gdpr\Api\Data\ActionContextInterface;
 use Opengento\Gdpr\Api\Data\ActionContextInterfaceFactory;
-use Opengento\Gdpr\Api\Data\ActionEntityInterface;
 
 /**
  * @api
@@ -49,6 +48,13 @@ final class ContextBuilder
         $this->data = [];
     }
 
+    public function setPerformedFrom(string $performedFrom): ContextBuilder
+    {
+        $this->data['performedFrom'] = $performedFrom;
+
+        return $this;
+    }
+
     public function setPerformedBy(string $performedBy): ContextBuilder
     {
         $this->data['performedBy'] = $performedBy;
@@ -68,11 +74,11 @@ final class ContextBuilder
      */
     public function create(): ActionContextInterface
     {
-        if (!isset($this->data[ActionEntityInterface::PERFORMED_FROM])) {
-            $this->data[ActionEntityInterface::PERFORMED_FROM] = $this->stateArea->getAreaCode();
+        if (!isset($this->data['performedFrom'])) {
+            $this->data['performedFrom'] = $this->stateArea->getAreaCode();
         }
-        if (!isset($this->data[ActionEntityInterface::PERFORMED_BY])) {
-            $this->data[ActionEntityInterface::PERFORMED_BY] = $this->performedBy->get();
+        if (!isset($this->data['performedBy'])) {
+            $this->data['performedBy'] = $this->performedBy->get();
         }
 
         /** @var ActionContextInterface $context */

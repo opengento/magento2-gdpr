@@ -14,6 +14,11 @@ final class Context implements ActionContextInterface
     /**
      * @var string
      */
+    private $performedFrom;
+
+    /**
+     * @var string
+     */
     private $performedBy;
 
     /**
@@ -21,10 +26,19 @@ final class Context implements ActionContextInterface
      */
     private $parameters;
 
-    public function __construct(string $performedBy, array $parameters)
-    {
+    public function __construct(
+        string $performedFrom,
+        string $performedBy,
+        array $parameters
+    ) {
+        $this->performedFrom = $performedFrom;
         $this->performedBy = $performedBy;
         $this->parameters = $parameters;
+    }
+
+    public function getPerformedFrom(): string
+    {
+        return $this->performedFrom;
     }
 
     public function getPerformedBy(): string

@@ -85,43 +85,47 @@ final class ActionComposite implements ActionInterface
         $this->actionEntityBuilder->setPerformedAt(new DateTime());
 
         try {
-            foreach ($this->actions as $action) {
-                $actionContext = $this->process($actionContext, $action);
-            }
             $this->actionEntityBuilder->setState(ActionEntityInterface::STATE_SUCCEEDED);
+            $this->actionEntityBuilder->setResult($this->process($actionContext));
         } catch (LocalizedException $e) {
             $this->actionEntityBuilder->setState(ActionEntityInterface::STATE_FAILED);
+            $this->actionEntityBuilder->setMessage($e->getMessage());
         }
 
-        $actionEntity = $this->actionEntityRepository->save($this->actionEntityBuilder->create());
+        $result = $this->result($this->actionEntityRepository->save($this->actionEntityBuilder->create()));
 
-        return $this->createActionResult(
-            $actionEntity->getState(),
-            array_merge(['message' => $actionEntity->getMessage()], $actionEntity->getResult())
-        );
+        if (isset($e)) {
+            throw $e;
+        }
+
+        return $result;
     }
 
     /**
      * @param ActionContextInterface $actionContext
-     * @param ActionInterface $action
-     * @return ActionContextInterface
+     * @return array
      * @throws LocalizedException
      */
-    private function process(ActionContextInterface $actionContext, ActionInterface $action): ActionContextInterface
+    private function process(ActionContextInterface $actionContext): array
     {
-        $result = $action->execute($actionContext);
+        foreach ($this->actions as $action) {
+            $this->contextBuilder->setPerformedFrom($actionContext->getPerformedFrom());
+            $this->contextBuilder->setPerformedBy($actionContext->getPerformedBy());
+            $this->contextBuilder->setParameters(
+                array_merge($actionContext->getParameters(), $action->execute($actionContext)->getResult())
+            );
+            $actionContext = $this->contextBuilder->create();
+        }
 
-        $this->contextBuilder->setPerformedBy($actionContext->getPerformedBy());
-        $this->contextBuilder->setParameters(array_merge($actionContext->getParameters(), $result->getResult()));
-
-        return $this->contextBuilder->create();
+        return $actionContext->getParameters();
     }
 
-    private function createActionResult(string $state, array $result): ActionResultInterface
+    private function result(ActionEntityInterface $actionEntity): ActionResultInterface
     {
         $this->resultBuilder->setPerformedAt(new DateTime());
-        $this->resultBuilder->setState($state);
-        $this->resultBuilder->setResult($result);
+        $this->resultBuilder->setState($actionEntity->getState());
+        $this->resultBuilder->setMessage($actionEntity->getMessage());
+        $this->resultBuilder->setResult($actionEntity->getResult());
 
         return $this->resultBuilder->create();
     }

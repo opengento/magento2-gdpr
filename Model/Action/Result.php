@@ -13,25 +13,40 @@ use Opengento\Gdpr\Api\Data\ActionResultInterface;
 final class Result implements ActionResultInterface
 {
     /**
+     * @var DateTime
+     */
+    private $performedAt;
+
+    /**
      * @var string
      */
     private $state;
 
     /**
-     * @var DateTime
+     * @var string
      */
-    private $performedAt;
+    private $message;
 
     /**
      * @var array
      */
     private $result;
 
-    public function __construct(string $state, DateTime $performedAt, array $result)
-    {
-        $this->state = $state;
+    public function __construct(
+        DateTime $performedAt,
+        string $state,
+        string $message,
+        array $result
+    ) {
         $this->performedAt = $performedAt;
+        $this->state = $state;
+        $this->message = $message;
         $this->result = $result;
+    }
+
+    public function getPerformedAt(): DateTime
+    {
+        return $this->performedAt;
     }
 
     public function getState(): string
@@ -39,9 +54,9 @@ final class Result implements ActionResultInterface
         return $this->state;
     }
 
-    public function getPerformedAt(): DateTime
+    public function getMessage(): string
     {
-        return $this->performedAt;
+        return $this->message;
     }
 
     public function getResult(): array
