@@ -12,6 +12,7 @@ use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
 use Opengento\Gdpr\Api\ActionInterface;
+use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Model\Action\ArgumentReader;
 use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Action\Export\ArgumentReader as ExportArgumentReader;
@@ -20,7 +21,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use function reset;
 
 class ExportCommand extends Command
 {
@@ -102,8 +102,12 @@ class ExportCommand extends Command
                     ExportArgumentReader::EXPORT_FILE_NAME => $fileName . '_' . $entityId
                 ]);
                 $result = $this->action->execute($this->actionContextBuilder->create())->getResult();
+                /** @var ExportEntityInterface $exportEntity */
+                $exportEntity = $result[ExportArgumentReader::EXPORT_ENTITY];
 
-                $output->writeln('<info>Entity\'s related data have been exported to: ' . reset($result) . '.</info>');
+                $output->writeln(
+                    '<info>Entity\'s related data have been exported to: ' . $exportEntity->getFilePath() . '.</info>'
+                );
             }
         } catch (\Exception $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');

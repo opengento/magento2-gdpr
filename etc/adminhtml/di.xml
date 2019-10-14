@@ -10,10 +10,6 @@
     <type name="Opengento\Gdpr\Controller\Adminhtml\Action\InlineEdit">
         <arguments>
             <argument name="allowedAttributesByState" xsi:type="array">
-                <item name="pending" xsi:type="array">
-                    <item name="scheduled_at" xsi:type="const">Opengento\Gdpr\Api\Data\ActionEntityInterface::SCHEDULED_AT</item>
-                    <item name="parameters" xsi:type="const">Opengento\Gdpr\Api\Data\ActionEntityInterface::PARAMETERS</item>
-                </item>
                 <item name="*" xsi:type="array">
                     <item name="message" xsi:type="const">Opengento\Gdpr\Api\Data\ActionEntityInterface::MESSAGE</item>
                 </item>

@@ -7,9 +7,11 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Api\Data;
 
+use DateTime;
+
 interface ActionResultInterface
 {
-    public function getPerformedAt()/*todo : DateTime*/;
+    public function getPerformedAt(): DateTime;
 
     public function getState(): string;
 

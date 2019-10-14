@@ -7,7 +7,9 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Export;
 
+use InvalidArgumentException;
 use Magento\Framework\ObjectManagerInterface;
+use function sprintf;
 
 /**
  * @api
@@ -39,7 +41,7 @@ final class ProcessorFactory
     public function get(string $entityType): ProcessorInterface
     {
         if (!isset($this->exporters[$entityType])) {
-            throw new \InvalidArgumentException(\sprintf('Unknown exporter for entity type "%s".', $entityType));
+            throw new InvalidArgumentException(sprintf('Unknown exporter for entity type "%s".', $entityType));
         }
 
         return $this->objectManager->get($this->exporters[$entityType]);

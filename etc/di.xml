@@ -50,65 +50,109 @@
                 <item name="Opengento\Gdpr\Api\Data\ActionEntityInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
                 <item name="Opengento\Gdpr\Api\Data\EraseEntityInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
                 <item name="Opengento\Gdpr\Api\Data\ExportEntityInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Opengento\Gdpr\Model\Newsletter\Subscriber" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <!-- FIX for missing configuration in the Magento2 Core -->
+                <item name="Magento\Quote\Api\Data\CartInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Magento\Quote\Api\Data\AddressInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Magento\Sales\Api\Data\OrderInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Magento\Sales\Api\Data\OrderAddressInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
             </argument>
         </arguments>
     </type>
+    <!-- Action Erase Notification Management -->
+    <virtualType name="Opengento\Gdpr\Model\Action\Erase\CreateNotifier" type="Opengento\Gdpr\Model\Action\Erase\NotifierActionBundle">
+        <arguments>
+            <argument name="notifiers" xsi:type="array">
+                <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\Notifier\Pending</item>
+                <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\Notifier\Pending</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Action\Erase\ExecuteNotifier" type="Opengento\Gdpr\Model\Action\Erase\NotifierActionBundle">
+        <arguments>
+            <argument name="notifiers" xsi:type="array">
+                <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\Notifier\Succeeded</item>
+                <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\Notifier\Succeeded</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Action\Erase\CancelNotifier" type="Opengento\Gdpr\Model\Action\Erase\NotifierActionBundle">
+        <arguments>
+            <argument name="notifiers" xsi:type="array">
+                <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\Notifier\Canceled</item>
+                <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\Notifier\Canceled</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Action Export Notification Management -->
+    <virtualType name="Opengento\Gdpr\Model\Action\Export\CreateNotifier" type="Opengento\Gdpr\Model\Action\Export\NotifierActionBundle">
+        <arguments>
+            <argument name="notifiers" xsi:type="array">
+                <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Export\Notifier\Pending</item>
+                <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Export\Notifier\Pending</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Action\Export\ExportNotifier" type="Opengento\Gdpr\Model\Action\Export\NotifierActionBundle">
+        <arguments>
+            <argument name="notifiers" xsi:type="array">
+                <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Export\Notifier\Ready</item>
+                <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Export\Notifier\Ready</item>
+            </argument>
+        </arguments>
+    </virtualType>
     <!-- Action Management -->
-    <!-- todo search replace old usage -->
     <virtualType name="Opengento\Gdpr\Model\Action\EraseCreateAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
         <arguments>
             <argument name="type" xsi:type="string">erase_create</argument>
             <argument name="actions" xsi:type="array">
                 <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CreateAction</item>
-<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
+                <item name="notifier" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CreateNotifier</item>
             </argument>
         </arguments>
     </virtualType>
-    <!-- todo search replace old usage -->
     <virtualType name="Opengento\Gdpr\Model\Action\EraseExecuteAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
         <arguments>
             <argument name="type" xsi:type="string">erase_execute</argument>
             <argument name="actions" xsi:type="array">
                 <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\ExecuteAction</item>
-<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
+                <item name="notifier" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\ExecuteNotifier</item>
             </argument>
         </arguments>
     </virtualType>
-    <!-- todo search replace old usage -->
     <virtualType name="Opengento\Gdpr\Model\Action\EraseCancelAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
         <arguments>
             <argument name="type" xsi:type="string">erase_cancel</argument>
             <argument name="actions" xsi:type="array">
                 <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CancelAction</item>
-<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
+                <item name="notifier" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CancelNotifier</item>
             </argument>
         </arguments>
     </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Action\EraseCreateExecuteAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
         <arguments>
+            <argument name="type" xsi:type="string">erase_create_execute</argument>
             <argument name="actions" xsi:type="array">
                 <item name="create" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CreateAction</item>
                 <item name="execute" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\ExecuteAction</item>
             </argument>
         </arguments>
     </virtualType>
-    <!-- todo search replace old usage -->
     <virtualType name="Opengento\Gdpr\Model\Action\ExportCreateAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
         <arguments>
             <argument name="type" xsi:type="string">export_create</argument>
             <argument name="actions" xsi:type="array">
                 <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateAction</item>
-<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
+                <item name="notifier" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateNotifier</item> 
             </argument>
         </arguments>
     </virtualType>
-    <!-- todo search replace old usage -->
     <virtualType name="Opengento\Gdpr\Model\Action\ExportExecuteAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
         <arguments>
             <argument name="type" xsi:type="string">export_execute</argument>
             <argument name="actions" xsi:type="array">
                 <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\ExportAction</item>
-<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
+                <item name="notifier" xsi:type="object">Opengento\Gdpr\Model\Action\Export\ExportNotifier</item>
             </argument>
         </arguments>
     </virtualType>
@@ -117,7 +161,7 @@
             <argument name="type" xsi:type="string">export_create_or_execute</argument>
             <argument name="actions" xsi:type="array">
                 <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateOrExportAction</item>
-<!--                <item name="notifier" xsi:type="object"></item>--><!-- todo -->
+                <item name="notifier" xsi:type="object">Opengento\Gdpr\Model\Action\Export\ExportNotifier</item>
             </argument>
         </arguments>
     </virtualType>
@@ -175,17 +219,6 @@
                     <item name="eavEntityType" xsi:type="string">customer_address</item>
                     <item name="identifierField" xsi:type="string">entity_id</item>
                 </item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="Magento\Framework\EntityManager\HydratorPool">
-        <arguments>
-            <argument name="hydrators" xsi:type="array">
-                <item name="Magento\Quote\Api\Data\CartInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
-                <item name="Magento\Quote\Api\Data\AddressInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
-                <item name="Magento\Sales\Api\Data\OrderInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
-                <item name="Magento\Sales\Api\Data\OrderAddressInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
-                <item name="Opengento\Gdpr\Model\Newsletter\Subscriber" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
             </argument>
         </arguments>
     </type>
@@ -1517,30 +1550,15 @@
             <argument name="archive" xsi:type="object">Opengento\Gdpr\Model\Archive\MoveToZip</argument>
         </arguments>
     </type>
-    <!-- Erase Notifier Management -->
-    <type name="Opengento\Gdpr\Model\Erase\NotifierFactory">
-        <arguments>
-            <argument name="notifiers" xsi:type="array">
-                <item name="pending" xsi:type="array">
-                    <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\Notifier\Pending</item>
-                    <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\Notifier\Pending</item>
-                </item>
-                <item name="succeeded" xsi:type="array">
-                    <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\Notifier\Succeeded</item>
-                    <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\Notifier\Succeeded</item>
-                </item>
-                <item name="canceled" xsi:type="array">
-                    <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\Notifier\Canceled</item>
-                    <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\Notifier\Canceled</item>
-                </item>
-            </argument>
-        </arguments>
-    </type>
     <!-- Erase Logged In Customer Notifier Management -->
     <virtualType name="Opengento\Gdpr\Model\Customer\Erase\Notifier\Pending\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <!-- todo config -->
+                <item name="is_available" xsi:type="string">gdpr/notification/erasure/pending/customer/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erasure/pending/customer/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/pending/customer/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/pending/customer/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/pending/customer/template</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1554,7 +1572,11 @@
     <virtualType name="Opengento\Gdpr\Model\Customer\Erase\Notifier\Succeeded\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <!-- todo config -->
+                <item name="is_available" xsi:type="string">gdpr/notification/erasure/succeeded/customer/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erasure/succeeded/customer/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/succeeded/customer/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/succeeded/customer/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/succeeded/customer/template</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1568,7 +1590,11 @@
     <virtualType name="Opengento\Gdpr\Model\Customer\Erase\Notifier\Canceled\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <!-- todo config -->
+                <item name="is_available" xsi:type="string">gdpr/notification/erasure/canceled/customer/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erasure/canceled/customer/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/canceled/customer/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/canceled/customer/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/canceled/customer/template</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1583,7 +1609,11 @@
     <virtualType name="Opengento\Gdpr\Model\Order\Erase\Notifier\Pending\MailSender" type="Opengento\Gdpr\Model\Order\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <!-- todo config -->
+                <item name="is_available" xsi:type="string">gdpr/notification/erasure/pending/order/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erasure/pending/order/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/pending/order/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/pending/order/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/pending/order/template</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1597,7 +1627,11 @@
     <virtualType name="Opengento\Gdpr\Model\Order\Erase\Notifier\Succeeded\MailSender" type="Opengento\Gdpr\Model\Order\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <!-- todo config -->
+                <item name="is_available" xsi:type="string">gdpr/notification/erasure/succeeded/order/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erasure/succeeded/order/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/succeeded/order/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/succeeded/order/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/succeeded/order/template</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1611,7 +1645,11 @@
     <virtualType name="Opengento\Gdpr\Model\Order\Erase\Notifier\Canceled\MailSender" type="Opengento\Gdpr\Model\Order\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <!-- todo config -->
+                <item name="is_available" xsi:type="string">gdpr/notification/erasure/canceled/order/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erasure/canceled/order/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/canceled/order/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/canceled/order/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/canceled/order/template</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1622,44 +1660,77 @@
             </argument>
         </arguments>
     </virtualType>
-    <!-- Export Notifier Management -->
-    <type name="Opengento\Gdpr\Model\Export\NotifierFactory">
-        <arguments>
-            <argument name="notifiers" xsi:type="array">
-                <item name="succeeded" xsi:type="array">
-                    <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Export\Notifier\Succeeded</item>
-                    <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Export\Notifier\Succeeded</item>
-                </item>
-            </argument>
-        </arguments>
-    </type>
     <!-- Export Logged In Customer Notifier Management -->
-    <virtualType name="Opengento\Gdpr\Model\Customer\Export\Notifier\Succeeded\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
+    <virtualType name="Opengento\Gdpr\Model\Customer\Export\Notifier\Pending\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <!-- todo config -->
+                <item name="is_available" xsi:type="string">gdpr/notification/export/pending/customer/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/export/pending/customer/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/export/pending/customer/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/export/pending/customer/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/export/pending/customer/template</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Customer\Export\Notifier\Succeeded" type="Opengento\Gdpr\Model\Customer\Export\Notifier">
+    <virtualType name="Opengento\Gdpr\Model\Customer\Export\Notifier\Pending" type="Opengento\Gdpr\Model\Customer\Export\Notifier">
         <arguments>
             <argument name="senders" xsi:type="array">
-                <item name="mail" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Notifier\Succeeded\MailSender</item>
+                <item name="mail" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Notifier\Pending\MailSender</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Customer\Export\Notifier\Ready\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
+        <arguments>
+            <argument name="configPaths" xsi:type="array">
+                <item name="is_available" xsi:type="string">gdpr/notification/export/ready/customer/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/export/ready/customer/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/export/ready/customer/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/export/ready/customer/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/export/ready/customer/template</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Customer\Export\Notifier\Ready" type="Opengento\Gdpr\Model\Customer\Export\Notifier">
+        <arguments>
+            <argument name="senders" xsi:type="array">
+                <item name="mail" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Notifier\Ready\MailSender</item>
             </argument>
         </arguments>
     </virtualType>
     <!-- Export Guest Customer Notifier Management -->
-    <virtualType name="Opengento\Gdpr\Model\Order\Export\Notifier\Succeeded\MailSender" type="Opengento\Gdpr\Model\Order\Notifier\MailSender">
+    <virtualType name="Opengento\Gdpr\Model\Order\Export\Notifier\Pending\MailSender" type="Opengento\Gdpr\Model\Order\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <!-- todo config -->
+                <item name="is_available" xsi:type="string">gdpr/notification/export/pending/order/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/export/pending/order/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/export/pending/order/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/export/pending/order/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/export/pending/order/template</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Order\Export\Notifier\Succeeded" type="Opengento\Gdpr\Model\Order\Export\Notifier">
+    <virtualType name="Opengento\Gdpr\Model\Order\Export\Notifier\Pending" type="Opengento\Gdpr\Model\Order\Export\Notifier">
         <arguments>
             <argument name="senders" xsi:type="array">
-                <item name="mail" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Notifier\Succeeded\MailSender</item>
+                <item name="mail" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Notifier\Pending\MailSender</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Order\Export\Notifier\Ready\MailSender" type="Opengento\Gdpr\Model\Order\Notifier\MailSender">
+        <arguments>
+            <argument name="configPaths" xsi:type="array">
+                <item name="is_available" xsi:type="string">gdpr/notification/export/ready/order/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/export/ready/order/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/export/ready/order/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/export/ready/order/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/export/ready/order/template</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Order\Export\Notifier\Ready" type="Opengento\Gdpr\Model\Order\Export\Notifier">
+        <arguments>
+            <argument name="senders" xsi:type="array">
+                <item name="mail" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Notifier\Ready\MailSender</item>
             </argument>
         </arguments>
     </virtualType>

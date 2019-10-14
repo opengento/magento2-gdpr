@@ -34,9 +34,9 @@ interface ExportEntityManagementInterface
      * Export all data related to a given entity to the file
      *
      * @param ExportEntityInterface $exportEntity
-     * @return string
+     * @return ExportEntityInterface
      * @throws CouldNotSaveException
      * @throws LocalizedException
      */
-    public function export(ExportEntityInterface $exportEntity): string;
+    public function export(ExportEntityInterface $exportEntity): ExportEntityInterface;
 }

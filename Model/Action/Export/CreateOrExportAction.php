@@ -12,6 +12,7 @@ use Opengento\Gdpr\Api\Data\ActionContextInterface;
 use Opengento\Gdpr\Api\Data\ActionResultInterface;
 use Opengento\Gdpr\Model\Action\AbstractAction;
 use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\Export\ArgumentReader as ExportArgumentReader;
 use Opengento\Gdpr\Model\Action\ResultBuilder;
 use Opengento\Gdpr\Model\Export\ExportEntityData;
 
@@ -40,7 +41,7 @@ final class CreateOrExportAction extends AbstractAction
         }
 
         return $this->createActionResult(
-            ['export_file_path' => $this->exportEntityData->export($entityId, $entityType)]
+            [ExportArgumentReader::EXPORT_ENTITY => $this->exportEntityData->export($entityId, $entityType)]
         );
     }
 }

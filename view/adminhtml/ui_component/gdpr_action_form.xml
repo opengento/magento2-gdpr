@@ -68,29 +68,6 @@
                 </select>
             </formElements>
         </field>
-        <field name="scheduled_at" formElement="date">
-            <settings>
-                <validation>
-                    <rule name="validate-optional-datetime" xsi:type="boolean">true</rule>
-                </validation>
-                <dataType>text</dataType>
-                <label translate="true">Scheduled At</label>
-                <notice translate="true">Schedule the action in the time.</notice>
-                <dataScope>scheduled_at</dataScope>
-                <visible>true</visible>
-            </settings>
-            <formElements>
-                <date>
-                    <settings>
-                        <options>
-                            <option name="timeFormat" xsi:type="string">h:mm:ss A</option>
-                            <option name="dateFormat" xsi:type="string">MMM d, YYYY</option>
-                            <option name="showsTime" xsi:type="boolean">true</option>
-                        </options>
-                    </settings>
-                </date>
-            </formElements>
-        </field>
         <dynamicRows name="parameters">
             <settings>
                 <label translate="true">Parameters</label>

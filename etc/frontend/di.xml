@@ -6,6 +6,14 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Opengento\Gdpr\Model\Action\PerformedBy\FrontUser" type="Opengento\Gdpr\Model\Action\PerformedBy\NotEmptyStrategy">
+        <arguments>
+            <argument name="performedByList" xsi:type="array">
+                <item name="guest" xsi:type="object">Opengento\Gdpr\Model\Action\PerformedBy\Guest</item>
+                <item name="customer" xsi:type="object">Opengento\Gdpr\Model\Action\PerformedBy\Customer</item>
+            </argument>
+        </arguments>
+    </virtualType>
     <preference for="Opengento\Gdpr\Model\Action\PerformedByInterface" type="Opengento\Gdpr\Model\Action\PerformedBy\FrontUser"/>
     <preference for="Opengento\Gdpr\Api\EraseEntityManagementInterface" type="Opengento\Gdpr\Model\Erase\SecureEraseEntityManagement"/>
     <type name="Opengento\Gdpr\Controller\AbstractPrivacy">

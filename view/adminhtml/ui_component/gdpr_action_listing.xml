@@ -103,32 +103,21 @@
                 <visible>true</visible>
             </settings>
         </column>
-        <column name="scheduled_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date" sortOrder="40">
-            <settings>
-                <filter>dateRange</filter>
-                <editor>
-                    <editorType>date</editorType>
-                </editor>
-                <dataType>date</dataType>
-                <label translate="true">Scheduled At</label>
-                <visible>true</visible>
-            </settings>
-        </column>
-        <column name="performed_from" sortOrder="50">
+        <column name="performed_from" sortOrder="40">
             <settings>
                 <filter>text</filter>
                 <label translate="true">Performed From</label>
                 <visible>true</visible>
             </settings>
         </column>
-        <column name="performed_by" sortOrder="60">
+        <column name="performed_by" sortOrder="50">
             <settings>
                 <filter>text</filter>
                 <label translate="true">Performed By</label>
                 <visible>true</visible>
             </settings>
         </column>
-        <column name="performed_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date" sortOrder="70">
+        <column name="performed_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date" sortOrder="60">
             <settings>
                 <filter>dateRange</filter>
                 <dataType>date</dataType>
@@ -136,7 +125,7 @@
                 <visible>true</visible>
             </settings>
         </column>
-        <column name="state" component="Magento_Ui/js/grid/columns/select" sortOrder="80">
+        <column name="state" component="Magento_Ui/js/grid/columns/select" sortOrder="70">
             <settings>
                 <options class="Opengento\Gdpr\Model\Config\Source\ActionStates"/>
                 <filter>select</filter>
@@ -144,7 +133,7 @@
                 <label translate="true">State</label>
             </settings>
         </column>
-        <column name="message" sortOrder="90">
+        <column name="message" sortOrder="80">
             <settings>
                 <filter>text</filter>
                 <editor>
@@ -154,7 +143,7 @@
                 <visible>true</visible>
             </settings>
         </column>
-        <column name="parameters" sortOrder="100">
+        <column name="parameters" sortOrder="90">
             <settings>
                 <filter>text</filter>
                 <editor>

@@ -19,10 +19,11 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Ui\Component\MassAction\Filter;
 use Opengento\Gdpr\Api\ActionInterface;
+use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Model\Action\ArgumentReader;
 use Opengento\Gdpr\Model\Action\ContextBuilder;
+use Opengento\Gdpr\Model\Action\Export\ArgumentReader as ExportArgumentReader;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
-use function reset;
 
 class MassExport extends AbstractMassAction
 {
@@ -74,8 +75,10 @@ class MassExport extends AbstractMassAction
                     ArgumentReader::ENTITY_ID => (int) $customerId,
                     ArgumentReader::ENTITY_TYPE => 'customer'
                 ]);
-                $result = $this->action->execute($this->actionContextBuilder->create());
-                $this->moveToArchive->prepareArchive(reset($result), $archiveFileName);
+                $result = $this->action->execute($this->actionContextBuilder->create())->getResult();
+                /** @var ExportEntityInterface $exportEntity */
+                $exportEntity = $result[ExportArgumentReader::EXPORT_ENTITY];
+                $this->moveToArchive->prepareArchive($exportEntity->getFilePath(), $archiveFileName);
             }
 
             return $this->fileFactory->create(

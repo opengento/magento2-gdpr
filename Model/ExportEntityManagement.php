@@ -84,7 +84,7 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function export(ExportEntityInterface $exportEntity): string
+    public function export(ExportEntityInterface $exportEntity): ExportEntityInterface
     {
         $exportEntity->setFilePath($this->exportToFile->export($exportEntity));
         $exportEntity->setExpiredAt(
@@ -93,6 +93,6 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
         $exportEntity->setExportedAt((new \DateTime())->format(DateTime::DATETIME_PHP_FORMAT));
         $this->exportEntityRepository->save($exportEntity);
 
-        return $exportEntity->getFilePath();
+        return $exportEntity;
     }
 }

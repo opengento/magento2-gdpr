@@ -7,7 +7,9 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Erase;
 
+use InvalidArgumentException;
 use Magento\Framework\ObjectManagerInterface;
+use function sprintf;
 
 /**
  * @api
@@ -39,8 +41,8 @@ final class NotifierFactory
     public function get(string $action, string $entityType): NotifierInterface
     {
         if (!isset($this->notifiers[$action][$entityType])) {
-            throw new \InvalidArgumentException(
-                \sprintf('Unknown notifier for action "%s" and entity type "%s".', $action, $entityType)
+            throw new InvalidArgumentException(
+                sprintf('Unknown notifier for action "%s" and entity type "%s".', $action, $entityType)
             );
         }
 

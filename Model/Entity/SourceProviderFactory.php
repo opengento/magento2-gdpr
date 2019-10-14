@@ -7,8 +7,10 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Entity;
 
+use InvalidArgumentException;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\ObjectManagerInterface;
+use function sprintf;
 
 /**
  * @api
@@ -40,7 +42,7 @@ final class SourceProviderFactory
     public function create(string $entityType): Collection
     {
         if (!isset($this->sourceProviders[$entityType])) {
-            throw new \InvalidArgumentException(\sprintf('Unknown source provider for entity type "%s".', $entityType));
+            throw new InvalidArgumentException(sprintf('Unknown source provider for entity type "%s".', $entityType));
         }
 
         return $this->objectManager->create($this->sourceProviders[$entityType]);

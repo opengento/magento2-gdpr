@@ -7,7 +7,9 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Export;
 
+use InvalidArgumentException;
 use Magento\Framework\ObjectManagerInterface;
+use function sprintf;
 
 /**
  * @api
@@ -39,7 +41,7 @@ final class RendererFactory
     public function get(string $rendererCode): RendererInterface
     {
         if (!isset($this->renderers[$rendererCode])) {
-            throw new \InvalidArgumentException(\sprintf('Unknown renderer type "%s".', $rendererCode));
+            throw new InvalidArgumentException(sprintf('Unknown renderer type "%s".', $rendererCode));
         }
 
         return $this->objectManager->get($this->renderers[$rendererCode]);

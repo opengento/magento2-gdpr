@@ -209,20 +209,34 @@
                     </canceled>
                 </erasure>
                 <export>
-                    <succeeded>
+                    <pending>
                         <customer>
                             <enabled>0</enabled>
-                            <template>gdpr_email_export_succeeded_template</template>
+                            <template>gdpr_email_export_pending_template</template>
                             <identity>general</identity>
                             <copy_method>bcc</copy_method>
                         </customer>
                         <order>
                             <enabled>0</enabled>
-                            <template>gdpr_email_export_succeeded_guest_template</template>
+                            <template>gdpr_email_export_pending_guest_template</template>
                             <identity>general</identity>
                             <copy_method>bcc</copy_method>
                         </order>
-                    </succeeded>
+                    </pending>
+                    <ready>
+                        <customer>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_export_ready_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </customer>
+                        <order>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_export_ready_guest_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </order>
+                    </ready>
                 </export>
             </notification>
             <cookie>

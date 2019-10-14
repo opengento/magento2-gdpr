@@ -15,9 +15,11 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\ActionInterface;
+use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Controller\Adminhtml\AbstractAction;
 use Opengento\Gdpr\Model\Action\ArgumentReader;
 use Opengento\Gdpr\Model\Action\ContextBuilder;
+use Opengento\Gdpr\Model\Action\Export\ArgumentReader as ExportArgumentReader;
 use Opengento\Gdpr\Model\Config;
 
 class Export extends AbstractAction
@@ -62,13 +64,15 @@ class Export extends AbstractAction
         ]);
 
         try {
-            $result = $this->action->execute($this->actionContextBuilder->create());
+            $result = $this->action->execute($this->actionContextBuilder->create())->getResult();
+            /** @var ExportEntityInterface $exportEntity */
+            $exportEntity = $result[ExportArgumentReader::EXPORT_ENTITY];
 
             return $this->fileFactory->create(
                 'customer_privacy_data_' . $customerId . '.zip',
                 [
                     'type' => 'filename',
-                    'value' => reset($result),
+                    'value' => $exportEntity->getFilePath(),
                     'rm' => true,
                 ],
                 DirectoryList::TMP

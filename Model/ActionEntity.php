@@ -7,9 +7,12 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model;
 
+use DateTime;
+use Exception;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Opengento\Gdpr\Api\Data\ActionEntityInterface;
 use Opengento\Gdpr\Model\ResourceModel\ActionEntity as ActionEntityResource;
+use function is_string;
 
 class ActionEntity extends AbstractExtensibleModel implements ActionEntityInterface
 {
@@ -60,9 +63,14 @@ class ActionEntity extends AbstractExtensibleModel implements ActionEntityInterf
         return $this->setData(self::PERFORMED_BY, $performedBy);
     }
 
-    public function getPerformedAt(): string
+    /**
+     * @throws Exception
+     */
+    public function getPerformedAt(): DateTime
     {
-        return (string) $this->_getData(self::PERFORMED_AT);
+        return is_string($this->_getData(self::PERFORMED_AT))
+            ? new DateTime($this->_getData(self::PERFORMED_AT))
+            : $this->_getData(self::PERFORMED_AT);
     }
 
     public function setPerformedAt(string $performedAt): ActionEntityInterface

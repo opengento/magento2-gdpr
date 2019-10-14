@@ -7,7 +7,9 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Entity;
 
+use InvalidArgumentException;
 use Magento\Framework\ObjectManagerInterface;
+use function sprintf;
 
 /**
  * @api
@@ -39,7 +41,7 @@ final class EntityCheckerFactory
     public function get(string $entityType): EntityCheckerInterface
     {
         if (!isset($this->checkers[$entityType])) {
-            throw new \InvalidArgumentException(\sprintf('Unknown checker for entity type "%s".', $entityType));
+            throw new InvalidArgumentException(sprintf('Unknown checker for entity type "%s".', $entityType));
         }
 
         return $this->objectManager->get($this->checkers[$entityType]);
