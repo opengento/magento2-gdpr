@@ -8,11 +8,11 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Cron;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
+use Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterface;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
@@ -82,7 +82,6 @@ final class EraseEntity
             $oldValue = $this->registry->registry('isSecureArea');
             $this->registry->register('isSecureArea', true, true);
 
-            /** @var EraseEntityInterface $eraseEntity */
             foreach ($this->retrieveEraseEntityList()->getItems() as $eraseEntity) {
                 try {
                     $this->eraseManagement->process($eraseEntity);
@@ -95,7 +94,7 @@ final class EraseEntity
         }
     }
 
-    private function retrieveEraseEntityList(): SearchResultsInterface
+    private function retrieveEraseEntityList(): EraseEntitySearchResultsInterface
     {
         $this->searchCriteriaBuilder->addFilter(
             EraseEntityInterface::SCHEDULED_AT,

@@ -90,7 +90,7 @@ final class ActionEntityRepository implements ActionEntityRepositoryInterface
             $this->actionEntityResource->load($entity, $entityId, ActionEntityInterface::ID);
 
             if (!$entity->getActionId()) {
-                throw new NoSuchEntityException(new Phrase('Entity with id "%1" does not exists.', [$entityId]));
+                throw NoSuchEntityException::singleField(ActionEntityInterface::ID, $entityId);
             }
 
             $this->instances[$entityId] = $entity;
@@ -99,7 +99,7 @@ final class ActionEntityRepository implements ActionEntityRepositoryInterface
         return $this->instances[$entityId];
     }
 
-    public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface
+    public function getList(SearchCriteriaInterface $searchCriteria): ActionEntitySearchResultsInterface
     {
         /** @var Collection $collection */
         $collection = $this->collectionFactory->create();

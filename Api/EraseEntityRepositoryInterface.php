@@ -56,7 +56,7 @@ interface EraseEntityRepositoryInterface
      * @return EraseEntitySearchResultsInterface
      * @throws LocalizedException
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface;
+    public function getList(SearchCriteriaInterface $searchCriteria): EraseEntitySearchResultsInterface;
 
     /**
      * Delete erase entity scheduler

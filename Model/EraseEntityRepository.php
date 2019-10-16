@@ -95,7 +95,7 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
             $this->eraseEntityResource->load($entity, $entityId, EraseEntityInterface::ID);
 
             if (!$entity->getEraseId()) {
-                throw new NoSuchEntityException(new Phrase('Entity with id "%1" does not exists.', [$entityId]));
+                throw NoSuchEntityException::singleField(EraseEntityInterface::ID, $entityId);
             }
 
             $this->register($entity);
@@ -116,9 +116,7 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
             );
 
             if (!$entity->getEraseId()) {
-                throw new NoSuchEntityException(
-                    new Phrase('Entity with id "%1" does not exist.', [$entityId])
-                );
+                throw NoSuchEntityException::singleField(EraseEntityInterface::ID, $entityId);
             }
 
             $this->register($entity);
@@ -127,7 +125,7 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
         return $this->instancesByEntity[$entityType . '_' . $entityId];
     }
 
-    public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface
+    public function getList(SearchCriteriaInterface $searchCriteria): EraseEntitySearchResultsInterface
     {
         /** @var Collection $collection */
         $collection = $this->collectionFactory->create();

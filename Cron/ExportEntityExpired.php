@@ -64,7 +64,6 @@ final class ExportEntityExpired
             try {
                 $exportList = $this->exportEntityRepository->getList($this->searchCriteriaBuilder->create());
 
-                /** @var ExportEntityInterface $exportEntity */
                 foreach ($exportList->getItems() as $exportEntity) {
                     $this->exportEntityRepository->delete($exportEntity);
                 }

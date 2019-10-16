@@ -56,7 +56,7 @@ interface ExportEntityRepositoryInterface
      * @return ExportEntitySearchResultsInterface
      * @throws LocalizedException
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface;
+    public function getList(SearchCriteriaInterface $searchCriteria): ExportEntitySearchResultsInterface;
 
     /**
      * Delete export entity

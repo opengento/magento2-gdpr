@@ -104,7 +104,7 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
             $this->exportEntityResource->load($entity, $entityId, ExportEntityInterface::ID);
 
             if (!$entity->getExportId()) {
-                throw new NoSuchEntityException(new Phrase('Entity with id "%1" does not exists.', [$entityId]));
+                throw NoSuchEntityException::singleField(ExportEntityInterface::ID, $entityId);
             }
 
             $this->register($entity);
@@ -125,9 +125,7 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
             );
 
             if (!$entity->getExportId()) {
-                throw new NoSuchEntityException(
-                    new Phrase('Entity with id "%1" does not exist.', [$entityId])
-                );
+                throw NoSuchEntityException::singleField(ExportEntityInterface::ID, $entityId);
             }
 
             $this->register($entity);
@@ -136,7 +134,7 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
         return $this->instancesByEntity[$entityType . '_' . $entityId];
     }
 
-    public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface
+    public function getList(SearchCriteriaInterface $searchCriteria): ExportEntitySearchResultsInterface
     {
         /** @var Collection $collection */
         $collection = $this->collectionFactory->create();

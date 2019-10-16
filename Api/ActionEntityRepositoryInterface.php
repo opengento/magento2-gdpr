@@ -46,7 +46,7 @@ interface ActionEntityRepositoryInterface
      * @return ActionEntitySearchResultsInterface
      * @throws LocalizedException
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface;
+    public function getList(SearchCriteriaInterface $searchCriteria): ActionEntitySearchResultsInterface;
 
     /**
      * Delete action entity

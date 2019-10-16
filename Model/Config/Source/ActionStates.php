@@ -59,9 +59,6 @@ final class ActionStates implements OptionSourceInterface
         if (!$this->options) {
             $this->options = array_merge(
                 [
-                    ActionEntityInterface::STATE_PENDING => new Phrase('Pending'),
-                    ActionEntityInterface::STATE_PROCESSING => new Phrase('Processing'),
-                    ActionEntityInterface::STATE_CANCELED => new Phrase('Canceled'),
                     ActionEntityInterface::STATE_SUCCEEDED => new Phrase('Succeeded'),
                     ActionEntityInterface::STATE_FAILED => new Phrase('Failed'),
                 ],
