@@ -13,6 +13,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\MailException;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\ScopeInterface;
+use function explode;
 
 abstract class AbstractMailSender
 {
@@ -128,7 +129,7 @@ abstract class AbstractMailSender
      */
     protected function getCopyTo(?int $storeId = null): array
     {
-        return \explode(
+        return explode(
             ',',
             $this->scopeConfig->getValue(
                 $this->configPaths['copy_to'],

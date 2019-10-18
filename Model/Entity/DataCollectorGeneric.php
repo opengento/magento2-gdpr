@@ -8,7 +8,12 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Entity;
 
 use Exception;
+use LogicException;
 use Magento\Framework\EntityManager\TypeResolver;
+use function array_combine;
+use function array_keys;
+use function array_values;
+use function sprintf;
 
 final class DataCollectorGeneric implements DataCollectorInterface
 {
@@ -33,9 +38,9 @@ final class DataCollectorGeneric implements DataCollectorInterface
         $this->typeResolver = $typeResolver;
         $this->dataCollectors = (static function (DataCollectorInterface ...$dataCollectors): array {
             return $dataCollectors;
-        })(...\array_values($dataCollectors));
+        })(...array_values($dataCollectors));
 
-        $this->dataCollectors = \array_combine(\array_keys($dataCollectors), $this->dataCollectors);
+        $this->dataCollectors = array_combine(array_keys($dataCollectors), $this->dataCollectors);
     }
 
     /**
@@ -47,8 +52,8 @@ final class DataCollectorGeneric implements DataCollectorInterface
         $entityType = $this->typeResolver->resolve($entity);
 
         if (!isset($this->dataCollectors[$entityType])) {
-            throw new \LogicException(
-                \sprintf('There is no registered data collector for the entity type "%s".', $entityType)
+            throw new LogicException(
+                sprintf('There is no registered data collector for the entity type "%s".', $entityType)
             );
         }
 

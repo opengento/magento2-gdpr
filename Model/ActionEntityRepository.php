@@ -10,7 +10,6 @@ namespace Opengento\Gdpr\Model;
 use Exception;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -70,33 +69,33 @@ final class ActionEntityRepository implements ActionEntityRepositoryInterface
         $this->searchResultsFactory = $searchResultsFactory;
     }
 
-    public function save(ActionEntityInterface $entity): ActionEntityInterface
+    public function save(ActionEntityInterface $actionEntity): ActionEntityInterface
     {
         try {
-            $this->actionEntityResource->save($entity);
-            $this->instances[$entity->getActionId()] = $entity;
+            $this->actionEntityResource->save($actionEntity);
+            $this->instances[$actionEntity->getActionId()] = $actionEntity;
         } catch (Exception $e) {
             throw new CouldNotSaveException(new Phrase('Could not save the entity.'), $e);
         }
 
-        return $entity;
+        return $actionEntity;
     }
 
-    public function getById(int $entityId, bool $forceReload = false): ActionEntityInterface
+    public function getById(int $actionId, bool $forceReload = false): ActionEntityInterface
     {
-        if ($forceReload || !isset($this->instances[$entityId])) {
-            /** @var ActionEntityInterface $entity */
-            $entity = $this->actionCustomerFactory->create();
-            $this->actionEntityResource->load($entity, $entityId, ActionEntityInterface::ID);
+        if ($forceReload || !isset($this->instances[$actionId])) {
+            /** @var ActionEntityInterface $actionEntity */
+            $actionEntity = $this->actionCustomerFactory->create();
+            $this->actionEntityResource->load($actionEntity, $actionId, ActionEntityInterface::ID);
 
-            if (!$entity->getActionId()) {
-                throw NoSuchEntityException::singleField(ActionEntityInterface::ID, $entityId);
+            if (!$actionEntity->getActionId()) {
+                throw NoSuchEntityException::singleField(ActionEntityInterface::ID, $actionId);
             }
 
-            $this->instances[$entityId] = $entity;
+            $this->instances[$actionId] = $actionEntity;
         }
 
-        return $this->instances[$entityId];
+        return $this->instances[$actionId];
     }
 
     public function getList(SearchCriteriaInterface $searchCriteria): ActionEntitySearchResultsInterface
@@ -115,14 +114,14 @@ final class ActionEntityRepository implements ActionEntityRepositoryInterface
         return $searchResults;
     }
 
-    public function delete(ActionEntityInterface $entity): bool
+    public function delete(ActionEntityInterface $actionEntity): bool
     {
         try {
-            unset($this->instances[$entity->getActionId()]);
-            $this->actionEntityResource->delete($entity);
+            unset($this->instances[$actionEntity->getActionId()]);
+            $this->actionEntityResource->delete($actionEntity);
         } catch (Exception $e) {
             throw new CouldNotDeleteException(
-                new Phrase('Could not delete entity with id "%1".', [$entity->getActionId()]),
+                new Phrase('Could not delete entity with id "%1".', [$actionEntity->getActionId()]),
                 $e
             );
         }

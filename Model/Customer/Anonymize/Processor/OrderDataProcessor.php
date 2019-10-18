@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Customer\Anonymize\Processor;
 
+use DateTime;
 use Exception;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Api\Data\OrderAddressInterface;
@@ -70,12 +71,10 @@ final class OrderDataProcessor implements ProcessorInterface
 
         /** @var Order $order */
         foreach ($orderList->getItems() as $order) {
-            $lastActive = new \DateTime($order->getUpdatedAt());
-            if ($this->eraseSalesInformation->isAlive($lastActive)) {
-                $this->eraseSalesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive);
-            } else {
-                $this->anonymize($order);
-            }
+            $lastActive = new DateTime($order->getUpdatedAt());
+            $this->eraseSalesInformation->isAlive($lastActive)
+                ? $this->eraseSalesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive)
+                : $this->anonymize($order);
         }
 
         return true;

@@ -10,6 +10,7 @@ namespace Opengento\Gdpr\Model\Order;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\Entity\EntityCheckerInterface;
+use function in_array;
 
 final class OrderChecker implements EntityCheckerInterface
 {
@@ -35,6 +36,6 @@ final class OrderChecker implements EntityCheckerInterface
     {
         $order = $this->orderRepository->get($orderId);
 
-        return \in_array($order->getState(), $this->config->getAllowedStatesToErase(), true);
+        return in_array($order->getState(), $this->config->getAllowedStatesToErase(), true);
     }
 }

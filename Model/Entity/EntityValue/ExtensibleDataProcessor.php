@@ -9,6 +9,7 @@ namespace Opengento\Gdpr\Model\Entity\EntityValue;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
 use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
+use function is_iterable;
 
 final class ExtensibleDataProcessor implements EntityValueProcessorInterface
 {
@@ -44,6 +45,6 @@ final class ExtensibleDataProcessor implements EntityValueProcessorInterface
     {
         return $entity instanceof ExtensibleDataInterface &&
             $key === ExtensibleDataInterface::EXTENSION_ATTRIBUTES_KEY &&
-            \is_iterable($values);
+            is_iterable($values);
     }
 }

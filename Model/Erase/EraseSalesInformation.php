@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Erase;
 
+use DateTimeImmutable;
 use Exception;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Stdlib\DateTime;
@@ -49,7 +50,7 @@ final class EraseSalesInformation implements EraseSalesInformationInterface
      */
     public function scheduleEraseEntity(int $entityId, string $entityType, \DateTime $lastActive): EraseEntityInterface
     {
-        $dateTime = \DateTimeImmutable::createFromMutable($lastActive);
+        $dateTime = DateTimeImmutable::createFromMutable($lastActive);
         $scheduleAt = $dateTime->modify('+' . $this->config->getErasureSalesMaxAge() . + 'days');
 
         /** @var EraseEntityInterface $eraseEntity */

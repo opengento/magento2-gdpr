@@ -45,7 +45,7 @@ final class EraseEntityScheduler
     private $entityTypes;
 
     /**
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param LoggerInterface $logger
      * @param Config $config
      * @param EraseEntitySchedulerService $eraseEntityScheduler
      * @param FilterBuilder $filterBuilder

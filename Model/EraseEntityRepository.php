@@ -10,7 +10,6 @@ namespace Opengento\Gdpr\Model;
 use Exception;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -75,51 +74,56 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
         $this->searchResultsFactory = $searchResultsFactory;
     }
 
-    public function save(EraseEntityInterface $entity): EraseEntityInterface
+    public function save(EraseEntityInterface $eraseEntity): EraseEntityInterface
     {
         try {
-            $this->eraseEntityResource->save($entity);
-            $this->register($entity);
+            $this->eraseEntityResource->save($eraseEntity);
+            $this->register($eraseEntity);
         } catch (Exception $e) {
             throw new CouldNotSaveException(new Phrase('Could not save the entity.'), $e);
         }
 
-        return $entity;
+        return $eraseEntity;
     }
 
-    public function getById(int $entityId, bool $forceReload = false): EraseEntityInterface
+    public function getById(int $eraseId, bool $forceReload = false): EraseEntityInterface
     {
-        if ($forceReload || !isset($this->instances[$entityId])) {
-            /** @var EraseEntityInterface $entity */
-            $entity = $this->eraseEntityFactory->create();
-            $this->eraseEntityResource->load($entity, $entityId, EraseEntityInterface::ID);
+        if ($forceReload || !isset($this->instances[$eraseId])) {
+            /** @var EraseEntityInterface $eraseEntity */
+            $eraseEntity = $this->eraseEntityFactory->create();
+            $this->eraseEntityResource->load($eraseEntity, $eraseId, EraseEntityInterface::ID);
 
-            if (!$entity->getEraseId()) {
-                throw NoSuchEntityException::singleField(EraseEntityInterface::ID, $entityId);
+            if (!$eraseEntity->getEraseId()) {
+                throw NoSuchEntityException::singleField(EraseEntityInterface::ID, $eraseId);
             }
 
-            $this->register($entity);
+            $this->register($eraseEntity);
         }
 
-        return $this->instances[$entityId];
+        return $this->instances[$eraseId];
     }
 
     public function getByEntity(int $entityId, string $entityType, bool $forceReload = false): EraseEntityInterface
     {
         if ($forceReload || !isset($this->instancesByEntity[$entityType . '_' . $entityId])) {
-            /** @var EraseEntityInterface $entity */
-            $entity = $this->eraseEntityFactory->create();
+            /** @var EraseEntityInterface $eraseEntity */
+            $eraseEntity = $this->eraseEntityFactory->create();
             $this->eraseEntityResource->load(
-                $entity,
+                $eraseEntity,
                 [$entityId, $entityType],
                 [EraseEntityInterface::ENTITY_ID, EraseEntityInterface::ENTITY_TYPE]
             );
 
-            if (!$entity->getEraseId()) {
-                throw NoSuchEntityException::singleField(EraseEntityInterface::ID, $entityId);
+            if (!$eraseEntity->getEraseId()) {
+                throw NoSuchEntityException::doubleField(
+                    EraseEntityInterface::ENTITY_ID,
+                    $entityId,
+                    EraseEntityInterface::ENTITY_TYPE,
+                    $entityType
+                );
             }
 
-            $this->register($entity);
+            $this->register($eraseEntity);
         }
 
         return $this->instancesByEntity[$entityType . '_' . $entityId];
@@ -141,14 +145,14 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
         return $searchResults;
     }
 
-    public function delete(EraseEntityInterface $entity): bool
+    public function delete(EraseEntityInterface $eraseEntity): bool
     {
         try {
-            $this->remove($entity);
-            $this->eraseEntityResource->delete($entity);
+            $this->remove($eraseEntity);
+            $this->eraseEntityResource->delete($eraseEntity);
         } catch (Exception $e) {
             throw new CouldNotDeleteException(
-                new Phrase('Could not delete entity with id "%1".', [$entity->getEraseId()]),
+                new Phrase('Could not delete entity with id "%1".', [$eraseEntity->getEraseId()]),
                 $e
             );
         }
@@ -156,17 +160,17 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
         return true;
     }
 
-    private function register(EraseEntityInterface $entity): void
+    private function register(EraseEntityInterface $eraseEntity): void
     {
-        $this->instances[$entity->getEraseId()] = $entity;
-        $this->instancesByEntity[$entity->getEntityType() . '_' . $entity->getEntityId()] = $entity;
+        $this->instances[$eraseEntity->getEraseId()] = $eraseEntity;
+        $this->instancesByEntity[$eraseEntity->getEntityType() . '_' . $eraseEntity->getEntityId()] = $eraseEntity;
     }
 
-    private function remove(EraseEntityInterface $entity): void
+    private function remove(EraseEntityInterface $eraseEntity): void
     {
         unset(
-            $this->instances[$entity->getEraseId()],
-            $this->instancesByEntity[$entity->getEntityType() . '_' . $entity->getEntityId()]
+            $this->instances[$eraseEntity->getEraseId()],
+            $this->instancesByEntity[$eraseEntity->getEntityType() . '_' . $eraseEntity->getEntityId()]
         );
     }
 }

@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Api;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
@@ -24,20 +23,20 @@ interface ActionEntityRepositoryInterface
     /**
      * Save action entity
      *
-     * @param ActionEntityInterface $entity
+     * @param ActionEntityInterface $actionEntity
      * @return ActionEntityInterface
      * @throws CouldNotSaveException
      */
-    public function save(ActionEntityInterface $entity): ActionEntityInterface;
+    public function save(ActionEntityInterface $actionEntity): ActionEntityInterface;
 
     /**
      * Retrieve action entity by ID
      *
-     * @param int $entityId
+     * @param int $actionId
      * @return ActionEntityInterface
      * @throws NoSuchEntityException
      */
-    public function getById(int $entityId): ActionEntityInterface;
+    public function getById(int $actionId): ActionEntityInterface;
 
     /**
      * Retrieve action entity list by search filter criteria
@@ -51,10 +50,10 @@ interface ActionEntityRepositoryInterface
     /**
      * Delete action entity
      *
-     * @param ActionEntityInterface $entity
+     * @param ActionEntityInterface $actionEntity
      * @return bool true on success
      * @throws NoSuchEntityException
      * @throws CouldNotDeleteException
      */
-    public function delete(ActionEntityInterface $entity): bool;
+    public function delete(ActionEntityInterface $actionEntity): bool;
 }

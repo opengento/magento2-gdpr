@@ -10,7 +10,6 @@ namespace Opengento\Gdpr\Model;
 use Exception;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
@@ -84,51 +83,56 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
         $this->fileSystem = $filesystem;
     }
 
-    public function save(ExportEntityInterface $entity): ExportEntityInterface
+    public function save(ExportEntityInterface $exportEntity): ExportEntityInterface
     {
         try {
-            $this->exportEntityResource->save($entity);
-            $this->register($entity);
+            $this->exportEntityResource->save($exportEntity);
+            $this->register($exportEntity);
         } catch (Exception $e) {
             throw new CouldNotSaveException(new Phrase('Could not save the entity.'), $e);
         }
 
-        return $entity;
+        return $exportEntity;
     }
 
-    public function getById(int $entityId, bool $forceReload = false): ExportEntityInterface
+    public function getById(int $exportId, bool $forceReload = false): ExportEntityInterface
     {
-        if ($forceReload || !isset($this->instances[$entityId])) {
-            /** @var ExportEntityInterface $entity */
-            $entity = $this->exportEntityFactory->create();
-            $this->exportEntityResource->load($entity, $entityId, ExportEntityInterface::ID);
+        if ($forceReload || !isset($this->instances[$exportId])) {
+            /** @var ExportEntityInterface $exportEntity */
+            $exportEntity = $this->exportEntityFactory->create();
+            $this->exportEntityResource->load($exportEntity, $exportId, ExportEntityInterface::ID);
 
-            if (!$entity->getExportId()) {
-                throw NoSuchEntityException::singleField(ExportEntityInterface::ID, $entityId);
+            if (!$exportEntity->getExportId()) {
+                throw NoSuchEntityException::singleField(ExportEntityInterface::ID, $exportId);
             }
 
-            $this->register($entity);
+            $this->register($exportEntity);
         }
 
-        return $this->instances[$entityId];
+        return $this->instances[$exportId];
     }
 
     public function getByEntity(int $entityId, string $entityType, bool $forceReload = false): ExportEntityInterface
     {
         if ($forceReload || !isset($this->instancesByEntity[$entityType . '_' . $entityId])) {
-            /** @var ExportEntityInterface $entity */
-            $entity = $this->exportEntityFactory->create();
+            /** @var ExportEntityInterface $exportEntity */
+            $exportEntity = $this->exportEntityFactory->create();
             $this->exportEntityResource->load(
-                $entity,
+                $exportEntity,
                 [$entityId, $entityType],
                 [ExportEntityInterface::ENTITY_ID, ExportEntityInterface::ENTITY_TYPE]
             );
 
-            if (!$entity->getExportId()) {
-                throw NoSuchEntityException::singleField(ExportEntityInterface::ID, $entityId);
+            if (!$exportEntity->getExportId()) {
+                throw NoSuchEntityException::doubleField(
+                    ExportEntityInterface::ENTITY_ID,
+                    $entityId,
+                    ExportEntityInterface::ENTITY_TYPE,
+                    $entityType
+                );
             }
 
-            $this->register($entity);
+            $this->register($exportEntity);
         }
 
         return $this->instancesByEntity[$entityType . '_' . $entityId];
@@ -150,15 +154,15 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
         return $searchResults;
     }
 
-    public function delete(ExportEntityInterface $entity): bool
+    public function delete(ExportEntityInterface $exportEntity): bool
     {
         try {
-            $this->fileSystem->getDirectoryWrite(DirectoryList::TMP)->delete($entity->getFilePath());
-            $this->remove($entity);
-            $this->exportEntityResource->delete($entity);
+            $this->fileSystem->getDirectoryWrite(DirectoryList::TMP)->delete($exportEntity->getFilePath());
+            $this->remove($exportEntity);
+            $this->exportEntityResource->delete($exportEntity);
         } catch (Exception $e) {
             throw new CouldNotDeleteException(
-                new Phrase('Could not delete entity with id "%1".', [$entity->getExportId()]),
+                new Phrase('Could not delete entity with id "%1".', [$exportEntity->getExportId()]),
                 $e
             );
         }
@@ -166,17 +170,17 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
         return true;
     }
 
-    private function register(ExportEntityInterface $entity): void
+    private function register(ExportEntityInterface $exportEntity): void
     {
-        $this->instances[$entity->getExportId()] = $entity;
-        $this->instancesByEntity[$entity->getEntityType() . '_' . $entity->getEntityId()] = $entity;
+        $this->instances[$exportEntity->getExportId()] = $exportEntity;
+        $this->instancesByEntity[$exportEntity->getEntityType() . '_' . $exportEntity->getEntityId()] = $exportEntity;
     }
 
-    private function remove(ExportEntityInterface $entity): void
+    private function remove(ExportEntityInterface $exportEntity): void
     {
         unset(
-            $this->instances[$entity->getExportId()],
-            $this->instancesByEntity[$entity->getEntityType() . '_' . $entity->getEntityId()]
+            $this->instances[$exportEntity->getExportId()],
+            $this->instancesByEntity[$exportEntity->getEntityType() . '_' . $exportEntity->getEntityId()]
         );
     }
 }

@@ -18,6 +18,8 @@ use Magento\Framework\View\Page\Config;
 use Magento\Framework\View\Page\Config\Renderer;
 use Magento\Framework\View\Page\Config\RendererFactory;
 use Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiatorInterface;
+use function extract;
+use function ob_end_clean;
 use function ob_get_clean;
 use function ob_start;
 
@@ -108,10 +110,10 @@ final class HtmlRenderer extends AbstractRenderer
 
         ob_start();
         try {
-            \extract($viewVars, EXTR_SKIP);
+            extract($viewVars, EXTR_SKIP);
             include $fileName;
         } catch (Exception $exception) {
-            \ob_end_clean();
+            ob_end_clean();
             throw $exception;
         }
 

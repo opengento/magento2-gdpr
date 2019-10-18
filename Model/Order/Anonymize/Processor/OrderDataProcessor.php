@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Order\Anonymize\Processor;
 
+use DateTime;
 use Exception;
 use Magento\Sales\Api\Data\OrderAddressInterface;
 use Magento\Sales\Api\OrderAddressRepositoryInterface;
@@ -58,7 +59,7 @@ final class OrderDataProcessor implements ProcessorInterface
     {
         /** @var Order $order */
         $order = $this->orderRepository->get($orderId);
-        $lastActive = new \DateTime($order->getUpdatedAt());
+        $lastActive = new DateTime($order->getUpdatedAt());
 
         if ($this->eraseSalesInformation->isAlive($lastActive)) {
             $this->eraseSalesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive);

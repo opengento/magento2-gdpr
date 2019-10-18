@@ -9,6 +9,7 @@ namespace Opengento\Gdpr\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
+use function explode;
 
 /**
  * @todo split config
@@ -129,7 +130,7 @@ final class Config
      */
     public function getAllowedStatesToErase(): array
     {
-        return \explode(',', (string) $this->scopeConfig->getValue(
+        return explode(',', (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_ERASURE_ALLOWED_STATES,
             ScopeInterface::SCOPE_STORE
         ));
@@ -188,7 +189,7 @@ final class Config
 
     public function getExportRendererCodes(): array
     {
-        return \explode(',', (string) $this->scopeConfig->getValue(
+        return explode(',', (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_EXPORT_RENDERERS,
             ScopeInterface::SCOPE_STORE
         ));

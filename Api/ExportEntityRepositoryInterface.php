@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Api;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
@@ -24,20 +23,20 @@ interface ExportEntityRepositoryInterface
     /**
      * Save export entity
      *
-     * @param ExportEntityInterface $entity
+     * @param ExportEntityInterface $exportEntity
      * @return ExportEntityInterface
      * @throws CouldNotSaveException
      */
-    public function save(ExportEntityInterface $entity): ExportEntityInterface;
+    public function save(ExportEntityInterface $exportEntity): ExportEntityInterface;
 
     /**
      * Retrieve export entity by ID
      *
-     * @param int $entityId
+     * @param int $exportId
      * @return ExportEntityInterface
      * @throws NoSuchEntityException
      */
-    public function getById(int $entityId): ExportEntityInterface;
+    public function getById(int $exportId): ExportEntityInterface;
 
     /**
      * Retrieve export by entity
@@ -61,10 +60,10 @@ interface ExportEntityRepositoryInterface
     /**
      * Delete export entity
      *
-     * @param ExportEntityInterface $entity
+     * @param ExportEntityInterface $exportEntity
      * @return bool true on success
      * @throws NoSuchEntityException
      * @throws CouldNotDeleteException
      */
-    public function delete(ExportEntityInterface $entity): bool;
+    public function delete(ExportEntityInterface $exportEntity): bool;
 }

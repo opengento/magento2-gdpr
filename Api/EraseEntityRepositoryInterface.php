@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Api;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
@@ -24,20 +23,20 @@ interface EraseEntityRepositoryInterface
     /**
      * Save erase entity scheduler
      *
-     * @param EraseEntityInterface $entity
+     * @param EraseEntityInterface $eraseEntity
      * @return EraseEntityInterface
      * @throws CouldNotSaveException
      */
-    public function save(EraseEntityInterface $entity): EraseEntityInterface;
+    public function save(EraseEntityInterface $eraseEntity): EraseEntityInterface;
 
     /**
      * Retrieve erase entity scheduler by ID
      *
-     * @param int $entityId
+     * @param int $eraseId
      * @return EraseEntityInterface
      * @throws NoSuchEntityException
      */
-    public function getById(int $entityId): EraseEntityInterface;
+    public function getById(int $eraseId): EraseEntityInterface;
 
     /**
      * Retrieve erase entity scheduler by entity
@@ -61,10 +60,10 @@ interface EraseEntityRepositoryInterface
     /**
      * Delete erase entity scheduler
      *
-     * @param EraseEntityInterface $entity
+     * @param EraseEntityInterface $eraseEntity
      * @return bool true on success
      * @throws NoSuchEntityException
      * @throws CouldNotDeleteException
      */
-    public function delete(EraseEntityInterface $entity): bool;
+    public function delete(EraseEntityInterface $eraseEntity): bool;
 }

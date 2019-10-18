@@ -11,6 +11,7 @@ use Exception;
 use Magento\Framework\Filesystem;
 use mikehaertl\wkhtmlto\Pdf;
 use mikehaertl\wkhtmlto\PdfFactory;
+use RuntimeException;
 
 final class PdfRenderer extends AbstractRenderer
 {
@@ -62,7 +63,7 @@ final class PdfRenderer extends AbstractRenderer
         $pdf->addPage($this->htmlRenderer->render($data));
 
         if (($result = $pdf->toString()) === false) {
-            throw new \RuntimeException('The PDF was not created successfully.');
+            throw new RuntimeException('The PDF was not created successfully.');
         }
 
         return $result;

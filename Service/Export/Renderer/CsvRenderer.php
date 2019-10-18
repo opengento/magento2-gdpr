@@ -11,6 +11,7 @@ use Magento\Framework\Filesystem;
 use function is_array;
 use function rtrim;
 use function str_replace;
+use const PHP_EOL;
 
 final class CsvRenderer extends AbstractRenderer
 {
@@ -26,7 +27,7 @@ final class CsvRenderer extends AbstractRenderer
 
         foreach ($data as $key => $value) {
             $csv .= is_array($value)
-                ? $key . ',' . rtrim($this->render($value), ',') . \PHP_EOL
+                ? $key . ',' . rtrim($this->render($value), ',') . PHP_EOL
                 : '"' . str_replace('"', '""', $value) . '",';
         }
 

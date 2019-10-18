@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Customer\Delete\Processor;
 
+use DateTime;
 use Exception;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
@@ -51,12 +52,10 @@ final class OrderDataProcessor implements ProcessorInterface
         $orderList = $this->orderRepository->getList($this->searchCriteriaBuilder->create());
 
         foreach ($orderList->getItems() as $order) {
-            $lastActive = new \DateTime($order->getUpdatedAt());
-            if ($this->eraseSalesInformation->isAlive($lastActive)) {
-                $this->eraseSalesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive);
-            } else {
-                $this->orderRepository->delete($order);
-            }
+            $lastActive = new DateTime($order->getUpdatedAt());
+            $this->eraseSalesInformation->isAlive($lastActive)
+                ? $this->eraseSalesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive)
+                : $this->orderRepository->delete($order);
         }
 
         return true;
