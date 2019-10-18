@@ -86,9 +86,9 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
         return $eraseEntity;
     }
 
-    public function getById(int $eraseId, bool $forceReload = false): EraseEntityInterface
+    public function getById(int $eraseId): EraseEntityInterface
     {
-        if ($forceReload || !isset($this->instances[$eraseId])) {
+        if (!isset($this->instances[$eraseId])) {
             /** @var EraseEntityInterface $eraseEntity */
             $eraseEntity = $this->eraseEntityFactory->create();
             $this->eraseEntityResource->load($eraseEntity, $eraseId, EraseEntityInterface::ID);
@@ -103,9 +103,9 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
         return $this->instances[$eraseId];
     }
 
-    public function getByEntity(int $entityId, string $entityType, bool $forceReload = false): EraseEntityInterface
+    public function getByEntity(int $entityId, string $entityType): EraseEntityInterface
     {
-        if ($forceReload || !isset($this->instancesByEntity[$entityType . '_' . $entityId])) {
+        if (!isset($this->instancesByEntity[$entityType . '_' . $entityId])) {
             /** @var EraseEntityInterface $eraseEntity */
             $eraseEntity = $this->eraseEntityFactory->create();
             $this->eraseEntityResource->load(

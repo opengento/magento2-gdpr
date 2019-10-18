@@ -46,13 +46,9 @@ final class CustomerChecker implements EntityCheckerInterface
         $this->cache = [];
     }
 
-    /**
-     * @inheritdoc
-     * @param bool $forceReload [optional] Flush the cache.
-     */
-    public function canErase(int $customerId, bool $forceReload = false): bool
+    public function canErase(int $customerId): bool
     {
-        if ($forceReload || !isset($this->cache[$customerId])) {
+        if (!isset($this->cache[$customerId])) {
             $this->searchCriteriaBuilder->addFilter(OrderInterface::STATE, $this->config->getAllowedStatesToErase(), 'nin');
             $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
             $orderList = $this->orderRepository->getList($this->searchCriteriaBuilder->create());

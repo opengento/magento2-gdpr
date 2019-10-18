@@ -95,9 +95,9 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
         return $exportEntity;
     }
 
-    public function getById(int $exportId, bool $forceReload = false): ExportEntityInterface
+    public function getById(int $exportId): ExportEntityInterface
     {
-        if ($forceReload || !isset($this->instances[$exportId])) {
+        if (!isset($this->instances[$exportId])) {
             /** @var ExportEntityInterface $exportEntity */
             $exportEntity = $this->exportEntityFactory->create();
             $this->exportEntityResource->load($exportEntity, $exportId, ExportEntityInterface::ID);
@@ -112,9 +112,9 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
         return $this->instances[$exportId];
     }
 
-    public function getByEntity(int $entityId, string $entityType, bool $forceReload = false): ExportEntityInterface
+    public function getByEntity(int $entityId, string $entityType): ExportEntityInterface
     {
-        if ($forceReload || !isset($this->instancesByEntity[$entityType . '_' . $entityId])) {
+        if (!isset($this->instancesByEntity[$entityType . '_' . $entityId])) {
             /** @var ExportEntityInterface $exportEntity */
             $exportEntity = $this->exportEntityFactory->create();
             $this->exportEntityResource->load(
