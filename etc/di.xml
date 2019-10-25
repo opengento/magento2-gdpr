@@ -102,6 +102,19 @@
         </arguments>
     </virtualType>
     <!-- Action Management -->
+    <type name="Opengento\Gdpr\Model\Action\ActionFactory">
+        <arguments>
+            <argument name="actions" xsi:type="array">
+                <item name="erase_create" xsi:type="string">Opengento\Gdpr\Model\Action\EraseCreateAction</item>
+                <item name="erase_execute" xsi:type="string">Opengento\Gdpr\Model\Action\EraseExecuteAction</item>
+                <item name="erase_cancel" xsi:type="string">Opengento\Gdpr\Model\Action\EraseCancelAction</item>
+                <item name="erase_create_execute" xsi:type="string">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</item>
+                <item name="export_create" xsi:type="string">Opengento\Gdpr\Model\Action\ExportCreateAction</item>
+                <item name="export_execute" xsi:type="string">Opengento\Gdpr\Model\Action\ExportExecuteAction</item>
+                <item name="export_create_or_execute" xsi:type="string">Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction</item>
+            </argument>
+        </arguments>
+    </type>
     <virtualType name="Opengento\Gdpr\Model\Action\EraseCreateAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
         <arguments>
             <argument name="type" xsi:type="string">erase_create</argument>

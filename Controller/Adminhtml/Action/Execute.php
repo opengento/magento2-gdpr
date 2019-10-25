@@ -15,9 +15,8 @@ use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\ActionInterface;
-use Opengento\Gdpr\Api\ActionInterfaceFactory;
 use Opengento\Gdpr\Api\Data\ActionResultInterface;
+use Opengento\Gdpr\Model\Action\ActionFactory;
 use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Config\Source\ActionStates;
 
@@ -26,7 +25,7 @@ class Execute extends Action implements HttpPostActionInterface
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::gdpr_actions_execute';
 
     /**
-     * @var ActionInterfaceFactory
+     * @var ActionFactory
      */
     private $actionFactory;
 
@@ -42,7 +41,7 @@ class Execute extends Action implements HttpPostActionInterface
 
     public function __construct(
         Context $context,
-        ActionInterfaceFactory $actionFactory,
+        ActionFactory $actionFactory,
         ContextBuilder $contextBuilder,
         ActionStates $actionStates
     ) {
@@ -59,7 +58,7 @@ class Execute extends Action implements HttpPostActionInterface
         $resultRedirect->setPath('*/*/new');
 
         try {
-            $result = $this->proceed();
+            $result = $this->proceed($this->getRequest()->getParam('type'));
             $resultRedirect->setPath('*/*/');
             $this->messageManager->addSuccessMessage(
                 new Phrase('The action state is now: %1.', [$this->actionStates->getOptionText($result->getState())])
@@ -74,23 +73,19 @@ class Execute extends Action implements HttpPostActionInterface
     }
 
     /**
+     * @param string $actionType
      * @return ActionResultInterface
      * @throws LocalizedException
-     * @throws Exception
      */
-    private function proceed(): ActionResultInterface
+    private function proceed(string $actionType): ActionResultInterface
     {
         $parameters = [];
         /** @var array $param */
         foreach ((array) $this->getRequest()->getParam('parameters', []) as $param) {
             $parameters[$param['name']] = $param['value'];
         }
-
         $this->contextBuilder->setParameters($parameters);
 
-        /** @var ActionInterface $action */
-        $action = $this->actionFactory->create(['type' => $this->getRequest()->getParam('type')]);
-
-        return $action->execute($this->contextBuilder->create());
+        return $this->actionFactory->get($actionType)->execute($this->contextBuilder->create());
     }
 }

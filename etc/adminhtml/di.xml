@@ -50,8 +50,8 @@
     <!-- Config Settings -->
     <virtualType name="Opengento\Gdpr\Model\Config\Source\ActionTypes" type="Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList">
         <arguments>
-            <argument name="className" xsi:type="string">Opengento\Gdpr\Model\Action\ProcessorFactory</argument>
-            <argument name="argumentName" xsi:type="string">processors</argument>
+            <argument name="className" xsi:type="string">Opengento\Gdpr\Model\Action\ActionFactory</argument>
+            <argument name="argumentName" xsi:type="string">actions</argument>
         </arguments>
     </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Config\Source\EntityAttributes" type="Opengento\Gdpr\Model\Config\Source\VirtualEntityAttributes">
