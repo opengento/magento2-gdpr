@@ -13,7 +13,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Framework\View\Element\Html\Select;
 
-final class EraseComponentsProcessors extends AbstractFieldArray
+class EraseComponentsProcessors extends AbstractFieldArray
 {
     /**
      * @throws LocalizedException

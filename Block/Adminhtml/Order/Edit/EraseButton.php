@@ -14,7 +14,7 @@ use Magento\Framework\Phrase;
 use Magento\Sales\Block\Adminhtml\Order\View;
 use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 
-final class EraseButton extends AbstractBlock
+class EraseButton extends AbstractBlock
 {
     /**
      * @var EraseEntityCheckerInterface
