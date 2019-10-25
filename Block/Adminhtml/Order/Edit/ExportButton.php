@@ -13,7 +13,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Sales\Block\Adminhtml\Order\View;
 
-final class ExportButton extends AbstractBlock
+class ExportButton extends AbstractBlock
 {
     public function __construct(
         Context $context,

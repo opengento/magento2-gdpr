@@ -15,7 +15,7 @@ use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Opengento\Gdpr\Model\Config;
 
-final class PrivacyMessagePopup extends Template
+class PrivacyMessagePopup extends Template
 {
     public const COOKIE_NAME = 'cookies-policy';
 

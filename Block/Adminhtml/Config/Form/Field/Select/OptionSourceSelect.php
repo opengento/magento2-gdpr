@@ -11,7 +11,7 @@ use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\View\Element\Context;
 use Magento\Framework\View\Element\Html\Select;
 
-final class OptionSourceSelect extends Select
+class OptionSourceSelect extends Select
 {
     /**
      * @var OptionSourceInterface
