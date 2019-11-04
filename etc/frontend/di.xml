@@ -6,6 +6,27 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Opengento\Gdpr\Model\Action\ExportCreateAction">
+        <arguments>
+            <argument name="actions" xsi:type="array">
+                <item name="notifier" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateNotifier</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Action\ExportExecuteAction">
+        <arguments>
+            <argument name="actions" xsi:type="array">
+                <item name="notifier" xsi:type="object">Opengento\Gdpr\Model\Action\Export\ExportNotifier</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction">
+        <arguments>
+            <argument name="actions" xsi:type="array">
+                <item name="notifier" xsi:type="object">Opengento\Gdpr\Model\Action\Export\ExportNotifier</item>
+            </argument>
+        </arguments>
+    </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Action\PerformedBy\FrontUser" type="Opengento\Gdpr\Model\Action\PerformedBy\NotEmptyStrategy">
         <arguments>
             <argument name="performedByList" xsi:type="array">

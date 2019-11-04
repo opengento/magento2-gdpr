@@ -14,6 +14,6 @@
     <template id="gdpr_notification_erase_canceled_guest_template" label="Canceled Erasure for Guest" file="erase_canceled_guest.html" type="html" module="Opengento_Gdpr" area="frontend"/>
     <template id="gdpr_notification_export_pending_template" label="Export Pending" file="export_pending.html" type="html" module="Opengento_Gdpr" area="frontend"/>
     <template id="gdpr_notification_export_pending_guest_template" label="Export Pending for Guest" file="export_pending_guest.html" type="html" module="Opengento_Gdpr" area="frontend"/>
-    <template id="gdpr_notification_export_succeeded_template" label="Export Ready" file="export_ready.html" type="html" module="Opengento_Gdpr" area="frontend"/>
-    <template id="gdpr_notification_export_succeeded_guest_template" label="Export Ready for Guest" file="export_ready_guest.html" type="html" module="Opengento_Gdpr" area="frontend"/>
+    <template id="gdpr_notification_export_ready_template" label="Export Ready" file="export_ready.html" type="html" module="Opengento_Gdpr" area="frontend"/>
+    <template id="gdpr_notification_export_ready_guest_template" label="Export Ready for Guest" file="export_ready_guest.html" type="html" module="Opengento_Gdpr" area="frontend"/>
 </config>

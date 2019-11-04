@@ -21,8 +21,6 @@ Area:
 - Payment Data
 - Invitation Data
 
-- send notification on ask for export (frontend di only)
-- send notification on ready for download (frontend di only)
 - invalidate export document when personal data are altered
     - in this way, add plugin / observer, depends of the entity persistence
 
@@ -88,4 +86,4 @@ https://github.com/magento/architecture/pull/145/files
 
 ## Improvements
 
-Disable checks and validators on mass actions (including cron)
+Only one anonymization configuration grid: entity type | attribute code | anonymizer
