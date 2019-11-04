@@ -10,7 +10,6 @@ namespace Opengento\Gdpr\Service\Anonymize;
 use Opengento\Gdpr\Model\Entity\MetadataInterface as EntityMetadataInterface;
 
 /**
- * Retrieve the anonymizer strategies associated by attribute code
  * @api
  */
 interface MetadataInterface extends EntityMetadataInterface
