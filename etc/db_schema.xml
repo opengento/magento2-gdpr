@@ -7,7 +7,7 @@
 -->
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
     <table name="opengento_gdpr_erase_entity" resource="default" engine="innodb" comment="Erase Entity">
-        <column xsi:type="smallint" name="erase_id" padding="11" unsigned="true" nullable="false" identity="true" comment="Erase ID"/>
+        <column xsi:type="int" name="erase_id" padding="11" unsigned="true" nullable="false" identity="true" comment="Erase ID"/>
         <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" comment="Entity ID"/>
         <column xsi:type="varchar" name="entity_type" length="255" nullable="false" comment="Entity Type"/>
         <column xsi:type="timestamp" name="scheduled_at" nullable="false" comment="Scheduled At"/>
@@ -26,7 +26,7 @@
         </index>
     </table>
     <table name="opengento_gdpr_export_entity" resource="default" engine="innodb" comment="Export Entity">
-        <column xsi:type="smallint" name="export_id" padding="11" unsigned="true" nullable="false" identity="true" comment="Export ID"/>
+        <column xsi:type="int" name="export_id" padding="11" unsigned="true" nullable="false" identity="true" comment="Export ID"/>
         <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" comment="Entity ID"/>
         <column xsi:type="varchar" name="entity_type" length="255" nullable="false" comment="Entity Type"/>
         <column xsi:type="varchar" name="file_name" length="255" nullable="false" comment="File Name"/>
@@ -45,7 +45,7 @@
         </index>
     </table>
     <table name="opengento_gdpr_action_entity" resource="default" engine="innodb" comment="Action Entity">
-        <column xsi:type="smallint" name="action_id" padding="11" unsigned="true" nullable="false" identity="true" comment="Export ID"/>
+        <column xsi:type="int" name="action_id" padding="11" unsigned="true" nullable="false" identity="true" comment="Export ID"/>
         <column xsi:type="varchar" name="type" length="255" nullable="false" comment="Type"/>
         <column xsi:type="text" name="performed_from" nullable="false" comment="Performed From"/>
         <column xsi:type="text" name="performed_by" nullable="true" comment="Performed By"/>
@@ -62,5 +62,37 @@
         <index referenceId="OPENGENTO_GDPR_ACTION_ENTITY_STATE" indexType="btree">
             <column name="state"/>
         </index>
+    </table>
+    <table name="opengento_gdpr_agreement" resource="default" engine="innodb" comment="Agreement">
+        <column xsi:type="int" name="agreement_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Agreement Id"/>
+        <column xsi:type="varchar" name="identifier" nullable="true" length="255" comment="Identifier"/>
+        <column xsi:type="smallint" name="is_active" padding="6" unsigned="false" nullable="false" identity="false" default="0" comment="Is Active"/>
+        <column xsi:type="smallint" name="is_mandatory" padding="6" unsigned="false" nullable="false" identity="false" default="0" comment="Is Mandatory"/>
+        <column xsi:type="text" name="title" nullable="true" comment="Title"/>
+        <column xsi:type="text" name="label" nullable="true" comment="Label"/>
+        <column xsi:type="text" name="content" nullable="true" comment="Content"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="agreement_id"/>
+        </constraint>
+    </table>
+    <table name="opengento_gdpr_agreement_store" resource="default" engine="innodb" comment="Checkout Agreement Store">
+        <column xsi:type="int" name="agreement_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Agreement Id"/>
+        <column xsi:type="smallint" name="store_id" padding="5" unsigned="true" nullable="false" identity="false" comment="Store Id"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="agreement_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="OPENGENTO_GDPR_AGREEMENT_STORE_AGRT_ID_OPENGENTO_GDPR_AGREEMENT_AGREEMENT_ID" table="opengento_gdpr_agreement_store" column="agreement_id" referenceTable="opengento_gdpr_agreement" referenceColumn="agreement_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="OPENGENTO_GDPR_AGREEMENT_STORE_STORE_ID_STORE_STORE_ID" table="opengento_gdpr_agreement_store" column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
+    </table>
+    <table name="opengento_gdpr_consent" resource="default" engine="innodb" comment="Consent">
+        <column xsi:type="int" name="consent_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Consent Id"/>
+        <column xsi:type="varchar" name="agreement_identifier" nullable="true" length="255" comment="Agreement Identifier"/>
+        <column xsi:type="smallint" name="is_approved" padding="6" unsigned="false" nullable="false" identity="false" default="0" comment="Is Approved"/>
+        <column xsi:type="smallint" name="is_outdated" padding="6" unsigned="false" nullable="false" identity="false" default="0" comment="Is Outdated"/>
+        <column xsi:type="timestamp" name="submitted_at" nullable="false" comment="Submitted At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="consent_id"/>
+        </constraint>
     </table>
 </schema>
