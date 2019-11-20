@@ -30,23 +30,36 @@ Anonymize the customer data is one of the erasure strategy, rather than removing
 information not identifiable by any other parties.   
 It implements the following interface:
 
-- `\Opengento\Gdpr\Service\Anonymize\ProcessorInterface`
+- `\Opengento\Gdpr\Service\Erase\ProcessorInterface`
 
 The processors are registered to the following pool, if you want to register you own implementation,
 add it to the pool via the `di.xml` file configuration:
 
-- `\Opengento\Gdpr\Service\Anonymize\ProcessorPool`
+- `\Opengento\Gdpr\Model\Customer\Anonymize\ProcessorPool` for Logged In Customer
+- `\Opengento\Gdpr\Model\Order\Anonymize\ProcessorPool` for Guest Customer
 
 ```xml
-<virtualType name="Opengento\Gdpr\Service\Anonymize\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
+<!-- Anonymize Customer Management -->
+<virtualType name="Opengento\Gdpr\Model\Customer\Anonymize\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
     <arguments>
-        <argument name="type" xsi:type="string">Opengento\Gdpr\Service\Anonymize\ProcessorInterface</argument>
+        <argument name="type" xsi:type="string">Opengento\Gdpr\Service\Erase\ProcessorInterface</argument>
         <argument name="array" xsi:type="array">
-            <item name="customer" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\CustomerDataProcessor</item>
-            <item name="customer_address" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\CustomerAddressDataProcessor</item>
-            <item name="quote" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\QuoteDataProcessor</item>
-            <item name="order" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\OrderDataProcessor</item>
-            <item name="subscriber" xsi:type="string">Opengento\Gdpr\Service\Anonymize\Processor\SubscriberDataProcessor</item>
+            <item name="subscriber" xsi:type="string">Opengento\Gdpr\Model\Customer\Anonymize\Processor\SubscriberDataProcessor</item>
+            <item name="quote" xsi:type="string">Opengento\Gdpr\Model\Customer\Anonymize\Processor\QuoteDataProcessor</item>
+            <item name="order" xsi:type="string">Opengento\Gdpr\Model\Customer\Anonymize\Processor\OrderDataProcessor</item>
+            <item name="customer_address" xsi:type="string">Opengento\Gdpr\Model\Customer\Anonymize\Processor\CustomerAddressDataProcessor</item>
+            <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Anonymize\Processor\CustomerDataProcessor</item>
+        </argument>
+    </arguments>
+</virtualType>
+<!-- Anonymize Guest Management -->
+<virtualType name="Opengento\Gdpr\Model\Order\Anonymize\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
+    <arguments>
+        <argument name="type" xsi:type="string">Opengento\Gdpr\Service\Erase\ProcessorInterface</argument>
+        <argument name="array" xsi:type="array">
+            <item name="subscriber" xsi:type="string">Opengento\Gdpr\Model\Order\Anonymize\Processor\SubscriberDataProcessor</item>
+            <item name="quote" xsi:type="string">Opengento\Gdpr\Model\Order\Anonymize\Processor\QuoteDataProcessor</item>
+            <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Anonymize\Processor\OrderDataProcessor</item>
         </argument>
     </arguments>
 </virtualType>

@@ -34,18 +34,31 @@ It implements the following interface:
 The processors are registered to the following pool, if you want to register you own implementation,
 add it to the pool via the `di.xml` file configuration:
 
-- `\Opengento\Gdpr\Service\Delete\ProcessorPool`
+- `\Opengento\Gdpr\Model\Customer\Delete\ProcessorPool` for Logged In Customer
+- `\Opengento\Gdpr\Model\Order\Delete\ProcessorPool` for Guest Customer
 
 ```xml
-<virtualType name="Opengento\Gdpr\Service\Delete\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
+<!-- Delete Customer Management -->
+<virtualType name="Opengento\Gdpr\Model\Customer\Delete\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
     <arguments>
-        <argument name="type" xsi:type="string">Opengento\Gdpr\Service\Delete\ProcessorInterface</argument>
+        <argument name="type" xsi:type="string">Opengento\Gdpr\Service\Erase\ProcessorInterface</argument>
         <argument name="array" xsi:type="array">
-            <item name="customer" xsi:type="string">Opengento\Gdpr\Service\Delete\Processor\CustomerDataProcessor</item>
-            <item name="customer_address" xsi:type="string">Opengento\Gdpr\Service\Delete\Processor\CustomerAddressDataProcessor</item>
-            <item name="quote" xsi:type="string">Opengento\Gdpr\Service\Delete\Processor\QuoteDataProcessor</item>
-            <item name="order" xsi:type="string">Opengento\Gdpr\Service\Delete\Processor\OrderDataProcessor</item>
-            <item name="subscriber" xsi:type="string">Opengento\Gdpr\Service\Delete\Processor\SubscriberDataProcessor</item>
+            <item name="subscriber" xsi:type="string">Opengento\Gdpr\Model\Customer\Delete\Processor\SubscriberDataProcessor</item>
+            <item name="quote" xsi:type="string">Opengento\Gdpr\Model\Customer\Delete\Processor\QuoteDataProcessor</item>
+            <item name="order" xsi:type="string">Opengento\Gdpr\Model\Customer\Delete\Processor\OrderDataProcessor</item>
+            <item name="customer_address" xsi:type="string">Opengento\Gdpr\Model\Customer\Delete\Processor\CustomerAddressDataProcessor</item>
+            <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Delete\Processor\CustomerDataProcessor</item>
+        </argument>
+    </arguments>
+</virtualType>
+<!-- Delete Guest Management -->
+<virtualType name="Opengento\Gdpr\Model\Order\Delete\ProcessorPool" type="Magento\Framework\ObjectManager\TMap">
+    <arguments>
+        <argument name="type" xsi:type="string">Opengento\Gdpr\Service\Erase\ProcessorInterface</argument>
+        <argument name="array" xsi:type="array">
+            <item name="subscriber" xsi:type="string">Opengento\Gdpr\Model\Order\Delete\Processor\SubscriberDataProcessor</item>
+            <item name="quote" xsi:type="string">Opengento\Gdpr\Model\Order\Delete\Processor\QuoteDataProcessor</item>
+            <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Delete\Processor\OrderDataProcessor</item>
         </argument>
     </arguments>
 </virtualType>
