@@ -6,13 +6,11 @@
 
 /** @var \Magento\Framework\View\Element\Template $block */
 
-/** @var \Opengento\Gdpr\ViewModel\Privacy\SettingsDataProvider $settingsDataProvider */
+/** @var \Opengento\Gdpr\ViewModel\Customer\Privacy\SettingsDataProvider $settingsDataProvider */
 $settingsDataProvider = $block->getData('settingsDataProvider');
-/** @var \Opengento\Gdpr\ViewModel\UrlsDataProvider $urlsDataProvider */
-$urlsDataProvider = $block->getData('urlsDataProvider');
 ?>
 <form class="form form-edit-account"
-      action="<?= $block->escapeUrl($urlsDataProvider->getEraseActionUrl()) ?>"
+      action="<?= $block->escapeUrl($block->getData('eraseActionUrl')) ?>"
       method="post"
       id="form-validate"
       data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
@@ -28,7 +26,7 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
                 <span><?= $block->escapeHtml(__('Password')) ?></span>
             </label>
             <div class="control">
-                <input type="password" class="input-text" name="password" id="password" data-validate="{required:true}" autocomplete="off" />
+                <input type="password" class="input-text" name="password" id="password" data-validate="{required:true}" autocomplete="off"/>
             </div>
         </div>
         <div class="actions-toolbar">
@@ -38,14 +36,13 @@ $urlsDataProvider = $block->getData('urlsDataProvider');
                 </button>
             </div>
             <div class="secondary">
-                <a class="action back" href="<?= $block->escapeUrl($urlsDataProvider->getSettingsPageUrl()) ?>">
+                <a class="action back" href="<?= $block->escapeUrl($block->getData('backUrl')) ?>">
                     <span><?= $block->escapeHtml(__('Back')) ?></span>
                 </a>
             </div>
         </div>
     </fieldset>
 </form>
-
 <script>
     require([
         "jquery",

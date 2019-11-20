@@ -15,35 +15,25 @@ use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Opengento\Gdpr\Model\Config;
 
-/**
- * Class PrivacyMessagePopup
- */
-final class PrivacyMessagePopup extends Template
+class PrivacyMessagePopup extends Template
 {
     public const COOKIE_NAME = 'cookies-policy';
 
     /**
-     * @var \Opengento\Gdpr\Model\Config
+     * @var Config
      */
     private $config;
 
     /**
-     * @var \Magento\Cms\Helper\Page
+     * @var HelperPage
      */
     private $helperPage;
 
     /**
-     * @var \Magento\Framework\Serialize\Serializer\Json
+     * @var Json
      */
     private $jsonSerializer;
 
-    /**
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Magento\Cms\Helper\Page $helperPage
-     * @param \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
-     * @param array $data
-     */
     public function __construct(
         Context $context,
         Config $config,
@@ -57,34 +47,18 @@ final class PrivacyMessagePopup extends Template
         parent::__construct($context, $data);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getJsLayout(): string
     {
         $this->jsLayout['components']['enhanced-privacy-cookie-policy']['config'] = [
             'cookieName' => self::COOKIE_NAME,
             'learnMore' => $this->helperPage->getPageUrl($this->config->getPrivacyInformationPageId()),
-            'notificationText' => $this->getCookieDisclosureInformation(),
+            'notificationText' => $this->getCookieDisclosureInformationHtml(),
         ];
 
         return $this->jsonSerializer->serialize($this->jsLayout);
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function _toHtml(): string
-    {
-        return $this->config->isCookieDisclosureEnabled() ? parent::_toHtml() : '';
-    }
-
-    /**
-     * Retrieve the cookie disclosure information html
-     *
-     * @return string
-     */
-    private function getCookieDisclosureInformation(): string
+    public function getCookieDisclosureInformationHtml(): string
     {
         if (!$this->hasData('cookie_disclosure_information')) {
             try {
@@ -100,5 +74,10 @@ final class PrivacyMessagePopup extends Template
         }
 
         return (string) $this->_getData('cookie_disclosure_information');
+    }
+
+    protected function _toHtml(): string
+    {
+        return $this->config->isCookieDisclosureEnabled() ? parent::_toHtml() : '';
     }
 }

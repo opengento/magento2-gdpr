@@ -6,11 +6,11 @@
 
 /** @var \Magento\Framework\View\Element\Template $block */
 
-/** @var \Opengento\Gdpr\ViewModel\Privacy\EraseGuestDataProvider $eraseGuestDataProvider */
-$eraseGuestDataProvider = $block->getData('eraseGuestDataProvider');
+/** @var \Opengento\Gdpr\ViewModel\Customer\Guest\EraseDataProvider $eraseDataProvider */
+$eraseDataProvider = $block->getData('eraseDataProvider');
 ?>
-<?php if ($eraseGuestDataProvider->canCreate()): ?>
-    <a href="<?= $block->escapeHtmlAttr($block->escapeUrl($block->getData('eraseActionUrl'))) ?>" class="action action-danger" id="erase">
+<?php if ($eraseDataProvider->canCreate()): ?>
+    <a href="<?= $block->escapeUrl($block->getData('eraseActionUrl')) ?>" class="action action-danger" id="erase">
         <span><?= $block->escapeHtml(__('Erase Personal Data')) ?></span>
     </a>
     <script>
@@ -27,7 +27,7 @@ $eraseGuestDataProvider = $block->getData('eraseGuestDataProvider');
                     content: "<?= $block->escapeJs($block->escapeHtml(__('Do you really want to erase your personal data?'))) ?>",
                     actions: {
                         confirm: function () {
-                            window.location = "<?= $block->escapeJs($block->escapeHtml($block->escapeUrl($block->getData('eraseActionUrl')))) ?>";
+                            window.location = "<?= $block->escapeJs($block->escapeUrl($block->getData('eraseActionUrl'))) ?>";
                         }
                     }
                 });
@@ -35,8 +35,8 @@ $eraseGuestDataProvider = $block->getData('eraseGuestDataProvider');
         });
     </script>
 <?php endif; ?>
-<?php if ($eraseGuestDataProvider->canCancel()): ?>
-    <a href="<?= $block->escapeUrl($block->escapeUrl($block->getData('undoActionUrl'))) ?>" class="action undo" id="undo_deletion">
+<?php if ($eraseDataProvider->canCancel()): ?>
+    <a href="<?= $block->escapeUrl($block->getData('undoActionUrl')) ?>" class="action undo" id="undo_deletion">
         <span><?= $block->escapeHtml(__('Undo Erase Personal Data')) ?></span>
     </a>
 <?php endif; ?>

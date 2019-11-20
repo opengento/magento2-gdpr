@@ -12,25 +12,18 @@ use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorResolverFactory;
 use Opengento\Gdpr\Service\Erase\ProcessorResolverInterface;
 
-/**
- * Class ProcessorResolverStrategy
- */
 final class ProcessorResolverStrategy implements ProcessorResolverInterface
 {
     /**
-     * @var \Opengento\Gdpr\Service\Erase\ProcessorResolverFactory
+     * @var ProcessorResolverFactory
      */
     private $processorResolverFactory;
 
     /**
-     * @var \Opengento\Gdpr\Service\Erase\MetadataInterface
+     * @var MetadataInterface
      */
     private $metadata;
 
-    /**
-     * @param \Opengento\Gdpr\Service\Erase\ProcessorResolverFactory $processorResolverFactory
-     * @param \Opengento\Gdpr\Service\Erase\MetadataInterface $metadata
-     */
     public function __construct(
         ProcessorResolverFactory $processorResolverFactory,
         MetadataInterface $metadata
@@ -39,9 +32,6 @@ final class ProcessorResolverStrategy implements ProcessorResolverInterface
         $this->metadata = $metadata;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function resolve(string $component): ProcessorInterface
     {
         return $this->processorResolverFactory->get($this->metadata->getComponentProcessor($component))->resolve($component);

@@ -6,30 +6,59 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <virtualType name="Opengento\Gdpr\Model\Archive\MoveToZip" type="Opengento\Gdpr\Model\Archive\MoveToArchive">
+    <preference for="Opengento\Gdpr\Model\Action\PerformedByInterface" type="Opengento\Gdpr\Model\Action\PerformedBy\AdminUser"/>
+    <type name="Opengento\Gdpr\Controller\Adminhtml\Action\InlineEdit">
         <arguments>
-            <argument name="archive" xsi:type="object">Opengento\Gdpr\Model\Archive\Zip</argument>
-        </arguments>
-    </virtualType>
-    <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\Export">
-        <arguments>
-            <argument name="moveToArchive" xsi:type="object">Opengento\Gdpr\Model\Archive\MoveToZip</argument>
-            <argument name="exportEntityFactory" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\ExportCustomerFactory</argument>
+            <argument name="allowedAttributesByState" xsi:type="array">
+                <item name="*" xsi:type="array">
+                    <item name="message" xsi:type="const">Opengento\Gdpr\Api\Data\ActionEntityInterface::MESSAGE</item>
+                </item>
+            </argument>
         </arguments>
     </type>
-    <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\MassExport">
+    <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\Erase">
         <arguments>
-            <argument name="moveToArchive" xsi:type="object">Opengento\Gdpr\Model\Archive\MoveToZip</argument>
-            <argument name="exportEntityFactory" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\ExportCustomerFactory</argument>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</argument><!-- todo use secure eraser -->
+        </arguments>
+    </type>
+    <type name="Opengento\Gdpr\Controller\Adminhtml\Guest\Erase">
+        <arguments>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</argument><!-- todo use secure eraser -->
+        </arguments>
+    </type>
+    <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\MassErase">
+        <arguments>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</argument>
+        </arguments>
+    </type>
+    <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\Export">
+        <arguments>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction</argument>
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Controller\Adminhtml\Guest\Export">
         <arguments>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction</argument>
+        </arguments>
+    </type>
+    <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\MassExport">
+        <arguments>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction</argument>
             <argument name="moveToArchive" xsi:type="object">Opengento\Gdpr\Model\Archive\MoveToZip</argument>
-            <argument name="exportEntityFactory" xsi:type="object">Opengento\Gdpr\Model\Order\Export\ExportOrderFactory</argument>
         </arguments>
     </type>
     <!-- Config Settings -->
+    <virtualType name="Opengento\Gdpr\Model\Config\Source\ActionTypes" type="Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList">
+        <arguments>
+            <argument name="className" xsi:type="string">Opengento\Gdpr\Model\Action\ActionFactory</argument>
+            <argument name="argumentName" xsi:type="string">actions</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Config\Source\EntityAttributes" type="Opengento\Gdpr\Model\Config\Source\VirtualEntityAttributes">
+        <arguments>
+            <argument name="attributeProvider" xsi:type="object">Magento\Framework\Model\EntitySnapshot\AttributeProvider</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Config\Source\CustomerAttributes" type="Opengento\Gdpr\Model\Config\Source\VirtualCustomerAttributes">
         <arguments>
             <argument name="metadata" xsi:type="object">Magento\Customer\Api\CustomerMetadataInterface</argument>
@@ -52,10 +81,16 @@
             <argument name="argumentName" xsi:type="string">anonymizers</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Config\Source\EraseProcessors" type="Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList">
+    <virtualType name="Opengento\Gdpr\Model\Config\Source\Customer\EraseProcessors" type="Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList">
         <arguments>
-            <argument name="className" xsi:type="string">Opengento\Gdpr\Service\Erase\ProcessorFactory</argument>
-            <argument name="argumentName" xsi:type="string">processors</argument>
+            <argument name="className" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\ProcessorResolverFactory</argument>
+            <argument name="argumentName" xsi:type="string">processorResolvers</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Config\Source\Order\EraseProcessors" type="Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList">
+        <arguments>
+            <argument name="className" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\ProcessorResolverFactory</argument>
+            <argument name="argumentName" xsi:type="string">processorResolvers</argument>
         </arguments>
     </virtualType>
     <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Anonymizers" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\OptionSourceSelect">
@@ -63,9 +98,40 @@
             <argument name="optionSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Anonymizers</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseProcessors" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\OptionSourceSelect">
+    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Customer\EraseComponents" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\OptionSourceSelect">
         <arguments>
-            <argument name="optionSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\EraseProcessors</argument>
+            <argument name="optionSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Customer\EraseComponents</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Order\EraseComponents" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\OptionSourceSelect">
+        <arguments>
+            <argument name="optionSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Order\EraseComponents</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Customer\EraseProcessors" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\OptionSourceSelect">
+        <arguments>
+            <argument name="optionSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Customer\EraseProcessors</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Order\EraseProcessors" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\OptionSourceSelect">
+        <arguments>
+            <argument name="optionSource" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Order\EraseProcessors</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Customer\EraseComponentsProcessors" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\EraseComponentsProcessors">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="erase_components_select" xsi:type="string">Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Customer\EraseComponents</item>
+                <item name="erase_processors_select" xsi:type="string">Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Customer\EraseProcessors</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Order\EraseComponentsProcessors" type="Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\EraseComponentsProcessors">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="erase_components_select" xsi:type="string">Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Order\EraseComponents</item>
+                <item name="erase_processors_select" xsi:type="string">Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\Order\EraseProcessors</item>
+            </argument>
         </arguments>
     </virtualType>
 </config>

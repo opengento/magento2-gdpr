@@ -9,19 +9,19 @@ namespace Opengento\Gdpr\Service\Anonymize;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Serialize\SerializerInterface;
+use function array_column;
+use function array_combine;
+use function array_keys;
 
-/**
- * Class Metadata
- */
 final class Metadata implements MetadataInterface
 {
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     * @var ScopeConfigInterface
      */
     private $scopeConfig;
 
     /**
-     * @var \Magento\Framework\Serialize\SerializerInterface
+     * @var SerializerInterface
      */
     private $serializer;
 
@@ -40,12 +40,6 @@ final class Metadata implements MetadataInterface
      */
     private $cache;
 
-    /**
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\Serialize\SerializerInterface $serializer
-     * @param string $configPath
-     * @param string $scopeType
-     */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         SerializerInterface $serializer,
@@ -58,9 +52,6 @@ final class Metadata implements MetadataInterface
         $this->scopeType = $scopeType;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getAnonymizerStrategiesByAttributes(?string $scopeCode = null): array
     {
         $scope = $scopeCode ?? 'current_scope';
@@ -70,20 +61,17 @@ final class Metadata implements MetadataInterface
                 $this->scopeConfig->getValue($this->configPath, $this->scopeType, $scopeCode) ?? '{}'
             );
 
-            $this->cache[$scope] = \array_combine(
-                \array_column($metadata, 'attribute'),
-                \array_column($metadata, 'anonymizer')
+            $this->cache[$scope] = array_combine(
+                array_column($metadata, 'attribute'),
+                array_column($metadata, 'anonymizer')
             );
         }
 
         return $this->cache[$scope];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getAttributes(?string $scopeCode = null): array
     {
-        return \array_keys($this->getAnonymizerStrategiesByAttributes($scopeCode));
+        return array_keys($this->getAnonymizerStrategiesByAttributes($scopeCode));
     }
 }

@@ -8,33 +8,30 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Entity\EntityValue;
 
 use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
+use function array_combine;
+use function array_keys;
+use function array_values;
 
-/**
- * Class StrategyProcessor
- */
 final class StrategyProcessor implements EntityValueProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface[]
+     * @var EntityValueProcessorInterface[]
      */
     private $processors;
 
     /**
-     * @param \Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface[] $processors
+     * @param EntityValueProcessorInterface[] $processors
      */
     public function __construct(
         array $processors
     ) {
         $this->processors = (static function (EntityValueProcessorInterface ...$processors): array {
             return $processors;
-        })(...\array_values($processors));
+        })(...array_values($processors));
 
-        $this->processors = \array_combine(\array_keys($processors), $this->processors);
+        $this->processors = array_combine(array_keys($processors), $this->processors);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function process($entity, string $key, $value): void
     {
         ($this->processors[$key] ?? $this->processors['default'])->process($entity, $key, $value);

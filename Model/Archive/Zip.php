@@ -10,6 +10,8 @@ namespace Opengento\Gdpr\Model\Archive;
 use Magento\Framework\Archive\ArchiveInterface;
 use Magento\Framework\Archive\Zip as ArchiveZip;
 use Magento\Framework\Filesystem;
+use ZipArchive;
+use function basename;
 
 /**
  * Zip compressed file archive with local file name.
@@ -18,19 +20,15 @@ use Magento\Framework\Filesystem;
 final class Zip implements ArchiveInterface
 {
     /**
-     * @var \Magento\Framework\Filesystem
+     * @var Filesystem
      */
     private $filesystem;
 
     /**
-     * @var \Magento\Framework\Archive\Zip
+     * @var ArchiveZip
      */
     private $zip;
 
-    /**
-     * @param \Magento\Framework\Filesystem $filesystem
-     * @param \Magento\Framework\Archive\Zip $zip
-     */
     public function __construct(
         Filesystem $filesystem,
         ArchiveZip $zip
@@ -39,24 +37,18 @@ final class Zip implements ArchiveInterface
         $this->zip = $zip;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function pack($source, $destination): string
     {
         $directoryRead = $this->filesystem->getDirectoryReadByPath($source);
 
-        $zip = new \ZipArchive();
-        $zip->open($destination, \ZipArchive::CREATE);
-        $zip->addFile($source, $directoryRead->isDirectory($source) ? '' : \basename($source));
+        $zip = new ZipArchive();
+        $zip->open($destination, ZipArchive::CREATE);
+        $zip->addFile($source, $directoryRead->isDirectory($source) ? '' : basename($source));
         $zip->close();
 
         return $destination;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function unpack($source, $destination): string
     {
         return $this->zip->unpack($source, $destination);

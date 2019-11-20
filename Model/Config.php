@@ -9,13 +9,14 @@ namespace Opengento\Gdpr\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
+use function explode;
 
 /**
- * Class Config
+ * @todo split config
  */
 final class Config
 {
-    /**#@+
+    /**
      * Scope Config: Data Settings Paths
      */
     public const CONFIG_PATH_GENERAL_ENABLED = 'gdpr/general/enabled';
@@ -30,31 +31,24 @@ final class Config
     public const CONFIG_PATH_ERASURE_REMOVE_CUSTOMER = 'gdpr/erasure/remove_customer';
     public const CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK = 'gdpr/anonymize/block_id';
     public const CONFIG_PATH_EXPORT_ENABLED = 'gdpr/export/enabled';
+    public const CONFIG_PATH_EXPORT_FILE_NAME = 'gdpr/export/file_name';
+    public const CONFIG_PATH_EXPORT_LIFE_TIME = 'gdpr/export/life_time';
     public const CONFIG_PATH_EXPORT_INFORMATION_BLOCK = 'gdpr/export/block_id';
-    public const CONFIG_PATH_EXPORT_RENDERER = 'gdpr/export/renderer';
+    public const CONFIG_PATH_EXPORT_RENDERERS = 'gdpr/export/renderers';
     public const CONFIG_PATH_COOKIE_DISCLOSURE_ENABLED = 'gdpr/cookie/enabled';
     public const CONFIG_PATH_COOKIE_INFORMATION_BLOCK = 'gdpr/cookie/block_id';
-    /**#@-*/
 
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     * @var ScopeConfigInterface
      */
     private $scopeConfig;
 
-    /**
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     */
     public function __construct(
         ScopeConfigInterface $scopeConfig
     ) {
         $this->scopeConfig = $scopeConfig;
     }
 
-    /**
-     * Check if the current module is enabled
-     *
-     * @return bool
-     */
     public function isModuleEnabled(): bool
     {
         return $this->scopeConfig->isSetFlag(
@@ -63,11 +57,6 @@ final class Config
         );
     }
 
-    /**
-     * Retrieve the privacy information page ID
-     *
-     * @return string
-     */
     public function getPrivacyInformationPageId(): string
     {
         return (string) $this->scopeConfig->getValue(
@@ -76,11 +65,6 @@ final class Config
         );
     }
 
-    /**
-     * Retrieve the privacy information block ID
-     *
-     * @return string
-     */
     public function getPrivacyInformationBlockId(): string
     {
         return (string) $this->scopeConfig->getValue(
@@ -89,11 +73,6 @@ final class Config
         );
     }
 
-    /**
-     * Check if the erasure is enabled
-     *
-     * @return bool
-     */
     public function isErasureEnabled(): bool
     {
         return $this->scopeConfig->isSetFlag(
@@ -104,8 +83,6 @@ final class Config
 
     /**
      * Check if the customer can be removed if he has no orders
-     *
-     * @return bool
      */
     public function isCustomerRemovedNoOrders(): bool
     {
@@ -117,8 +94,6 @@ final class Config
 
     /**
      * Retrieve the erasure delay in minutes before execution
-     *
-     * @return int
      */
     public function getErasureDelay(): int
     {
@@ -130,8 +105,6 @@ final class Config
 
     /**
      * Retrieve the maximum age for the entities before the erasure
-     *
-     * @return int
      */
     public function getErasureMaxAge(): int
     {
@@ -143,8 +116,6 @@ final class Config
 
     /**
      * Retrieve the maximum age for the sales information before the erasure
-     *
-     * @return int
      */
     public function getErasureSalesMaxAge(): int
     {
@@ -155,23 +126,16 @@ final class Config
     }
 
     /**
-     * Retrieve the allowed order states to erase
-     *
      * @return string[]
      */
     public function getAllowedStatesToErase(): array
     {
-        return \explode(',', (string) $this->scopeConfig->getValue(
+        return explode(',', (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_ERASURE_ALLOWED_STATES,
             ScopeInterface::SCOPE_STORE
         ));
     }
 
-    /**
-     * Retrieve the erasure information block ID
-     *
-     * @return string
-     */
     public function getErasureInformationBlockId(): string
     {
         return (string) $this->scopeConfig->getValue(
@@ -180,11 +144,6 @@ final class Config
         );
     }
 
-    /**
-     * Retrieve the anonymize information block ID
-     *
-     * @return string
-     */
     public function getAnonymizeInformationBlockId(): string
     {
         return (string) $this->scopeConfig->getValue(
@@ -193,11 +152,6 @@ final class Config
         );
     }
 
-    /**
-     * Check if the export is enabled
-     *
-     * @return bool
-     */
     public function isExportEnabled(): bool
     {
         return $this->scopeConfig->isSetFlag(
@@ -206,11 +160,25 @@ final class Config
         );
     }
 
+    public function getExportFileName(): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_EXPORT_FILE_NAME,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
     /**
-     * Retrieve the export information block ID
-     *
-     * @return string
+     * Retrieve the export file life time in minutes
      */
+    public function getExportLifetime(): int
+    {
+        return (int) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_EXPORT_LIFE_TIME,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
     public function getExportInformationBlockId(): string
     {
         return (string) $this->scopeConfig->getValue(
@@ -219,24 +187,14 @@ final class Config
         );
     }
 
-    /**
-     * Retrieve the export renderer code
-     *
-     * @return string
-     */
-    public function getExportRendererCode(): string
+    public function getExportRendererCodes(): array
     {
-        return (string) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_EXPORT_RENDERER,
+        return explode(',', (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_EXPORT_RENDERERS,
             ScopeInterface::SCOPE_STORE
-        );
+        ));
     }
 
-    /**
-     * Check if the cookie disclosure is enabled
-     *
-     * @return bool
-     */
     public function isCookieDisclosureEnabled(): bool
     {
         return $this->scopeConfig->isSetFlag(
@@ -245,11 +203,6 @@ final class Config
         );
     }
 
-    /**
-     * Retrieve the cookie disclosure information block ID
-     *
-     * @return string
-     */
     public function getCookieDisclosureInformationBlockId(): string
     {
         return (string) $this->scopeConfig->getValue(

@@ -9,23 +9,18 @@ namespace Opengento\Gdpr\Model\Order\SourceProvider;
 
 use Magento\Framework\Api\Filter;
 use Magento\Framework\Data\Collection;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Api\Data\OrderInterface;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\Entity\SourceProvider\ModifierInterface;
 
-/**
- * Class GuestModifier
- */
 final class GuestModifier implements ModifierInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\Config
+     * @var Config
      */
     private $config;
 
-    /**
-     * @param \Opengento\Gdpr\Model\Config $config
-     */
     public function __construct(Config $config)
     {
         $this->config = $config;
@@ -33,7 +28,7 @@ final class GuestModifier implements ModifierInterface
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function apply(Collection $collection, Filter $filter): void
     {

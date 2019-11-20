@@ -11,32 +11,25 @@ use Opengento\Gdpr\Model\Entity\DocumentInterface;
 use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
 use Opengento\Gdpr\Model\Entity\MetadataInterface;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
+use function in_array;
 
-/**
- * Class Processor
- */
 final class Processor implements EntityValueProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\Entity\DocumentInterface
+     * @var DocumentInterface
      */
     public $document;
 
     /**
-     * @var \Opengento\Gdpr\Model\Entity\MetadataInterface
+     * @var MetadataInterface
      */
     private $metadata;
 
     /**
-     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface
+     * @var AnonymizerInterface
      */
     private $anonymizer;
 
-    /**
-     * @param \Opengento\Gdpr\Model\Entity\DocumentInterface $document
-     * @param \Opengento\Gdpr\Model\Entity\MetadataInterface $metadata
-     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface $anonymizer
-     */
     public function __construct(
         DocumentInterface $document,
         MetadataInterface $metadata,
@@ -47,12 +40,9 @@ final class Processor implements EntityValueProcessorInterface
         $this->anonymizer = $anonymizer;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function process($entity, string $key, $value): void
     {
-        if (\in_array($key, $this->metadata->getAttributes(), true)) {
+        if (in_array($key, $this->metadata->getAttributes(), true)) {
             $this->document->addData($key, $this->anonymizer->anonymize($value));
         }
     }

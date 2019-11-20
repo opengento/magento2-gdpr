@@ -8,22 +8,17 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Customer\Delete\Processor;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-/**
- * Class CustomerDataProcessor
- */
 final class CustomerDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     * @var CustomerRepositoryInterface
      */
     private $customerRepository;
 
-    /**
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-     */
     public function __construct(
         CustomerRepositoryInterface $customerRepository
     ) {
@@ -32,7 +27,7 @@ final class CustomerDataProcessor implements ProcessorInterface
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function execute(int $customerId): bool
     {

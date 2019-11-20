@@ -7,50 +7,53 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Entity;
 
+use Exception;
+use LogicException;
 use Magento\Framework\EntityManager\TypeResolver;
+use function array_combine;
+use function array_keys;
+use function array_values;
+use function sprintf;
 
-/**
- * Class DataCollectorGeneric
- */
 final class DataCollectorGeneric implements DataCollectorInterface
 {
     /**
-     * @var \Magento\Framework\EntityManager\TypeResolver
+     * @var TypeResolver
      */
     private $typeResolver;
 
     /**
-     * @var \Opengento\Gdpr\Model\Entity\DataCollectorInterface[]
+     * @var DataCollectorInterface[]
      */
     private $dataCollectors;
 
     /**
-     * @param \Magento\Framework\EntityManager\TypeResolver $typeResolver
-     * @param array $dataCollectors
+     * @param TypeResolver $typeResolver
+     * @param DataCollectorInterface[] $dataCollectors
      */
     public function __construct(
         TypeResolver $typeResolver,
         array $dataCollectors
     ) {
         $this->typeResolver = $typeResolver;
-        $this->dataCollectors = (static function (DataCollectorInterface ...$dataCollectors) {
+        $this->dataCollectors = (static function (DataCollectorInterface ...$dataCollectors): array {
             return $dataCollectors;
-        })(...\array_values($dataCollectors));
+        })(...array_values($dataCollectors));
 
-        $this->dataCollectors = \array_combine(\array_keys($dataCollectors), $this->dataCollectors);
+        $this->dataCollectors = array_combine(array_keys($dataCollectors), $this->dataCollectors);
     }
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
-    public function collect($entity): array
+    public function collect(object $entity): array
     {
         $entityType = $this->typeResolver->resolve($entity);
 
         if (!isset($this->dataCollectors[$entityType])) {
-            throw new \LogicException(
-                \sprintf('There is no registered data collector for the entity type "%s".', $entityType)
+            throw new LogicException(
+                sprintf('There is no registered data collector for the entity type "%s".', $entityType)
             );
         }
 

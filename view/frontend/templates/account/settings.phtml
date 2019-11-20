@@ -6,21 +6,21 @@
 
 /** @var \Magento\Framework\View\Element\Template $block */
 
-/** @var \Opengento\Gdpr\ViewModel\Privacy\SettingsDataProvider $settingsDataProvider */
+/** @var \Opengento\Gdpr\ViewModel\Customer\Privacy\SettingsDataProvider $settingsDataProvider */
 $settingsDataProvider = $block->getData('settingsDataProvider');
-/** @var \Opengento\Gdpr\ViewModel\UrlsDataProvider $urlsDataProvider */
-$urlsDataProvider = $block->getData('urlsDataProvider');
 ?>
-<div class="block block-dashboard-info">
-    <div class="block-title">
-        <strong><?= $block->escapeHtml(__('Information')) ?></strong>
-    </div>
-    <div class="block-content">
-        <div class="widget block block-static-block">
-            <?= $settingsDataProvider->getPrivacyInformation() ?>
+<?php if ($settingsDataProvider->getPrivacyInformationHtml()): ?>
+    <div class="block block-dashboard-info">
+        <div class="block-title">
+            <strong><?= $block->escapeHtml(__('Information')) ?></strong>
+        </div>
+        <div class="block-content">
+            <div class="widget block block-static-block">
+                <?= $settingsDataProvider->getPrivacyInformationHtml() ?>
+            </div>
         </div>
     </div>
-</div>
+<?php endif; ?>
 <div class="block block-privacy-info">
     <?= $block->getChildHtml() ?>
 </div>

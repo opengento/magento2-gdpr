@@ -12,60 +12,53 @@ use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
-use Opengento\Gdpr\Api\EraseEntityManagementInterface;
+use Opengento\Gdpr\Api\ActionInterface;
+use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class EraseCommand
- */
 class EraseCommand extends Command
 {
-    /**#@+
-     * Input Variables Names
-     */
     private const INPUT_ARGUMENT_ENTITY_ID = 'entity_id';
     private const INPUT_ARGUMENT_ENTITY_TYPE = 'entity_type';
-    /**#@-*/
 
     /**
-     * @var \Magento\Framework\App\State
+     * @var State
      */
     private $appState;
 
     /**
-     * @var \Magento\Framework\Registry
+     * @var Registry
      */
     private $registry;
 
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
+     * @var ActionInterface
      */
-    private $eraseEntityManagement;
+    private $action;
 
     /**
-     * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Framework\Registry $registry
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
-     * @param string $name
+     * @var ContextBuilder
      */
+    private $actionContextBuilder;
+
     public function __construct(
         State $appState,
         Registry $registry,
-        EraseEntityManagementInterface $eraseEntityManagement,
+        ActionInterface $action,
+        ContextBuilder $actionContextBuilder,
         string $name = 'gdpr:entity:erase'
     ) {
         $this->appState = $appState;
         $this->registry = $registry;
-        $this->eraseEntityManagement = $eraseEntityManagement;
+        $this->action = $action;
+        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($name);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function configure(): void
     {
         parent::configure();
@@ -87,7 +80,7 @@ class EraseCommand extends Command
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -102,10 +95,12 @@ class EraseCommand extends Command
 
         try {
             foreach ($entityIds as $entityId) {
-                // todo disable individual check: use mass validator
-                $this->eraseEntityManagement->process(
-                    $this->eraseEntityManagement->create((int) $entityId, $entityType)
-                );
+                $this->actionContextBuilder->setParameters([
+                    ArgumentReader::ENTITY_ID => $entityId,
+                    ArgumentReader::ENTITY_TYPE => $entityType
+                ]);
+                $this->action->execute($this->actionContextBuilder->create());
+
                 $output->writeln(
                     '<info>Entity\'s (' . $entityType . ') with ID "' . $entityId . '" has been erased.</info>'
                 );

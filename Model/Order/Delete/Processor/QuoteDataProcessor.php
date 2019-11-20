@@ -12,25 +12,18 @@ use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-/**
- * Class QuoteDataProcessor
- */
 final class QuoteDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Magento\Sales\Api\OrderRepositoryInterface
+     * @var OrderRepositoryInterface
      */
     private $orderRepository;
 
     /**
-     * @var \Magento\Quote\Api\CartRepositoryInterface
+     * @var CartRepositoryInterface
      */
     private $quoteRepository;
 
-    /**
-     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
-     */
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         CartRepositoryInterface $quoteRepository
@@ -39,9 +32,6 @@ final class QuoteDataProcessor implements ProcessorInterface
         $this->quoteRepository = $quoteRepository;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute(int $orderId): bool
     {
         try {

@@ -6,22 +6,175 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <!-- Service Contract -->
-    <preference for="Opengento\Gdpr\Api\Data\EraseEntityInterface" type="Opengento\Gdpr\Model\EraseEntity"/>
-    <preference for="Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
-    <preference for="Opengento\Gdpr\Api\Data\ExportEntityInterface" type="Opengento\Gdpr\Model\ExportEntity"/>
-    <preference for="Opengento\Gdpr\Api\EraseEntityRepositoryInterface" type="Opengento\Gdpr\Model\EraseEntityRepository"/>
-    <preference for="Opengento\Gdpr\Api\EraseEntityManagementInterface" type="Opengento\Gdpr\Model\EraseEntityManagement"/>
-    <preference for="Opengento\Gdpr\Api\EraseEntityCheckerInterface" type="Opengento\Gdpr\Model\EraseEntityChecker"/>
-    <preference for="Opengento\Gdpr\Api\EraseSalesInformationInterface" type="Opengento\Gdpr\Model\Erase\EraseSalesInformation"/>
-    <preference for="Opengento\Gdpr\Api\ExportEntityManagementInterface" type="Opengento\Gdpr\Model\ExportEntityManagement"/>
-    <type name="Magento\Framework\Model\Entity\RepositoryFactory">
+    <!-- Action Entity Service Contract -->
+    <preference for="Opengento\Gdpr\Api\Data\ActionContextInterface" type="Opengento\Gdpr\Model\Action\Context"/>
+    <preference for="Opengento\Gdpr\Api\Data\ActionEntityInterface" type="Opengento\Gdpr\Model\ActionEntity"/>
+    <preference for="Opengento\Gdpr\Api\Data\ActionResultInterface" type="Opengento\Gdpr\Model\Action\Result"/>
+    <preference for="Opengento\Gdpr\Api\Data\ActionEntitySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+    <preference for="Opengento\Gdpr\Api\ActionEntityRepositoryInterface" type="Opengento\Gdpr\Model\ActionEntityRepository"/>
+    <preference for="Opengento\Gdpr\Model\Action\PerformedByInterface" type="Opengento\Gdpr\Model\Action\PerformedBy\Console"/>
+    <type name="Opengento\Gdpr\Model\ResourceModel\ActionEntity\Validator">
         <arguments>
-            <argument name="entities" xsi:type="array">
-                <item name="Opengento\Gdpr\Api\Data\EraseEntityInterface" xsi:type="string">Opengento\Gdpr\Api\EraseEntityRepositoryInterface</item>
+            <argument name="validators" xsi:type="array">
+                <item name="state" xsi:type="object">Opengento\Gdpr\Model\ResourceModel\ActionEntity\Validator\StateValidator</item>
             </argument>
         </arguments>
     </type>
+    <!-- Erase Entity Service Contract -->
+    <preference for="Opengento\Gdpr\Api\Data\EraseEntityInterface" type="Opengento\Gdpr\Model\EraseEntity"/>
+    <preference for="Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+    <preference for="Opengento\Gdpr\Api\EraseEntityRepositoryInterface" type="Opengento\Gdpr\Model\EraseEntityRepository"/>
+    <preference for="Opengento\Gdpr\Api\EraseEntityManagementInterface" type="Opengento\Gdpr\Model\EraseEntityManagement"/>
+    <preference for="Opengento\Gdpr\Api\EraseEntityCheckerInterface" type="Opengento\Gdpr\Model\EraseEntityChecker"/>
+    <!-- todo check remove from SC API: prefer internal -->
+    <preference for="Opengento\Gdpr\Api\EraseSalesInformationInterface" type="Opengento\Gdpr\Model\Erase\EraseSalesInformation"/>
+    <!-- Export Entity Service Contract -->
+    <preference for="Opengento\Gdpr\Api\Data\ExportEntityInterface" type="Opengento\Gdpr\Model\ExportEntity"/>
+    <preference for="Opengento\Gdpr\Api\Data\ExportEntitySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+    <preference for="Opengento\Gdpr\Api\ExportEntityRepositoryInterface" type="Opengento\Gdpr\Model\ExportEntityRepository"/>
+    <preference for="Opengento\Gdpr\Api\ExportEntityManagementInterface" type="Opengento\Gdpr\Model\ExportEntityManagement"/>
+    <preference for="Opengento\Gdpr\Api\ExportEntityCheckerInterface" type="Opengento\Gdpr\Model\ExportEntityChecker"/>
+    <!-- Service Contract -->
+    <type name="Magento\Framework\Model\Entity\RepositoryFactory">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="Opengento\Gdpr\Api\Data\ActionEntityInterface" xsi:type="string">Opengento\Gdpr\Api\ActionEntityRepositoryInterface</item>
+                <item name="Opengento\Gdpr\Api\Data\EraseEntityInterface" xsi:type="string">Opengento\Gdpr\Api\EraseEntityRepositoryInterface</item>
+                <item name="Opengento\Gdpr\Api\Data\ExportEntityInterface" xsi:type="string">Opengento\Gdpr\Api\ExportEntityRepositoryInterface</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\HydratorPool">
+        <arguments>
+            <argument name="hydrators" xsi:type="array">
+                <item name="Opengento\Gdpr\Api\Data\ActionEntityInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Opengento\Gdpr\Api\Data\EraseEntityInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Opengento\Gdpr\Api\Data\ExportEntityInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Opengento\Gdpr\Model\Newsletter\Subscriber" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <!-- FIX for missing configuration in the Magento2 Core -->
+                <item name="Magento\Quote\Api\Data\CartInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Magento\Quote\Api\Data\AddressInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Magento\Sales\Api\Data\OrderInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Magento\Sales\Api\Data\OrderAddressInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- Action Erase Notification Management -->
+    <virtualType name="Opengento\Gdpr\Model\Action\Erase\CreateNotifier" type="Opengento\Gdpr\Model\Action\Erase\NotifierActionBundle">
+        <arguments>
+            <argument name="notifiers" xsi:type="array">
+                <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\Notifier\Pending</item>
+                <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\Notifier\Pending</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Action\Erase\ExecuteNotifier" type="Opengento\Gdpr\Model\Action\Erase\NotifierActionBundle">
+        <arguments>
+            <argument name="notifiers" xsi:type="array">
+                <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\Notifier\Succeeded</item>
+                <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\Notifier\Succeeded</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Action\Erase\CancelNotifier" type="Opengento\Gdpr\Model\Action\Erase\NotifierActionBundle">
+        <arguments>
+            <argument name="notifiers" xsi:type="array">
+                <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\Notifier\Canceled</item>
+                <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\Notifier\Canceled</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Action Export Notification Management -->
+    <virtualType name="Opengento\Gdpr\Model\Action\Export\CreateNotifier" type="Opengento\Gdpr\Model\Action\Export\NotifierActionBundle">
+        <arguments>
+            <argument name="notifiers" xsi:type="array">
+                <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Export\Notifier\Pending</item>
+                <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Export\Notifier\Pending</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Action\Export\ExportNotifier" type="Opengento\Gdpr\Model\Action\Export\NotifierActionBundle">
+        <arguments>
+            <argument name="notifiers" xsi:type="array">
+                <item name="customer" xsi:type="string">Opengento\Gdpr\Model\Customer\Export\Notifier\Ready</item>
+                <item name="order" xsi:type="string">Opengento\Gdpr\Model\Order\Export\Notifier\Ready</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Action Management -->
+    <type name="Opengento\Gdpr\Model\Action\ActionFactory">
+        <arguments>
+            <argument name="actions" xsi:type="array">
+                <item name="erase_create" xsi:type="string">Opengento\Gdpr\Model\Action\EraseCreateAction</item>
+                <item name="erase_execute" xsi:type="string">Opengento\Gdpr\Model\Action\EraseExecuteAction</item>
+                <item name="erase_cancel" xsi:type="string">Opengento\Gdpr\Model\Action\EraseCancelAction</item>
+                <item name="erase_create_execute" xsi:type="string">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</item>
+                <item name="export_create" xsi:type="string">Opengento\Gdpr\Model\Action\ExportCreateAction</item>
+                <item name="export_execute" xsi:type="string">Opengento\Gdpr\Model\Action\ExportExecuteAction</item>
+                <item name="export_create_or_execute" xsi:type="string">Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Opengento\Gdpr\Model\Action\EraseCreateAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
+        <arguments>
+            <argument name="type" xsi:type="string">erase_create</argument>
+            <argument name="actions" xsi:type="array">
+                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CreateAction</item>
+                <item name="notifier" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CreateNotifier</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Action\EraseExecuteAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
+        <arguments>
+            <argument name="type" xsi:type="string">erase_execute</argument>
+            <argument name="actions" xsi:type="array">
+                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\ExecuteAction</item>
+                <item name="notifier" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\ExecuteNotifier</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Action\EraseCancelAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
+        <arguments>
+            <argument name="type" xsi:type="string">erase_cancel</argument>
+            <argument name="actions" xsi:type="array">
+                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CancelAction</item>
+                <item name="notifier" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CancelNotifier</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Action\EraseCreateExecuteAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
+        <arguments>
+            <argument name="type" xsi:type="string">erase_create_execute</argument>
+            <argument name="actions" xsi:type="array">
+                <item name="create" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\CreateAction</item>
+                <item name="execute" xsi:type="object">Opengento\Gdpr\Model\Action\Erase\ExecuteAction</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Action\ExportCreateAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
+        <arguments>
+            <argument name="type" xsi:type="string">export_create</argument>
+            <argument name="actions" xsi:type="array">
+                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateAction</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Action\ExportExecuteAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
+        <arguments>
+            <argument name="type" xsi:type="string">export_execute</argument>
+            <argument name="actions" xsi:type="array">
+                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\ExportAction</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction" type="Opengento\Gdpr\Model\Action\ActionComposite">
+        <arguments>
+            <argument name="type" xsi:type="string">export_create_or_execute</argument>
+            <argument name="actions" xsi:type="array">
+                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateOrExportAction</item>
+            </argument>
+        </arguments>
+    </virtualType>
     <!-- Anonymize Management -->
     <virtualType name="Opengento\Gdpr\Service\Anonymize\Anonymizer\Street" type="Opengento\Gdpr\Service\Anonymize\Anonymizer\ArrayValue">
         <arguments>
@@ -76,17 +229,6 @@
                     <item name="eavEntityType" xsi:type="string">customer_address</item>
                     <item name="identifierField" xsi:type="string">entity_id</item>
                 </item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="Magento\Framework\EntityManager\HydratorPool">
-        <arguments>
-            <argument name="hydrators" xsi:type="array">
-                <item name="Magento\Quote\Api\Data\CartInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
-                <item name="Magento\Quote\Api\Data\AddressInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
-                <item name="Magento\Sales\Api\Data\OrderInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
-                <item name="Magento\Sales\Api\Data\OrderAddressInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
-                <item name="Opengento\Gdpr\Model\Newsletter\Subscriber" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
             </argument>
         </arguments>
     </type>
@@ -654,7 +796,7 @@
     </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Config\Source\Customer\EraseComponents" type="Opengento\Gdpr\Model\Config\Source\EraseComponents">
         <arguments>
-            <argument name="processorResolverFactoryClassName" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\ProcessorResolver\ProcessorResolverStrategy</argument>
+            <argument name="processorResolverFactoryClassName" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\ProcessorResolverFactory</argument>
         </arguments>
     </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Customer\Erase\Processor\EraseProcessor" type="Opengento\Gdpr\Service\Erase\Processor\EraseProcessor">
@@ -702,7 +844,7 @@
     </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Config\Source\Order\EraseComponents" type="Opengento\Gdpr\Model\Config\Source\EraseComponents">
         <arguments>
-            <argument name="processorResolverFactoryClassName" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\ProcessorResolver\ProcessorResolverStrategy</argument>
+            <argument name="processorResolverFactoryClassName" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\ProcessorResolverFactory</argument>
         </arguments>
     </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Order\Erase\Processor\EraseProcessor" type="Opengento\Gdpr\Service\Erase\Processor\EraseProcessor">
@@ -793,14 +935,6 @@
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Customer\Export\ExportCustomerFactory" type="Opengento\Gdpr\Model\Export\ExportEntityFactory">
-        <arguments>
-            <argument name="exportEntityList" xsi:type="array">
-                <item name="entityType" xsi:type="string">Opengento\Gdpr\Model\Customer\Export\ExportCustomer</item>
-                <item name="fileName" xsi:type="string">Opengento\Gdpr\Model\Export\ExportPersonalData</item>
-            </argument>
-        </arguments>
-    </virtualType>
     <!-- Export Guest Management -->
     <virtualType name="Opengento\Gdpr\Model\Order\Export\Processor\CompositeProcessor" type="Opengento\Gdpr\Service\Export\Processor\CompositeProcessor">
         <arguments>
@@ -808,14 +942,6 @@
                 <item name="quote" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Processor\QuoteDataProcessor</item>
                 <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Processor\OrderDataProcessor</item>
                 <item name="subscriber" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Processor\SubscriberDataProcessor</item>
-            </argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Order\Export\ExportOrderFactory" type="Opengento\Gdpr\Model\Export\ExportEntityFactory">
-        <arguments>
-            <argument name="exportEntityList" xsi:type="array">
-                <item name="entityType" xsi:type="string">Opengento\Gdpr\Model\Order\Export\ExportOrder</item>
-                <item name="fileName" xsi:type="string">Opengento\Gdpr\Model\Export\ExportPersonalData</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1424,8 +1550,229 @@
             </argument>
         </arguments>
     </type>
-    <preference for="Opengento\Gdpr\Service\Export\RendererInterface" type="Opengento\Gdpr\Service\Export\Renderer\RendererStrategy"/>
-    <!-- Console Commands -->
+    <virtualType name="Opengento\Gdpr\Model\Archive\MoveToZip" type="Opengento\Gdpr\Model\Archive\MoveToArchive">
+        <arguments>
+            <argument name="archive" xsi:type="object">Opengento\Gdpr\Model\Archive\Zip</argument>
+        </arguments>
+    </virtualType>
+    <type name="Opengento\Gdpr\Model\Export\ExportToFile">
+        <arguments>
+            <argument name="archive" xsi:type="object">Opengento\Gdpr\Model\Archive\MoveToZip</argument>
+        </arguments>
+    </type>
+    <!-- Erase Logged In Customer Notifier Management -->
+    <virtualType name="Opengento\Gdpr\Model\Customer\Erase\Notifier\Pending\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
+        <arguments>
+            <argument name="configPaths" xsi:type="array">
+                <item name="is_available" xsi:type="string">gdpr/notification/erasure/pending/customer/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erasure/pending/customer/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/pending/customer/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/pending/customer/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/pending/customer/template</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Customer\Erase\Notifier\Pending" type="Opengento\Gdpr\Model\Customer\Erase\Notifier">
+        <arguments>
+            <argument name="senders" xsi:type="array">
+                <item name="mail" xsi:type="object">Opengento\Gdpr\Model\Customer\Erase\Notifier\Pending\MailSender</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Customer\Erase\Notifier\Succeeded\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
+        <arguments>
+            <argument name="configPaths" xsi:type="array">
+                <item name="is_available" xsi:type="string">gdpr/notification/erasure/succeeded/customer/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erasure/succeeded/customer/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/succeeded/customer/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/succeeded/customer/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/succeeded/customer/template</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Customer\Erase\Notifier\Succeeded" type="Opengento\Gdpr\Model\Customer\Erase\Notifier">
+        <arguments>
+            <argument name="senders" xsi:type="array">
+                <item name="mail" xsi:type="object">Opengento\Gdpr\Model\Customer\Erase\Notifier\Succeeded\MailSender</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Customer\Erase\Notifier\Canceled\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
+        <arguments>
+            <argument name="configPaths" xsi:type="array">
+                <item name="is_available" xsi:type="string">gdpr/notification/erasure/canceled/customer/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erasure/canceled/customer/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/canceled/customer/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/canceled/customer/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/canceled/customer/template</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Customer\Erase\Notifier\Canceled" type="Opengento\Gdpr\Model\Customer\Erase\Notifier">
+        <arguments>
+            <argument name="senders" xsi:type="array">
+                <item name="mail" xsi:type="object">Opengento\Gdpr\Model\Customer\Erase\Notifier\Canceled\MailSender</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Erase Guest Customer Notifier Management -->
+    <virtualType name="Opengento\Gdpr\Model\Order\Erase\Notifier\Pending\MailSender" type="Opengento\Gdpr\Model\Order\Notifier\MailSender">
+        <arguments>
+            <argument name="configPaths" xsi:type="array">
+                <item name="is_available" xsi:type="string">gdpr/notification/erasure/pending/order/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erasure/pending/order/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/pending/order/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/pending/order/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/pending/order/template</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Order\Erase\Notifier\Pending" type="Opengento\Gdpr\Model\Order\Erase\Notifier">
+        <arguments>
+            <argument name="senders" xsi:type="array">
+                <item name="mail" xsi:type="object">Opengento\Gdpr\Model\Order\Erase\Notifier\Pending\MailSender</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Order\Erase\Notifier\Succeeded\MailSender" type="Opengento\Gdpr\Model\Order\Notifier\MailSender">
+        <arguments>
+            <argument name="configPaths" xsi:type="array">
+                <item name="is_available" xsi:type="string">gdpr/notification/erasure/succeeded/order/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erasure/succeeded/order/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/succeeded/order/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/succeeded/order/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/succeeded/order/template</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Order\Erase\Notifier\Succeeded" type="Opengento\Gdpr\Model\Order\Erase\Notifier">
+        <arguments>
+            <argument name="senders" xsi:type="array">
+                <item name="mail" xsi:type="object">Opengento\Gdpr\Model\Order\Erase\Notifier\Succeeded\MailSender</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Order\Erase\Notifier\Canceled\MailSender" type="Opengento\Gdpr\Model\Order\Notifier\MailSender">
+        <arguments>
+            <argument name="configPaths" xsi:type="array">
+                <item name="is_available" xsi:type="string">gdpr/notification/erasure/canceled/order/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erasure/canceled/order/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/canceled/order/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/canceled/order/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/canceled/order/template</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Order\Erase\Notifier\Canceled" type="Opengento\Gdpr\Model\Order\Erase\Notifier">
+        <arguments>
+            <argument name="senders" xsi:type="array">
+                <item name="mail" xsi:type="object">Opengento\Gdpr\Model\Order\Erase\Notifier\Canceled\MailSender</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Export Logged In Customer Notifier Management -->
+    <virtualType name="Opengento\Gdpr\Model\Customer\Export\Notifier\Pending\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
+        <arguments>
+            <argument name="configPaths" xsi:type="array">
+                <item name="is_available" xsi:type="string">gdpr/notification/export/pending/customer/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/export/pending/customer/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/export/pending/customer/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/export/pending/customer/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/export/pending/customer/template</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Customer\Export\Notifier\Pending" type="Opengento\Gdpr\Model\Customer\Export\Notifier">
+        <arguments>
+            <argument name="senders" xsi:type="array">
+                <item name="mail" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Notifier\Pending\MailSender</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Customer\Export\Notifier\Ready\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
+        <arguments>
+            <argument name="configPaths" xsi:type="array">
+                <item name="is_available" xsi:type="string">gdpr/notification/export/ready/customer/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/export/ready/customer/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/export/ready/customer/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/export/ready/customer/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/export/ready/customer/template</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Customer\Export\Notifier\Ready" type="Opengento\Gdpr\Model\Customer\Export\Notifier">
+        <arguments>
+            <argument name="senders" xsi:type="array">
+                <item name="mail" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Notifier\Ready\MailSender</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Export Guest Customer Notifier Management -->
+    <virtualType name="Opengento\Gdpr\Model\Order\Export\Notifier\Pending\MailSender" type="Opengento\Gdpr\Model\Order\Notifier\MailSender">
+        <arguments>
+            <argument name="configPaths" xsi:type="array">
+                <item name="is_available" xsi:type="string">gdpr/notification/export/pending/order/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/export/pending/order/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/export/pending/order/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/export/pending/order/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/export/pending/order/template</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Order\Export\Notifier\Pending" type="Opengento\Gdpr\Model\Order\Export\Notifier">
+        <arguments>
+            <argument name="senders" xsi:type="array">
+                <item name="mail" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Notifier\Pending\MailSender</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Order\Export\Notifier\Ready\MailSender" type="Opengento\Gdpr\Model\Order\Notifier\MailSender">
+        <arguments>
+            <argument name="configPaths" xsi:type="array">
+                <item name="is_available" xsi:type="string">gdpr/notification/export/ready/order/enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/export/ready/order/identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/export/ready/order/copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/export/ready/order/copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/export/ready/order/template</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Order\Export\Notifier\Ready" type="Opengento\Gdpr\Model\Order\Export\Notifier">
+        <arguments>
+            <argument name="senders" xsi:type="array">
+                <item name="mail" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Notifier\Ready\MailSender</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Ui Component Settings -->
+    <virtualType name="Opengento\Gdpr\Model\ResourceModel\ActionEntity\SearchResult" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">opengento_gdpr_action_entity</argument>
+            <argument name="resourceModel" xsi:type="string">Opengento\Gdpr\Model\ResourceModel\ActionEntity</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="gdpr_action_listing_data_source" xsi:type="string">Opengento\Gdpr\Model\ResourceModel\ActionEntity\SearchResult</item>
+                <item name="gdpr_action_form_data_source" xsi:type="string">Opengento\Gdpr\Model\ResourceModel\ActionEntity\SearchResult</item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- Console Commands Management -->
+    <type name="Opengento\Gdpr\Console\Command\EraseCommand">
+        <arguments>
+            <argument name="appState" xsi:type="object">Magento\Framework\App\State\Proxy</argument>
+            <argument name="registry" xsi:type="object">Magento\Framework\Registry\Proxy</argument>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</argument>
+        </arguments>
+    </type>
+    <type name="Opengento\Gdpr\Console\Command\ExportCommand">
+        <arguments>
+            <argument name="appState" xsi:type="object">Magento\Framework\App\State\Proxy</argument>
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction</argument>
+        </arguments>
+    </type>
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">

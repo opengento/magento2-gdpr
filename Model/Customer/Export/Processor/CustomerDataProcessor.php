@@ -8,23 +8,18 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Customer\Export\Processor;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Service\Export\Processor\AbstractDataProcessor;
 
-/**
- * Class CustomerDataProcessor
- */
 final class CustomerDataProcessor extends AbstractDataProcessor
 {
     /**
-     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     * @var CustomerRepositoryInterface
      */
     private $customerRepository;
 
-    /**
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-     * @param \Opengento\Gdpr\Model\Entity\DataCollectorInterface $dataCollector
-     */
     public function __construct(
         CustomerRepositoryInterface $customerRepository,
         DataCollectorInterface $dataCollector
@@ -35,8 +30,8 @@ final class CustomerDataProcessor extends AbstractDataProcessor
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
      */
     public function execute(int $customerId, array $data): array
     {

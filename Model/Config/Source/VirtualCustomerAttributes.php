@@ -11,13 +11,10 @@ use Magento\Customer\Api\MetadataInterface;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\Exception\LocalizedException;
 
-/**
- * Class VirtualCustomerAttributes
- */
 final class VirtualCustomerAttributes implements OptionSourceInterface
 {
     /**
-     * @var \Magento\Customer\Api\MetadataInterface
+     * @var MetadataInterface
      */
     private $metadata;
 
@@ -26,46 +23,30 @@ final class VirtualCustomerAttributes implements OptionSourceInterface
      */
     private $options;
 
-    /**
-     * @param \Magento\Customer\Api\MetadataInterface $metadata
-     * @param array $options
-     */
     public function __construct(
-        MetadataInterface $metadata,
-        array $options = []
+        MetadataInterface $metadata
     ) {
         $this->metadata = $metadata;
-        $this->options = $this->loadOptions($options);
+        $this->options = [];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function toOptionArray(): array
     {
+        if (!$this->options) {
+            try {
+                $attributes = $this->metadata->getAllAttributesMetadata();
+            } catch (LocalizedException $e) {
+                $attributes = [];
+            }
+
+            foreach ($attributes as $attribute) {
+                $this->options[] = [
+                    'value' => $attribute->getAttributeCode(),
+                    'label' => $attribute->getFrontendLabel(),
+                ];
+            }
+        }
+
         return $this->options;
-    }
-
-    /**
-     * Load an prepare customer address attributes options
-     *
-     * @param array $defaultOptions
-     * @return array
-     */
-    public function loadOptions(array $defaultOptions = []): array
-    {
-        $options = [];
-
-        try {
-            $attributes = $this->metadata->getAllAttributesMetadata();
-        } catch (LocalizedException $e) {
-            $attributes = [];
-        }
-
-        foreach ($attributes as $attribute) {
-            $options[] = ['value' => $attribute->getAttributeCode(), 'label' => $attribute->getFrontendLabel()];
-        }
-
-        return \array_merge($options, $defaultOptions);
     }
 }

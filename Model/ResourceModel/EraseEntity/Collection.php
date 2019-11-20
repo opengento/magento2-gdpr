@@ -12,14 +12,8 @@ use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Model\EraseEntity;
 use Opengento\Gdpr\Model\ResourceModel\EraseEntity as EraseEntityResourceModel;
 
-/**
- * Class Collection
- */
-final class Collection extends AbstractCollection
+class Collection extends AbstractCollection
 {
-    /**
-     * @inheritdoc
-     */
     protected function _construct(): void
     {
         $this->_init(EraseEntity::class, EraseEntityResourceModel::class);

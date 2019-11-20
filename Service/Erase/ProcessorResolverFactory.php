@@ -7,10 +7,11 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Erase;
 
+use InvalidArgumentException;
 use Magento\Framework\ObjectManagerInterface;
+use function sprintf;
 
 /**
- * Class ProcessorResolverFactory
  * @api
  */
 final class ProcessorResolverFactory
@@ -21,13 +22,13 @@ final class ProcessorResolverFactory
     private $processorResolvers;
 
     /**
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     private $objectManager;
 
     /**
      * @param string[] $processorResolvers
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
     public function __construct(
         array $processorResolvers,
@@ -37,16 +38,10 @@ final class ProcessorResolverFactory
         $this->objectManager = $objectManager;
     }
 
-    /**
-     * Retrieve the processor instance by its key code
-     *
-     * @param string $processorCode
-     * @return \Opengento\Gdpr\Service\Erase\ProcessorResolverInterface
-     */
     public function get(string $processorCode): ProcessorResolverInterface
     {
         if (!isset($this->processorResolvers[$processorCode])) {
-            throw new \InvalidArgumentException(\sprintf('Unknown renderer type "%s".', $processorCode));
+            throw new InvalidArgumentException(sprintf('Unknown renderer type "%s".', $processorCode));
         }
 
         return $this->objectManager->get($this->processorResolvers[$processorCode]);

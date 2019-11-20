@@ -10,14 +10,12 @@ namespace Opengento\Gdpr\Model\Config\Source;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\ObjectManager\ConfigInterface;
 use Magento\Framework\Phrase;
+use function array_keys;
 
-/**
- * Class VirtualArrayArgumentList
- */
 final class VirtualArrayArgumentList implements OptionSourceInterface
 {
     /**
-     * @var \Magento\Framework\ObjectManager\ConfigInterface
+     * @var ConfigInterface
      */
     private $objectManagerConfig;
 
@@ -36,11 +34,6 @@ final class VirtualArrayArgumentList implements OptionSourceInterface
      */
     private $options;
 
-    /**
-     * @param \Magento\Framework\ObjectManager\ConfigInterface $objectManagerConfig
-     * @param string $className
-     * @param string $argumentName
-     */
     public function __construct(
         ConfigInterface $objectManagerConfig,
         string $className,
@@ -51,13 +44,10 @@ final class VirtualArrayArgumentList implements OptionSourceInterface
         $this->argumentName = $argumentName;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function toOptionArray(): array
     {
         if (!$this->options) {
-            foreach (\array_keys($this->retrieveItems()) as $item) {
+            foreach (array_keys($this->retrieveItems()) as $item) {
                 $this->options[] = ['value' => $item, 'label' => new Phrase($item)];
             }
         }

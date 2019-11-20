@@ -7,153 +7,136 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model;
 
+use Exception;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory;
+use Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterface;
 use Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterfaceFactory;
 use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
-use Opengento\Gdpr\Model\ResourceModel\EraseEntity as EraseCustomerResource;
+use Opengento\Gdpr\Model\ResourceModel\EraseEntity as EraseEntityResource;
+use Opengento\Gdpr\Model\ResourceModel\EraseEntity\Collection;
 use Opengento\Gdpr\Model\ResourceModel\EraseEntity\CollectionFactory;
 
-/**
- * Class EraseEntityRepository
- */
 final class EraseEntityRepository implements EraseEntityRepositoryInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\ResourceModel\EraseEntity
+     * @var EraseEntityResource
      */
-    private $eraseCustomerResource;
+    private $eraseEntityResource;
 
     /**
-     * @var \Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory
+     * @var EraseEntityInterfaceFactory
      */
-    private $eraseCustomerFactory;
+    private $eraseEntityFactory;
 
     /**
-     * @var \Opengento\Gdpr\Model\ResourceModel\EraseEntity\CollectionFactory
+     * @var CollectionFactory
      */
     private $collectionFactory;
 
     /**
-     * @var \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface
+     * @var CollectionProcessorInterface
      */
     private $collectionProcessor;
 
     /**
-     * @var \Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterfaceFactory
+     * @var EraseEntitySearchResultsInterfaceFactory
      */
     private $searchResultsFactory;
 
     /**
-     * @var \Opengento\Gdpr\Api\Data\EraseEntityInterface[]
+     * @var EraseEntityInterface[]
      */
     private $instances = [];
 
     /**
-     * @var \Opengento\Gdpr\Api\Data\EraseEntityInterface[]
+     * @var EraseEntityInterface[]
      */
     private $instancesByEntity = [];
 
-    /**
-     * @param \Opengento\Gdpr\Model\ResourceModel\EraseEntity $eraseCustomerResource
-     * @param \Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory $eraseCustomerFactory
-     * @param \Opengento\Gdpr\Model\ResourceModel\EraseEntity\CollectionFactory $collectionFactory
-     * @param \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface $collectionProcessor
-     * @param \Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterfaceFactory $searchResultsFactory
-     */
     public function __construct(
-        EraseCustomerResource $eraseCustomerResource,
-        EraseEntityInterfaceFactory $eraseCustomerFactory,
+        EraseEntityResource $eraseEntityResource,
+        EraseEntityInterfaceFactory $eraseEntityFactory,
         CollectionFactory $collectionFactory,
         CollectionProcessorInterface $collectionProcessor,
         EraseEntitySearchResultsInterfaceFactory $searchResultsFactory
     ) {
-        $this->eraseCustomerResource = $eraseCustomerResource;
-        $this->eraseCustomerFactory = $eraseCustomerFactory;
+        $this->eraseEntityResource = $eraseEntityResource;
+        $this->eraseEntityFactory = $eraseEntityFactory;
         $this->collectionFactory = $collectionFactory;
         $this->collectionProcessor = $collectionProcessor;
         $this->searchResultsFactory = $searchResultsFactory;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function save(EraseEntityInterface $entity): EraseEntityInterface
+    public function save(EraseEntityInterface $eraseEntity): EraseEntityInterface
     {
         try {
-            $this->eraseCustomerResource->save($entity);
-            $this->register($entity);
-        } catch (\Exception $e) {
+            $this->eraseEntityResource->save($eraseEntity);
+            $this->register($eraseEntity);
+        } catch (Exception $e) {
             throw new CouldNotSaveException(new Phrase('Could not save the entity.'), $e);
         }
 
-        return $entity;
+        return $eraseEntity;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getById(int $entityId, bool $forceReload = false): EraseEntityInterface
+    public function getById(int $eraseId): EraseEntityInterface
     {
-        if ($forceReload || !isset($this->instances[$entityId])) {
-            /** @var \Opengento\Gdpr\Api\Data\EraseEntityInterface $entity */
-            $entity = $this->eraseCustomerFactory->create();
-            $this->eraseCustomerResource->load($entity, $entityId, EraseEntityInterface::ID);
+        if (!isset($this->instances[$eraseId])) {
+            /** @var EraseEntityInterface $eraseEntity */
+            $eraseEntity = $this->eraseEntityFactory->create();
+            $this->eraseEntityResource->load($eraseEntity, $eraseId, EraseEntityInterface::ID);
 
-            if (!$entity->getEntityId()) {
-                throw new NoSuchEntityException(new Phrase('Entity with id "%1" does not exists.', [$entityId]));
+            if (!$eraseEntity->getEraseId()) {
+                throw NoSuchEntityException::singleField(EraseEntityInterface::ID, $eraseId);
             }
 
-            $this->register($entity);
+            $this->register($eraseEntity);
         }
 
-        return $this->instances[$entityId];
+        return $this->instances[$eraseId];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getByEntity(int $entityId, string $entityType, bool $forceReload = false): EraseEntityInterface
+    public function getByEntity(int $entityId, string $entityType): EraseEntityInterface
     {
-        if ($forceReload || !isset($this->instancesByEntity[$entityId])) {
-            /** @var \Opengento\Gdpr\Api\Data\EraseEntityInterface $entity */
-            $entity = $this->eraseCustomerFactory->create();
-            $this->eraseCustomerResource->load(
-                $entity,
+        if (!isset($this->instancesByEntity[$entityType . '_' . $entityId])) {
+            /** @var EraseEntityInterface $eraseEntity */
+            $eraseEntity = $this->eraseEntityFactory->create();
+            $this->eraseEntityResource->load(
+                $eraseEntity,
                 [$entityId, $entityType],
                 [EraseEntityInterface::ENTITY_ID, EraseEntityInterface::ENTITY_TYPE]
             );
 
-            if (!$entity->getEntityId()) {
-                throw new NoSuchEntityException(
-                    new Phrase('Entity with customer id "%1" does not exist.', [$entityId])
+            if (!$eraseEntity->getEraseId()) {
+                throw NoSuchEntityException::doubleField(
+                    EraseEntityInterface::ENTITY_ID,
+                    $entityId,
+                    EraseEntityInterface::ENTITY_TYPE,
+                    $entityType
                 );
             }
 
-            $this->register($entity);
+            $this->register($eraseEntity);
         }
 
         return $this->instancesByEntity[$entityType . '_' . $entityId];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface
+    public function getList(SearchCriteriaInterface $searchCriteria): EraseEntitySearchResultsInterface
     {
-        /** @var \Opengento\Gdpr\Model\ResourceModel\EraseEntity\Collection $collection */
+        /** @var Collection $collection */
         $collection = $this->collectionFactory->create();
 
         $this->collectionProcessor->process($searchCriteria, $collection);
 
-        /** @var \Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterface $searchResults */
+        /** @var EraseEntitySearchResultsInterface $searchResults */
         $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($searchCriteria);
         $searchResults->setItems($collection->getItems());
@@ -162,17 +145,14 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
         return $searchResults;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function delete(EraseEntityInterface $entity): bool
+    public function delete(EraseEntityInterface $eraseEntity): bool
     {
         try {
-            $this->remove($entity);
-            $this->eraseCustomerResource->delete($entity);
-        } catch (\Exception $e) {
+            $this->remove($eraseEntity);
+            $this->eraseEntityResource->delete($eraseEntity);
+        } catch (Exception $e) {
             throw new CouldNotDeleteException(
-                new Phrase('Could not delete entity with id "%1".', [$entity->getEntityId()]),
+                new Phrase('Could not delete entity with id "%1".', [$eraseEntity->getEraseId()]),
                 $e
             );
         }
@@ -180,29 +160,17 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
         return true;
     }
 
-    /**
-     * Register the entity into the registry
-     *
-     * @param \Opengento\Gdpr\Api\Data\EraseEntityInterface $entity
-     * @return void
-     */
-    private function register(EraseEntityInterface $entity): void
+    private function register(EraseEntityInterface $eraseEntity): void
     {
-        $this->instances[$entity->getEntityId()] = $entity;
-        $this->instancesByEntity[$entity->getEntityType() . '_' . $entity->getEntityId()] = $entity;
+        $this->instances[$eraseEntity->getEraseId()] = $eraseEntity;
+        $this->instancesByEntity[$eraseEntity->getEntityType() . '_' . $eraseEntity->getEntityId()] = $eraseEntity;
     }
 
-    /**
-     * Remove the entity from the registry
-     *
-     * @param \Opengento\Gdpr\Api\Data\EraseEntityInterface $entity
-     * @return void
-     */
-    private function remove(EraseEntityInterface $entity): void
+    private function remove(EraseEntityInterface $eraseEntity): void
     {
         unset(
-            $this->instances[$entity->getEntityId()],
-            $this->instancesByEntity[$entity->getEntityType() . '_' . $entity->getEntityId()]
+            $this->instances[$eraseEntity->getEraseId()],
+            $this->instancesByEntity[$eraseEntity->getEntityType() . '_' . $eraseEntity->getEntityId()]
         );
     }
 }

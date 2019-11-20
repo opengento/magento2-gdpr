@@ -10,7 +10,6 @@ namespace Opengento\Gdpr\Model\Entity\SourceProvider;
 use Magento\Framework\ObjectManagerInterface;
 
 /**
- * Class ModifierFactory
  * @api
  */
 final class ModifierFactory
@@ -21,13 +20,13 @@ final class ModifierFactory
     private $modifiers;
 
     /**
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     private $objectManager;
 
     /**
      * @param string[] $modifiers
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
     public function __construct(
         array $modifiers,
@@ -37,12 +36,6 @@ final class ModifierFactory
         $this->objectManager = $objectManager;
     }
 
-    /**
-     * Retrieve the source provider modifier by entity type
-     *
-     * @param string $entityType
-     * @return \Opengento\Gdpr\Model\Entity\SourceProvider\ModifierInterface
-     */
     public function get(string $entityType): ModifierInterface
     {
         return $this->objectManager->get($this->modifiers[$entityType] ?? $this->modifiers['default']);

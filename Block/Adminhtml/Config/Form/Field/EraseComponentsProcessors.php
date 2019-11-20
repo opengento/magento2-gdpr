@@ -9,30 +9,22 @@ namespace Opengento\Gdpr\Block\Adminhtml\Config\Form\Field;
 
 use Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
 use Magento\Framework\DataObject;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Framework\View\Element\Html\Select;
-use Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseComponents;
 
-/**
- * Class EraseComponentsProcessors
- */
-final class EraseComponentsProcessors extends AbstractFieldArray
+class EraseComponentsProcessors extends AbstractFieldArray
 {
-    private const ERASE_PROCESSORS_SELECT = '\Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseProcessors';
-
     /**
-     * Retrieve the erase components select renderer
-     *
-     * @return \Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Select\EraseComponents
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
-    public function getEraseComponentsSelectRenderer(): EraseComponents
+    public function getEraseComponentsSelectRenderer(): Select
     {
         if (!$this->hasData('erase_components_select_renderer')) {
             $this->setData(
                 'erase_components_select_renderer',
                 $this->getLayout()->createBlock(
-                    EraseComponents::class,
+                    $this->getData('erase_components_select'),
                     '',
                     ['data' => ['is_render_to_js_template' => true]]
                 )
@@ -43,10 +35,7 @@ final class EraseComponentsProcessors extends AbstractFieldArray
     }
 
     /**
-     * Retrieve the erase processors select renderer
-     *
-     * @return \Magento\Framework\View\Element\Html\Select
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function getEraseProcessorsSelectRenderer(): Select
     {
@@ -54,7 +43,7 @@ final class EraseComponentsProcessors extends AbstractFieldArray
             $this->setData(
                 'erase_processors_select_renderer',
                 $this->getLayout()->createBlock(
-                    self::ERASE_PROCESSORS_SELECT,
+                    $this->getData('erase_processors_select'),
                     '',
                     ['data' => ['is_render_to_js_template' => true]]
                 )
@@ -66,7 +55,7 @@ final class EraseComponentsProcessors extends AbstractFieldArray
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     protected function _prepareToRender(): void
     {
@@ -90,7 +79,7 @@ final class EraseComponentsProcessors extends AbstractFieldArray
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     protected function _prepareArrayRow(DataObject $row): void
     {

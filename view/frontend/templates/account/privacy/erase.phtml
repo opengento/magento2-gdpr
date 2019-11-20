@@ -6,39 +6,41 @@
 
 /** @var \Magento\Framework\View\Element\Template $block */
 
-/** @var \Opengento\Gdpr\ViewModel\Privacy\EraseDataProvider $eraseDataProvider */
+/** @var \Opengento\Gdpr\ViewModel\Customer\Privacy\EraseDataProvider $eraseDataProvider */
 $eraseDataProvider = $block->getData('eraseDataProvider');
-/** @var \Opengento\Gdpr\ViewModel\Privacy\EraseCustomerDataProvider $eraseCustomerDataProvider */
+/** @var \Opengento\Gdpr\ViewModel\Customer\Privacy\EraseCustomerDataProvider $eraseCustomerDataProvider */
 $eraseCustomerDataProvider = $block->getData('eraseCustomerDataProvider');
-/** @var \Opengento\Gdpr\ViewModel\UrlsDataProvider $urlsDataProvider */
-$urlsDataProvider = $block->getData('urlsDataProvider');
 ?>
 <div class="block block-dashboard-info">
     <div class="block-title">
         <strong><?= $block->escapeHtml(__('Right to be forgotten')) ?></strong>
     </div>
     <div class="block-content">
-        <div class="widget block block-static-block">
-            <?= $eraseDataProvider->getErasureInformation() ?>
-        </div>
+        <?php if ($eraseDataProvider->getErasureInformationHtml()): ?>
+            <div class="widget block block-static-block">
+                <?= $eraseDataProvider->getErasureInformationHtml() ?>
+            </div>
+        <?php endif; ?>
         <?php if ($eraseCustomerDataProvider->canCancel()): ?>
             <div class="message warning">
                 <span><?= $block->escapeHtml(__('Your account will be erased soon. You can undo this action.')) ?></span>
             </div>
             <div class="actions-toolbar">
                 <div class="primary">
-                    <a href="<?= $block->escapeUrl($urlsDataProvider->getUndoEraseActionUrl()) ?>" class="action submit primary" id="undo_deletion">
+                    <a href="<?= $block->escapeUrl($block->getData('undoEraseActionUrl')) ?>" class="action submit primary" id="undo_deletion">
                         <span><?= $block->escapeHtml(__('Undo Action')) ?></span>
                     </a>
                 </div>
             </div>
         <?php elseif ($eraseCustomerDataProvider->canCreate()): ?>
-            <div class="widget block block-static-block">
-                <?= $eraseDataProvider->getAnonymizeInformation() ?>
-            </div>
+            <?php if ($eraseDataProvider->getAnonymizeInformationHtml()): ?>
+                <div class="widget block block-static-block">
+                    <?= $eraseDataProvider->getAnonymizeInformationHtml() ?>
+                </div>
+            <?php endif; ?>
             <div class="actions-toolbar">
                 <div class="primary">
-                    <a href="<?= $block->escapeUrl($urlsDataProvider->getErasePageUrl()) ?>" class="action submit primary primary-danger" id="delete">
+                    <a href="<?= $block->escapeUrl($block->getData('eraseActionUrl')) ?>" class="action submit primary primary-danger" id="delete">
                         <span><?= $block->escapeHtml(__('Erase Personal Data')) ?></span>
                     </a>
                 </div>

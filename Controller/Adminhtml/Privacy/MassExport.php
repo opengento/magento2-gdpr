@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Adminhtml\Privacy;
 
 use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Customer\Controller\Adminhtml\Index\AbstractMassAction;
 use Magento\Customer\Model\ResourceModel\Customer\CollectionFactory;
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
@@ -17,78 +18,67 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Ui\Component\MassAction\Filter;
-use Opengento\Gdpr\Api\ExportEntityManagementInterface;
+use Opengento\Gdpr\Api\ActionInterface;
+use Opengento\Gdpr\Api\Data\ExportEntityInterface;
+use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\ContextBuilder;
+use Opengento\Gdpr\Model\Action\Export\ArgumentReader as ExportArgumentReader;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
-use Opengento\Gdpr\Model\Export\ExportEntityFactory;
 
-/**
- * Class MassExport
- */
 class MassExport extends AbstractMassAction
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::customer_export';
 
     /**
-     * @var \Magento\Framework\App\Response\Http\FileFactory
+     * @var FileFactory
      */
     private $fileFactory;
 
     /**
-     * @var \Opengento\Gdpr\Model\Archive\MoveToArchive
+     * @var MoveToArchive
      */
     private $moveToArchive;
 
     /**
-     * @var \Opengento\Gdpr\Api\ExportEntityManagementInterface
+     * @var ActionInterface
      */
-    private $exportManagement;
+    private $action;
 
     /**
-     * @var \Opengento\Gdpr\Model\Export\ExportEntityFactory
+     * @var ContextBuilder
      */
-    private $exportEntityFactory;
+    private $actionContextBuilder;
 
-    /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Ui\Component\MassAction\Filter $filter
-     * @param \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $collectionFactory
-     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
-     * @param \Opengento\Gdpr\Model\Archive\MoveToArchive $moveToArchive
-     * @param \Opengento\Gdpr\Api\ExportEntityManagementInterface $exportManagement
-     * @param \Opengento\Gdpr\Model\Export\ExportEntityFactory $exportEntityFactory
-     */
     public function __construct(
         Context $context,
         Filter $filter,
         CollectionFactory $collectionFactory,
         FileFactory $fileFactory,
         MoveToArchive $moveToArchive,
-        ExportEntityManagementInterface $exportManagement,
-        ExportEntityFactory $exportEntityFactory
+        ActionInterface $action,
+        ContextBuilder $actionContextBuilder
     ) {
         $this->fileFactory = $fileFactory;
         $this->moveToArchive = $moveToArchive;
-        $this->exportManagement = $exportManagement;
-        $this->exportEntityFactory = $exportEntityFactory;
+        $this->action = $action;
+        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($context, $filter, $collectionFactory);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function massAction(AbstractCollection $collection)
     {
         $archiveFileName = 'customers_privacy_data.zip';
 
         try {
             foreach ($collection->getAllIds() as $customerId) {
-                $this->moveToArchive->prepareArchive(
-                    $this->moveToArchive->prepareArchive(
-                        $this->exportManagement->export($this->exportEntityFactory->create((int) $customerId)),
-                        'customer_privacy_data_' . $customerId . '.zip'
-                    ),
-                    $archiveFileName
-                );
+                $this->actionContextBuilder->setParameters([
+                    ArgumentReader::ENTITY_ID => (int) $customerId,
+                    ArgumentReader::ENTITY_TYPE => 'customer'
+                ]);
+                $result = $this->action->execute($this->actionContextBuilder->create())->getResult();
+                /** @var ExportEntityInterface $exportEntity */
+                $exportEntity = $result[ExportArgumentReader::EXPORT_ENTITY];
+                $this->moveToArchive->prepareArchive($exportEntity->getFilePath(), $archiveFileName);
             }
 
             return $this->fileFactory->create(
@@ -108,7 +98,7 @@ class MassExport extends AbstractMassAction
             $this->messageManager->addExceptionMessage($e, new Phrase('An error occurred on the server.'));
         }
 
-        /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
+        /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
         return $resultRedirect->setPath('customer/index/index');

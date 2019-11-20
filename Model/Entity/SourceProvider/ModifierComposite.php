@@ -17,12 +17,12 @@ use Magento\Framework\Data\Collection;
 final class ModifierComposite implements ModifierInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\Entity\SourceProvider\ModifierInterface[]
+     * @var ModifierInterface[]
      */
     private $modifiers;
 
     /**
-     * @param \Opengento\Gdpr\Model\Entity\SourceProvider\ModifierInterface[] $modifiers
+     * @param ModifierInterface[] $modifiers
      */
     public function __construct(
         array $modifiers
@@ -32,9 +32,6 @@ final class ModifierComposite implements ModifierInterface
         })(...\array_values($modifiers));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function apply(Collection $collection, Filter $filter): void
     {
         foreach ($this->modifiers as $modifier) {

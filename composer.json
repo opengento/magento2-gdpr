@@ -9,6 +9,7 @@
         "rgpd"
     ],
     "require": {
+        "php": ">=7.2",
         "ext-zip": "*",
         "mikehaertl/phpwkhtmltopdf": "^2.3.1",
         "magento/framework": "^102.0.0",

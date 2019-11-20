@@ -7,29 +7,16 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Api;
 
+use DateTime;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 
 /**
- * Interface EraseSalesInformationInterface
  * @api
+ * @todo should be internal? No use case of external usage.
  */
 interface EraseSalesInformationInterface
 {
-    /**
-     * Schedule the sales information erasure for an entity
-     *
-     * @param int $entityId
-     * @param string $entityType
-     * @param \DateTime $lastActive
-     * @return \Opengento\Gdpr\Api\Data\EraseEntityInterface
-     */
-    public function scheduleEraseEntity(int $entityId, string $entityType, \DateTime $lastActive): EraseEntityInterface;
+    public function scheduleEraseEntity(int $entityId, string $entityType, DateTime $lastActive): EraseEntityInterface;
 
-    /**
-     * Check if the date time is under the sales information lifetime limit
-     *
-     * @param \DateTime $lastActive
-     * @return bool
-     */
-    public function isAlive(\DateTime $lastActive): bool;
+    public function isAlive(DateTime $lastActive): bool;
 }

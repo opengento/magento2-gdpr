@@ -9,27 +9,21 @@ namespace Opengento\Gdpr\Model\Customer\Delete\Processor;
 
 use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Exception\LocalizedException;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-/**
- * Class CustomerAddressDataProcessor
- */
 final class CustomerAddressDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Magento\Customer\Api\AddressRepositoryInterface
+     * @var AddressRepositoryInterface
      */
     private $customerAddressRepository;
 
     /**
-     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     * @var SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
 
-    /**
-     * @param \Magento\Customer\Api\AddressRepositoryInterface $customerAddressRepository
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     */
     public function __construct(
         AddressRepositoryInterface $customerAddressRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder
@@ -40,7 +34,7 @@ final class CustomerAddressDataProcessor implements ProcessorInterface
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function execute(int $customerId): bool
     {

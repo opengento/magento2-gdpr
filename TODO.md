@@ -21,6 +21,9 @@ Area:
 - Payment Data
 - Invitation Data
 
+- invalidate export document when personal data are altered
+    - in this way, add plugin / observer, depends of the entity persistence
+
 ## Anonymizer
  
 - Payment Data
@@ -69,10 +72,13 @@ Area:
 - Admin UI (OK)
 - Frontend UI (OK)
 - Console (OK)
+- Notifier (OK)
 
 ## Notification
 
 notify customer from its requests
+- Configuration
+- Mail templates
 
 ## yu
 
@@ -80,4 +86,4 @@ https://github.com/magento/architecture/pull/145/files
 
 ## Improvements
 
-Disable checks and validators on mass actions (including cron)
+Only one anonymization configuration grid: entity type | attribute code | anonymizer

@@ -7,10 +7,11 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Export;
 
+use InvalidArgumentException;
 use Magento\Framework\ObjectManagerInterface;
+use function sprintf;
 
 /**
- * Class ExportFactory
  * @api
  */
 final class RendererFactory
@@ -21,13 +22,13 @@ final class RendererFactory
     private $renderers;
 
     /**
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     private $objectManager;
 
     /**
      * @param string[] $renderers
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
     public function __construct(
         array $renderers,
@@ -37,19 +38,12 @@ final class RendererFactory
         $this->objectManager = $objectManager;
     }
 
-    /**
-     * Create a new export renderer
-     *
-     * @param string $rendererCode
-     * @param array $arguments
-     * @return \Opengento\Gdpr\Service\Export\RendererInterface
-     */
-    public function create(string $rendererCode, array $arguments = []): RendererInterface
+    public function get(string $rendererCode): RendererInterface
     {
         if (!isset($this->renderers[$rendererCode])) {
-            throw new \InvalidArgumentException(\sprintf('Unknown renderer type "%s".', $rendererCode));
+            throw new InvalidArgumentException(sprintf('Unknown renderer type "%s".', $rendererCode));
         }
 
-        return $this->objectManager->create($this->renderers[$rendererCode], $arguments);
+        return $this->objectManager->get($this->renderers[$rendererCode]);
     }
 }

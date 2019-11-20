@@ -7,36 +7,41 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Export\Renderer;
 
+use Exception;
+use InvalidArgumentException;
 use Magento\Framework\DataObject;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Translate\InlineInterface;
+use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\FileSystem as ViewFileSystem;
 use Magento\Framework\View\Page\Config;
+use Magento\Framework\View\Page\Config\Renderer;
 use Magento\Framework\View\Page\Config\RendererFactory;
 use Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiatorInterface;
+use function extract;
+use function ob_end_clean;
+use function ob_get_clean;
+use function ob_start;
 
-/**
- * Class HtmlRenderer
- */
 final class HtmlRenderer extends AbstractRenderer
 {
     /**
-     * @var \Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiatorInterface
+     * @var LayoutInitiatorInterface
      */
     private $layoutInitiator;
 
     /**
-     * @var \Magento\Framework\View\Page\Config\Renderer
+     * @var Renderer
      */
     private $pageConfigRenderer;
 
     /**
-     * @var \Magento\Framework\Translate\InlineInterface
+     * @var InlineInterface
      */
     private $translateInline;
 
     /**
-     * @var \Magento\Framework\View\FileSystem
+     * @var ViewFileSystem
      */
     private $viewFileSystem;
 
@@ -45,15 +50,6 @@ final class HtmlRenderer extends AbstractRenderer
      */
     private $template;
 
-    /**
-     * @param \Magento\Framework\Filesystem $filesystem
-     * @param \Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiatorInterface $layoutInitiator
-     * @param \Magento\Framework\View\Page\Config $pageConfig
-     * @param \Magento\Framework\View\Page\Config\RendererFactory $pageConfigRendererFactory
-     * @param \Magento\Framework\Translate\InlineInterface $translateInline
-     * @param \Magento\Framework\View\FileSystem $viewFileSystem
-     * @param string $template
-     */
     public function __construct(
         Filesystem $filesystem,
         LayoutInitiatorInterface $layoutInitiator,
@@ -73,7 +69,7 @@ final class HtmlRenderer extends AbstractRenderer
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function render(array $data): string
     {
@@ -81,7 +77,7 @@ final class HtmlRenderer extends AbstractRenderer
 
         $addBlock = $layout->getBlock('head.additional');
         $requireJs = $layout->getBlock('require.js');
-        /** @var \Magento\Framework\View\Element\Template $block */
+        /** @var Template $block */
         $block = $layout->getBlock('main.content.customer.privacy.export.personal.data');
         $block->setData('viewModel', new DataObject($data));
 
@@ -101,28 +97,26 @@ final class HtmlRenderer extends AbstractRenderer
     }
 
     /**
-     * Render the layout page to html output
-     *
      * @param array $viewVars
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     private function renderPage(array $viewVars): string
     {
         $fileName = $this->viewFileSystem->getTemplateFileName($this->template);
         if (!$fileName) {
-            throw new \InvalidArgumentException('Template "' . $this->template . '" is not found');
+            throw new InvalidArgumentException('Template "' . $this->template . '" is not found');
         }
 
-        \ob_start();
+        ob_start();
         try {
-            \extract($viewVars, EXTR_SKIP);
+            extract($viewVars, EXTR_SKIP);
             include $fileName;
-        } catch (\Exception $exception) {
-            \ob_end_clean();
+        } catch (Exception $exception) {
+            ob_end_clean();
             throw $exception;
         }
 
-        return \ob_get_clean();
+        return ob_get_clean();
     }
 }

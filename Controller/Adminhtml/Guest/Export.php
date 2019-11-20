@@ -8,82 +8,71 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Adminhtml\Guest;
 
 use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\ExportEntityManagementInterface;
+use Opengento\Gdpr\Api\ActionInterface;
+use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Controller\Adminhtml\AbstractAction;
-use Opengento\Gdpr\Model\Archive\MoveToArchive;
+use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\ContextBuilder;
+use Opengento\Gdpr\Model\Action\Export\ArgumentReader as ExportArgumentReader;
 use Opengento\Gdpr\Model\Config;
-use Opengento\Gdpr\Model\Export\ExportEntityFactory;
 
-/**
- * Class Export
- */
 class Export extends AbstractAction
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::order_export';
 
     /**
-     * @var \Magento\Framework\App\Response\Http\FileFactory
+     * @var FileFactory
      */
     private $fileFactory;
 
     /**
-     * @var \Opengento\Gdpr\Model\Archive\MoveToArchive
+     * @var ActionInterface
      */
-    private $moveToArchive;
+    private $action;
 
     /**
-     * @var \Opengento\Gdpr\Api\ExportEntityManagementInterface
+     * @var ContextBuilder
      */
-    private $exportManagement;
+    private $actionContextBuilder;
 
-    /**
-     * @var \Opengento\Gdpr\Model\Export\ExportEntityFactory
-     */
-    private $exportEntityFactory;
-
-    /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
-     * @param \Opengento\Gdpr\Model\Archive\MoveToArchive $moveToArchive
-     * @param \Opengento\Gdpr\Api\ExportEntityManagementInterface $exportManagement
-     * @param \Opengento\Gdpr\Model\Export\ExportEntityFactory $exportEntityFactory
-     */
     public function __construct(
         Context $context,
         Config $config,
         FileFactory $fileFactory,
-        MoveToArchive $moveToArchive,
-        ExportEntityManagementInterface $exportManagement,
-        ExportEntityFactory $exportEntityFactory
+        ActionInterface $action,
+        ContextBuilder $actionContextBuilder
     ) {
         $this->fileFactory = $fileFactory;
-        $this->moveToArchive = $moveToArchive;
-        $this->exportManagement = $exportManagement;
-        $this->exportEntityFactory = $exportEntityFactory;
+        $this->action = $action;
+        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($context, $config);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function executeAction()
     {
+        $entityId = (int) $this->getRequest()->getParam('id');
+
+        $this->actionContextBuilder->setParameters([
+            ArgumentReader::ENTITY_ID => $entityId,
+            ArgumentReader::ENTITY_TYPE => 'order'
+        ]);
+
         try {
-            $entityId = (int) $this->getRequest()->getParam('id');
-            $fileName = $this->exportManagement->export($this->exportEntityFactory->create($entityId));
-            $archiveFileName = 'guest_privacy_data_' . $entityId . '.zip';
+            $result = $this->action->execute($this->actionContextBuilder->create())->getResult();
+            /** @var ExportEntityInterface $exportEntity */
+            $exportEntity = $result[ExportArgumentReader::EXPORT_ENTITY];
 
             return $this->fileFactory->create(
-                $archiveFileName,
+                'guest_privacy_data_' . $entityId . '.zip',
                 [
                     'type' => 'filename',
-                    'value' => $this->moveToArchive->prepareArchive($fileName, $archiveFileName),
+                    'value' => $exportEntity->getFilePath(),
                     'rm' => true,
                 ],
                 DirectoryList::TMP
@@ -94,7 +83,7 @@ class Export extends AbstractAction
             $this->messageManager->addExceptionMessage($e, new Phrase('An error occurred on the server.'));
         }
 
-        /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
+        /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
         return $resultRedirect->setRefererOrBaseUrl();

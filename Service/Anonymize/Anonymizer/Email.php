@@ -7,31 +7,22 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Anonymize\Anonymizer;
 
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Math\Random;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
-/**
- * Class Email
- */
 final class Email implements AnonymizerInterface
 {
-    /**#@+
-     * Constants for value anonymizer
-     */
     private const PHRASE = '%1-anonymous-%2@gdpr.org';
     private const PREFIX_LENGTH = 3;
     private const SUFFIX_LENGTH = 2;
-    /**#@-*/
 
     /**
-     * @var \Magento\Framework\Math\Random
+     * @var Random
      */
     private $mathRandom;
 
-    /**
-     * @param \Magento\Framework\Math\Random $mathRandom
-     */
     public function __construct(
         Random $mathRandom
     ) {
@@ -40,7 +31,7 @@ final class Email implements AnonymizerInterface
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function anonymize($value): string
     {

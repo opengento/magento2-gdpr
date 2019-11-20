@@ -7,9 +7,6 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Entity;
 
-/**
- * Class Document
- */
 final class Document implements DocumentInterface
 {
     /**
@@ -17,38 +14,23 @@ final class Document implements DocumentInterface
      */
     private $data;
 
-    /**
-     * @param array $data
-     */
     public function __construct(array $data = [])
     {
         $this->data = $data;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setData(array $data): void
     {
         $this->data = $data;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addData(string $key, $value): void
     {
         $this->data[$key] = $value;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getData(): array
     {
-        $data = $this->data;
-        $this->data = [];
-
-        return $data;
+        return $this->data;
     }
 }

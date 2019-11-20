@@ -1,0 +1,25 @@
+<!--
+/**
+ * Copyright © OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+-->
+<!--@subject {{trans "Export your %store_name information" store_name=$store.getFrontendName()}} @-->
+<!--@vars {
+"var customer.name":"Customer Name",
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">{{trans "%name," name=$order.getBillingAddress().getName()}}</p>
+
+<p>
+    {{trans "We have received a request to export the information associated with your account at %store_name." store_name=$store.getFrontendName()}}
+    {{trans 'If you have not authorized this action, please contact us immediately at <a href="mailto:%store_email">%store_email</a>' store_email=$store_email |raw}}{{depend store_phone}} {{trans 'or call us at <a href="tel:%store_phone">%store_phone</a>' store_phone=$store_phone |raw}}{{/depend}}.
+</p>
+
+<p>{{trans "We will notify you when the export will be ready. The action will be available in your account."}}</p>
+
+<p>{{trans "Thanks,<br>%store_name" store_name=$store.getFrontendName() |raw}}</p>
+
+{{template config_path="design/email/footer_template"}}

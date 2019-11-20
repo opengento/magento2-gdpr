@@ -3,20 +3,14 @@
  * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
+declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Entity;
 
 /**
- * Interface DataCollectorInterface
  * @api
  */
 interface DataCollectorInterface
 {
-    /**
-     * Collect data from the entity object
-     *
-     * @param object $entity
-     * @return array
-     */
-    public function collect($entity): array;
+    public function collect(object $entity): array;
 }

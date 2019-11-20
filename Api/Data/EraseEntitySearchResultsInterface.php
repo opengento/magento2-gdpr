@@ -10,7 +10,6 @@ namespace Opengento\Gdpr\Api\Data;
 use Magento\Framework\Api\SearchResultsInterface;
 
 /**
- * Interface EraseEntitySearchResultsInterface
  * @api
  */
 interface EraseEntitySearchResultsInterface extends SearchResultsInterface
@@ -18,15 +17,15 @@ interface EraseEntitySearchResultsInterface extends SearchResultsInterface
     /**
      * Retrieve the erase entity schedulers list
      *
-     * @return \Opengento\Gdpr\Api\Data\EraseEntityInterface[]
+     * @return EraseEntityInterface[]
      */
     public function getItems(): array;
 
     /**
      * Set the erase entity schedulers list
      *
-     * @param \Opengento\Gdpr\Api\Data\EraseEntityInterface[] $items
-     * @return \Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterface
+     * @param EraseEntityInterface[] $items
+     * @return EraseEntitySearchResultsInterface
      */
     public function setItems(array $items): EraseEntitySearchResultsInterface;
 }

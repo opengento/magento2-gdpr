@@ -12,6 +12,8 @@
                 <enabled>0</enabled>
                 <page_id>privacy-policy-cookie-restriction-mode</page_id>
             </general>
+            <action>
+            </action>
             <anonymize>
                 <customer_attributes>
                     <![CDATA[[
@@ -126,7 +128,7 @@
                 <sales_max_age>3650</sales_max_age>
                 <allowed_states>canceled,closed,complete</allowed_states>
                 <remove_customer>1</remove_customer>
-                <components_processors>
+                <customer_components_processors>
                     <![CDATA[[
                         {"component":"customer","processor":"anonymize"},
                         {"component":"customer_address","processor":"anonymize"},
@@ -134,11 +136,22 @@
                         {"component":"order","processor":"anonymize"},
                         {"component":"subscriber","processor":"delete"}
                     ]]]>
-                </components_processors>
+                </customer_components_processors>
+                <guest_components_processors>
+                    <![CDATA[[
+                        {"component":"quote","processor":"delete"},
+                        {"component":"order","processor":"anonymize"},
+                        {"component":"subscriber","processor":"delete"}
+                    ]]]>
+                </guest_components_processors>
             </erasure>
             <export>
                 <enabled>0</enabled>
-                <renderer>pdf</renderer>
+                <renderers>pdf,xml</renderers>
+                <file_name>personal_data</file_name>
+                <entity_schedule>* * * * *</entity_schedule>
+                <life_time>3600</life_time>
+                <entity_expired_schedule>* * * * *</entity_expired_schedule>
                 <customer_attributes>prefix,firstname,middlename,lastname,suffix,email,dob,gender,taxvat</customer_attributes>
                 <customer_address_attributes>prefix,firstname,middlename,lastname,suffix,company,street,city,country_id,province,postcode,fax,telephone,vat_id</customer_address_attributes>
                 <quote_attributes>customer_email,customer_prefix,customer_middlename,customer_lastname,customer_suffix,customer_dob,customer_gender,customer_taxvat,remote_ip</quote_attributes>
@@ -147,6 +160,85 @@
                 <order_address_attributes>city,company,country_id,fax,email,prefix,firstname,middlename,lastname,suffix,postcode,region,street,telephone,vat_id</order_address_attributes>
                 <subscriber_attributes>email</subscriber_attributes>
             </export>
+            <notification>
+                <general>
+                    <enabled>0</enabled>
+                </general>
+                <erasure>
+                    <pending>
+                        <customer>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_erase_pending_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </customer>
+                        <order>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_erase_pending_guest_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </order>
+                    </pending>
+                    <succeeded>
+                        <customer>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_erase_succeeded_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </customer>
+                        <order>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_erase_succeeded_guest_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </order>
+                    </succeeded>
+                    <canceled>
+                        <customer>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_erase_canceled_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </customer>
+                        <order>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_erase_canceled_guest_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </order>
+                    </canceled>
+                </erasure>
+                <export>
+                    <pending>
+                        <customer>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_export_pending_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </customer>
+                        <order>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_export_pending_guest_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </order>
+                    </pending>
+                    <ready>
+                        <customer>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_export_ready_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </customer>
+                        <order>
+                            <enabled>0</enabled>
+                            <template>gdpr_email_export_ready_guest_template</template>
+                            <identity>general</identity>
+                            <copy_method>bcc</copy_method>
+                        </order>
+                    </ready>
+                </export>
+            </notification>
             <cookie>
                 <enabled>0</enabled>
             </cookie>

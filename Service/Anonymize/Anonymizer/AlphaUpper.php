@@ -7,22 +7,16 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Anonymize\Anonymizer;
 
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Math\Random;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
-/**
- * Class AlphaUpper
- */
 final class AlphaUpper implements AnonymizerInterface
 {
-    /**#@+
-     * Constants for alpha upper anonymizer
-     */
     private const DEFAULT_LENGTH = 5;
-    /**#@-*/
 
     /**
-     * @var \Magento\Framework\Math\Random
+     * @var Random
      */
     private $mathRandom;
 
@@ -31,10 +25,6 @@ final class AlphaUpper implements AnonymizerInterface
      */
     private $length;
 
-    /**
-     * @param \Magento\Framework\Math\Random $mathRandom
-     * @param int $length
-     */
     public function __construct(
         Random $mathRandom,
         int $length = self::DEFAULT_LENGTH
@@ -45,7 +35,7 @@ final class AlphaUpper implements AnonymizerInterface
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function anonymize($value): string
     {

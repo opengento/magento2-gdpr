@@ -7,10 +7,11 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Entity;
 
+use InvalidArgumentException;
 use Magento\Framework\ObjectManagerInterface;
+use function sprintf;
 
 /**
- * Class EntityCheckerFactory
  * @api
  */
 final class EntityCheckerFactory
@@ -21,13 +22,13 @@ final class EntityCheckerFactory
     private $checkers;
 
     /**
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     private $objectManager;
 
     /**
      * @param string[] $checkers
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
     public function __construct(
         array $checkers,
@@ -37,16 +38,10 @@ final class EntityCheckerFactory
         $this->objectManager = $objectManager;
     }
 
-    /**
-     * Retrieve the export processor by entity type
-     *
-     * @param string $entityType
-     * @return \Opengento\Gdpr\Model\Entity\EntityCheckerInterface
-     */
     public function get(string $entityType): EntityCheckerInterface
     {
         if (!isset($this->checkers[$entityType])) {
-            throw new \InvalidArgumentException(\sprintf('Unknown checker for entity type "%s".', $entityType));
+            throw new InvalidArgumentException(sprintf('Unknown checker for entity type "%s".', $entityType));
         }
 
         return $this->objectManager->get($this->checkers[$entityType]);

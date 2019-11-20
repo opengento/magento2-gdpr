@@ -9,6 +9,7 @@ namespace Opengento\Gdpr\Model\Customer\Anonymize\Processor;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
@@ -17,49 +18,38 @@ use Opengento\Gdpr\Model\Customer\Anonymize\AccountBlocker;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-/**
- * Class CustomerDataProcessor
- */
 final class CustomerDataProcessor implements ProcessorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface
+     * @var AnonymizerInterface
      */
     private $anonymizer;
 
     /**
-     * @var \Opengento\Gdpr\Model\Customer\Anonymize\AccountBlocker
+     * @var AccountBlocker
      */
     private $accountBlocker;
 
     /**
-     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     * @var CustomerRepositoryInterface
      */
     private $customerRepository;
 
     /**
-     * @var \Magento\Sales\Api\OrderRepositoryInterface
+     * @var OrderRepositoryInterface
      */
     private $orderRepository;
 
     /**
-     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     * @var SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
 
     /**
-     * @var \Opengento\Gdpr\Model\Config
+     * @var Config
      */
     private $config;
 
-    /**
-     * @param \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface $anonymizer
-     * @param \Opengento\Gdpr\Model\Customer\Anonymize\AccountBlocker $accountBlocker
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Opengento\Gdpr\Model\Config $config
-     */
     public function __construct(
         AnonymizerInterface $anonymizer,
         AccountBlocker $accountBlocker,
@@ -78,7 +68,7 @@ final class CustomerDataProcessor implements ProcessorInterface
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function execute(int $customerId): bool
     {

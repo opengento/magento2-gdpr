@@ -8,31 +8,25 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Customer\Export\Processor;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Sales\Api\Data\OrderAddressInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Sales\Model\Order;
 use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Service\Export\Processor\AbstractDataProcessor;
 
-/**
- * Class QuoteDataProcessor
- */
 final class OrderDataProcessor extends AbstractDataProcessor
 {
     /**
-     * @var \Magento\Sales\Api\OrderRepositoryInterface
+     * @var OrderRepositoryInterface
      */
     private $orderRepository;
 
     /**
-     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     * @var SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
 
-    /**
-     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Opengento\Gdpr\Model\Entity\DataCollectorInterface $dataCollector
-     */
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
@@ -43,20 +37,17 @@ final class OrderDataProcessor extends AbstractDataProcessor
         parent::__construct($dataCollector);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute(int $customerId, array $data): array
     {
         $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
         $orderList = $this->orderRepository->getList($this->searchCriteriaBuilder->create());
 
-        /** @var \Magento\Sales\Model\Order $order */
+        /** @var Order $order */
         foreach ($orderList->getItems() as $order) {
             $key = 'order_id_' . $order->getEntityId();
             $data['orders'][$key] = $this->collectData($order);
 
-            /** @var \Magento\Sales\Api\Data\OrderAddressInterface|null $orderAddress */
+            /** @var OrderAddressInterface|null $orderAddress */
             foreach ([$order->getBillingAddress(), $order->getShippingAddress()] as $orderAddress) {
                 if ($orderAddress) {
                     $data['orders'][$key][$orderAddress->getAddressType()] = $this->collectData($orderAddress);

@@ -7,10 +7,13 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Api;
 
+use Magento\Framework\Exception\CouldNotDeleteException;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 
 /**
- * Interface EraseEntityManagementInterface
  * @api
  */
 interface EraseEntityManagementInterface
@@ -20,9 +23,9 @@ interface EraseEntityManagementInterface
      *
      * @param int $entityId
      * @param string $entityType
-     * @return \Opengento\Gdpr\Api\Data\EraseEntityInterface
-     * @throws \Magento\Framework\Exception\CouldNotSaveException
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return EraseEntityInterface
+     * @throws CouldNotSaveException
+     * @throws LocalizedException
      */
     public function create(int $entityId, string $entityType): EraseEntityInterface;
 
@@ -32,9 +35,9 @@ interface EraseEntityManagementInterface
      * @param int $entityId
      * @param string $entityType
      * @return bool
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\CouldNotDeleteException
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws NoSuchEntityException
+     * @throws CouldNotDeleteException
+     * @throws LocalizedException
      *
      * @todo should not be responsible of the deletion (cancel != delete)
      */
@@ -43,10 +46,10 @@ interface EraseEntityManagementInterface
     /**
      * Run and process the erase entity scheduler command
      *
-     * @param \Opengento\Gdpr\Api\Data\EraseEntityInterface $entity
-     * @return \Opengento\Gdpr\Api\Data\EraseEntityInterface
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @param EraseEntityInterface $entity
+     * @return EraseEntityInterface
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
      */
     public function process(EraseEntityInterface $entity): EraseEntityInterface;
 }

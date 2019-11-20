@@ -7,25 +7,18 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Entity;
 
-/**
- * Class DataCollector
- */
 final class DataCollector implements DataCollectorInterface
 {
     /**
-     * @var \Opengento\Gdpr\Model\Entity\EntityIteratorInterface
+     * @var EntityIteratorInterface
      */
     private $entityIterator;
 
     /**
-     * @var \Opengento\Gdpr\Model\Entity\DocumentInterface
+     * @var DocumentInterface
      */
     private $document;
 
-    /**
-     * @param \Opengento\Gdpr\Model\Entity\EntityIteratorInterface $entityIterator
-     * @param \Opengento\Gdpr\Model\Entity\DocumentInterface $document
-     */
     public function __construct(
         EntityIteratorInterface $entityIterator,
         DocumentInterface $document
@@ -34,13 +27,12 @@ final class DataCollector implements DataCollectorInterface
         $this->document = $document;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function collect($entity): array
+    public function collect(object $entity): array
     {
         $this->entityIterator->iterate($entity);
+        $data = $this->document->getData();
+        $this->document->setData([]);
 
-        return $this->document->getData();
+        return $data;
     }
 }

@@ -8,62 +8,62 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Guest;
 
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
 use Magento\Sales\Controller\AbstractController\OrderLoaderInterface;
-use Opengento\Gdpr\Api\EraseEntityManagementInterface;
+use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Controller\AbstractGuest;
+use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Config;
 
-/**
- * Class Erase
- */
-class Erase extends AbstractGuest
+class Erase extends AbstractGuest implements HttpGetActionInterface //todo should be post action
 {
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityManagementInterface
+     * @var ActionInterface
      */
-    private $eraseEntityManagement;
+    private $action;
 
     /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Opengento\Gdpr\Model\Config $config
-     * @param \Magento\Sales\Controller\AbstractController\OrderLoaderInterface $orderLoader
-     * @param \Opengento\Gdpr\Api\EraseEntityManagementInterface $eraseEntityManagement
-     * @param \Magento\Framework\Registry $registry
+     * @var ContextBuilder
      */
+    private $actionContextBuilder;
+
     public function __construct(
         Context $context,
         Config $config,
         OrderLoaderInterface $orderLoader,
-        EraseEntityManagementInterface $eraseEntityManagement,
-        Registry $registry
+        Registry $registry,
+        ActionInterface $action,
+        ContextBuilder $actionContextBuilder
     ) {
-        $this->eraseEntityManagement = $eraseEntityManagement;
+        $this->action = $action;
+        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($context, $config, $orderLoader, $registry);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isAllowed(): bool
     {
         return parent::isAllowed() && $this->config->isErasureEnabled();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function executeAction()
     {
-        /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+        /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         $resultRedirect->setRefererOrBaseUrl();
 
+        $this->actionContextBuilder->setParameters([
+            ArgumentReader::ENTITY_ID => (int) $this->currentOrder()->getEntityId(),
+            ArgumentReader::ENTITY_TYPE => 'order'
+        ]);
+
         try {
-            $this->eraseEntityManagement->create($this->retrieveOrderId(), 'order');
+            $this->action->execute($this->actionContextBuilder->create());
             $this->messageManager->addWarningMessage(new Phrase('Your personal data is being removed soon.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());

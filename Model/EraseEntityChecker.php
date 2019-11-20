@@ -13,25 +13,18 @@ use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Entity\EntityCheckerFactory;
 
-/**
- * Class EraseEntityChecker
- */
 final class EraseEntityChecker implements EraseEntityCheckerInterface
 {
     /**
-     * @var \Opengento\Gdpr\Api\EraseEntityRepositoryInterface
+     * @var EraseEntityRepositoryInterface
      */
     private $eraseEntityRepository;
 
     /**
-     * @var \Opengento\Gdpr\Model\Entity\EntityCheckerFactory
+     * @var EntityCheckerFactory
      */
     private $entityCheckerFactory;
 
-    /**
-     * @param \Opengento\Gdpr\Api\EraseEntityRepositoryInterface $eraseEntityRepository
-     * @param \Opengento\Gdpr\Model\Entity\EntityCheckerFactory $entityCheckerFactory
-     */
     public function __construct(
         EraseEntityRepositoryInterface $eraseEntityRepository,
         EntityCheckerFactory $entityCheckerFactory
@@ -40,9 +33,6 @@ final class EraseEntityChecker implements EraseEntityCheckerInterface
         $this->entityCheckerFactory = $entityCheckerFactory;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function exists(int $entityId, string $entityType): bool
     {
         try {
@@ -52,9 +42,6 @@ final class EraseEntityChecker implements EraseEntityCheckerInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function canCreate(int $entityId, string $entityType): bool
     {
         $entityChecker = $this->entityCheckerFactory->get($entityType);
@@ -62,9 +49,6 @@ final class EraseEntityChecker implements EraseEntityCheckerInterface
         return !$this->exists($entityId, $entityType) && $entityChecker->canErase($entityId);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function canCancel(int $entityId, string $entityType): bool
     {
         try {
@@ -77,9 +61,6 @@ final class EraseEntityChecker implements EraseEntityCheckerInterface
             && $entity->getStatus() === EraseEntityInterface::STATUS_READY;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function canProcess(int $entityId, string $entityType): bool
     {
         try {

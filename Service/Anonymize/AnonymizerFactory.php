@@ -7,18 +7,16 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Anonymize;
 
+use InvalidArgumentException;
 use Magento\Framework\ObjectManagerInterface;
+use function sprintf;
 
-/**
- * Class AnonymizerFactory
- */
 final class AnonymizerFactory
 {
-    /**#@+
+    /**
      * Constants for the anonymizer key codes
      */
     public const DEFAULT_ANONYMIZER = 'default';
-    /**#@-*/
 
     /**
      * @var string[]
@@ -26,14 +24,10 @@ final class AnonymizerFactory
     private $anonymizers;
 
     /**
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     private $objectManager;
 
-    /**
-     * @param array $anonymizers
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
-     */
     public function __construct(
         array $anonymizers,
         ObjectManagerInterface $objectManager
@@ -42,16 +36,10 @@ final class AnonymizerFactory
         $this->objectManager = $objectManager;
     }
 
-    /**
-     * Retrieve the anonymizer instance by its key code
-     *
-     * @param string $anonymizerCode
-     * @return \Opengento\Gdpr\Service\Anonymize\AnonymizerInterface
-     */
     public function get(string $anonymizerCode): AnonymizerInterface
     {
         if (!isset($this->anonymizers[$anonymizerCode])) {
-            throw new \InvalidArgumentException(\sprintf('Unknown anonymizer type "%s".', $anonymizerCode));
+            throw new InvalidArgumentException(sprintf('Unknown anonymizer type "%s".', $anonymizerCode));
         }
 
         return $this->objectManager->get($this->anonymizers[$anonymizerCode]);

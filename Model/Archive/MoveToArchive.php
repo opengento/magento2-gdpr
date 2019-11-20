@@ -9,29 +9,23 @@ namespace Opengento\Gdpr\Model\Archive;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Archive\ArchiveInterface;
+use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Phrase;
 
-/**
- * Class MoveToArchive
- */
 final class MoveToArchive
 {
     /**
-     * @var \Magento\Framework\Archive\ArchiveInterface
+     * @var ArchiveInterface
      */
     private $archive;
 
     /**
-     * @var \Magento\Framework\Filesystem
+     * @var Filesystem
      */
     private $filesystem;
 
-    /**
-     * @param \Magento\Framework\Archive\ArchiveInterface $archive
-     * @param \Magento\Framework\Filesystem $filesystem
-     */
     public function __construct(
         ArchiveInterface $archive,
         Filesystem $filesystem
@@ -41,13 +35,11 @@ final class MoveToArchive
     }
 
     /**
-     * Pack the source and delete it to the file system
-     *
      * @param string $source
      * @param string $destination
      * @return string
-     * @throws \Magento\Framework\Exception\FileSystemException
-     * @throws \Magento\Framework\Exception\NotFoundException
+     * @throws FileSystemException
+     * @throws NotFoundException
      */
     public function prepareArchive(string $source, string $destination): string
     {

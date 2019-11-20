@@ -13,13 +13,17 @@
             <tab>customer</tab>
             <resource>Opengento_Gdpr::config</resource>
             <!-- Global Settings -->
-            <include path="Opengento_Gdpr::system/general.xml" />
+            <include path="Opengento_Gdpr::system/general.xml"/>
+            <!-- Action Settings -->
+            <include path="Opengento_Gdpr::system/action.xml"/>
             <!-- Erasure Settings -->
-            <include path="Opengento_Gdpr::system/erasure.xml" />
+            <include path="Opengento_Gdpr::system/erasure.xml"/>
             <!-- Export Settings -->
-            <include path="Opengento_Gdpr::system/export.xml" />
+            <include path="Opengento_Gdpr::system/export.xml"/>
+            <!-- Notification Settings -->
+            <include path="Opengento_Gdpr::system/notification.xml"/>
             <!-- Cookie Settings -->
-            <include path="Opengento_Gdpr::system/cookie.xml" />
+            <include path="Opengento_Gdpr::system/cookie.xml"/>
         </section>
     </system>
 </config>

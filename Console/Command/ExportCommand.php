@@ -10,55 +10,51 @@ namespace Opengento\Gdpr\Console\Command;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
-use Opengento\Gdpr\Api\ExportEntityManagementInterface;
-use Opengento\Gdpr\Model\ExportEntity;
+use Magento\Framework\Exception\LocalizedException;
+use Opengento\Gdpr\Api\ActionInterface;
+use Opengento\Gdpr\Api\Data\ExportEntityInterface;
+use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\ContextBuilder;
+use Opengento\Gdpr\Model\Action\Export\ArgumentReader as ExportArgumentReader;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class ExportCommand
- */
 class ExportCommand extends Command
 {
-    /**#@+
-     * Input Variables Names
-     */
     private const INPUT_ARGUMENT_ENTITY_ID = 'entity_id';
     private const INPUT_ARGUMENT_ENTITY_TYPE = 'entity_type';
     private const INPUT_OPTION_FILENAME = 'filename';
-    /**#@-*/
 
     /**
-     * @var \Magento\Framework\App\State
+     * @var State
      */
     private $appState;
 
     /**
-     * @var \Opengento\Gdpr\Api\ExportEntityManagementInterface
+     * @var ActionInterface
      */
-    private $exportManagement;
+    private $action;
 
     /**
-     * @param \Magento\Framework\App\State $appState
-     * @param \Opengento\Gdpr\Api\ExportEntityManagementInterface $exportManagement
-     * @param string $name
+     * @var ContextBuilder
      */
+    private $actionContextBuilder;
+
     public function __construct(
         State $appState,
-        ExportEntityManagementInterface $exportManagement,
+        ActionInterface $action,
+        ContextBuilder $actionContextBuilder,
         string $name = 'gdpr:entity:export'
     ) {
         $this->appState = $appState;
-        $this->exportManagement = $exportManagement;
+        $this->action = $action;
+        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($name);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function configure(): void
     {
         parent::configure();
@@ -87,7 +83,7 @@ class ExportCommand extends Command
 
     /**
      * @inheritdoc
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -100,10 +96,18 @@ class ExportCommand extends Command
 
         try {
             foreach ($entityIds as $entityId) {
-                $out = $this->exportManagement->export(
-                    new ExportEntity((int) $entityId, $entityType, $fileName . '_' . $entityId)
+                $this->actionContextBuilder->setParameters([
+                    ArgumentReader::ENTITY_ID => $entityId,
+                    ArgumentReader::ENTITY_TYPE => $entityType,
+                    ExportArgumentReader::EXPORT_FILE_NAME => $fileName . '_' . $entityId
+                ]);
+                $result = $this->action->execute($this->actionContextBuilder->create())->getResult();
+                /** @var ExportEntityInterface $exportEntity */
+                $exportEntity = $result[ExportArgumentReader::EXPORT_ENTITY];
+
+                $output->writeln(
+                    '<info>Entity\'s related data have been exported to: ' . $exportEntity->getFilePath() . '.</info>'
                 );
-                $output->writeln('<info>Entity\'s related data have been exported to: ' . $out . '.</info>');
             }
         } catch (\Exception $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');

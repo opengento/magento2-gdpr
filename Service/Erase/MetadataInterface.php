@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Erase;
 
 /**
- * Interface MetadataInterface
  * @api
  */
 interface MetadataInterface
@@ -16,7 +15,7 @@ interface MetadataInterface
     /**
      * Retrieve the erase processor associated by components
      *
-     * @param string|null $scopeCode
+     * @param string|null $scopeCode [optional] Current scope code will be used by default.
      * @return array
      */
     public function getComponentsProcessors(?string $scopeCode = null): array;
@@ -25,7 +24,7 @@ interface MetadataInterface
      * Retrieve the erase processor by component
      *
      * @param string $component
-     * @param string|null $scopeCode
+     * @param string|null $scopeCode [optional] Current scope code will be used by default.
      * @return string
      */
     public function getComponentProcessor(string $component, ?string $scopeCode = null): string;

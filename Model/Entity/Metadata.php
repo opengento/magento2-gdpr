@@ -8,14 +8,12 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Entity;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use function explode;
 
-/**
- * Class Metadata
- */
 final class Metadata implements MetadataInterface
 {
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     * @var ScopeConfigInterface
      */
     private $scopeConfig;
 
@@ -29,11 +27,6 @@ final class Metadata implements MetadataInterface
      */
     private $scopeType;
 
-    /**
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param string $configPath
-     * @param string $scopeType
-     */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         string $configPath,
@@ -44,11 +37,8 @@ final class Metadata implements MetadataInterface
         $this->scopeType = $scopeType;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getAttributes(?string $scopeCode = null): array
     {
-        return \explode(',', $this->scopeConfig->getValue($this->configPath, $this->scopeType, $scopeCode) ?? '');
+        return explode(',', $this->scopeConfig->getValue($this->configPath, $this->scopeType, $scopeCode) ?? '');
     }
 }

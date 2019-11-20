@@ -7,34 +7,27 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Entity;
 
+use Exception;
 use Magento\Framework\EntityManager\HydratorPool;
 use Magento\Framework\EntityManager\TypeResolver;
 
-/**
- * Class EntityIterator
- */
 final class EntityIterator implements EntityIteratorInterface
 {
     /**
-     * @var \Magento\Framework\EntityManager\HydratorPool
+     * @var HydratorPool
      */
     private $hydratorPool;
 
     /**
-     * @var \Magento\Framework\EntityManager\TypeResolver
+     * @var TypeResolver
      */
     private $typeResolver;
 
     /**
-     * @var \Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface
+     * @var EntityValueProcessorInterface
      */
     private $processor;
 
-    /**
-     * @param \Magento\Framework\EntityManager\HydratorPool $hydratorPool
-     * @param \Magento\Framework\EntityManager\TypeResolver $typeResolver
-     * @param \Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface $processor
-     */
     public function __construct(
         HydratorPool $hydratorPool,
         TypeResolver $typeResolver,
@@ -47,7 +40,7 @@ final class EntityIterator implements EntityIteratorInterface
 
     /**
      * @inheritdoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function iterate($entity): void
     {

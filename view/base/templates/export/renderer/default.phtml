@@ -12,13 +12,13 @@ $rendererList = $block->getChildBlock('exportRenderer');
 /** @var \Magento\Framework\DataObject $viewModel */
 $viewModel = $block->getData('viewModel');
 ?>
-<?php foreach ($viewModel->getData() as $key => $value): ?>
+<?php foreach ($viewModel->toArray() as $key => $value): ?>
     <div class="fieldset info export-data-<?= $block->escapeHtmlAttr($key) ?>">
         <div class="legend"><span><?= $block->escapeHtml($key) ?></span></div>
         <div class="field field-<?= $block->escapeHtmlAttr($key) ?>">
-            <?php if (\is_array($value)): ?>
+            <?php if (is_array($value)): ?>
                 <pre>
-                    <?= \print_r($value, true) ?>
+                    <?= print_r($value, true) ?>
                 </pre>
             <?php elseif ($value): ?>
                 <p><?= $block->escapeHtml($value) ?></p>
