@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Guest;
 
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
@@ -20,7 +21,7 @@ use Opengento\Gdpr\Model\Action\ArgumentReader;
 use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Config;
 
-class UndoErase extends AbstractGuest
+class UndoErase extends AbstractGuest implements HttpGetActionInterface //todo should be post action
 {
     /**
      * @var ActionInterface

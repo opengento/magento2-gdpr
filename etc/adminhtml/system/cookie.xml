@@ -9,7 +9,7 @@
     <group id="cookie" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60">
         <label>Cookie Settings</label>
         <depends>
-            <field id="customer/gdpr/general/enabled">1</field>
+            <field id="gdpr/general/enabled">1</field>
         </depends>
         <field id="enabled" type="select" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
             <label>Cookie Disclosure</label>
@@ -21,7 +21,7 @@
             <label>Information</label>
             <source_model>Magento\Cms\Model\Config\Source\Block</source_model>
             <depends>
-                <field id="customer/gdpr/cookie/enabled">1</field>
+                <field id="gdpr/cookie/enabled">1</field>
             </depends>
             <config_path>gdpr/cookie/block_id</config_path>
         </field>

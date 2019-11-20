@@ -9,6 +9,7 @@ namespace Opengento\Gdpr\Controller\Privacy;
 
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
@@ -19,7 +20,7 @@ use Opengento\Gdpr\Model\Action\ArgumentReader;
 use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Config;
 
-class UndoErase extends AbstractPrivacy
+class UndoErase extends AbstractPrivacy implements HttpGetActionInterface //todo should be post action
 {
     /**
      * @var Session

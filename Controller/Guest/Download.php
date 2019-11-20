@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Guest;
 
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\Result\Redirect;
@@ -22,7 +23,7 @@ use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Controller\AbstractGuest;
 use Opengento\Gdpr\Model\Config;
 
-class Download extends AbstractGuest
+class Download extends AbstractGuest implements HttpGetActionInterface
 {
     /**
      * @var FileFactory

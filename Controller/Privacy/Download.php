@@ -9,6 +9,7 @@ namespace Opengento\Gdpr\Controller\Privacy;
 
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\Result\Redirect;
@@ -20,7 +21,7 @@ use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Config;
 
-class Download extends AbstractPrivacy
+class Download extends AbstractPrivacy implements HttpGetActionInterface
 {
     /**
      * @var FileFactory

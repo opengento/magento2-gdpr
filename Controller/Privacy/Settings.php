@@ -7,10 +7,11 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Privacy;
 
+use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 
-class Settings extends AbstractPrivacy
+class Settings extends AbstractPrivacy implements HttpGetActionInterface
 {
     protected function executeAction()
     {

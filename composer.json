@@ -12,22 +12,24 @@
         "php": ">=7.2",
         "ext-zip": "*",
         "mikehaertl/phpwkhtmltopdf": "^2.3.1",
-        "magento/framework": ">=100.1.0",
-        "magento/module-backend": ">=100.0.0",
-        "magento/module-config": ">=100.0.2",
-        "magento/module-customer": ">=100.0.2",
-        "magento/module-quote": ">=100.0.0",
-        "magento/module-sales": ">=100.0.2",
-        "magento/module-review": ">=100.0.0",
-        "magento/module-email": ">=100.0.0",
-        "magento/module-newsletter": ">=100.0.2"
+        "magento/framework": "^102.0.0",
+        "magento/module-backend": "^101.0.0",
+        "magento/module-config": "^101.1.0",
+        "magento/module-customer": "^102.0.0",
+        "magento/module-quote": "^101.1.0",
+        "magento/module-sales": "^102.0.0",
+        "magento/module-review": "^100.3.0",
+        "magento/module-email": "^101.0.0",
+        "magento/module-newsletter": "^100.3.0",
+        "magento/module-cms": "^103.0.0",
+        "magento/module-theme": "^101.0.0"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-master",
-        "magento/marketplace-eqp": "^1.0.0"
+        "magento/marketplace-eqp": "^1.0.0",
+        "roave/security-advisories": "dev-master"
     },
     "type": "magento2-module",
-    "version": "0.1.0",
+    "version": "2.0.0-beta5",
     "license": [
         "MIT"
     ],

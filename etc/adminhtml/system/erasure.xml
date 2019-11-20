@@ -9,7 +9,7 @@
     <group id="erasure" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
         <label>Right To Erasure</label>
         <depends>
-            <field id="customer/gdpr/general/enabled">1</field>
+            <field id="gdpr/general/enabled">1</field>
         </depends>
         <field id="enabled" type="select" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
             <label>Erasure</label>
@@ -21,7 +21,7 @@
             <label>Information</label>
             <source_model>Magento\Cms\Model\Config\Source\Block</source_model>
             <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
+                <field id="gdpr/erasure/enabled">1</field>
             </depends>
             <config_path>gdpr/erasure/block_id</config_path>
         </field>
@@ -30,14 +30,14 @@
             <comment>Erasure delay in minute before the execution by the cron.</comment>
             <validate>validate-number validate-number-range number-range-60-43800</validate>
             <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
+                <field id="gdpr/erasure/enabled">1</field>
             </depends>
             <config_path>gdpr/erasure/delay</config_path>
         </field>
         <field id="entity_schedule" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
             <label>Erase Entity Cron Schedule</label>
             <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
+                <field id="gdpr/erasure/enabled">1</field>
             </depends>
             <config_path>gdpr/erasure/entity_schedule</config_path>
         </field>
@@ -46,14 +46,14 @@
             <comment>The time is in days.</comment>
             <validate>validate-number validate-number-range number-range-0-1095</validate>
             <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
+                <field id="gdpr/erasure/enabled">1</field>
             </depends>
             <config_path>gdpr/erasure/entity_max_age</config_path>
         </field>
         <field id="entity_max_age_schedule" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
             <label>Erase Old Entities Cron Schedule</label>
             <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
+                <field id="gdpr/erasure/enabled">1</field>
             </depends>
             <config_path>gdpr/erasure/entity_max_age_schedule</config_path>
         </field>
@@ -62,7 +62,7 @@
             <comment>The time is in days.</comment>
             <validate>validate-number validate-number-range number-range-0-3650</validate>
             <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
+                <field id="gdpr/erasure/enabled">1</field>
             </depends>
             <config_path>gdpr/erasure/sales_max_age</config_path>
         </field>
@@ -70,7 +70,7 @@
             <label>Allowed Order States to Erase</label>
             <source_model>Opengento\Gdpr\Model\Config\Source\OrderPendingStates</source_model>
             <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
+                <field id="gdpr/erasure/enabled">1</field>
             </depends>
             <can_be_empty>0</can_be_empty>
             <config_path>gdpr/erasure/allowed_states</config_path>
@@ -81,7 +81,7 @@
             <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Customer\EraseComponentsProcessors</frontend_model>
             <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
             <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
+                <field id="gdpr/erasure/enabled">1</field>
             </depends>
             <can_be_empty>1</can_be_empty>
             <config_path>gdpr/erasure/customer_components_processors</config_path>
@@ -92,7 +92,7 @@
             <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Order\EraseComponentsProcessors</frontend_model>
             <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
             <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
+                <field id="gdpr/erasure/enabled">1</field>
             </depends>
             <can_be_empty>1</can_be_empty>
             <config_path>gdpr/erasure/guest_components_processors</config_path>
@@ -100,7 +100,7 @@
         <group id="anonymize" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="110">
             <label>Anonymization</label>
             <depends>
-                <field id="customer/gdpr/erasure/enabled">1</field>
+                <field id="gdpr/erasure/enabled">1</field>
             </depends>
             <field id="block_id" type="select" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
                 <label>Information</label>
@@ -120,7 +120,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/customer_attributes</config_path>
                 </field>
@@ -129,7 +129,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/customer_custom_attributes</config_path>
                 </field>
@@ -138,7 +138,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/customer_extensible_data</config_path>
                 </field>
@@ -150,7 +150,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/customer_address_attributes</config_path>
                 </field>
@@ -159,7 +159,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/customer_address_custom_attributes</config_path>
                 </field>
@@ -168,7 +168,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/customer_address_extensible_data</config_path>
                 </field>
@@ -180,7 +180,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/quote_attributes</config_path>
                 </field>
@@ -189,7 +189,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/quote_custom_attributes</config_path>
                 </field>
@@ -198,7 +198,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/quote_extensible_data</config_path>
                 </field>
@@ -210,7 +210,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/quote_address_attributes</config_path>
                 </field>
@@ -219,7 +219,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/quote_address_custom_attributes</config_path>
                 </field>
@@ -228,7 +228,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/quote_address_extensible_data</config_path>
                 </field>
@@ -240,7 +240,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/order_attributes</config_path>
                 </field>
@@ -249,7 +249,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/order_custom_attributes</config_path>
                 </field>
@@ -258,7 +258,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/order_extensible_data</config_path>
                 </field>
@@ -270,7 +270,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/order_address_attributes</config_path>
                 </field>
@@ -279,7 +279,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/order_address_custom_attributes</config_path>
                 </field>
@@ -288,7 +288,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/order_address_extensible_data</config_path>
                 </field>
@@ -300,7 +300,7 @@
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <depends>
-                        <field id="customer/gdpr/erasure/enabled">1</field>
+                        <field id="gdpr/erasure/enabled">1</field>
                     </depends>
                     <config_path>gdpr/anonymize/subscriber_attributes</config_path>
                 </field>

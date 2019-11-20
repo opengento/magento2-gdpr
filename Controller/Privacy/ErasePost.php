@@ -10,9 +10,9 @@ namespace Opengento\Gdpr\Controller\Privacy;
 use Magento\Customer\Model\AuthenticationInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
-use Magento\Framework\Data\Form\FormKey\Validator;
 use Magento\Framework\Exception\InvalidEmailOrPasswordException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\State\UserLockedException;
@@ -23,13 +23,8 @@ use Opengento\Gdpr\Model\Action\ArgumentReader;
 use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Config;
 
-class ErasePost extends AbstractPrivacy
+class ErasePost extends AbstractPrivacy implements HttpPostActionInterface
 {
-    /**
-     * @var Validator
-     */
-    private $formKeyValidator;
-
     /**
      * @var AuthenticationInterface
      */
@@ -53,13 +48,11 @@ class ErasePost extends AbstractPrivacy
     public function __construct(
         Context $context,
         Config $config,
-        Validator $formKeyValidator,
         AuthenticationInterface $authentication,
         Session $customerSession,
         ActionInterface $action,
         ContextBuilder $actionContextBuilder
     ) {
-        $this->formKeyValidator = $formKeyValidator;
         $this->authentication = $authentication;
         $this->customerSession = $customerSession;
         $this->action = $action;
@@ -77,10 +70,6 @@ class ErasePost extends AbstractPrivacy
         /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         $resultRedirect->setPath('customer/privacy/settings');
-
-        if (!$this->getRequest()->getParams() || !$this->formKeyValidator->validate($this->getRequest())) {
-            return $resultRedirect->setRefererOrBaseUrl();
-        }
 
         $customerId = (int) $this->customerSession->getCustomerId();
         $this->actionContextBuilder->setParameters([

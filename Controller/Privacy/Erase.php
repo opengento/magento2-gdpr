@@ -10,13 +10,14 @@ namespace Opengento\Gdpr\Controller\Privacy;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\Result\Redirect;
+use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Config;
 
-class Erase extends AbstractPrivacy
+class Erase extends AbstractPrivacy implements HttpGetActionInterface
 {
     /**
      * @var Session
