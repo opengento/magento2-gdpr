@@ -35,17 +35,28 @@ The processors are registered to the following composite, if you want to registe
 add it to the composite via the `di.xml` file configuration:
 
 ```xml
-<type name="Opengento\Gdpr\Service\Export\Processor\CompositeProcessor">
+<!-- Export Logged In Customer Management -->
+<virtualType name="Opengento\Gdpr\Model\Customer\Export\Processor\CompositeProcessor" type="Opengento\Gdpr\Service\Export\Processor\CompositeProcessor">
     <arguments>
         <argument name="processors" xsi:type="array">
-            <item name="customer_data" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\CustomerDataProcessor</item>
-            <item name="customer_address_data" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\CustomerAddressDataProcessor</item>
-            <item name="quote" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\QuoteDataProcessor</item>
-            <item name="order" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\OrderDataProcessor</item>
-            <item name="subscriber" xsi:type="object">Opengento\Gdpr\Service\Export\Processor\SubscriberDataProcessor</item>
+            <item name="customer_data" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Processor\CustomerDataProcessor</item>
+            <item name="customer_address_data" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Processor\CustomerAddressDataProcessor</item>
+            <item name="quote" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Processor\QuoteDataProcessor</item>
+            <item name="order" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Processor\OrderDataProcessor</item>
+            <item name="subscriber" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Processor\SubscriberDataProcessor</item>
         </argument>
     </arguments>
-</type>
+</virtualType>
+<!-- Export Guest Management -->
+<virtualType name="Opengento\Gdpr\Model\Order\Export\Processor\CompositeProcessor" type="Opengento\Gdpr\Service\Export\Processor\CompositeProcessor">
+    <arguments>
+        <argument name="processors" xsi:type="array">
+            <item name="quote" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Processor\QuoteDataProcessor</item>
+            <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Processor\OrderDataProcessor</item>
+            <item name="subscriber" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Processor\SubscriberDataProcessor</item>
+        </argument>
+    </arguments>
+</virtualType>
 ```
 
 The export renderer job is to export a result into a file. It implements the following interface: 

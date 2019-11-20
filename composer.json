@@ -6,10 +6,11 @@
         "magento",
         "magento2",
         "gdpr",
-        "rgpd"
+        "rgpd",
+        "privacy"
     ],
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.1",
         "ext-zip": "*",
         "mikehaertl/phpwkhtmltopdf": "^2.3.1",
         "magento/framework": "^102.0.0",
@@ -29,7 +30,6 @@
         "roave/security-advisories": "dev-master"
     },
     "type": "magento2-module",
-    "version": "2.0.0-beta5",
     "license": [
         "MIT"
     ],

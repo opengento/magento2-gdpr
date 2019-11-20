@@ -17,7 +17,7 @@ Magento 2 Open Source or Commerce edition is required.
 | Source Tag Version | Magento Version|
 | :---               | :---           |
 | 3.x                | 2.3.x          |
-| 2.x                | 2.2.x          |
+| 2.x[^deprVersion]  | 2.2.x          |
 | 1.x[^deprVersion]  | 2.1.x          |
 | N/A[^deprVersion]  | 2.0.x          |
 
@@ -34,7 +34,7 @@ Unzip the package in app/code/Opengento/Gdpr.
 **Composer Package:**
 
 ```
-composer require opengento/module-gdpr
+composer require opengento/module-gdpr dev-master
 ```
 
 ### Install the module
