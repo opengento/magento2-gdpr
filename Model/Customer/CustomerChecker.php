@@ -53,7 +53,7 @@ final class CustomerChecker implements EntityCheckerInterface
             $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
             $orderList = $this->orderRepository->getList($this->searchCriteriaBuilder->create());
 
-            $this->cache[$customerId] = (bool) $orderList->getTotalCount();
+            $this->cache[$customerId] = !$orderList->getTotalCount();
         }
 
         return $this->cache[$customerId];
