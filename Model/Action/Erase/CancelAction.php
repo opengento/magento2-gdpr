@@ -7,13 +7,14 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Action\Erase;
 
-use InvalidArgumentException;
+use Magento\Framework\Exception\InputException;
 use Opengento\Gdpr\Api\Data\ActionContextInterface;
 use Opengento\Gdpr\Api\Data\ActionResultInterface;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Model\Action\AbstractAction;
 use Opengento\Gdpr\Model\Action\ArgumentReader;
 use Opengento\Gdpr\Model\Action\ResultBuilder;
+use function array_reduce;
 
 final class CancelAction extends AbstractAction
 {
@@ -32,15 +33,33 @@ final class CancelAction extends AbstractAction
 
     public function execute(ActionContextInterface $actionContext): ActionResultInterface
     {
+        return $this->createActionResult(
+            ['canceled' => $this->eraseEntityManagement->cancel(...$this->getArguments($actionContext))]
+        );
+    }
+
+    private function getArguments(ActionContextInterface $actionContext): array
+    {
         $entityId = ArgumentReader::getEntityId($actionContext);
         $entityType = ArgumentReader::getEntityType($actionContext);
+        $errors = [];
 
-        if ($entityId === null || $entityType === null) {
-            throw new InvalidArgumentException('Arguments "entity_id" and "entity_type" are required.');
+        if ($entityId === null) {
+            $errors[] = InputException::requiredField('entity_id');
+        }
+        if ($entityType === null) {
+            $errors[] = InputException::requiredField('entity_type');
+        }
+        if (!empty($errors)) {
+            throw array_reduce(
+                $errors,
+                static function (InputException $aggregated, InputException $input): InputException {
+                    return $aggregated->addException($input);
+                },
+                new InputException()
+            );
         }
 
-        return $this->createActionResult(
-            ['canceled' => $this->eraseEntityManagement->cancel($entityId, $entityType)]
-        );
+        return [$entityId, $entityType];
     }
 }

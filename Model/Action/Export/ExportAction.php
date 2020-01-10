@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Action\Export;
 
-use InvalidArgumentException;
+use Magento\Framework\Exception\InputException;
 use Opengento\Gdpr\Api\Data\ActionContextInterface;
 use Opengento\Gdpr\Api\Data\ActionResultInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
@@ -35,7 +35,7 @@ final class ExportAction extends AbstractAction
         $exportEntity = ArgumentReader::getEntity($actionContext);
 
         if ($exportEntity === null) {
-            throw new InvalidArgumentException('Argument "entity" is required.');
+            throw InputException::requiredField('entity');
         }
 
         return $this->createActionResult(

@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Action\Erase;
 
-use InvalidArgumentException;
+use Magento\Framework\Exception\InputException;
 use Opengento\Gdpr\Api\Data\ActionContextInterface;
 use Opengento\Gdpr\Api\Data\ActionResultInterface;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
@@ -34,7 +34,7 @@ final class ExecuteAction extends AbstractAction
         $eraseEntity = ArgumentReader::getEntity($actionContext);
 
         if ($eraseEntity === null) {
-            throw new InvalidArgumentException('Argument "entity" is required.');
+            throw InputException::requiredField('entity');
         }
 
         return $this->createActionResult(
