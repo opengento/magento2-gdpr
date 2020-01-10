@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Action\Export;
 
-use InvalidArgumentException;
+use Magento\Framework\Exception\InputException;
 use Opengento\Gdpr\Api\Data\ActionContextInterface;
 use Opengento\Gdpr\Api\Data\ActionResultInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
@@ -15,39 +15,56 @@ use Opengento\Gdpr\Model\Action\AbstractAction;
 use Opengento\Gdpr\Model\Action\ArgumentReader;
 use Opengento\Gdpr\Model\Action\Export\ArgumentReader as ExportArgumentReader;
 use Opengento\Gdpr\Model\Action\ResultBuilder;
+use function array_reduce;
 
 final class CreateAction extends AbstractAction
 {
     /**
      * @var ExportEntityManagementInterface
      */
-    private $exportEntityManagement;
+    private $exporter;
 
     public function __construct(
         ResultBuilder $resultBuilder,
-        ExportEntityManagementInterface $exportEntityManagement
+        ExportEntityManagementInterface $exporter
     ) {
-        $this->exportEntityManagement = $exportEntityManagement;
+        $this->exporter = $exporter;
         parent::__construct($resultBuilder);
     }
 
     public function execute(ActionContextInterface $actionContext): ActionResultInterface
     {
-        $entityId = ArgumentReader::getEntityId($actionContext);
-        $entityType = ArgumentReader::getEntityType($actionContext);
-
-        if ($entityId === null || $entityType === null) {
-            throw new InvalidArgumentException('Arguments "entity_id" and "entity_type" are required.');
-        }
-
         return $this->createActionResult(
             [
-                ArgumentReader::ENTITY_TYPE => $this->exportEntityManagement->create(
-                    $entityId,
-                    $entityType,
-                    ExportArgumentReader::getFileName($actionContext)
+                ArgumentReader::ENTITY_TYPE => $this->exporter->create(
+                    ...$this->getArguments($actionContext)
                 )
             ]
         );
+    }
+
+    private function getArguments(ActionContextInterface $actionContext): array
+    {
+        $entityId = ArgumentReader::getEntityId($actionContext);
+        $entityType = ArgumentReader::getEntityType($actionContext);
+        $errors = [];
+
+        if ($entityId === null) {
+            $errors[] = InputException::requiredField('entity_id');
+        }
+        if ($entityType === null) {
+            $errors[] = InputException::requiredField('entity_type');
+        }
+        if (!empty($errors)) {
+            throw array_reduce(
+                $errors,
+                static function (InputException $aggregated, InputException $input): InputException {
+                    return $aggregated->addException($input);
+                },
+                new InputException()
+            );
+        }
+
+        return [$entityId, $entityType, ExportArgumentReader::getFileName($actionContext)];
     }
 }
