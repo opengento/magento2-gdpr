@@ -12,7 +12,7 @@ use Opengento\Gdpr\Api\Data\ActionContextInterface;
 use Opengento\Gdpr\Api\Data\ActionResultInterface;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Model\Action\AbstractAction;
-use Opengento\Gdpr\Model\Action\ArgumentReader;
+use Opengento\Gdpr\Model\Action\ArgumentReader as ActionArgumentReader;
 use Opengento\Gdpr\Model\Action\ResultBuilder;
 use function array_reduce;
 
@@ -35,7 +35,7 @@ final class CreateAction extends AbstractAction
     {
         return $this->createActionResult(
             [
-                ArgumentReader::ENTITY_TYPE => $this->eraseEntityManagement->create(
+                ArgumentReader::ERASE_ENTITY => $this->eraseEntityManagement->create(
                     ...$this->getArguments($actionContext)
                 )
             ]
@@ -44,8 +44,8 @@ final class CreateAction extends AbstractAction
 
     private function getArguments(ActionContextInterface $actionContext): array
     {
-        $entityId = ArgumentReader::getEntityId($actionContext);
-        $entityType = ArgumentReader::getEntityType($actionContext);
+        $entityId = ActionArgumentReader::getEntityId($actionContext);
+        $entityType = ActionArgumentReader::getEntityType($actionContext);
         $errors = [];
 
         if ($entityId === null) {

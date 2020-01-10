@@ -26,6 +26,11 @@
     <preference for="Opengento\Gdpr\Api\EraseEntityRepositoryInterface" type="Opengento\Gdpr\Model\EraseEntityRepository"/>
     <preference for="Opengento\Gdpr\Api\EraseEntityManagementInterface" type="Opengento\Gdpr\Model\EraseEntityManagement"/>
     <preference for="Opengento\Gdpr\Api\EraseEntityCheckerInterface" type="Opengento\Gdpr\Model\EraseEntityChecker"/>
+    <type name="Opengento\Gdpr\Model\Erase\SecureEraseEntityManagement">
+        <arguments>
+            <argument name="eraseEntityManagement" xsi:type="object">Opengento\Gdpr\Model\EraseEntityManagement</argument>
+        </arguments>
+    </type>
     <!-- todo check remove from SC API: prefer internal -->
     <preference for="Opengento\Gdpr\Api\EraseSalesInformationInterface" type="Opengento\Gdpr\Model\Erase\EraseSalesInformation"/>
     <!-- Export Entity Service Contract -->
