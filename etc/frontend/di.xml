@@ -9,6 +9,7 @@
     <virtualType name="Opengento\Gdpr\Model\Action\ExportCreateAction">
         <arguments>
             <argument name="actions" xsi:type="array">
+                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateAction</item>
                 <item name="notifier" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateNotifier</item>
             </argument>
         </arguments>
@@ -16,6 +17,7 @@
     <virtualType name="Opengento\Gdpr\Model\Action\ExportExecuteAction">
         <arguments>
             <argument name="actions" xsi:type="array">
+                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\ExportAction</item>
                 <item name="notifier" xsi:type="object">Opengento\Gdpr\Model\Action\Export\ExportNotifier</item>
             </argument>
         </arguments>
@@ -23,6 +25,7 @@
     <virtualType name="Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction">
         <arguments>
             <argument name="actions" xsi:type="array">
+                <item name="action" xsi:type="object">Opengento\Gdpr\Model\Action\Export\CreateOrExportAction</item>
                 <item name="notifier" xsi:type="object">Opengento\Gdpr\Model\Action\Export\ExportNotifier</item>
             </argument>
         </arguments>

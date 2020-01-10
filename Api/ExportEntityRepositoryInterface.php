@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Api;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
@@ -55,7 +56,7 @@ interface ExportEntityRepositoryInterface
      * @return ExportEntitySearchResultsInterface
      * @throws LocalizedException
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): ExportEntitySearchResultsInterface;
+    public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface;
 
     /**
      * Delete export entity

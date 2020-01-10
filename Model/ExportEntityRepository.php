@@ -11,6 +11,7 @@ use Exception;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -138,7 +139,7 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
         return $this->instancesByEntity[$entityType . '_' . $entityId];
     }
 
-    public function getList(SearchCriteriaInterface $searchCriteria): ExportEntitySearchResultsInterface
+    public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface
     {
         /** @var Collection $collection */
         $collection = $this->collectionFactory->create();

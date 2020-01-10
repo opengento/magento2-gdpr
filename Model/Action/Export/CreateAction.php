@@ -12,8 +12,7 @@ use Opengento\Gdpr\Api\Data\ActionContextInterface;
 use Opengento\Gdpr\Api\Data\ActionResultInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Model\Action\AbstractAction;
-use Opengento\Gdpr\Model\Action\ArgumentReader;
-use Opengento\Gdpr\Model\Action\Export\ArgumentReader as ExportArgumentReader;
+use Opengento\Gdpr\Model\Action\ArgumentReader as ActionArgumentReader;
 use Opengento\Gdpr\Model\Action\ResultBuilder;
 use function array_reduce;
 
@@ -36,7 +35,7 @@ final class CreateAction extends AbstractAction
     {
         return $this->createActionResult(
             [
-                ArgumentReader::ENTITY_TYPE => $this->exporter->create(
+                ArgumentReader::EXPORT_ENTITY => $this->exporter->create(
                     ...$this->getArguments($actionContext)
                 )
             ]
@@ -45,8 +44,8 @@ final class CreateAction extends AbstractAction
 
     private function getArguments(ActionContextInterface $actionContext): array
     {
-        $entityId = ArgumentReader::getEntityId($actionContext);
-        $entityType = ArgumentReader::getEntityType($actionContext);
+        $entityId = ActionArgumentReader::getEntityId($actionContext);
+        $entityType = ActionArgumentReader::getEntityType($actionContext);
         $errors = [];
 
         if ($entityId === null) {
@@ -65,6 +64,6 @@ final class CreateAction extends AbstractAction
             );
         }
 
-        return [$entityId, $entityType, ExportArgumentReader::getFileName($actionContext)];
+        return [$entityId, $entityType, ArgumentReader::getFileName($actionContext)];
     }
 }
