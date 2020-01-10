@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Privacy;
 
+use Exception;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
@@ -20,6 +21,8 @@ use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Config;
+use function get_class;
+use function var_dump;
 
 class Download extends AbstractPrivacy implements HttpGetActionInterface
 {
@@ -66,7 +69,6 @@ class Download extends AbstractPrivacy implements HttpGetActionInterface
                 [
                     'type' => 'filename',
                     'value' => $this->exportRepository->getByEntity($customerId, 'customer')->getFilePath(),
-                    'rm' => true,
                 ],
                 DirectoryList::TMP
             );
@@ -76,7 +78,7 @@ class Download extends AbstractPrivacy implements HttpGetActionInterface
             );
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }
 
