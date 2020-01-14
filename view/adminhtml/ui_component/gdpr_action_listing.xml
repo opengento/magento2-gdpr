@@ -59,6 +59,17 @@
                     <label translate="true">Edit</label>
                 </settings>
             </action>
+            <action name="delete">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want to delete the action log?</message>
+                        <title translate="true">Delete items</title>
+                    </confirm>
+                    <url path="gdpr/action/massDelete"/>
+                    <type>delete</type>
+                    <label translate="true">Delete</label>
+                </settings>
+            </action>
         </massaction>
         <paging name="listing_paging"/>
     </listingToolbar>
