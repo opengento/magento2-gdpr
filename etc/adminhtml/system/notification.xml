@@ -6,200 +6,206 @@
  */
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <group id="notification" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
-        <label>Notification</label>
-        <group id="general" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
-            <label>General Settings</label>
-            <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
-                <label>Enabled</label>
-                <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                <depends>
-                    <field id="gdpr/general/enabled">1</field>
-                </depends>
-                <config_path>gdpr/notification/erase_enabled</config_path>
-                <comment>It will enable the module features in the admin and frontend ui.</comment>
-            </field>
+    <section id="opengento_gdpr_notification" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
+        <class>separator-top</class>
+        <label>User Notification</label>
+        <tab>opengento_gdpr</tab>
+        <resource>Opengento_Gdpr::config</resource>
+        <group id="notification" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+            <label>Notification</label>
+            <group id="general" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+                <label>General Settings</label>
+                <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="gdpr/general/enabled">1</field>
+                    </depends>
+                    <config_path>gdpr/notification/erase_enabled</config_path>
+                    <comment>It will enable the module features in the admin and frontend ui.</comment>
+                </field>
+            </group>
+            <group id="erase" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
+                <label>Erase Personal Data</label>
+                <group id="pending" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+                    <label>Pending Action</label>
+                    <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>gdpr/notification/erase_pending_enabled</config_path>
+                    </field>
+                    <field id="identity" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                        <label>Email Sender</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                        <config_path>gdpr/notification/erase_pending_identity</config_path>
+                    </field>
+                    <field id="template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                        <label>Pending Erasure Template</label>
+                        <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <config_path>gdpr/notification/erase_pending_template</config_path>
+                    </field>
+                    <field id="guest_template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
+                        <label>Pending Erasure Template for Guest</label>
+                        <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <config_path>gdpr/notification/erase_pending_guest_template</config_path>
+                    </field>
+                    <field id="copy_to" translate="label comment" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
+                        <label>Send Email Copy To</label>
+                        <comment>Comma-separated</comment>
+                        <config_path>gdpr/notification/erase_pending_copy_to</config_path>
+                    </field>
+                    <field id="copy_method" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
+                        <label>Send Email Copy Method</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Method</source_model>
+                        <config_path>gdpr/notification/erase_pending_copy_method</config_path>
+                    </field>
+                </group>
+                <group id="succeeded" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+                    <label>Succeeded Action</label>
+                    <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>gdpr/notification/erase_succeeded_enabled</config_path>
+                    </field>
+                    <field id="identity" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                        <label>Email Sender</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                        <config_path>gdpr/notification/erase_succeeded_identity</config_path>
+                    </field>
+                    <field id="template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                        <label>Succeeded Erasure Template</label>
+                        <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <config_path>gdpr/notification/erase_succeeded_template</config_path>
+                    </field>
+                    <field id="guest_template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
+                        <label>Succeeded Erasure Template for Guest</label>
+                        <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <config_path>gdpr/notification/erase_succeeded_guest_template</config_path>
+                    </field>
+                    <field id="copy_to" translate="label comment" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
+                        <label>Send Email Copy To</label>
+                        <comment>Comma-separated</comment>
+                        <config_path>gdpr/notification/erase_succeeded_copy_to</config_path>
+                    </field>
+                    <field id="copy_method" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
+                        <label>Send Email Copy Method</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Method</source_model>
+                        <config_path>gdpr/notification/erase_succeeded_copy_method</config_path>
+                    </field>
+                </group>
+                <group id="canceled" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+                    <label>Canceled Action</label>
+                    <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>gdpr/notification/erase_canceled_enabled</config_path>
+                    </field>
+                    <field id="identity" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                        <label>Email Sender</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                        <config_path>gdpr/notification/erase_canceled_identity</config_path>
+                    </field>
+                    <field id="template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                        <label>Canceled Erasure Template</label>
+                        <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <config_path>gdpr/notification/erase_canceled_template</config_path>
+                    </field>
+                    <field id="guest_template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
+                        <label>Canceled Erasure Template for Guest</label>
+                        <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <config_path>gdpr/notification/erase_canceled_guest_template</config_path>
+                    </field>
+                    <field id="copy_to" translate="label comment" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
+                        <label>Send Email Copy To</label>
+                        <comment>Comma-separated</comment>
+                        <config_path>gdpr/notification/erase_canceled_copy_to</config_path>
+                    </field>
+                    <field id="copy_method" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
+                        <label>Send Email Copy Method</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Method</source_model>
+                        <config_path>gdpr/notification/erase_canceled_copy_method</config_path>
+                    </field>
+                </group>
+            </group>
+            <group id="export" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
+                <label>Export Personal Data</label>
+                <group id="pending" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+                    <label>Pending Action</label>
+                    <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>gdpr/notification/export_pending_enabled</config_path>
+                    </field>
+                    <field id="identity" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                        <label>Email Sender</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                        <config_path>gdpr/notification/export_pending_identity</config_path>
+                    </field>
+                    <field id="template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                        <label>Pending Export Template</label>
+                        <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <config_path>gdpr/notification/export_pending_template</config_path>
+                    </field>
+                    <field id="guest_template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
+                        <label>Pending Export Template for Guest</label>
+                        <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <config_path>gdpr/notification/export_pending_guest_template</config_path>
+                    </field>
+                    <field id="copy_to" translate="label comment" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
+                        <label>Send Email Copy To</label>
+                        <comment>Comma-separated</comment>
+                        <config_path>gdpr/notification/export_pending_copy_to</config_path>
+                    </field>
+                    <field id="copy_method" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
+                        <label>Send Email Copy Method</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Method</source_model>
+                        <config_path>gdpr/notification/export_pending_copy_method</config_path>
+                    </field>
+                </group>
+                <group id="ready" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
+                    <label>Ready Action</label>
+                    <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>gdpr/notification/export_ready_enabled</config_path>
+                    </field>
+                    <field id="identity" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                        <label>Email Sender</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                        <config_path>gdpr/notification/export_ready_identity</config_path>
+                    </field>
+                    <field id="template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                        <label>Ready Export Template</label>
+                        <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <config_path>gdpr/notification/export_ready_template</config_path>
+                    </field>
+                    <field id="guest_template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
+                        <label>Ready Export Template for Guest</label>
+                        <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <config_path>gdpr/notification/export_ready_guest_template</config_path>
+                    </field>
+                    <field id="copy_to" translate="label comment" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
+                        <label>Send Email Copy To</label>
+                        <comment>Comma-separated</comment>
+                        <config_path>gdpr/notification/export_ready_copy_to</config_path>
+                    </field>
+                    <field id="copy_method" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
+                        <label>Send Email Copy Method</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Method</source_model>
+                        <config_path>gdpr/notification/export_ready_copy_method</config_path>
+                    </field>
+                </group>
+            </group>
         </group>
-        <group id="erase" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
-            <label>Erase Personal Data</label>
-            <group id="pending" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
-                <label>Pending Action</label>
-                <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
-                    <label>Enabled</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <config_path>gdpr/notification/erase_pending_enabled</config_path>
-                </field>
-                <field id="identity" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
-                    <label>Email Sender</label>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
-                    <config_path>gdpr/notification/erase_pending_identity</config_path>
-                </field>
-                <field id="template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
-                    <label>Pending Erasure Template</label>
-                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
-                    <config_path>gdpr/notification/erase_pending_template</config_path>
-                </field>
-                <field id="guest_template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
-                    <label>Pending Erasure Template for Guest</label>
-                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
-                    <config_path>gdpr/notification/erase_pending_guest_template</config_path>
-                </field>
-                <field id="copy_to" translate="label comment" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
-                    <label>Send Email Copy To</label>
-                    <comment>Comma-separated</comment>
-                    <config_path>gdpr/notification/erase_pending_copy_to</config_path>
-                </field>
-                <field id="copy_method" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
-                    <label>Send Email Copy Method</label>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Method</source_model>
-                    <config_path>gdpr/notification/erase_pending_copy_method</config_path>
-                </field>
-            </group>
-            <group id="succeeded" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
-                <label>Succeeded Action</label>
-                <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
-                    <label>Enabled</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <config_path>gdpr/notification/erase_succeeded_enabled</config_path>
-                </field>
-                <field id="identity" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
-                    <label>Email Sender</label>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
-                    <config_path>gdpr/notification/erase_succeeded_identity</config_path>
-                </field>
-                <field id="template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
-                    <label>Succeeded Erasure Template</label>
-                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
-                    <config_path>gdpr/notification/erase_succeeded_template</config_path>
-                </field>
-                <field id="guest_template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
-                    <label>Succeeded Erasure Template for Guest</label>
-                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
-                    <config_path>gdpr/notification/erase_succeeded_guest_template</config_path>
-                </field>
-                <field id="copy_to" translate="label comment" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
-                    <label>Send Email Copy To</label>
-                    <comment>Comma-separated</comment>
-                    <config_path>gdpr/notification/erase_succeeded_copy_to</config_path>
-                </field>
-                <field id="copy_method" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
-                    <label>Send Email Copy Method</label>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Method</source_model>
-                    <config_path>gdpr/notification/erase_succeeded_copy_method</config_path>
-                </field>
-            </group>
-            <group id="canceled" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
-                <label>Canceled Action</label>
-                <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
-                    <label>Enabled</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <config_path>gdpr/notification/erase_canceled_enabled</config_path>
-                </field>
-                <field id="identity" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
-                    <label>Email Sender</label>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
-                    <config_path>gdpr/notification/erase_canceled_identity</config_path>
-                </field>
-                <field id="template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
-                    <label>Canceled Erasure Template</label>
-                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
-                    <config_path>gdpr/notification/erase_canceled_template</config_path>
-                </field>
-                <field id="guest_template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
-                    <label>Canceled Erasure Template for Guest</label>
-                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
-                    <config_path>gdpr/notification/erase_canceled_guest_template</config_path>
-                </field>
-                <field id="copy_to" translate="label comment" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
-                    <label>Send Email Copy To</label>
-                    <comment>Comma-separated</comment>
-                    <config_path>gdpr/notification/erase_canceled_copy_to</config_path>
-                </field>
-                <field id="copy_method" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
-                    <label>Send Email Copy Method</label>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Method</source_model>
-                    <config_path>gdpr/notification/erase_canceled_copy_method</config_path>
-                </field>
-            </group>
-        </group>
-        <group id="export" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
-            <label>Export Mail Notification</label>
-            <group id="pending" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
-                <label>Pending Action</label>
-                <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
-                    <label>Enabled</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <config_path>gdpr/notification/export_pending_enabled</config_path>
-                </field>
-                <field id="identity" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
-                    <label>Email Sender</label>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
-                    <config_path>gdpr/notification/export_pending_identity</config_path>
-                </field>
-                <field id="template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
-                    <label>Pending Export Template</label>
-                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
-                    <config_path>gdpr/notification/export_pending_template</config_path>
-                </field>
-                <field id="guest_template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
-                    <label>Pending Export Template for Guest</label>
-                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
-                    <config_path>gdpr/notification/export_pending_guest_template</config_path>
-                </field>
-                <field id="copy_to" translate="label comment" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
-                    <label>Send Email Copy To</label>
-                    <comment>Comma-separated</comment>
-                    <config_path>gdpr/notification/export_pending_copy_to</config_path>
-                </field>
-                <field id="copy_method" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
-                    <label>Send Email Copy Method</label>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Method</source_model>
-                    <config_path>gdpr/notification/export_pending_copy_method</config_path>
-                </field>
-            </group>
-            <group id="ready" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
-                <label>Ready Action</label>
-                <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
-                    <label>Enabled</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <config_path>gdpr/notification/export_ready_enabled</config_path>
-                </field>
-                <field id="identity" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
-                    <label>Email Sender</label>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
-                    <config_path>gdpr/notification/export_ready_identity</config_path>
-                </field>
-                <field id="template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
-                    <label>Ready Export Template</label>
-                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
-                    <config_path>gdpr/notification/export_ready_template</config_path>
-                </field>
-                <field id="guest_template" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
-                    <label>Ready Export Template for Guest</label>
-                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
-                    <config_path>gdpr/notification/export_ready_guest_template</config_path>
-                </field>
-                <field id="copy_to" translate="label comment" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
-                    <label>Send Email Copy To</label>
-                    <comment>Comma-separated</comment>
-                    <config_path>gdpr/notification/export_ready_copy_to</config_path>
-                </field>
-                <field id="copy_method" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
-                    <label>Send Email Copy Method</label>
-                    <source_model>Magento\Config\Model\Config\Source\Email\Method</source_model>
-                    <config_path>gdpr/notification/export_ready_copy_method</config_path>
-                </field>
-            </group>
-        </group>
-    </group>
+    </section>
 </include>
