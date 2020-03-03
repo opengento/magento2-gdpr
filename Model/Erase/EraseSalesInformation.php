@@ -51,7 +51,7 @@ final class EraseSalesInformation implements EraseSalesInformationInterface
     public function scheduleEraseEntity(int $entityId, string $entityType, \DateTime $lastActive): EraseEntityInterface
     {
         $dateTime = DateTimeImmutable::createFromMutable($lastActive);
-        $scheduleAt = $dateTime->modify('+' . $this->config->getErasureSalesMaxAge() . + 'days');
+        $scheduleAt = $dateTime->modify('+' . $this->config->getErasureSalesMaxAge() . ' days');
 
         /** @var EraseEntityInterface $eraseEntity */
         $eraseEntity = $this->eraseEntityFactory->create();
