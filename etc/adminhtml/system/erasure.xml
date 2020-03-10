@@ -18,9 +18,9 @@
             </depends>
             <field id="enabled" type="select" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
                 <label>Erasure</label>
+                <comment>It will enable the erase action to the storefront.</comment>
                 <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
                 <config_path>gdpr/erasure/enabled</config_path>
-                <comment>It will enable the erase action to the storefront.</comment>
             </field>
             <field id="block_id" type="select" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
                 <label>Information</label>
