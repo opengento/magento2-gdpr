@@ -15,14 +15,14 @@
             <label>Notification</label>
             <group id="general" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
                 <label>General Settings</label>
-                <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+                <field id="enabled" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
                     <label>Enabled</label>
+                    <comment>It will enable the module features in the admin and frontend ui.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <depends>
                         <field id="gdpr/general/enabled">1</field>
                     </depends>
                     <config_path>gdpr/notification/erase_enabled</config_path>
-                    <comment>It will enable the module features in the admin and frontend ui.</comment>
                 </field>
             </group>
             <group id="erase" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
