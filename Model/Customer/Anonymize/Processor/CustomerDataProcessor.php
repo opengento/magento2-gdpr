@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Customer\Anonymize\Processor;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Model\CustomerRegistry;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -46,6 +47,11 @@ final class CustomerDataProcessor implements ProcessorInterface
     private $searchCriteriaBuilder;
 
     /**
+     * @var CustomerRegistry
+     */
+    private $customerRegistry;
+
+    /**
      * @var Config
      */
     private $config;
@@ -56,6 +62,7 @@ final class CustomerDataProcessor implements ProcessorInterface
         CustomerRepositoryInterface $customerRepository,
         OrderRepositoryInterface $orderRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
+        CustomerRegistry $customerRegistry,
         Config $config
     ) {
         $this->anonymizer = $anonymizer;
@@ -63,6 +70,7 @@ final class CustomerDataProcessor implements ProcessorInterface
         $this->customerRepository = $customerRepository;
         $this->orderRepository = $orderRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->customerRegistry = $customerRegistry;
         $this->config = $config;
     }
 
@@ -83,6 +91,11 @@ final class CustomerDataProcessor implements ProcessorInterface
                     return true;
                 }
             }
+
+            // Make sure, we don't work with cached customer data, because
+            // saving cached customers may "de-anonymize" related data
+            // like addresses
+            $this->customerRegistry->remove($customerId);
 
             $this->accountBlocker->invalid($customerId);
             $this->customerRepository->save(
