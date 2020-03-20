@@ -21,8 +21,6 @@ use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Config;
-use function get_class;
-use function var_dump;
 
 class Download extends AbstractPrivacy implements HttpGetActionInterface
 {

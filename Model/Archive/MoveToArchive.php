@@ -37,11 +37,12 @@ final class MoveToArchive
     /**
      * @param string $source
      * @param string $destination
+     * @param bool $remove [optional] Remove the source files from the file system.
      * @return string
      * @throws FileSystemException
      * @throws NotFoundException
      */
-    public function prepareArchive(string $source, string $destination): string
+    public function prepareArchive(string $source, string $destination, bool $remove = true): string
     {
         $tmpWrite = $this->filesystem->getDirectoryWrite(DirectoryList::TMP);
         $fileDriver = $tmpWrite->getDriver();
@@ -51,7 +52,10 @@ final class MoveToArchive
         }
 
         $archive = $this->archive->pack($source, $tmpWrite->getAbsolutePath($destination));
-        $fileDriver->deleteFile($source);
+
+        if ($remove) {
+            $fileDriver->deleteFile($source);
+        }
 
         return $archive;
     }
