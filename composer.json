@@ -40,6 +40,12 @@
             "email": "opengento@gmail.com",
             "homepage": "https://opengento.fr/",
             "role": "lead"
+        },
+        {
+            "name": "Thomas Klein",
+            "email": "thomaskein876@gmail.com",
+            "homepage": "https://www.linkedin.com/in/thomas-klein/",
+            "role": "maintainer"
         }
     ],
     "support": {
