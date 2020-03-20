@@ -64,7 +64,6 @@ class Download extends AbstractGuest implements HttpGetActionInterface
                 [
                     'type' => 'filename',
                     'value' => $this->exportRepository->getByEntity((int) $order->getEntityId(), 'order')->getFilePath(),
-                    'rm' => true,
                 ],
                 DirectoryList::TMP
             );

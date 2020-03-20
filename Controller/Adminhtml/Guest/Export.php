@@ -73,7 +73,6 @@ class Export extends AbstractAction
                 [
                     'type' => 'filename',
                     'value' => $exportEntity->getFilePath(),
-                    'rm' => true,
                 ],
                 DirectoryList::TMP
             );

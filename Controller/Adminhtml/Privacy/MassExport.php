@@ -78,7 +78,7 @@ class MassExport extends AbstractMassAction
                 $result = $this->action->execute($this->actionContextBuilder->create())->getResult();
                 /** @var ExportEntityInterface $exportEntity */
                 $exportEntity = $result[ExportArgumentReader::EXPORT_ENTITY];
-                $this->moveToArchive->prepareArchive($exportEntity->getFilePath(), $archiveFileName);
+                $this->moveToArchive->prepareArchive($exportEntity->getFilePath(), $archiveFileName, false);
             }
 
             return $this->fileFactory->create(

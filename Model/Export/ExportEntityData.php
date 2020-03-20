@@ -11,6 +11,7 @@ use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
@@ -46,16 +47,16 @@ final class ExportEntityData
     }
 
     /**
-     * Export the entity to a file
+     * Export the entity
      *
      * @param int $entityId
      * @param string $entityType
-     * @return string
+     * @return ExportEntityInterface
      * @throws AlreadyExistsException
      * @throws CouldNotSaveException
      * @throws LocalizedException
      */
-    public function export(int $entityId, string $entityType): string
+    public function export(int $entityId, string $entityType): ExportEntityInterface
     {
         try {
             $exportEntity = $this->exportEntityRepository->getByEntity($entityId, $entityType);
@@ -64,7 +65,7 @@ final class ExportEntityData
         }
 
         return $this->exportEntityChecker->isExported($entityId, $entityType)
-            ? $exportEntity->getFilePath()
+            ? $exportEntity
             : $this->exportEntityManagement->export($exportEntity);
     }
 }
