@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller;
 
-abstract class AbstractPrivacy extends AbstractAction
+use Magento\Customer\Controller\AccountInterface;
+
+abstract class AbstractPrivacy extends AbstractAction implements AccountInterface
 {
 }
