@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller;
 
+use Magento\Customer\Controller\AccountInterface;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ResponseInterface;
@@ -16,7 +17,7 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\NotFoundException;
 use Opengento\Gdpr\Model\Config;
 
-abstract class AbstractAction extends Action
+abstract class AbstractAction extends Action implements AccountInterface
 {
     /**
      * @var Config
