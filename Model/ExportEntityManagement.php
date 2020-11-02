@@ -7,10 +7,13 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model;
 
+use DateTime;
 use Exception;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Phrase;
-use Magento\Framework\Stdlib\DateTime;
+use Magento\Framework\Stdlib\DateTime as DateTimeFormat;
+use Magento\Store\Model\ScopeInterface;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Api\Data\ExportEntityInterfaceFactory;
 use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
@@ -20,6 +23,9 @@ use Opengento\Gdpr\Model\Export\ExportToFile;
 
 final class ExportEntityManagement implements ExportEntityManagementInterface
 {
+    private const CONFIG_PATH_EXPORT_FILE_NAME = 'gdpr/export/file_name';
+    private const CONFIG_PATH_EXPORT_LIFE_TIME = 'gdpr/export/life_time';
+
     /**
      * @var ExportEntityInterfaceFactory
      */
@@ -41,22 +47,22 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
     private $exportToFile;
 
     /**
-     * @var Config
+     * @var ScopeConfigInterface
      */
-    private $config;
+    private $scopeConfig;
 
     public function __construct(
         ExportEntityInterfaceFactory $exportEntityFactory,
         ExportEntityRepositoryInterface $exportEntityRepository,
         ExportEntityCheckerInterface $exportEntityChecker,
         ExportToFile $exportToFile,
-        Config $config
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->exportEntityFactory = $exportEntityFactory;
         $this->exportEntityRepository = $exportEntityRepository;
         $this->exportEntityChecker = $exportEntityChecker;
         $this->exportToFile = $exportToFile;
-        $this->config = $config;
+        $this->scopeConfig = $scopeConfig;
     }
 
     public function create(int $entityId, string $entityType, ?string $fileName = null): ExportEntityInterface
@@ -74,7 +80,7 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
         $exportEntity = $this->exportEntityFactory->create();
         $exportEntity->setEntityId($entityId);
         $exportEntity->setEntityType($entityType);
-        $exportEntity->setFileName($fileName ?? $this->config->getExportFileName());
+        $exportEntity->setFileName($fileName ?? $this->resolveDefaultFileName());
         $exportEntity = $this->exportEntityRepository->save($exportEntity);
 
         return $exportEntity;
@@ -86,13 +92,19 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
      */
     public function export(ExportEntityInterface $exportEntity): ExportEntityInterface
     {
+        $lifeTime = (int) $this->scopeConfig->getValue(self::CONFIG_PATH_EXPORT_LIFE_TIME, ScopeInterface::SCOPE_STORE);
         $exportEntity->setFilePath($this->exportToFile->export($exportEntity));
         $exportEntity->setExpiredAt(
-            (new \DateTime('+' . $this->config->getExportLifetime() . 'minutes'))->format(DateTime::DATETIME_PHP_FORMAT)
+            (new DateTime('+' . $lifeTime . 'minutes'))->format(DateTimeFormat::DATETIME_PHP_FORMAT)
         );
-        $exportEntity->setExportedAt((new \DateTime())->format(DateTime::DATETIME_PHP_FORMAT));
+        $exportEntity->setExportedAt((new DateTime())->format(DateTimeFormat::DATETIME_PHP_FORMAT));
         $this->exportEntityRepository->save($exportEntity);
 
         return $exportEntity;
+    }
+
+    private function resolveDefaultFileName(): string
+    {
+        return (string) $this->scopeConfig->getValue(self::CONFIG_PATH_EXPORT_FILE_NAME, ScopeInterface::SCOPE_STORE);
     }
 }

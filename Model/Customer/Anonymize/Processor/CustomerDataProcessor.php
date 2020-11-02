@@ -10,17 +10,20 @@ namespace Opengento\Gdpr\Model\Customer\Anonymize\Processor;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
-use Opengento\Gdpr\Model\Config;
+use Magento\Store\Model\ScopeInterface;
 use Opengento\Gdpr\Model\Customer\Anonymize\AccountBlocker;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
 final class CustomerDataProcessor implements ProcessorInterface
 {
+    private const CONFIG_PATH_ERASURE_REMOVE_CUSTOMER = 'gdpr/erasure/remove_customer';
+
     /**
      * @var AnonymizerInterface
      */
@@ -52,9 +55,9 @@ final class CustomerDataProcessor implements ProcessorInterface
     private $customerRegistry;
 
     /**
-     * @var Config
+     * @var ScopeConfigInterface
      */
-    private $config;
+    private $scopeConfig;
 
     public function __construct(
         AnonymizerInterface $anonymizer,
@@ -63,7 +66,7 @@ final class CustomerDataProcessor implements ProcessorInterface
         OrderRepositoryInterface $orderRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         CustomerRegistry $customerRegistry,
-        Config $config
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->anonymizer = $anonymizer;
         $this->accountBlocker = $accountBlocker;
@@ -71,7 +74,7 @@ final class CustomerDataProcessor implements ProcessorInterface
         $this->orderRepository = $orderRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->customerRegistry = $customerRegistry;
-        $this->config = $config;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -80,15 +83,14 @@ final class CustomerDataProcessor implements ProcessorInterface
      */
     public function execute(int $customerId): bool
     {
+        $isRemoved = false;
         try {
-            if ($this->config->isCustomerRemovedNoOrders()) {
+            if ($this->shouldRemoveCustomerWithoutOrders()) {
                 $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
                 $orderList = $this->orderRepository->getList($this->searchCriteriaBuilder->create());
 
                 if (!$orderList->getTotalCount()) {
-                    $this->customerRepository->deleteById($customerId);
-
-                    return true;
+                    $isRemoved = $this->customerRepository->deleteById($customerId);
                 }
             }
 
@@ -97,14 +99,25 @@ final class CustomerDataProcessor implements ProcessorInterface
             // like addresses
             $this->customerRegistry->remove($customerId);
 
-            $this->accountBlocker->invalid($customerId);
-            $this->customerRepository->save(
-                $this->anonymizer->anonymize($this->customerRepository->getById($customerId))
-            );
+            if (!$isRemoved) {
+                $this->accountBlocker->invalid($customerId);
+                $this->customerRepository->save(
+                    $this->anonymizer->anonymize($this->customerRepository->getById($customerId))
+                );
+            }
+
         } catch (NoSuchEntityException $e) {
             return false;
         }
 
         return true;
+    }
+
+    private function shouldRemoveCustomerWithoutOrders(): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_ERASURE_REMOVE_CUSTOMER,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 }

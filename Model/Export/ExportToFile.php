@@ -7,18 +7,22 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Export;
 
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Exception\NotFoundException;
+use Magento\Store\Model\ScopeInterface;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Model\Archive\MoveToArchive;
-use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Service\Export\ProcessorFactory;
 use Opengento\Gdpr\Service\Export\RendererFactory;
+use function explode;
 use function sha1;
 use const DIRECTORY_SEPARATOR;
 
 final class ExportToFile
 {
+    private const CONFIG_PATH_EXPORT_RENDERERS = 'gdpr/export/renderers';
+
     /**
      * @var ProcessorFactory
      */
@@ -35,20 +39,20 @@ final class ExportToFile
     private $archive;
 
     /**
-     * @var Config
+     * @var ScopeConfigInterface
      */
-    private $config;
+    private $scopeConfig;
 
     public function __construct(
         ProcessorFactory $exportProcessorFactory,
         RendererFactory $exportRendererFactory,
         MoveToArchive $archive,
-        Config $config
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->exportProcessorFactory = $exportProcessorFactory;
         $this->exportRendererFactory = $exportRendererFactory;
         $this->archive = $archive;
-        $this->config = $config;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -62,7 +66,7 @@ final class ExportToFile
         $exporter = $this->exportProcessorFactory->get($exportEntity->getEntityType());
         $fileName = $this->prepareFileName($exportEntity);
         $data = $exporter->execute($exportEntity->getEntityId(), []);
-        foreach ($this->config->getExportRendererCodes() as $rendererCode) {
+        foreach ($this->resolveExportRendererCodes() as $rendererCode) {
             $filePath = $this->archive->prepareArchive(
                 $this->exportRendererFactory->get($rendererCode)->saveData($fileName, $data),
                 $fileName . '.zip'
@@ -70,6 +74,14 @@ final class ExportToFile
         }
 
         return $filePath ?? null;
+    }
+
+    public function resolveExportRendererCodes(): array
+    {
+        return explode(',', (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_EXPORT_RENDERERS,
+            ScopeInterface::SCOPE_STORE
+        ));
     }
 
     private function prepareFileName(ExportEntityInterface $exportEntity): string

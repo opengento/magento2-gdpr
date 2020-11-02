@@ -19,7 +19,7 @@ final class SmartProcessor implements EntityValueProcessorInterface
     /**
      * @var DocumentInterface
      */
-    public $document;
+    private $document;
 
     /**
      * @var MetadataInterface

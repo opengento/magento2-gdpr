@@ -8,16 +8,20 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\ViewModel\Customer\Privacy;
 
 use Magento\Cms\Block\Block;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\Element\BlockFactory;
+use Magento\Store\Model\ScopeInterface;
 use Opengento\Gdpr\Model\Config;
 
 final class ExportDataProvider implements ArgumentInterface
 {
+    private const CONFIG_PATH_EXPORT_INFORMATION_BLOCK = 'gdpr/export/block_id';
+
     /**
-     * @var Config
+     * @var ScopeConfigInterface
      */
-    private $config;
+    private $scopeConfig;
 
     /**
      * @var BlockFactory
@@ -25,24 +29,26 @@ final class ExportDataProvider implements ArgumentInterface
     private $blockFactory;
 
     /**
-     * @var null|string
+     * @var string|null
      */
     private $exportInformation;
 
     public function __construct(
-        Config $config,
+        ScopeConfigInterface $scopeConfig,
         BlockFactory $blockFactory
     ) {
-        $this->config = $config;
+        $this->scopeConfig = $scopeConfig;
         $this->blockFactory = $blockFactory;
     }
 
     public function getExportInformationHtml(): string
     {
-        return $this->exportInformation ??
-            $this->exportInformation = $this->blockFactory->createBlock(
-                Block::class,
-                ['data' => ['block_id' => $this->config->getExportInformationBlockId()]]
-            )->toHtml();
+        return $this->exportInformation ?? $this->exportInformation = $this->blockFactory->createBlock(
+            Block::class,
+            ['data' => ['block_id' => (string) $this->scopeConfig->getValue(
+                self::CONFIG_PATH_EXPORT_INFORMATION_BLOCK,
+                ScopeInterface::SCOPE_STORE
+            )]]
+        )->toHtml();
     }
 }
