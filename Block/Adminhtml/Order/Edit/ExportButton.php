@@ -41,7 +41,7 @@ class ExportButton extends AbstractBlock
 
         if ($this->_authorization->isAllowed('Opengento_Gdpr::order_export')) {
             $orderView->addButton(
-                'order-view-export-button',
+                'opengento-gdpr-order-view-export-button',
                 [
                     'label' => new Phrase('Export Personal Data'),
                     'class' => 'export',

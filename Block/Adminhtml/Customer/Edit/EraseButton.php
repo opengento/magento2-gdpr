@@ -50,7 +50,7 @@ final class EraseButton extends GenericButton implements ButtonProviderInterface
             $buttonData = [
                 'label' => new Phrase('Erase Personal Data'),
                 'class' => 'erase',
-                'id' => 'customer-edit-erase-button',
+                'id' => 'opengento-gdpr-customer-edit-erase-button',
                 'on_click' => 'deleteConfirm("' . new Phrase('Are you sure you want to do this?') . '", '
                     . '"' . $this->getUrl('customer/privacy/erase', ['id' => $customerId]) . '", {"data": {}})',
                 'sort_order' => 15,

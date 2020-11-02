@@ -39,7 +39,7 @@ final class ExportButton extends GenericButton implements ButtonProviderInterfac
             $buttonData = [
                 'label' => new Phrase('Export Personal Data'),
                 'class' => 'Export',
-                'id' => 'customer-edit-export-button',
+                'id' => 'opengento-gdpr-customer-edit-export-button',
                 'on_click' => 'deleteConfirm("' . new Phrase('Are you sure you want to do this?') . '", '
                     . '"' . $this->getUrl('customer/privacy/export', ['id' => $customerId]) . '", {"data": {}})',
                 'sort_order' => 15,
