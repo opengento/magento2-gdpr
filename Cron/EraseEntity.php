@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Cron;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
 use Magento\Framework\Stdlib\DateTime\DateTime;
@@ -94,7 +95,10 @@ final class EraseEntity
         }
     }
 
-    private function retrieveEraseEntityList(): EraseEntitySearchResultsInterface
+    /**
+     * @return EraseEntitySearchResultsInterface
+     */
+    private function retrieveEraseEntityList(): SearchResultsInterface
     {
         $this->searchCriteriaBuilder->addFilter(
             EraseEntityInterface::SCHEDULED_AT,
