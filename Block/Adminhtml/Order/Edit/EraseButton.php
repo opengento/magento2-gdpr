@@ -54,7 +54,7 @@ class EraseButton extends AbstractBlock
             $eraseUrl = $this->getUrl('sales/guest/erase', ['id' => $orderId]);
 
             $orderView->addButton(
-                'order-view-erase-button',
+                'opengento-gdpr-order-view-erase-button',
                 [
                     'label' => new Phrase('Erase Personal Data'),
                     'class' => 'action-secondary erase',
