@@ -8,11 +8,13 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model;
 
 use Exception;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Framework\Stdlib\DateTime as DateTimeFormat;
 use Magento\Framework\Stdlib\DateTime\DateTime;
+use Magento\Store\Model\ScopeInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
@@ -21,6 +23,8 @@ use Opengento\Gdpr\Service\Erase\ProcessorFactory;
 
 final class EraseEntityManagement implements EraseEntityManagementInterface
 {
+    private const CONFIG_PATH_ERASURE_DELAY = 'gdpr/erasure/delay';
+
     /**
      * @var EraseEntityInterfaceFactory
      */
@@ -37,9 +41,9 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
     private $eraseProcessorFactory;
 
     /**
-     * @var Config
+     * @var ScopeConfigInterface
      */
-    private $config;
+    private $scopeConfig;
 
     /**
      * @var DateTime
@@ -50,13 +54,13 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
         EraseEntityInterfaceFactory $eraseEntityFactory,
         EraseEntityRepositoryInterface $eraseEntityRepository,
         ProcessorFactory $eraseProcessorFactory,
-        Config $config,
+        ScopeConfigInterface $scopeConfig,
         DateTime $localeDate
     ) {
         $this->eraseEntityFactory = $eraseEntityFactory;
         $this->eraseEntityRepository = $eraseEntityRepository;
         $this->eraseProcessorFactory = $eraseProcessorFactory;
-        $this->config = $config;
+        $this->scopeConfig = $scopeConfig;
         $this->localeDate = $localeDate;
     }
 
@@ -131,7 +135,12 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
     {
         return $this->localeDate->gmtDate(
             DateTimeFormat::DATETIME_PHP_FORMAT,
-            $this->config->getErasureDelay() * 60 + $this->localeDate->gmtTimestamp()
+            $this->resolveErasureDelay() * 60 + $this->localeDate->gmtTimestamp()
         );
+    }
+
+    public function resolveErasureDelay(): int
+    {
+        return (int) $this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_DELAY, ScopeInterface::SCOPE_STORE);
     }
 }

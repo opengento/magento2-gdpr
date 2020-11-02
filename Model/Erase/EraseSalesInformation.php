@@ -9,16 +9,19 @@ namespace Opengento\Gdpr\Model\Erase;
 
 use DateTimeImmutable;
 use Exception;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Stdlib\DateTime;
+use Magento\Store\Model\ScopeInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory;
 use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Opengento\Gdpr\Api\EraseSalesInformationInterface;
-use Opengento\Gdpr\Model\Config;
 
 final class EraseSalesInformation implements EraseSalesInformationInterface
 {
+    private const CONFIG_PATH_ERASURE_SALES_MAX_AGE = 'gdpr/erasure/sales_max_age';
+
     /**
      * @var EraseEntityInterfaceFactory
      */
@@ -30,18 +33,18 @@ final class EraseSalesInformation implements EraseSalesInformationInterface
     private $eraseEntityRepository;
 
     /**
-     * @var Config
+     * @var ScopeConfigInterface
      */
-    private $config;
+    private $scopeConfig;
 
     public function __construct(
         EraseEntityInterfaceFactory $eraseEntityFactory,
         EraseEntityRepositoryInterface $eraseEntityRepository,
-        Config $config
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->eraseEntityFactory = $eraseEntityFactory;
         $this->eraseEntityRepository = $eraseEntityRepository;
-        $this->config = $config;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -51,7 +54,7 @@ final class EraseSalesInformation implements EraseSalesInformationInterface
     public function scheduleEraseEntity(int $entityId, string $entityType, \DateTime $lastActive): EraseEntityInterface
     {
         $dateTime = DateTimeImmutable::createFromMutable($lastActive);
-        $scheduleAt = $dateTime->modify('+' . $this->config->getErasureSalesMaxAge() . ' days');
+        $scheduleAt = $dateTime->modify('+' . $this->resolveErasureSalesMaxAge() . ' days');
 
         /** @var EraseEntityInterface $eraseEntity */
         $eraseEntity = $this->eraseEntityFactory->create();
@@ -72,6 +75,11 @@ final class EraseSalesInformation implements EraseSalesInformationInterface
      */
     public function isAlive(\DateTime $dateTime): bool
     {
-        return $dateTime > new \DateTime('-' . $this->config->getErasureSalesMaxAge() . 'days');
+        return $dateTime > new \DateTime('-' . $this->resolveErasureSalesMaxAge() . 'days');
+    }
+
+    private function resolveErasureSalesMaxAge(): int
+    {
+        return (int) $this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_SALES_MAX_AGE, ScopeInterface::SCOPE_STORE);
     }
 }

@@ -18,7 +18,7 @@ final class Processor implements EntityValueProcessorInterface
     /**
      * @var DocumentInterface
      */
-    public $document;
+    private $document;
 
     /**
      * @var MetadataInterface
