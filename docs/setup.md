@@ -12,10 +12,17 @@
 
 ___
 
+ - [Index](/magento2-gdpr/)
+ - [Index](/magento2-gdpr/features)
+ - [Setup](/magento2-gdpr/setup)
+
+---
+
 Magento 2 Open Source or Commerce edition is required.
 
 | Source Tag Version | Magento Version|
 | :---               | :---           |
+| 4.x                | 2.4.x          |
 | 3.x                | 2.3.x          |
 | 2.x[^deprVersion]  | 2.2.x          |
 | 1.x[^deprVersion]  | 2.1.x          |
@@ -46,8 +53,3 @@ bin/magento setup:upgrade [--keep-generated]
 ```
 
 **If you are in production mode, do not forget to recompile and redeploy the static resources.**
-
-### What's next?
-
-You should refer to the [user-guide](/magento2-gdpr/user-guide/) and learn how to configure and enable the module.  
-You could also check the [developer guide](/magento2-gdpr/developer-guide/) for documentation and customization purposes.
