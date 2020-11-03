@@ -1,7 +1,5 @@
 # ToDo
 
-- User Guide / Publish / Marketplace
-
 ## Processors
 
 Area:
@@ -39,41 +37,6 @@ Area:
 - Complete developer guide
 - Attributes, Custom Attributes, Extensible Data
 
-## Split
-
-- API (OK)
-- GDPR (api implementation) (OK)
-- Erase (OK)
-  - Logged In Customer (OK)
-    - Customer (OK)
-    - Customer Address (OK)
-    - Order (OK)
-    - Quote (OK)
-    - Subscriber (OK)
-  - Guest (OK)
-    - Customer (OK)
-    - Customer Address (OK)
-    - Order (OK)
-    - Quote (OK)
-    - Subscriber (OK)
-- Export (OK)
-  - Logged In Customer (OK)
-    - Customer (OK)
-    - Customer Address (OK)
-    - Order (OK)
-    - Quote (OK)
-    - Subscriber (OK)
-  - Guest (OK)
-    - Customer (OK)
-    - Customer Address (OK)
-    - Order (OK)
-    - Quote (OK)
-    - Subscriber (OK)
-- Admin UI (OK)
-- Frontend UI (OK)
-- Console (OK)
-- Notifier (OK)
-
 ## Notification
 
 notify customer from its requests
@@ -83,7 +46,3 @@ notify customer from its requests
 ## yu
 
 https://github.com/magento/architecture/pull/145/files
-
-## Improvements
-
-Only one anonymization configuration grid: entity type | attribute code | anonymizer
