@@ -1,45 +1,29 @@
 # GDPR Module for Magento 2
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/opengento/module-gdpr.svg?style=flat-square)](https://packagist.org/packages/opengento/module-gdpr)
-[![License: MIT](https://img.shields.io/github/license/opengento/magento2-gdpr.svg?style=flat-square)](./LICENSE) 
-[![Packagist](https://img.shields.io/packagist/dt/opengento/module-gdpr.svg?style=flat-square)](https://packagist.org/packages/opengento/module-gdpr/stats)
-[![Packagist](https://img.shields.io/packagist/dm/opengento/module-gdpr.svg?style=flat-square)](https://packagist.org/packages/opengento/module-gdpr/stats)
+[![License: MIT](https://img.shields.io/github/license/opengento/magento2-gdpr.svg?style=flat-square)](./LICENSE)
 
-This extension fullfill the GDPR requirements for Magento 2.
+[![Packagist](https://img.shields.io/packagist/dt/opengento/module-gdpr.svg?style=flat-square)](https://packagist.org/packages/opengento/module-gdpr)
+[![Packagist](https://img.shields.io/packagist/dm/opengento/module-gdpr.svg?style=flat-square)](https://packagist.org/packages/opengento/module-gdpr)
 
- - [Setup](#setup)
-   - [Composer installation](#composer-installation)
-   - [Setup the module](#setup-the-module)
- - [Features](#features)
- - [Settings](#settings)
- - [Documentation](#documentation)
+[![GitHub forks](https://img.shields.io/github/forks/opengento/magento2-gdpr.svg?style=social)](https://github.com/opengento/magento2-gdpr/network/members)
+[![GitHub stars](https://img.shields.io/github/stars/opengento/magento2-gdpr.svg?style=social)](https://github.com/opengento/magento2-gdpr/stargazers)
+[![GitHub watchers](https://img.shields.io/github/watchers/opengento/magento2-gdpr.svg?style=social)](https://github.com/opengento/magento2-gdpr/watchers)
+
+___
+
+This module aims to set Magento 2 GDPR ready and compliant.  
+It allows the customers to delete, and/or anonymize, and/or export their personal data.
+
+ - [GDPR Compliance Scope](#gdpr-compliance-scope)
+ - [Setup](/magento2-gdpr/setup)
+ - [Features](/magento2-gdpr/features)
+ - [Community](#community)
+   - [Authors & Contributors](#authors-&-contributors)
+   - [Similar Magento 2 GDPR Module](#similar-magento-2-gdpr-module)
  - [Support](#support)
- - [Authors](#authors)
- - [License](#license)
 
-## Setup
-
-Magento 2 Open Source or Commerce edition is required.
-
-###  Composer installation
-
-Run the following composer command:
-
-```
-composer require opengento/module-gdpr
-```
-
-### Setup the module
-
-Run the following magento command:
-
-```
-bin/magento setup:upgrade
-```
-
-**If you are in production mode, do not forget to recompile and redeploy the static resources.**
-
-## Features
+## GDPR Compliance Scope
 
 Users, guest and customer can:
 
@@ -83,17 +67,33 @@ Details:
 - [ ] Notify the user when a GDPR action is performed, configure the template and sending settings.
 - [ ] Display the cookie disclosure pop-in and edit its content as you want.
 
+## Community
+
+This module could not exists without you (and the GDPR law).
+
+### Authors & Contributors
+
+- **Opengento Community** - *Lead* - [![Twitter Follow](https://img.shields.io/twitter/follow/opengento.svg?style=social)](https://twitter.com/opengento)
+- **Thomas Klein** - *Maintainer* - [![GitHub followers](https://img.shields.io/github/followers/thomas-kl1.svg?style=social)](https://github.com/thomas-kl1)
+- **Contributors** - *Contributor* - [![GitHub contributors](https://img.shields.io/github/contributors/opengento/magento2-gdpr.svg?style=flat-square)](https://github.com/opengento/magento2-gdpr/graphs/contributors)
+
+### Similar Magento 2 GDPR Module
+
+- https://github.com/mageplaza/magento-2-gdpr
+- https://github.com/staempfli/magento2-module-gdpr
+- https://github.com/flurrybox/enhanced-privacy
+
 ## Settings
 
-The configuration for this module is available in 'Stores > Configuration > Customers > Customer Configuration > Privacy (GDPR)'.  
-
-## Documentation
-
-The documentation is available [here](https://opengento.fr/magento2-gdpr/).
+The configuration for this module is available in 'Stores > Configuration > GDPR Compliance'.  
 
 ## Support
 
-Raise a new [request](https://github.com/opengento/magento2-gdpr/issues) to the issue tracker.
+[![GitHub issues](https://img.shields.io/github/issues-raw/opengento/magento2-gdpr.svg?style=flat-square)](https://github.com/opengento/magento2-gdpr/issues)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/opengento/magento2-gdpr.svg?style=flat-square)](https://github.com/opengento/magento2-gdpr/issues?q=is%3Aissue+is%3Aclosed)
+
+Raise a new [request](https://github.com/opengento/magento2-gdpr/issues) to the issue tracker.  
+Please provide your Magento 2 version and the module version. Explain how to reproduce your issue and what's expected.
 
 ## Authors
 
