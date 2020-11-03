@@ -12,7 +12,6 @@ use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 
 /**
  * @api
- * @todo should be internal? No use case of external usage.
  */
 interface EraseSalesInformationInterface
 {

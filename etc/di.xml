@@ -31,7 +31,6 @@
             <argument name="eraseEntityManagement" xsi:type="object">Opengento\Gdpr\Model\EraseEntityManagement</argument>
         </arguments>
     </type>
-    <!-- todo check remove from SC API: prefer internal -->
     <preference for="Opengento\Gdpr\Api\EraseSalesInformationInterface" type="Opengento\Gdpr\Model\Erase\EraseSalesInformation"/>
     <!-- Export Entity Service Contract -->
     <preference for="Opengento\Gdpr\Api\Data\ExportEntityInterface" type="Opengento\Gdpr\Model\ExportEntity"/>

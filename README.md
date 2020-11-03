@@ -85,7 +85,7 @@ Details:
 
 ## Settings
 
-The configuration for this module is available in 'Stores > Configuration > Customers > Customer Configuration > Privacy (GDPR)'.  
+The configuration for this module is available in 'Stores > Configuration > GDPR Compliance'.  
 
 ## Documentation
 

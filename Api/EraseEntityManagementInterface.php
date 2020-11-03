@@ -38,8 +38,6 @@ interface EraseEntityManagementInterface
      * @throws NoSuchEntityException
      * @throws CouldNotDeleteException
      * @throws LocalizedException
-     *
-     * @todo should not be responsible of the deletion (cancel != delete)
      */
     public function cancel(int $entityId, string $entityType): bool;
 

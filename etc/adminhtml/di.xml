@@ -18,12 +18,12 @@
     </type>
     <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\Erase">
         <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</argument><!-- todo use secure eraser -->
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</argument>
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Controller\Adminhtml\Guest\Erase">
         <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</argument><!-- todo use secure eraser -->
+            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</argument>
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\MassErase">

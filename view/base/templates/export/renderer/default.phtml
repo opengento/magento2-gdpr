@@ -5,6 +5,7 @@
  */
 
 /** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
 
 /** @var \Magento\Framework\View\Element\RendererList $rendererList */
 $rendererList = $block->getChildBlock('exportRenderer');
@@ -13,15 +14,15 @@ $rendererList = $block->getChildBlock('exportRenderer');
 $viewModel = $block->getData('viewModel');
 ?>
 <?php foreach ($viewModel->toArray() as $key => $value): ?>
-    <div class="fieldset info export-data-<?= $block->escapeHtmlAttr($key) ?>">
-        <div class="legend"><span><?= $block->escapeHtml($key) ?></span></div>
-        <div class="field field-<?= $block->escapeHtmlAttr($key) ?>">
+    <div class="fieldset info export-data-<?= $escaper->escapeHtmlAttr($key) ?>">
+        <div class="legend"><span><?= $escaper->escapeHtml($key) ?></span></div>
+        <div class="field field-<?= $escaper->escapeHtmlAttr($key) ?>">
             <?php if (is_array($value)): ?>
                 <pre>
                     <?= print_r($value, true) ?>
                 </pre>
             <?php elseif ($value): ?>
-                <p><?= $block->escapeHtml($value) ?></p>
+                <p><?= $escaper->escapeHtml($value) ?></p>
             <?php endif; ?>
         </div>
     </div>

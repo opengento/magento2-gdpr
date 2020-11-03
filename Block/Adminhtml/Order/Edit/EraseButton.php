@@ -26,11 +26,6 @@ class EraseButton extends AbstractBlock
         EraseEntityCheckerInterface $eraseEntityChecker,
         array $data = []
     ) {
-        /**
-         * @todo remove this line
-         * @link https://github.com/magento/magento2/pull/23576/
-         */
-        $this->_authorization = $context->getAuthorization();
         $this->eraseEntityChecker = $eraseEntityChecker;
         parent::__construct($context, $data);
     }

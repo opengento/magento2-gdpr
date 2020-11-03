@@ -7,8 +7,9 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Guest;
 
+use Exception;
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
@@ -21,7 +22,7 @@ use Opengento\Gdpr\Model\Action\ArgumentReader;
 use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Config;
 
-class Erase extends AbstractGuest implements HttpGetActionInterface //todo should be post action
+class Erase extends AbstractGuest implements HttpPostActionInterface
 {
     /**
      * @var ActionInterface
@@ -67,7 +68,7 @@ class Erase extends AbstractGuest implements HttpGetActionInterface //todo shoul
             $this->messageManager->addWarningMessage(new Phrase('Your personal data is being removed soon.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }
 

@@ -5,25 +5,26 @@
  */
 
 /** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
 
 /** @var \Opengento\Gdpr\ViewModel\Customer\Privacy\SettingsDataProvider $settingsDataProvider */
 $settingsDataProvider = $block->getData('settingsDataProvider');
 ?>
 <form class="form form-edit-account"
-      action="<?= $block->escapeUrl($block->getData('eraseActionUrl')) ?>"
+      action="<?= $escaper->escapeUrl($block->getData('eraseActionUrl')) ?>"
       method="post"
       id="form-validate"
-      data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+      data-hasrequired="<?= $escaper->escapeHtmlAttr(__('* Required Fields')) ?>"
       autocomplete="off"
       novalidate="novalidate">
     <fieldset class="fieldset" data-container="erase-account">
         <?= $block->getBlockHtml('formkey') ?>
         <legend class="legend">
-            <span><?= $block->escapeHtml(__('Confirm password to continue')) ?></span>
+            <span><?= $escaper->escapeHtml(__('Confirm password to continue')) ?></span>
         </legend>
         <div class="field password current required">
             <label class="label" for="password">
-                <span><?= $block->escapeHtml(__('Password')) ?></span>
+                <span><?= $escaper->escapeHtml(__('Password')) ?></span>
             </label>
             <div class="control">
                 <input type="password" class="input-text" name="password" id="password" data-validate="{required:true}" autocomplete="off"/>
@@ -31,13 +32,13 @@ $settingsDataProvider = $block->getData('settingsDataProvider');
         </div>
         <div class="actions-toolbar">
             <div class="primary">
-                <button type="submit" class="action submit primary primary-danger" id="erase" title="<?= $block->escapeHtmlAttr(__('Erase Account')) ?>">
-                    <span><?= $block->escapeHtml(__('Erase Personal Data')) ?></span>
+                <button type="submit" class="action submit primary primary-danger" id="erase" title="<?= $escaper->escapeHtmlAttr(__('Erase Account')) ?>">
+                    <span><?= $escaper->escapeHtml(__('Erase Personal Data')) ?></span>
                 </button>
             </div>
             <div class="secondary">
-                <a class="action back" href="<?= $block->escapeUrl($block->getData('backUrl')) ?>">
-                    <span><?= $block->escapeHtml(__('Back')) ?></span>
+                <a class="action back" href="<?= $escaper->escapeUrl($block->getData('backUrl')) ?>">
+                    <span><?= $escaper->escapeHtml(__('Back')) ?></span>
                 </a>
             </div>
         </div>
@@ -59,8 +60,8 @@ $settingsDataProvider = $block->getData('settingsDataProvider');
             e.preventDefault();
             if (dataForm.validation("isValid")) {
                 confirm({
-                    title: "<?= $block->escapeJs($block->escapeHtml(__('Warning'))) ?>",
-                    content: "<?= $block->escapeJs($block->escapeHtml(__('Do you really want to erase your personal data?'))) ?>",
+                    title: "<?= $escaper->escapeJs($escaper->escapeHtml(__('Warning'))) ?>",
+                    content: "<?= $escaper->escapeJs($escaper->escapeHtml(__('Do you really want to erase your personal data?'))) ?>",
                     actions: {
                         confirm: function () {
                             dataForm.submit();

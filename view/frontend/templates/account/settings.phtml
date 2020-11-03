@@ -5,6 +5,7 @@
  */
 
 /** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
 
 /** @var \Opengento\Gdpr\ViewModel\Customer\Privacy\SettingsDataProvider $settingsDataProvider */
 $settingsDataProvider = $block->getData('settingsDataProvider');
@@ -12,7 +13,7 @@ $settingsDataProvider = $block->getData('settingsDataProvider');
 <?php if ($settingsDataProvider->getPrivacyInformationHtml()): ?>
     <div class="block block-dashboard-info">
         <div class="block-title">
-            <strong><?= $block->escapeHtml(__('Information')) ?></strong>
+            <strong><?= $escaper->escapeHtml(__('Information')) ?></strong>
         </div>
         <div class="block-content">
             <div class="widget block block-static-block">

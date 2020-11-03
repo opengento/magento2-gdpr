@@ -5,6 +5,7 @@
  */
 
 /** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
 
 /** @var \Opengento\Gdpr\ViewModel\Customer\Privacy\ExportDataProvider $exportDataProvider */
 $exportDataProvider = $block->getData('exportDataProvider');
@@ -13,7 +14,7 @@ $exportCustomerDataProvider = $block->getData('exportCustomerDataProvider');
 ?>
 <div class="block block-dashboard-info">
     <div class="block-title">
-        <strong><?= $block->escapeHtml(__('Export Personal Data')) ?></strong>
+        <strong><?= $escaper->escapeHtml(__('Export Personal Data')) ?></strong>
     </div>
     <div class="block-content">
         <?php if ($exportDataProvider->getExportInformationHtml()): ?>
@@ -24,16 +25,16 @@ $exportCustomerDataProvider = $block->getData('exportCustomerDataProvider');
         <div class="actions-toolbar">
             <div class="primary">
                 <?php if ($exportCustomerDataProvider->isExported()): ?>
-                    <a href="<?= $block->escapeUrl($block->getData('downloadActionUrl')) ?>" class="action submit primary" id="download">
-                        <span><?= $block->escapeHtml(__('Download Personal Data')) ?></span>
+                    <a href="<?= $escaper->escapeUrl($block->getData('downloadActionUrl')) ?>" class="action submit primary" id="download">
+                        <span><?= $escaper->escapeHtml(__('Download Personal Data')) ?></span>
                     </a>
                 <?php elseif ($exportCustomerDataProvider->hasExport()): ?>
                     <div class="message info">
-                        <span><?= $block->escapeHtml(__('Your personal data document is pending export.')) ?></span>
+                        <span><?= $escaper->escapeHtml(__('Your personal data document is pending export.')) ?></span>
                     </div>
                 <?php else: ?>
-                    <a href="<?= $block->escapeUrl($block->getData('exportActionUrl')) ?>" class="action submit primary" id="export">
-                        <span><?= $block->escapeHtml(__('Export Personal Data')) ?></span>
+                    <a href="<?= $escaper->escapeUrl($block->getData('exportActionUrl')) ?>" class="action submit primary" id="export">
+                        <span><?= $escaper->escapeHtml(__('Export Personal Data')) ?></span>
                     </a>
                 <?php endif; ?>
             </div>
