@@ -5,12 +5,13 @@
  */
 
 /** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
 
 /** @var \Opengento\Gdpr\ViewModel\Customer\Guest\ExportDataProvider $exportDataProvider */
 $exportDataProvider = $block->getData('exportDataProvider');
 ?>
 <?php if (!$exportDataProvider->hasExport()): ?>
-    <a href="<?= $block->escapeHtmlAttr($block->escapeUrl($block->getData('actionUrl'))) ?>" class="action export">
-        <span><?= $block->escapeHtml(__('Export Personal Data')) ?></span>
+    <a href="<?= $escaper->escapeHtmlAttr($escaper->escapeUrl($block->getData('actionUrl'))) ?>" class="action export">
+        <span><?= $escaper->escapeHtml(__('Export Personal Data')) ?></span>
     </a>
 <?php endif; ?>

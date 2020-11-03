@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Privacy;
 
+use Exception;
 use Magento\Customer\Model\AuthenticationInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
@@ -93,7 +94,7 @@ class ErasePost extends AbstractPrivacy implements HttpPostActionInterface
             $resultRedirect->setPath('customer/account/login');
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }
 

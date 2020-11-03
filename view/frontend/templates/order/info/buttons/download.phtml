@@ -5,16 +5,17 @@
  */
 
 /** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
 
 /** @var \Opengento\Gdpr\ViewModel\Customer\Guest\ExportDataProvider $exportDataProvider */
 $exportDataProvider = $block->getData('exportDataProvider');
 ?>
 <?php if ($exportDataProvider->isExported()): ?>
-    <a href="<?= $block->escapeHtmlAttr($block->escapeUrl($block->getData('actionUrl'))) ?>" class="action export">
-        <span><?= $block->escapeHtml(__('Download Personal Data')) ?></span>
+    <a href="<?= $escaper->escapeHtmlAttr($escaper->escapeUrl($block->getData('actionUrl'))) ?>" class="action export">
+        <span><?= $escaper->escapeHtml(__('Download Personal Data')) ?></span>
     </a>
 <?php elseif ($exportDataProvider->hasExport()): ?>
     <div class="message info">
-        <span><?= $block->escapeHtml(__('Your personal data document is pending export.')) ?></span>
+        <span><?= $escaper->escapeHtml(__('Your personal data document is pending export.')) ?></span>
     </div>
 <?php endif; ?>

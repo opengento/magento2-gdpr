@@ -5,14 +5,17 @@
  */
 
 /** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
 
 /** @var \Opengento\Gdpr\ViewModel\Customer\Guest\EraseDataProvider $eraseDataProvider */
 $eraseDataProvider = $block->getData('eraseDataProvider');
 ?>
 <?php if ($eraseDataProvider->canCreate()): ?>
-    <a href="<?= $block->escapeUrl($block->getData('eraseActionUrl')) ?>" class="action action-danger" id="erase">
-        <span><?= $block->escapeHtml(__('Erase Personal Data')) ?></span>
-    </a>
+    <form id="erase-form" action="<?= $escaper->escapeUrl($block->getData('eraseActionUrl')) ?>" method="post">
+        <button type="submit" class="action action-danger" id="erase">
+            <span><?= $escaper->escapeHtml(__('Erase Personal Data')) ?></span>
+        </button>
+    </form>
     <script>
         require([
             "jquery",
@@ -23,11 +26,11 @@ $eraseDataProvider = $block->getData('eraseDataProvider');
             $("#erase").on("click", function (e) {
                 e.preventDefault();
                 confirm({
-                    title: "<?= $block->escapeJs($block->escapeHtml(__('Warning'))) ?>",
-                    content: "<?= $block->escapeJs($block->escapeHtml(__('Do you really want to erase your personal data?'))) ?>",
+                    title: "<?= $escaper->escapeJs($escaper->escapeHtml(__('Warning'))) ?>",
+                    content: "<?= $escaper->escapeJs($escaper->escapeHtml(__('Do you really want to erase your personal data?'))) ?>",
                     actions: {
                         confirm: function () {
-                            window.location = "<?= $block->escapeJs($block->escapeUrl($block->getData('eraseActionUrl'))) ?>";
+                            $("#erase-form").submit();
                         }
                     }
                 });
@@ -36,7 +39,9 @@ $eraseDataProvider = $block->getData('eraseDataProvider');
     </script>
 <?php endif; ?>
 <?php if ($eraseDataProvider->canCancel()): ?>
-    <a href="<?= $block->escapeUrl($block->getData('undoActionUrl')) ?>" class="action undo" id="undo_deletion">
-        <span><?= $block->escapeHtml(__('Undo Erase Personal Data')) ?></span>
-    </a>
+    <form action="<?= $escaper->escapeUrl($block->getData('undoActionUrl')) ?>" method="post">
+        <button type="submit" class="action undo" id="undo_deletion">
+            <span><?= $escaper->escapeHtml(__('Undo Erase Personal Data')) ?></span>
+        </button>
+    </form>
 <?php endif; ?>

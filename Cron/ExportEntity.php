@@ -65,8 +65,6 @@ final class ExportEntity
             $this->searchCriteriaBuilder->addFilter(ExportEntityInterface::EXPORTED_AT, true, 'null');
             $this->searchCriteriaBuilder->addFilter(ExportEntityInterface::FILE_PATH, true, 'null');
 
-            // todo add a flag to not run again on the same entities
-
             try {
                 $exportList = $this->exportEntityRepository->getList($this->searchCriteriaBuilder->create());
 

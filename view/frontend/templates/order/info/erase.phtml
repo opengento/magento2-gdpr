@@ -5,13 +5,14 @@
  */
 
 /** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
 
 /** @var \Opengento\Gdpr\ViewModel\Customer\Privacy\EraseDataProvider $eraseDataProvider */
 $eraseDataProvider = $block->getData('eraseDataProvider');
 ?>
 <div class="block block-order-details-view">
     <div class="block-title">
-        <strong><?= $block->escapeHtml(__('Right to be forgotten')) ?></strong>
+        <strong><?= $escaper->escapeHtml(__('Right to be forgotten')) ?></strong>
     </div>
     <?php if ($eraseDataProvider->getErasureInformationHtml()): ?>
         <div class="block-content">
