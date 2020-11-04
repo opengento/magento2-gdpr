@@ -17,15 +17,10 @@ final class ArrayValue implements AnonymizerInterface
      */
     private $anonymizers;
 
-    /**
-     * @param AnonymizerInterface[] $anonymizers
-     */
     public function __construct(
         array $anonymizers
     ) {
-        $this->anonymizers = (static function (AnonymizerInterface ...$anonymizers): array {
-            return $anonymizers;
-        })(... $anonymizers);
+        $this->anonymizers = $anonymizers;
     }
 
     public function anonymize($value): array

@@ -34,7 +34,9 @@ final class EraseProcessor implements ProcessorInterface
 
     public function execute(int $entityId): bool
     {
-        foreach (array_column($this->eraseComponents->toOptionArray(), 'value') as $component) {
+        $components = array_column($this->eraseComponents->toOptionArray(), 'value');
+
+        foreach ($components as $component) {
             $processor = $this->eraseProcessorResolver->resolve($component);
             if (!$processor->execute($entityId)) {
                 return false;

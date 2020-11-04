@@ -19,17 +19,10 @@ final class StrategyProcessor implements EntityValueProcessorInterface
      */
     private $processors;
 
-    /**
-     * @param EntityValueProcessorInterface[] $processors
-     */
     public function __construct(
         array $processors
     ) {
-        $this->processors = (static function (EntityValueProcessorInterface ...$processors): array {
-            return $processors;
-        })(...array_values($processors));
-
-        $this->processors = array_combine(array_keys($processors), $this->processors);
+        $this->processors = $processors;
     }
 
     public function process($entity, string $key, $value): void

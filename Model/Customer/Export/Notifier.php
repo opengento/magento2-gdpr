@@ -12,7 +12,6 @@ use Magento\Framework\Exception\LocalizedException;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Model\Customer\Notifier\SenderInterface;
 use Opengento\Gdpr\Model\Export\NotifierInterface;
-use function array_values;
 
 final class Notifier implements NotifierInterface
 {
@@ -26,17 +25,11 @@ final class Notifier implements NotifierInterface
      */
     private $customerRepository;
 
-    /**
-     * @param SenderInterface[] $senders
-     * @param CustomerRepositoryInterface $customerRepository
-     */
     public function __construct(
         array $senders,
         CustomerRepositoryInterface $customerRepository
     ) {
-        $this->senders = (static function (SenderInterface ...$senders): array {
-            return $senders;
-        })(...array_values($senders));
+        $this->senders = $senders;
         $this->customerRepository = $customerRepository;
     }
 

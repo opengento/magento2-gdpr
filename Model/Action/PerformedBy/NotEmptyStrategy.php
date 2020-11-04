@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Action\PerformedBy;
 
 use Opengento\Gdpr\Model\Action\PerformedByInterface;
-use function array_values;
 
 final class NotEmptyStrategy implements PerformedByInterface
 {
@@ -19,15 +18,10 @@ final class NotEmptyStrategy implements PerformedByInterface
      */
     private $performedByList;
 
-    /**
-     * @param PerformedByInterface[] $performedByList
-     */
     public function __construct(
         array $performedByList
     ) {
-        $this->performedByList = (static function (PerformedByInterface ...$performedByList) {
-            return $performedByList;
-        })(...array_values($performedByList));
+        $this->performedByList = $performedByList;
     }
 
     public function get(): string

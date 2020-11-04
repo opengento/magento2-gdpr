@@ -26,10 +26,6 @@ final class ProcessorFactory
      */
     private $objectManager;
 
-    /**
-     * @param string[] $erasers
-     * @param ObjectManagerInterface $objectManager
-     */
     public function __construct(
         array $erasers,
         ObjectManagerInterface $objectManager
