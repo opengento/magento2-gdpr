@@ -16,7 +16,6 @@ use Opengento\Gdpr\Api\Data\ActionEntityInterface;
 use Opengento\Gdpr\Api\Data\ActionResultInterface;
 use Opengento\Gdpr\Model\ActionEntityBuilder;
 use function array_merge;
-use function array_values;
 
 final class ActionComposite implements ActionInterface
 {
@@ -50,14 +49,6 @@ final class ActionComposite implements ActionInterface
      */
     private $actionEntityRepository;
 
-    /**
-     * @param string $type
-     * @param ActionInterface[] $actions
-     * @param ContextBuilder $contextBuilder
-     * @param ActionEntityBuilder $actionEntityBuilder
-     * @param ResultBuilder $resultBuilder
-     * @param ActionEntityRepositoryInterface $actionEntityRepository
-     */
     public function __construct(
         string $type,
         array $actions,
@@ -67,9 +58,7 @@ final class ActionComposite implements ActionInterface
         ActionEntityRepositoryInterface $actionEntityRepository
     ) {
         $this->type = $type;
-        $this->actions = (static function (ActionInterface ...$actions): array {
-            return $actions;
-        })(...array_values($actions));
+        $this->actions = $actions;
         $this->contextBuilder = $contextBuilder;
         $this->actionEntityBuilder = $actionEntityBuilder;
         $this->resultBuilder = $resultBuilder;

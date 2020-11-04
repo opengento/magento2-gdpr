@@ -11,7 +11,6 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Model\Export\NotifierInterface;
 use Opengento\Gdpr\Model\Order\Notifier\SenderInterface;
-use function array_values;
 
 final class Notifier implements NotifierInterface
 {
@@ -25,17 +24,11 @@ final class Notifier implements NotifierInterface
      */
     private $orderRepository;
 
-    /**
-     * @param SenderInterface[] $senders
-     * @param OrderRepositoryInterface $orderRepository
-     */
     public function __construct(
         array $senders,
         OrderRepositoryInterface $orderRepository
     ) {
-        $this->senders = (static function (SenderInterface ...$senders): array {
-            return $senders;
-        })(...array_values($senders));
+        $this->senders = $senders;
         $this->orderRepository = $orderRepository;
     }
 

@@ -10,9 +10,6 @@ namespace Opengento\Gdpr\Model\Entity;
 use Exception;
 use LogicException;
 use Magento\Framework\EntityManager\TypeResolver;
-use function array_combine;
-use function array_keys;
-use function array_values;
 use function sprintf;
 
 final class DataCollectorGeneric implements DataCollectorInterface
@@ -27,20 +24,12 @@ final class DataCollectorGeneric implements DataCollectorInterface
      */
     private $dataCollectors;
 
-    /**
-     * @param TypeResolver $typeResolver
-     * @param DataCollectorInterface[] $dataCollectors
-     */
     public function __construct(
         TypeResolver $typeResolver,
         array $dataCollectors
     ) {
         $this->typeResolver = $typeResolver;
-        $this->dataCollectors = (static function (DataCollectorInterface ...$dataCollectors): array {
-            return $dataCollectors;
-        })(...array_values($dataCollectors));
-
-        $this->dataCollectors = array_combine(array_keys($dataCollectors), $this->dataCollectors);
+        $this->dataCollectors = $dataCollectors;
     }
 
     /**
