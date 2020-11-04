@@ -9,6 +9,7 @@ namespace Opengento\Gdpr\Model\Entity\SourceProvider;
 
 use Magento\Framework\Api\Filter;
 use Magento\Framework\Data\Collection;
+use function array_values;
 
 /**
  * Class ModifierComposite
@@ -29,7 +30,7 @@ final class ModifierComposite implements ModifierInterface
     ) {
         $this->modifiers = (static function (ModifierInterface ...$modifiers): array {
             return $modifiers;
-        })(...\array_values($modifiers));
+        })(...array_values($modifiers));
     }
 
     public function apply(Collection $collection, Filter $filter): void

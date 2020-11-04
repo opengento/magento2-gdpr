@@ -7,37 +7,53 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller;
 
-use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\ActionInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\Forward;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\NotFoundException;
+use Magento\Framework\Message\ManagerInterface;
 use Opengento\Gdpr\Model\Config;
 
-abstract class AbstractAction extends Action
+abstract class AbstractAction implements ActionInterface
 {
+    /**
+     * @var RequestInterface
+     */
+    protected $request;
+
+    /**
+     * @var ResultFactory
+     */
+    protected $resultFactory;
+
+    /**
+     * @var ManagerInterface
+     */
+    protected $messageManager;
+
     /**
      * @var Config
      */
     protected $config;
 
     public function __construct(
-        Context $context,
+        RequestInterface $request,
+        ResultFactory $resultFactory,
+        ManagerInterface $messageManager,
         Config $config
     ) {
+        $this->request = $request;
+        $this->resultFactory = $resultFactory;
+        $this->messageManager = $messageManager;
         $this->config = $config;
-        parent::__construct($context);
     }
 
     public function execute()
     {
-        if ($this->isAllowed()) {
-            return $this->executeAction();
-        }
-
-        return $this->forwardNoRoute();
+        return $this->isAllowed() ? $this->executeAction() : $this->forwardNoRoute();
     }
 
     /**

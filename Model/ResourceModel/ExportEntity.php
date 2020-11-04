@@ -13,6 +13,7 @@ use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\ResourceModel\Db\VersionControl\AbstractDb;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use function is_array;
+use function sprintf;
 
 class ExportEntity extends AbstractDb
 {
@@ -40,7 +41,7 @@ class ExportEntity extends AbstractDb
         $select = $this->getConnection()->select()->from($this->getMainTable());
 
         foreach ($field as $i => $identifier) {
-            $pk = $this->getConnection()->quoteIdentifier(\sprintf('%s.%s', $this->getMainTable(), $identifier));
+            $pk = $this->getConnection()->quoteIdentifier(sprintf('%s.%s', $this->getMainTable(), $identifier));
             $select->where($pk . '=?', $value[$i]);
         }
 

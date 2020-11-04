@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Console\Command;
 
+use Exception;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
@@ -109,7 +110,7 @@ class ExportCommand extends Command
                     '<info>Entity\'s related data have been exported to: ' . $exportEntity->getFilePath() . '.</info>'
                 );
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');
             $resultCode = Cli::RETURN_FAILURE;
         }

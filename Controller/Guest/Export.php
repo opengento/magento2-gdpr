@@ -8,8 +8,8 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Guest;
 
 use Exception;
-use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\AlreadyExistsException;
@@ -36,7 +36,8 @@ class Export extends AbstractGuest implements HttpGetActionInterface
     private $actionContextBuilder;
 
     public function __construct(
-        Context $context,
+        RequestInterface $request,
+        ResultFactory $resultFactory,
         Config $config,
         OrderLoaderInterface $orderLoader,
         Registry $registry,
@@ -45,7 +46,7 @@ class Export extends AbstractGuest implements HttpGetActionInterface
     ) {
         $this->action = $action;
         $this->actionContextBuilder = $actionContextBuilder;
-        parent::__construct($context, $config, $orderLoader, $registry);
+        parent::__construct($request, $resultFactory, $config, $orderLoader, $registry);
     }
 
     protected function isAllowed(): bool

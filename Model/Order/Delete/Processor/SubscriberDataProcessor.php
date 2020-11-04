@@ -12,6 +12,7 @@ use Magento\Newsletter\Model\ResourceModel\Subscriber as ResourceSubscriber;
 use Magento\Newsletter\Model\Subscriber;
 use Magento\Newsletter\Model\SubscriberFactory;
 use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
 final class SubscriberDataProcessor implements ProcessorInterface
@@ -31,14 +32,21 @@ final class SubscriberDataProcessor implements ProcessorInterface
      */
     private $subscriberResourceModel;
 
+    /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         SubscriberFactory $subscriberFactory,
-        ResourceSubscriber $subscriberResourceModel
+        ResourceSubscriber $subscriberResourceModel,
+        StoreManagerInterface $storeManager
     ) {
         $this->orderRepository = $orderRepository;
         $this->subscriberFactory = $subscriberFactory;
         $this->subscriberResourceModel = $subscriberResourceModel;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -51,7 +59,10 @@ final class SubscriberDataProcessor implements ProcessorInterface
 
         /** @var Subscriber $subscriber */
         $subscriber = $this->subscriberFactory->create();
-        $subscriber->loadByEmail($order->getCustomerEmail());
+        $subscriber->loadBySubscriberEmail(
+            $order->getCustomerEmail(),
+            $this->storeManager->getStore($order->getStoreId())->getWebsiteId()
+        );
         $this->subscriberResourceModel->delete($subscriber);
 
         return true;

@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Block\Adminhtml\Order\Edit;
 
 use Magento\Backend\Block\AbstractBlock;
-use Magento\Backend\Block\Context;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Sales\Block\Adminhtml\Order\View;

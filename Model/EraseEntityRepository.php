@@ -106,7 +106,9 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
 
     public function getByEntity(int $entityId, string $entityType): EraseEntityInterface
     {
-        if (!isset($this->instancesByEntity[$entityType . '_' . $entityId])) {
+        $key = $entityType . '_' . $entityId;
+
+        if (!isset($this->instancesByEntity[$key])) {
             /** @var EraseEntityInterface $eraseEntity */
             $eraseEntity = $this->eraseEntityFactory->create();
             $this->eraseEntityResource->load(
@@ -127,7 +129,7 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
             $this->register($eraseEntity);
         }
 
-        return $this->instancesByEntity[$entityType . '_' . $entityId];
+        return $this->instancesByEntity[$key];
     }
 
     public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface

@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Cron;
 
+use Exception;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -86,7 +87,7 @@ final class EraseEntity
             foreach ($this->retrieveEraseEntityList()->getItems() as $eraseEntity) {
                 try {
                     $this->eraseManagement->process($eraseEntity);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     $this->logger->error($e->getMessage(), $e->getTrace());
                 }
             }
