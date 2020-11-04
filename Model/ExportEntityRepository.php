@@ -115,7 +115,9 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
 
     public function getByEntity(int $entityId, string $entityType): ExportEntityInterface
     {
-        if (!isset($this->instancesByEntity[$entityType . '_' . $entityId])) {
+        $key = $entityType . '_' . $entityId;
+
+        if (!isset($this->instancesByEntity[$key])) {
             /** @var ExportEntityInterface $exportEntity */
             $exportEntity = $this->exportEntityFactory->create();
             $this->exportEntityResource->load(
@@ -136,7 +138,7 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
             $this->register($exportEntity);
         }
 
-        return $this->instancesByEntity[$entityType . '_' . $entityId];
+        return $this->instancesByEntity[$key];
     }
 
     public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface

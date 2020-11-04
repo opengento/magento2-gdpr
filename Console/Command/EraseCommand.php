@@ -95,11 +95,11 @@ class EraseCommand extends Command
 
         try {
             foreach ($entityIds as $entityId) {
-                $this->actionContextBuilder->setParameters([
-                    ArgumentReader::ENTITY_ID => $entityId,
-                    ArgumentReader::ENTITY_TYPE => $entityType
-                ]);
-                $this->action->execute($this->actionContextBuilder->create());
+                $this->action->execute(
+                    $this->actionContextBuilder->setParameters(
+                        [ArgumentReader::ENTITY_ID => $entityId, ArgumentReader::ENTITY_TYPE => $entityType]
+                    )->create()
+                );
 
                 $output->writeln(
                     '<info>Entity\'s (' . $entityType . ') with ID "' . $entityId . '" has been erased.</info>'

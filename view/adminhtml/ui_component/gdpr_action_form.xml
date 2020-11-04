@@ -84,7 +84,7 @@
                         <item name="showFallbackReset" xsi:type="boolean">false</item>
                     </item>
                 </argument>
-                <field name="name" formElement="input" sortOrder="10">
+                <field name="name" sortOrder="10">
                     <settings>
                         <dataType>text</dataType>
                         <label translate="true">Name</label>
@@ -95,7 +95,7 @@
                         </validation>
                     </settings>
                 </field>
-                <field name="value" formElement="input" sortOrder="20">
+                <field name="value" sortOrder="20">
                     <settings>
                         <dataType>text</dataType>
                         <label translate="true">Value</label>

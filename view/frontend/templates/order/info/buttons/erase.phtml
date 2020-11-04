@@ -3,11 +3,16 @@
  * Copyright © OpenGento, All rights reserved.
  * See LICENSE bundled with this library for license details.
  */
+declare(strict_types=1);
 
-/** @var \Magento\Framework\View\Element\Template $block */
-/** @var \Magento\Framework\Escaper $escaper */
+/** @var Template $block */
+/** @var Escaper $escaper */
 
-/** @var \Opengento\Gdpr\ViewModel\Customer\Guest\EraseDataProvider $eraseDataProvider */
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Opengento\Gdpr\ViewModel\Customer\Guest\EraseDataProvider;
+
+/** @var EraseDataProvider $eraseDataProvider */
 $eraseDataProvider = $block->getData('eraseDataProvider');
 ?>
 <?php if ($eraseDataProvider->canCreate()): ?>

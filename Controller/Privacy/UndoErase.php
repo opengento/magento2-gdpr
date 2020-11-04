@@ -9,11 +9,12 @@ namespace Opengento\Gdpr\Controller\Privacy;
 
 use Exception;
 use Magento\Customer\Model\Session;
-use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
@@ -39,7 +40,9 @@ class UndoErase extends AbstractPrivacy implements HttpPostActionInterface
     private $actionContextBuilder;
 
     public function __construct(
-        Context $context,
+        RequestInterface $request,
+        ResultFactory $resultFactory,
+        ManagerInterface $messageManager,
         Config $config,
         Session $customerSession,
         ActionInterface $action,
@@ -48,7 +51,7 @@ class UndoErase extends AbstractPrivacy implements HttpPostActionInterface
         $this->customerSession = $customerSession;
         $this->action = $action;
         $this->actionContextBuilder = $actionContextBuilder;
-        parent::__construct($context, $config);
+        parent::__construct($request, $resultFactory, $messageManager, $config);
     }
 
     protected function isAllowed(): bool

@@ -8,9 +8,9 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Guest;
 
 use Exception;
-use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
@@ -37,16 +37,17 @@ class Download extends AbstractGuest implements HttpGetActionInterface
     private $exportRepository;
 
     public function __construct(
-        Context $context,
+        RequestInterface $request,
+        ResultFactory $resultFactory,
         Config $config,
-        FileFactory $fileFactory,
-        ExportEntityRepositoryInterface $exportRepository,
         OrderLoaderInterface $orderLoader,
-        Registry $registry
+        Registry $registry,
+        FileFactory $fileFactory,
+        ExportEntityRepositoryInterface $exportRepository
     ) {
         $this->fileFactory = $fileFactory;
         $this->exportRepository = $exportRepository;
-        parent::__construct($context, $config, $orderLoader, $registry);
+        parent::__construct($request, $resultFactory, $config, $orderLoader, $registry);
     }
 
     protected function isAllowed(): bool

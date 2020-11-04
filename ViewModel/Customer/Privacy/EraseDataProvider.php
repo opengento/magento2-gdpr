@@ -12,7 +12,6 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\Element\BlockFactory;
 use Magento\Store\Model\ScopeInterface;
-use Opengento\Gdpr\Model\Config;
 
 final class EraseDataProvider implements ArgumentInterface
 {

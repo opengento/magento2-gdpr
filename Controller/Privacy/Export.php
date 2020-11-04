@@ -9,12 +9,13 @@ namespace Opengento\Gdpr\Controller\Privacy;
 
 use Exception;
 use Magento\Customer\Model\Session;
-use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
@@ -40,7 +41,9 @@ class Export extends AbstractPrivacy implements HttpGetActionInterface
     private $customerSession;
 
     public function __construct(
-        Context $context,
+        RequestInterface $request,
+        ResultFactory $resultFactory,
+        ManagerInterface $messageManager,
         Config $config,
         ActionInterface $action,
         ContextBuilder $actionContextBuilder,
@@ -49,7 +52,7 @@ class Export extends AbstractPrivacy implements HttpGetActionInterface
         $this->action = $action;
         $this->actionContextBuilder = $actionContextBuilder;
         $this->customerSession = $customerSession;
-        parent::__construct($context, $config);
+        parent::__construct($request, $resultFactory, $messageManager, $config);
     }
 
     protected function isAllowed(): bool
