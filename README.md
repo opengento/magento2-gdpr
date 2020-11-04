@@ -4,6 +4,7 @@
 [![License: MIT](https://img.shields.io/github/license/opengento/magento2-gdpr.svg?style=flat-square)](./LICENSE) 
 [![Packagist](https://img.shields.io/packagist/dt/opengento/module-gdpr.svg?style=flat-square)](https://packagist.org/packages/opengento/module-gdpr/stats)
 [![Packagist](https://img.shields.io/packagist/dm/opengento/module-gdpr.svg?style=flat-square)](https://packagist.org/packages/opengento/module-gdpr/stats)
+[![Codacy Badge](https://img.shields.io/codacy/grade/5c60490b77a14e288ed810bc5b5862ca?style=flat-square)](https://www.codacy.com/manual/thomas-klein/magento2-gdpr)
 
 This extension fullfill the GDPR requirements for Magento 2.
 
