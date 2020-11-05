@@ -21,13 +21,13 @@ final class CreateAction extends AbstractAction
     /**
      * @var EraseEntityManagementInterface
      */
-    private $entityManagement;
+    private $eraseManagement;
 
     public function __construct(
         ResultBuilder $resultBuilder,
-        EraseEntityManagementInterface $entityManagement
+        EraseEntityManagementInterface $eraseManagement
     ) {
-        $this->entityManagement = $entityManagement;
+        $this->eraseManagement = $eraseManagement;
         parent::__construct($resultBuilder);
     }
 
@@ -35,7 +35,7 @@ final class CreateAction extends AbstractAction
     {
         return $this->createActionResult(
             [
-                ArgumentReader::ERASE_ENTITY => $this->entityManagement->create(
+                ArgumentReader::ERASE_ENTITY => $this->eraseManagement->create(
                     ...$this->getArguments($actionContext)
                 )
             ]

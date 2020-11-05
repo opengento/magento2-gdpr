@@ -20,7 +20,7 @@ final class EraseEntityScheduler
     /**
      * @var SourceProviderFactory
      */
-    private $sourceProviderFactory;
+    private $srcProviderFactory;
 
     /**
      * @var ModifierFactory
@@ -33,11 +33,11 @@ final class EraseEntityScheduler
     private $eraseManagement;
 
     public function __construct(
-        SourceProviderFactory $sourceProviderFactory,
+        SourceProviderFactory $srcProviderFactory,
         ModifierFactory $modifierFactory,
         EraseEntityManagementInterface $eraseManagement
     ) {
-        $this->sourceProviderFactory = $sourceProviderFactory;
+        $this->srcProviderFactory = $srcProviderFactory;
         $this->modifierFactory = $modifierFactory;
         $this->eraseManagement = $eraseManagement;
     }
@@ -69,7 +69,7 @@ final class EraseEntityScheduler
     private function collectEntityIds(array $entityTypes, Filter $filter): Generator
     {
         foreach ($entityTypes as $entityType) {
-            $source = $this->sourceProviderFactory->create($entityType);
+            $source = $this->srcProviderFactory->create($entityType);
             $this->modifierFactory->get($entityType)->apply($source, $filter);
 
             yield $entityType => $source->getAllIds();

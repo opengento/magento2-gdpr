@@ -28,7 +28,7 @@
     <preference for="Opengento\Gdpr\Api\EraseEntityCheckerInterface" type="Opengento\Gdpr\Model\EraseEntityChecker"/>
     <type name="Opengento\Gdpr\Model\Erase\SecureEraseEntityManagement">
         <arguments>
-            <argument name="entityManagement" xsi:type="object">Opengento\Gdpr\Model\EraseEntityManagement</argument>
+            <argument name="eraseManagement" xsi:type="object">Opengento\Gdpr\Model\EraseEntityManagement</argument>
         </arguments>
     </type>
     <preference for="Opengento\Gdpr\Api\EraseSalesInformationInterface" type="Opengento\Gdpr\Model\Erase\EraseSalesInformation"/>
@@ -764,12 +764,12 @@
     </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Config\Source\Customer\EraseComponents" type="Opengento\Gdpr\Model\Config\Source\EraseComponents">
         <arguments>
-            <argument name="resolverFactoryClassName" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\ProcessorResolverFactory</argument>
+            <argument name="factoryClassName" xsi:type="string">Opengento\Gdpr\Model\Customer\Erase\ProcessorResolverFactory</argument>
         </arguments>
     </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Customer\Erase\Processor\EraseProcessor" type="Opengento\Gdpr\Service\Erase\Processor\EraseProcessor">
         <arguments>
-            <argument name="eraseProcessorResolver" xsi:type="object">Opengento\Gdpr\Model\Customer\Erase\ProcessorResolver\ProcessorResolverStrategy</argument>
+            <argument name="processorResolver" xsi:type="object">Opengento\Gdpr\Model\Customer\Erase\ProcessorResolver\ProcessorResolverStrategy</argument>
             <argument name="eraseComponents" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Customer\EraseComponents</argument>
         </arguments>
     </virtualType>
@@ -820,12 +820,12 @@
     </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Config\Source\Order\EraseComponents" type="Opengento\Gdpr\Model\Config\Source\EraseComponents">
         <arguments>
-            <argument name="resolverFactoryClassName" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\ProcessorResolverFactory</argument>
+            <argument name="factoryClassName" xsi:type="string">Opengento\Gdpr\Model\Order\Erase\ProcessorResolverFactory</argument>
         </arguments>
     </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Order\Erase\Processor\EraseProcessor" type="Opengento\Gdpr\Service\Erase\Processor\EraseProcessor">
         <arguments>
-            <argument name="eraseProcessorResolver" xsi:type="object">Opengento\Gdpr\Model\Order\Erase\ProcessorResolver\ProcessorResolverStrategy</argument>
+            <argument name="processorResolver" xsi:type="object">Opengento\Gdpr\Model\Order\Erase\ProcessorResolver\ProcessorResolverStrategy</argument>
             <argument name="eraseComponents" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Order\EraseComponents</argument>
         </arguments>
     </virtualType>

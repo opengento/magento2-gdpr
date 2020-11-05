@@ -25,7 +25,7 @@ final class EraseComponents implements OptionSourceInterface
      *
      * @var string
      */
-    private $resolverFactoryClassName;
+    private $factoryClassName;
 
     /**
      * @var string[][]
@@ -34,10 +34,10 @@ final class EraseComponents implements OptionSourceInterface
 
     public function __construct(
         ConfigInterface $objectManagerConfig,
-        string $resolverFactoryClassName
+        string $factoryClassName
     ) {
         $this->objectManagerConfig = $objectManagerConfig;
-        $this->resolverFactoryClassName = $resolverFactoryClassName;
+        $this->factoryClassName = $factoryClassName;
     }
 
     public function toOptionArray(): array
@@ -58,7 +58,7 @@ final class EraseComponents implements OptionSourceInterface
     {
         $delegateProcessors = [];
         /** @var string[] $resolvers */
-        $resolvers = $this->retrieveArgument($this->resolverFactoryClassName, 'processorResolvers', []);
+        $resolvers = $this->retrieveArgument($this->factoryClassName, 'processorResolvers', []);
 
         foreach ($resolvers as $resolver) {
             $delegateProcessors[] = $this->retrieveArgument($resolver, 'processors');

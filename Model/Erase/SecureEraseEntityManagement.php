@@ -18,7 +18,7 @@ final class SecureEraseEntityManagement implements EraseEntityManagementInterfac
     /**
      * @var EraseEntityManagementInterface
      */
-    private $entityManagement;
+    private $eraseManagement;
 
     /**
      * @var EraseEntityCheckerInterface
@@ -26,17 +26,17 @@ final class SecureEraseEntityManagement implements EraseEntityManagementInterfac
     private $eraseEntityChecker;
 
     public function __construct(
-        EraseEntityManagementInterface $entityManagement,
+        EraseEntityManagementInterface $eraseManagement,
         EraseEntityCheckerInterface $eraseEntityChecker
     ) {
-        $this->entityManagement = $entityManagement;
+        $this->eraseManagement = $eraseManagement;
         $this->eraseEntityChecker = $eraseEntityChecker;
     }
 
     public function create(int $entityId, string $entityType): EraseEntityInterface
     {
         if ($this->eraseEntityChecker->canCreate($entityId, $entityType)) {
-            return $this->entityManagement->create($entityId, $entityType);
+            return $this->eraseManagement->create($entityId, $entityType);
         }
 
         throw new LocalizedException(
@@ -49,7 +49,7 @@ final class SecureEraseEntityManagement implements EraseEntityManagementInterfac
     public function cancel(int $entityId, string $entityType): bool
     {
         if ($this->eraseEntityChecker->canCancel($entityId, $entityType)) {
-            return $this->entityManagement->cancel($entityId, $entityType);
+            return $this->eraseManagement->cancel($entityId, $entityType);
         }
 
         throw new LocalizedException(new Phrase('The erasure process is running and cannot be undone.'));
@@ -58,7 +58,7 @@ final class SecureEraseEntityManagement implements EraseEntityManagementInterfac
     public function process(EraseEntityInterface $entity): EraseEntityInterface
     {
         if ($this->eraseEntityChecker->canProcess($entity->getEntityId(), $entity->getEntityType())) {
-            return $this->entityManagement->process($entity);
+            return $this->eraseManagement->process($entity);
         }
 
         throw new LocalizedException(new Phrase('Impossible to process the erasure, there is still pending orders.'));

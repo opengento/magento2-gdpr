@@ -38,7 +38,7 @@ final class ExportEntity
     /**
      * @var ExportEntityManagementInterface
      */
-    private $entityManagement;
+    private $exportManagement;
 
     /**
      * @var SearchCriteriaBuilder
@@ -49,13 +49,13 @@ final class ExportEntity
         LoggerInterface $logger,
         Config $config,
         ExportEntityRepositoryInterface $exportRepository,
-        ExportEntityManagementInterface $entityManagement,
+        ExportEntityManagementInterface $exportManagement,
         SearchCriteriaBuilder $criteriaBuilder
     ) {
         $this->logger = $logger;
         $this->config = $config;
         $this->exportRepository = $exportRepository;
-        $this->entityManagement = $entityManagement;
+        $this->exportManagement = $exportManagement;
         $this->criteriaBuilder = $criteriaBuilder;
     }
 
@@ -69,7 +69,7 @@ final class ExportEntity
                 $exportList = $this->exportRepository->getList($this->criteriaBuilder->create());
 
                 foreach ($exportList->getItems() as $exportEntity) {
-                    $this->entityManagement->export($exportEntity);
+                    $this->exportManagement->export($exportEntity);
                 }
             } catch (Exception $e) {
                 $this->logger->error($e->getMessage(), $e->getTrace());

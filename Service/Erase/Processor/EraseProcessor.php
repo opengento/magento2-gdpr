@@ -17,7 +17,7 @@ final class EraseProcessor implements ProcessorInterface
     /**
      * @var ProcessorResolverInterface
      */
-    private $eraseProcessorResolver;
+    private $processorResolver;
 
     /**
      * @var EraseComponents
@@ -25,10 +25,10 @@ final class EraseProcessor implements ProcessorInterface
     private $eraseComponents;
 
     public function __construct(
-        ProcessorResolverInterface $eraseProcessorResolver,
+        ProcessorResolverInterface $processorResolver,
         EraseComponents $eraseComponents
     ) {
-        $this->eraseProcessorResolver = $eraseProcessorResolver;
+        $this->processorResolver = $processorResolver;
         $this->eraseComponents = $eraseComponents;
     }
 
@@ -37,7 +37,7 @@ final class EraseProcessor implements ProcessorInterface
         $components = array_column($this->eraseComponents->toOptionArray(), 'value');
 
         foreach ($components as $component) {
-            $processor = $this->eraseProcessorResolver->resolve($component);
+            $processor = $this->processorResolver->resolve($component);
             if (!$processor->execute($entityId)) {
                 return false;
             }
