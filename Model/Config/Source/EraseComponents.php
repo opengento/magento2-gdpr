@@ -61,11 +61,7 @@ final class EraseComponents implements OptionSourceInterface
         $resolvers = $this->retrieveArgument($this->processorResolverFactoryClassName, 'processorResolvers', []);
 
         foreach ($resolvers as $resolver) {
-            $processorPool = $this->retrieveArgument($resolver, 'processorPool');
-
-            if ($processorPool) {
-                $delegateProcessors[] = $this->retrieveArgument($processorPool, 'array', []);
-            }
+            $delegateProcessors[] = $this->retrieveArgument($resolver, 'processors');
         }
 
         return array_keys(array_merge(...$delegateProcessors));
