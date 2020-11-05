@@ -48,14 +48,14 @@ abstract class AbstractMailSender
     }
 
     /**
-     * @param string $to
+     * @param string $sendTo
      * @param string|null $name [optional] Specify the to name.
      * @param int|null $storeId [optional Current store ID is used by default.
      * @param array $vars
      * @throws LocalizedException
      * @throws MailException
      */
-    protected function sendMail(string $to, ?string $name = null, ?int $storeId = null, array $vars = []): void
+    protected function sendMail(string $sendTo, ?string $name = null, ?int $storeId = null, array $vars = []): void
     {
         if ($this->isAvailable($storeId)) {
             $copyTo = $this->getCopyTo($storeId);
@@ -74,7 +74,7 @@ abstract class AbstractMailSender
                 }
             }
 
-            $this->prepareMail($to, $name, $storeId, $vars);
+            $this->prepareMail($sendTo, $name, $storeId, $vars);
             $transport = $this->transportBuilder->getTransport();
 
             $transport->sendMessage();
@@ -82,19 +82,19 @@ abstract class AbstractMailSender
     }
 
     /**
-     * @param string $to
+     * @param string $sendTo
      * @param string|null $name [optional] Specify the to name.
      * @param int|null $storeId [optional Current store ID is used by default.
      * @param array $vars
      * @throws MailException
      */
-    protected function prepareMail(string $to, ?string $name = null, ?int $storeId = null, array $vars = []): void
+    protected function prepareMail(string $sendTo, ?string $name = null, ?int $storeId = null, array $vars = []): void
     {
         $this->transportBuilder->setTemplateIdentifier($this->getTemplateIdentifier($storeId))
             ->setTemplateOptions(['area' => Area::AREA_FRONTEND, 'store' => $storeId])
             ->setTemplateVars($vars)
             ->setFromByScope($this->getFrom($storeId), $storeId)
-            ->addTo($to, $name);
+            ->addTo($sendTo, $name);
     }
 
     /**

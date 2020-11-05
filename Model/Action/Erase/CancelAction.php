@@ -29,15 +29,15 @@ final class CancelAction extends AbstractAction
     /**
      * @var EraseEntityManagementInterface
      */
-    private $entityManagement;
+    private $eraseManagement;
 
     public function __construct(
         ResultBuilder $resultBuilder,
         EraseEntityRepositoryInterface $eraseRepository,
-        EraseEntityManagementInterface $entityManagement
+        EraseEntityManagementInterface $eraseManagement
     ) {
         $this->eraseRepository = $eraseRepository;
-        $this->entityManagement = $entityManagement;
+        $this->eraseManagement = $eraseManagement;
         parent::__construct($resultBuilder);
     }
 
@@ -48,7 +48,7 @@ final class CancelAction extends AbstractAction
         return $this->createActionResult(
             [
                 ArgumentReader::ERASE_ENTITY => $this->resolveEntity(...$arguments),
-                'canceled' => $this->entityManagement->cancel(...$arguments)
+                'canceled' => $this->eraseManagement->cancel(...$arguments)
             ]
         );
     }

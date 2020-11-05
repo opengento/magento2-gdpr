@@ -31,7 +31,7 @@ final class ExportToFile
     /**
      * @var RendererFactory
      */
-    private $exportRendererFactory;
+    private $rendererFactory;
 
     /**
      * @var MoveToArchive
@@ -45,12 +45,12 @@ final class ExportToFile
 
     public function __construct(
         ProcessorFactory $processorFactory,
-        RendererFactory $exportRendererFactory,
+        RendererFactory $rendererFactory,
         MoveToArchive $archive,
         ScopeConfigInterface $scopeConfig
     ) {
         $this->processorFactory = $processorFactory;
-        $this->exportRendererFactory = $exportRendererFactory;
+        $this->rendererFactory = $rendererFactory;
         $this->archive = $archive;
         $this->scopeConfig = $scopeConfig;
     }
@@ -68,7 +68,7 @@ final class ExportToFile
         $data = $exporter->execute($exportEntity->getEntityId(), []);
         foreach ($this->resolveExportRendererCodes() as $rendererCode) {
             $filePath = $this->archive->prepareArchive(
-                $this->exportRendererFactory->get($rendererCode)->saveData($fileName, $data),
+                $this->rendererFactory->get($rendererCode)->saveData($fileName, $data),
                 $fileName . '.zip'
             );
         }
