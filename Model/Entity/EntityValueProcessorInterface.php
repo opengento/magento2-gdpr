@@ -18,5 +18,5 @@ interface EntityValueProcessorInterface
      * @param mixed $value
      * @return void
      */
-    public function process($entity, string $key, $value): void;
+    public function process(object $entity, string $key, $value): void;
 }

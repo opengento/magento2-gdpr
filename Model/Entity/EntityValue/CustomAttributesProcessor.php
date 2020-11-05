@@ -24,7 +24,7 @@ final class CustomAttributesProcessor implements EntityValueProcessorInterface
         $this->processor = $processor;
     }
 
-    public function process($entity, string $key, $values): void
+    public function process(object $entity, string $key, $values): void
     {
         if ($this->isValid($entity, $key, $values)) {
             foreach ($values as $value) {
@@ -41,7 +41,7 @@ final class CustomAttributesProcessor implements EntityValueProcessorInterface
      * @param mixed $values
      * @return bool
      */
-    private function isValid($entity, string $key, $values): bool
+    private function isValid(object $entity, string $key, $values): bool
     {
         return $entity instanceof CustomAttributesDataInterface &&
             $key === CustomAttributesDataInterface::CUSTOM_ATTRIBUTES &&

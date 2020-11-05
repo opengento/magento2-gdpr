@@ -12,9 +12,5 @@ namespace Opengento\Gdpr\Model\Entity;
  */
 interface EntityIteratorInterface
 {
-    /**
-     * @param object $entity
-     * @return void
-     */
-    public function iterate($entity): void;
+    public function iterate(object $entity): void;
 }

@@ -24,7 +24,7 @@ final class ExtensibleDataProcessor implements EntityValueProcessorInterface
         $this->processor = $processor;
     }
 
-    public function process($entity, string $key, $values): void
+    public function process(object $entity, string $key, $values): void
     {
         if ($this->isValid($entity, $key, $values)) {
             foreach ($values as $value) {
@@ -41,7 +41,7 @@ final class ExtensibleDataProcessor implements EntityValueProcessorInterface
      * @param mixed $values
      * @return bool
      */
-    private function isValid($entity, string $key, $values): bool
+    private function isValid(object $entity, string $key, $values): bool
     {
         return $entity instanceof ExtensibleDataInterface &&
             $key === ExtensibleDataInterface::EXTENSION_ATTRIBUTES_KEY &&
