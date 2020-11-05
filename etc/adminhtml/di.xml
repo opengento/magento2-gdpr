@@ -9,7 +9,7 @@
     <preference for="Opengento\Gdpr\Model\Action\PerformedByInterface" type="Opengento\Gdpr\Model\Action\PerformedBy\AdminUser"/>
     <type name="Opengento\Gdpr\Controller\Adminhtml\Action\InlineEdit">
         <arguments>
-            <argument name="allowedAttributesByState" xsi:type="array">
+            <argument name="allowedAttributes" xsi:type="array">
                 <item name="*" xsi:type="array">
                     <item name="message" xsi:type="const">Opengento\Gdpr\Api\Data\ActionEntityInterface::MESSAGE</item>
                 </item>

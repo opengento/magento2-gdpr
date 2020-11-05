@@ -34,7 +34,7 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
     /**
      * @var ExportEntityRepositoryInterface
      */
-    private $exportEntityRepository;
+    private $exportRepository;
 
     /**
      * @var ExportEntityCheckerInterface
@@ -53,13 +53,13 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
 
     public function __construct(
         ExportEntityInterfaceFactory $exportEntityFactory,
-        ExportEntityRepositoryInterface $exportEntityRepository,
+        ExportEntityRepositoryInterface $exportRepository,
         ExportEntityCheckerInterface $exportEntityChecker,
         ExportToFile $exportToFile,
         ScopeConfigInterface $scopeConfig
     ) {
         $this->exportEntityFactory = $exportEntityFactory;
-        $this->exportEntityRepository = $exportEntityRepository;
+        $this->exportRepository = $exportRepository;
         $this->exportEntityChecker = $exportEntityChecker;
         $this->exportToFile = $exportToFile;
         $this->scopeConfig = $scopeConfig;
@@ -81,7 +81,7 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
         $exportEntity->setEntityId($entityId);
         $exportEntity->setEntityType($entityType);
         $exportEntity->setFileName($fileName ?? $this->resolveDefaultFileName());
-        $exportEntity = $this->exportEntityRepository->save($exportEntity);
+        $exportEntity = $this->exportRepository->save($exportEntity);
 
         return $exportEntity;
     }
@@ -98,7 +98,7 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
             (new DateTime('+' . $lifeTime . 'minutes'))->format(DateTimeFormat::DATETIME_PHP_FORMAT)
         );
         $exportEntity->setExportedAt((new DateTime())->format(DateTimeFormat::DATETIME_PHP_FORMAT));
-        $this->exportEntityRepository->save($exportEntity);
+        $this->exportRepository->save($exportEntity);
 
         return $exportEntity;
     }

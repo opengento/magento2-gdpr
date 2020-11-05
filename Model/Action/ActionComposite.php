@@ -47,7 +47,7 @@ final class ActionComposite implements ActionInterface
     /**
      * @var ActionEntityRepositoryInterface
      */
-    private $actionEntityRepository;
+    private $actionRepository;
 
     public function __construct(
         string $type,
@@ -55,14 +55,14 @@ final class ActionComposite implements ActionInterface
         ContextBuilder $contextBuilder,
         ActionEntityBuilder $actionEntityBuilder,
         ResultBuilder $resultBuilder,
-        ActionEntityRepositoryInterface $actionEntityRepository
+        ActionEntityRepositoryInterface $actionRepository
     ) {
         $this->type = $type;
         $this->actions = $actions;
         $this->contextBuilder = $contextBuilder;
         $this->actionEntityBuilder = $actionEntityBuilder;
         $this->resultBuilder = $resultBuilder;
-        $this->actionEntityRepository = $actionEntityRepository;
+        $this->actionRepository = $actionRepository;
     }
 
     public function execute(ActionContextInterface $actionContext): ActionResultInterface
@@ -81,7 +81,7 @@ final class ActionComposite implements ActionInterface
             $this->actionEntityBuilder->setMessage($e->getMessage());
         }
 
-        $result = $this->result($this->actionEntityRepository->save($this->actionEntityBuilder->create()));
+        $result = $this->result($this->actionRepository->save($this->actionEntityBuilder->create()));
 
         if (isset($e)) {
             throw $e;

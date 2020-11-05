@@ -30,7 +30,7 @@ final class EraseSalesInformation implements EraseSalesInformationInterface
     /**
      * @var EraseEntityRepositoryInterface
      */
-    private $eraseEntityRepository;
+    private $eraseRepository;
 
     /**
      * @var ScopeConfigInterface
@@ -39,11 +39,11 @@ final class EraseSalesInformation implements EraseSalesInformationInterface
 
     public function __construct(
         EraseEntityInterfaceFactory $eraseEntityFactory,
-        EraseEntityRepositoryInterface $eraseEntityRepository,
+        EraseEntityRepositoryInterface $eraseRepository,
         ScopeConfigInterface $scopeConfig
     ) {
         $this->eraseEntityFactory = $eraseEntityFactory;
-        $this->eraseEntityRepository = $eraseEntityRepository;
+        $this->eraseRepository = $eraseRepository;
         $this->scopeConfig = $scopeConfig;
     }
 
@@ -64,7 +64,7 @@ final class EraseSalesInformation implements EraseSalesInformationInterface
         $eraseEntity->setStatus(EraseEntityInterface::STATUS_READY);
         $eraseEntity->setScheduledAt($scheduleAt->format(DateTime::DATETIME_PHP_FORMAT));
 
-        $this->eraseEntityRepository->save($eraseEntity);
+        $this->eraseRepository->save($eraseEntity);
 
         return $eraseEntity;
     }

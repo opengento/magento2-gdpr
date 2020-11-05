@@ -23,14 +23,14 @@ final class SubscriberDataProcessor implements ProcessorInterface
     /**
      * @var ResourceSubscriber
      */
-    private $subscriberResourceModel;
+    private $subscriberResource;
 
     public function __construct(
         SubscriberFactory $subscriberFactory,
-        ResourceSubscriber $subscriberResourceModel
+        ResourceSubscriber $subscriberResource
     ) {
         $this->subscriberFactory = $subscriberFactory;
-        $this->subscriberResourceModel = $subscriberResourceModel;
+        $this->subscriberResource = $subscriberResource;
     }
 
     /**
@@ -42,7 +42,7 @@ final class SubscriberDataProcessor implements ProcessorInterface
         /** @var Subscriber $subscriber */
         $subscriber = $this->subscriberFactory->create();
         $subscriber->loadByCustomerId($customerId);
-        $this->subscriberResourceModel->delete($subscriber);
+        $this->subscriberResource->delete($subscriber);
 
         return true;
     }

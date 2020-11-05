@@ -47,7 +47,7 @@ final class CustomerDataProcessor implements ProcessorInterface
     /**
      * @var SearchCriteriaBuilder
      */
-    private $searchCriteriaBuilder;
+    private $criteriaBuilder;
 
     /**
      * @var CustomerRegistry
@@ -64,7 +64,7 @@ final class CustomerDataProcessor implements ProcessorInterface
         AccountBlocker $accountBlocker,
         CustomerRepositoryInterface $customerRepository,
         OrderRepositoryInterface $orderRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
+        SearchCriteriaBuilder $criteriaBuilder,
         CustomerRegistry $customerRegistry,
         ScopeConfigInterface $scopeConfig
     ) {
@@ -72,7 +72,7 @@ final class CustomerDataProcessor implements ProcessorInterface
         $this->accountBlocker = $accountBlocker;
         $this->customerRepository = $customerRepository;
         $this->orderRepository = $orderRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->criteriaBuilder = $criteriaBuilder;
         $this->customerRegistry = $customerRegistry;
         $this->scopeConfig = $scopeConfig;
     }
@@ -86,8 +86,8 @@ final class CustomerDataProcessor implements ProcessorInterface
         $isRemoved = false;
         try {
             if ($this->shouldRemoveCustomerWithoutOrders()) {
-                $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
-                $orderList = $this->orderRepository->getList($this->searchCriteriaBuilder->create());
+                $this->criteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
+                $orderList = $this->orderRepository->getList($this->criteriaBuilder->create());
 
                 if (!$orderList->getTotalCount()) {
                     $isRemoved = $this->customerRepository->deleteById($customerId);

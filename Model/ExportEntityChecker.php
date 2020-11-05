@@ -16,18 +16,18 @@ final class ExportEntityChecker implements ExportEntityCheckerInterface
     /**
      * @var ExportEntityRepositoryInterface
      */
-    private $exportEntityRepository;
+    private $exportRepository;
 
     public function __construct(
-        ExportEntityRepositoryInterface $exportEntityRepository
+        ExportEntityRepositoryInterface $exportRepository
     ) {
-        $this->exportEntityRepository = $exportEntityRepository;
+        $this->exportRepository = $exportRepository;
     }
 
     public function exists(int $entityId, string $entityType): bool
     {
         try {
-            return (bool) $this->exportEntityRepository->getByEntity($entityId, $entityType)->getExportId();
+            return (bool) $this->exportRepository->getByEntity($entityId, $entityType)->getExportId();
         } catch (NoSuchEntityException $e) {
             return false;
         }
@@ -36,7 +36,7 @@ final class ExportEntityChecker implements ExportEntityCheckerInterface
     public function isExported(int $entityId, string $entityType): bool
     {
         try {
-            $entity = $this->exportEntityRepository->getByEntity($entityId, $entityType);
+            $entity = $this->exportRepository->getByEntity($entityId, $entityType);
         } catch (NoSuchEntityException $e) {
             return false;
         }

@@ -18,7 +18,7 @@ final class EraseEntityChecker implements EraseEntityCheckerInterface
     /**
      * @var EraseEntityRepositoryInterface
      */
-    private $eraseEntityRepository;
+    private $eraseRepository;
 
     /**
      * @var EntityCheckerFactory
@@ -26,17 +26,17 @@ final class EraseEntityChecker implements EraseEntityCheckerInterface
     private $entityCheckerFactory;
 
     public function __construct(
-        EraseEntityRepositoryInterface $eraseEntityRepository,
+        EraseEntityRepositoryInterface $eraseRepository,
         EntityCheckerFactory $entityCheckerFactory
     ) {
-        $this->eraseEntityRepository = $eraseEntityRepository;
+        $this->eraseRepository = $eraseRepository;
         $this->entityCheckerFactory = $entityCheckerFactory;
     }
 
     public function exists(int $entityId, string $entityType): bool
     {
         try {
-            return (bool) $this->eraseEntityRepository->getByEntity($entityId, $entityType)->getEraseId();
+            return (bool) $this->eraseRepository->getByEntity($entityId, $entityType)->getEraseId();
         } catch (NoSuchEntityException $e) {
             return false;
         }
@@ -52,7 +52,7 @@ final class EraseEntityChecker implements EraseEntityCheckerInterface
     public function canCancel(int $entityId, string $entityType): bool
     {
         try {
-            $entity = $this->eraseEntityRepository->getByEntity($entityId, $entityType);
+            $entity = $this->eraseRepository->getByEntity($entityId, $entityType);
         } catch (NoSuchEntityException $e) {
             return false;
         }
@@ -64,7 +64,7 @@ final class EraseEntityChecker implements EraseEntityCheckerInterface
     public function canProcess(int $entityId, string $entityType): bool
     {
         try {
-            $entity = $this->eraseEntityRepository->getByEntity($entityId, $entityType);
+            $entity = $this->eraseRepository->getByEntity($entityId, $entityType);
         } catch (NoSuchEntityException $e) {
             return false;
         }

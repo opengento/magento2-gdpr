@@ -40,17 +40,17 @@ class MassDelete extends Action implements HttpPostActionInterface
     /**
      * @var ActionEntityRepositoryInterface
      */
-    private $actionEntityRepository;
+    private $actionRepository;
 
     public function __construct(
         Context $context,
         Filter $filter,
         CollectionFactory $collectionFactory,
-        ActionEntityRepositoryInterface $actionEntityRepository
+        ActionEntityRepositoryInterface $actionRepository
     ) {
         $this->filter = $filter;
         $this->collectionFactory = $collectionFactory;
-        $this->actionEntityRepository = $actionEntityRepository;
+        $this->actionRepository = $actionRepository;
         parent::__construct($context);
     }
 
@@ -83,7 +83,7 @@ class MassDelete extends Action implements HttpPostActionInterface
 
         /** @var ActionInterface $actionEntity */
         foreach ($collection->getItems() as $actionEntity) {
-            $this->actionEntityRepository->delete($actionEntity);
+            $this->actionRepository->delete($actionEntity);
         }
 
         $this->messageManager->addSuccessMessage(new Phrase('A total of %1 record(s) have been deleted.', [$count]));

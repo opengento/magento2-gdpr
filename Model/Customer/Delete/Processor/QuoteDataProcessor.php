@@ -21,20 +21,20 @@ final class QuoteDataProcessor implements ProcessorInterface
     /**
      * @var SearchCriteriaBuilder
      */
-    private $searchCriteriaBuilder;
+    private $criteriaBuilder;
 
     public function __construct(
         CartRepositoryInterface $quoteRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        SearchCriteriaBuilder $criteriaBuilder
     ) {
         $this->quoteRepository = $quoteRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->criteriaBuilder = $criteriaBuilder;
     }
 
     public function execute(int $customerId): bool
     {
-        $this->searchCriteriaBuilder->addFilter('customer_id', $customerId);
-        $quoteList = $this->quoteRepository->getList($this->searchCriteriaBuilder->create());
+        $this->criteriaBuilder->addFilter('customer_id', $customerId);
+        $quoteList = $this->quoteRepository->getList($this->criteriaBuilder->create());
 
         foreach ($quoteList->getItems() as $quote) {
             $this->quoteRepository->delete($quote);

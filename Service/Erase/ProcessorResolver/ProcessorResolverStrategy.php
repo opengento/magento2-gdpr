@@ -17,7 +17,7 @@ final class ProcessorResolverStrategy implements ProcessorResolverInterface
     /**
      * @var ProcessorResolverFactory
      */
-    private $processorResolverFactory;
+    private $resolverFactory;
 
     /**
      * @var MetadataInterface
@@ -25,15 +25,15 @@ final class ProcessorResolverStrategy implements ProcessorResolverInterface
     private $metadata;
 
     public function __construct(
-        ProcessorResolverFactory $processorResolverFactory,
+        ProcessorResolverFactory $resolverFactory,
         MetadataInterface $metadata
     ) {
-        $this->processorResolverFactory = $processorResolverFactory;
+        $this->resolverFactory = $resolverFactory;
         $this->metadata = $metadata;
     }
 
     public function resolve(string $component): ProcessorInterface
     {
-        return $this->processorResolverFactory->get($this->metadata->getComponentProcessor($component))->resolve($component);
+        return $this->resolverFactory->get($this->metadata->getComponentProcessor($component))->resolve($component);
     }
 }

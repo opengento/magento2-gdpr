@@ -24,15 +24,15 @@ final class CustomerAddressDataProcessor extends AbstractDataProcessor
     /**
      * @var SearchCriteriaBuilder
      */
-    private $searchCriteriaBuilder;
+    private $criteriaBuilder;
 
     public function __construct(
         AddressRepositoryInterface $addressRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
+        SearchCriteriaBuilder $criteriaBuilder,
         DataCollectorInterface $dataCollector
     ) {
         $this->addressRepository = $addressRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->criteriaBuilder = $criteriaBuilder;
         parent::__construct($dataCollector);
     }
 
@@ -42,8 +42,8 @@ final class CustomerAddressDataProcessor extends AbstractDataProcessor
      */
     public function execute(int $customerId, array $data): array
     {
-        $this->searchCriteriaBuilder->addFilter('parent_id', $customerId);
-        $addressList = $this->addressRepository->getList($this->searchCriteriaBuilder->create());
+        $this->criteriaBuilder->addFilter('parent_id', $customerId);
+        $addressList = $this->addressRepository->getList($this->criteriaBuilder->create());
 
         /** @var AddressInterface $entity */
         foreach ($addressList->getItems() as $entity) {

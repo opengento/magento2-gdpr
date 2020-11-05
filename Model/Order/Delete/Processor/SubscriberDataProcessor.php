@@ -30,7 +30,7 @@ final class SubscriberDataProcessor implements ProcessorInterface
     /**
      * @var ResourceSubscriber
      */
-    private $subscriberResourceModel;
+    private $subscriberResource;
 
     /**
      * @var StoreManagerInterface
@@ -40,12 +40,12 @@ final class SubscriberDataProcessor implements ProcessorInterface
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         SubscriberFactory $subscriberFactory,
-        ResourceSubscriber $subscriberResourceModel,
+        ResourceSubscriber $subscriberResource,
         StoreManagerInterface $storeManager
     ) {
         $this->orderRepository = $orderRepository;
         $this->subscriberFactory = $subscriberFactory;
-        $this->subscriberResourceModel = $subscriberResourceModel;
+        $this->subscriberResource = $subscriberResource;
         $this->storeManager = $storeManager;
     }
 
@@ -63,7 +63,7 @@ final class SubscriberDataProcessor implements ProcessorInterface
             $order->getCustomerEmail(),
             $this->storeManager->getStore($order->getStoreId())->getWebsiteId()
         );
-        $this->subscriberResourceModel->delete($subscriber);
+        $this->subscriberResource->delete($subscriber);
 
         return true;
     }

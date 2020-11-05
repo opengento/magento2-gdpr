@@ -27,12 +27,12 @@ class ActionEntity extends AbstractDb
     public function __construct(
         Context $context,
         Snapshot $entitySnapshot,
-        RelationComposite $entityRelationComposite,
+        RelationComposite $relationComposite,
         Validator $validator,
         ?string $connectionName = null
     ) {
         $this->validator = $validator;
-        parent::__construct($context, $entitySnapshot, $entityRelationComposite, $connectionName);
+        parent::__construct($context, $entitySnapshot, $relationComposite, $connectionName);
     }
 
     protected function _construct(): void
