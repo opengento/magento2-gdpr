@@ -37,8 +37,8 @@ final class AlphaUpper implements AnonymizerInterface
      * @inheritdoc
      * @throws LocalizedException
      */
-    public function anonymize($value): string
+    public function anonymize($value): ?string
     {
-        return $this->mathRandom->getRandomString($this->length, Random::CHARS_UPPERS);
+        return $value ? $this->mathRandom->getRandomString($this->length, Random::CHARS_UPPERS) : null;
     }
 }

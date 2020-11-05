@@ -48,7 +48,7 @@ final class Entity implements AnonymizerInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function anonymize($entity)
+    public function anonymize($entity): object
     {
         if (!is_object($entity)) {
             throw new InvalidArgumentException(
