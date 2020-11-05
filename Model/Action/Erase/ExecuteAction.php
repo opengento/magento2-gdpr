@@ -19,13 +19,13 @@ final class ExecuteAction extends AbstractAction
     /**
      * @var EraseEntityManagementInterface
      */
-    private $eraseEntityManagement;
+    private $entityManagement;
 
     public function __construct(
         ResultBuilder $resultBuilder,
-        EraseEntityManagementInterface $eraseEntityManagement
+        EraseEntityManagementInterface $entityManagement
     ) {
-        $this->eraseEntityManagement = $eraseEntityManagement;
+        $this->entityManagement = $entityManagement;
         parent::__construct($resultBuilder);
     }
 
@@ -38,7 +38,7 @@ final class ExecuteAction extends AbstractAction
         }
 
         return $this->createActionResult(
-            [ArgumentReader::ERASE_ENTITY => $this->eraseEntityManagement->process($eraseEntity)]
+            [ArgumentReader::ERASE_ENTITY => $this->entityManagement->process($eraseEntity)]
         );
     }
 }

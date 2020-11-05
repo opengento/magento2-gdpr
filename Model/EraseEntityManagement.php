@@ -33,12 +33,12 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
     /**
      * @var EraseEntityRepositoryInterface
      */
-    private $eraseEntityRepository;
+    private $eraseRepository;
 
     /**
      * @var ProcessorFactory
      */
-    private $eraseProcessorFactory;
+    private $processorFactory;
 
     /**
      * @var ScopeConfigInterface
@@ -52,14 +52,14 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
 
     public function __construct(
         EraseEntityInterfaceFactory $eraseEntityFactory,
-        EraseEntityRepositoryInterface $eraseEntityRepository,
-        ProcessorFactory $eraseProcessorFactory,
+        EraseEntityRepositoryInterface $eraseRepository,
+        ProcessorFactory $processorFactory,
         ScopeConfigInterface $scopeConfig,
         DateTime $localeDate
     ) {
         $this->eraseEntityFactory = $eraseEntityFactory;
-        $this->eraseEntityRepository = $eraseEntityRepository;
-        $this->eraseProcessorFactory = $eraseProcessorFactory;
+        $this->eraseRepository = $eraseRepository;
+        $this->processorFactory = $processorFactory;
         $this->scopeConfig = $scopeConfig;
         $this->localeDate = $localeDate;
     }
@@ -74,20 +74,20 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
         $entity->setStatus(EraseEntityInterface::STATUS_READY);
         $entity->setScheduledAt($this->retrieveScheduledAt());
 
-        return $this->eraseEntityRepository->save($entity);
+        return $this->eraseRepository->save($entity);
     }
 
     public function cancel(int $entityId, string $entityType): bool
     {
-        return $this->eraseEntityRepository->delete($this->eraseEntityRepository->getByEntity($entityId, $entityType));
+        return $this->eraseRepository->delete($this->eraseRepository->getByEntity($entityId, $entityType));
     }
 
     public function process(EraseEntityInterface $entity): EraseEntityInterface
     {
         $entity->setState(EraseEntityInterface::STATE_PROCESSING);
         $entity->setStatus(EraseEntityInterface::STATUS_RUNNING);
-        $entity = $this->eraseEntityRepository->save($entity);
-        $eraser = $this->eraseProcessorFactory->get($entity->getEntityType());
+        $entity = $this->eraseRepository->save($entity);
+        $eraser = $this->processorFactory->get($entity->getEntityType());
 
         try {
             if ($eraser->execute($entity->getEntityId())) {
@@ -113,7 +113,7 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
         $entity->setErasedAt($this->localeDate->gmtDate());
         $entity->setMessage(null);
 
-        return $this->eraseEntityRepository->save($entity);
+        return $this->eraseRepository->save($entity);
     }
 
     /**
@@ -128,7 +128,7 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
         $entity->setStatus(EraseEntityInterface::STATUS_FAILED);
         $entity->setMessage($message);
 
-        return $this->eraseEntityRepository->save($entity);
+        return $this->eraseRepository->save($entity);
     }
 
     private function retrieveScheduledAt(): string

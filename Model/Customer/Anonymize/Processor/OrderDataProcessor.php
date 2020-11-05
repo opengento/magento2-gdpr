@@ -34,30 +34,30 @@ final class OrderDataProcessor implements ProcessorInterface
     /**
      * @var OrderAddressRepositoryInterface
      */
-    private $orderAddressRepository;
+    private $addressRepository;
 
     /**
      * @var SearchCriteriaBuilder
      */
-    private $searchCriteriaBuilder;
+    private $criteriaBuilder;
 
     /**
      * @var EraseSalesInformationInterface
      */
-    private $eraseSalesInformation;
+    private $salesInformation;
 
     public function __construct(
         AnonymizerInterface $anonymizer,
         OrderRepositoryInterface $orderRepository,
-        OrderAddressRepositoryInterface $orderAddressRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
-        EraseSalesInformationInterface $eraseSalesInformation
+        OrderAddressRepositoryInterface $addressRepository,
+        SearchCriteriaBuilder $criteriaBuilder,
+        EraseSalesInformationInterface $salesInformation
     ) {
         $this->anonymizer = $anonymizer;
         $this->orderRepository = $orderRepository;
-        $this->orderAddressRepository = $orderAddressRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->eraseSalesInformation = $eraseSalesInformation;
+        $this->addressRepository = $addressRepository;
+        $this->criteriaBuilder = $criteriaBuilder;
+        $this->salesInformation = $salesInformation;
     }
 
     /**
@@ -66,14 +66,14 @@ final class OrderDataProcessor implements ProcessorInterface
      */
     public function execute(int $customerId): bool
     {
-        $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
-        $orderList = $this->orderRepository->getList($this->searchCriteriaBuilder->create());
+        $this->criteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
+        $orderList = $this->orderRepository->getList($this->criteriaBuilder->create());
 
         /** @var Order $order */
         foreach ($orderList->getItems() as $order) {
             $lastActive = new DateTime($order->getUpdatedAt());
-            $this->eraseSalesInformation->isAlive($lastActive)
-                ? $this->eraseSalesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive)
+            $this->salesInformation->isAlive($lastActive)
+                ? $this->salesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive)
                 : $this->anonymize($order);
         }
 
@@ -87,7 +87,7 @@ final class OrderDataProcessor implements ProcessorInterface
         /** @var OrderAddressInterface|null $orderAddress */
         foreach ([$order->getBillingAddress(), $order->getShippingAddress()] as $orderAddress) {
             if ($orderAddress) {
-                $this->orderAddressRepository->save($this->anonymizer->anonymize($orderAddress));
+                $this->addressRepository->save($this->anonymizer->anonymize($orderAddress));
             }
         }
     }

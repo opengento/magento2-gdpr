@@ -34,7 +34,7 @@ final class ActionEntityRepository implements ActionEntityRepositoryInterface
     /**
      * @var ActionEntityInterfaceFactory
      */
-    private $actionCustomerFactory;
+    private $actionFactory;
 
     /**
      * @var CollectionFactory
@@ -58,13 +58,13 @@ final class ActionEntityRepository implements ActionEntityRepositoryInterface
 
     public function __construct(
         ActionEntityResource $actionEntityResource,
-        ActionEntityInterfaceFactory $actionCustomerFactory,
+        ActionEntityInterfaceFactory $actionFactory,
         CollectionFactory $collectionFactory,
         CollectionProcessorInterface $collectionProcessor,
         ActionEntitySearchResultsInterfaceFactory $searchResultsFactory
     ) {
         $this->actionEntityResource = $actionEntityResource;
-        $this->actionCustomerFactory = $actionCustomerFactory;
+        $this->actionFactory = $actionFactory;
         $this->collectionFactory = $collectionFactory;
         $this->collectionProcessor = $collectionProcessor;
         $this->searchResultsFactory = $searchResultsFactory;
@@ -86,7 +86,7 @@ final class ActionEntityRepository implements ActionEntityRepositoryInterface
     {
         if (!isset($this->instances[$actionId])) {
             /** @var ActionEntityInterface $actionEntity */
-            $actionEntity = $this->actionCustomerFactory->create();
+            $actionEntity = $this->actionFactory->create();
             $this->actionEntityResource->load($actionEntity, $actionId, ActionEntityInterface::ID);
 
             if (!$actionEntity->getActionId()) {

@@ -36,18 +36,18 @@ final class QuoteDataProcessor implements ProcessorInterface
     /**
      * @var Address
      */
-    private $quoteAddressResourceModel;
+    private $resourceModel;
 
     public function __construct(
         AnonymizerInterface $anonymizer,
         OrderRepositoryInterface $orderRepository,
         CartRepositoryInterface $quoteRepository,
-        Address $quoteAddressResourceModel
+        Address $resourceModel
     ) {
         $this->anonymizer = $anonymizer;
         $this->orderRepository = $orderRepository;
         $this->quoteRepository = $quoteRepository;
-        $this->quoteAddressResourceModel = $quoteAddressResourceModel;
+        $this->resourceModel = $resourceModel;
     }
 
     /**
@@ -66,7 +66,7 @@ final class QuoteDataProcessor implements ProcessorInterface
             /** @var Quote\Address|null $quoteAddress */
             foreach ([$quote->getBillingAddress(), $quote->getShippingAddress()] as $quoteAddress) {
                 if ($quoteAddress) {
-                    $this->quoteAddressResourceModel->save($this->anonymizer->anonymize($quoteAddress));
+                    $this->resourceModel->save($this->anonymizer->anonymize($quoteAddress));
                 }
             }
         } catch (NoSuchEntityException $e) {

@@ -20,13 +20,13 @@ final class ExportAction extends AbstractAction
     /**
      * @var ExportEntityManagementInterface
      */
-    private $exportEntityManagement;
+    private $entityManagement;
 
     public function __construct(
         ResultBuilder $resultBuilder,
-        ExportEntityManagementInterface $exportEntityManagement
+        ExportEntityManagementInterface $entityManagement
     ) {
-        $this->exportEntityManagement = $exportEntityManagement;
+        $this->entityManagement = $entityManagement;
         parent::__construct($resultBuilder);
     }
 
@@ -39,7 +39,7 @@ final class ExportAction extends AbstractAction
         }
 
         return $this->createActionResult(
-            [ExportArgumentReader::EXPORT_ENTITY => $this->exportEntityManagement->export($exportEntity)]
+            [ExportArgumentReader::EXPORT_ENTITY => $this->entityManagement->export($exportEntity)]
         );
     }
 }

@@ -26,7 +26,7 @@ final class ExportToFile
     /**
      * @var ProcessorFactory
      */
-    private $exportProcessorFactory;
+    private $processorFactory;
 
     /**
      * @var RendererFactory
@@ -44,12 +44,12 @@ final class ExportToFile
     private $scopeConfig;
 
     public function __construct(
-        ProcessorFactory $exportProcessorFactory,
+        ProcessorFactory $processorFactory,
         RendererFactory $exportRendererFactory,
         MoveToArchive $archive,
         ScopeConfigInterface $scopeConfig
     ) {
-        $this->exportProcessorFactory = $exportProcessorFactory;
+        $this->processorFactory = $processorFactory;
         $this->exportRendererFactory = $exportRendererFactory;
         $this->archive = $archive;
         $this->scopeConfig = $scopeConfig;
@@ -63,7 +63,7 @@ final class ExportToFile
      */
     public function export(ExportEntityInterface $exportEntity): ?string
     {
-        $exporter = $this->exportProcessorFactory->get($exportEntity->getEntityType());
+        $exporter = $this->processorFactory->get($exportEntity->getEntityType());
         $fileName = $this->prepareFileName($exportEntity);
         $data = $exporter->execute($exportEntity->getEntityId(), []);
         foreach ($this->resolveExportRendererCodes() as $rendererCode) {

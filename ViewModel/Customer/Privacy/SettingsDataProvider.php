@@ -30,7 +30,7 @@ final class SettingsDataProvider implements ArgumentInterface
     /**
      * @var null|string
      */
-    private $privacyInformationHtml;
+    private $informationHtml;
 
     public function __construct(
         ScopeConfigInterface $scopeConfig,
@@ -42,7 +42,7 @@ final class SettingsDataProvider implements ArgumentInterface
 
     public function getPrivacyInformationHtml(): string
     {
-        return $this->privacyInformationHtml ?? $this->privacyInformationHtml = $this->blockFactory->createBlock(
+        return $this->informationHtml ?? $this->informationHtml = $this->blockFactory->createBlock(
             Block::class,
             ['data' => ['block_id' => (string) $this->scopeConfig->getValue(
                 self::CONFIG_PATH_GENERAL_INFORMATION_BLOCK,

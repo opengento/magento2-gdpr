@@ -23,7 +23,7 @@ final class CustomerChecker implements EntityCheckerInterface
     /**
      * @var SearchCriteriaBuilder
      */
-    private $searchCriteriaBuilder;
+    private $criteriaBuilder;
 
     /**
      * @var Config
@@ -37,11 +37,11 @@ final class CustomerChecker implements EntityCheckerInterface
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
+        SearchCriteriaBuilder $criteriaBuilder,
         Config $config
     ) {
         $this->orderRepository = $orderRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->criteriaBuilder = $criteriaBuilder;
         $this->config = $config;
         $this->cache = [];
     }
@@ -49,9 +49,9 @@ final class CustomerChecker implements EntityCheckerInterface
     public function canErase(int $customerId): bool
     {
         if (!isset($this->cache[$customerId])) {
-            $this->searchCriteriaBuilder->addFilter(OrderInterface::STATE, $this->config->getAllowedStatesToErase(), 'nin');
-            $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
-            $orderList = $this->orderRepository->getList($this->searchCriteriaBuilder->create());
+            $this->criteriaBuilder->addFilter(OrderInterface::STATE, $this->config->getAllowedStatesToErase(), 'nin');
+            $this->criteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
+            $orderList = $this->orderRepository->getList($this->criteriaBuilder->create());
 
             $this->cache[$customerId] = !$orderList->getTotalCount();
         }

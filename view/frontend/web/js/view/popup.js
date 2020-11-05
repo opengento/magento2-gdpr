@@ -13,12 +13,12 @@
  * file that was distributed with this source code.
  */
 define([
-    'jquery',
-    'uiComponent',
-    'ko',
-    'mage/cookies'
+    "jquery",
+    "uiComponent",
+    "ko",
+    "mage/cookies"
 ], function ($, Component, ko) {
-    'use strict';
+    "use strict";
 
     return Component.extend({
         showPopUp: ko.observable(null),
@@ -26,20 +26,20 @@ define([
         popupLink: ko.observable(null),
 
         defaults: {
-            template: 'Opengento_Gdpr/message'
+            template: "Opengento_Gdpr/message"
         },
 
         /**
          * Initialize component
          */
-        initialize: function () {
+        initialize() {
             this._super();
 
             this.showPopUp(!$.cookie(this.cookieName));
             this.popupText(this.notificationText);
             this.popupLink(this.learnMore);
 
-            $(document).on('click', '#enhanced-privacy-popup-agree', function () {
+            $(document).on("click", "#enhanced-privacy-popup-agree", function () {
                 this.showPopUp(false);
                 $.cookie(this.cookieName, 1);
             }.bind(this));

@@ -25,12 +25,12 @@ class Export extends Value
     /**
      * @var ExportEntityRepositoryInterface
      */
-    private $exportEntityRepository;
+    private $exportRepository;
 
     /**
      * @var SearchCriteriaBuilder
      */
-    private $searchCriteriaBuilder;
+    private $criteriaBuilder;
 
     public function __construct(
         Context $context,
@@ -39,12 +39,12 @@ class Export extends Value
         TypeListInterface $cacheTypeList,
         AbstractResource $resource,
         AbstractDb $resourceCollection,
-        ExportEntityRepositoryInterface $exportEntityRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
+        ExportEntityRepositoryInterface $exportRepository,
+        SearchCriteriaBuilder $criteriaBuilder,
         array $data = []
     ) {
-        $this->exportEntityRepository = $exportEntityRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->exportRepository = $exportRepository;
+        $this->criteriaBuilder = $criteriaBuilder;
         parent::__construct($context, $registry, $config, $cacheTypeList, $resource, $resourceCollection, $data);
     }
 
@@ -57,10 +57,10 @@ class Export extends Value
     public function afterSave(): self
     {
         if ($this->isValueChanged()) {
-            $exportList = $this->exportEntityRepository->getList($this->searchCriteriaBuilder->create());
+            $exportList = $this->exportRepository->getList($this->criteriaBuilder->create());
 
             foreach ($exportList->getItems() as $exportEntity) {
-                $this->exportEntityRepository->delete($exportEntity);
+                $this->exportRepository->delete($exportEntity);
             }
         }
 

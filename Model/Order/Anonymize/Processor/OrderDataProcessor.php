@@ -32,23 +32,23 @@ final class OrderDataProcessor implements ProcessorInterface
     /**
      * @var OrderAddressRepositoryInterface
      */
-    private $orderAddressRepository;
+    private $addressRepository;
 
     /**
      * @var EraseSalesInformationInterface
      */
-    private $eraseSalesInformation;
+    private $salesInformation;
 
     public function __construct(
         AnonymizerInterface $anonymizer,
         OrderRepositoryInterface $orderRepository,
-        OrderAddressRepositoryInterface $orderAddressRepository,
-        EraseSalesInformationInterface $eraseSalesInformation
+        OrderAddressRepositoryInterface $addressRepository,
+        EraseSalesInformationInterface $salesInformation
     ) {
         $this->anonymizer = $anonymizer;
         $this->orderRepository = $orderRepository;
-        $this->orderAddressRepository = $orderAddressRepository;
-        $this->eraseSalesInformation = $eraseSalesInformation;
+        $this->addressRepository = $addressRepository;
+        $this->salesInformation = $salesInformation;
     }
 
     /**
@@ -61,8 +61,8 @@ final class OrderDataProcessor implements ProcessorInterface
         $order = $this->orderRepository->get($orderId);
         $lastActive = new DateTime($order->getUpdatedAt());
 
-        if ($this->eraseSalesInformation->isAlive($lastActive)) {
-            $this->eraseSalesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive);
+        if ($this->salesInformation->isAlive($lastActive)) {
+            $this->salesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive);
 
             return true;
         }
@@ -72,7 +72,7 @@ final class OrderDataProcessor implements ProcessorInterface
         /** @var OrderAddressInterface|null $orderAddress */
         foreach ([$order->getBillingAddress(), $order->getShippingAddress()] as $orderAddress) {
             if ($orderAddress) {
-                $this->orderAddressRepository->save($this->anonymizer->anonymize($orderAddress));
+                $this->addressRepository->save($this->anonymizer->anonymize($orderAddress));
             }
         }
 

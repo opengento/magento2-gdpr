@@ -31,7 +31,7 @@ class InlineEdit extends Action implements HttpPostActionInterface
     /**
      * @var ActionEntityRepositoryInterface
      */
-    private $actionEntityRepository;
+    private $actionRepository;
 
     /**
      * @var HydratorPool
@@ -46,19 +46,19 @@ class InlineEdit extends Action implements HttpPostActionInterface
     /**
      * @var string[]
      */
-    private $allowedAttributesByState;
+    private $allowedAttributes;
 
     public function __construct(
         Context $context,
-        ActionEntityRepositoryInterface $actionEntityRepository,
+        ActionEntityRepositoryInterface $actionRepository,
         HydratorPool $hydratorPool,
         LoggerInterface $logger,
-        array $allowedAttributesByState
+        array $allowedAttributes
     ) {
-        $this->actionEntityRepository = $actionEntityRepository;
+        $this->actionRepository = $actionRepository;
         $this->hydratorPool = $hydratorPool;
         $this->logger = $logger;
-        $this->allowedAttributesByState = $allowedAttributesByState;
+        $this->allowedAttributes = $allowedAttributes;
         parent::__construct($context);
     }
 
@@ -103,11 +103,11 @@ class InlineEdit extends Action implements HttpPostActionInterface
     private function edit(int $actionId, array $data): void
     {
         $hydrator = $this->hydratorPool->getHydrator(ActionEntityInterface::class);
-        $actionEntity = $this->actionEntityRepository->getById($actionId);
+        $actionEntity = $this->actionRepository->getById($actionId);
 
         $allowedAttributes = array_merge(
-            $this->allowedAttributesByState['*'] ?? [],
-            $this->allowedAttributesByState[$actionEntity->getState()] ?? []
+            $this->allowedAttributes['*'] ?? [],
+            $this->allowedAttributes[$actionEntity->getState()] ?? []
         );
 
         /** @var ActionEntityInterface $actionEntity */
@@ -116,6 +116,6 @@ class InlineEdit extends Action implements HttpPostActionInterface
             array_intersect_key($data, array_fill_keys($allowedAttributes, null))
         );
 
-        $this->actionEntityRepository->save($actionEntity);
+        $this->actionRepository->save($actionEntity);
     }
 }
