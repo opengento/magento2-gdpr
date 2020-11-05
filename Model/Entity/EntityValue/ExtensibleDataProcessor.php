@@ -24,27 +24,12 @@ final class ExtensibleDataProcessor implements EntityValueProcessorInterface
         $this->processor = $processor;
     }
 
-    public function process(object $entity, string $key, $values): void
+    public function process(string $key, $values): void
     {
-        if ($this->isValid($entity, $key, $values)) {
+        if ($key === ExtensibleDataInterface::EXTENSION_ATTRIBUTES_KEY && is_iterable($values)) {
             foreach ($values as $value) {
-                $this->processor->process($entity, $key, $value);
+                $this->processor->process($key, $value);
             }
         }
-    }
-
-    /**
-     * Check whether the entity object and the value key are valid
-     *
-     * @param object $entity
-     * @param string $key
-     * @param mixed $values
-     * @return bool
-     */
-    private function isValid(object $entity, string $key, $values): bool
-    {
-        return $entity instanceof ExtensibleDataInterface &&
-            $key === ExtensibleDataInterface::EXTENSION_ATTRIBUTES_KEY &&
-            is_iterable($values);
     }
 }

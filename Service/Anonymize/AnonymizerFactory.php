@@ -13,10 +13,7 @@ use function sprintf;
 
 final class AnonymizerFactory
 {
-    /**
-     * Constants for the anonymizer key codes
-     */
-    public const DEFAULT_ANONYMIZER = 'default';
+    public const DEFAULT_KEY = 'default';
 
     /**
      * @var string[]
