@@ -7,9 +7,10 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Anonymize\Anonymizer;
 
-use Exception;
+use DateTime;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Math\Random;
-use Magento\Framework\Stdlib\DateTime;
+use Magento\Framework\Stdlib\DateTime as StdlibDateTime;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
 final class Date implements AnonymizerInterface
@@ -19,13 +20,22 @@ final class Date implements AnonymizerInterface
 
     /**
      * @inheritdoc
-     * @throws Exception
+     * @throws LocalizedException
      */
-    public function anonymize($value): string
+    public function anonymize($value): ?string
     {
-        $dateTime = new \DateTime();
+        return $value ? $this->randomDateTime()->format(StdlibDateTime::DATETIME_PHP_FORMAT) : null;
+    }
+
+    /**
+     * @return DateTime
+     * @throws LocalizedException
+     */
+    private function randomDateTime(): DateTime
+    {
+        $dateTime = new DateTime();
         $dateTime->setTimestamp(Random::getRandomNumber(self::MIN_TIMESTAMP, self::MAX_TIMESTAMP));
 
-        return $dateTime->format(DateTime::DATE_PHP_FORMAT);
+        return $dateTime;
     }
 }
