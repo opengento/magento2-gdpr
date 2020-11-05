@@ -26,14 +26,12 @@ final class NotEmptyStrategy implements PerformedByInterface
 
     public function get(): string
     {
-        foreach ($this->performedByList as $performedBy) {
-            $performer = $performedBy->get();
+        $performer = self::PERFORMED_BY;
 
-            if (!empty($performer)) {
-                return $performer;
-            }
+        foreach ($this->performedByList as $performedBy) {
+            $performer = $performedBy->get() ?: $performer;
         }
 
-        return self::PERFORMED_BY;
+        return $performer;
     }
 }

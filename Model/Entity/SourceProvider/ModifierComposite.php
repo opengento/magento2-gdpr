@@ -11,7 +11,6 @@ use Magento\Framework\Api\Filter;
 use Magento\Framework\Data\Collection;
 
 /**
- * Class ModifierComposite
  * @api
  */
 final class ModifierComposite implements ModifierInterface

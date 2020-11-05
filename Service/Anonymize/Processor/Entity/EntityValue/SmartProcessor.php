@@ -41,7 +41,7 @@ final class SmartProcessor implements EntityValueProcessorInterface
         $this->anonymizerFactory = $anonymizerFactory;
     }
 
-    public function process($entity, string $key, $value): void
+    public function process(object $entity, string $key, $value): void
     {
         if (in_array($key, $this->metadata->getAttributes(), true)) {
             $this->document->addData($key, $this->resolveAnonymizer($key)->anonymize($value));
