@@ -22,8 +22,8 @@ final class StrategyProcessor implements EntityValueProcessorInterface
         $this->processors = $processors;
     }
 
-    public function process(object $entity, string $key, $value): void
+    public function process(string $key, $value): void
     {
-        ($this->processors[$key] ?? $this->processors['default'])->process($entity, $key, $value);
+        ($this->processors[$key] ?? $this->processors['default'])->process($key, $value);
     }
 }
