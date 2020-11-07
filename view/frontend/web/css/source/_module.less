@@ -3,60 +3,66 @@
  * See LICENSE bundled with this library for license details.
  */
 
-@color-red: #ff0101;
-@color-red2: #b30000;
-@color-gray-light01: #f4f4f4;
-@screen__m: 768px;
 
-&.action {
-  &.action-danger {
-    color: @color-red9;
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+  &.action {
+    &.action-danger {
+      color: @color-red9;
+    }
+    &.primary.primary-danger {
+      background: @color-red9;
+      border: 1px solid @color-red9;
+      &:hover {
+        background: @color-red11;
+        border: 1px solid @color-red11;
+      }
+    }
   }
 
-  &.primary.primary-danger {
-    background: @color-red9;
-    border: 1px solid @color-red9;
+/**
+* This file is part of the Flurrybox EnhancedPrivacy package.
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to upgrade Flurrybox EnhancedPrivacy
+* to newer versions in the future.
+*
+* @copyright Copyright (c) 2018 Flurrybox, Ltd. (https://flurrybox.com/)
+* @license   GNU General Public License ("GPL") v3.0
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+*/
 
-    &:hover {
-      background: @color-red11;
-      border: 1px solid @color-red11;
+  .enhanced-privacy-popup {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: @color-gray-light01;
+    overflow: hidden;
+    .popup {
+      &.content{
+        margin: auto;
+        padding: 10px 0;
+        width: @screen__m;
+      }
     }
   }
 }
 
-/**
- * This file is part of the Flurrybox EnhancedPrivacy package.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Flurrybox EnhancedPrivacy
- * to newer versions in the future.
- *
- * @copyright Copyright (c) 2018 Flurrybox, Ltd. (https://flurrybox.com/)
- * @license   GNU General Public License ("GPL") v3.0
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+//
+//  Mobile
+//  _____________________________________________
 
-.enhanced-privacy-popup {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: @color-gray-light01;
-  overflow: hidden;
-  border-top: 1px solid #6e716e;
-
-  .popup {
-    &.content {
-      margin: auto;
-      padding: 10px 0;
-      width: @screen__m;
-    }
-
-    @media (max-width: @screen__m) {
-      &.content {
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+  .enhanced-privacy-popup {
+    .popup {
+      &.content{
         margin: 0;
         padding: 10px;
         width: auto;
@@ -64,3 +70,5 @@
     }
   }
 }
+
+
