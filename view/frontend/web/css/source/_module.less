@@ -3,27 +3,28 @@
  * See LICENSE bundled with this library for license details.
  */
 
-@color-red: #ff0101;
-@color-red2: #b30000;
-@color-gray-light01: #f4f4f4;
-@screen__m: 768px;
 
-&.action {
-  &.action-danger {
-    color: @color-red9;
-  }
-  &.primary.primary-danger {
-    background: @color-red9;
-    border: 1px solid @color-red9;
+//
+//  Common
+//  _____________________________________________
 
-    &:hover {
-      background: @color-red11;
-      border: 1px solid @color-red11;
+& when (@media-common = true) {
+    &.action {
+        &.action-danger {
+            color: @color-red9;
+        }
+        &.primary.primary-danger {
+            background: @color-red9;
+            border: 1px solid @color-red9;
+
+            &:hover {
+                background: @color-red11;
+                border: 1px solid @color-red11;
+            }
+        }
     }
-  }
-}
 
-/**
+    /**
  * This file is part of the Flurrybox EnhancedPrivacy package.
  *
  * DISCLAIMER
@@ -38,28 +39,40 @@
  * file that was distributed with this source code.
  */
 
-.enhanced-privacy-popup {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: @color-gray-light01;
-  overflow: hidden;
-  border-top: 1px solid #6e716e;
+    .enhanced-privacy-popup {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: @color-gray-light01;
+        overflow: hidden;
 
-  .popup {
-    &.content{
-      margin: auto;
-      padding: 10px 0;
-      width: @screen__m;
-    }
+        .popup {
+            &.content{
+                margin: auto;
+                padding: 10px 0;
+                width: @screen__m;
+            }
 
-    @media (max-width: @screen__m) {
-      &.content{
-        margin: 0;
-        padding: 10px;
-        width: auto;
-      }
+
+        }
     }
-  }
 }
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .enhanced-privacy-popup {
+        .popup {
+            &.content{
+                margin: 0;
+                padding: 10px;
+                width: auto;
+            }
+        }
+    }
+}
+
+
