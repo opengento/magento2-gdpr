@@ -30,23 +30,23 @@ final class QuoteDataProcessor implements ProcessorInterface
     /**
      * @var Address
      */
-    private $quoteAddressResourceModel;
+    private $resourceModel;
 
     /**
      * @var SearchCriteriaBuilder
      */
-    private $searchCriteriaBuilder;
+    private $criteriaBuilder;
 
     public function __construct(
         AnonymizerInterface $anonymizer,
         CartRepositoryInterface $quoteRepository,
-        Address $quoteAddressResourceModel,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        Address $resourceModel,
+        SearchCriteriaBuilder $criteriaBuilder
     ) {
         $this->anonymizer = $anonymizer;
         $this->quoteRepository = $quoteRepository;
-        $this->quoteAddressResourceModel = $quoteAddressResourceModel;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->resourceModel = $resourceModel;
+        $this->criteriaBuilder = $criteriaBuilder;
     }
 
     /**
@@ -55,8 +55,8 @@ final class QuoteDataProcessor implements ProcessorInterface
      */
     public function execute(int $customerId): bool
     {
-        $this->searchCriteriaBuilder->addFilter('customer_id', $customerId);
-        $quoteList = $this->quoteRepository->getList($this->searchCriteriaBuilder->create());
+        $this->criteriaBuilder->addFilter('customer_id', $customerId);
+        $quoteList = $this->quoteRepository->getList($this->criteriaBuilder->create());
 
         /** @var Quote $quote */
         foreach ($quoteList->getItems() as $quote) {
@@ -65,7 +65,7 @@ final class QuoteDataProcessor implements ProcessorInterface
             /** @var Quote\Address|null $quoteAddress */
             foreach ([$quote->getBillingAddress(), $quote->getShippingAddress()] as $quoteAddress) {
                 if ($quoteAddress) {
-                    $this->quoteAddressResourceModel->save($this->anonymizer->anonymize($quoteAddress));
+                    $this->resourceModel->save($this->anonymizer->anonymize($quoteAddress));
                 }
             }
         }

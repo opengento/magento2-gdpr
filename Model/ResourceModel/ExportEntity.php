@@ -41,8 +41,8 @@ class ExportEntity extends AbstractDb
         $select = $this->getConnection()->select()->from($this->getMainTable());
 
         foreach ($field as $i => $identifier) {
-            $pk = $this->getConnection()->quoteIdentifier(sprintf('%s.%s', $this->getMainTable(), $identifier));
-            $select->where($pk . '=?', $value[$i]);
+            $primaryKey = $this->getConnection()->quoteIdentifier(sprintf('%s.%s', $this->getMainTable(), $identifier));
+            $select->where($primaryKey . '=?', $value[$i]);
         }
 
         return $select;

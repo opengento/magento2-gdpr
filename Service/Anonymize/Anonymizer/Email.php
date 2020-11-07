@@ -33,16 +33,16 @@ final class Email implements AnonymizerInterface
      * @inheritdoc
      * @throws LocalizedException
      */
-    public function anonymize($value): string
+    public function anonymize($value): ?string
     {
-        $phrase = new Phrase(
-            self::PHRASE,
-            [
-                $this->mathRandom->getRandomString(self::PREFIX_LENGTH, Random::CHARS_LOWERS),
-                $this->mathRandom->getRandomString(self::SUFFIX_LENGTH, Random::CHARS_LOWERS),
-            ]
-        );
-
-        return $phrase->render();
+        return $value
+            ? (new Phrase(
+                self::PHRASE,
+                [
+                    $this->mathRandom->getRandomString(self::PREFIX_LENGTH, Random::CHARS_LOWERS),
+                    $this->mathRandom->getRandomString(self::SUFFIX_LENGTH, Random::CHARS_LOWERS),
+                ]
+            ))->render()
+            : null;
     }
 }

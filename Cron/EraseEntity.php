@@ -48,12 +48,12 @@ final class EraseEntity
     /**
      * @var EraseEntityRepositoryInterface
      */
-    private $eraseEntityRepository;
+    private $eraseRepository;
 
     /**
      * @var SearchCriteriaBuilder
      */
-    private $searchCriteriaBuilder;
+    private $criteriaBuilder;
 
     /**
      * @var DateTime
@@ -65,16 +65,16 @@ final class EraseEntity
         Config $config,
         Registry $registry,
         EraseEntityManagementInterface $eraseManagement,
-        EraseEntityRepositoryInterface $eraseEntityRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
+        EraseEntityRepositoryInterface $eraseRepository,
+        SearchCriteriaBuilder $criteriaBuilder,
         DateTime $dateTime
     ) {
         $this->logger = $logger;
         $this->config = $config;
         $this->registry = $registry;
         $this->eraseManagement = $eraseManagement;
-        $this->eraseEntityRepository = $eraseEntityRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->eraseRepository = $eraseRepository;
+        $this->criteriaBuilder = $criteriaBuilder;
         $this->dateTime = $dateTime;
     }
 
@@ -101,24 +101,24 @@ final class EraseEntity
      */
     private function retrieveEraseEntityList(): SearchResultsInterface
     {
-        $this->searchCriteriaBuilder->addFilter(
+        $this->criteriaBuilder->addFilter(
             EraseEntityInterface::SCHEDULED_AT,
             $this->dateTime->date(),
             'lteq'
         );
-        $this->searchCriteriaBuilder->addFilter(
+        $this->criteriaBuilder->addFilter(
             EraseEntityInterface::STATE,
             EraseEntityInterface::STATE_COMPLETE,
             'neq'
         );
-        $this->searchCriteriaBuilder->addFilter(
+        $this->criteriaBuilder->addFilter(
             EraseEntityInterface::STATUS,
             [EraseEntityInterface::STATUS_READY, EraseEntityInterface::STATUS_FAILED],
             'in'
         );
 
         try {
-            $eraseCustomerList = $this->eraseEntityRepository->getList($this->searchCriteriaBuilder->create());
+            $eraseCustomerList = $this->eraseRepository->getList($this->criteriaBuilder->create());
         } catch (LocalizedException $e) {
             $eraseCustomerList = [];
         }

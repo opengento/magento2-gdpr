@@ -25,22 +25,22 @@ final class OrderDataProcessor extends AbstractDataProcessor
     /**
      * @var SearchCriteriaBuilder
      */
-    private $searchCriteriaBuilder;
+    private $criteriaBuilder;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
+        SearchCriteriaBuilder $criteriaBuilder,
         DataCollectorInterface $dataCollector
     ) {
         $this->orderRepository = $orderRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->criteriaBuilder = $criteriaBuilder;
         parent::__construct($dataCollector);
     }
 
     public function execute(int $customerId, array $data): array
     {
-        $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
-        $orderList = $this->orderRepository->getList($this->searchCriteriaBuilder->create());
+        $this->criteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
+        $orderList = $this->orderRepository->getList($this->criteriaBuilder->create());
 
         /** @var Order $order */
         foreach ($orderList->getItems() as $order) {

@@ -33,43 +33,43 @@ final class ExportEntity
     /**
      * @var ExportEntityRepositoryInterface
      */
-    private $exportEntityRepository;
+    private $exportRepository;
 
     /**
      * @var ExportEntityManagementInterface
      */
-    private $exportEntityManagement;
+    private $exportManagement;
 
     /**
      * @var SearchCriteriaBuilder
      */
-    private $searchCriteriaBuilder;
+    private $criteriaBuilder;
 
     public function __construct(
         LoggerInterface $logger,
         Config $config,
-        ExportEntityRepositoryInterface $exportEntityRepository,
-        ExportEntityManagementInterface $exportEntityManagement,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        ExportEntityRepositoryInterface $exportRepository,
+        ExportEntityManagementInterface $exportManagement,
+        SearchCriteriaBuilder $criteriaBuilder
     ) {
         $this->logger = $logger;
         $this->config = $config;
-        $this->exportEntityRepository = $exportEntityRepository;
-        $this->exportEntityManagement = $exportEntityManagement;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->exportRepository = $exportRepository;
+        $this->exportManagement = $exportManagement;
+        $this->criteriaBuilder = $criteriaBuilder;
     }
 
     public function execute(): void
     {
         if ($this->config->isModuleEnabled() && $this->config->isExportEnabled()) {
-            $this->searchCriteriaBuilder->addFilter(ExportEntityInterface::EXPORTED_AT, true, 'null');
-            $this->searchCriteriaBuilder->addFilter(ExportEntityInterface::FILE_PATH, true, 'null');
+            $this->criteriaBuilder->addFilter(ExportEntityInterface::EXPORTED_AT, true, 'null');
+            $this->criteriaBuilder->addFilter(ExportEntityInterface::FILE_PATH, true, 'null');
 
             try {
-                $exportList = $this->exportEntityRepository->getList($this->searchCriteriaBuilder->create());
+                $exportList = $this->exportRepository->getList($this->criteriaBuilder->create());
 
                 foreach ($exportList->getItems() as $exportEntity) {
-                    $this->exportEntityManagement->export($exportEntity);
+                    $this->exportManagement->export($exportEntity);
                 }
             } catch (Exception $e) {
                 $this->logger->error($e->getMessage(), $e->getTrace());

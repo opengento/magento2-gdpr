@@ -42,7 +42,7 @@ final class EntityIterator implements EntityIteratorInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function iterate($entity): void
+    public function iterate(object $entity): void
     {
         $values = $this->hydratorPool->getHydrator($this->typeResolver->resolve($entity))->extract($entity);
 

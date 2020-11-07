@@ -29,16 +29,16 @@ final class SubscriberDataProcessor implements ProcessorInterface
     /**
      * @var ResourceSubscriber
      */
-    private $subscriberResourceModel;
+    private $subscriberResource;
 
     public function __construct(
         AnonymizerInterface $anonymizer,
         SubscriberFactory $subscriberFactory,
-        ResourceSubscriber $subscriberResourceModel
+        ResourceSubscriber $subscriberResource
     ) {
         $this->anonymizer = $anonymizer;
         $this->subscriberFactory = $subscriberFactory;
-        $this->subscriberResourceModel = $subscriberResourceModel;
+        $this->subscriberResource = $subscriberResource;
     }
 
     /**
@@ -51,7 +51,7 @@ final class SubscriberDataProcessor implements ProcessorInterface
         $subscriber = $this->subscriberFactory->create();
         $subscriber->loadByCustomerId($customerId);
         $this->anonymizer->anonymize($subscriber);
-        $this->subscriberResourceModel->save($subscriber->getRealSubscriber());
+        $this->subscriberResource->save($subscriber->getRealSubscriber());
 
         return true;
     }

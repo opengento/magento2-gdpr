@@ -16,107 +16,107 @@
             </action>
             <anonymize>
                 <customer_attributes>
-                    <![CDATA[[
-                        {"attribute":"email","anonymizer":"email"},
-                        {"attribute":"prefix","anonymizer":"alphaUpper"},
-                        {"attribute":"firstname","anonymizer":"anonymous"},
-                        {"attribute":"middlename","anonymizer":"anonymous"},
-                        {"attribute":"lastname","anonymizer":"anonymous"},
-                        {"attribute":"suffix","anonymizer":"alphaUpper"},
-                        {"attribute":"dob","anonymizer":"date"},
-                        {"attribute":"gender","anonymizer":"number"},
-                        {"attribute":"taxvat","anonymizer":"alphaNum"}
-                    ]]]>
+                    <![CDATA[{
+                        "_opengento_gdpr_anonymize_ca_0":{"attribute":"email","anonymizer":"email"},
+                        "_opengento_gdpr_anonymize_ca_1":{"attribute":"prefix","anonymizer":"alphaUpper"},
+                        "_opengento_gdpr_anonymize_ca_2":{"attribute":"firstname","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_ca_3":{"attribute":"middlename","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_ca_4":{"attribute":"lastname","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_ca_5":{"attribute":"suffix","anonymizer":"alphaUpper"},
+                        "_opengento_gdpr_anonymize_ca_6":{"attribute":"dob","anonymizer":"date"},
+                        "_opengento_gdpr_anonymize_ca_7":{"attribute":"gender","anonymizer":"number"},
+                        "_opengento_gdpr_anonymize_ca_8":{"attribute":"taxvat","anonymizer":"alphaNum"}
+                    }]]>
                 </customer_attributes>
                 <customer_address_attributes>
-                    <![CDATA[[
-                        {"attribute":"city","anonymizer":"alphaUpper"},
-                        {"attribute":"company","anonymizer":"anonymous"},
-                        {"attribute":"country_id","anonymizer":"nullValue"},
-                        {"attribute":"fax","anonymizer":"phone"},
-                        {"attribute":"prefix","anonymizer":"alphaUpper"},
-                        {"attribute":"firstname","anonymizer":"anonymous"},
-                        {"attribute":"lastname","anonymizer":"anonymous"},
-                        {"attribute":"middlename","anonymizer":"anonymous"},
-                        {"attribute":"suffix","anonymizer":"alphaUpper"},
-                        {"attribute":"postcode","anonymizer":"number"},
-                        {"attribute":"region","anonymizer":"nullValue"},
-                        {"attribute":"street","anonymizer":"street"},
-                        {"attribute":"telephone","anonymizer":"phone"},
-                        {"attribute":"vat_id","anonymizer":"alphaNum"}
-                    ]]]>
+                    <![CDATA[{
+                        "_opengento_gdpr_anonymize_caa_0":{"attribute":"city","anonymizer":"alphaUpper"},
+                        "_opengento_gdpr_anonymize_caa_1":{"attribute":"company","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_caa_2":{"attribute":"country_id","anonymizer":"nullValue"},
+                        "_opengento_gdpr_anonymize_caa_3":{"attribute":"fax","anonymizer":"phone"},
+                        "_opengento_gdpr_anonymize_caa_4":{"attribute":"prefix","anonymizer":"alphaUpper"},
+                        "_opengento_gdpr_anonymize_caa_5":{"attribute":"firstname","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_caa_6":{"attribute":"lastname","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_caa_7":{"attribute":"middlename","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_caa_8":{"attribute":"suffix","anonymizer":"alphaUpper"},
+                        "_opengento_gdpr_anonymize_caa_9":{"attribute":"postcode","anonymizer":"number"},
+                        "_opengento_gdpr_anonymize_caa_10":{"attribute":"region","anonymizer":"nullValue"},
+                        "_opengento_gdpr_anonymize_caa_11":{"attribute":"street","anonymizer":"street"},
+                        "_opengento_gdpr_anonymize_caa_12":{"attribute":"telephone","anonymizer":"phone"},
+                        "_opengento_gdpr_anonymize_caa_13":{"attribute":"vat_id","anonymizer":"alphaNum"}
+                    }]]>
                 </customer_address_attributes>
                 <quote_attributes>
-                    <![CDATA[[
-                        {"attribute":"customer_email","anonymizer":"email"},
-                        {"attribute":"customer_prefix","anonymizer":"anonymous"},
-                        {"attribute":"customer_firstname","anonymizer":"anonymous"},
-                        {"attribute":"customer_middlename","anonymizer":"anonymous"},
-                        {"attribute":"customer_lastname","anonymizer":"anonymous"},
-                        {"attribute":"customer_suffix","anonymizer":"anonymous"},
-                        {"attribute":"customer_dob","anonymizer":"date"},
-                        {"attribute":"customer_gender","anonymizer":"number"},
-                        {"attribute":"customer_taxvat","anonymizer":"email"},
-                        {"attribute":"remote_ip","anonymizer":"alphaNum"}
-                    ]]]>
+                    <![CDATA[{
+                        "_opengento_gdpr_anonymize_qa_0":{"attribute":"customer_email","anonymizer":"email"},
+                        "_opengento_gdpr_anonymize_qa_1":{"attribute":"customer_prefix","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_qa_2":{"attribute":"customer_firstname","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_qa_3":{"attribute":"customer_middlename","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_qa_4":{"attribute":"customer_lastname","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_qa_5":{"attribute":"customer_suffix","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_qa_6":{"attribute":"customer_dob","anonymizer":"date"},
+                        "_opengento_gdpr_anonymize_qa_7":{"attribute":"customer_gender","anonymizer":"number"},
+                        "_opengento_gdpr_anonymize_qa_8":{"attribute":"customer_taxvat","anonymizer":"email"},
+                        "_opengento_gdpr_anonymize_qa_9":{"attribute":"remote_ip","anonymizer":"alphaNum"}
+                    }]]>
                 </quote_attributes>
                 <quote_address_attributes>
-                    <![CDATA[[
-                        {"attribute":"city","anonymizer":"alphaUpper"},
-                        {"attribute":"company","anonymizer":"anonymous"},
-                        {"attribute":"country_id","anonymizer":"nullValue"},
-                        {"attribute":"fax","anonymizer":"phone"},
-                        {"attribute":"email","anonymizer":"email"},
-                        {"attribute":"prefix","anonymizer":"alphaUpper"},
-                        {"attribute":"firstname","anonymizer":"anonymous"},
-                        {"attribute":"lastname","anonymizer":"anonymous"},
-                        {"attribute":"middlename","anonymizer":"anonymous"},
-                        {"attribute":"suffix","anonymizer":"alphaUpper"},
-                        {"attribute":"postcode","anonymizer":"number"},
-                        {"attribute":"region","anonymizer":"nullValue"},
-                        {"attribute":"street","anonymizer":"street"},
-                        {"attribute":"telephone","anonymizer":"phone"},
-                        {"attribute":"vat_id","anonymizer":"alphaNum"}
-                    ]]]>
+                    <![CDATA[{
+                        "_opengento_gdpr_anonymize_qaa_0":{"attribute":"city","anonymizer":"alphaUpper"},
+                        "_opengento_gdpr_anonymize_qaa_1":{"attribute":"company","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_qaa_2":{"attribute":"country_id","anonymizer":"nullValue"},
+                        "_opengento_gdpr_anonymize_qaa_3":{"attribute":"fax","anonymizer":"phone"},
+                        "_opengento_gdpr_anonymize_qaa_4":{"attribute":"email","anonymizer":"email"},
+                        "_opengento_gdpr_anonymize_qaa_5":{"attribute":"prefix","anonymizer":"alphaUpper"},
+                        "_opengento_gdpr_anonymize_qaa_6":{"attribute":"firstname","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_qaa_7":{"attribute":"lastname","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_qaa_8":{"attribute":"middlename","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_qaa_9":{"attribute":"suffix","anonymizer":"alphaUpper"},
+                        "_opengento_gdpr_anonymize_qaa_10":{"attribute":"postcode","anonymizer":"number"},
+                        "_opengento_gdpr_anonymize_qaa_11":{"attribute":"region","anonymizer":"nullValue"},
+                        "_opengento_gdpr_anonymize_qaa_12":{"attribute":"street","anonymizer":"street"},
+                        "_opengento_gdpr_anonymize_qaa_13":{"attribute":"telephone","anonymizer":"phone"},
+                        "_opengento_gdpr_anonymize_qaa_14":{"attribute":"vat_id","anonymizer":"alphaNum"}
+                    }]]>
                 </quote_address_attributes>
                 <order_attributes>
-                    <![CDATA[[
-                        {"attribute":"customer_email","anonymizer":"email"},
-                        {"attribute":"customer_prefix","anonymizer":"anonymous"},
-                        {"attribute":"customer_firstname","anonymizer":"anonymous"},
-                        {"attribute":"customer_middlename","anonymizer":"anonymous"},
-                        {"attribute":"customer_lastname","anonymizer":"anonymous"},
-                        {"attribute":"customer_suffix","anonymizer":"anonymous"},
-                        {"attribute":"customer_dob","anonymizer":"date"},
-                        {"attribute":"customer_gender","anonymizer":"number"},
-                        {"attribute":"customer_taxvat","anonymizer":"email"},
-                        {"attribute":"remote_ip","anonymizer":"alphaNum"},
-                        {"attribute":"x_forwarded_for","anonymizer":"anonymous"}
-                    ]]]>
+                    <![CDATA[{
+                        "_opengento_gdpr_anonymize_oa_0":{"attribute":"customer_email","anonymizer":"email"},
+                        "_opengento_gdpr_anonymize_oa_1":{"attribute":"customer_prefix","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_oa_2":{"attribute":"customer_firstname","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_oa_3":{"attribute":"customer_middlename","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_oa_4":{"attribute":"customer_lastname","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_oa_5":{"attribute":"customer_suffix","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_oa_6":{"attribute":"customer_dob","anonymizer":"date"},
+                        "_opengento_gdpr_anonymize_oa_7":{"attribute":"customer_gender","anonymizer":"number"},
+                        "_opengento_gdpr_anonymize_oa_8":{"attribute":"customer_taxvat","anonymizer":"email"},
+                        "_opengento_gdpr_anonymize_oa_9":{"attribute":"remote_ip","anonymizer":"alphaNum"},
+                        "_opengento_gdpr_anonymize_oa_10":{"attribute":"x_forwarded_for","anonymizer":"anonymous"}
+                    }]]>
                 </order_attributes>
                 <order_address_attributes>
-                    <![CDATA[[
-                        {"attribute":"city","anonymizer":"alphaUpper"},
-                        {"attribute":"company","anonymizer":"anonymous"},
-                        {"attribute":"country_id","anonymizer":"nullValue"},
-                        {"attribute":"fax","anonymizer":"phone"},
-                        {"attribute":"email","anonymizer":"email"},
-                        {"attribute":"prefix","anonymizer":"alphaUpper"},
-                        {"attribute":"firstname","anonymizer":"anonymous"},
-                        {"attribute":"lastname","anonymizer":"anonymous"},
-                        {"attribute":"middlename","anonymizer":"anonymous"},
-                        {"attribute":"suffix","anonymizer":"alphaUpper"},
-                        {"attribute":"postcode","anonymizer":"number"},
-                        {"attribute":"region","anonymizer":"nullValue"},
-                        {"attribute":"street","anonymizer":"street"},
-                        {"attribute":"telephone","anonymizer":"phone"},
-                        {"attribute":"vat_id","anonymizer":"alphaNum"}
-                    ]]]>
+                    <![CDATA[{
+                        "_opengento_gdpr_anonymize_oaa_0":{"attribute":"city","anonymizer":"alphaUpper"},
+                        "_opengento_gdpr_anonymize_oaa_1":{"attribute":"company","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_oaa_2":{"attribute":"country_id","anonymizer":"nullValue"},
+                        "_opengento_gdpr_anonymize_oaa_3":{"attribute":"fax","anonymizer":"phone"},
+                        "_opengento_gdpr_anonymize_oaa_4":{"attribute":"email","anonymizer":"email"},
+                        "_opengento_gdpr_anonymize_oaa_5":{"attribute":"prefix","anonymizer":"alphaUpper"},
+                        "_opengento_gdpr_anonymize_oaa_6":{"attribute":"firstname","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_oaa_7":{"attribute":"lastname","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_oaa_8":{"attribute":"middlename","anonymizer":"anonymous"},
+                        "_opengento_gdpr_anonymize_oaa_9":{"attribute":"suffix","anonymizer":"alphaUpper"},
+                        "_opengento_gdpr_anonymize_oaa_10":{"attribute":"postcode","anonymizer":"number"},
+                        "_opengento_gdpr_anonymize_oaa_11":{"attribute":"region","anonymizer":"nullValue"},
+                        "_opengento_gdpr_anonymize_oaa_12":{"attribute":"street","anonymizer":"street"},
+                        "_opengento_gdpr_anonymize_oaa_13":{"attribute":"telephone","anonymizer":"phone"},
+                        "_opengento_gdpr_anonymize_oaa_14":{"attribute":"vat_id","anonymizer":"alphaNum"}
+                    }]]>
                 </order_address_attributes>
                 <subscriber_attributes>
-                    <![CDATA[[
-                        {"attribute":"email","anonymizer":"email"}
-                    ]]]>
+                    <![CDATA[{
+                        "_opengento_gdpr_anonymize_sa_0":{"attribute":"email","anonymizer":"email"}
+                    }]]>
                 </subscriber_attributes>
             </anonymize>
             <erasure>
@@ -129,20 +129,20 @@
                 <allowed_states>canceled,closed,complete</allowed_states>
                 <remove_customer>1</remove_customer>
                 <customer_components_processors>
-                    <![CDATA[[
-                        {"component":"customer","processor":"anonymize"},
-                        {"component":"customer_address","processor":"anonymize"},
-                        {"component":"quote","processor":"delete"},
-                        {"component":"order","processor":"anonymize"},
-                        {"component":"subscriber","processor":"delete"}
-                    ]]]>
+                    <![CDATA[{
+                        "_opengento_gdpr_erasure_ccp_0":{"component":"customer","processor":"anonymize"},
+                        "_opengento_gdpr_erasure_ccp_1":{"component":"customer_address","processor":"anonymize"},
+                        "_opengento_gdpr_erasure_ccp_2":{"component":"quote","processor":"delete"},
+                        "_opengento_gdpr_erasure_ccp_3":{"component":"order","processor":"anonymize"},
+                        "_opengento_gdpr_erasure_ccp_4":{"component":"subscriber","processor":"delete"}
+                    }]]>
                 </customer_components_processors>
                 <guest_components_processors>
-                    <![CDATA[[
-                        {"component":"quote","processor":"delete"},
-                        {"component":"order","processor":"anonymize"},
-                        {"component":"subscriber","processor":"delete"}
-                    ]]]>
+                    <![CDATA[{
+                        "_opengento_gdpr_erasure_gcp_0":{"component":"quote","processor":"delete"},
+                        "_opengento_gdpr_erasure_gcp_1":{"component":"order","processor":"anonymize"},
+                        "_opengento_gdpr_erasure_gcp_2":{"component":"subscriber","processor":"delete"}
+                    }]]>
                 </guest_components_processors>
             </erasure>
             <export>

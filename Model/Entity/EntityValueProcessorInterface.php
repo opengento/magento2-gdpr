@@ -12,11 +12,5 @@ namespace Opengento\Gdpr\Model\Entity;
  */
 interface EntityValueProcessorInterface
 {
-    /**
-     * @param object $entity
-     * @param string $key
-     * @param mixed $value
-     * @return void
-     */
-    public function process($entity, string $key, $value): void;
+    public function process(string $key, $value): void;
 }

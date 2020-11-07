@@ -40,7 +40,7 @@ final class Processor implements EntityValueProcessorInterface
         $this->anonymizer = $anonymizer;
     }
 
-    public function process($entity, string $key, $value): void
+    public function process(string $key, $value): void
     {
         if (in_array($key, $this->metadata->getAttributes(), true)) {
             $this->document->addData($key, $this->anonymizer->anonymize($value));

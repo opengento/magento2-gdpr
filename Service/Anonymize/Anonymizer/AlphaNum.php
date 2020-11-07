@@ -37,8 +37,8 @@ final class AlphaNum implements AnonymizerInterface
      * @inheritdoc
      * @throws LocalizedException
      */
-    public function anonymize($value): string
+    public function anonymize($value): ?string
     {
-        return $this->mathRandom->getRandomString($this->length);
+        return $value ? $this->mathRandom->getRandomString($this->length) : null;
     }
 }

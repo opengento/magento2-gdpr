@@ -13,8 +13,8 @@ final class Phone implements AnonymizerInterface
 {
     private const PHONE_NUMBER = '9999999999';
 
-    public function anonymize($value): string
+    public function anonymize($value): ?string
     {
-        return self::PHONE_NUMBER;
+        return $value ? self::PHONE_NUMBER : null;
     }
 }

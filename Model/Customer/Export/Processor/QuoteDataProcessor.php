@@ -24,22 +24,22 @@ final class QuoteDataProcessor extends AbstractDataProcessor
     /**
      * @var SearchCriteriaBuilder
      */
-    private $searchCriteriaBuilder;
+    private $criteriaBuilder;
 
     public function __construct(
         CartRepositoryInterface $quoteRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
+        SearchCriteriaBuilder $criteriaBuilder,
         DataCollectorInterface $dataCollector
     ) {
         $this->quoteRepository = $quoteRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->criteriaBuilder = $criteriaBuilder;
         parent::__construct($dataCollector);
     }
 
     public function execute(int $customerId, array $data): array
     {
-        $this->searchCriteriaBuilder->addFilter('customer_id', $customerId);
-        $quoteList = $this->quoteRepository->getList($this->searchCriteriaBuilder->create());
+        $this->criteriaBuilder->addFilter('customer_id', $customerId);
+        $quoteList = $this->quoteRepository->getList($this->criteriaBuilder->create());
 
         /** @var Quote $quote */
         foreach ($quoteList->getItems() as $quote) {

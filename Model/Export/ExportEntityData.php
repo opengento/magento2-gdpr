@@ -24,12 +24,12 @@ final class ExportEntityData
     /**
      * @var ExportEntityRepositoryInterface
      */
-    private $exportEntityRepository;
+    private $exportRepository;
 
     /**
      * @var ExportEntityManagementInterface
      */
-    private $exportEntityManagement;
+    private $exportManagement;
 
     /**
      * @var ExportEntityCheckerInterface
@@ -37,12 +37,12 @@ final class ExportEntityData
     private $exportEntityChecker;
 
     public function __construct(
-        ExportEntityRepositoryInterface $exportEntityRepository,
-        ExportEntityManagementInterface $exportEntityManagement,
+        ExportEntityRepositoryInterface $exportRepository,
+        ExportEntityManagementInterface $exportManagement,
         ExportEntityCheckerInterface $exportEntityChecker
     ) {
-        $this->exportEntityRepository = $exportEntityRepository;
-        $this->exportEntityManagement = $exportEntityManagement;
+        $this->exportRepository = $exportRepository;
+        $this->exportManagement = $exportManagement;
         $this->exportEntityChecker = $exportEntityChecker;
     }
 
@@ -59,13 +59,13 @@ final class ExportEntityData
     public function export(int $entityId, string $entityType): ExportEntityInterface
     {
         try {
-            $exportEntity = $this->exportEntityRepository->getByEntity($entityId, $entityType);
+            $exportEntity = $this->exportRepository->getByEntity($entityId, $entityType);
         } catch (NoSuchEntityException $e) {
-            $exportEntity = $this->exportEntityManagement->create($entityId, $entityType);
+            $exportEntity = $this->exportManagement->create($entityId, $entityType);
         }
 
         return $this->exportEntityChecker->isExported($entityId, $entityType)
             ? $exportEntity
-            : $this->exportEntityManagement->export($exportEntity);
+            : $this->exportManagement->export($exportEntity);
     }
 }

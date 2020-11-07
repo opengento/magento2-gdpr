@@ -40,7 +40,7 @@ final class EntityProcessor implements EntityValueProcessorInterface
         $this->dataCollector = $dataCollector;
     }
 
-    public function process($entity, string $key, $value): void
+    public function process(string $key, $value): void
     {
         if (in_array($key, $this->metadata->getAttributes(), true)) {
             $this->document->addData($key, $this->dataCollector->collect($value));

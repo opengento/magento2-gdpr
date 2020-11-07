@@ -25,21 +25,21 @@ final class OrderDataProcessor implements ProcessorInterface
     /**
      * @var SearchCriteriaBuilder
      */
-    private $searchCriteriaBuilder;
+    private $criteriaBuilder;
 
     /**
      * @var EraseSalesInformationInterface
      */
-    private $eraseSalesInformation;
+    private $salesInformation;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
-        EraseSalesInformationInterface $eraseSalesInformation
+        SearchCriteriaBuilder $criteriaBuilder,
+        EraseSalesInformationInterface $salesInformation
     ) {
         $this->orderRepository = $orderRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->eraseSalesInformation = $eraseSalesInformation;
+        $this->criteriaBuilder = $criteriaBuilder;
+        $this->salesInformation = $salesInformation;
     }
 
     /**
@@ -48,13 +48,13 @@ final class OrderDataProcessor implements ProcessorInterface
      */
     public function execute(int $customerId): bool
     {
-        $this->searchCriteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
-        $orderList = $this->orderRepository->getList($this->searchCriteriaBuilder->create());
+        $this->criteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
+        $orderList = $this->orderRepository->getList($this->criteriaBuilder->create());
 
         foreach ($orderList->getItems() as $order) {
             $lastActive = new DateTime($order->getUpdatedAt());
-            $this->eraseSalesInformation->isAlive($lastActive)
-                ? $this->eraseSalesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive)
+            $this->salesInformation->isAlive($lastActive)
+                ? $this->salesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive)
                 : $this->orderRepository->delete($order);
         }
 

@@ -54,13 +54,13 @@ final class HtmlRenderer extends AbstractRenderer
         Filesystem $filesystem,
         LayoutInitiatorInterface $layoutInitiator,
         Config $pageConfig,
-        RendererFactory $pageConfigRendererFactory,
+        RendererFactory $rendererFactory,
         InlineInterface $translateInline,
         ViewFileSystem $viewFileSystem,
         string $template
     ) {
         $this->layoutInitiator = $layoutInitiator;
-        $this->pageConfigRenderer = $pageConfigRendererFactory->create(['pageConfig' => $pageConfig]);
+        $this->pageConfigRenderer = $rendererFactory->create(['pageConfig' => $pageConfig]);
         $this->translateInline = $translateInline;
         $this->viewFileSystem = $viewFileSystem;
         $this->template = $template;

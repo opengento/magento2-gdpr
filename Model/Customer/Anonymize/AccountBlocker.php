@@ -37,7 +37,7 @@ final class AccountBlocker
     /**
      * @var VisitorCollectionFactory
      */
-    private $visitorCollectionFactory;
+    private $collectionFactory;
 
     /**
      * @var EncryptorInterface
@@ -63,14 +63,14 @@ final class AccountBlocker
         CustomerRegistry $customerRegistry,
         EncryptorInterface $encryptor,
         SaveHandlerInterface $saveHandler,
-        VisitorCollectionFactory $visitorCollectionFactory,
+        VisitorCollectionFactory $collectionFactory,
         DateTimeFactory $dateTimeFactory,
         Random $mathRandom,
         ScopeConfigInterface $scopeConfig
     ) {
         $this->customerRegistry = $customerRegistry;
         $this->saveHandler = $saveHandler;
-        $this->visitorCollectionFactory = $visitorCollectionFactory;
+        $this->collectionFactory = $collectionFactory;
         $this->encryptor = $encryptor;
         $this->dateTimeFactory = $dateTimeFactory;
         $this->mathRandom = $mathRandom;
@@ -115,7 +115,7 @@ final class AccountBlocker
         $time = $dateTime->setTimestamp($dateTime->getTimestamp() - $sessionLifetime);
 
         /** @var Collection $visitorCollection */
-        $visitorCollection = $this->visitorCollectionFactory->create();
+        $visitorCollection = $this->collectionFactory->create();
         $visitorCollection->addFieldToFilter('customer_id', ['eq' => $customerId]);
         $visitorCollection->addFieldToFilter('last_visit_at', ['from' => $time->format(DateTime::DATETIME_PHP_FORMAT)]);
 

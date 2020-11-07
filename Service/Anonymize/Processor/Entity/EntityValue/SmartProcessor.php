@@ -10,7 +10,6 @@ namespace Opengento\Gdpr\Service\Anonymize\Processor\Entity\EntityValue;
 use Opengento\Gdpr\Model\Entity\DocumentInterface;
 use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerFactory;
-use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Anonymize\MetadataInterface;
 use function in_array;
 
@@ -41,17 +40,15 @@ final class SmartProcessor implements EntityValueProcessorInterface
         $this->anonymizerFactory = $anonymizerFactory;
     }
 
-    public function process($entity, string $key, $value): void
+    public function process(string $key, $value): void
     {
         if (in_array($key, $this->metadata->getAttributes(), true)) {
-            $this->document->addData($key, $this->resolveAnonymizer($key)->anonymize($value));
+            $this->document->addData(
+                $key,
+                $this->anonymizerFactory->get(
+                    $this->metadata->getAnonymizerStrategiesByAttributes()[$key] ?? AnonymizerFactory::DEFAULT_KEY
+                )->anonymize($value)
+            );
         }
-    }
-
-    private function resolveAnonymizer(string $key): AnonymizerInterface
-    {
-        return $this->anonymizerFactory->get(
-            $this->metadata->getAnonymizerStrategiesByAttributes()[$key] ?? AnonymizerFactory::DEFAULT_ANONYMIZER
-        );
     }
 }

@@ -23,14 +23,14 @@ final class OrderDataProcessor implements ProcessorInterface
     /**
      * @var EraseSalesInformationInterface
      */
-    private $eraseSalesInformation;
+    private $salesInformation;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
-        EraseSalesInformationInterface $eraseSalesInformation
+        EraseSalesInformationInterface $salesInformation
     ) {
         $this->orderRepository = $orderRepository;
-        $this->eraseSalesInformation = $eraseSalesInformation;
+        $this->salesInformation = $salesInformation;
     }
 
     /**
@@ -42,8 +42,8 @@ final class OrderDataProcessor implements ProcessorInterface
         $order = $this->orderRepository->get($orderId);
         $lastActive = new DateTime($order->getUpdatedAt());
 
-        if ($this->eraseSalesInformation->isAlive($lastActive)) {
-            $this->eraseSalesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive);
+        if ($this->salesInformation->isAlive($lastActive)) {
+            $this->salesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive);
 
             return true;
         }

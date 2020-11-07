@@ -23,13 +23,13 @@ final class FilterModifier implements ModifierInterface
         if ($collection instanceof Collection\AbstractDb && $filter->getField() === 'created_at') {
             $connection = $collection->getConnection();
 
-            $customerVisitorSelect = $connection->select()
+            $visitorSelect = $connection->select()
                 ->from($connection->getTableName('customer_visitor'))
                 ->columns(['customer_id' => 'customer_id', 'last_visit_at' => 'MAX(last_visit_at)'])
                 ->group(['customer_id']);
 
             $collection->getSelect()->joinLeft(
-                ['cv' => $customerVisitorSelect],
+                ['cv' => $visitorSelect],
                 'main_table.entity_id=cl.customer_id',
                 null
             );

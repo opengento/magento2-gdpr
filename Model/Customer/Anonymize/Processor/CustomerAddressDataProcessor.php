@@ -23,21 +23,21 @@ final class CustomerAddressDataProcessor implements ProcessorInterface
     /**
      * @var AddressRepositoryInterface
      */
-    private $customerAddressRepository;
+    private $addressRepository;
 
     /**
      * @var SearchCriteriaBuilder
      */
-    private $searchCriteriaBuilder;
+    private $criteriaBuilder;
 
     public function __construct(
         AnonymizerInterface $anonymizer,
-        AddressRepositoryInterface $customerAddressRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        AddressRepositoryInterface $addressRepository,
+        SearchCriteriaBuilder $criteriaBuilder
     ) {
         $this->anonymizer = $anonymizer;
-        $this->customerAddressRepository = $customerAddressRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->addressRepository = $addressRepository;
+        $this->criteriaBuilder = $criteriaBuilder;
     }
 
     /**
@@ -46,11 +46,11 @@ final class CustomerAddressDataProcessor implements ProcessorInterface
      */
     public function execute(int $customerId): bool
     {
-        $this->searchCriteriaBuilder->addFilter('parent_id', $customerId);
-        $addressList = $this->customerAddressRepository->getList($this->searchCriteriaBuilder->create());
+        $this->criteriaBuilder->addFilter('parent_id', $customerId);
+        $addressList = $this->addressRepository->getList($this->criteriaBuilder->create());
 
         foreach ($addressList->getItems() as $address) {
-            $this->customerAddressRepository->save($this->anonymizer->anonymize($address));
+            $this->addressRepository->save($this->anonymizer->anonymize($address));
         }
 
         return true;

@@ -33,39 +33,39 @@ final class ExportEntityExpired
     /**
      * @var ExportEntityRepositoryInterface
      */
-    private $exportEntityRepository;
+    private $exportRepository;
 
     /**
      * @var SearchCriteriaBuilder
      */
-    private $searchCriteriaBuilder;
+    private $criteriaBuilder;
 
     public function __construct(
         LoggerInterface $logger,
         Config $config,
-        ExportEntityRepositoryInterface $exportEntityRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        ExportEntityRepositoryInterface $exportRepository,
+        SearchCriteriaBuilder $criteriaBuilder
     ) {
         $this->logger = $logger;
         $this->config = $config;
-        $this->exportEntityRepository = $exportEntityRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->exportRepository = $exportRepository;
+        $this->criteriaBuilder = $criteriaBuilder;
     }
 
     public function execute(): void
     {
         if ($this->config->isModuleEnabled() && $this->config->isExportEnabled()) {
-            $this->searchCriteriaBuilder->addFilter(
+            $this->criteriaBuilder->addFilter(
                 ExportEntityInterface::EXPIRED_AT,
                 (new \DateTime())->format(DateTime::DATE_PHP_FORMAT),
                 'lteq'
             );
 
             try {
-                $exportList = $this->exportEntityRepository->getList($this->searchCriteriaBuilder->create());
+                $exportList = $this->exportRepository->getList($this->criteriaBuilder->create());
 
                 foreach ($exportList->getItems() as $exportEntity) {
-                    $this->exportEntityRepository->delete($exportEntity);
+                    $this->exportRepository->delete($exportEntity);
                 }
             } catch (Exception $e) {
                 $this->logger->error($e->getMessage(), $e->getTrace());

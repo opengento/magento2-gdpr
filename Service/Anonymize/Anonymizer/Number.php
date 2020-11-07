@@ -37,8 +37,8 @@ final class Number implements AnonymizerInterface
      * @inheritdoc
      * @throws LocalizedException
      */
-    public function anonymize($value): int
+    public function anonymize($value): ?int
     {
-        return Random::getRandomNumber($this->min, $this->max);
+        return $value ? Random::getRandomNumber($this->min, $this->max) : null;
     }
 }

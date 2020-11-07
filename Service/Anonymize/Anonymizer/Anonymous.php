@@ -33,16 +33,16 @@ final class Anonymous implements AnonymizerInterface
      * @inheritdoc
      * @throws LocalizedException
      */
-    public function anonymize($value): string
+    public function anonymize($value): ?string
     {
-        $phrase = new Phrase(
-            self::PHRASE,
-            [
-                $this->mathRandom->getRandomString(self::PREFIX_LENGTH),
-                $this->mathRandom->getRandomString(self::SUFFIX_LENGTH),
-            ]
-        );
-
-        return $phrase->render();
+        return $value
+            ? (new Phrase(
+                self::PHRASE,
+                [
+                    $this->mathRandom->getRandomString(self::PREFIX_LENGTH),
+                    $this->mathRandom->getRandomString(self::SUFFIX_LENGTH),
+                ]
+            ))->render()
+            : null;
     }
 }
