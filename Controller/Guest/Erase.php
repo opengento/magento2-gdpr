@@ -13,6 +13,7 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
 use Magento\Sales\Controller\AbstractController\OrderLoaderInterface;
@@ -37,6 +38,7 @@ class Erase extends AbstractGuest implements HttpPostActionInterface
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
+        ManagerInterface $messageManager,
         Config $config,
         OrderLoaderInterface $orderLoader,
         Registry $registry,
@@ -45,7 +47,7 @@ class Erase extends AbstractGuest implements HttpPostActionInterface
     ) {
         $this->action = $action;
         $this->actionContextBuilder = $actionContextBuilder;
-        parent::__construct($request, $resultFactory, $config, $orderLoader, $registry);
+        parent::__construct($request, $resultFactory, $messageManager, $config, $orderLoader, $registry);
     }
 
     protected function isAllowed(): bool

@@ -16,6 +16,7 @@ use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
 use Magento\Sales\Api\Data\OrderInterface;
@@ -39,6 +40,7 @@ class Download extends AbstractGuest implements HttpGetActionInterface
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
+        ManagerInterface $messageManager,
         Config $config,
         OrderLoaderInterface $orderLoader,
         Registry $registry,
@@ -47,7 +49,7 @@ class Download extends AbstractGuest implements HttpGetActionInterface
     ) {
         $this->fileFactory = $fileFactory;
         $this->exportRepository = $exportRepository;
-        parent::__construct($request, $resultFactory, $config, $orderLoader, $registry);
+        parent::__construct($request, $resultFactory, $messageManager, $config, $orderLoader, $registry);
     }
 
     protected function isAllowed(): bool
