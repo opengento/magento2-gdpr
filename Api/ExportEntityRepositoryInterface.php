@@ -63,7 +63,6 @@ interface ExportEntityRepositoryInterface
      *
      * @param ExportEntityInterface $exportEntity
      * @return bool true on success
-     * @throws NoSuchEntityException
      * @throws CouldNotDeleteException
      */
     public function delete(ExportEntityInterface $exportEntity): bool;

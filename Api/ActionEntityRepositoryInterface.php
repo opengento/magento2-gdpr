@@ -53,7 +53,6 @@ interface ActionEntityRepositoryInterface
      *
      * @param ActionEntityInterface $actionEntity
      * @return bool true on success
-     * @throws NoSuchEntityException
      * @throws CouldNotDeleteException
      */
     public function delete(ActionEntityInterface $actionEntity): bool;

@@ -63,7 +63,6 @@ interface EraseEntityRepositoryInterface
      *
      * @param EraseEntityInterface $eraseEntity
      * @return bool true on success
-     * @throws NoSuchEntityException
      * @throws CouldNotDeleteException
      */
     public function delete(EraseEntityInterface $eraseEntity): bool;
