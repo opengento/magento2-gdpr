@@ -16,6 +16,7 @@ Processor,Processor
 GDPR,GDPR
 "Please correct the data sent.","Please correct the data sent."
 "Action with ID ""%1"": %2","Action with ID ""%1"": %2"
+"A total of %1 record(s) have been deleted.","A total of %1 record(s) have been deleted."
 "Execute New Action","Execute New Action"
 "You erased the order.","You erased the order."
 "You erased the customer.","You erased the customer."
@@ -28,6 +29,7 @@ GDPR,GDPR
 "A document is already available in your order page.","A document is already available in your order page."
 "You canceled your personal data deletion.","You canceled your personal data deletion."
 "Your account is already being removed.","Your account is already being removed."
+"The session initialization has failed.","The session initialization has failed."
 "You did not sign in correctly or your account is temporarily disabled.","You did not sign in correctly or your account is temporarily disabled."
 "A document is already available in your account.","A document is already available in your account."
 "You canceled your account deletion.","You canceled your account deletion."
@@ -60,7 +62,6 @@ Information,Information
 "%name,","%name,"
 "We have received a request to cancel the erasure of the information associated with your account at %store_name.","We have received a request to cancel the erasure of the information associated with your account at %store_name."
 "If you have not authorized this action, please contact us immediately at <a href=""mailto:%store_email"">%store_email</a>","If you have not authorized this action, please contact us immediately at <a href=""mailto:%store_email"">%store_email</a>"
-"or call us at <a href=""tel:%store_phone"">%store_phone</a>","or call us at <a href=""tel:%store_phone"">%store_phone</a>"
 "Thanks,<br>%store_name","Thanks,<br>%store_name"
 "Erase your %store_name information","Erase your %store_name information"
 "We have received a request to erase the information associated with your account at %store_name.","We have received a request to erase the information associated with your account at %store_name."
@@ -81,12 +82,16 @@ Accept,Accept
 "GDPR Actions","GDPR Actions"
 "Execute Actions","Execute Actions"
 "Edit Actions","Edit Actions"
-"Cancel Actions","Cancel Actions"
+"Delete Actions","Delete Actions"
 "GDPR Compliance Section","GDPR Compliance Section"
-Actions,Actions
+"Action Logs","Action Logs"
 "GDPR Compliance","GDPR Compliance"
+"User Action","User Action"
 "Action Settings","Action Settings"
+"Cookie Policy","Cookie Policy"
 "Cookie Settings","Cookie Settings"
+"It will enable the cookie disclosure popin to the storefront.","It will enable the cookie disclosure popin to the storefront."
+"Data Erasure","Data Erasure"
 "Right To Erasure","Right To Erasure"
 Erasure,Erasure
 "It will enable the erase action to the storefront.","It will enable the erase action to the storefront."
@@ -124,6 +129,7 @@ Anonymization,Anonymization
 "Order Address Custom Attributes Anonymizers","Order Address Custom Attributes Anonymizers"
 "Order Address Extensible Data Anonymizers","Order Address Extensible Data Anonymizers"
 "Subscriber Attributes Anonymizers","Subscriber Attributes Anonymizers"
+"Data Export","Data Export"
 "Export Settings","Export Settings"
 Export,Export
 "It will enable the export action to the storefront.","It will enable the export action to the storefront."
@@ -131,7 +137,7 @@ Renderers,Renderers
 "Select formats of the export. Notice: At least one human and one machine readable format should be selected.","Select formats of the export. Notice: At least one human and one machine readable format should be selected."
 "Export File Name","Export File Name"
 "We will use this value as file name of the document export.","We will use this value as file name of the document export."
-"Export Schedule","Export Schedule"
+"Export Scheduler","Export Scheduler"
 "Export Life Time","Export Life Time"
 "Export life time in minute before it is removed from the server.","Export life time in minute before it is removed from the server."
 "Erase Expired Export Schedule","Erase Expired Export Schedule"
@@ -157,10 +163,13 @@ Comma-separated,Comma-separated
 "Order Address Custom Attributes","Order Address Custom Attributes"
 "Order Address Extensible Data","Order Address Extensible Data"
 "Subscriber Attributes","Subscriber Attributes"
+Global,Global
 General,General
 Enabled,Enabled
+"It will enable the module features in the admin and frontend ui.","It will enable the module features in the admin and frontend ui."
 "Information page","Information page"
 "This page should store information about privacy and GDPR policy.","This page should store information about privacy and GDPR policy."
+"User Notification","User Notification"
 Notification,Notification
 "Pending Action","Pending Action"
 "Email Sender","Email Sender"
@@ -175,7 +184,6 @@ Notification,Notification
 "Canceled Action","Canceled Action"
 "Canceled Erasure Template","Canceled Erasure Template"
 "Canceled Erasure Template for Guest","Canceled Erasure Template for Guest"
-"Export Mail Notification","Export Mail Notification"
 "Pending Export Template","Pending Export Template"
 "Pending Export Template for Guest","Pending Export Template for Guest"
 "Ready Action","Ready Action"
@@ -195,6 +203,9 @@ Parameters,Parameters
 Name,Name
 Value,Value
 Edit,Edit
+"Are you sure you want to delete the action log?","Are you sure you want to delete the action log?"
+"Delete items","Delete items"
+Delete,Delete
 ID,ID
 "Performed From","Performed From"
 "Performed By","Performed By"
