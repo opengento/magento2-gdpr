@@ -71,18 +71,26 @@ the idle time for the users before they are erase, and the sales information lif
 
 Details:
 
-- [ ] Erasure: delete or anonymize specific data thanks to configurable settings in admin ui.
-- [ ] Configure which order can be erased, regarding their state and life time.
-- [ ] Privacy data will be automatically erased after a delay.
-- [ ] Sales data are safely keeped till the preservation delay expired.
-- [ ] Choose the file name and the format of your choice for the privacy data export.
-- [ ] Choose which data is interpreted as privacy data and will be exported.
-- [ ] Actions related to the GDPR compliance are reported in the admin ui.
-- [ ] Merchants can execute and keep an eye on the performed actions from the admin ui.
-- [ ] Choose the CMS static block to show on the storefront by scope and features.
-- [ ] Enable or disable features for the storefront.
-- [ ] Notify the user when a GDPR action is performed, configure the template and sending settings.
-- [ ] Display the cookie disclosure pop-in and edit its content as you want.
+- [x] Erasure: delete or anonymize specific data thanks to configurable settings in admin ui.
+- [x] Configure which order can be erased, regarding their state and life time.
+- [x] Privacy data will be automatically erased after a delay.
+- [x] Sales data are safely keeped till the preservation delay expired.
+- [x] Choose the file name and the format of your choice for the privacy data export.
+- [x] Choose which data is interpreted as privacy data and will be exported.
+- [x] Actions related to the GDPR compliance are reported in the admin ui.
+- [x] Merchants can execute and keep an eye on the performed actions from the admin ui.
+- [x] Choose the CMS static block to show on the storefront by scope and features.
+- [x] Enable or disable features for the storefront.
+- [x] Notify the user when a GDPR action is performed, configure the template and sending settings.
+- [x] Display the cookie disclosure pop-in and edit its content as you want.
+
+Languages:
+
+- [x] en_US ; English
+- [x] de_DE ; German
+- [] (partial) fr_FR ; French
+- [] (partial) nl_NL ; Dutch
+- [] (partial) it_IT ; Italian
 
 ## Settings
 
