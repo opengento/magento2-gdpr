@@ -88,7 +88,7 @@ Languages:
 
 - [x] en_US ; English
 - [x] de_DE ; German
-- [ ] fr_FR ; French (partial)
+- [x] fr_FR ; French (partial)
 - [ ] nl_NL ; Dutch (partial)
 - [ ] it_IT ; Italian (partial)
 
