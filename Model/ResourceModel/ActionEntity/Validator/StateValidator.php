@@ -33,14 +33,19 @@ final class StateValidator extends AbstractValidator
      */
     public function isValid($actionEntity): bool
     {
-        if (!in_array($actionEntity->getState(), array_column($this->actionStates->toOptionArray(), 'value'), true)) {
+        $this->_clearMessages();
+        $isValid = in_array(
+            $actionEntity->getState(),
+            array_column($this->actionStates->toOptionArray(), 'value'),
+            true
+        );
+
+        if (!$isValid) {
             $this->_addMessages([
                 'state' => new Phrase('State "%1" does not exists.', [$actionEntity->getState()])
             ]);
-
-            return false;
         }
 
-        return true;
+        return $isValid;
     }
 }
