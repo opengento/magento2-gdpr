@@ -9,7 +9,6 @@ namespace Opengento\Gdpr\Model\ResourceModel\ActionEntity;
 
 use Magento\Framework\Validator\AbstractValidator;
 use Magento\Framework\Validator\ValidatorInterface;
-use function array_merge_recursive;
 
 final class Validator extends AbstractValidator
 {
@@ -26,15 +25,14 @@ final class Validator extends AbstractValidator
 
     public function isValid($value): bool
     {
-        $isValid = true;
-        $messages = [];
+        $this->_clearMessages();
 
         foreach ($this->validators as $validator) {
-            $isValid = $isValid && $validator->isValid($value);
-            $messages[] = $validator->getMessages();
+            if (!$validator->isValid($value)) {
+                $this->_addMessages($validator->getMessages());
+            }
         }
-        $this->_addMessages(array_merge_recursive(...$messages));
 
-        return $isValid && !$this->hasMessages();
+        return !$this->hasMessages();
     }
 }
