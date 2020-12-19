@@ -1,4 +1,4 @@
-name: ExtDN M2 PHPStan
+name: M2 PHPStan
 on: [push, pull_request]
 
 jobs:
@@ -9,4 +9,4 @@ jobs:
       - uses: actions/checkout@v2
       - uses: extdn/github-actions-m2/magento-phpstan@master
         with:
-          composer_name: foo/magento2-foobar
+          composer_name: opengento/module-gdpr
