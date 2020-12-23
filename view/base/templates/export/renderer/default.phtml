@@ -12,6 +12,7 @@ use Magento\Framework\View\Element\Template;
 
 /** @var Template $block */
 /** @var Escaper $escaper */
+$escaper = $escaper ?? $block;
 
 /** @var RendererList $rendererList */
 $rendererList = $block->getChildBlock('exportRenderer');
