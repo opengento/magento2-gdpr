@@ -7,12 +7,14 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Guest;
 
-use Magento\Framework\App\Action\Context;
+use Exception;
 use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
 use Magento\Sales\Controller\AbstractController\OrderLoaderInterface;
@@ -35,7 +37,9 @@ class Export extends AbstractGuest implements HttpGetActionInterface
     private $actionContextBuilder;
 
     public function __construct(
-        Context $context,
+        RequestInterface $request,
+        ResultFactory $resultFactory,
+        ManagerInterface $messageManager,
         Config $config,
         OrderLoaderInterface $orderLoader,
         Registry $registry,
@@ -44,7 +48,7 @@ class Export extends AbstractGuest implements HttpGetActionInterface
     ) {
         $this->action = $action;
         $this->actionContextBuilder = $actionContextBuilder;
-        parent::__construct($context, $config, $orderLoader, $registry);
+        parent::__construct($request, $resultFactory, $messageManager, $config, $orderLoader, $registry);
     }
 
     protected function isAllowed(): bool
@@ -70,7 +74,7 @@ class Export extends AbstractGuest implements HttpGetActionInterface
             $this->messageManager->addNoticeMessage(new Phrase('A document is already available in your order page.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }
 

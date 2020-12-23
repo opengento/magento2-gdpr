@@ -7,12 +7,14 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Privacy;
 
+use Exception;
 use Magento\Customer\Model\Session;
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Framework\App\Action\HttpPostActionInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
@@ -20,7 +22,7 @@ use Opengento\Gdpr\Model\Action\ArgumentReader;
 use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Config;
 
-class UndoErase extends AbstractPrivacy implements HttpGetActionInterface //todo should be post action
+class UndoErase extends AbstractPrivacy implements HttpPostActionInterface
 {
     /**
      * @var Session
@@ -38,14 +40,18 @@ class UndoErase extends AbstractPrivacy implements HttpGetActionInterface //todo
     private $actionContextBuilder;
 
     public function __construct(
-        Context $context,
+        RequestInterface $request,
+        ResultFactory $resultFactory,
+        ManagerInterface $messageManager,
         Config $config,
         Session $customerSession,
-        ActionInterface $action
+        ActionInterface $action,
+        ContextBuilder $actionContextBuilder
     ) {
         $this->customerSession = $customerSession;
         $this->action = $action;
-        parent::__construct($context, $config);
+        $this->actionContextBuilder = $actionContextBuilder;
+        parent::__construct($request, $resultFactory, $messageManager, $config);
     }
 
     protected function isAllowed(): bool
@@ -69,7 +75,7 @@ class UndoErase extends AbstractPrivacy implements HttpGetActionInterface //todo
             $this->messageManager->addSuccessMessage(new Phrase('You canceled your account deletion.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }
 
