@@ -7,10 +7,8 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller;
 
-use Magento\Framework\App\RequestInterface;
-use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\ResultInterface;
-use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Registry;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Controller\AbstractController\OrderLoaderInterface;
@@ -29,23 +27,23 @@ abstract class AbstractGuest extends AbstractAction
     protected $registry;
 
     public function __construct(
-        RequestInterface $request,
-        ResultFactory $resultFactory,
-        ManagerInterface $messageManager,
+        Context $context,
         Config $config,
         OrderLoaderInterface $orderLoader,
         Registry $registry
     ) {
         $this->orderLoader = $orderLoader;
         $this->registry = $registry;
-        parent::__construct($request, $resultFactory, $messageManager, $config);
+        parent::__construct($context, $config);
     }
 
     public function execute()
     {
-        $result = $this->orderLoader->load($this->request);
+        if (($result = $this->orderLoader->load($this->getRequest())) instanceof ResultInterface) {
+            return $result;
+        }
 
-        return $result instanceof ResultInterface ? $result : parent::execute();
+        return parent::execute();
     }
 
     protected function currentOrder(): OrderInterface

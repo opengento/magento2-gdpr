@@ -7,17 +7,15 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Privacy;
 
-use Exception;
 use Magento\Customer\Model\Session;
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
@@ -41,9 +39,7 @@ class Download extends AbstractPrivacy implements HttpGetActionInterface
     private $customerSession;
 
     public function __construct(
-        RequestInterface $request,
-        ResultFactory $resultFactory,
-        ManagerInterface $messageManager,
+        Context $context,
         Config $config,
         FileFactory $fileFactory,
         ExportEntityRepositoryInterface $exportRepository,
@@ -52,7 +48,7 @@ class Download extends AbstractPrivacy implements HttpGetActionInterface
         $this->fileFactory = $fileFactory;
         $this->exportRepository = $exportRepository;
         $this->customerSession = $customerSession;
-        parent::__construct($request, $resultFactory, $messageManager, $config);
+        parent::__construct($context, $config);
     }
 
     protected function isAllowed(): bool
@@ -70,6 +66,7 @@ class Download extends AbstractPrivacy implements HttpGetActionInterface
                 [
                     'type' => 'filename',
                     'value' => $this->exportRepository->getByEntity($customerId, 'customer')->getFilePath(),
+                    'rm' => true,
                 ],
                 DirectoryList::TMP
             );
@@ -79,7 +76,7 @@ class Download extends AbstractPrivacy implements HttpGetActionInterface
             );
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }
 

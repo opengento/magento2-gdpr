@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Adminhtml\Privacy;
 
-use Exception;
 use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Customer\Controller\Adminhtml\Index\AbstractMassAction;
@@ -79,7 +78,7 @@ class MassExport extends AbstractMassAction
                 $result = $this->action->execute($this->actionContextBuilder->create())->getResult();
                 /** @var ExportEntityInterface $exportEntity */
                 $exportEntity = $result[ExportArgumentReader::EXPORT_ENTITY];
-                $this->moveToArchive->prepareArchive($exportEntity->getFilePath(), $archiveFileName, false);
+                $this->moveToArchive->prepareArchive($exportEntity->getFilePath(), $archiveFileName);
             }
 
             return $this->fileFactory->create(
@@ -95,7 +94,7 @@ class MassExport extends AbstractMassAction
             $this->messageManager->addErrorMessage(
                 new Phrase('Customer with id "%1": %2', [$customerId ?? 'N/A', $e->getMessage()])
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('An error occurred on the server.'));
         }
 
