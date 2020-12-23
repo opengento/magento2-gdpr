@@ -36,8 +36,6 @@ final class Guest implements PerformedByInterface
     {
         $order = $this->coreRegistry->registry('current_order');
 
-        return $order && $order instanceof Order
-            ? $order->getData($this->attributeName)
-            : '';
+        return $order && $order instanceof Order ? $order->getData($this->attributeName) : '';
     }
 }
