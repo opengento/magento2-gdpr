@@ -11,6 +11,7 @@ use Opengento\Gdpr\ViewModel\Customer\Guest\ExportDataProvider;
 
 /** @var Template $block */
 /** @var Escaper $escaper */
+$escaper = $escaper ?? $block;
 
 /** @var ExportDataProvider $exportDataProvider */
 $exportDataProvider = $block->getData('exportDataProvider');

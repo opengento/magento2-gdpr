@@ -11,6 +11,7 @@ use Opengento\Gdpr\ViewModel\Customer\Privacy\SettingsDataProvider;
 
 /** @var Template $block */
 /** @var Escaper $escaper */
+$escaper = $escaper ?? $block;
 
 /** @var SettingsDataProvider $settingsDataProvider */
 $settingsDataProvider = $block->getData('settingsDataProvider');
