@@ -47,7 +47,7 @@ final class EntityIterator implements EntityIteratorInterface
         $values = $this->hydratorPool->getHydrator($this->typeResolver->resolve($entity))->extract($entity);
 
         foreach ($values as $key => $value) {
-            $this->processor->process($entity, $key, $value);
+            $this->processor->process($key, $value);
         }
     }
 }
