@@ -1,0 +1,16 @@
+<?php
+/**
+ * Copyright © OpenGento, All rights reserved.
+ * See LICENSE bundled with this library for license details.
+ */
+declare(strict_types=1);
+?>
+<!doctype html>
+<html <?= $htmlAttributes ?? '' ?>>
+    <head <?= $headAttributes ?? '' ?>>
+        <?= $headContent ?? '' ?>
+    </head>
+    <body data-container="body" <?= $bodyAttributes ?? '' ?>>
+        <?= $layoutContent ?? '' ?>
+    </body>
+</html>

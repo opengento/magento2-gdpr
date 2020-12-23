@@ -5,15 +5,14 @@
  * See LICENSE bundled with this library for license details.
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="empty" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="customer_privacy_export" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="customer_privacy_export_personal_data_renderers"/>
     <head>
         <title>My Personal Data</title>
     </head>
     <body>
         <referenceContainer name="main">
-            <block class="Magento\Framework\View\Element\Template" name="main.content.customer.privacy.export.personal.data" template="Opengento_Gdpr::export/result.phtml" cacheable="false"/>
+            <block name="main.content.customer.privacy.export.personal.data" template="Opengento_Gdpr::export/result.phtml" cacheable="false"/>
         </referenceContainer>
-        <move element="opengento.gdpr.customer.privacy.export.renderers" destination="main.content.customer.privacy.export.personal.data" as="exportRenderer"/>
     </body>
 </page>

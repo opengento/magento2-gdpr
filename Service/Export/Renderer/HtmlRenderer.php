@@ -15,9 +15,10 @@ use Magento\Framework\Translate\InlineInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\FileSystem as ViewFileSystem;
 use Magento\Framework\View\Page\Config;
-use Magento\Framework\View\Page\Config\Renderer;
-use Magento\Framework\View\Page\Config\RendererFactory;
+use Magento\Framework\View\Page\Config\RendererInterface;
+use Opengento\Gdpr\Model\View\Page\Config\RendererFactory;
 use Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiatorInterface;
+use function array_keys;
 use function extract;
 use function ob_end_clean;
 use function ob_get_clean;
@@ -31,7 +32,7 @@ final class HtmlRenderer extends AbstractRenderer
     private $layoutInitiator;
 
     /**
-     * @var Renderer
+     * @var RendererInterface
      */
     private $pageConfigRenderer;
 
@@ -75,20 +76,15 @@ final class HtmlRenderer extends AbstractRenderer
     {
         $layout = $this->layoutInitiator->createLayout();
 
-        $addBlock = $layout->getBlock('head.additional');
-        $requireJs = $layout->getBlock('require.js');
         /** @var Template $block */
         $block = $layout->getBlock('main.content.customer.privacy.export.personal.data');
         $block->setData('viewModel', new DataObject($data));
 
         $output = $this->renderPage([
-            'requireJs' => $requireJs ? $requireJs->toHtml() : null,
-            'headContent' => $this->pageConfigRenderer->renderHeadContent(),//todo replace style to inline css
-            'headAdditional' => $addBlock ? $addBlock->toHtml() : null,
+            'headContent' => $this->pageConfigRenderer->renderHeadContent(),
             'htmlAttributes' => $this->pageConfigRenderer->renderElementAttributes(Config::ELEMENT_TYPE_HTML),
             'headAttributes' => $this->pageConfigRenderer->renderElementAttributes(Config::ELEMENT_TYPE_HEAD),
             'bodyAttributes' => $this->pageConfigRenderer->renderElementAttributes(Config::ELEMENT_TYPE_BODY),
-            'loaderIcon' => 'images/loader-2.gif',//todo
             'layoutContent' => $layout->getOutput(),
         ]);
         $this->translateInline->processResponseBody($output);

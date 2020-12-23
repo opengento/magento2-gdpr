@@ -9,17 +9,10 @@ namespace Opengento\Gdpr\Service\Export\Renderer;
 
 use Exception;
 use Magento\Framework\Filesystem;
-use mikehaertl\wkhtmlto\Pdf;
-use mikehaertl\wkhtmlto\PdfFactory;
-use RuntimeException;
+use TCPDF;
 
 final class PdfRenderer extends AbstractRenderer
 {
-    /**
-     * @var PdfFactory
-     */
-    private $pdfFactory;
-
     /**
      * @var HtmlRenderer
      */
@@ -27,10 +20,8 @@ final class PdfRenderer extends AbstractRenderer
 
     public function __construct(
         Filesystem $filesystem,
-        PdfFactory $pdfFactory,
         HtmlRenderer $htmlRenderer
     ) {
-        $this->pdfFactory = $pdfFactory;
         $this->htmlRenderer = $htmlRenderer;
         parent::__construct($filesystem, 'pdf');
     }
@@ -41,31 +32,10 @@ final class PdfRenderer extends AbstractRenderer
      */
     public function render(array $data): string
     {
-        /** @var Pdf $pdf */
-        $pdf = $this->pdfFactory->create([
-            'options' => [
-                'ignoreWarnings' => true,
-                'no-outline',
-                'enable-external-links',
-                'enable-internal-links',
-                'encoding' => 'UTF-8',
-                'margin-top' => 0,
-                'margin-right' => 0,
-                'margin-bottom' => 0,
-                'margin-left' => 0,
-                'dpi' => 300,
-                'zoom' => 1,
-                'disable-smart-shrinking',
-                'lowquality',
-            ]
-        ]);
+        $pdf = new TCPDF();
+        $pdf->AddPage('P', 'A4');
+        $pdf->writeHTML($this->htmlRenderer->render($data));
 
-        $pdf->addPage($this->htmlRenderer->render($data));
-
-        if (($result = $pdf->toString()) === false) {
-            throw new RuntimeException('The PDF was not created successfully.');
-        }
-
-        return $result;
+        return $pdf->Output('', 'S');
     }
 }
