@@ -7,16 +7,14 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Guest;
 
-use Exception;
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
 use Magento\Sales\Api\Data\OrderInterface;
@@ -38,18 +36,16 @@ class Download extends AbstractGuest implements HttpGetActionInterface
     private $exportRepository;
 
     public function __construct(
-        RequestInterface $request,
-        ResultFactory $resultFactory,
-        ManagerInterface $messageManager,
+        Context $context,
         Config $config,
-        OrderLoaderInterface $orderLoader,
-        Registry $registry,
         FileFactory $fileFactory,
-        ExportEntityRepositoryInterface $exportRepository
+        ExportEntityRepositoryInterface $exportRepository,
+        OrderLoaderInterface $orderLoader,
+        Registry $registry
     ) {
         $this->fileFactory = $fileFactory;
         $this->exportRepository = $exportRepository;
-        parent::__construct($request, $resultFactory, $messageManager, $config, $orderLoader, $registry);
+        parent::__construct($context, $config, $orderLoader, $registry);
     }
 
     protected function isAllowed(): bool
@@ -68,6 +64,7 @@ class Download extends AbstractGuest implements HttpGetActionInterface
                 [
                     'type' => 'filename',
                     'value' => $this->exportRepository->getByEntity((int) $order->getEntityId(), 'order')->getFilePath(),
+                    'rm' => true,
                 ],
                 DirectoryList::TMP
             );
@@ -77,7 +74,7 @@ class Download extends AbstractGuest implements HttpGetActionInterface
             );
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }
 

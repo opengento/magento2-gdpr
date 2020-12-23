@@ -7,13 +7,11 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Guest;
 
-use Exception;
-use Magento\Framework\App\Action\HttpPostActionInterface;
-use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
 use Magento\Sales\Controller\AbstractController\OrderLoaderInterface;
@@ -23,7 +21,7 @@ use Opengento\Gdpr\Model\Action\ArgumentReader;
 use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Config;
 
-class UndoErase extends AbstractGuest implements HttpPostActionInterface
+class UndoErase extends AbstractGuest implements HttpGetActionInterface //todo should be post action
 {
     /**
      * @var ActionInterface
@@ -36,9 +34,7 @@ class UndoErase extends AbstractGuest implements HttpPostActionInterface
     private $actionContextBuilder;
 
     public function __construct(
-        RequestInterface $request,
-        ResultFactory $resultFactory,
-        ManagerInterface $messageManager,
+        Context $context,
         Config $config,
         OrderLoaderInterface $orderLoader,
         Registry $registry,
@@ -47,7 +43,7 @@ class UndoErase extends AbstractGuest implements HttpPostActionInterface
     ) {
         $this->action = $action;
         $this->actionContextBuilder = $actionContextBuilder;
-        parent::__construct($request, $resultFactory, $messageManager, $config, $orderLoader, $registry);
+        parent::__construct($context, $config, $orderLoader, $registry);
     }
 
     protected function isAllowed(): bool
@@ -71,7 +67,7 @@ class UndoErase extends AbstractGuest implements HttpPostActionInterface
             $this->messageManager->addWarningMessage(new Phrase('You canceled your personal data deletion.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }
 

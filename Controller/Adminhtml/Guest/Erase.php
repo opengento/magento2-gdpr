@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Adminhtml\Guest;
 
-use Exception;
 use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\App\Action\HttpPostActionInterface;
@@ -57,7 +56,7 @@ class Erase extends AbstractAction implements HttpPostActionInterface
             $this->messageManager->addSuccessMessage(new Phrase('You erased the order.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('An error occurred on the server.'));
         }
 

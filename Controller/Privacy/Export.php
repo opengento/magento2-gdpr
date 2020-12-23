@@ -7,15 +7,13 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Privacy;
 
-use Exception;
 use Magento\Customer\Model\Session;
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
-use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
@@ -41,9 +39,7 @@ class Export extends AbstractPrivacy implements HttpGetActionInterface
     private $customerSession;
 
     public function __construct(
-        RequestInterface $request,
-        ResultFactory $resultFactory,
-        ManagerInterface $messageManager,
+        Context $context,
         Config $config,
         ActionInterface $action,
         ContextBuilder $actionContextBuilder,
@@ -52,7 +48,7 @@ class Export extends AbstractPrivacy implements HttpGetActionInterface
         $this->action = $action;
         $this->actionContextBuilder = $actionContextBuilder;
         $this->customerSession = $customerSession;
-        parent::__construct($request, $resultFactory, $messageManager, $config);
+        parent::__construct($context, $config);
     }
 
     protected function isAllowed(): bool
@@ -78,7 +74,7 @@ class Export extends AbstractPrivacy implements HttpGetActionInterface
             $this->messageManager->addNoticeMessage(new Phrase('A document is already available in your account.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('Something went wrong, please try again later!'));
         }
 

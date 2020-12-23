@@ -13,7 +13,6 @@ use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultFactory;
-use Magento\Framework\Exception\AbstractAggregateException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\Data\ActionResultInterface;
@@ -64,11 +63,6 @@ class Execute extends Action implements HttpPostActionInterface
             $this->messageManager->addSuccessMessage(
                 new Phrase('The action state is now: %1.', [$this->actionStates->getOptionText($result->getState())])
             );
-        } catch (AbstractAggregateException $e) {
-            $this->messageManager->addErrorMessage($e->getMessage());
-            foreach ($e->getErrors() as $exception) {
-                $this->messageManager->addErrorMessage($exception->getMessage());
-            }
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
         } catch (Exception $e) {
