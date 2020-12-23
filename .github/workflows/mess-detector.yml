@@ -1,0 +1,10 @@
+name: M2 Mess Detector
+on: [push, pull_request]
+
+jobs:
+  phpmd:
+    name: M2 Mess Detector
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: extdn/github-actions-m2/magento-mess-detector@master

@@ -5,12 +5,13 @@
  */
 declare(strict_types=1);
 
-/** @var Template $block */
-/** @var Escaper $escaper */
-
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Opengento\Gdpr\ViewModel\Customer\Guest\EraseDataProvider;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+$escaper = $escaper ?? $block;
 
 /** @var EraseDataProvider $eraseDataProvider */
 $eraseDataProvider = $block->getData('eraseDataProvider');
