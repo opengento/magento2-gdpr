@@ -18,18 +18,42 @@ $escaper = $escaper ?? $block;
 $rendererList = $block->getChildBlock('exportRenderer');
 /** @var DataObject $viewModel */
 $viewModel = $block->getData('viewModel');
+
+$exportData = array_filter($viewModel->toArray());
+
+if (!function_exists('formatLabel')) {
+    function formatLabel(string $label): string
+    {
+        return ucwords(str_replace('_', ' ', $label));
+    }
+}
+if (!function_exists('renderNestedItems')) {
+    function renderNestedItems(array $items, $escaper): string
+    {
+        $items = array_filter($items);
+        if (!$items) {
+            return '';
+        }
+
+        $html = '<ul class="items">';
+        foreach ($items as $key => $item) {
+            $html .= '<li class="item"><span class="label">' . $escaper->escapeHtml(formatLabel($key)) . '</span>: ';
+            $html .= is_array($item)
+                ? renderNestedItems($item, $escaper)
+                : '<span class="value">' . $escaper->escapeHtml($item) .'</span>';
+            $html .= '</li>';
+        }
+        $html .= '</ul>';
+
+        return $html;
+    }
+}
 ?>
-<?php foreach ($viewModel->toArray() as $key => $value): ?>
+<?php foreach ($exportData as $key => $value): ?>
     <div class="fieldset info export-data-<?= $escaper->escapeHtmlAttr($key) ?>">
-        <div class="legend"><span><?= $escaper->escapeHtml($key) ?></span></div>
+        <div class="legend"><span><?= $escaper->escapeHtml(formatLabel($key)) ?></span></div>
         <div class="field field-<?= $escaper->escapeHtmlAttr($key) ?>">
-            <?php if (is_array($value)): ?>
-                <pre>
-                    <?= print_r($value, true) ?>
-                </pre>
-            <?php elseif ($value): ?>
-                <p><?= $escaper->escapeHtml($value) ?></p>
-            <?php endif; ?>
+            <?= renderNestedItems($value, $escaper) ?>
         </div>
     </div>
 <?php endforeach; ?>

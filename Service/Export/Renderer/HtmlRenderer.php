@@ -9,16 +9,18 @@ namespace Opengento\Gdpr\Service\Export\Renderer;
 
 use Exception;
 use InvalidArgumentException;
+use Magento\Framework\App\Area;
+use Magento\Framework\App\State;
 use Magento\Framework\DataObject;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Translate\InlineInterface;
+use Magento\Framework\View\DesignInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\FileSystem as ViewFileSystem;
 use Magento\Framework\View\Page\Config;
 use Magento\Framework\View\Page\Config\RendererInterface;
 use Opengento\Gdpr\Model\View\Page\Config\RendererFactory;
 use Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiatorInterface;
-use function array_keys;
 use function extract;
 use function ob_end_clean;
 use function ob_get_clean;
@@ -26,6 +28,13 @@ use function ob_start;
 
 final class HtmlRenderer extends AbstractRenderer
 {
+    /**
+     * @var State
+     */
+    private $appState;
+
+    private $design;
+
     /**
      * @var LayoutInitiatorInterface
      */
@@ -52,6 +61,8 @@ final class HtmlRenderer extends AbstractRenderer
     private $template;
 
     public function __construct(
+        State $appState,
+        DesignInterface $design,
         Filesystem $filesystem,
         LayoutInitiatorInterface $layoutInitiator,
         Config $pageConfig,
@@ -60,6 +71,8 @@ final class HtmlRenderer extends AbstractRenderer
         ViewFileSystem $viewFileSystem,
         string $template
     ) {
+        $this->appState = $appState;
+        $this->design = $design;
         $this->layoutInitiator = $layoutInitiator;
         $this->pageConfigRenderer = $rendererFactory->create(['pageConfig' => $pageConfig]);
         $this->translateInline = $translateInline;
@@ -74,6 +87,23 @@ final class HtmlRenderer extends AbstractRenderer
      */
     public function render(array $data): string
     {
+        return $this->appState->emulateAreaCode(
+            Area::AREA_FRONTEND,
+            function () use ($data): string { return $this->renderHtml($data); }
+        );
+    }
+
+    /**
+     * @param array $data
+     * @return string
+     * @throws Exception
+     */
+    private function renderHtml(array $data): string
+    {
+        // Workaround for emulated area code
+        $this->design->setArea($this->design->getArea());
+        $this->design->setDefaultDesignTheme();
+
         $layout = $this->layoutInitiator->createLayout();
 
         /** @var Template $block */

@@ -81,13 +81,7 @@ final class LayoutInitiator implements LayoutInitiatorInterface
             'generatorPool' => $this->layoutGeneratorPool,
         ]);
 
-        $layout->getUpdate()->addHandle('default');
         $layout->getUpdate()->addHandle($this->defaultLayoutHandle);
-        /** @var Merge $update */
-        $update = $layout->getUpdate();
-        if ($update->isLayoutDefined()) {
-            $update->removeHandle('default');
-        }
 
         return $this->addConfigLayout($layout);
     }
