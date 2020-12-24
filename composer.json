@@ -6,12 +6,13 @@
         "magento",
         "magento2",
         "gdpr",
-        "rgpd"
+        "rgpd",
+        "privacy"
     ],
     "require": {
-        "php": ">=7.2",
+        "php": "^7.2",
         "ext-zip": "*",
-        "mikehaertl/phpwkhtmltopdf": "^2.3.1",
+        "tecnickcom/tcpdf": "^6.3",
         "magento/framework": "^102.0.0",
         "magento/module-backend": "^101.0.0",
         "magento/module-config": "^101.1.0",
@@ -25,7 +26,8 @@
         "magento/module-theme": "^101.0.0"
     },
     "require-dev": {
-        "magento/marketplace-eqp": "^1.0.0",
+        "magento/magento-coding-standard": "^5",
+        "magento/marketplace-eqp": "^4.0",
         "roave/security-advisories": "dev-master"
     },
     "type": "magento2-module",
@@ -39,6 +41,12 @@
             "email": "opengento@gmail.com",
             "homepage": "https://opengento.fr/",
             "role": "lead"
+        },
+        {
+            "name": "Thomas Klein",
+            "email": "thomaskein876@gmail.com",
+            "homepage": "https://www.linkedin.com/in/thomas-klein/",
+            "role": "maintainer"
         }
     ],
     "support": {

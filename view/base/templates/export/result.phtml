@@ -17,9 +17,5 @@ $rendererList = $block->getLayout()->getBlock('opengento.gdpr.customer.privacy.e
 $viewModel = $block->getData('viewModel');
 ?>
 <?php foreach ($viewModel->toArray() as $key => $value): ?>
-    <?=
-        $rendererList->getRenderer($key, 'default', 'Opengento_Gdpr::export/renderer/default.phtml')
-                     ->setData('viewModel', new DataObject([$key => $value]))
-                     ->toHtml()
-    ?>
+    <?= $rendererList->getRenderer($key, 'default', 'Opengento_Gdpr::export/renderer/default.phtml')->setData('viewModel', new DataObject([$key => $value]))->toHtml() ?>
 <?php endforeach; ?>
