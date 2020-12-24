@@ -12,7 +12,7 @@
     "require": {
         "php": "^7.2",
         "ext-zip": "*",
-        "mikehaertl/phpwkhtmltopdf": "^2.3.1",
+        "tecnickcom/tcpdf": "^6.3",
         "magento/framework": "^103.0",
         "magento/module-backend": "^101.0||^102.0",
         "magento/module-config": "^101.1",
