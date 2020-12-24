@@ -1512,7 +1512,7 @@
     <type name="Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer">
         <arguments>
             <argument name="layoutInitiator" xsi:type="object">Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiator</argument>
-            <argument name="template" xsi:type="string">Magento_Theme::root.phtml</argument>
+            <argument name="template" xsi:type="string">Opengento_Gdpr::root.phtml</argument>
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Service\Export\RendererFactory">
