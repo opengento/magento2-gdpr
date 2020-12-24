@@ -11,7 +11,7 @@
             <block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-privacy-link" after="customer-account-navigation-wish-list-link" ifconfig="gdpr/general/enabled">
                 <arguments>
                     <argument name="path" xsi:type="string">customer/privacy/settings</argument>
-                    <argument name="label" xsi:type="string">Privacy settings</argument>
+                    <argument name="label" xsi:type="string" translate="true">Privacy Settings</argument>
                 </arguments>
             </block>
         </referenceBlock>
