@@ -42,11 +42,11 @@ class UndoErase extends AbstractPrivacy implements HttpPostActionInterface
         Config $config,
         Session $customerSession,
         ActionInterface $action,
-		ContextBuilder $actionContextBuilder
+        ContextBuilder $actionContextBuilder
     ) {
         $this->customerSession = $customerSession;
         $this->action = $action;
-		$this->actionContextBuilder = $actionContextBuilder;
+        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($context, $config);
     }
 
