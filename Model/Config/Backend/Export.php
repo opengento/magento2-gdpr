@@ -14,7 +14,6 @@ use Magento\Framework\App\Config\Value;
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
@@ -52,7 +51,6 @@ class Export extends Value
      * @return $this
      * @throws CouldNotDeleteException
      * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     public function afterSave(): self
     {
