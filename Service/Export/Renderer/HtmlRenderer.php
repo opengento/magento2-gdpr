@@ -19,7 +19,7 @@ use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\FileSystem as ViewFileSystem;
 use Magento\Framework\View\Page\Config;
 use Magento\Framework\View\Page\Config\RendererInterface;
-use Opengento\Gdpr\Model\View\Page\Config\RendererFactory;
+use Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\View\RendererFactory;
 use Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiatorInterface;
 use function extract;
 use function ob_end_clean;
