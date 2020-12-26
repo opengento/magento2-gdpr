@@ -33,6 +33,9 @@ final class HtmlRenderer extends AbstractRenderer
      */
     private $appState;
 
+    /**
+     * @var DesignInterface
+     */
     private $design;
 
     /**
