@@ -48,15 +48,13 @@ $eraseCustomerDataProvider = $block->getData('eraseCustomerDataProvider');
                     <?= $eraseDataProvider->getAnonymizeInformationHtml() ?>
                 </div>
             <?php endif; ?>
-            <form action="<?= $escaper->escapeUrl($block->getData('eraseActionUrl')) ?>" method="post">
-                <div class="actions-toolbar">
-                    <div class="primary">
-                        <button type="submit" class="action submit primary primary-danger" id="delete">
-                            <span><?= $escaper->escapeHtml(__('Erase Personal Data')) ?></span>
-                        </button>
-                    </div>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <a href="<?= $escaper->escapeUrl($block->getData('eraseActionUrl')) ?>" class="action primary primary-danger" id="delete">
+                        <span><?= $escaper->escapeHtml(__('Erase Personal Data')) ?></span>
+                    </a>
                 </div>
-            </form>
+            </div>
         <?php else: ?>
             <div class="message info">
                 <span><?= $escaper->escapeHtml(__('Your account cannot be erased while you have pending orders.')) ?></span>
