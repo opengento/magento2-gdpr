@@ -27,6 +27,10 @@ Area:
 - Payment Data
 - Invitation Data
 
+# Export
+
+Invalidation on entity updates
+
 ## yu
 
 https://github.com/magento/architecture/pull/145/files
