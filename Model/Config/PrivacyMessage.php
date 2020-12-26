@@ -61,9 +61,12 @@ final class PrivacyMessage
 
     public function getLearnMoreUrl(): string
     {
-        return $this->helperPage->getPageUrl((string) $this->scopeConfig->getValue(
+		$genInfoPage = $this->scopeConfig->getValue(
             self::CONFIG_PATH_GENERAL_INFORMATION_PAGE,
             ScopeInterface::SCOPE_STORE
-        ));
+        );
+        return !empty($genInfoPage) 
+			? (string) $this->helperPage->getPageUrl($genInfoPage)
+			: "#" ;
     }
 }
