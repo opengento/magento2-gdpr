@@ -32,7 +32,7 @@
             </field>
             <field id="delay" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
                 <label>Erasure Delay</label>
-                <comment>Erasure delay in minute before the execution by the cron.</comment>
+                <comment>Erasure delay in minute before the execution by the cron. From 60 to 43800.</comment>
                 <validate>validate-number validate-number-range number-range-60-43800</validate>
                 <depends>
                     <field id="gdpr/erasure/enabled">1</field>

@@ -44,6 +44,7 @@ Failed,Failed
 "Impossible to process the erasure: %1","Impossible to process the erasure: %1"
 "An export entity already exists for the entity type ""%1"" with ID ""%2"".","An export entity already exists for the entity type ""%1"" with ID ""%2""."
 "State ""%1"" does not exists.","State ""%1"" does not exists."
+"Your account have been erased and you have signed out.","Your account have been erased and you have signed out."
 "* Required Fields","* Required Fields"
 "Confirm password to continue","Confirm password to continue"
 Password,Password
@@ -96,7 +97,7 @@ Accept,Accept
 Erasure,Erasure
 "It will enable the erase action to the storefront.","It will enable the erase action to the storefront."
 "Erasure Delay","Erasure Delay"
-"Erasure delay in minute before the execution by the cron.","Erasure delay in minute before the execution by the cron."
+"Erasure delay in minute before the execution by the cron. From 60 to 43800.","Erasure delay in minute before the execution by the cron. From 60 to 43800."
 "Erase Entity Cron Schedule","Erase Entity Cron Schedule"
 "Entities Lifetime","Entities Lifetime"
 "The time is in days.","The time is in days."
