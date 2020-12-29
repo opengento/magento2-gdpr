@@ -21,6 +21,9 @@ use Psr\Log\LoggerInterface;
 
 final class SessionChecker
 {
+    /**
+     * @var CollectionFactory
+     */
     private $collectionFactory;
 
     /**
@@ -38,6 +41,9 @@ final class SessionChecker
      */
     private $cookieMetadataFactory;
 
+    /**
+     * @var ManagerInterface
+     */
     private $messageManager;
 
     /**
