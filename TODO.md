@@ -1,8 +1,6 @@
 # ToDo
 
-## Processors
-
-Area:
+## Entities to handle
 
 - Analytics
 - Wishlist
@@ -12,25 +10,8 @@ Area:
 - Refund
 - Payment
 - Cookie
-- Others
+- Invitation
 
-## Export
-
-- Payment Data
-- Invitation Data
-
-- invalidate export document when personal data are altered
-    - in this way, add plugin / observer, depends of the entity persistence
-
-## Anonymizer
- 
-- Payment Data
-- Invitation Data
-
-# Export
-
-Invalidation on entity updates
-
-## yu
+## Split Areas
 
 https://github.com/magento/architecture/pull/145/files
