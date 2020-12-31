@@ -18,7 +18,7 @@ final class ResetButton implements ButtonProviderInterface
             'label' => new Phrase('Reset'),
             'class' => 'reset',
             'on_click' => 'location.reload();',
-            'sort_order' => 20
+            'sort_order' => 20,
         ];
     }
 }

@@ -103,6 +103,13 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
         return $exportEntity;
     }
 
+    public function invalidate(ExportEntityInterface $exportEntity): ExportEntityInterface
+    {
+        $this->exportRepository->delete($exportEntity);
+
+        return $this->create($exportEntity->getEntityId(), $exportEntity->getEntityType(), $exportEntity->getFileName());
+    }
+
     private function resolveDefaultFileName(): string
     {
         return (string) $this->scopeConfig->getValue(self::CONFIG_PATH_EXPORT_FILE_NAME, ScopeInterface::SCOPE_STORE);

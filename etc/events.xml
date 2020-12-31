@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="customer_save_after">
+        <observer name="opengento_gdpr_invalidate_export_entity" instance="Opengento\Gdpr\Observer\InvalidateExport"/>
+    </event>
+    <event name="customer_address_save_after">
+        <observer name="opengento_gdpr_invalidate_export_entity" instance="Opengento\Gdpr\Observer\InvalidateExport"/>
+    </event>
+    <event name="newsletter_subscriber_save_after">
+        <observer name="opengento_gdpr_invalidate_export_entity" instance="Opengento\Gdpr\Observer\InvalidateExport"/>
+    </event>
+    <event name="sales_order_save_after">
+        <observer name="opengento_gdpr_invalidate_export_entity" instance="Opengento\Gdpr\Observer\InvalidateExport"/>
+    </event>
+    <event name="sales_order_address_save_after">
+        <observer name="opengento_gdpr_invalidate_export_entity" instance="Opengento\Gdpr\Observer\InvalidateExport"/>
+    </event>
+    <event name="sales_quote_save_after">
+        <observer name="opengento_gdpr_invalidate_export_entity" instance="Opengento\Gdpr\Observer\InvalidateExport"/>
+    </event>
+    <event name="sales_quote_address_save_after">
+        <observer name="opengento_gdpr_invalidate_export_entity" instance="Opengento\Gdpr\Observer\InvalidateExport"/>
+    </event>
+</config>

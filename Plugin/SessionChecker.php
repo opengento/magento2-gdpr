@@ -8,7 +8,9 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Plugin;
 
 use Magento\Customer\Controller\AccountInterface;
+use Magento\Customer\Controller\Address;
 use Magento\Customer\Model\Session;
+use Magento\Framework\App\Action\AbstractAction;
 use Magento\Framework\App\ActionInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Message\ManagerInterface;
@@ -77,6 +79,9 @@ final class SessionChecker
 
             if ($action instanceof AccountInterface) {
                 return $this->session->authenticate();
+            }
+            if ($action instanceof AbstractAction) {
+                $action->dispatch($action->getRequest());
             }
         }
 

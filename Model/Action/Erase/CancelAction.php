@@ -48,7 +48,7 @@ final class CancelAction extends AbstractAction
         return $this->createActionResult(
             [
                 ArgumentReader::ERASE_ENTITY => $this->resolveEntity(...$arguments),
-                'canceled' => $this->eraseManagement->cancel(...$arguments)
+                'canceled' => $this->eraseManagement->cancel(...$arguments),
             ]
         );
     }

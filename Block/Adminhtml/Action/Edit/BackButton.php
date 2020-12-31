@@ -30,7 +30,7 @@ final class BackButton implements ButtonProviderInterface
             'label' => new Phrase('Back'),
             'on_click' => 'location.href = "' . $this->urlBuilder->getUrl('*/*/') . '";',
             'class' => 'back',
-            'sort_order' => 10
+            'sort_order' => 10,
         ];
     }
 }

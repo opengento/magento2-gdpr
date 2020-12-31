@@ -50,13 +50,7 @@ final class PrivacyMessage
 
     public function getDisclosureInformationHtml(): string
     {
-        return $this->blockHtml ?? $this->blockHtml = $this->blockFactory->createBlock(
-            Block::class,
-            ['data' => ['block_id' => (string) $this->scopeConfig->getValue(
-                self::CONFIG_PATH_COOKIE_INFORMATION_BLOCK,
-                ScopeInterface::SCOPE_STORE
-            )]]
-        )->toHtml();
+        return $this->blockHtml ?? $this->blockHtml = $this->createDisclosureInformationBlockHtml();
     }
 
     public function getLearnMoreUrl(): string
@@ -65,5 +59,20 @@ final class PrivacyMessage
             self::CONFIG_PATH_GENERAL_INFORMATION_PAGE,
             ScopeInterface::SCOPE_STORE
         )) ?? '#';
+    }
+
+    private function createDisclosureInformationBlockHtml(): string
+    {
+        return $this->blockFactory->createBlock(
+            Block::class,
+            [
+                'data' => [
+                    'block_id' => (string) $this->scopeConfig->getValue(
+                        self::CONFIG_PATH_COOKIE_INFORMATION_BLOCK,
+                        ScopeInterface::SCOPE_STORE
+                    ),
+                ],
+            ]
+        )->toHtml();
     }
 }
