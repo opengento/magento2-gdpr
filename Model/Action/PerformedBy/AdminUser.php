@@ -34,8 +34,11 @@ final class AdminUser implements PerformedByInterface
 
     public function get(): string
     {
-        return self::PERFORMED_BY . ($this->authSession->getUser()
-            ? $this->authSession->getUser()->getData($this->attributeName)
-            : '');
+        return self::PERFORMED_BY . $this->resolveUserName();
+    }
+
+    private function resolveUserName(): string
+    {
+        return $this->authSession->getUser() ? $this->authSession->getUser()->getData($this->attributeName) : 'Unknown';
     }
 }

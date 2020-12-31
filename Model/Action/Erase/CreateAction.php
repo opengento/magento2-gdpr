@@ -37,7 +37,7 @@ final class CreateAction extends AbstractAction
             [
                 ArgumentReader::ERASE_ENTITY => $this->eraseManagement->create(
                     ...$this->getArguments($actionContext)
-                )
+                ),
             ]
         );
     }

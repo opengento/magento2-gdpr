@@ -40,7 +40,7 @@ final class EntityTypeList
     {
         $entityTypes = [];
 
-        foreach ($this->getList() as $entity => $types) {
+        foreach ($this->getList() as $types) {
             $entityTypes[] = array_keys($types);
         }
 
