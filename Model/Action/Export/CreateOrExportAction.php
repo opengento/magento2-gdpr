@@ -38,7 +38,7 @@ final class CreateOrExportAction extends AbstractAction
             [
                 ExportArgumentReader::EXPORT_ENTITY => $this->exportEntityData->export(
                     ...$this->getArguments($actionContext)
-                )
+                ),
             ]
         );
     }

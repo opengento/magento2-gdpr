@@ -11,8 +11,11 @@ use DateTime;
 use Exception;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Store\Model\ScopeInterface;
 use Opengento\Gdpr\Model\Config;
+use Opengento\Gdpr\Model\Entity\EntityTypeList;
 use Opengento\Gdpr\Model\Erase\EraseEntityScheduler as EraseEntitySchedulerService;
 use Psr\Log\LoggerInterface;
 
@@ -49,9 +52,9 @@ final class EraseEntityScheduler
     private $filterBuilder;
 
     /**
-     * @var string[]
+     * @var EntityTypeList
      */
-    private $entityTypes;
+    private $entityTypeList;
 
     public function __construct(
         LoggerInterface $logger,
@@ -59,28 +62,38 @@ final class EraseEntityScheduler
         Config $config,
         EraseEntitySchedulerService $eraseEntityScheduler,
         FilterBuilder $filterBuilder,
-        array $entityTypes
+        EntityTypeList $entityTypeList
     ) {
         $this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
         $this->config = $config;
         $this->eraseEntityScheduler = $eraseEntityScheduler;
         $this->filterBuilder = $filterBuilder;
-        $this->entityTypes = $entityTypes;
+        $this->entityTypeList = $entityTypeList;
     }
 
     public function execute(): void
     {
         if ($this->config->isModuleEnabled() && $this->config->isErasureEnabled()) {
             try {
-                $this->filterBuilder->setField('created_at');
-                $this->filterBuilder->setValue(new DateTime('-' . $this->resolveErasureMaxAge() . 'days'));
-                $this->filterBuilder->setConditionType('lteq');
-                $this->eraseEntityScheduler->schedule($this->entityTypes, $this->filterBuilder->create());
+                $this->scheduleEntitiesErasure();
             } catch (Exception $e) {
                 $this->logger->error($e->getMessage(), $e->getTrace());
             }
         }
+    }
+
+    /**
+     * @throws CouldNotSaveException
+     * @throws LocalizedException
+     * @throws Exception
+     */
+    private function scheduleEntitiesErasure(): void
+    {
+        $this->filterBuilder->setField('created_at');
+        $this->filterBuilder->setValue(new DateTime('-' . $this->resolveErasureMaxAge() . 'days'));
+        $this->filterBuilder->setConditionType('lteq');
+        $this->eraseEntityScheduler->schedule($this->entityTypeList->getEntityTypes(), $this->filterBuilder->create());
     }
 
     private function resolveErasureMaxAge(): int

@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Api;
 
 use Magento\Framework\Exception\AlreadyExistsException;
+use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
@@ -39,4 +40,16 @@ interface ExportEntityManagementInterface
      * @throws LocalizedException
      */
     public function export(ExportEntityInterface $exportEntity): ExportEntityInterface;
+
+    /**
+     * Invalidate the export entity and create a new one to process
+     *
+     * @param ExportEntityInterface $exportEntity
+     * @return ExportEntityInterface
+     * @throws AlreadyExistsException
+     * @throws CouldNotDeleteException
+     * @throws CouldNotSaveException
+     * @throws LocalizedException
+     */
+    public function invalidate(ExportEntityInterface $exportEntity): ExportEntityInterface;
 }

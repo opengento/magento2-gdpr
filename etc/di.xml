@@ -890,12 +890,25 @@
             </argument>
         </arguments>
     </type>
-    <!-- ToDo: Improve registration of the entity types -->
-    <type name="Opengento\Gdpr\Cron\EraseEntityScheduler">
+    <type name="Opengento\Gdpr\Model\Entity\EntityTypeList">
         <arguments>
-            <argument name="entityTypes" xsi:type="array">
-                <item name="customer" xsi:type="string">customer</item>
-                <item name="guest" xsi:type="string">order</item>
+            <argument name="list" xsi:type="array">
+                <item name="Magento\Customer\Model\Customer" xsi:type="array">
+                    <item name="customer" xsi:type="string">entity_id</item>
+                </item>
+                <item name="Magento\Customer\Api\Data\AddressInterface" xsi:type="array">
+                    <item name="customer" xsi:type="string">customer_id</item>
+                </item>
+                <item name="Magento\Newsletter\Model\Subscriber" xsi:type="array">
+                    <item name="customer" xsi:type="string">customer_id</item>
+                </item>
+                <item name="Magento\Quote\Api\Data\CartInterface" xsi:type="array">
+                    <item name="customer" xsi:type="string">customer_id</item>
+                </item>
+                <item name="Magento\Sales\Api\Data\OrderInterface" xsi:type="array">
+                    <item name="customer" xsi:type="string">customer_id</item>
+                    <item name="order" xsi:type="string">entity_id</item>
+                </item>
             </argument>
         </arguments>
     </type>
