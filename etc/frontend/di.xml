@@ -78,7 +78,4 @@
             <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\ExportCreateAction</argument>
         </arguments>
     </type>
-    <type name="Magento\Framework\App\ActionInterface">
-        <plugin name="opengento_gdpr_customer_session_checker" type="Opengento\Gdpr\Plugin\SessionChecker" sortOrder="10"/>
-    </type>
 </config>
