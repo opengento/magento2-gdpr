@@ -90,7 +90,7 @@ Languages:
 - [x] de_DE ; German
 - [x] fr_FR ; French
 - [x] nl_NL ; Dutch
-- [ ] it_IT ; Italian (partial)
+- [x] it_IT ; Italian
 
 ## Settings
 
