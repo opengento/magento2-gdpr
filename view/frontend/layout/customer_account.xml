@@ -8,10 +8,10 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="customer_account_navigation">
-            <block class="Magento\Customer\Block\Account\SortLinkInterface" name="customer-account-navigation-account-privacy-link">
+            <block class="Magento\Customer\Block\Account\SortLinkInterface" name="customer-account-navigation-account-privacy-link" ifconfig="gdpr/general/enabled">
                 <arguments>
                     <argument name="path" xsi:type="string">customer/privacy/settings</argument>
-                    <argument name="label" xsi:type="string" translate="true"><![CDATA[Privacy Settings]]></argument>
+                    <argument name="label" xsi:type="string" translate="true">Privacy Settings</argument>
                     <argument name="sortOrder" xsi:type="number">175</argument>
                 </arguments>
             </block>
