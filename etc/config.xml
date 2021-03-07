@@ -11,6 +11,7 @@
             <general>
                 <enabled>0</enabled>
                 <page_id>privacy-policy-cookie-restriction-mode</page_id>
+                <newsletter_checkbox_label><![CDATA[I agree the <a href="%1" title="Privacy Policy">Privacy Policy</a>]]></newsletter_checkbox_label>
             </general>
             <action>
             </action>

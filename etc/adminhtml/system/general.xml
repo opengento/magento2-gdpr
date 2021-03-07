@@ -36,6 +36,23 @@
                 </depends>
                 <config_path>gdpr/general/block_id</config_path>
             </field>
+            <field id="newsletter_checkbox" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
+                <label>Newsletter Checkbox</label>
+                <comment>Enable Privacy Policy Checkbox Confirm for Magento Newsletter form</comment>
+                <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                <depends>
+                    <field id="gdpr/general/enabled">1</field>
+                </depends>
+                <config_path>gdpr/general/newsletter_checkbox</config_path>
+            </field>
+
+            <field id="newsletter_checkbox_label" translate="label comment" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
+                <label>Newsletter Checkbox Label</label>
+                <depends>
+                    <field id="gdpr/general/newsletter_checkbox">1</field>
+                </depends>
+                <config_path>gdpr/general/newsletter_checkbox_label</config_path>
+            </field>
         </group>
     </section>
 </include>
