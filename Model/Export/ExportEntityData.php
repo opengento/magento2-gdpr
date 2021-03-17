@@ -64,8 +64,16 @@ final class ExportEntityData
             $exportEntity = $this->exportManagement->create($entityId, $entityType);
         }
 
-        return $this->exportEntityChecker->isExported($entityId, $entityType)
-            ? $exportEntity
-            : $this->exportManagement->export($exportEntity);
+        if (!$this->exportEntityChecker->isExported($entityId, $entityType)) {
+            try {
+                $exportEntity = $this->exportManagement->export($exportEntity);
+            } catch (NoSuchEntityException $e) {
+                $this->exportRepository->delete($exportEntity);
+
+                throw $e;
+            }
+        }
+
+        return $exportEntity;
     }
 }

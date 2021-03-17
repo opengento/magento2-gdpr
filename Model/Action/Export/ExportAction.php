@@ -8,9 +8,11 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Action\Export;
 
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Opengento\Gdpr\Api\Data\ActionContextInterface;
 use Opengento\Gdpr\Api\Data\ActionResultInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
+use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Action\AbstractAction;
 use Opengento\Gdpr\Model\Action\Export\ArgumentReader as ExportArgumentReader;
 use Opengento\Gdpr\Model\Action\ResultBuilder;
@@ -18,14 +20,21 @@ use Opengento\Gdpr\Model\Action\ResultBuilder;
 final class ExportAction extends AbstractAction
 {
     /**
+     * @var ExportEntityRepositoryInterface
+     */
+    private $exportRepository;
+
+    /**
      * @var ExportEntityManagementInterface
      */
     private $exportManagement;
 
     public function __construct(
         ResultBuilder $resultBuilder,
+        ExportEntityRepositoryInterface $exportRepository,
         ExportEntityManagementInterface $exportManagement
     ) {
+        $this->exportRepository = $exportRepository;
         $this->exportManagement = $exportManagement;
         parent::__construct($resultBuilder);
     }
@@ -38,8 +47,16 @@ final class ExportAction extends AbstractAction
             throw InputException::requiredField('entity');
         }
 
+        try {
+            $exportEntity = $this->exportManagement->export($exportEntity);
+        } catch (NoSuchEntityException $e) {
+            $this->exportRepository->delete($exportEntity);
+
+            throw $e;
+        }
+
         return $this->createActionResult(
-            [ExportArgumentReader::EXPORT_ENTITY => $this->exportManagement->export($exportEntity)]
+            [ExportArgumentReader::EXPORT_ENTITY => $exportEntity]
         );
     }
 }

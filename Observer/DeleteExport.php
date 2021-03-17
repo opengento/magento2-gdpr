@@ -18,22 +18,16 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\AbstractModel;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Api\Data\ExportEntitySearchResultsInterface;
-use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Entity\EntityTypeResolver;
 use Psr\Log\LoggerInterface;
 
-final class InvalidateExport implements ObserverInterface
+final class DeleteExport implements ObserverInterface
 {
     /**
      * @var ExportEntityRepositoryInterface
      */
     private $exportRepository;
-
-    /**
-     * @var ExportEntityManagementInterface
-     */
-    private $exportManagement;
 
     /**
      * @var SearchCriteriaBuilder
@@ -57,14 +51,12 @@ final class InvalidateExport implements ObserverInterface
 
     public function __construct(
         ExportEntityRepositoryInterface $exportRepository,
-        ExportEntityManagementInterface $exportManagement,
         SearchCriteriaBuilder $criteriaBuilder,
         FilterBuilder $filterBuilder,
         EntityTypeResolver $entityTypeResolver,
         LoggerInterface $logger
     ) {
         $this->exportRepository = $exportRepository;
-        $this->exportManagement = $exportManagement;
         $this->criteriaBuilder = $criteriaBuilder;
         $this->filterBuilder = $filterBuilder;
         $this->entityTypeResolver = $entityTypeResolver;
@@ -78,7 +70,7 @@ final class InvalidateExport implements ObserverInterface
 
         try {
             foreach ($this->fetchExportEntities($entity)->getItems() as $exportEntity) {
-                $this->exportManagement->invalidate($exportEntity);
+                $this->exportRepository->delete($exportEntity);
             }
         } catch (LocalizedException $e) {
             $this->logger->error($e->getLogMessage(), $e->getTrace());
@@ -103,8 +95,6 @@ final class InvalidateExport implements ObserverInterface
                 $this->createEntityTypeFilter($entityType)
             ]);
         }
-        $this->criteriaBuilder->addFilter(ExportEntityInterface::EXPORTED_AT, true, 'notnull');
-        $this->criteriaBuilder->addFilter(ExportEntityInterface::FILE_PATH, true, 'notnull');
 
         return $this->exportRepository->getList($this->criteriaBuilder->create());
     }

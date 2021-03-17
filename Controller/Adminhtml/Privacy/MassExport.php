@@ -24,7 +24,7 @@ use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Model\Action\ArgumentReader;
 use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Action\Export\ArgumentReader as ExportArgumentReader;
-use Opengento\Gdpr\Model\Archive\MoveToArchive;
+use Opengento\Gdpr\Model\Archive\ArchiveManager;
 
 class MassExport extends AbstractMassAction
 {
@@ -36,9 +36,9 @@ class MassExport extends AbstractMassAction
     private $fileFactory;
 
     /**
-     * @var MoveToArchive
+     * @var ArchiveManager
      */
-    private $moveToArchive;
+    private $archiveManager;
 
     /**
      * @var ActionInterface
@@ -55,12 +55,12 @@ class MassExport extends AbstractMassAction
         Filter $filter,
         CollectionFactory $collectionFactory,
         FileFactory $fileFactory,
-        MoveToArchive $moveToArchive,
+        ArchiveManager $archiveManager,
         ActionInterface $action,
         ContextBuilder $actionContextBuilder
     ) {
         $this->fileFactory = $fileFactory;
-        $this->moveToArchive = $moveToArchive;
+        $this->archiveManager = $archiveManager;
         $this->action = $action;
         $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($context, $filter, $collectionFactory);
@@ -79,7 +79,7 @@ class MassExport extends AbstractMassAction
                 $result = $this->action->execute($this->actionContextBuilder->create())->getResult();
                 /** @var ExportEntityInterface $exportEntity */
                 $exportEntity = $result[ExportArgumentReader::EXPORT_ENTITY];
-                $this->moveToArchive->prepareArchive($exportEntity->getFilePath(), $archiveFileName, false);
+                $this->archiveManager->addToArchive($exportEntity->getFilePath(), $archiveFileName, false);
             }
 
             return $this->fileFactory->create(

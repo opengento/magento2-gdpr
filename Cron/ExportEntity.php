@@ -9,6 +9,7 @@ namespace Opengento\Gdpr\Cron;
 
 use Exception;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
@@ -69,10 +70,15 @@ final class ExportEntity
                 $exportList = $this->exportRepository->getList($this->criteriaBuilder->create());
 
                 foreach ($exportList->getItems() as $exportEntity) {
-                    $this->exportManagement->export($exportEntity);
+                    try {
+                        $this->exportManagement->export($exportEntity);
+                    } catch (NoSuchEntityException $e) {
+                        $this->logger->error($e->getLogMessage(), $e->getTrace());
+                        $this->exportRepository->delete($exportEntity);
+                    }
                 }
             } catch (Exception $e) {
-                $this->logger->error($e->getMessage(), $e->getTrace());
+                $this->logger->critical($e->getMessage(), $e->getTrace());
             }
         }
     }

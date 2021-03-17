@@ -7,11 +7,20 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Service\Export;
 
+use Magento\Framework\Exception\NoSuchEntityException;
+
 /**
- * Execute the export processor for the given entity ID. It allows to retrieve the related data as an array.
  * @api
  */
 interface ProcessorInterface
 {
+    /**
+     * Execute the export processor for the given entity ID. It allows to retrieve the related data as an array.
+     *
+     * @param int $entityId
+     * @param array $data
+     * @return array
+     * @throws NoSuchEntityException
+     */
     public function execute(int $entityId, array $data): array;
 }
