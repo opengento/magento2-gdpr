@@ -11,6 +11,7 @@ use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 
 /**
@@ -37,6 +38,7 @@ interface ExportEntityManagementInterface
      * @param ExportEntityInterface $exportEntity
      * @return ExportEntityInterface
      * @throws CouldNotSaveException
+     * @throws NoSuchEntityException
      * @throws LocalizedException
      */
     public function export(ExportEntityInterface $exportEntity): ExportEntityInterface;

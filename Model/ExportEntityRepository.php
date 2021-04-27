@@ -160,7 +160,9 @@ final class ExportEntityRepository implements ExportEntityRepositoryInterface
     public function delete(ExportEntityInterface $exportEntity): bool
     {
         try {
-            $this->fileSystem->getDirectoryWrite(DirectoryList::TMP)->delete($exportEntity->getFilePath());
+            if ($exportEntity->getFilePath()) {
+                $this->fileSystem->getDirectoryWrite(DirectoryList::TMP)->delete($exportEntity->getFilePath());
+            }
             $this->remove($exportEntity);
             $this->exportEntityResource->delete($exportEntity);
         } catch (Exception $e) {

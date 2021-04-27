@@ -14,7 +14,7 @@ use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Phrase;
 
-final class MoveToArchive
+final class ArchiveManager
 {
     /**
      * @var ArchiveInterface
@@ -42,7 +42,7 @@ final class MoveToArchive
      * @throws FileSystemException
      * @throws NotFoundException
      */
-    public function prepareArchive(string $source, string $destination, bool $remove = true): string
+    public function addToArchive(string $source, string $destination, bool $remove = true): string
     {
         $tmpWrite = $this->filesystem->getDirectoryWrite(DirectoryList::TMP);
         $fileDriver = $tmpWrite->getDriver();
