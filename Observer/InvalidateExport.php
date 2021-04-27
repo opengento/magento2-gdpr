@@ -73,17 +73,18 @@ final class InvalidateExport implements ObserverInterface
 
     public function execute(Observer $observer): void
     {
-        /** @var AbstractModel $entity */
         $entity = $observer->getData('data_object');
 
-        try {
-            foreach ($this->fetchExportEntities($entity)->getItems() as $exportEntity) {
-                $this->exportManagement->invalidate($exportEntity);
+        if ($entity instanceof AbstractModel) {
+            try {
+                foreach ($this->fetchExportEntities($entity)->getItems() as $exportEntity) {
+                    $this->exportManagement->invalidate($exportEntity);
+                }
+            } catch (LocalizedException $e) {
+                $this->logger->error($e->getLogMessage(), $e->getTrace());
+            } catch (Exception $e) {
+                $this->logger->error($e->getMessage(), $e->getTrace());
             }
-        } catch (LocalizedException $e) {
-            $this->logger->error($e->getLogMessage(), $e->getTrace());
-        } catch (Exception $e) {
-            $this->logger->error($e->getMessage(), $e->getTrace());
         }
     }
 
