@@ -12,10 +12,10 @@ use Magento\Framework\Api\Filter;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchResultsInterface;
+use Magento\Framework\DataObject;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Model\AbstractModel;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Api\Data\ExportEntitySearchResultsInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
@@ -75,7 +75,7 @@ final class InvalidateExport implements ObserverInterface
     {
         $entity = $observer->getData('data_object');
 
-        if ($entity instanceof AbstractModel) {
+        if ($entity instanceof DataObject) {
             try {
                 foreach ($this->fetchExportEntities($entity)->getItems() as $exportEntity) {
                     $this->exportManagement->invalidate($exportEntity);
@@ -89,12 +89,12 @@ final class InvalidateExport implements ObserverInterface
     }
 
     /**
-     * @param AbstractModel $entity
+     * @param DataObject $entity
      * @return ExportEntitySearchResultsInterface
      * @throws LocalizedException
      * @throws Exception
      */
-    private function fetchExportEntities(AbstractModel $entity): SearchResultsInterface
+    private function fetchExportEntities(DataObject $entity): SearchResultsInterface
     {
         $entityTypes = $this->entityTypeResolver->resolve($entity);
 
