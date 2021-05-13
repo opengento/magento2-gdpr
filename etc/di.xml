@@ -180,14 +180,6 @@
         </arguments>
     </virtualType>
     <!-- Anonymize Management -->
-    <virtualType name="Opengento\Gdpr\Service\Anonymize\Anonymizer\Street" type="Opengento\Gdpr\Service\Anonymize\Anonymizer\ArrayValue">
-        <arguments>
-            <argument name="anonymizers" xsi:type="array">
-                <item name="0" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Number</item>
-                <item name="1" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaLower</item>
-            </argument>
-        </arguments>
-    </virtualType>
     <type name="Opengento\Gdpr\Service\Anonymize\AnonymizerFactory">
         <arguments>
             <argument name="anonymizers" xsi:type="array">
