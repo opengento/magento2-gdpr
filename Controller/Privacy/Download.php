@@ -12,6 +12,7 @@ use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Response\Http;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
@@ -35,24 +36,19 @@ class Download extends AbstractPrivacy implements HttpGetActionInterface
      */
     private $exportRepository;
 
-    /**
-     * @var Session
-     */
-    private $customerSession;
-
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
         ManagerInterface $messageManager,
         Config $config,
+        Http $response,
+        Session $customerSession,
         FileFactory $fileFactory,
-        ExportEntityRepositoryInterface $exportRepository,
-        Session $customerSession
+        ExportEntityRepositoryInterface $exportRepository
     ) {
         $this->fileFactory = $fileFactory;
         $this->exportRepository = $exportRepository;
-        $this->customerSession = $customerSession;
-        parent::__construct($request, $resultFactory, $messageManager, $config);
+        parent::__construct($request, $resultFactory, $messageManager, $config, $customerSession, $response);
     }
 
     protected function isAllowed(): bool
