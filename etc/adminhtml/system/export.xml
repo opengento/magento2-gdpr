@@ -13,9 +13,6 @@
         <resource>Opengento_Gdpr::config</resource>
         <group id="export" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
             <label>Export Settings</label>
-            <depends>
-                <field id="gdpr/general/enabled">1</field>
-            </depends>
             <field id="enabled" type="select" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
                 <label>Export</label>
                 <comment>It will enable the export action to the storefront.</comment>
@@ -27,7 +24,7 @@
                 <label>Information</label>
                 <source_model>Magento\Cms\Model\Config\Source\Block</source_model>
                 <depends>
-                    <field id="gdpr/export/enabled">1</field>
+                    <field id="opengento_gdpr_export/export/enabled">1</field>
                 </depends>
                 <config_path>gdpr/export/block_id</config_path>
             </field>
@@ -37,7 +34,7 @@
                 <source_model>Opengento\Gdpr\Model\Config\Source\ExportRenderer</source_model>
                 <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                 <depends>
-                    <field id="gdpr/export/enabled">1</field>
+                    <field id="opengento_gdpr_export/export/enabled">1</field>
                 </depends>
                 <config_path>gdpr/export/renderers</config_path>
             </field>
@@ -84,7 +81,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/customer_attributes</config_path>
                 </field>
@@ -94,7 +91,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/customer_custom_attributes</config_path>
                 </field>
@@ -104,7 +101,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/customer_extensible_data</config_path>
                 </field>
@@ -118,7 +115,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/customer_address_attributes</config_path>
                 </field>
@@ -128,7 +125,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/customer_address_custom_attributes</config_path>
                 </field>
@@ -138,7 +135,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/customer_address_extensible_data</config_path>
                 </field>
@@ -151,7 +148,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/quote_attributes</config_path>
                 </field>
@@ -161,7 +158,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/quote_custom_attributes</config_path>
                 </field>
@@ -171,7 +168,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/quote_extensible_data</config_path>
                 </field>
@@ -184,7 +181,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/quote_address_attributes</config_path>
                 </field>
@@ -194,7 +191,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/quote_address_custom_attributes</config_path>
                 </field>
@@ -204,7 +201,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/quote_address_extensible_data</config_path>
                 </field>
@@ -217,7 +214,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/order_attributes</config_path>
                 </field>
@@ -227,7 +224,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/order_custom_attributes</config_path>
                 </field>
@@ -237,7 +234,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/order_extensible_data</config_path>
                 </field>
@@ -250,7 +247,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/order_address_attributes</config_path>
                 </field>
@@ -260,7 +257,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/order_address_custom_attributes</config_path>
                 </field>
@@ -270,7 +267,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/order_address_extensible_data</config_path>
                 </field>
@@ -283,7 +280,7 @@
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
                     <can_be_empty>1</can_be_empty>
                     <depends>
-                        <field id="gdpr/export/enabled">1</field>
+                        <field id="opengento_gdpr_export/export/enabled">1</field>
                     </depends>
                     <config_path>gdpr/export/subscriber_attributes</config_path>
                 </field>

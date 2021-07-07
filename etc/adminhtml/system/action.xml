@@ -13,9 +13,6 @@
         <resource>Opengento_Gdpr::config</resource>
         <group id="action" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
             <label>Action Settings</label>
-            <depends>
-                <field id="gdpr/general/enabled">1</field>
-            </depends>
         </group>
     </section>
 </include>
