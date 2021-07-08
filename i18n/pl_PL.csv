@@ -1,11 +1,11 @@
-Back,Wróć
+"Back","Wróć"
 "Execute Action","Wykonaj czynność"
-Reset,Reset
+"Reset","Reset"
 "Attribute Code","Kod atrybutu"
-Anonymizer,Anonimizer
+"Anonymizer","Anonimizer"
 "Add Attribute's Anonymizer","Dodaj anonimizer atrybut"
-Component,Komponent
-Processor,Procesor
+"Component","Komponent"
+"Processor","Procesor"
 "Add Component Erasure Strategy","Dodaj strategię czyszczenia komponentu"
 "Erase Personal Data","Usuń dane osobowe"
 "Are you sure you want to do this?","Czy na pewno chcesz to zrobić?"
@@ -13,7 +13,7 @@ Processor,Procesor
 "The action state is now: %1.","Status czynności: %1."
 "An error occurred on the server.","Wystąpił błąd po stronie serwera."
 "View Actions","Przejrzyj akcje"
-GDPR,RODO
+"GDPR","RODO"
 "Please correct the data sent.","Popraw przesłane dane."
 "Action with ID ""%1"": %2","Czyność o ID ""%1"": %2"
 "A total of %1 record(s) have been deleted.","Usunięto wpisów: %1."
@@ -36,8 +36,8 @@ GDPR,RODO
 "Could not save the entity.","Nie udało się zapisać obiektu."
 "Could not delete entity with id ""%1"".","Nie udało się usunąć obiektu o id ""%1""."
 "File ""%1"" does not exists.","Plik ""%1"" nie istnieje."
-Succeeded,"Zakończony powodzeniem"
-Failed,Niepowodzenie
+"Succeeded","Zakończony powodzeniem"
+"Failed","Niepowodzenie"
 "Impossible to initiate the erasure, it's already processing or there is still pending orders.","Nie udało się zainicjowac procedury usunięcia. Jest już w trakcie działania lub istnieją jeszcze nie przetworzone zamówienia."
 "The erasure process is running and cannot be undone.","Proces usuwania w trakcie. Nie może zostać przerwany."
 "Impossible to process the erasure, there is still pending orders.","Proces usunięcia niemożliwy, istnieją jeszcze nieprzetworzone zamówienia."
@@ -47,9 +47,9 @@ Failed,Niepowodzenie
 "Your account have been erased and you have signed out.","Twoje konto zostało usunięte. Zostałeś wylogowany."
 "* Required Fields","* Pola wymagane"
 "Confirm password to continue","Potwirdź hasło, by kontynuować"
-Password,Hasło
+"Password","Hasło"
 "Erase Account","Usuń Konto"
-Warning,Ostrzeżenie
+"Warning","Ostrzeżenie"
 "Do you really want to erase your personal data?","Czy napewno chcesz usunąć swoje dane osobowe?"
 "Right to be forgotten","Prawo do bycia zapomnianym"
 "Your account will be erased soon. You can undo this action.","Twoje konto zostanie wkrótce usunięte. Możesz anulowac tą czynność."
@@ -57,12 +57,12 @@ Warning,Ostrzeżenie
 "Your account cannot be erased while you have pending orders.","Konto nie może zostać usunięte, dopóki istnieją nieprzetworzone zamówienia."
 "Download Personal Data","Pobierz Dane Osobowe"
 "Your personal data document is pending export.","Dokument z danymi osobowymi jest w trakcie eksportu."
-Information,Informacje
+"Information","Informacje"
 "Undo Erase Personal Data","Anuluj usuwanie danych osobowych"
 "Cancellation of the erase of your %store_name information","Anulowanie usuwania ifnformacji o sklepie %store_name "
 "%name,","%name,"
 "We have received a request to cancel the erasure of the information associated with your account at %store_name.","Otrzymaliśmy prośbę o anulowanie procesu usunięcia informacji powiązanych z Twoim kontem na %store_name."
-"If you have not authorized this action, please contact us immediately at <a href=""mailto:%store_email"">%store_email</a>","If you have not authorized this action, please contact us immediately at <a href=""mailto:%store_email"">%store_email</a>","Jeśli nie autoryzowałeś tej czynności, prosimy o niezłoczny kontakt na <a href=""mailto:%store_email"">%store_email</a>"
+"If you have not authorized this action, please contact us immediately at <a href=""mailto:%store_email"">%store_email</a>","Jeśli nie autoryzowałeś tego działania, skontaktuj się z nami natychmiast pod adresem <a href=""mailto:%store_email"">%store_email</a>"
 "Thanks,<br>%store_name","Dziękujemy,<br>%store_name"
 "Erase your %store_name information","Usuń swoje dane z %store_name"
 "We have received a request to erase the information associated with your account at %store_name.","Otrzymaliśmy rządanie usunięcia danych powiązanych z Twoim kontem na  %store_name."
@@ -75,7 +75,7 @@ Information,Informacje
 "The export of you personal data is ready. The action is now available in your account.","Eksport Twoich danych osobowych jest gotowy. Dane są dostępne na Twoim koncie klienta"
 "Cookie Disclosure","Pliki Cookie"
 "Read More","Czytaj więcej"
-Accept,Akceptuj
+"Accept","Akceptuj"
 "GDPR Compliance Erase Customer","RODO Usuń Klienta"
 "GDPR Compliance Export Customer","RODO Eksportuj Dane Klienta"
 "GDPR Compliance Erase Guest Order","RODO Usuń Zamówienie Gościa"
@@ -94,7 +94,7 @@ Accept,Akceptuj
 "It will enable the cookie disclosure popin to the storefront.","Uaktywni monit z polityką Cookie."
 "Data Erasure","Usuwanie Danych"
 "Right To Erasure","Prawo do usunięcia"
-Erasure,Usunięcie
+"Erasure","Usunięcie"
 "It will enable the erase action to the storefront.","Uaktywni możliwość usunięcia na stronie sklepu."
 "Erasure Delay","Opóźnienie usunięcia"
 "Erasure delay in minute before the execution by the cron. From 60 to 43800.","Czas opóźnienia usunięcia w minutach przed wykonaniem przez CRON. Od 60 do 43800."
@@ -108,7 +108,7 @@ Erasure,Usunięcie
 "Defines the components erasure strategy with the component/erase processor mapper for the customers.","Defines the components erasure strategy with the component/erase processor mapper for the customers."
 "Guest Component Erasure Strategy","Strategia czyszczenia komponentu Gościa"
 "Defines the components erasure strategy with the component/erase processor mapper for the guests.","Defines the components erasure strategy with the component/erase processor mapper for the guests."
-Anonymization,Anonimizacja
+"Anonymization","Anonimizacja"
 "Delete Customer if no Orders","Usuń Klienta jeśli nie ma Zamówień"
 "We will delete the customer if he has no orders. It's only applicable if the component ""customer"" use the ""anonymize"" processor.","We will delete the customer if he has no orders. It's only applicable if the component ""customer"" use the ""anonymize"" processor."
 "Customer Attributes Anonymizers","Anonimizery atrybutów Klienta"
@@ -132,9 +132,9 @@ Anonymization,Anonimizacja
 "Subscriber Attributes Anonymizers","Anonimizer atrybutów Subskrybentów"
 "Data Export","Eksport Danych"
 "Export Settings","Ustawienia Eksportu"
-Export,Eksport
+"Export","Eksport"
 "It will enable the export action to the storefront.","Włączy możliwośc eksportu na Stronie Klienta."
-Renderers,Renderery
+"Renderers","Renderery"
 "Select formats of the export. Notice: At least one human and one machine readable format should be selected.","Wybierz format eksportu. Uwaga: Powinien zostać wybrany przynajmniej jeden format czytelny dla człowieka i jeden maszynowy."
 "Export File Name","Nazwa Pliku"
 "We will use this value as file name of the document export.","Ta wartośc zostanie użyta jako nazwa dokumentu."
@@ -142,11 +142,11 @@ Renderers,Renderery
 "Export Life Time","Czas istnienia Eksportu"
 "Export life time in minute before it is removed from the server.","Czas istnienia Eksportu (w minutach), zanim zostanie usunięty z serwera."
 "Erase Expired Export Schedule","Harmonogram usuwania nieaktualnych Eksportów"
-Customer,Klient
+"Customer","Klient"
 "Customer Attributes","Atrybuty Klienta"
 "This attributes list will be exported when processed.","Ta lista atrybutów zostanie wyeksportowana."
 "Customer Custom Attributes","Dodatkowe atrybuty Klienta"
-Comma-separated,"Oddzielone przecinkiem"
+"Comma-separated","Oddzielone przecinkiem"
 "Customer Extensible Data","Rozszerzalne dane Klienta"
 "Customer Address Attributes","Atrybuty Adresu Klienta"
 "Customer Address Custom Attributes","Dodatkowe atrybuty Adresu Klienta"
@@ -164,14 +164,14 @@ Comma-separated,"Oddzielone przecinkiem"
 "Order Address Custom Attributes","Dodatkowe atrybuty Adresu Zamówienia"
 "Order Address Extensible Data","Rozszerzalne dane Adresu Zamówienia"
 "Subscriber Attributes","Atrybuty Subskrybenta"
-Global,Globalne
-General,Ogólne
-Enabled,Włączone
+"Global","Globalne"
+"General","Ogólne"
+"Enabled","Włączone"
 "It will enable the module features in the admin and frontend ui.","Uruchomi funkcjonalności modułu w panelu admina i na stronie frontendu."
 "Information page","Strona Informacji"
 "This page should store information about privacy and GDPR policy.","Ta strona powinna zawierać informacje o polityce RODO."
 "User Notification","Powiadomienie Użytkownika"
-Notification,Powiadomienie
+"Notification","Powiadomienie"
 "Pending Action","Status: W trakcie"
 "Email Sender","Nadawca"
 "Pending Erasure Template","Szablon Usuwanie W Trakcie"
@@ -197,20 +197,20 @@ Notification,Powiadomienie
 "Export items","Eksport obiektów"
 "Export (GDPR)","Eksport (RODO)"
 "New Action","Nowa Czynność"
-Type,Typ
+"Type","Typ"
 "Action types are registered in the code.","Typy czynności są zarejestrowane w kodzie."
-Parameters,Parametry
+"Parameters","Parametry"
 "Add Parameter","Dodaj Parametr"
-Name,Nazwa
-Value,Wartość
-Edit,Edytuj
+"Name","Nazwa"
+"Value","Wartość"
+"Edit","Edytuj"
 "Are you sure you want to delete the action log?","Jestes pewien, że chcesz usunąć log?"
 "Delete items","Usuń obiekty"
-Delete,Usuń
-ID,ID
+"Delete","Usuń"
+"ID","ID"
 "Performed From","Wykonane z"
 "Performed By","Wykonane przez"
 "Performed At","Wykonane o"
-State,Stan
-Message,Wiadomość
+"State","Stan"
+"Message","Wiadomość"
 "Privacy Settings","Ustawienia Prywatności"
