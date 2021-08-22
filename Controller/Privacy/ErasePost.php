@@ -12,6 +12,7 @@ use Magento\Customer\Model\AuthenticationInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Response\Http;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\InvalidEmailOrPasswordException;
@@ -34,11 +35,6 @@ class ErasePost extends AbstractPrivacy implements HttpPostActionInterface
     private $authentication;
 
     /**
-     * @var Session
-     */
-    private $customerSession;
-
-    /**
      * @var ActionInterface
      */
     private $action;
@@ -53,16 +49,16 @@ class ErasePost extends AbstractPrivacy implements HttpPostActionInterface
         ResultFactory $resultFactory,
         ManagerInterface $messageManager,
         Config $config,
-        AuthenticationInterface $authentication,
         Session $customerSession,
+        Http $response,
+        AuthenticationInterface $authentication,
         ActionInterface $action,
         ContextBuilder $actionContextBuilder
     ) {
         $this->authentication = $authentication;
-        $this->customerSession = $customerSession;
         $this->action = $action;
         $this->actionContextBuilder = $actionContextBuilder;
-        parent::__construct($request, $resultFactory, $messageManager, $config);
+        parent::__construct($request, $resultFactory, $messageManager, $config, $customerSession, $response);
     }
 
     protected function isAllowed(): bool

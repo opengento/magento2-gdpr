@@ -26,20 +26,23 @@ class Renderer extends ViewRenderer
 
         /** @var $asset AssetInterface */
         foreach ($assets as $asset) {
-            if ($asset instanceof File) {
-                $result .= $this->inlineHtml(
-                    $contentType,
-                    $asset,
-                    $this->addDefaultAttributes($this->getAssetContentType($asset), $attributes)
-                );
-            } else {
-                $result .= sprintf($this->getAssetTemplate($contentType, $attributes), $asset->getUrl()) . PHP_EOL;
-            }
+            $result .= $asset instanceof File
+                ? $this->inlineAsset($contentType, $asset, $attributes)
+                : sprintf($this->getAssetTemplate($contentType, $attributes), $asset->getUrl()) . PHP_EOL;
         }
 
         return $result;
     }
 
+    private function inlineAsset(string $contentType, File $asset, ?string $attributes): string
+    {
+        return $this->inlineHtml(
+            $contentType,
+            $asset,
+            $this->addDefaultAttributes($this->getAssetContentType($asset), $attributes)
+        );
+    }
+    
     private function inlineHtml(string $contentType, File $asset, ?string $attributes): string
     {
         switch ($contentType) {

@@ -11,6 +11,7 @@ use Exception;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Response\Http;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\AlreadyExistsException;
@@ -35,24 +36,19 @@ class Export extends AbstractPrivacy implements HttpGetActionInterface
      */
     private $actionContextBuilder;
 
-    /**
-     * @var Session
-     */
-    private $customerSession;
-
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
         ManagerInterface $messageManager,
         Config $config,
+        Session $customerSession,
+        Http $response,
         ActionInterface $action,
-        ContextBuilder $actionContextBuilder,
-        Session $customerSession
+        ContextBuilder $actionContextBuilder
     ) {
         $this->action = $action;
         $this->actionContextBuilder = $actionContextBuilder;
-        $this->customerSession = $customerSession;
-        parent::__construct($request, $resultFactory, $messageManager, $config);
+        parent::__construct($request, $resultFactory, $messageManager, $config, $customerSession, $response);
     }
 
     protected function isAllowed(): bool

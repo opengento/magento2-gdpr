@@ -180,14 +180,6 @@
         </arguments>
     </virtualType>
     <!-- Anonymize Management -->
-    <virtualType name="Opengento\Gdpr\Service\Anonymize\Anonymizer\Street" type="Opengento\Gdpr\Service\Anonymize\Anonymizer\ArrayValue">
-        <arguments>
-            <argument name="anonymizers" xsi:type="array">
-                <item name="0" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\Number</item>
-                <item name="1" xsi:type="object">Opengento\Gdpr\Service\Anonymize\Anonymizer\AlphaLower</item>
-            </argument>
-        </arguments>
-    </virtualType>
     <type name="Opengento\Gdpr\Service\Anonymize\AnonymizerFactory">
         <arguments>
             <argument name="anonymizers" xsi:type="array">
@@ -1539,14 +1531,9 @@
             </argument>
         </arguments>
     </type>
-    <virtualType name="Opengento\Gdpr\Model\Archive\ZipManager" type="Opengento\Gdpr\Model\Archive\ArchiveManager">
+    <type name="Opengento\Gdpr\Model\Archive\ArchiveManager">
         <arguments>
             <argument name="archive" xsi:type="object">Opengento\Gdpr\Model\Archive\Zip</argument>
-        </arguments>
-    </virtualType>
-    <type name="Opengento\Gdpr\Model\Export\ExportToFile">
-        <arguments>
-            <argument name="archive" xsi:type="object">Opengento\Gdpr\Model\Archive\ZipManager</argument>
         </arguments>
     </type>
     <!-- Erase Logged In Customer Notifier Management -->

@@ -84,7 +84,7 @@
                         <item name="showFallbackReset" xsi:type="boolean">false</item>
                     </item>
                 </argument>
-                <field name="name" sortOrder="10">
+                <input name="name" sortOrder="10">
                     <settings>
                         <dataType>text</dataType>
                         <label translate="true">Name</label>
@@ -94,8 +94,8 @@
                             <rule name="required-entry" xsi:type="boolean">true</rule>
                         </validation>
                     </settings>
-                </field>
-                <field name="value" sortOrder="20">
+                </input>
+                <input name="value" sortOrder="20">
                     <settings>
                         <dataType>text</dataType>
                         <label translate="true">Value</label>
@@ -105,7 +105,7 @@
                             <rule name="required-entry" xsi:type="boolean">true</rule>
                         </validation>
                     </settings>
-                </field>
+                </input>
                 <actionDelete/>
             </container>
         </dynamicRows>

@@ -8,6 +8,6 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
         <add id="Opengento_Gdpr::gdpr" title="GDPR" translate="title" module="Opengento_Gdpr" resource="Opengento_Gdpr::gdpr" parent="Magento_Backend::stores" sortOrder="100" dependsOnConfig="gdpr/general/enabled"/>
-        <add id="Opengento_Gdpr::gdpr_actions" title="Action Logs" translate="title" module="Opengento_Gdpr" action="gdpr/action/index" resource="Opengento_Gdpr::gdpr_actions" parent="Opengento_Gdpr::gdpr" sortOrder="10"/>
+        <add id="Opengento_Gdpr::gdpr_actions" title="Action Logs" translate="title" module="Opengento_Gdpr" action="gdpr/action/index" resource="Opengento_Gdpr::gdpr_actions" parent="Opengento_Gdpr::gdpr" sortOrder="10" dependsOnConfig="gdpr/general/enabled"/>
     </menu>
 </config>
