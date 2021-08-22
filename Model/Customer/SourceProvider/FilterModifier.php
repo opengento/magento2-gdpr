@@ -36,10 +36,10 @@ final class FilterModifier implements ModifierInterface
                 null
             );
             $collection->getSelect()->where(
-                $connection->prepareSqlCondition('IFNULL(' .
-                    'cv.last_visit_at,'.
-                    'GREATEST(IFNULL(cl.last_login_at, e.created_at), IFNULL(cl.last_logout_at, e.updated_at))' .
-                    ')', [$filter->getConditionType() => $filter->getValue()])
+                $connection->prepareSqlCondition(
+                    'IFNULL(cv.last_visit_at, GREATEST(IFNULL(cl.last_login_at, e.created_at), IFNULL(cl.last_logout_at, e.updated_at)))',
+                    [$filter->getConditionType() => $filter->getValue()]
+                )
             );
         }
     }
