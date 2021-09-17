@@ -14,7 +14,7 @@ use Magento\Framework\Registry;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 use Opengento\Gdpr\Model\Config;
 
-final class ExportButton extends GenericButton implements ButtonProviderInterface
+class ExportButton extends GenericButton implements ButtonProviderInterface
 {
     /**
      * @var Config

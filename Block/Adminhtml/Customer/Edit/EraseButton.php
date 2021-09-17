@@ -15,7 +15,7 @@ use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 use Opengento\Gdpr\Model\Config;
 
-final class EraseButton extends GenericButton implements ButtonProviderInterface
+class EraseButton extends GenericButton implements ButtonProviderInterface
 {
     /**
      * @var EraseEntityCheckerInterface
