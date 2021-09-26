@@ -16,9 +16,9 @@ final class OrigDataRegistry
      */
     private $customers = [];
 
-    public function get(int $customerId): CustomerInterface
+    public function get(int $customerId): ?CustomerInterface
     {
-        return $this->customers[$customerId];
+        return $this->customers[$customerId] ?? null;
     }
 
     public function set(CustomerInterface $customer): void

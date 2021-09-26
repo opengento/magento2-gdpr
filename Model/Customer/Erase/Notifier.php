@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Customer\Erase;
 
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Model\Customer\Notifier\SenderInterface;
 use Opengento\Gdpr\Model\Customer\OrigDataRegistry;
@@ -20,24 +22,33 @@ final class Notifier implements NotifierInterface
     private $senders;
 
     /**
+     * @var CustomerRepositoryInterface
+     */
+    private $customerRepository;
+
+    /**
      * @var OrigDataRegistry
      */
     private $origDataRegistry;
 
     public function __construct(
         array $senders,
+        CustomerRepositoryInterface $customerRepository,
         OrigDataRegistry $origDataRegistry
     ) {
         $this->senders = $senders;
+        $this->customerRepository = $customerRepository;
         $this->origDataRegistry = $origDataRegistry;
     }
 
     /**
-     * @inheritdoc
+     * @ingeritdoc
+     * @throws LocalizedException
      */
     public function notify(EraseEntityInterface $eraseEntity): void
     {
-        $customer = $this->origDataRegistry->get($eraseEntity->getEntityId());
+        $customerId = $eraseEntity->getEntityId();
+        $customer = $this->origDataRegistry->get($customerId) ?? $this->customerRepository->getById($customerId);
 
         foreach ($this->senders as $sender) {
             $sender->send($customer);
