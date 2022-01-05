@@ -17,7 +17,7 @@ class Index extends Action implements HttpGetActionInterface
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::gdpr_action';
 
-    public function execute()
+    public function execute(): Page
     {
         /** @var Page $resultPage */
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);

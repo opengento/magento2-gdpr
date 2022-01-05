@@ -18,12 +18,9 @@ final class AlphaUpper implements AnonymizerInterface
     /**
      * @var Random
      */
-    private $mathRandom;
+    private Random $mathRandom;
 
-    /**
-     * @var int
-     */
-    private $length;
+    private int $length;
 
     public function __construct(
         Random $mathRandom,

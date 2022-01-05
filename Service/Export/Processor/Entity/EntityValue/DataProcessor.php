@@ -17,12 +17,9 @@ final class DataProcessor implements EntityValueProcessorInterface
     /**
      * @var DocumentInterface
      */
-    public $document;
+    public DocumentInterface $document;
 
-    /**
-     * @var MetadataInterface
-     */
-    private $metadata;
+    private MetadataInterface $metadata;
 
     public function __construct(
         DocumentInterface $document,

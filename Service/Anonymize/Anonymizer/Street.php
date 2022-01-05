@@ -21,7 +21,7 @@ final class Street implements AnonymizerInterface
     /**
      * @var Random
      */
-    private $random;
+    private Random $random;
 
     public function __construct(
         Random $random

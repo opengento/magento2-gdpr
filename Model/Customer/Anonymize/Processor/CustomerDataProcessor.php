@@ -35,45 +35,33 @@ final class CustomerDataProcessor implements ProcessorInterface
 {
     private const CONFIG_PATH_ERASURE_REMOVE_CUSTOMER = 'gdpr/erasure/remove_customer';
 
-    /**
-     * @var AnonymizerInterface
-     */
-    private $anonymizer;
+    private AnonymizerInterface $anonymizer;
 
     /**
      * @var CustomerRepositoryInterface
      */
-    private $customerRepository;
+    private CustomerRepositoryInterface $customerRepository;
 
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $criteriaBuilder;
+    private SearchCriteriaBuilder $criteriaBuilder;
 
     /**
      * @var CustomerRegistry
      */
-    private $customerRegistry;
+    private CustomerRegistry $customerRegistry;
 
     /**
      * @var OrigDataRegistry
      */
-    private $origDataRegistry;
+    private OrigDataRegistry $origDataRegistry;
 
     /**
      * @var SessionCleanerInterface
      */
-    private $sessionCleaner;
+    private SessionCleanerInterface $sessionCleaner;
 
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private ScopeConfigInterface $scopeConfig;
 
     public function __construct(
         AnonymizerInterface $anonymizer,
@@ -101,18 +89,8 @@ final class CustomerDataProcessor implements ProcessorInterface
      */
     public function execute(int $customerId): bool
     {
-        $isRemoved = false;
-
         try {
-            $customer = $this->customerRepository->getById($customerId);
-            $this->origDataRegistry->set(clone $customer);
-
-            if ($this->shouldRemoveCustomerWithoutOrders() && !$this->fetchOrdersList($customer)->getTotalCount()) {
-                $isRemoved = $this->customerRepository->deleteById($customer->getId());
-            }
-            if (!$isRemoved) {
-                $this->anonymizeCustomer($customer);
-            }
+            $this->processCustomerData($customerId);
         } catch (NoSuchEntityException $e) {
             return false;
         }
@@ -120,6 +98,26 @@ final class CustomerDataProcessor implements ProcessorInterface
         $this->sessionCleaner->clearFor($customerId);
 
         return true;
+    }
+
+    /**
+     * @throws InputException
+     * @throws InputMismatchException
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
+     */
+    private function processCustomerData(int $customerId): void
+    {
+        $customer = $this->customerRepository->getById($customerId);
+        $this->origDataRegistry->set(clone $customer);
+
+        $isRemoved = false;
+        if ($this->shouldRemoveCustomerWithoutOrders() && !$this->fetchOrdersList($customer)->getTotalCount()) {
+            $isRemoved = $this->customerRepository->deleteById($customer->getId());
+        }
+        if (!$isRemoved) {
+            $this->anonymizeCustomer($customer);
+        }
     }
 
     private function fetchOrdersList(CustomerInterface $customer): OrderSearchResultInterface

@@ -14,15 +14,12 @@ use function sprintf;
 
 final class DataCollectorGeneric implements DataCollectorInterface
 {
-    /**
-     * @var TypeResolver
-     */
-    private $typeResolver;
+    private TypeResolver $typeResolver;
 
     /**
      * @var DataCollectorInterface[]
      */
-    private $dataCollectors;
+    private array $dataCollectors;
 
     public function __construct(
         TypeResolver $typeResolver,

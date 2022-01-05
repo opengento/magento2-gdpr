@@ -21,10 +21,7 @@ use Opengento\Gdpr\Model\Config;
 
 class Erase extends AbstractPrivacy implements HttpGetActionInterface
 {
-    /**
-     * @var EraseEntityCheckerInterface
-     */
-    private $eraseCustomerChecker;
+    private EraseEntityCheckerInterface $eraseCustomerChecker;
 
     public function __construct(
         RequestInterface $request,

@@ -20,22 +20,16 @@ final class ContextBuilder
     /**
      * @var ActionContextInterfaceFactory
      */
-    private $actionContextFactory;
+    private ActionContextInterfaceFactory $actionContextFactory;
 
-    /**
-     * @var State
-     */
-    private $stateArea;
+    private State $stateArea;
 
     /**
      * @var PerformedByInterface
      */
-    private $performedBy;
+    private PerformedByInterface $performedBy;
 
-    /**
-     * @var array
-     */
-    private $data;
+    private array $data;
 
     public function __construct(
         ActionContextInterfaceFactory $actionContextFactory,

@@ -15,15 +15,12 @@ use Opengento\Gdpr\Model\Entity\EntityCheckerFactory;
 
 final class EraseEntityChecker implements EraseEntityCheckerInterface
 {
-    /**
-     * @var EraseEntityRepositoryInterface
-     */
-    private $eraseRepository;
+    private EraseEntityRepositoryInterface $eraseRepository;
 
     /**
      * @var EntityCheckerFactory
      */
-    private $entityCheckerFactory;
+    private EntityCheckerFactory $entityCheckerFactory;
 
     public function __construct(
         EraseEntityRepositoryInterface $eraseRepository,

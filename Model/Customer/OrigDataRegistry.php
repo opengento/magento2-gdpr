@@ -14,7 +14,7 @@ final class OrigDataRegistry
     /**
      * @var CustomerInterface[]
      */
-    private $customers = [];
+    private array $customers = [];
 
     public function get(int $customerId): ?CustomerInterface
     {

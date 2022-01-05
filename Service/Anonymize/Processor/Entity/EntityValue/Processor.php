@@ -18,17 +18,11 @@ final class Processor implements EntityValueProcessorInterface
     /**
      * @var DocumentInterface
      */
-    private $document;
+    private DocumentInterface $document;
 
-    /**
-     * @var MetadataInterface
-     */
-    private $metadata;
+    private MetadataInterface $metadata;
 
-    /**
-     * @var AnonymizerInterface
-     */
-    private $anonymizer;
+    private AnonymizerInterface $anonymizer;
 
     public function __construct(
         DocumentInterface $document,

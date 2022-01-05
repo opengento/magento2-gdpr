@@ -15,7 +15,7 @@ final class Validator extends AbstractValidator
     /**
      * @var ValidatorInterface[]
      */
-    private $validators;
+    private array $validators;
 
     public function __construct(
         array $validators

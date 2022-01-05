@@ -26,12 +26,12 @@ abstract class AbstractPrivacy extends AbstractAction
     /**
      * @var Session
      */
-    protected $customerSession;
+    protected Session $customerSession;
 
     /**
      * @var Http
      */
-    private $response;
+    private Http $response;
 
     public function __construct(
         RequestInterface $request,

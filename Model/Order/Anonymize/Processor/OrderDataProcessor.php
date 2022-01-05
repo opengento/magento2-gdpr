@@ -19,25 +19,13 @@ use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
 final class OrderDataProcessor implements ProcessorInterface
 {
-    /**
-     * @var AnonymizerInterface
-     */
-    private $anonymizer;
+    private AnonymizerInterface $anonymizer;
 
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
-    /**
-     * @var OrderAddressRepositoryInterface
-     */
-    private $addressRepository;
+    private OrderAddressRepositoryInterface $addressRepository;
 
-    /**
-     * @var EraseSalesInformationInterface
-     */
-    private $salesInformation;
+    private EraseSalesInformationInterface $salesInformation;
 
     public function __construct(
         AnonymizerInterface $anonymizer,

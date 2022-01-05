@@ -19,15 +19,12 @@ use function basename;
  */
 final class Zip implements ArchiveInterface
 {
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
+    private Filesystem $filesystem;
 
     /**
      * @var ArchiveZip
      */
-    private $zip;
+    private ArchiveZip $zip;
 
     public function __construct(
         Filesystem $filesystem,

@@ -13,10 +13,7 @@ use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 
 final class ExportEntityChecker implements ExportEntityCheckerInterface
 {
-    /**
-     * @var ExportEntityRepositoryInterface
-     */
-    private $exportRepository;
+    private ExportEntityRepositoryInterface $exportRepository;
 
     public function __construct(
         ExportEntityRepositoryInterface $exportRepository

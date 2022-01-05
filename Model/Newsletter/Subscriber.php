@@ -18,9 +18,6 @@ use Magento\Newsletter\Model\SubscriberFactory;
  */
 final class Subscriber
 {
-    /**
-     * @var SubscriberModel
-     */
     private $subscriber;
 
     public function __construct(

@@ -15,15 +15,9 @@ use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
 final class OrderDataProcessor implements ProcessorInterface
 {
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
-    /**
-     * @var EraseSalesInformationInterface
-     */
-    private $salesInformation;
+    private EraseSalesInformationInterface $salesInformation;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,

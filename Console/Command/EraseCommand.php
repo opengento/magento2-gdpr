@@ -25,25 +25,13 @@ class EraseCommand extends Command
     private const INPUT_ARGUMENT_ENTITY_ID = 'entity_id';
     private const INPUT_ARGUMENT_ENTITY_TYPE = 'entity_type';
 
-    /**
-     * @var State
-     */
-    private $appState;
+    private State $appState;
 
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
-    /**
-     * @var ActionInterface
-     */
-    private $action;
+    private ActionInterface $action;
 
-    /**
-     * @var ContextBuilder
-     */
-    private $actionContextBuilder;
+    private ContextBuilder $actionContextBuilder;
 
     public function __construct(
         State $appState,

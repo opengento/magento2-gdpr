@@ -15,25 +15,16 @@ use Opengento\Gdpr\Model\Entity\EntityCheckerInterface;
 
 final class CustomerChecker implements EntityCheckerInterface
 {
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $criteriaBuilder;
+    private SearchCriteriaBuilder $criteriaBuilder;
 
-    /**
-     * @var Config
-     */
-    private $config;
+    private Config $config;
 
     /**
      * @var bool[]
      */
-    private $cache;
+    private array $cache;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,

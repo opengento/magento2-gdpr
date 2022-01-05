@@ -28,25 +28,16 @@ class InlineEdit extends Action implements HttpPostActionInterface
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::gdpr_actions_edit';
 
-    /**
-     * @var ActionEntityRepositoryInterface
-     */
-    private $actionRepository;
+    private ActionEntityRepositoryInterface $actionRepository;
 
-    /**
-     * @var HydratorPool
-     */
-    private $hydratorPool;
+    private HydratorPool $hydratorPool;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * @var string[]
      */
-    private $allowedAttributes;
+    private array $allowedAttributes;
 
     public function __construct(
         Context $context,

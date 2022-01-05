@@ -10,9 +10,9 @@
         "privacy"
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.4",
         "ext-zip": "*",
-        "tecnickcom/tcpdf": "^6.3",
+        "tecnickcom/tcpdf": "^6.4",
         "magento/framework": "^103.0",
         "magento/module-backend": "^101.0||^102.0",
         "magento/module-config": "^101.1",

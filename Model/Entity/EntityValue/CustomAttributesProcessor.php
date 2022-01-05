@@ -13,10 +13,7 @@ use function is_iterable;
 
 final class CustomAttributesProcessor implements EntityValueProcessorInterface
 {
-    /**
-     * @var EntityValueProcessorInterface
-     */
-    private $processor;
+    private EntityValueProcessorInterface $processor;
 
     public function __construct(
         EntityValueProcessorInterface $processor

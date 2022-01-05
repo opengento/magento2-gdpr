@@ -12,10 +12,7 @@ use Opengento\Gdpr\Service\Export\ProcessorInterface;
 
 abstract class AbstractDataProcessor implements ProcessorInterface
 {
-    /**
-     * @var DataCollectorInterface
-     */
-    private $dataCollector;
+    private DataCollectorInterface $dataCollector;
 
     public function __construct(
         DataCollectorInterface $dataCollector

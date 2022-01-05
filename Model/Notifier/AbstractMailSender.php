@@ -17,20 +17,14 @@ use function explode;
 
 abstract class AbstractMailSender
 {
-    /**
-     * @var TransportBuilder
-     */
-    protected $transportBuilder;
+    protected TransportBuilder $transportBuilder;
 
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private ScopeConfigInterface $scopeConfig;
 
     /**
      * @var string[]
      */
-    private $configPaths;
+    private array $configPaths;
 
     /**
      * @param TransportBuilder $transportBuilder

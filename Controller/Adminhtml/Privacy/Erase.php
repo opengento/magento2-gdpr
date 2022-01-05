@@ -24,15 +24,9 @@ class Erase extends AbstractAction implements HttpPostActionInterface
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::customer_erase';
 
-    /**
-     * @var ActionInterface
-     */
-    private $action;
+    private ActionInterface $action;
 
-    /**
-     * @var ContextBuilder
-     */
-    private $actionContextBuilder;
+    private ContextBuilder $actionContextBuilder;
 
     public function __construct(
         Context $context,

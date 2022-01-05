@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Order\Anonymize\Processor;
 
 use Exception;
+use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Model\Quote;
@@ -18,25 +19,13 @@ use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
 final class QuoteDataProcessor implements ProcessorInterface
 {
-    /**
-     * @var AnonymizerInterface
-     */
-    private $anonymizer;
+    private AnonymizerInterface $anonymizer;
 
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
-    /**
-     * @var CartRepositoryInterface
-     */
-    private $quoteRepository;
+    private CartRepositoryInterface $quoteRepository;
 
-    /**
-     * @var Address
-     */
-    private $resourceModel;
+    private Address $resourceModel;
 
     public function __construct(
         AnonymizerInterface $anonymizer,
@@ -57,22 +46,31 @@ final class QuoteDataProcessor implements ProcessorInterface
     public function execute(int $orderId): bool
     {
         try {
-            $order = $this->orderRepository->get($orderId);
-
-            /** @var Quote $quote */
-            $quote = $this->quoteRepository->get($order->getQuoteId());
-            $this->quoteRepository->save($this->anonymizer->anonymize($quote));
-
-            /** @var Quote\Address|null $quoteAddress */
-            foreach ([$quote->getBillingAddress(), $quote->getShippingAddress()] as $quoteAddress) {
-                if ($quoteAddress) {
-                    $this->resourceModel->save($this->anonymizer->anonymize($quoteAddress));
-                }
-            }
+            $this->processQuoteData($orderId);
         } catch (NoSuchEntityException $e) {
             /** Silence is golden */
         }
 
         return true;
+    }
+
+    /**
+     * @throws NoSuchEntityException
+     * @throws AlreadyExistsException
+     */
+    private function processQuoteData(int $orderId): void
+    {
+        $order = $this->orderRepository->get($orderId);
+
+        /** @var Quote $quote */
+        $quote = $this->quoteRepository->get($order->getQuoteId());
+        $this->quoteRepository->save($this->anonymizer->anonymize($quote));
+
+        /** @var Quote\Address|null $quoteAddress */
+        foreach ([$quote->getBillingAddress(), $quote->getShippingAddress()] as $quoteAddress) {
+            if ($quoteAddress) {
+                $this->resourceModel->save($this->anonymizer->anonymize($quoteAddress));
+            }
+        }
     }
 }

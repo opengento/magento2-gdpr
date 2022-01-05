@@ -18,12 +18,12 @@ final class Notifier implements NotifierInterface
     /**
      * @var SenderInterface[]
      */
-    private $senders;
+    private array $senders;
 
     /**
      * @var CustomerRepositoryInterface
      */
-    private $customerRepository;
+    private CustomerRepositoryInterface $customerRepository;
 
     public function __construct(
         array $senders,

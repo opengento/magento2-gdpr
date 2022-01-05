@@ -28,40 +28,19 @@ use function ob_start;
 
 final class HtmlRenderer extends AbstractRenderer
 {
-    /**
-     * @var State
-     */
-    private $appState;
+    private State $appState;
 
-    /**
-     * @var DesignInterface
-     */
-    private $design;
+    private DesignInterface $design;
 
-    /**
-     * @var LayoutInitiatorInterface
-     */
-    private $layoutInitiator;
+    private LayoutInitiatorInterface $layoutInitiator;
 
-    /**
-     * @var RendererInterface
-     */
     private $pageConfigRenderer;
 
-    /**
-     * @var InlineInterface
-     */
-    private $translateInline;
+    private InlineInterface $translateInline;
 
-    /**
-     * @var ViewFileSystem
-     */
-    private $viewFileSystem;
+    private ViewFileSystem $viewFileSystem;
 
-    /**
-     * @var string
-     */
-    private $template;
+    private string $template;
 
     public function __construct(
         State $appState,

@@ -17,12 +17,9 @@ final class CustomerAddressDataProcessor implements ProcessorInterface
     /**
      * @var AddressRepositoryInterface
      */
-    private $addressRepository;
+    private AddressRepositoryInterface $addressRepository;
 
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $criteriaBuilder;
+    private SearchCriteriaBuilder $criteriaBuilder;
 
     public function __construct(
         AddressRepositoryInterface $addressRepository,

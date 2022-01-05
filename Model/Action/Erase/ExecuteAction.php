@@ -16,10 +16,7 @@ use Opengento\Gdpr\Model\Action\ResultBuilder;
 
 final class ExecuteAction extends AbstractAction
 {
-    /**
-     * @var EraseEntityManagementInterface
-     */
-    private $eraseManagement;
+    private EraseEntityManagementInterface $eraseManagement;
 
     public function __construct(
         ResultBuilder $resultBuilder,

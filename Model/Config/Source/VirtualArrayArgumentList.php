@@ -17,22 +17,13 @@ final class VirtualArrayArgumentList implements OptionSourceInterface
     /**
      * @var ConfigInterface
      */
-    private $objectManagerConfig;
+    private ConfigInterface $objectManagerConfig;
 
-    /**
-     * @var string
-     */
-    private $className;
+    private string $className;
 
-    /**
-     * @var string
-     */
-    private $argumentName;
+    private string $argumentName;
 
-    /**
-     * @var array
-     */
-    private $options;
+    private array $options;
 
     public function __construct(
         ConfigInterface $objectManagerConfig,

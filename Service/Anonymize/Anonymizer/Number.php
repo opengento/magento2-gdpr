@@ -18,12 +18,12 @@ final class Number implements AnonymizerInterface
     /**
      * @var int|null
      */
-    private $min;
+    private ?int $min;
 
     /**
      * @var int|null
      */
-    private $max;
+    private ?int $max;
 
     public function __construct(
         ?int $min = null,

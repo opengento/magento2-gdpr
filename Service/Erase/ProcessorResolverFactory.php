@@ -19,12 +19,9 @@ final class ProcessorResolverFactory
     /**
      * @var string[]
      */
-    private $processorResolvers;
+    private array $processorResolvers;
 
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
+    private ObjectManagerInterface $objectManager;
 
     /**
      * @param string[] $processorResolvers

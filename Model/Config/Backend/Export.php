@@ -21,15 +21,9 @@ use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 
 class Export extends Value
 {
-    /**
-     * @var ExportEntityRepositoryInterface
-     */
-    private $exportRepository;
+    private ExportEntityRepositoryInterface $exportRepository;
 
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $criteriaBuilder;
+    private SearchCriteriaBuilder $criteriaBuilder;
 
     public function __construct(
         Context $context,

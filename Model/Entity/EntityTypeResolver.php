@@ -15,15 +15,9 @@ use Magento\Framework\EntityManager\TypeResolver;
  */
 final class EntityTypeResolver
 {
-    /**
-     * @var TypeResolver
-     */
-    private $typeResolver;
+    private TypeResolver $typeResolver;
 
-    /**
-     * @var EntityTypeList
-     */
-    private $entityTypeList;
+    private EntityTypeList $entityTypeList;
 
     public function __construct(
         TypeResolver $typeResolver,

@@ -17,12 +17,9 @@ final class AdminUser implements PerformedByInterface
     /**
      * @var Session
      */
-    private $authSession;
+    private Session $authSession;
 
-    /**
-     * @var string
-     */
-    private $attributeName;
+    private string $attributeName;
 
     public function __construct(
         Session $authSession,

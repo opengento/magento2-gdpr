@@ -15,15 +15,9 @@ final class XmlRenderer extends AbstractRenderer
 {
     private const ROOT_NAME = 'data';
 
-    /**
-     * @var ConvertArray
-     */
-    private $convertArray;
+    private ConvertArray $convertArray;
 
-    /**
-     * @var string
-     */
-    private $rootName;
+    private string $rootName;
 
     public function __construct(
         Filesystem $filesystem,

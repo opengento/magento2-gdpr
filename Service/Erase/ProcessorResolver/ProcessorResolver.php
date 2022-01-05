@@ -18,12 +18,9 @@ final class ProcessorResolver implements ProcessorResolverInterface
     /**
      * @var ProcessorInterface[]
      */
-    private $processors;
+    private array $processors;
 
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
+    private ObjectManagerInterface $objectManager;
 
     public function __construct(
         array $processors,

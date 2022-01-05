@@ -16,7 +16,7 @@ final class BackButton implements ButtonProviderInterface
     /**
      * @var UrlInterface
      */
-    private $urlBuilder;
+    private UrlInterface $urlBuilder;
 
     public function __construct(
         UrlInterface $urlBuilder

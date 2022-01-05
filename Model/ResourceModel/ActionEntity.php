@@ -19,10 +19,7 @@ class ActionEntity extends AbstractDb
 {
     public const TABLE = 'opengento_gdpr_action_entity';
 
-    /**
-     * @var Validator
-     */
-    private $validator;
+    private Validator $validator;
 
     public function __construct(
         Context $context,

@@ -16,7 +16,7 @@ final class NotEmptyStrategy implements PerformedByInterface
     /**
      * @var PerformedByInterface[]
      */
-    private $performedByList;
+    private array $performedByList;
 
     public function __construct(
         array $performedByList

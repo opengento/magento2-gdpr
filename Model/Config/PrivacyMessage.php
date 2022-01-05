@@ -18,25 +18,19 @@ final class PrivacyMessage
     private const CONFIG_PATH_COOKIE_INFORMATION_BLOCK = 'gdpr/cookie/block_id';
     private const CONFIG_PATH_GENERAL_INFORMATION_PAGE = 'gdpr/general/page_id';
 
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private ScopeConfigInterface $scopeConfig;
 
-    /**
-     * @var BlockFactory
-     */
-    private $blockFactory;
+    private BlockFactory $blockFactory;
 
     /**
      * @var HelperPage
      */
-    private $helperPage;
+    private HelperPage $helperPage;
 
     /**
      * @var string|null
      */
-    private $blockHtml;
+    private ?string $blockHtml;
 
     public function __construct(
         ScopeConfigInterface $scopeConfig,
@@ -50,7 +44,7 @@ final class PrivacyMessage
 
     public function getDisclosureInformationHtml(): string
     {
-        return $this->blockHtml ?? $this->blockHtml = $this->createDisclosureInformationBlockHtml();
+        return $this->blockHtml ??= $this->createDisclosureInformationBlockHtml();
     }
 
     public function getLearnMoreUrl(): string

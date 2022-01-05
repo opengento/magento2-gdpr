@@ -12,10 +12,7 @@ use Magento\Framework\Serialize\Serializer\Json;
 
 final class JsonRenderer extends AbstractRenderer
 {
-    /**
-     * @var Json
-     */
-    private $jsonSerializer;
+    private Json $jsonSerializer;
 
     public function __construct(
         Filesystem $filesystem,

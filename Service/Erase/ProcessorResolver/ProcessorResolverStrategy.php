@@ -17,12 +17,9 @@ final class ProcessorResolverStrategy implements ProcessorResolverInterface
     /**
      * @var ProcessorResolverFactory
      */
-    private $resolverFactory;
+    private ProcessorResolverFactory $resolverFactory;
 
-    /**
-     * @var MetadataInterface
-     */
-    private $metadata;
+    private MetadataInterface $metadata;
 
     public function __construct(
         ProcessorResolverFactory $resolverFactory,

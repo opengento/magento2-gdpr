@@ -19,15 +19,9 @@ use Opengento\Gdpr\Model\Action\ResultBuilder;
 
 final class ExportAction extends AbstractAction
 {
-    /**
-     * @var ExportEntityRepositoryInterface
-     */
-    private $exportRepository;
+    private ExportEntityRepositoryInterface $exportRepository;
 
-    /**
-     * @var ExportEntityManagementInterface
-     */
-    private $exportManagement;
+    private ExportEntityManagementInterface $exportManagement;
 
     public function __construct(
         ResultBuilder $resultBuilder,

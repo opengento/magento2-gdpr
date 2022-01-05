@@ -13,15 +13,9 @@ use Magento\Framework\Exception\LocalizedException;
 
 final class VirtualCustomerAttributes implements OptionSourceInterface
 {
-    /**
-     * @var MetadataInterface
-     */
-    private $metadata;
+    private MetadataInterface $metadata;
 
-    /**
-     * @var array
-     */
-    private $options;
+    private array $options;
 
     public function __construct(
         MetadataInterface $metadata

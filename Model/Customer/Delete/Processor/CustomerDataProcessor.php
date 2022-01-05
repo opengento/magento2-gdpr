@@ -18,12 +18,12 @@ final class CustomerDataProcessor implements ProcessorInterface
     /**
      * @var CustomerRepositoryInterface
      */
-    private $customerRepository;
+    private CustomerRepositoryInterface $customerRepository;
 
     /**
      * @var SessionCleanerInterface
      */
-    private $sessionCleaner;
+    private SessionCleanerInterface $sessionCleaner;
 
     public function __construct(
         CustomerRepositoryInterface $customerRepository,

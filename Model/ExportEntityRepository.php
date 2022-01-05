@@ -28,45 +28,27 @@ use Opengento\Gdpr\Model\ResourceModel\ExportEntity\CollectionFactory;
 
 final class ExportEntityRepository implements ExportEntityRepositoryInterface
 {
-    /**
-     * @var ExportEntityResource
-     */
-    private $exportEntityResource;
+    private ExportEntityResource $exportEntityResource;
 
-    /**
-     * @var ExportEntityInterfaceFactory
-     */
-    private $exportEntityFactory;
+    private ExportEntityInterfaceFactory $exportEntityFactory;
 
-    /**
-     * @var CollectionFactory
-     */
-    private $collectionFactory;
+    private CollectionFactory $collectionFactory;
 
-    /**
-     * @var CollectionProcessorInterface
-     */
-    private $collectionProcessor;
+    private CollectionProcessorInterface $collectionProcessor;
 
-    /**
-     * @var ExportEntitySearchResultsInterfaceFactory
-     */
-    private $searchResultsFactory;
+    private ExportEntitySearchResultsInterfaceFactory $searchResultsFactory;
 
-    /**
-     * @var Filesystem
-     */
-    private $fileSystem;
+    private Filesystem $fileSystem;
 
     /**
      * @var ExportEntityInterface[]
      */
-    private $instances = [];
+    private array $instances = [];
 
     /**
      * @var ExportEntityInterface[]
      */
-    private $instancesByEntity = [];
+    private array $instancesByEntity = [];
 
     public function __construct(
         ExportEntityResource $exportEntityResource,

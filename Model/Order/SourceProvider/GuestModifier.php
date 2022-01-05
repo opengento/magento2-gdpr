@@ -16,10 +16,7 @@ use Opengento\Gdpr\Model\Entity\SourceProvider\ModifierInterface;
 
 final class GuestModifier implements ModifierInterface
 {
-    /**
-     * @var Config
-     */
-    private $config;
+    private Config $config;
 
     public function __construct(Config $config)
     {

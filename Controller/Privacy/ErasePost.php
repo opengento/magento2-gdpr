@@ -32,17 +32,11 @@ class ErasePost extends AbstractPrivacy implements HttpPostActionInterface
     /**
      * @var AuthenticationInterface
      */
-    private $authentication;
+    private AuthenticationInterface $authentication;
 
-    /**
-     * @var ActionInterface
-     */
-    private $action;
+    private ActionInterface $action;
 
-    /**
-     * @var ContextBuilder
-     */
-    private $actionContextBuilder;
+    private ContextBuilder $actionContextBuilder;
 
     public function __construct(
         RequestInterface $request,
@@ -66,7 +60,7 @@ class ErasePost extends AbstractPrivacy implements HttpPostActionInterface
         return parent::isAllowed() && $this->config->isErasureEnabled();
     }
 
-    protected function executeAction()
+    protected function executeAction(): Redirect
     {
         /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);

@@ -16,15 +16,9 @@ use Opengento\Gdpr\Service\Export\Processor\AbstractDataProcessor;
 
 final class QuoteDataProcessor extends AbstractDataProcessor
 {
-    /**
-     * @var CartRepositoryInterface
-     */
-    private $quoteRepository;
+    private CartRepositoryInterface $quoteRepository;
 
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $criteriaBuilder;
+    private SearchCriteriaBuilder $criteriaBuilder;
 
     public function __construct(
         CartRepositoryInterface $quoteRepository,

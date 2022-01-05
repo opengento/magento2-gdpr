@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\ViewModel\Customer\Privacy;
 
 use Magento\Cms\Block\Block;
+use Magento\Cms\Block\BlockByIdentifier;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\Element\BlockFactory;
@@ -18,25 +19,13 @@ final class EraseDataProvider implements ArgumentInterface
     private const CONFIG_PATH_ERASURE_INFORMATION_BLOCK = 'gdpr/erasure/block_id';
     private const CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK = 'gdpr/anonymize/block_id';
 
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private ScopeConfigInterface $scopeConfig;
 
-    /**
-     * @var BlockFactory
-     */
-    private $blockFactory;
+    private BlockFactory $blockFactory;
 
-    /**
-     * @var null|string
-     */
-    private $erasureInformation;
+    private ?string $erasureInformation;
 
-    /**
-     * @var null|string
-     */
-    private $anonymizeInformation;
+    private ?string $anonymizeInformation;
 
     public function __construct(
         ScopeConfigInterface $scopeConfig,
@@ -48,9 +37,9 @@ final class EraseDataProvider implements ArgumentInterface
 
     public function getErasureInformationHtml(): string
     {
-        return $this->erasureInformation ?? $this->erasureInformation = $this->blockFactory->createBlock(
-            Block::class,
-            ['data' => ['block_id' => (string) $this->scopeConfig->getValue(
+        return $this->erasureInformation ??= $this->blockFactory->createBlock(
+            BlockByIdentifier::class,
+            ['data' => ['identifier' => (string) $this->scopeConfig->getValue(
                 self::CONFIG_PATH_ERASURE_INFORMATION_BLOCK,
                 ScopeInterface::SCOPE_STORE
             )]]
@@ -59,7 +48,7 @@ final class EraseDataProvider implements ArgumentInterface
 
     public function getAnonymizeInformationHtml(): string
     {
-        return $this->anonymizeInformation ?? $this->anonymizeInformation = $this->blockFactory->createBlock(
+        return $this->anonymizeInformation ??= $this->blockFactory->createBlock(
             Block::class,
             ['data' => ['block_id' => (string) $this->scopeConfig->getValue(
                 self::CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK,

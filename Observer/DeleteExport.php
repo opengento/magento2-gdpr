@@ -24,30 +24,15 @@ use Psr\Log\LoggerInterface;
 
 final class DeleteExport implements ObserverInterface
 {
-    /**
-     * @var ExportEntityRepositoryInterface
-     */
-    private $exportRepository;
+    private ExportEntityRepositoryInterface $exportRepository;
 
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $criteriaBuilder;
+    private SearchCriteriaBuilder $criteriaBuilder;
 
-    /**
-     * @var FilterBuilder
-     */
-    private $filterBuilder;
+    private FilterBuilder $filterBuilder;
 
-    /**
-     * @var EntityTypeResolver
-     */
-    private $entityTypeResolver;
+    private EntityTypeResolver $entityTypeResolver;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         ExportEntityRepositoryInterface $exportRepository,

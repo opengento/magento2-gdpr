@@ -17,15 +17,9 @@ use Opengento\Gdpr\Model\Config;
 
 final class EraseButton extends GenericButton implements ButtonProviderInterface
 {
-    /**
-     * @var EraseEntityCheckerInterface
-     */
-    private $eraseCustomerChecker;
+    private EraseEntityCheckerInterface $eraseCustomerChecker;
 
-    /**
-     * @var Config
-     */
-    private $config;
+    private Config $config;
 
     public function __construct(
         Context $context,

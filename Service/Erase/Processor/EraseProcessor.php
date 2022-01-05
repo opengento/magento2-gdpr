@@ -17,12 +17,12 @@ final class EraseProcessor implements ProcessorInterface
     /**
      * @var ProcessorResolverInterface
      */
-    private $processorResolver;
+    private ProcessorResolverInterface $processorResolver;
 
     /**
      * @var EraseComponents
      */
-    private $eraseComponents;
+    private EraseComponents $eraseComponents;
 
     public function __construct(
         ProcessorResolverInterface $processorResolver,

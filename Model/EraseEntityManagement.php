@@ -25,30 +25,18 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
 {
     private const CONFIG_PATH_ERASURE_DELAY = 'gdpr/erasure/delay';
 
-    /**
-     * @var EraseEntityInterfaceFactory
-     */
-    private $eraseEntityFactory;
+    private EraseEntityInterfaceFactory $eraseEntityFactory;
 
-    /**
-     * @var EraseEntityRepositoryInterface
-     */
-    private $eraseRepository;
+    private EraseEntityRepositoryInterface $eraseRepository;
 
-    /**
-     * @var ProcessorFactory
-     */
-    private $processorFactory;
+    private ProcessorFactory $processorFactory;
 
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private ScopeConfigInterface $scopeConfig;
 
     /**
      * @var DateTime
      */
-    private $localeDate;
+    private DateTime $localeDate;
 
     public function __construct(
         EraseEntityInterfaceFactory $eraseEntityFactory,

@@ -19,7 +19,7 @@ abstract class AbstractAction implements ActionInterface
     /**
      * @var ResultBuilder
      */
-    private $resultBuilder;
+    private ResultBuilder $resultBuilder;
 
     public function __construct(
         ResultBuilder $resultBuilder

@@ -17,12 +17,9 @@ final class Notifier implements NotifierInterface
     /**
      * @var SenderInterface[]
      */
-    private $senders;
+    private array $senders;
 
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
     public function __construct(
         array $senders,

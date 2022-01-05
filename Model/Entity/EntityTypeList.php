@@ -18,12 +18,12 @@ final class EntityTypeList
     /**
      * @var string[][]
      */
-    private $list;
+    private array $list;
 
     /**
      * @var string[]|null
      */
-    private $entityTypes;
+    private ?array $entityTypes;
 
     public function __construct(
         array $list
@@ -44,6 +44,6 @@ final class EntityTypeList
             $entityTypes[] = array_keys($types);
         }
 
-        return $this->entityTypes ?? $this->entityTypes = array_merge([], ...$entityTypes);
+        return $this->entityTypes ??= array_merge([], ...$entityTypes);
     }
 }

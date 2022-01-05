@@ -13,10 +13,7 @@ use TCPDF;
 
 final class PdfRenderer extends AbstractRenderer
 {
-    /**
-     * @var HtmlRenderer
-     */
-    private $htmlRenderer;
+    private HtmlRenderer $htmlRenderer;
 
     public function __construct(
         Filesystem $filesystem,

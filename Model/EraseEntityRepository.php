@@ -29,37 +29,28 @@ final class EraseEntityRepository implements EraseEntityRepositoryInterface
     /**
      * @var EraseEntityResource
      */
-    private $eraseEntityResource;
+    private EraseEntityResource $eraseEntityResource;
 
-    /**
-     * @var EraseEntityInterfaceFactory
-     */
-    private $eraseEntityFactory;
+    private EraseEntityInterfaceFactory $eraseEntityFactory;
 
-    /**
-     * @var CollectionFactory
-     */
-    private $collectionFactory;
+    private CollectionFactory $collectionFactory;
 
-    /**
-     * @var CollectionProcessorInterface
-     */
-    private $collectionProcessor;
+    private CollectionProcessorInterface $collectionProcessor;
 
     /**
      * @var EraseEntitySearchResultsInterfaceFactory
      */
-    private $searchResultsFactory;
+    private EraseEntitySearchResultsInterfaceFactory $searchResultsFactory;
 
     /**
      * @var EraseEntityInterface[]
      */
-    private $instances = [];
+    private array $instances = [];
 
     /**
      * @var EraseEntityInterface[]
      */
-    private $instancesByEntity = [];
+    private array $instancesByEntity = [];
 
     public function __construct(
         EraseEntityResource $eraseEntityResource,

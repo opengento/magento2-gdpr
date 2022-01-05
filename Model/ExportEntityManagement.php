@@ -26,30 +26,18 @@ final class ExportEntityManagement implements ExportEntityManagementInterface
     private const CONFIG_PATH_EXPORT_FILE_NAME = 'gdpr/export/file_name';
     private const CONFIG_PATH_EXPORT_LIFE_TIME = 'gdpr/export/life_time';
 
-    /**
-     * @var ExportEntityInterfaceFactory
-     */
-    private $exportEntityFactory;
+    private ExportEntityInterfaceFactory $exportEntityFactory;
 
-    /**
-     * @var ExportEntityRepositoryInterface
-     */
-    private $exportRepository;
+    private ExportEntityRepositoryInterface $exportRepository;
 
-    /**
-     * @var ExportEntityCheckerInterface
-     */
-    private $exportEntityChecker;
+    private ExportEntityCheckerInterface $exportEntityChecker;
 
     /**
      * @var ExportToFile
      */
-    private $exportToFile;
+    private ExportToFile $exportToFile;
 
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private ScopeConfigInterface $scopeConfig;
 
     public function __construct(
         ExportEntityInterfaceFactory $exportEntityFactory,

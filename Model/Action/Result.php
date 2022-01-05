@@ -15,22 +15,13 @@ final class Result implements ActionResultInterface
     /**
      * @var DateTime
      */
-    private $performedAt;
+    private DateTime $performedAt;
 
-    /**
-     * @var string
-     */
-    private $state;
+    private string $state;
 
-    /**
-     * @var string
-     */
-    private $message;
+    private string $message;
 
-    /**
-     * @var array
-     */
-    private $result;
+    private array $result;
 
     public function __construct(
         DateTime $performedAt,

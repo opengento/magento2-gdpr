@@ -14,15 +14,9 @@ use function in_array;
 
 final class OrderChecker implements EntityCheckerInterface
 {
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
-    /**
-     * @var Config
-     */
-    private $config;
+    private Config $config;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,

@@ -15,15 +15,9 @@ use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 
 final class SecureEraseEntityManagement implements EraseEntityManagementInterface
 {
-    /**
-     * @var EraseEntityManagementInterface
-     */
-    private $eraseManagement;
+    private EraseEntityManagementInterface $eraseManagement;
 
-    /**
-     * @var EraseEntityCheckerInterface
-     */
-    private $eraseEntityChecker;
+    private EraseEntityCheckerInterface $eraseEntityChecker;
 
     public function __construct(
         EraseEntityManagementInterface $eraseManagement,

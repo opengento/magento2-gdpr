@@ -15,20 +15,11 @@ use function compact;
 
 final class ActionStates implements OptionSourceInterface
 {
-    /**
-     * @var array
-     */
-    private $additionalOptions;
+    private array $additionalOptions;
 
-    /**
-     * @var array
-     */
-    private $options;
+    private array $options;
 
-    /**
-     * @var array
-     */
-    private $optionArray;
+    private array $optionArray;
 
     public function __construct(
         array $additionalOptions = []

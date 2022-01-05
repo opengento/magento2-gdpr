@@ -22,12 +22,9 @@ final class MailSender extends AbstractMailSender implements SenderInterface
     /**
      * @var View
      */
-    private $customerViewHelper;
+    private View $customerViewHelper;
 
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
+    private StoreManagerInterface $storeManager;
 
     public function __construct(
         View $customerViewHelper,

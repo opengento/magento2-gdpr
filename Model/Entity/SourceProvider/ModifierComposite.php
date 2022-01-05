@@ -18,7 +18,7 @@ final class ModifierComposite implements ModifierInterface
     /**
      * @var ModifierInterface[]
      */
-    private $modifiers;
+    private array $modifiers;
 
     public function __construct(
         array $modifiers

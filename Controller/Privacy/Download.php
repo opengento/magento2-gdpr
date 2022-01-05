@@ -29,12 +29,9 @@ class Download extends AbstractPrivacy implements HttpGetActionInterface
     /**
      * @var FileFactory
      */
-    private $fileFactory;
+    private FileFactory $fileFactory;
 
-    /**
-     * @var ExportEntityRepositoryInterface
-     */
-    private $exportRepository;
+    private ExportEntityRepositoryInterface $exportRepository;
 
     public function __construct(
         RequestInterface $request,

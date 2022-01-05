@@ -11,20 +11,11 @@ use Opengento\Gdpr\Api\Data\ActionContextInterface;
 
 final class Context implements ActionContextInterface
 {
-    /**
-     * @var string
-     */
-    private $performedFrom;
+    private string $performedFrom;
 
-    /**
-     * @var string
-     */
-    private $performedBy;
+    private string $performedBy;
 
-    /**
-     * @var array
-     */
-    private $parameters;
+    private array $parameters;
 
     public function __construct(
         string $performedFrom,

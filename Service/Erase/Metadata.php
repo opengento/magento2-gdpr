@@ -16,30 +16,21 @@ use function sprintf;
 
 final class Metadata implements MetadataInterface
 {
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private ScopeConfigInterface $scopeConfig;
 
     /**
      * @var SerializerInterface
      */
-    private $serializer;
+    private SerializerInterface $serializer;
 
-    /**
-     * @var string
-     */
-    private $configPath;
+    private string $configPath;
 
-    /**
-     * @var string
-     */
-    private $scopeType;
+    private string $scopeType;
 
     /**
      * @var string[][]
      */
-    private $cache;
+    private array $cache;
 
     public function __construct(
         ScopeConfigInterface $scopeConfig,

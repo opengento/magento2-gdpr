@@ -17,10 +17,7 @@ use Opengento\Gdpr\Model\Notifier\AbstractMailSender;
 
 final class MailSender extends AbstractMailSender implements SenderInterface
 {
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
+    private StoreManagerInterface $storeManager;
 
     public function __construct(
         TransportBuilder $transportBuilder,

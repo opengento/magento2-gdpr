@@ -22,7 +22,7 @@ final class CreateOrExportAction extends AbstractAction
     /**
      * @var ExportEntityData
      */
-    private $exportEntityData;
+    private ExportEntityData $exportEntityData;
 
     public function __construct(
         ResultBuilder $resultBuilder,

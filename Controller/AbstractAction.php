@@ -19,25 +19,13 @@ use Opengento\Gdpr\Model\Config;
 
 abstract class AbstractAction implements ActionInterface
 {
-    /**
-     * @var RequestInterface
-     */
-    protected $request;
+    protected RequestInterface $request;
 
-    /**
-     * @var ResultFactory
-     */
-    protected $resultFactory;
+    protected ResultFactory $resultFactory;
 
-    /**
-     * @var ManagerInterface
-     */
-    protected $messageManager;
+    protected ManagerInterface $messageManager;
 
-    /**
-     * @var Config
-     */
-    protected $config;
+    protected Config $config;
 
     public function __construct(
         RequestInterface $request,

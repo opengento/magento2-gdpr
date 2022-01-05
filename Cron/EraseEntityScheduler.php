@@ -26,35 +26,20 @@ final class EraseEntityScheduler
 {
     private const CONFIG_PATH_ERASURE_MAX_AGE = 'gdpr/erasure/entity_max_age';
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private ScopeConfigInterface $scopeConfig;
 
-    /**
-     * @var Config
-     */
-    private $config;
+    private Config $config;
 
     /**
      * @var EraseEntitySchedulerService
      */
-    private $eraseEntityScheduler;
+    private EraseEntitySchedulerService $eraseEntityScheduler;
 
-    /**
-     * @var FilterBuilder
-     */
-    private $filterBuilder;
+    private FilterBuilder $filterBuilder;
 
-    /**
-     * @var EntityTypeList
-     */
-    private $entityTypeList;
+    private EntityTypeList $entityTypeList;
 
     public function __construct(
         LoggerInterface $logger,

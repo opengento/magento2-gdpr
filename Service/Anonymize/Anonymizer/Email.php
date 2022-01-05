@@ -21,7 +21,7 @@ final class Email implements AnonymizerInterface
     /**
      * @var Random
      */
-    private $mathRandom;
+    private Random $mathRandom;
 
     public function __construct(
         Random $mathRandom

@@ -21,10 +21,7 @@ final class Config
     public const CONFIG_PATH_ERASURE_ALLOWED_STATES = 'gdpr/erasure/allowed_states';
     public const CONFIG_PATH_EXPORT_ENABLED = 'gdpr/export/enabled';
 
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private ScopeConfigInterface $scopeConfig;
 
     public function __construct(
         ScopeConfigInterface $scopeConfig
