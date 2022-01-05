@@ -63,7 +63,7 @@ class Export extends AbstractGuest implements HttpGetActionInterface
         $resultRedirect->setRefererOrBaseUrl();
 
         $this->actionContextBuilder->setParameters([
-            ArgumentReader::ENTITY_ID => (int) $this->currentOrder()->getCustomerId(),
+            ArgumentReader::ENTITY_ID => (int) $this->currentOrder()->getEntityId(),
             ArgumentReader::ENTITY_TYPE => 'order'
         ]);
 
