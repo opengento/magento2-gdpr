@@ -22,7 +22,7 @@ This extension fullfill the GDPR requirements for Magento 2.
 
 Magento 2 Open Source or Commerce edition is required.
 
-###  Composer installation
+### Composer installation
 
 Run the following composer command:
 
