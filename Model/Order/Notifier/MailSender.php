@@ -39,7 +39,11 @@ final class MailSender extends AbstractMailSender implements SenderInterface
         $storeId = $order->getStoreId() === null ? null : (int) $order->getStoreId();
         $vars = [
             'order' => $order,
+            'billing' => $order->getBillingAddress(),
             'store' => $this->storeManager->getStore($order->getStoreId()),
+            'order_data' => [
+                'customer_name' => $order->getCustomerName(),
+            ],
         ];
 
         $this->sendMail($order->getCustomerEmail(), $order->getCustomerName(), $storeId, $vars);
