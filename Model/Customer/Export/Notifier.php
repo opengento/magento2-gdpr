@@ -12,25 +12,25 @@ use Magento\Framework\Exception\LocalizedException;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Model\Customer\Notifier\SenderInterface;
 use Opengento\Gdpr\Model\Export\NotifierInterface;
+use Psr\Log\LoggerInterface;
 
 final class Notifier implements NotifierInterface
 {
-    /**
-     * @var SenderInterface[]
-     */
+    /** @var SenderInterface[] */
     private array $senders;
 
-    /**
-     * @var CustomerRepositoryInterface
-     */
     private CustomerRepositoryInterface $customerRepository;
+
+    private LoggerInterface $logger;
 
     public function __construct(
         array $senders,
-        CustomerRepositoryInterface $customerRepository
+        CustomerRepositoryInterface $customerRepository,
+        LoggerInterface $logger
     ) {
         $this->senders = $senders;
         $this->customerRepository = $customerRepository;
+        $this->logger = $logger;
     }
 
     /**
@@ -42,7 +42,11 @@ final class Notifier implements NotifierInterface
         $customer = $this->customerRepository->getById($exportEntity->getEntityId());
 
         foreach ($this->senders as $sender) {
-            $sender->send($customer);
+            try {
+                $sender->send($customer);
+            } catch (LocalizedException $e) {
+                $this->logger->error($e->getLogMessage(), $e->getTrace());
+            }
         }
     }
 }

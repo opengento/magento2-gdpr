@@ -13,32 +13,29 @@ use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Model\Customer\Notifier\SenderInterface;
 use Opengento\Gdpr\Model\Customer\OrigDataRegistry;
 use Opengento\Gdpr\Model\Erase\NotifierInterface;
+use Psr\Log\LoggerInterface;
 
 final class Notifier implements NotifierInterface
 {
-    /**
-     * @var SenderInterface[]
-     */
+    /** @var SenderInterface[] */
     private array $senders;
 
-    /**
-     * @var CustomerRepositoryInterface
-     */
     private CustomerRepositoryInterface $customerRepository;
 
-    /**
-     * @var OrigDataRegistry
-     */
     private OrigDataRegistry $origDataRegistry;
+
+    private LoggerInterface $logger;
 
     public function __construct(
         array $senders,
         CustomerRepositoryInterface $customerRepository,
-        OrigDataRegistry $origDataRegistry
+        OrigDataRegistry $origDataRegistry,
+        LoggerInterface $logger
     ) {
         $this->senders = $senders;
         $this->customerRepository = $customerRepository;
         $this->origDataRegistry = $origDataRegistry;
+        $this->logger = $logger;
     }
 
     /**
@@ -51,7 +48,11 @@ final class Notifier implements NotifierInterface
         $customer = $this->origDataRegistry->get($customerId) ?? $this->customerRepository->getById($customerId);
 
         foreach ($this->senders as $sender) {
-            $sender->send($customer);
+            try {
+                $sender->send($customer);
+            } catch (LocalizedException $e) {
+                $this->logger->error($e->getLogMessage(), $e->getTrace());
+            }
         }
     }
 }

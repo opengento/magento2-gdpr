@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Order\Notifier;
 
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Api\Data\OrderInterface;
 
 /**
@@ -14,5 +15,8 @@ use Magento\Sales\Api\Data\OrderInterface;
  */
 interface SenderInterface
 {
+    /**
+     * @throws LocalizedException
+     */
     public function send(OrderInterface $order): void;
 }

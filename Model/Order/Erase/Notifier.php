@@ -7,26 +7,30 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Order\Erase;
 
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Model\Erase\NotifierInterface;
 use Opengento\Gdpr\Model\Order\Notifier\SenderInterface;
+use Psr\Log\LoggerInterface;
 
 final class Notifier implements NotifierInterface
 {
-    /**
-     * @var SenderInterface[]
-     */
+    /** @var SenderInterface[] */
     private array $senders;
 
     private OrderRepositoryInterface $orderRepository;
 
+    private LoggerInterface $logger;
+
     public function __construct(
         array $senders,
-        OrderRepositoryInterface $orderRepository
+        OrderRepositoryInterface $orderRepository,
+        LoggerInterface $logger
     ) {
         $this->senders = $senders;
         $this->orderRepository = $orderRepository;
+        $this->logger = $logger;
     }
 
     public function notify(EraseEntityInterface $eraseEntity): void
@@ -34,7 +38,11 @@ final class Notifier implements NotifierInterface
         $order = $this->orderRepository->get($eraseEntity->getEntityId());
 
         foreach ($this->senders as $sender) {
-            $sender->send($order);
+            try {
+                $sender->send($order);
+            } catch (LocalizedException $e) {
+                $this->logger->error($e->getLogMessage(), $e->getTrace());
+            }
         }
     }
 }
