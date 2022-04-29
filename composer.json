@@ -10,7 +10,7 @@
         "privacy"
     ],
     "require": {
-        "php": "^7.4",
+        "php": "^7.4||^8.0",
         "ext-zip": "*",
         "tecnickcom/tcpdf": "^6.4",
         "magento/framework": "^103.0",
