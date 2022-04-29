@@ -94,6 +94,7 @@ Every translations must be done here https://www.transifex.com/opengento/opengen
 - [x] nl_NL ; Dutch
 - [x] it_IT ; Italian
 - [x] pl_PL ; Polish
+- [x] th_TH ; Thai
 
 ## Settings
 
