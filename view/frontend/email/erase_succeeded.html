@@ -10,14 +10,22 @@
 } @-->
 
 {{template config_path="design/email/header_template"}}
-
-<p class="greeting">{{trans "%name," name=$customer_data.customer_name}}</p>
-
-<p>
-    {{trans "We have successfully erased the information associated with your account at %store_name." store_name=$store.getFrontendName()}}
-    {{trans 'If you have not authorized this action, please contact us immediately at <a href="mailto:%store_email">%store_email</a>' store_email=$store_email |raw}}{{depend store_phone}} {{trans 'or call us at <a href="tel:%store_phone">%store_phone</a>' store_phone=$store_phone |raw}}{{/depend}}.
-</p>
-
-<p>{{trans "Thanks,<br>%store_name" store_name=$store.getFrontendName() |raw}}</p>
-
+<table border="0" cellspacing="0" width="100%" cellpadding="0">
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">{{trans "%name," name=$customer_data.customer_name}}</p>
+        </td>
+    </tr>
+    <tr class="email-summary">
+        <td>
+            <p>{{trans "We have received a request to cancel the erasure of the information associated with your account at %store_name." store_name=$store.getFrontendName()}}</p>
+            <p>{{trans 'You can cancel the erase whitin %delay hours by <a href="%account_url">logging into your account</a>.' account_url=$this.getUrl($store,'customer/account/',[_nosid:1]) |raw}}</p>
+        </td>
+    </tr>
+    <tr class="help-info">
+        <td>
+            <p>{{trans 'If you have not authorized this action, please contact us immediately at <a href="mailto:%store_email">%store_email</a>' store_email=$store_email |raw}}{{depend store_phone}} {{trans 'or call us at <a href="tel:%store_phone">%store_phone</a>' store_phone=$store_phone |raw}}{{/depend}}.</p>
+        </td>
+    </tr>
+</table>
 {{template config_path="design/email/footer_template"}}

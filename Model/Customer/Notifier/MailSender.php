@@ -23,12 +23,12 @@ final class MailSender extends AbstractMailSender implements SenderInterface
     /**
      * @var LoggerInterface
      */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * @var View
      */
-    private $customerViewHelper;
+    private View $customerViewHelper;
 
     /**
      * @var StoreManagerInterface
@@ -50,7 +50,8 @@ final class MailSender extends AbstractMailSender implements SenderInterface
     }
 
     /**
-     * @inheritdoc
+     * @param CustomerInterface $customer
+     * @return void
      * @throws LocalizedException
      * @throws MailException
      * @throws NoSuchEntityException

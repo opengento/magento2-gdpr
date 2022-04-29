@@ -21,8 +21,11 @@ final class MailSender extends AbstractMailSender implements SenderInterface
     /**
      * @var LoggerInterface
      */
-    private $logger;
+    private LoggerInterface $logger;
 
+    /**
+     * @var StoreManagerInterface
+     */
     private StoreManagerInterface $storeManager;
 
     public function __construct(
