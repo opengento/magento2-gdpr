@@ -21,9 +21,7 @@ define([
     "use strict";
 
     return Component.extend({
-        showPopUp: ko.observable(null),
-        popupText: ko.observable(null),
-        popupLink: ko.observable(null),
+        showPopUp: ko.observable(false),
 
         defaults: {
             template: "Opengento_Gdpr/message"
@@ -33,16 +31,45 @@ define([
          * Initialize component
          */
         initialize() {
+            var self = this,
+                isBot = navigator.userAgent.toLowerCase().match( /.+?(?:bot|lighthouse)/ );
+
             this._super();
 
-            this.showPopUp(!$.cookie(this.cookieName));
-            this.popupText(this.notificationText);
-            this.popupLink(this.learnMore);
+            if (!window.localStorage.getItem(self.cookieName) && !isBot) {
+                self.showPopUp(true);
+            }
+        },
 
-            $(document).on("click", "#enhanced-privacy-popup-agree", function () {
-                this.showPopUp(false);
-                $.cookie(this.cookieName, 1);
-            }.bind(this));
+        /**
+         * Get Popup Text
+         * @returns {string}
+         */
+        getPopupText() {
+            var self = this;
+
+            return self.notificationText;
+        },
+
+        /**
+         * Get Popup Link
+         * @returns {string}
+         */
+        getPopupLink() {
+            var self = this;
+
+            return self.learnMore;
+        },
+
+        /**
+         * Accept All Cookies
+         * @returns {void}
+         */
+        acceptAllCookies() {
+            var self = this;
+
+            window.localStorage.setItem(self.cookieName, true, {});
+            self.showPopUp(false);
         }
     });
 });
