@@ -30,7 +30,7 @@ final class EraseComponents implements OptionSourceInterface
     /**
      * @var string[][]
      */
-    private array $options;
+    private array $options = [];
 
     public function __construct(
         ConfigInterface $objectManagerConfig,
