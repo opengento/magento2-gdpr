@@ -42,6 +42,8 @@ bin/magento setup:upgrade
 
 ## Features
 
+Screenshots are available at: [https://opengento.fr/magento2-gdpr/features](https://opengento.fr/magento2-gdpr/features)
+
 Users, guest and customer can:
 
 * **[Art. 16 GDPR](https://gdpr-info.eu/art-16-gdpr/)** Edit their personal data (native in vanilla)
