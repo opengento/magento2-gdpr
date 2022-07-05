@@ -27,5 +27,10 @@
                 </arguments>
             </block>
         </referenceContainer>
+        <referenceBlock name="form.subscribe">
+            <action method="setTemplate" ifconfig="gdpr/general/newsletter_checkbox">
+                <argument name="template" xsi:type="string">Opengento_Gdpr::newsletter/subscribe.phtml</argument>
+            </action>
+        </referenceBlock>
     </body>
 </page>
