@@ -7,6 +7,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
     <block class="Magento\Framework\View\Element\RendererList" name="opengento.gdpr.customer.privacy.export.renderers">
-        <block class="Magento\Framework\View\Element\Template" name="opengento.gdpr.customer.privacy.export.renderers.default" as="default"/>
+        <block name="opengento.gdpr.customer.privacy.export.renderers.default" as="default"/>
     </block>
 </layout>

@@ -12,11 +12,11 @@
     </head>
     <body>
         <referenceContainer name="content">
-            <block class="Magento\Framework\View\Element\Template" name="customer-account-privacy-settings" template="Opengento_Gdpr::account/settings.phtml" ifconfig="gdpr/general/enabled" cacheable="false">
+            <block name="customer-account-privacy-settings" template="Opengento_Gdpr::account/settings.phtml" ifconfig="gdpr/general/enabled" cacheable="false">
                 <arguments>
                     <argument name="settingsDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Customer\Privacy\SettingsDataProvider</argument>
                 </arguments>
-                <block class="Magento\Framework\View\Element\Template" name="customer-account-privacy-export" as="export" template="Opengento_Gdpr::account/privacy/export.phtml" ifconfig="gdpr/export/enabled" cacheable="false">
+                <block name="customer-account-privacy-export" as="export" template="Opengento_Gdpr::account/privacy/export.phtml" ifconfig="gdpr/export/enabled" cacheable="false">
                     <arguments>
                         <argument name="exportDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Customer\Privacy\ExportDataProvider</argument>
                         <argument name="exportCustomerDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Customer\Privacy\ExportCustomerDataProvider</argument>
@@ -24,7 +24,7 @@
                         <argument name="downloadActionUrl" xsi:type="url" path="customer/privacy/download"/>
                     </arguments>
                 </block>
-                <block class="Magento\Framework\View\Element\Template" name="customer-account-privacy-erasure" as="erasure" template="Opengento_Gdpr::account/privacy/erase.phtml" ifconfig="gdpr/erasure/enabled" cacheable="false">
+                <block name="customer-account-privacy-erasure" as="erasure" template="Opengento_Gdpr::account/privacy/erase.phtml" ifconfig="gdpr/erasure/enabled" cacheable="false">
                     <arguments>
                         <argument name="eraseDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Customer\Privacy\EraseDataProvider</argument>
                         <argument name="eraseCustomerDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Customer\Privacy\EraseCustomerDataProvider</argument>

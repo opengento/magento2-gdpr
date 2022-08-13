@@ -765,10 +765,17 @@
             <argument name="eraseComponents" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Customer\EraseComponents</argument>
         </arguments>
     </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Customer\SourceProvider\NotErasedFilterModifier" type="Opengento\Gdpr\Model\Entity\SourceProvider\NotErasedFilterModifier">
+        <arguments>
+            <argument name="entityType" xsi:type="string">customer</argument>
+            <argument name="mainTableAlias" xsi:type="string">e</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Customer\SourceProvider\ModifierComposite" type="Opengento\Gdpr\Model\Entity\SourceProvider\ModifierComposite">
         <arguments>
             <argument name="modifiers" xsi:type="array">
-                <item name="filter" xsi:type="object">Opengento\Gdpr\Model\Customer\SourceProvider\FilterModifier</item>
+                <item name="idleFilter" xsi:type="object">Opengento\Gdpr\Model\Customer\SourceProvider\IdleFilterModifier</item>
+                <item name="notErasedFilter" xsi:type="object">Opengento\Gdpr\Model\Customer\SourceProvider\NotErasedFilterModifier</item>
             </argument>
         </arguments>
     </virtualType>
@@ -821,17 +828,23 @@
             <argument name="eraseComponents" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Order\EraseComponents</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Order\SourceProvider\FilterModifier" type="Opengento\Gdpr\Model\Entity\SourceProvider\FilterModifier">
+    <virtualType name="Opengento\Gdpr\Model\Order\SourceProvider\UpdatedAtFilterModifier" type="Opengento\Gdpr\Model\Entity\SourceProvider\FilterModifier">
         <arguments>
             <argument name="filterIdentifier" xsi:type="string">created_at</argument>
             <argument name="fieldToFilter" xsi:type="const">Magento\Sales\Api\Data\OrderInterface::UPDATED_AT</argument>
         </arguments>
     </virtualType>
+    <virtualType name="Opengento\Gdpr\Model\Order\SourceProvider\NotErasedFilterModifier" type="Opengento\Gdpr\Model\Entity\SourceProvider\NotErasedFilterModifier">
+        <arguments>
+            <argument name="entityType" xsi:type="string">order</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Order\SourceProvider\ModifierComposite" type="Opengento\Gdpr\Model\Entity\SourceProvider\ModifierComposite">
         <arguments>
             <argument name="modifiers" xsi:type="array">
-                <item name="guest" xsi:type="object">Opengento\Gdpr\Model\Order\SourceProvider\GuestModifier</item>
-                <item name="filter" xsi:type="object">Opengento\Gdpr\Model\Order\SourceProvider\FilterModifier</item>
+                <item name="guestFilter" xsi:type="object">Opengento\Gdpr\Model\Order\SourceProvider\GuestFilterModifier</item>
+                <item name="updatedAtFilter" xsi:type="object">Opengento\Gdpr\Model\Order\SourceProvider\UpdatedAtFilterModifier</item>
+                <item name="notErasedFilter" xsi:type="object">Opengento\Gdpr\Model\Order\SourceProvider\NotErasedFilterModifier</item>
             </argument>
         </arguments>
     </virtualType>
