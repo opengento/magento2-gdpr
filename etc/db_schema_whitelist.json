@@ -1,0 +1,60 @@
+{
+    "opengento_gdpr_erase_entity": {
+        "column": {
+            "erase_id": true,
+            "entity_id": true,
+            "entity_type": true,
+            "scheduled_at": true,
+            "state": true,
+            "status": true,
+            "message": true,
+            "erased_at": true
+        },
+        "index": {
+            "OPENGENTO_GDPR_ERASE_ENTITY_ENTITY_ID": true,
+            "OPENGENTO_GDPR_ERASE_ENTITY_ENTITY_TYPE": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "OPENGENTO_GDPR_ERASE_ENTITY_ENTITY_ID_ENTITY_TYPE": true
+        }
+    },
+    "opengento_gdpr_export_entity": {
+        "column": {
+            "export_id": true,
+            "entity_id": true,
+            "entity_type": true,
+            "file_name": true,
+            "file_path": true,
+            "created_at": true,
+            "exported_at": true,
+            "expired_at": true
+        },
+        "index": {
+            "OPENGENTO_GDPR_EXPORT_ENTITY_ENTITY_ID": true,
+            "OPENGENTO_GDPR_EXPORT_ENTITY_ENTITY_TYPE": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "opengento_gdpr_action_entity": {
+        "column": {
+            "action_id": true,
+            "type": true,
+            "performed_from": true,
+            "performed_by": true,
+            "performed_at": true,
+            "state": true,
+            "message": true,
+            "parameters": true
+        },
+        "index": {
+            "OPENGENTO_GDPR_ACTION_ENTITY_TYPE": true,
+            "OPENGENTO_GDPR_ACTION_ENTITY_STATE": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

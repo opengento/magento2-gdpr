@@ -17,7 +17,7 @@
             </arguments>
         </referenceBlock>
         <referenceContainer name="content">
-            <block class="Magento\Framework\View\Element\Template" name="customer-account-privacy-erase" template="Opengento_Gdpr::account/erase.phtml" ifconfig="gdpr/erasure/enabled" cacheable="false">
+            <block name="customer-account-privacy-erase" template="Opengento_Gdpr::account/erase.phtml" ifconfig="gdpr/erasure/enabled" cacheable="false">
                 <arguments>
                     <argument name="settingsDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Customer\Privacy\SettingsDataProvider</argument>
                     <argument name="eraseActionUrl" xsi:type="url" path="customer/privacy/erasepost"/>
