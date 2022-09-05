@@ -19,35 +19,26 @@ use function array_merge;
 
 final class ActionComposite implements ActionInterface
 {
-    /**
-     * @var string
-     */
-    private $type;
+    private string $type;
 
     /**
      * @var ActionInterface[]
      */
-    private $actions;
+    private array $actions;
 
-    /**
-     * @var ContextBuilder
-     */
-    private $contextBuilder;
+    private ContextBuilder $contextBuilder;
 
     /**
      * @var ActionEntityBuilder
      */
-    private $actionEntityBuilder;
+    private ActionEntityBuilder $actionEntityBuilder;
 
     /**
      * @var ResultBuilder
      */
-    private $resultBuilder;
+    private ResultBuilder $resultBuilder;
 
-    /**
-     * @var ActionEntityRepositoryInterface
-     */
-    private $actionRepository;
+    private ActionEntityRepositoryInterface $actionRepository;
 
     public function __construct(
         string $type,

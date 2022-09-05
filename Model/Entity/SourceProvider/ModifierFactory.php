@@ -17,12 +17,9 @@ final class ModifierFactory
     /**
      * @var string[]
      */
-    private $modifiers;
+    private array $modifiers;
 
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
+    private ObjectManagerInterface $objectManager;
 
     /**
      * @param string[] $modifiers

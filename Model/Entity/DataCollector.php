@@ -12,12 +12,12 @@ final class DataCollector implements DataCollectorInterface
     /**
      * @var EntityIteratorInterface
      */
-    private $entityIterator;
+    private EntityIteratorInterface $entityIterator;
 
     /**
      * @var DocumentInterface
      */
-    private $document;
+    private DocumentInterface $document;
 
     public function __construct(
         EntityIteratorInterface $entityIterator,

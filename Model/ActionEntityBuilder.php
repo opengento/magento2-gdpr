@@ -19,12 +19,9 @@ final class ActionEntityBuilder
     /**
      * @var ActionEntityInterfaceFactory
      */
-    private $actionEntityFactory;
+    private ActionEntityInterfaceFactory $actionEntityFactory;
 
-    /**
-     * @var array
-     */
-    private $data;
+    private array $data;
 
     public function __construct(
         ActionEntityInterfaceFactory $actionEntityFactory

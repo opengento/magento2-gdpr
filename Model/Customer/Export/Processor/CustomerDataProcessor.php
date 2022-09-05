@@ -18,7 +18,7 @@ final class CustomerDataProcessor extends AbstractDataProcessor
     /**
      * @var CustomerRepositoryInterface
      */
-    private $customerRepository;
+    private CustomerRepositoryInterface $customerRepository;
 
     public function __construct(
         CustomerRepositoryInterface $customerRepository,

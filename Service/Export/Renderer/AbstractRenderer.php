@@ -14,15 +14,9 @@ use Opengento\Gdpr\Service\Export\RendererInterface;
 
 abstract class AbstractRenderer implements RendererInterface
 {
-    /**
-     * @var Filesystem
-     */
-    protected $fileSystem;
+    protected Filesystem $fileSystem;
 
-    /**
-     * @var string
-     */
-    protected $fileExtension;
+    protected string $fileExtension;
 
     public function __construct(
         Filesystem $filesystem,

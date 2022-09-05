@@ -23,12 +23,12 @@
                 <label>Information page</label>
                 <comment>This page should store information about privacy and GDPR policy.</comment>
                 <source_model>Magento\Cms\Model\Config\Source\Page</source_model>
-                <config_path>opengento_gdpr_general/general/page_id</config_path>
+                <config_path>gdpr/general/page_id</config_path>
             </field>
             <field id="information" type="select" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
                 <label>Information</label>
                 <source_model>Magento\Cms\Model\Config\Source\Block</source_model>
-                <config_path>opengento_gdpr_general/general/block_id</config_path>
+                <config_path>gdpr/general/block_id</config_path>
             </field>
         </group>
     </section>

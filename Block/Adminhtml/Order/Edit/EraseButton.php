@@ -16,10 +16,7 @@ use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 
 class EraseButton extends AbstractBlock
 {
-    /**
-     * @var EraseEntityCheckerInterface
-     */
-    private $eraseEntityChecker;
+    private EraseEntityCheckerInterface $eraseEntityChecker;
 
     public function __construct(
         Context $context,

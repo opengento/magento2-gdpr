@@ -19,12 +19,9 @@ final class EntityCheckerFactory
     /**
      * @var string[]
      */
-    private $checkers;
+    private array $checkers;
 
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
+    private ObjectManagerInterface $objectManager;
 
     /**
      * @param string[] $checkers

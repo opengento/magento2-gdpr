@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Config;
 
-use Magento\Cms\Block\Block;
+use Magento\Cms\Block\BlockByIdentifier;
 use Magento\Cms\Helper\Page as HelperPage;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\View\Element\BlockFactory;
@@ -15,28 +15,17 @@ use Magento\Store\Model\ScopeInterface;
 
 final class PrivacyMessage
 {
+    private const CONFIG_PATH_COOKIE_INFORMATION_ENABLED = 'gdpr/cookie/enabled';
     private const CONFIG_PATH_COOKIE_INFORMATION_BLOCK = 'gdpr/cookie/block_id';
-    private const CONFIG_PATH_GENERAL_INFORMATION_PAGE = 'gdpr/general/page_id';
+    private const CONFIG_PATH_COOKIE_INFORMATION_PAGE = 'gdpr/cookie/page_id';
 
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private ScopeConfigInterface $scopeConfig;
 
-    /**
-     * @var BlockFactory
-     */
-    private $blockFactory;
+    private BlockFactory $blockFactory;
 
-    /**
-     * @var HelperPage
-     */
-    private $helperPage;
+    private HelperPage $helperPage;
 
-    /**
-     * @var string|null
-     */
-    private $blockHtml;
+    private ?string $blockHtml;
 
     public function __construct(
         ScopeConfigInterface $scopeConfig,
@@ -48,26 +37,31 @@ final class PrivacyMessage
         $this->helperPage = $helperPage;
     }
 
-    public function getDisclosureInformationHtml(): string
+    public function isEnabled(): bool
     {
-        return $this->blockHtml ?? $this->blockHtml = $this->createDisclosureInformationBlockHtml();
+        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_COOKIE_INFORMATION_ENABLED, ScopeInterface::SCOPE_STORE);
     }
 
-    public function getLearnMoreUrl(): string
+    public function getDisclosureInformationHtml(): string
+    {
+        return $this->blockHtml ??= $this->createDisclosureInformationBlockHtml();
+    }
+
+    public function getLearnMoreUrl(): ?string
     {
         return $this->helperPage->getPageUrl((string) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_GENERAL_INFORMATION_PAGE,
+            self::CONFIG_PATH_COOKIE_INFORMATION_PAGE,
             ScopeInterface::SCOPE_STORE
-        )) ?? '#';
+        ));
     }
 
     private function createDisclosureInformationBlockHtml(): string
     {
         return $this->blockFactory->createBlock(
-            Block::class,
+            BlockByIdentifier::class,
             [
                 'data' => [
-                    'block_id' => (string) $this->scopeConfig->getValue(
+                    'identifier' => (string) $this->scopeConfig->getValue(
                         self::CONFIG_PATH_COOKIE_INFORMATION_BLOCK,
                         ScopeInterface::SCOPE_STORE
                     ),

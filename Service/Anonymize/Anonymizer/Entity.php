@@ -19,20 +19,11 @@ use function sprintf;
 
 final class Entity implements AnonymizerInterface
 {
-    /**
-     * @var DataCollectorInterface
-     */
-    private $dataCollector;
+    private DataCollectorInterface $dataCollector;
 
-    /**
-     * @var TypeResolver
-     */
-    private $typeResolver;
+    private TypeResolver $typeResolver;
 
-    /**
-     * @var HydratorPool
-     */
-    private $hydratorPool;
+    private HydratorPool $hydratorPool;
 
     public function __construct(
         DataCollectorInterface $dataCollector,

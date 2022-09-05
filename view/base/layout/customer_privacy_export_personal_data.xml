@@ -14,7 +14,7 @@
     </head>
     <body>
         <referenceContainer name="main">
-            <block class="Magento\Framework\View\Element\Template" name="main.content.customer.privacy.export.personal.data" template="Opengento_Gdpr::export/result.phtml" cacheable="false"/>
+            <block name="main.content.customer.privacy.export.personal.data" template="Opengento_Gdpr::export/result.phtml" cacheable="false"/>
         </referenceContainer>
     </body>
 </page>

@@ -13,15 +13,9 @@ use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
 final class QuoteDataProcessor implements ProcessorInterface
 {
-    /**
-     * @var CartRepositoryInterface
-     */
-    private $quoteRepository;
+    private CartRepositoryInterface $quoteRepository;
 
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $criteriaBuilder;
+    private SearchCriteriaBuilder $criteriaBuilder;
 
     public function __construct(
         CartRepositoryInterface $quoteRepository,

@@ -17,15 +17,9 @@ use Opengento\Gdpr\Service\Export\Processor\AbstractDataProcessor;
 
 final class OrderDataProcessor extends AbstractDataProcessor
 {
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $criteriaBuilder;
+    private SearchCriteriaBuilder $criteriaBuilder;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,

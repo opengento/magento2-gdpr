@@ -18,12 +18,9 @@ final class AnonymizerFactory
     /**
      * @var string[]
      */
-    private $anonymizers;
+    private array $anonymizers;
 
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
+    private ObjectManagerInterface $objectManager;
 
     public function __construct(
         array $anonymizers,

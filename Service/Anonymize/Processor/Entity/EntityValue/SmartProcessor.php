@@ -18,17 +18,14 @@ final class SmartProcessor implements EntityValueProcessorInterface
     /**
      * @var DocumentInterface
      */
-    private $document;
+    private DocumentInterface $document;
 
-    /**
-     * @var MetadataInterface
-     */
-    private $metadata;
+    private MetadataInterface $metadata;
 
     /**
      * @var AnonymizerFactory
      */
-    private $anonymizerFactory;
+    private AnonymizerFactory $anonymizerFactory;
 
     public function __construct(
         DocumentInterface $document,

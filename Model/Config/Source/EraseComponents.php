@@ -18,19 +18,19 @@ final class EraseComponents implements OptionSourceInterface
     /**
      * @var ConfigInterface
      */
-    private $objectManagerConfig;
+    private ConfigInterface $objectManagerConfig;
 
     /**
      * Class must be an instance of `\Opengento\Gdpr\Service\Erase\ProcessorResolverFactory`
      *
      * @var string
      */
-    private $factoryClassName;
+    private string $factoryClassName;
 
     /**
      * @var string[][]
      */
-    private $options;
+    private array $options = [];
 
     public function __construct(
         ConfigInterface $objectManagerConfig,

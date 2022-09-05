@@ -10,6 +10,7 @@
         <sequence>
             <module name="Magento_Theme"/>
             <module name="Magento_Config"/>
+            <module name="Magento_Cookie"/>
             <module name="Magento_Customer"/>
             <module name="Magento_Quote"/>
             <module name="Magento_Sales"/>

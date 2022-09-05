@@ -18,7 +18,6 @@ use Magento\Framework\View\DesignInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\FileSystem as ViewFileSystem;
 use Magento\Framework\View\Page\Config;
-use Magento\Framework\View\Page\Config\RendererInterface;
 use Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiatorInterface;
 use Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\View\RendererFactory;
 use function extract;
@@ -28,40 +27,19 @@ use function ob_start;
 
 final class HtmlRenderer extends AbstractRenderer
 {
-    /**
-     * @var State
-     */
-    private $appState;
+    private State $appState;
 
-    /**
-     * @var DesignInterface
-     */
-    private $design;
+    private DesignInterface $design;
 
-    /**
-     * @var LayoutInitiatorInterface
-     */
-    private $layoutInitiator;
+    private LayoutInitiatorInterface $layoutInitiator;
 
-    /**
-     * @var RendererInterface
-     */
     private $pageConfigRenderer;
 
-    /**
-     * @var InlineInterface
-     */
-    private $translateInline;
+    private InlineInterface $translateInline;
 
-    /**
-     * @var ViewFileSystem
-     */
-    private $viewFileSystem;
+    private ViewFileSystem $viewFileSystem;
 
-    /**
-     * @var string
-     */
-    private $template;
+    private string $template;
 
     public function __construct(
         State $appState,
@@ -97,8 +75,6 @@ final class HtmlRenderer extends AbstractRenderer
     }
 
     /**
-     * @param array $data
-     * @return string
      * @throws Exception
      */
     private function renderHtml(array $data): string
@@ -126,8 +102,6 @@ final class HtmlRenderer extends AbstractRenderer
     }
 
     /**
-     * @param array $viewVars
-     * @return string
      * @throws Exception
      */
     private function renderPage(array $viewVars): string

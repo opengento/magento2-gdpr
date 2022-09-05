@@ -18,17 +18,11 @@ final class EntityProcessor implements EntityValueProcessorInterface
     /**
      * @var DocumentInterface
      */
-    public $document;
+    public DocumentInterface $document;
 
-    /**
-     * @var MetadataInterface
-     */
-    private $metadata;
+    private MetadataInterface $metadata;
 
-    /**
-     * @var DataCollectorInterface
-     */
-    private $dataCollector;
+    private DataCollectorInterface $dataCollector;
 
     public function __construct(
         DocumentInterface $document,

@@ -16,15 +16,9 @@ use Magento\Framework\Phrase;
 
 final class ArchiveManager
 {
-    /**
-     * @var ArchiveInterface
-     */
-    private $archive;
+    private ArchiveInterface $archive;
 
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
+    private Filesystem $filesystem;
 
     public function __construct(
         ArchiveInterface $archive,

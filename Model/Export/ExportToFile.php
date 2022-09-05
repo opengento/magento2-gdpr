@@ -24,25 +24,13 @@ final class ExportToFile
 {
     private const CONFIG_PATH_EXPORT_RENDERERS = 'gdpr/export/renderers';
 
-    /**
-     * @var ProcessorFactory
-     */
-    private $processorFactory;
+    private ProcessorFactory $processorFactory;
 
-    /**
-     * @var RendererFactory
-     */
-    private $rendererFactory;
+    private RendererFactory $rendererFactory;
 
-    /**
-     * @var ArchiveManager
-     */
-    private $archiveManager;
+    private ArchiveManager $archiveManager;
 
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private ScopeConfigInterface $scopeConfig;
 
     public function __construct(
         ProcessorFactory $processorFactory,

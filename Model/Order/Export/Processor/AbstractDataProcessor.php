@@ -14,10 +14,7 @@ use Opengento\Gdpr\Service\Export\Processor\AbstractDataProcessor as AbstractExp
 
 abstract class AbstractDataProcessor extends AbstractExportDataProcessor
 {
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,

@@ -17,20 +17,11 @@ use Opengento\Gdpr\Model\Entity\SourceProviderFactory;
 
 final class EraseEntityScheduler
 {
-    /**
-     * @var SourceProviderFactory
-     */
-    private $srcProviderFactory;
+    private SourceProviderFactory $srcProviderFactory;
 
-    /**
-     * @var ModifierFactory
-     */
-    private $modifierFactory;
+    private ModifierFactory $modifierFactory;
 
-    /**
-     * @var EraseEntityManagementInterface
-     */
-    private $eraseManagement;
+    private EraseEntityManagementInterface $eraseManagement;
 
     public function __construct(
         SourceProviderFactory $srcProviderFactory,

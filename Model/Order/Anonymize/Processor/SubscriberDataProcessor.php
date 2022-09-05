@@ -17,25 +17,13 @@ use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
 final class SubscriberDataProcessor implements ProcessorInterface
 {
-    /**
-     * @var AnonymizerInterface
-     */
-    private $anonymizer;
+    private AnonymizerInterface $anonymizer;
 
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
-    /**
-     * @var SubscriberFactory
-     */
-    private $subscriberFactory;
+    private SubscriberFactory $subscriberFactory;
 
-    /**
-     * @var ResourceSubscriber
-     */
-    private $subscriberResource;
+    private ResourceSubscriber $subscriberResource;
 
     public function __construct(
         AnonymizerInterface $anonymizer,

@@ -14,15 +14,9 @@ use Opengento\Gdpr\Model\Action\PerformedByInterface;
 
 final class Guest implements PerformedByInterface
 {
-    /**
-     * @var Registry
-     */
-    private $coreRegistry;
+    private Registry $coreRegistry;
 
-    /**
-     * @var string
-     */
-    private $attributeName;
+    private string $attributeName;
 
     public function __construct(
         Registry $coreRegistry,

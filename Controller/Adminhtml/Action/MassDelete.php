@@ -30,17 +30,11 @@ class MassDelete extends Action implements HttpPostActionInterface
     /**
      * @var Filter
      */
-    private $filter;
+    private Filter $filter;
 
-    /**
-     * @var CollectionFactory
-     */
-    private $collectionFactory;
+    private CollectionFactory $collectionFactory;
 
-    /**
-     * @var ActionEntityRepositoryInterface
-     */
-    private $actionRepository;
+    private ActionEntityRepositoryInterface $actionRepository;
 
     public function __construct(
         Context $context,
@@ -54,7 +48,7 @@ class MassDelete extends Action implements HttpPostActionInterface
         parent::__construct($context);
     }
 
-    public function execute()
+    public function execute(): Redirect
     {
         /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);

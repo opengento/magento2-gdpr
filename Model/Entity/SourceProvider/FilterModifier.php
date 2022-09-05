@@ -13,15 +13,9 @@ use Magento\Framework\Exception\LocalizedException;
 
 final class FilterModifier implements ModifierInterface
 {
-    /**
-     * @var string
-     */
-    private $filterIdentifier;
+    private string $filterIdentifier;
 
-    /**
-     * @var string
-     */
-    private $fieldToFilter;
+    private string $fieldToFilter;
 
     public function __construct(
         string $filterIdentifier,

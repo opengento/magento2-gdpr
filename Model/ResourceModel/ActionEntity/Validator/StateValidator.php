@@ -16,10 +16,7 @@ use function in_array;
 
 final class StateValidator extends AbstractValidator
 {
-    /**
-     * @var ActionStates
-     */
-    private $actionStates;
+    private ActionStates $actionStates;
 
     public function __construct(
         ActionStates $actionStates

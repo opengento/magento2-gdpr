@@ -29,32 +29,26 @@ final class ActionEntityRepository implements ActionEntityRepositoryInterface
     /**
      * @var ActionEntityResource
      */
-    private $actionEntityResource;
+    private ActionEntityResource $actionEntityResource;
 
     /**
      * @var ActionEntityInterfaceFactory
      */
-    private $actionFactory;
+    private ActionEntityInterfaceFactory $actionFactory;
 
-    /**
-     * @var CollectionFactory
-     */
-    private $collectionFactory;
+    private CollectionFactory $collectionFactory;
 
-    /**
-     * @var CollectionProcessorInterface
-     */
-    private $collectionProcessor;
+    private CollectionProcessorInterface $collectionProcessor;
 
     /**
      * @var ActionEntitySearchResultsInterfaceFactory
      */
-    private $searchResultsFactory;
+    private ActionEntitySearchResultsInterfaceFactory $searchResultsFactory;
 
     /**
      * @var ActionEntityInterface[]
      */
-    private $instances = [];
+    private array $instances = [];
 
     public function __construct(
         ActionEntityResource $actionEntityResource,

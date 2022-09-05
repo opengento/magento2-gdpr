@@ -16,7 +16,7 @@ class OptionSourceSelect extends Select
     /**
      * @var OptionSourceInterface
      */
-    private $optionSource;
+    private OptionSourceInterface $optionSource;
 
     public function __construct(
         Context $context,

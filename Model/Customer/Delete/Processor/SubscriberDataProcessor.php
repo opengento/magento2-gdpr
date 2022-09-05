@@ -15,15 +15,9 @@ use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
 final class SubscriberDataProcessor implements ProcessorInterface
 {
-    /**
-     * @var SubscriberFactory
-     */
-    private $subscriberFactory;
+    private SubscriberFactory $subscriberFactory;
 
-    /**
-     * @var ResourceSubscriber
-     */
-    private $subscriberResource;
+    private ResourceSubscriber $subscriberResource;
 
     public function __construct(
         SubscriberFactory $subscriberFactory,

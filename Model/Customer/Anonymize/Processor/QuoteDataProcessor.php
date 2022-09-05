@@ -17,25 +17,13 @@ use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
 final class QuoteDataProcessor implements ProcessorInterface
 {
-    /**
-     * @var AnonymizerInterface
-     */
-    private $anonymizer;
+    private AnonymizerInterface $anonymizer;
 
-    /**
-     * @var CartRepositoryInterface
-     */
-    private $quoteRepository;
+    private CartRepositoryInterface $quoteRepository;
 
-    /**
-     * @var Address
-     */
-    private $resourceModel;
+    private Address $resourceModel;
 
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $criteriaBuilder;
+    private SearchCriteriaBuilder $criteriaBuilder;
 
     public function __construct(
         AnonymizerInterface $anonymizer,

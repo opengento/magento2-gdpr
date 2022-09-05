@@ -25,30 +25,15 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
 {
     private const CONFIG_PATH_ERASURE_DELAY = 'gdpr/erasure/delay';
 
-    /**
-     * @var EraseEntityInterfaceFactory
-     */
-    private $eraseEntityFactory;
+    private EraseEntityInterfaceFactory $eraseEntityFactory;
 
-    /**
-     * @var EraseEntityRepositoryInterface
-     */
-    private $eraseRepository;
+    private EraseEntityRepositoryInterface $eraseRepository;
 
-    /**
-     * @var ProcessorFactory
-     */
-    private $processorFactory;
+    private ProcessorFactory $processorFactory;
 
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private ScopeConfigInterface $scopeConfig;
 
-    /**
-     * @var DateTime
-     */
-    private $localeDate;
+    private DateTime $localeDate;
 
     public function __construct(
         EraseEntityInterfaceFactory $eraseEntityFactory,
@@ -90,11 +75,7 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
         $eraser = $this->processorFactory->get($entity->getEntityType());
 
         try {
-            if ($eraser->execute($entity->getEntityId())) {
-                return $this->success($entity);
-            }
-
-            return $this->fail($entity);
+            return $eraser->execute($entity->getEntityId()) ? $this->success($entity) : $this->fail($entity);
         } catch (Exception $e) {
             $this->fail($entity, $e->getMessage());
             throw new LocalizedException(new Phrase('Impossible to process the erasure: %1', [$e->getMessage()]));
@@ -139,7 +120,7 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
         );
     }
 
-    public function resolveErasureDelay(): int
+    private function resolveErasureDelay(): int
     {
         return (int) $this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_DELAY, ScopeInterface::SCOPE_STORE);
     }

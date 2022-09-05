@@ -19,15 +19,9 @@ use Opengento\Gdpr\Model\Notifier\AbstractMailSender;
 
 final class MailSender extends AbstractMailSender implements SenderInterface
 {
-    /**
-     * @var View
-     */
-    private $customerViewHelper;
+    private View $customerViewHelper;
 
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
+    private StoreManagerInterface $storeManager;
 
     public function __construct(
         View $customerViewHelper,
@@ -42,7 +36,6 @@ final class MailSender extends AbstractMailSender implements SenderInterface
     }
 
     /**
-     * @inheritdoc
      * @throws LocalizedException
      * @throws MailException
      * @throws NoSuchEntityException
@@ -53,6 +46,9 @@ final class MailSender extends AbstractMailSender implements SenderInterface
         $vars = [
             'customer' => $customer,
             'store' => $this->storeManager->getStore($customer->getStoreId()),
+            'customer_data' => [
+                'customer_name' => $this->customerViewHelper->getCustomerName($customer),
+            ],
         ];
 
         $this->sendMail($customer->getEmail(), $this->customerViewHelper->getCustomerName($customer), $storeId, $vars);

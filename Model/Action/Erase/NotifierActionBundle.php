@@ -21,12 +21,9 @@ final class NotifierActionBundle extends AbstractAction
     /**
      * @var string[]
      */
-    private $notifiers;
+    private array $notifiers;
 
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
+    private ObjectManagerInterface $objectManager;
 
     public function __construct(
         ResultBuilder $resultBuilder,

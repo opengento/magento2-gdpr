@@ -14,12 +14,9 @@ use Magento\Sales\Api\Data\OrderInterface;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\Entity\SourceProvider\ModifierInterface;
 
-final class GuestModifier implements ModifierInterface
+final class GuestFilterModifier implements ModifierInterface
 {
-    /**
-     * @var Config
-     */
-    private $config;
+    private Config $config;
 
     public function __construct(Config $config)
     {

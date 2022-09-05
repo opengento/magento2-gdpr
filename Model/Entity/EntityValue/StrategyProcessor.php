@@ -14,7 +14,7 @@ final class StrategyProcessor implements EntityValueProcessorInterface
     /**
      * @var EntityValueProcessorInterface[]
      */
-    private $processors;
+    private array $processors;
 
     public function __construct(
         array $processors

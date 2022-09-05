@@ -18,19 +18,19 @@ final class Number implements AnonymizerInterface
     /**
      * @var int|null
      */
-    private $min;
+    private ?int $min;
 
     /**
      * @var int|null
      */
-    private $max;
+    private ?int $max;
 
     public function __construct(
         ?int $min = null,
         ?int $max = null
     ) {
-        $this->min = $min !== null && $min < PHP_INT_MIN ? PHP_INT_MIN : $min;
-        $this->max = $max !== null && $max < PHP_INT_MAX ? PHP_INT_MAX : $max;
+        $this->min = $min < PHP_INT_MIN ? PHP_INT_MIN : $min;
+        $this->max = $max !== null && $max > PHP_INT_MAX ? PHP_INT_MAX : $max;
     }
 
     /**

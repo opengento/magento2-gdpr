@@ -20,12 +20,9 @@ final class SourceProviderFactory
     /**
      * @var string[]
      */
-    private $sourceProviders;
+    private array $sourceProviders;
 
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
+    private ObjectManagerInterface $objectManager;
 
     /**
      * @param string[] $sourceProviders

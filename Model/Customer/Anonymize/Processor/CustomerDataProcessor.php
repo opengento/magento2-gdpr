@@ -9,6 +9,7 @@ namespace Opengento\Gdpr\Model\Customer\Anonymize\Processor;
 
 use DateTime;
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Api\SessionCleanerInterface;
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Framework\Api\SearchCriteriaBuilder;
@@ -22,6 +23,7 @@ use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderSearchResultInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Store\Model\ScopeInterface;
+use Opengento\Gdpr\Model\Customer\OrigDataRegistry;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 use function mt_rand;
@@ -33,40 +35,33 @@ final class CustomerDataProcessor implements ProcessorInterface
 {
     private const CONFIG_PATH_ERASURE_REMOVE_CUSTOMER = 'gdpr/erasure/remove_customer';
 
-    /**
-     * @var AnonymizerInterface
-     */
-    private $anonymizer;
+    private AnonymizerInterface $anonymizer;
 
     /**
      * @var CustomerRepositoryInterface
      */
-    private $customerRepository;
+    private CustomerRepositoryInterface $customerRepository;
 
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $criteriaBuilder;
+    private SearchCriteriaBuilder $criteriaBuilder;
 
     /**
      * @var CustomerRegistry
      */
-    private $customerRegistry;
+    private CustomerRegistry $customerRegistry;
+
+    /**
+     * @var OrigDataRegistry
+     */
+    private OrigDataRegistry $origDataRegistry;
 
     /**
      * @var SessionCleanerInterface
      */
-    private $sessionCleaner;
+    private SessionCleanerInterface $sessionCleaner;
 
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private ScopeConfigInterface $scopeConfig;
 
     public function __construct(
         AnonymizerInterface $anonymizer,
@@ -74,6 +69,7 @@ final class CustomerDataProcessor implements ProcessorInterface
         OrderRepositoryInterface $orderRepository,
         SearchCriteriaBuilder $criteriaBuilder,
         CustomerRegistry $customerRegistry,
+        OrigDataRegistry $origDataRegistry,
         SessionCleanerInterface $sessionCleaner,
         ScopeConfigInterface $scopeConfig
     ) {
@@ -82,6 +78,7 @@ final class CustomerDataProcessor implements ProcessorInterface
         $this->orderRepository = $orderRepository;
         $this->criteriaBuilder = $criteriaBuilder;
         $this->customerRegistry = $customerRegistry;
+        $this->origDataRegistry = $origDataRegistry;
         $this->sessionCleaner = $sessionCleaner;
         $this->scopeConfig = $scopeConfig;
     }
@@ -92,15 +89,8 @@ final class CustomerDataProcessor implements ProcessorInterface
      */
     public function execute(int $customerId): bool
     {
-        $isRemoved = false;
-
         try {
-            if ($this->shouldRemoveCustomerWithoutOrders() && !$this->fetchOrdersList($customerId)->getTotalCount()) {
-                $isRemoved = $this->customerRepository->deleteById($customerId);
-            }
-            if (!$isRemoved) {
-                $this->anonymizeCustomer($customerId);
-            }
+            $this->processCustomerData($customerId);
         } catch (NoSuchEntityException $e) {
             return false;
         }
@@ -110,32 +100,49 @@ final class CustomerDataProcessor implements ProcessorInterface
         return true;
     }
 
-    private function fetchOrdersList(int $customerId): OrderSearchResultInterface
+    /**
+     * @throws InputException
+     * @throws InputMismatchException
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
+     */
+    private function processCustomerData(int $customerId): void
     {
-        $this->criteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
+        $customer = $this->customerRepository->getById($customerId);
+        $this->origDataRegistry->set(clone $customer);
+
+        $isRemoved = false;
+        if ($this->shouldRemoveCustomerWithoutOrders() && !$this->fetchOrdersList($customer)->getTotalCount()) {
+            $isRemoved = $this->customerRepository->deleteById($customer->getId());
+        }
+        if (!$isRemoved) {
+            $this->anonymizeCustomer($customer);
+        }
+    }
+
+    private function fetchOrdersList(CustomerInterface $customer): OrderSearchResultInterface
+    {
+        $this->criteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customer->getId());
 
         return $this->orderRepository->getList($this->criteriaBuilder->create());
     }
 
     /**
-     * @param int $customerId
      * @throws LocalizedException
      * @throws NoSuchEntityException
      * @throws InputException
      * @throws InputMismatchException
      */
-    private function anonymizeCustomer(int $customerId): void
+    private function anonymizeCustomer(CustomerInterface $customer): void
     {
-        $this->customerRegistry->remove($customerId);
+        $this->customerRegistry->remove($customer->getId());
 
-        $secureData = $this->customerRegistry->retrieveSecureData($customerId);
+        $secureData = $this->customerRegistry->retrieveSecureData($customer->getId());
         $dateTime = (new DateTime())->setTimestamp(PHP_INT_MAX);
         $secureData->setData('lock_expires', $dateTime->format(DateTimeFormat::DATETIME_PHP_FORMAT));
         $secureData->setPasswordHash(sha1(uniqid((string) mt_rand(), true)));
 
-        $this->customerRepository->save(
-            $this->anonymizer->anonymize($this->customerRepository->getById($customerId))
-        );
+        $this->customerRepository->save($this->anonymizer->anonymize($customer));
     }
 
     private function shouldRemoveCustomerWithoutOrders(): bool

@@ -21,20 +21,11 @@ use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
  */
 final class ExportEntityData
 {
-    /**
-     * @var ExportEntityRepositoryInterface
-     */
-    private $exportRepository;
+    private ExportEntityRepositoryInterface $exportRepository;
 
-    /**
-     * @var ExportEntityManagementInterface
-     */
-    private $exportManagement;
+    private ExportEntityManagementInterface $exportManagement;
 
-    /**
-     * @var ExportEntityCheckerInterface
-     */
-    private $exportEntityChecker;
+    private ExportEntityCheckerInterface $exportEntityChecker;
 
     public function __construct(
         ExportEntityRepositoryInterface $exportRepository,

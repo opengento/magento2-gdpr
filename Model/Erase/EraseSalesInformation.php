@@ -22,20 +22,11 @@ final class EraseSalesInformation implements EraseSalesInformationInterface
 {
     private const CONFIG_PATH_ERASURE_SALES_MAX_AGE = 'gdpr/erasure/sales_max_age';
 
-    /**
-     * @var EraseEntityInterfaceFactory
-     */
-    private $eraseEntityFactory;
+    private EraseEntityInterfaceFactory $eraseEntityFactory;
 
-    /**
-     * @var EraseEntityRepositoryInterface
-     */
-    private $eraseRepository;
+    private EraseEntityRepositoryInterface $eraseRepository;
 
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private ScopeConfigInterface $scopeConfig;
 
     public function __construct(
         EraseEntityInterfaceFactory $eraseEntityFactory,

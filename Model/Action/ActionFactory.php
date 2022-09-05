@@ -20,17 +20,14 @@ final class ActionFactory
     /**
      * @var string[]
      */
-    private $actions;
+    private array $actions;
 
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
+    private ObjectManagerInterface $objectManager;
 
     /**
      * @var ActionInterface[]
      */
-    private $instances;
+    private array $instances;
 
     public function __construct(
         array $actions,

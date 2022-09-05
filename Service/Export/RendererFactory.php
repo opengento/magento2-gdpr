@@ -19,17 +19,10 @@ final class RendererFactory
     /**
      * @var string[]
      */
-    private $renderers;
+    private array $renderers;
 
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
+    private ObjectManagerInterface $objectManager;
 
-    /**
-     * @param string[] $renderers
-     * @param ObjectManagerInterface $objectManager
-     */
     public function __construct(
         array $renderers,
         ObjectManagerInterface $objectManager

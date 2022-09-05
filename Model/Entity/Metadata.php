@@ -12,20 +12,11 @@ use function explode;
 
 final class Metadata implements MetadataInterface
 {
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private ScopeConfigInterface $scopeConfig;
 
-    /**
-     * @var string
-     */
-    private $configPath;
+    private string $configPath;
 
-    /**
-     * @var string
-     */
-    private $scopeType;
+    private string $scopeType;
 
     public function __construct(
         ScopeConfigInterface $scopeConfig,

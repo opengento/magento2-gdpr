@@ -19,12 +19,9 @@ final class ResultBuilder
     /**
      * @var ActionResultInterfaceFactory
      */
-    private $actionResultFactory;
+    private ActionResultInterfaceFactory $actionResultFactory;
 
-    /**
-     * @var array
-     */
-    private $data;
+    private array $data;
 
     public function __construct(
         ActionResultInterfaceFactory $actionResultFactory

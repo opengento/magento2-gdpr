@@ -9,10 +9,7 @@ namespace Opengento\Gdpr\Model\Entity;
 
 final class Document implements DocumentInterface
 {
-    /**
-     * @var array
-     */
-    private $data;
+    private array $data;
 
     public function __construct(array $data = [])
     {

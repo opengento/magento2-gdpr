@@ -19,12 +19,9 @@ final class ProcessorFactory
     /**
      * @var string[]
      */
-    private $exporters;
+    private array $exporters;
 
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
+    private ObjectManagerInterface $objectManager;
 
     /**
      * @param string[] $exporters

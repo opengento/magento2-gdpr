@@ -33,22 +33,13 @@ class MassExport extends AbstractMassAction
     /**
      * @var FileFactory
      */
-    private $fileFactory;
+    private FileFactory $fileFactory;
 
-    /**
-     * @var ArchiveManager
-     */
-    private $archiveManager;
+    private ArchiveManager $archiveManager;
 
-    /**
-     * @var ActionInterface
-     */
-    private $action;
+    private ActionInterface $action;
 
-    /**
-     * @var ContextBuilder
-     */
-    private $actionContextBuilder;
+    private ContextBuilder $actionContextBuilder;
 
     public function __construct(
         Context $context,

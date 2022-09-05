@@ -26,15 +26,9 @@ use Opengento\Gdpr\Model\Config;
 
 class Export extends AbstractGuest implements HttpGetActionInterface
 {
-    /**
-     * @var ActionInterface
-     */
-    private $action;
+    private ActionInterface $action;
 
-    /**
-     * @var ContextBuilder
-     */
-    private $actionContextBuilder;
+    private ContextBuilder $actionContextBuilder;
 
     public function __construct(
         RequestInterface $request,
@@ -56,14 +50,14 @@ class Export extends AbstractGuest implements HttpGetActionInterface
         return parent::isAllowed() && $this->config->isExportEnabled();
     }
 
-    protected function executeAction()
+    protected function executeAction(): Redirect
     {
         /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         $resultRedirect->setRefererOrBaseUrl();
 
         $this->actionContextBuilder->setParameters([
-            ArgumentReader::ENTITY_ID => (int) $this->currentOrder()->getCustomerId(),
+            ArgumentReader::ENTITY_ID => (int) $this->currentOrder()->getEntityId(),
             ArgumentReader::ENTITY_TYPE => 'order'
         ]);
 

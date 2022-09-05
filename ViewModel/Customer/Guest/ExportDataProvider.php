@@ -14,25 +14,19 @@ use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
 
 final class ExportDataProvider implements ArgumentInterface
 {
-    /**
-     * @var ExportEntityCheckerInterface
-     */
-    private $exportEntityChecker;
+    private ExportEntityCheckerInterface $exportEntityChecker;
 
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
     /**
      * @var bool|null
      */
-    private $isExportEntityExists;
+    private ?bool $isExportEntityExists;
 
     /**
      * @var bool|null
      */
-    private $isExported;
+    private ?bool $isExported;
 
     public function __construct(
         ExportEntityCheckerInterface $exportEntityChecker,

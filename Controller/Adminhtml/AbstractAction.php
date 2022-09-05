@@ -18,10 +18,7 @@ use Opengento\Gdpr\Model\Config;
 
 abstract class AbstractAction extends Action
 {
-    /**
-     * @var Config
-     */
-    protected $config;
+    protected Config $config;
 
     public function __construct(
         Context $context,

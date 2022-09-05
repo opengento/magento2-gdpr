@@ -16,10 +16,7 @@ use Opengento\Gdpr\Model\Config;
 
 final class ExportButton extends GenericButton implements ButtonProviderInterface
 {
-    /**
-     * @var Config
-     */
-    private $config;
+    private Config $config;
 
     public function __construct(
         Context $context,

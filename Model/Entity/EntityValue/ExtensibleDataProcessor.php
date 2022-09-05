@@ -13,10 +13,7 @@ use function is_iterable;
 
 final class ExtensibleDataProcessor implements EntityValueProcessorInterface
 {
-    /**
-     * @var EntityValueProcessorInterface
-     */
-    private $processor;
+    private EntityValueProcessorInterface $processor;
 
     public function __construct(
         EntityValueProcessorInterface $processor

@@ -30,17 +30,11 @@ class Export extends AbstractAction
     /**
      * @var FileFactory
      */
-    private $fileFactory;
+    private FileFactory $fileFactory;
 
-    /**
-     * @var ActionInterface
-     */
-    private $action;
+    private ActionInterface $action;
 
-    /**
-     * @var ContextBuilder
-     */
-    private $actionContextBuilder;
+    private ContextBuilder $actionContextBuilder;
 
     public function __construct(
         Context $context,

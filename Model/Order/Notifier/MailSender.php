@@ -14,20 +14,28 @@ use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Opengento\Gdpr\Model\Notifier\AbstractMailSender;
+use Psr\Log\LoggerInterface;
 
 final class MailSender extends AbstractMailSender implements SenderInterface
 {
     /**
+     * @var LoggerInterface
+     */
+    private LoggerInterface $logger;
+
+    /**
      * @var StoreManagerInterface
      */
-    private $storeManager;
+    private StoreManagerInterface $storeManager;
 
     public function __construct(
+        LoggerInterface $logger,
         TransportBuilder $transportBuilder,
         ScopeConfigInterface $scopeConfig,
         StoreManagerInterface $storeManager,
         array $configPaths
     ) {
+        $this->logger = $logger;
         $this->storeManager = $storeManager;
         parent::__construct($transportBuilder, $scopeConfig, $configPaths);
     }
@@ -42,9 +50,19 @@ final class MailSender extends AbstractMailSender implements SenderInterface
         $storeId = $order->getStoreId() === null ? null : (int) $order->getStoreId();
         $vars = [
             'order' => $order,
+            'billing' => $order->getBillingAddress(),
             'store' => $this->storeManager->getStore($order->getStoreId()),
+            'customer_data' => [
+                'customer_name' => $order->getCustomerName(),
+            ],
         ];
 
-        $this->sendMail($order->getCustomerEmail(), $order->getCustomerName(), $storeId, $vars);
+        try {
+            $this->sendMail($order->getCustomerEmail(), $order->getCustomerName(), $storeId, $vars);
+            $this->logger->debug(__('GDPR Email Success'));
+        } catch (MailException $exc) {
+            $this->logger->error(__('GDPR Email Error: %1', $exc->getMessage()));
+        }
+        
     }
 }

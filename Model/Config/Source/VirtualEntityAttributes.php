@@ -21,17 +21,11 @@ final class VirtualEntityAttributes implements OptionSourceInterface
     /**
      * @var AttributeProviderInterface
      */
-    private $attributeProvider;
+    private AttributeProviderInterface $attributeProvider;
 
-    /**
-     * @var string
-     */
-    private $entityType;
+    private string $entityType;
 
-    /**
-     * @var array
-     */
-    private $options;
+    private array $options;
 
     public function __construct(
         AttributeProviderInterface $attributeProvider,

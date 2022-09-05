@@ -16,12 +16,9 @@ final class Customer implements PerformedByInterface
     /**
      * @var Session
      */
-    private $customerSession;
+    private Session $customerSession;
 
-    /**
-     * @var string
-     */
-    private $attributeName;
+    private string $attributeName;
 
     public function __construct(
         Session $customerSession,

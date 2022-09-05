@@ -13,25 +13,22 @@ use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
 
 final class ExportCustomerDataProvider implements ArgumentInterface
 {
-    /**
-     * @var ExportEntityCheckerInterface
-     */
-    private $exportEntityChecker;
+    private ExportEntityCheckerInterface $exportEntityChecker;
 
     /**
      * @var Session
      */
-    private $session;
+    private Session $session;
 
     /**
      * @var null|bool
      */
-    private $isExportEntityExists;
+    private ?bool $isExportEntityExists;
 
     /**
      * @var null|bool
      */
-    private $isExported;
+    private ?bool $isExported;
 
     public function __construct(
         ExportEntityCheckerInterface $exportEntityChecker,
@@ -43,14 +40,12 @@ final class ExportCustomerDataProvider implements ArgumentInterface
 
     public function hasExport(): bool
     {
-        return $this->isExportEntityExists ??
-            $this->isExportEntityExists = $this->exportEntityChecker->exists($this->currentCustomerId(), 'customer');
+        return $this->isExportEntityExists ??= $this->exportEntityChecker->exists($this->currentCustomerId(), 'customer');
     }
 
     public function isExported(): bool
     {
-        return $this->isExported ??
-            $this->isExported = $this->exportEntityChecker->isExported($this->currentCustomerId(), 'customer');
+        return $this->isExported ??= $this->exportEntityChecker->isExported($this->currentCustomerId(), 'customer');
     }
 
     private function currentCustomerId(): int

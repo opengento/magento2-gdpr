@@ -15,10 +15,7 @@ use Opengento\Gdpr\Model\Newsletter\SubscriberFactory;
 
 final class SubscriberDataProcessor extends AbstractDataProcessor
 {
-    /**
-     * @var SubscriberFactory
-     */
-    private $subscriberFactory;
+    private SubscriberFactory $subscriberFactory;
 
     public function __construct(
         SubscriberFactory $subscriberFactory,

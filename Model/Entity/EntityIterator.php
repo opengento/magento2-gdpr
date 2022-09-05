@@ -13,20 +13,11 @@ use Magento\Framework\EntityManager\TypeResolver;
 
 final class EntityIterator implements EntityIteratorInterface
 {
-    /**
-     * @var HydratorPool
-     */
-    private $hydratorPool;
+    private HydratorPool $hydratorPool;
 
-    /**
-     * @var TypeResolver
-     */
-    private $typeResolver;
+    private TypeResolver $typeResolver;
 
-    /**
-     * @var EntityValueProcessorInterface
-     */
-    private $processor;
+    private EntityValueProcessorInterface $processor;
 
     public function __construct(
         HydratorPool $hydratorPool,

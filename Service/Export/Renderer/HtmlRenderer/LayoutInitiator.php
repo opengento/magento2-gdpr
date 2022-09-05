@@ -20,40 +20,19 @@ use function str_replace;
 
 final class LayoutInitiator implements LayoutInitiatorInterface
 {
-    /**
-     * @var LayoutFactory
-     */
-    private $layoutFactory;
+    private LayoutFactory $layoutFactory;
 
-    /**
-     * @var BuilderFactory
-     */
-    private $layoutBuilderFactory;
+    private BuilderFactory $layoutBuilderFactory;
 
-    /**
-     * @var ReaderPool
-     */
-    private $layoutReaderPool;
+    private ReaderPool $layoutReaderPool;
 
-    /**
-     * @var GeneratorPool
-     */
-    private $layoutGeneratorPool;
+    private GeneratorPool $layoutGeneratorPool;
 
-    /**
-     * @var Reader
-     */
-    private $pageLayoutReader;
+    private Reader $pageLayoutReader;
 
-    /**
-     * @var Config
-     */
-    private $pageConfig;
+    private Config $pageConfig;
 
-    /**
-     * @var string
-     */
-    private $defaultLayoutHandle;
+    private string $defaultLayoutHandle;
 
     public function __construct(
         LayoutFactory $layoutFactory,

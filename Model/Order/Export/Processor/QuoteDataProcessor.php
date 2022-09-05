@@ -17,10 +17,7 @@ use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 
 final class QuoteDataProcessor extends AbstractDataProcessor
 {
-    /**
-     * @var CartRepositoryInterface
-     */
-    private $quoteRepository;
+    private CartRepositoryInterface $quoteRepository;
 
     public function __construct(
         CartRepositoryInterface $quoteRepository,

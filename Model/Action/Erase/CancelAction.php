@@ -21,15 +21,9 @@ use function array_reduce;
 
 final class CancelAction extends AbstractAction
 {
-    /**
-     * @var EraseEntityRepositoryInterface
-     */
-    private $eraseRepository;
+    private EraseEntityRepositoryInterface $eraseRepository;
 
-    /**
-     * @var EraseEntityManagementInterface
-     */
-    private $eraseManagement;
+    private EraseEntityManagementInterface $eraseManagement;
 
     public function __construct(
         ResultBuilder $resultBuilder,

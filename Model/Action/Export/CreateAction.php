@@ -18,10 +18,7 @@ use function array_reduce;
 
 final class CreateAction extends AbstractAction
 {
-    /**
-     * @var ExportEntityManagementInterface
-     */
-    private $exporter;
+    private ExportEntityManagementInterface $exporter;
 
     public function __construct(
         ResultBuilder $resultBuilder,

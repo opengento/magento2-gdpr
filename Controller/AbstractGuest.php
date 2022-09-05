@@ -21,12 +21,9 @@ abstract class AbstractGuest extends AbstractAction
     /**
      * @var OrderLoaderInterface
      */
-    protected $orderLoader;
+    protected OrderLoaderInterface $orderLoader;
 
-    /**
-     * @var Registry
-     */
-    protected $registry;
+    protected Registry $registry;
 
     public function __construct(
         RequestInterface $request,

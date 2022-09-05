@@ -15,20 +15,14 @@ use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
 final class CustomerAddressDataProcessor implements ProcessorInterface
 {
-    /**
-     * @var AnonymizerInterface
-     */
-    private $anonymizer;
+    private AnonymizerInterface $anonymizer;
 
     /**
      * @var AddressRepositoryInterface
      */
-    private $addressRepository;
+    private AddressRepositoryInterface $addressRepository;
 
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $criteriaBuilder;
+    private SearchCriteriaBuilder $criteriaBuilder;
 
     public function __construct(
         AnonymizerInterface $anonymizer,

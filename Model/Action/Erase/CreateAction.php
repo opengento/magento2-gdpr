@@ -18,10 +18,7 @@ use function array_reduce;
 
 final class CreateAction extends AbstractAction
 {
-    /**
-     * @var EraseEntityManagementInterface
-     */
-    private $eraseManagement;
+    private EraseEntityManagementInterface $eraseManagement;
 
     public function __construct(
         ResultBuilder $resultBuilder,

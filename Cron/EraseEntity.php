@@ -25,40 +25,22 @@ use Psr\Log\LoggerInterface;
  */
 final class EraseEntity
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @var Config
-     */
-    private $config;
+    private Config $config;
 
-    /**
-     * @var Registry
-     */
-    private $registry;
+    private Registry $registry;
 
-    /**
-     * @var EraseEntityManagementInterface
-     */
-    private $eraseManagement;
+    private EraseEntityManagementInterface $eraseManagement;
 
-    /**
-     * @var EraseEntityRepositoryInterface
-     */
-    private $eraseRepository;
+    private EraseEntityRepositoryInterface $eraseRepository;
 
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $criteriaBuilder;
+    private SearchCriteriaBuilder $criteriaBuilder;
 
     /**
      * @var DateTime
      */
-    private $dateTime;
+    private DateTime $dateTime;
 
     public function __construct(
         LoggerInterface $logger,

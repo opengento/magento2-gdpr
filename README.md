@@ -22,7 +22,7 @@ This extension fullfill the GDPR requirements for Magento 2.
 
 Magento 2 Open Source or Commerce edition is required.
 
-###  Composer installation
+### Composer installation
 
 Run the following composer command:
 
@@ -41,6 +41,8 @@ bin/magento setup:upgrade
 **If you are in production mode, do not forget to recompile and redeploy the static resources.**
 
 ## Features
+
+Screenshots are available at: [https://opengento.fr/magento2-gdpr/features](https://opengento.fr/magento2-gdpr/features)
 
 Users, guest and customer can:
 
@@ -94,6 +96,7 @@ Every translations must be done here https://www.transifex.com/opengento/opengen
 - [x] nl_NL ; Dutch
 - [x] it_IT ; Italian
 - [x] pl_PL ; Polish
+- [x] th_TH ; Thai
 
 ## Settings
 

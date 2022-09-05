@@ -15,7 +15,7 @@ final class CompositeProcessor implements ProcessorInterface
     /**
      * @var ProcessorInterface[]
      */
-    private $processors;
+    private array $processors;
 
     public function __construct(
         array $processors

@@ -11,7 +11,7 @@ use Magento\Framework\Api\Filter;
 use Magento\Framework\Data\Collection;
 use Opengento\Gdpr\Model\Entity\SourceProvider\ModifierInterface;
 
-final class FilterModifier implements ModifierInterface
+final class IdleFilterModifier implements ModifierInterface
 {
     public function apply(Collection $collection, Filter $filter): void
     {

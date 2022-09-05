@@ -28,17 +28,11 @@ class Execute extends Action implements HttpPostActionInterface
     /**
      * @var ActionFactory
      */
-    private $actionFactory;
+    private ActionFactory $actionFactory;
 
-    /**
-     * @var ContextBuilder
-     */
-    private $contextBuilder;
+    private ContextBuilder $contextBuilder;
 
-    /**
-     * @var ActionStates
-     */
-    private $actionStates;
+    private ActionStates $actionStates;
 
     public function __construct(
         Context $context,
@@ -52,7 +46,7 @@ class Execute extends Action implements HttpPostActionInterface
         parent::__construct($context);
     }
 
-    public function execute()
+    public function execute(): Redirect
     {
         /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
