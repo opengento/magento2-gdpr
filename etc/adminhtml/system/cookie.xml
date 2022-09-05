@@ -14,18 +14,26 @@
         <group id="cookie" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
             <label>Cookie Settings</label>
             <field id="enabled" type="select" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
-                <label>Cookie Disclosure</label>
-                <comment>It will enable the cookie disclosure popin to the storefront.</comment>
+                <label>Improve Cookie Restriction Message</label>
+                <comment>It will allows to replace the default cookie restriction popin with content of your own. Make sure that the following configuration is enabled: "General / Web / Default Cookie Settings / Cookie Restriction Mode".</comment>
                 <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
                 <config_path>gdpr/cookie/enabled</config_path>
             </field>
             <field id="block_id" type="select" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
-                <label>Information</label>
+                <label>Information Block</label>
                 <source_model>Magento\Cms\Model\Config\Source\Block</source_model>
                 <depends>
                     <field id="opengento_gdpr_cookie/cookie/enabled">1</field>
                 </depends>
                 <config_path>gdpr/cookie/block_id</config_path>
+            </field>
+            <field id="page_id" type="select" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
+                <label>Information Page</label>
+                <source_model>Magento\Cms\Model\Config\Source\Page</source_model>
+                <depends>
+                    <field id="opengento_gdpr_cookie/cookie/enabled">1</field>
+                </depends>
+                <config_path>gdpr/cookie/page_id</config_path>
             </field>
         </group>
     </section>

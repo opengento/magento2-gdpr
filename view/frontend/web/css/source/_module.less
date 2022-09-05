@@ -23,37 +23,4 @@
       }
     }
   }
-
-  .enhanced-privacy-popup {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: @color-gray-light01;
-    overflow: hidden;
-
-    .popup {
-      &.content {
-        margin: auto;
-        padding: 10px 0;
-        width: @screen__m;
-      }
-    }
-  }
-}
-
-//
-//  Mobile
-//  _____________________________________________
-
-.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
-  .enhanced-privacy-popup {
-    .popup {
-      &.content {
-        margin: 0;
-        padding: 10px;
-        width: auto;
-      }
-    }
-  }
 }
