@@ -7,25 +7,14 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceContainer name="before.body.end">
-            <block name="privacy_message_popup" after="-" ifconfig="gdpr/cookie/enabled">
-                <arguments>
-                    <argument name="template" xsi:type="string">Opengento_Gdpr::messages/popup.phtml</argument>
-                    <argument name="jsLayout" xsi:type="array">
-                        <item name="components" xsi:type="array">
-                            <item name="enhanced-privacy-cookie-policy" xsi:type="array">
-                                <item name="component" xsi:type="string">Opengento_Gdpr/js/view/popup</item>
-                                <item name="displayArea" xsi:type="string">enhanced-privacy-cookie-policy</item>
-                                <item name="config" xsi:type="array">
-                                    <item name="cookieName" xsi:type="string">cookies-policy</item>
-                                    <item name="learnMore" xsi:type="helper" helper="Opengento\Gdpr\Model\Config\PrivacyMessage::getLearnMoreUrl"/>
-                                    <item name="notificationText" xsi:type="helper" helper="Opengento\Gdpr\Model\Config\PrivacyMessage::getDisclosureInformationHtml"/>
-                                </item>
-                            </item>
-                        </item>
-                    </argument>
-                </arguments>
-            </block>
-        </referenceContainer>
+        <referenceBlock name="cookie_notices" template="">
+            <arguments>
+                <argument name="template" xsi:type="helper" helper="Opengento\Gdpr\ViewModel\Cookie\NoticeDataProvider::getTemplate">
+                    <param name="defaultTemplate">Magento_Cookie::html/notices.phtml</param>
+                    <param name="customTemplate">Opengento_Gdpr::cookie/notices.phtml</param>
+                </argument>
+                <argument name="noticeDataProvider" xsi:type="object">Opengento\Gdpr\ViewModel\Cookie\NoticeDataProvider</argument>
+            </arguments>
+        </referenceBlock>
     </body>
 </page>

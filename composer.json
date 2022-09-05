@@ -16,6 +16,7 @@
         "magento/framework": "^103.0",
         "magento/module-backend": "^101.0||^102.0",
         "magento/module-config": "^101.1",
+        "magento/module-cookie": "^100.0",
         "magento/module-customer": "^102.0||^103.0",
         "magento/module-quote": "^101.1",
         "magento/module-sales": "^102.0||^103.0",
