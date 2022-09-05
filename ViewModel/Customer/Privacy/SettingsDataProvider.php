@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\ViewModel\Customer\Privacy;
 
-use Magento\Cms\Block\Block;
 use Magento\Cms\Block\BlockByIdentifier;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;

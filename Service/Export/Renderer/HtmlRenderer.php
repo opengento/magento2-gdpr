@@ -18,7 +18,6 @@ use Magento\Framework\View\DesignInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\FileSystem as ViewFileSystem;
 use Magento\Framework\View\Page\Config;
-use Magento\Framework\View\Page\Config\RendererInterface;
 use Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiatorInterface;
 use Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\View\RendererFactory;
 use function extract;
@@ -76,8 +75,6 @@ final class HtmlRenderer extends AbstractRenderer
     }
 
     /**
-     * @param array $data
-     * @return string
      * @throws Exception
      */
     private function renderHtml(array $data): string
@@ -105,8 +102,6 @@ final class HtmlRenderer extends AbstractRenderer
     }
 
     /**
-     * @param array $viewVars
-     * @return string
      * @throws Exception
      */
     private function renderPage(array $viewVars): string
