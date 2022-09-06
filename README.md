@@ -6,7 +6,7 @@
 [![Packagist](https://img.shields.io/packagist/dm/opengento/module-gdpr.svg?style=flat-square)](https://packagist.org/packages/opengento/module-gdpr/stats)
 [![Codacy Badge](https://img.shields.io/codacy/grade/e43739589ae249a58b4af6dfcd9c555a?style=flat-square)](https://www.codacy.com/gh/opengento/magento2-gdpr)
 
-This extension fullfill the GDPR requirements for Magento 2.
+This extension fulfill the GDPR requirements for Magento 2.
 
  - [Setup](#setup)
    - [Composer installation](#composer-installation)
@@ -42,9 +42,9 @@ bin/magento setup:upgrade
 
 ## Features
 
-Screenshots are available at: [https://opengento.fr/magento2-gdpr/features](https://opengento.fr/magento2-gdpr/features)
+**See the [screenshots](https://opengento.fr/magento2-gdpr/features) of the module's features.**
 
-Users, guest and customer can:
+### Users, guest and customer can:
 
 * **[Art. 16 GDPR](https://gdpr-info.eu/art-16-gdpr/)** Edit their personal data (native in vanilla)
 
@@ -71,7 +71,7 @@ the idle time for the users before they are erase, and the sales information lif
     Personal data export can be done in the order view, they must fill the guest form first to show their order.
 * Cookie Policy in a disclosure popup are shown at the first time customer visit.
 
-Details:
+### Details:
 
 - [x] Erasure: delete or anonymize specific data thanks to configurable settings in admin ui.
 - [x] Configure which order can be erased, regarding their state and life time.
@@ -86,9 +86,9 @@ Details:
 - [x] Notify the user when a GDPR action is performed, configure the template and sending settings.
 - [x] Display the cookie disclosure pop-in and edit its content as you want.
 
-Languages:
+### Languages:
 
-Every translations must be done on [transifex](https://www.transifex.com/opengento/opengentomagento2-gdpr/).
+**Open contributions to translations can be done with [transifex](https://www.transifex.com/opengento/opengentomagento2-gdpr/).**
 
 - [x] bg_BG ; Bulgarian
 - [x] de_DE ; German
@@ -99,7 +99,7 @@ Every translations must be done on [transifex](https://www.transifex.com/opengen
 - [x] pl_PL ; Polish
 - [x] th_TH ; Thai
 
-*Many thanks to the translators who contributed directly here or by transifex!*
+*Many thanks to the translators who contributed directly here or with transifex!*
 
 ## Settings
 
