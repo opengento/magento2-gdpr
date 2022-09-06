@@ -88,15 +88,18 @@ Details:
 
 Languages:
 
-Every translations must be done here https://www.transifex.com/opengento/opengentomagento2-gdpr/
+Every translations must be done on [transifex](https://www.transifex.com/opengento/opengentomagento2-gdpr/).
 
-- [x] en_US ; English
+- [x] bg_BG ; Bulgarian
 - [x] de_DE ; German
+- [x] en_US ; English
 - [x] fr_FR ; French
-- [x] nl_NL ; Dutch
 - [x] it_IT ; Italian
+- [x] nl_NL ; Dutch
 - [x] pl_PL ; Polish
 - [x] th_TH ; Thai
+
+*Many thanks to the translators who contributed directly here or by transifex!*
 
 ## Settings
 
