@@ -28,6 +28,10 @@
         <index referenceId="OPENGENTO_GDPR_ERASE_ENTITY_ENTITY_TYPE" indexType="btree">
             <column name="entity_type"/>
         </index>
+        <index referenceId="OPENGENTO_GDPR_ERASE_ENTITY_STATE_STATUS" indexType="btree">
+            <column name="state"/>
+            <column name="status"/>
+        </index>
     </table>
     <table name="opengento_gdpr_export_entity" resource="default" engine="innodb" comment="Export Entity">
         <column xsi:type="int" name="export_id" padding="11" unsigned="true" nullable="false" identity="true" comment="Export ID"/>
