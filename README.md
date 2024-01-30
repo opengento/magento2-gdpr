@@ -98,6 +98,7 @@ the idle time for the users before they are erase, and the sales information lif
 - [x] nl_NL ; Dutch
 - [x] pl_PL ; Polish
 - [x] th_TH ; Thai
+- [x] da_DK ; Danish
 
 *Many thanks to the translators who contributed directly here or with transifex!*
 
