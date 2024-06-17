@@ -11,7 +11,7 @@ use Magento\Customer\Model\Session;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 
-final class EraseCustomerDataProvider implements ArgumentInterface
+class EraseCustomerDataProvider implements ArgumentInterface
 {
     private EraseEntityCheckerInterface $eraseEntityChecker;
 

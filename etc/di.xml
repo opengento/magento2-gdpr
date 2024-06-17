@@ -1753,13 +1753,11 @@
         <arguments>
             <argument name="appState" xsi:type="object">Magento\Framework\App\State\Proxy</argument>
             <argument name="registry" xsi:type="object">Magento\Framework\Registry\Proxy</argument>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</argument>
         </arguments>
     </type>
     <type name="Opengento\Gdpr\Console\Command\ExportCommand">
         <arguments>
             <argument name="appState" xsi:type="object">Magento\Framework\App\State\Proxy</argument>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Console\CommandList">

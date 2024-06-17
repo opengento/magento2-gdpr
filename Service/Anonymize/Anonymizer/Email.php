@@ -12,7 +12,7 @@ use Magento\Framework\Math\Random;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
-final class Email implements AnonymizerInterface
+class Email implements AnonymizerInterface
 {
     private const PHRASE = '%1-anonymous-%2@gdpr.org';
     private const PREFIX_LENGTH = 3;

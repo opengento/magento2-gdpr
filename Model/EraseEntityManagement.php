@@ -21,7 +21,7 @@ use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorFactory;
 
-final class EraseEntityManagement implements EraseEntityManagementInterface
+class EraseEntityManagement implements EraseEntityManagementInterface
 {
     private const CONFIG_PATH_ERASURE_DELAY = 'gdpr/erasure/delay';
 

@@ -11,7 +11,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
 use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 
-final class ExportEntityChecker implements ExportEntityCheckerInterface
+class ExportEntityChecker implements ExportEntityCheckerInterface
 {
     private ExportEntityRepositoryInterface $exportRepository;
 

@@ -15,7 +15,7 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Api\EraseSalesInformationInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-final class OrderDataProcessor implements ProcessorInterface
+class OrderDataProcessor implements ProcessorInterface
 {
     private OrderRepositoryInterface $orderRepository;
 

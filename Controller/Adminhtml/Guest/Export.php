@@ -12,59 +12,39 @@ use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\ActionInterface;
-use Opengento\Gdpr\Api\Data\ExportEntityInterface;
+use Opengento\Gdpr\Api\ExportEntityManagementInterface;
+use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Controller\Adminhtml\AbstractAction;
-use Opengento\Gdpr\Model\Action\ArgumentReader;
-use Opengento\Gdpr\Model\Action\ContextBuilder;
-use Opengento\Gdpr\Model\Action\Export\ArgumentReader as ExportArgumentReader;
 use Opengento\Gdpr\Model\Config;
 
 class Export extends AbstractAction
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::order_export';
 
-    /**
-     * @var FileFactory
-     */
-    private FileFactory $fileFactory;
-
-    private ActionInterface $action;
-
-    private ContextBuilder $actionContextBuilder;
-
     public function __construct(
         Context $context,
         Config $config,
-        FileFactory $fileFactory,
-        ActionInterface $action,
-        ContextBuilder $actionContextBuilder
+        private ExportEntityManagementInterface $exportEntityManagement,
+        private ExportEntityRepositoryInterface $exportEntityRepository,
+        private FileFactory $fileFactory
     ) {
-        $this->fileFactory = $fileFactory;
-        $this->action = $action;
-        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($context, $config);
     }
 
-    protected function executeAction()
+    protected function executeAction(): ResultInterface|ResponseInterface
     {
-        $entityId = (int) $this->getRequest()->getParam('id');
-
-        $this->actionContextBuilder->setParameters([
-            ArgumentReader::ENTITY_ID => $entityId,
-            ArgumentReader::ENTITY_TYPE => 'order'
-        ]);
-
         try {
-            $result = $this->action->execute($this->actionContextBuilder->create())->getResult();
-            /** @var ExportEntityInterface $exportEntity */
-            $exportEntity = $result[ExportArgumentReader::EXPORT_ENTITY];
+            $exportEntity = $this->exportEntityManagement->export(
+                $this->exportEntityRepository->getByEntity((int)$this->getRequest()->getParam('id'), 'order')
+            );
 
             return $this->fileFactory->create(
-                'guest_privacy_data_' . $entityId . '.zip',
+                'guest_privacy_data_' . $exportEntity->getEntityId() . '.zip',
                 [
                     'type' => 'filename',
                     'value' => $exportEntity->getFilePath(),

@@ -12,7 +12,7 @@ use Opengento\Gdpr\Model\Newsletter\Subscriber;
 use Opengento\Gdpr\Model\Newsletter\SubscriberFactory;
 use Opengento\Gdpr\Service\Export\Processor\AbstractDataProcessor;
 
-final class SubscriberDataProcessor extends AbstractDataProcessor
+class SubscriberDataProcessor extends AbstractDataProcessor
 {
     private SubscriberFactory $subscriberFactory;
 

@@ -22,7 +22,7 @@ use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Entity\EntityTypeResolver;
 use Psr\Log\LoggerInterface;
 
-final class DeleteExport implements ObserverInterface
+class DeleteExport implements ObserverInterface
 {
     private ExportEntityRepositoryInterface $exportRepository;
 

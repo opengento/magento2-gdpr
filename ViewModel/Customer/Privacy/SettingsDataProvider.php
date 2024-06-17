@@ -13,7 +13,7 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\Element\BlockFactory;
 use Magento\Store\Model\ScopeInterface;
 
-final class SettingsDataProvider implements ArgumentInterface
+class SettingsDataProvider implements ArgumentInterface
 {
     private const CONFIG_PATH_GENERAL_INFORMATION_BLOCK = 'gdpr/general/block_id';
 

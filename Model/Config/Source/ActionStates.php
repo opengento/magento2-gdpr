@@ -10,10 +10,11 @@ namespace Opengento\Gdpr\Model\Config\Source;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\Data\ActionEntityInterface;
+
 use function array_merge;
 use function compact;
 
-final class ActionStates implements OptionSourceInterface
+class ActionStates implements OptionSourceInterface
 {
     private array $additionalOptions;
 

@@ -11,7 +11,7 @@ use Magento\Framework\Api\Filter;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\Exception\LocalizedException;
 
-final class FilterModifier implements ModifierInterface
+class FilterModifier implements ModifierInterface
 {
     private string $filterIdentifier;
 

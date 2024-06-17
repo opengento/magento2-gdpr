@@ -16,7 +16,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Opengento\Gdpr\Model\Notifier\AbstractMailSender;
 use Psr\Log\LoggerInterface;
 
-final class MailSender extends AbstractMailSender implements SenderInterface
+class MailSender extends AbstractMailSender implements SenderInterface
 {
     /**
      * @var LoggerInterface
@@ -63,6 +63,6 @@ final class MailSender extends AbstractMailSender implements SenderInterface
         } catch (MailException $exc) {
             $this->logger->error(__('GDPR Email Error: %1', $exc->getMessage()));
         }
-        
+
     }
 }

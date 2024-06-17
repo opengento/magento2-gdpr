@@ -11,43 +11,35 @@ use Exception;
 use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\App\Action\HttpPostActionInterface;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\ActionInterface;
+use Opengento\Gdpr\Api\EraseEntityManagementInterface;
+use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Opengento\Gdpr\Controller\Adminhtml\AbstractAction;
-use Opengento\Gdpr\Model\Action\ArgumentReader;
-use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Config;
 
 class Erase extends AbstractAction implements HttpPostActionInterface
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::customer_erase';
 
-    private ActionInterface $action;
-
-    private ContextBuilder $actionContextBuilder;
-
     public function __construct(
         Context $context,
         Config $config,
-        ActionInterface $action,
-        ContextBuilder $actionContextBuilder
+        private EraseEntityManagementInterface $eraseEntityManagement,
+        private EraseEntityRepositoryInterface $eraseEntityRepository
     ) {
-        $this->action = $action;
-        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($context, $config);
     }
 
-    protected function executeAction()
+    protected function executeAction(): ResultInterface|ResponseInterface
     {
-        $this->actionContextBuilder->setParameters([
-            ArgumentReader::ENTITY_ID => (int) $this->getRequest()->getParam('id'),
-            ArgumentReader::ENTITY_TYPE => 'customer'
-        ]);
-
         try {
-            $this->action->execute($this->actionContextBuilder->create());
+            $this->eraseEntityManagement->process(
+                $this->eraseEntityRepository->getByEntity((int)$this->getRequest()->getParam('id'), 'customer')
+            );
             $this->messageManager->addSuccessMessage(new Phrase('You erased the customer.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());

@@ -14,8 +14,10 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Response\Http;
 use Magento\Framework\App\Response\Http\FileFactory;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Message\ManagerInterface;
@@ -26,13 +28,6 @@ use Opengento\Gdpr\Model\Config;
 
 class Download extends AbstractPrivacy implements HttpGetActionInterface
 {
-    /**
-     * @var FileFactory
-     */
-    private FileFactory $fileFactory;
-
-    private ExportEntityRepositoryInterface $exportRepository;
-
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
@@ -40,11 +35,9 @@ class Download extends AbstractPrivacy implements HttpGetActionInterface
         Config $config,
         Http $response,
         Session $customerSession,
-        FileFactory $fileFactory,
-        ExportEntityRepositoryInterface $exportRepository
+        private FileFactory $fileFactory,
+        private ExportEntityRepositoryInterface $exportRepository
     ) {
-        $this->fileFactory = $fileFactory;
-        $this->exportRepository = $exportRepository;
         parent::__construct($request, $resultFactory, $messageManager, $config, $customerSession, $response);
     }
 
@@ -53,10 +46,10 @@ class Download extends AbstractPrivacy implements HttpGetActionInterface
         return parent::isAllowed() && $this->config->isExportEnabled();
     }
 
-    protected function executeAction()
+    protected function executeAction(): ResultInterface|ResponseInterface|Redirect
     {
         try {
-            $customerId = (int) $this->customerSession->getCustomerId();
+            $customerId = (int)$this->customerSession->getCustomerId();
 
             return $this->fileFactory->create(
                 'customer_privacy_data_' . $customerId . '.zip',

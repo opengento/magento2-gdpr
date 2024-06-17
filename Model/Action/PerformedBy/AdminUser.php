@@ -10,7 +10,7 @@ namespace Opengento\Gdpr\Model\Action\PerformedBy;
 use Magento\Backend\Model\Auth\Session;
 use Opengento\Gdpr\Model\Action\PerformedByInterface;
 
-final class AdminUser implements PerformedByInterface
+class AdminUser implements PerformedByInterface
 {
     private const PERFORMED_BY = 'Admin: ';
 

@@ -11,9 +11,10 @@ use Opengento\Gdpr\Model\Entity\DocumentInterface;
 use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerFactory;
 use Opengento\Gdpr\Service\Anonymize\MetadataInterface;
+
 use function in_array;
 
-final class SmartProcessor implements EntityValueProcessorInterface
+class SmartProcessor implements EntityValueProcessorInterface
 {
     /**
      * @var DocumentInterface

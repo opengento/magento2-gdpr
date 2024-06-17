@@ -14,7 +14,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Service\Export\Processor\AbstractDataProcessor;
 
-final class CustomerAddressDataProcessor extends AbstractDataProcessor
+class CustomerAddressDataProcessor extends AbstractDataProcessor
 {
     /**
      * @var AddressRepositoryInterface

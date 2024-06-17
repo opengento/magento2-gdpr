@@ -26,7 +26,7 @@ use Opengento\Gdpr\Model\ResourceModel\ExportEntity as ExportEntityResource;
 use Opengento\Gdpr\Model\ResourceModel\ExportEntity\Collection;
 use Opengento\Gdpr\Model\ResourceModel\ExportEntity\CollectionFactory;
 
-final class ExportEntityRepository implements ExportEntityRepositoryInterface
+class ExportEntityRepository implements ExportEntityRepositoryInterface
 {
     private ExportEntityResource $exportEntityResource;
 

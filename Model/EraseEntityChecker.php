@@ -13,7 +13,7 @@ use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Entity\EntityCheckerFactory;
 
-final class EraseEntityChecker implements EraseEntityCheckerInterface
+class EraseEntityChecker implements EraseEntityCheckerInterface
 {
     private EraseEntityRepositoryInterface $eraseRepository;
 

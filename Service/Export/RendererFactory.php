@@ -9,12 +9,13 @@ namespace Opengento\Gdpr\Service\Export;
 
 use InvalidArgumentException;
 use Magento\Framework\ObjectManagerInterface;
+
 use function sprintf;
 
 /**
  * @api
  */
-final class RendererFactory
+class RendererFactory
 {
     /**
      * @var string[]

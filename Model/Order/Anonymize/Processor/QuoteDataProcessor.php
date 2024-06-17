@@ -17,7 +17,7 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-final class QuoteDataProcessor implements ProcessorInterface
+class QuoteDataProcessor implements ProcessorInterface
 {
     private AnonymizerInterface $anonymizer;
 

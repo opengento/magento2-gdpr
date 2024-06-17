@@ -13,7 +13,7 @@ use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 
-final class SecureEraseEntityManagement implements EraseEntityManagementInterface
+class SecureEraseEntityManagement implements EraseEntityManagementInterface
 {
     private EraseEntityManagementInterface $eraseManagement;
 

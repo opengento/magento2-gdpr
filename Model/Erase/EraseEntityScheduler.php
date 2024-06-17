@@ -15,7 +15,7 @@ use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Model\Entity\SourceProvider\ModifierFactory;
 use Opengento\Gdpr\Model\Entity\SourceProviderFactory;
 
-final class EraseEntityScheduler
+class EraseEntityScheduler
 {
     private SourceProviderFactory $srcProviderFactory;
 

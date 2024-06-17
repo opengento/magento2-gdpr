@@ -9,7 +9,7 @@ namespace Opengento\Gdpr\Model\Customer;
 
 use Magento\Customer\Api\Data\CustomerInterface;
 
-final class OrigDataRegistry
+class OrigDataRegistry
 {
     /**
      * @var CustomerInterface[]

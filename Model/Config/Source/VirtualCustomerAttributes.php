@@ -11,7 +11,7 @@ use Magento\Customer\Api\MetadataInterface;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\Exception\LocalizedException;
 
-final class VirtualCustomerAttributes implements OptionSourceInterface
+class VirtualCustomerAttributes implements OptionSourceInterface
 {
     private MetadataInterface $metadata;
 

@@ -11,7 +11,7 @@ use Magento\Customer\Model\Session;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
 
-final class ExportCustomerDataProvider implements ArgumentInterface
+class ExportCustomerDataProvider implements ArgumentInterface
 {
     private ExportEntityCheckerInterface $exportEntityChecker;
 

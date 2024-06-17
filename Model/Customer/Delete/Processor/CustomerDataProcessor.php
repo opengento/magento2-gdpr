@@ -13,7 +13,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-final class CustomerDataProcessor implements ProcessorInterface
+class CustomerDataProcessor implements ProcessorInterface
 {
     /**
      * @var CustomerRepositoryInterface

@@ -15,14 +15,13 @@ use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
+use Magento\Framework\View\Result\Page;
 use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
 use Opengento\Gdpr\Model\Config;
 
 class Erase extends AbstractPrivacy implements HttpGetActionInterface
 {
-    private EraseEntityCheckerInterface $eraseCustomerChecker;
-
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
@@ -30,9 +29,8 @@ class Erase extends AbstractPrivacy implements HttpGetActionInterface
         Config $config,
         Session $customerSession,
         Http $response,
-        EraseEntityCheckerInterface $eraseCustomerChecker
+        private EraseEntityCheckerInterface $eraseCustomerChecker
     ) {
-        $this->eraseCustomerChecker = $eraseCustomerChecker;
         parent::__construct($request, $resultFactory, $messageManager, $config, $customerSession, $response);
     }
 
@@ -41,7 +39,7 @@ class Erase extends AbstractPrivacy implements HttpGetActionInterface
         return parent::isAllowed() && $this->config->isErasureEnabled();
     }
 
-    protected function executeAction()
+    protected function executeAction(): Page|Redirect
     {
         if ($this->eraseCustomerChecker->exists((int) $this->customerSession->getCustomerId(), 'customer')) {
             $this->messageManager->addErrorMessage(new Phrase('Your account is already being removed.'));

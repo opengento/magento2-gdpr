@@ -10,7 +10,7 @@ namespace Opengento\Gdpr\Model\ResourceModel\ActionEntity;
 use Magento\Framework\Validator\AbstractValidator;
 use Magento\Framework\Validator\ValidatorInterface;
 
-final class Validator extends AbstractValidator
+class Validator extends AbstractValidator
 {
     /**
      * @var ValidatorInterface[]

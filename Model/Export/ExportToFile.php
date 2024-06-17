@@ -16,11 +16,13 @@ use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Model\Archive\ArchiveManager;
 use Opengento\Gdpr\Service\Export\ProcessorFactory;
 use Opengento\Gdpr\Service\Export\RendererFactory;
+
 use function explode;
 use function sha1;
+
 use const DIRECTORY_SEPARATOR;
 
-final class ExportToFile
+class ExportToFile
 {
     private const CONFIG_PATH_EXPORT_RENDERERS = 'gdpr/export/renderers';
 

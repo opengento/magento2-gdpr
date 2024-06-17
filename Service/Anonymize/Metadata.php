@@ -9,11 +9,12 @@ namespace Opengento\Gdpr\Service\Anonymize;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Serialize\SerializerInterface;
+
 use function array_column;
 use function array_combine;
 use function array_keys;
 
-final class Metadata implements MetadataInterface
+class Metadata implements MetadataInterface
 {
     private ScopeConfigInterface $scopeConfig;
 

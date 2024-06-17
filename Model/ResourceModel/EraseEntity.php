@@ -12,6 +12,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\ResourceModel\Db\VersionControl\AbstractDb;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
+
 use function is_array;
 use function sprintf;
 

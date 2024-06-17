@@ -9,7 +9,7 @@ namespace Opengento\Gdpr\Service\Anonymize\Anonymizer;
 
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
-final class NullValue implements AnonymizerInterface
+class NullValue implements AnonymizerInterface
 {
     public function anonymize($value)
     {

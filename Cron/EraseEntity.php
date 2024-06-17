@@ -23,7 +23,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Process erase of all scheduled entities
  */
-final class EraseEntity
+class EraseEntity
 {
     private LoggerInterface $logger;
 

@@ -10,7 +10,7 @@ namespace Opengento\Gdpr\Service\Export\Renderer;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Serialize\Serializer\Json;
 
-final class JsonRenderer extends AbstractRenderer
+class JsonRenderer extends AbstractRenderer
 {
     private Json $jsonSerializer;
 

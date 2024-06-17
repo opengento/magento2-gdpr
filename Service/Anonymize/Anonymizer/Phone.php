@@ -9,7 +9,7 @@ namespace Opengento\Gdpr\Service\Anonymize\Anonymizer;
 
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
-final class Phone implements AnonymizerInterface
+class Phone implements AnonymizerInterface
 {
     private const PHONE_NUMBER = '9999999999';
 

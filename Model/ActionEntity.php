@@ -12,6 +12,7 @@ use Exception;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Opengento\Gdpr\Api\Data\ActionEntityInterface;
 use Opengento\Gdpr\Model\ResourceModel\ActionEntity as ActionEntityResource;
+
 use function is_string;
 
 class ActionEntity extends AbstractExtensibleModel implements ActionEntityInterface

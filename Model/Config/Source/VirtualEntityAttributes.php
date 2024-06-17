@@ -9,6 +9,7 @@ namespace Opengento\Gdpr\Model\Config\Source;
 
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\Model\EntitySnapshot\AttributeProviderInterface;
+
 use function array_keys;
 
 /**
@@ -16,7 +17,7 @@ use function array_keys;
  *
  * Use this virtual type only for registered entities in the metadata pool
  */
-final class VirtualEntityAttributes implements OptionSourceInterface
+class VirtualEntityAttributes implements OptionSourceInterface
 {
     /**
      * @var AttributeProviderInterface

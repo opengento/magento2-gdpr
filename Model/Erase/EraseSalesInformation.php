@@ -18,7 +18,7 @@ use Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory;
 use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Opengento\Gdpr\Api\EraseSalesInformationInterface;
 
-final class EraseSalesInformation implements EraseSalesInformationInterface
+class EraseSalesInformation implements EraseSalesInformationInterface
 {
     private const CONFIG_PATH_ERASURE_SALES_MAX_AGE = 'gdpr/erasure/sales_max_age';
 

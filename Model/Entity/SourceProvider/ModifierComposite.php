@@ -13,7 +13,7 @@ use Magento\Framework\Data\Collection;
 /**
  * @api
  */
-final class ModifierComposite implements ModifierInterface
+class ModifierComposite implements ModifierInterface
 {
     /**
      * @var ModifierInterface[]

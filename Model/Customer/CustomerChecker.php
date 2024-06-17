@@ -13,7 +13,7 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\Entity\EntityCheckerInterface;
 
-final class CustomerChecker implements EntityCheckerInterface
+class CustomerChecker implements EntityCheckerInterface
 {
     private OrderRepositoryInterface $orderRepository;
 

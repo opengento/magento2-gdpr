@@ -13,7 +13,7 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\Element\BlockFactory;
 use Magento\Store\Model\ScopeInterface;
 
-final class EraseDataProvider implements ArgumentInterface
+class EraseDataProvider implements ArgumentInterface
 {
     private const CONFIG_PATH_ERASURE_INFORMATION_BLOCK = 'gdpr/erasure/block_id';
     private const CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK = 'gdpr/anonymize/block_id';

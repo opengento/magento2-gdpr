@@ -10,9 +10,10 @@ namespace Opengento\Gdpr\Model\Entity;
 use Exception;
 use LogicException;
 use Magento\Framework\EntityManager\TypeResolver;
+
 use function sprintf;
 
-final class DataCollectorGeneric implements DataCollectorInterface
+class DataCollectorGeneric implements DataCollectorInterface
 {
     private TypeResolver $typeResolver;
 

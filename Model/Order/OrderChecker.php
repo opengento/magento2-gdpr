@@ -10,9 +10,10 @@ namespace Opengento\Gdpr\Model\Order;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\Entity\EntityCheckerInterface;
+
 use function in_array;
 
-final class OrderChecker implements EntityCheckerInterface
+class OrderChecker implements EntityCheckerInterface
 {
     private OrderRepositoryInterface $orderRepository;
 

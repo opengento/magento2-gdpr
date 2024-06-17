@@ -10,12 +10,13 @@ namespace Opengento\Gdpr\Model\Entity;
 use InvalidArgumentException;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\ObjectManagerInterface;
+
 use function sprintf;
 
 /**
  * @api
  */
-final class SourceProviderFactory
+class SourceProviderFactory
 {
     /**
      * @var string[]

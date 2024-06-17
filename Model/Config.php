@@ -9,9 +9,10 @@ namespace Opengento\Gdpr\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
+
 use function explode;
 
-final class Config
+class Config
 {
     /**
      * Scope Config: Data Settings Paths

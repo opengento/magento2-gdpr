@@ -11,9 +11,10 @@ use InvalidArgumentException;
 use Magento\Framework\ObjectManagerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorResolverInterface;
+
 use function sprintf;
 
-final class ProcessorResolver implements ProcessorResolverInterface
+class ProcessorResolver implements ProcessorResolverInterface
 {
     /**
      * @var ProcessorInterface[]

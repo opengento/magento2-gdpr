@@ -19,7 +19,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Export all scheduled entities
  */
-final class ExportEntity
+class ExportEntity
 {
     private LoggerInterface $logger;
 

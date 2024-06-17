@@ -10,11 +10,12 @@ namespace Opengento\Gdpr\Service\Erase;
 use InvalidArgumentException;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Serialize\SerializerInterface;
+
 use function array_column;
 use function array_combine;
 use function sprintf;
 
-final class Metadata implements MetadataInterface
+class Metadata implements MetadataInterface
 {
     private ScopeConfigInterface $scopeConfig;
 

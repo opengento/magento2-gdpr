@@ -13,11 +13,12 @@ use Magento\Framework\EntityManager\HydratorPool;
 use Magento\Framework\EntityManager\TypeResolver;
 use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
+
 use function gettype;
 use function is_object;
 use function sprintf;
 
-final class Entity implements AnonymizerInterface
+class Entity implements AnonymizerInterface
 {
     private DataCollectorInterface $dataCollector;
 

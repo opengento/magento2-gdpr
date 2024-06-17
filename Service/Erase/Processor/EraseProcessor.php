@@ -10,9 +10,10 @@ namespace Opengento\Gdpr\Service\Erase\Processor;
 use Opengento\Gdpr\Model\Config\Source\EraseComponents;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorResolverInterface;
+
 use function array_column;
 
-final class EraseProcessor implements ProcessorInterface
+class EraseProcessor implements ProcessorInterface
 {
     /**
      * @var ProcessorResolverInterface

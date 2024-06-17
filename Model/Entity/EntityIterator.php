@@ -11,7 +11,7 @@ use Exception;
 use Magento\Framework\EntityManager\HydratorPool;
 use Magento\Framework\EntityManager\TypeResolver;
 
-final class EntityIterator implements EntityIteratorInterface
+class EntityIterator implements EntityIteratorInterface
 {
     private HydratorPool $hydratorPool;
 

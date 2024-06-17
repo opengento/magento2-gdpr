@@ -13,7 +13,7 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\Element\BlockFactory;
 use Magento\Store\Model\ScopeInterface;
 
-final class ExportDataProvider implements ArgumentInterface
+class ExportDataProvider implements ArgumentInterface
 {
     private const CONFIG_PATH_EXPORT_INFORMATION_BLOCK = 'gdpr/export/block_id';
 

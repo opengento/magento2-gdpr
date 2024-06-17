@@ -11,13 +11,14 @@ use Magento\Framework\Archive\ArchiveInterface;
 use Magento\Framework\Archive\Zip as ArchiveZip;
 use Magento\Framework\Filesystem;
 use ZipArchive;
+
 use function basename;
 
 /**
  * Zip compressed file archive with local file name.
  * @api
  */
-final class Zip implements ArchiveInterface
+class Zip implements ArchiveInterface
 {
     private Filesystem $filesystem;
 

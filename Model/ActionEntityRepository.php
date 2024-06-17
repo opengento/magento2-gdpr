@@ -24,7 +24,7 @@ use Opengento\Gdpr\Model\ResourceModel\ActionEntity as ActionEntityResource;
 use Opengento\Gdpr\Model\ResourceModel\ActionEntity\Collection;
 use Opengento\Gdpr\Model\ResourceModel\ActionEntity\CollectionFactory;
 
-final class ActionEntityRepository implements ActionEntityRepositoryInterface
+class ActionEntityRepository implements ActionEntityRepositoryInterface
 {
     /**
      * @var ActionEntityResource

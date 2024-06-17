@@ -22,7 +22,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Schedule entities to erase
  */
-final class EraseEntityScheduler
+class EraseEntityScheduler
 {
     private const CONFIG_PATH_ERASURE_MAX_AGE = 'gdpr/erasure/entity_max_age';
 

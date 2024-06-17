@@ -10,43 +10,38 @@ namespace Opengento\Gdpr\Controller;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Response\Http;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\NotFoundException;
+use Magento\Framework\Exception\SessionException;
 use Magento\Framework\Message\ManagerInterface;
 use Opengento\Gdpr\Model\Config;
 
 /**
  * This class is introduced to handle customer authentication verification.
  * We can't use the default AccountInterface or AccountPlugin
- * as they requires the action to inherit the default Magento AbstractAction
- * which is deprecated and which suffer of performance issues
+ * as they require the action to inherit the default Magento AbstractAction
+ * which is deprecated and which suffer performance issues
  */
 abstract class AbstractPrivacy extends AbstractAction
 {
-    /**
-     * @var Session
-     */
-    protected Session $customerSession;
-
-    /**
-     * @var Http
-     */
-    private Http $response;
-
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
         ManagerInterface $messageManager,
         Config $config,
-        Session $customerSession,
-        Http $response
+        protected Session $customerSession,
+        protected Http $response
     ) {
-        $this->customerSession = $customerSession;
-        $this->response = $response;
         parent::__construct($request, $resultFactory, $messageManager, $config);
     }
 
-    public function execute()
+    /**
+     * @throws NotFoundException
+     * @throws SessionException
+     */
+    final public function execute(): ResultInterface|ResponseInterface
     {
         return $this->customerSession->authenticate() ? $this->defaultAction() : $this->response;
     }
@@ -54,7 +49,7 @@ abstract class AbstractPrivacy extends AbstractAction
     /**
      * @throws NotFoundException
      */
-    private function defaultAction()
+    private function defaultAction(): ResultInterface|ResponseInterface
     {
         return $this->isAllowed() ? $this->executeAction() : $this->forwardNoRoute();
     }

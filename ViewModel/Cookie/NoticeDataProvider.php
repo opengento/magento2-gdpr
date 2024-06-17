@@ -10,7 +10,7 @@ namespace Opengento\Gdpr\ViewModel\Cookie;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Opengento\Gdpr\Model\Config\PrivacyMessage;
 
-final class NoticeDataProvider implements ArgumentInterface
+class NoticeDataProvider implements ArgumentInterface
 {
     private PrivacyMessage $privacyMessage;
 

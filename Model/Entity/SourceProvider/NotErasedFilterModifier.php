@@ -10,9 +10,10 @@ namespace Opengento\Gdpr\Model\Entity\SourceProvider;
 use Magento\Framework\Api\Filter;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\Data\Collection\AbstractDb;
+
 use function sprintf;
 
-final class NotErasedFilterModifier implements ModifierInterface
+class NotErasedFilterModifier implements ModifierInterface
 {
     private const DEFAULT_PRIMARY_FIELD = 'entity_id';
 

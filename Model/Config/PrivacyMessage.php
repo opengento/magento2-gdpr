@@ -13,7 +13,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\View\Element\BlockFactory;
 use Magento\Store\Model\ScopeInterface;
 
-final class PrivacyMessage
+class PrivacyMessage
 {
     private const CONFIG_PATH_COOKIE_INFORMATION_ENABLED = 'gdpr/cookie/enabled';
     private const CONFIG_PATH_COOKIE_INFORMATION_BLOCK = 'gdpr/cookie/block_id';

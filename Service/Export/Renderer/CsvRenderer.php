@@ -8,12 +8,14 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Service\Export\Renderer;
 
 use Magento\Framework\Filesystem;
+
 use function is_array;
 use function rtrim;
 use function str_replace;
+
 use const PHP_EOL;
 
-final class CsvRenderer extends AbstractRenderer
+class CsvRenderer extends AbstractRenderer
 {
     public function __construct(
         Filesystem $filesystem

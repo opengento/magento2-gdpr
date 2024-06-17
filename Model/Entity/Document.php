@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Entity;
 
-final class Document implements DocumentInterface
+class Document implements DocumentInterface
 {
     private array $data;
 

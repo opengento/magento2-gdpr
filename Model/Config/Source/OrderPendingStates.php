@@ -10,7 +10,7 @@ namespace Opengento\Gdpr\Model\Config\Source;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Sales\Model\ResourceModel\Order\Status\CollectionFactory;
 
-final class OrderPendingStates implements OptionSourceInterface
+class OrderPendingStates implements OptionSourceInterface
 {
     private CollectionFactory $collectionFactory;
 

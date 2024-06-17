@@ -13,6 +13,7 @@ use Opengento\Gdpr\Api\Data\ActionResultInterface;
 
 /**
  * @api
+ * @todo remove
  */
 interface ActionInterface
 {

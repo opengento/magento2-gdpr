@@ -16,9 +16,10 @@ use Magento\Framework\View\LayoutInterface;
 use Magento\Framework\View\Model\Layout\Merge;
 use Magento\Framework\View\Page\Config;
 use Magento\Framework\View\Page\Layout\Reader;
+
 use function str_replace;
 
-final class LayoutInitiator implements LayoutInitiatorInterface
+class LayoutInitiator implements LayoutInitiatorInterface
 {
     private LayoutFactory $layoutFactory;
 

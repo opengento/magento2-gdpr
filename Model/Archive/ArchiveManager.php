@@ -14,7 +14,7 @@ use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Phrase;
 
-final class ArchiveManager
+class ArchiveManager
 {
     private ArchiveInterface $archive;
 

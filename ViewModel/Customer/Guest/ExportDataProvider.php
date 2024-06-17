@@ -12,7 +12,7 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
 
-final class ExportDataProvider implements ArgumentInterface
+class ExportDataProvider implements ArgumentInterface
 {
     private ExportEntityCheckerInterface $exportEntityChecker;
 

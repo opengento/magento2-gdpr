@@ -12,7 +12,7 @@ use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorResolverFactory;
 use Opengento\Gdpr\Service\Erase\ProcessorResolverInterface;
 
-final class ProcessorResolverStrategy implements ProcessorResolverInterface
+class ProcessorResolverStrategy implements ProcessorResolverInterface
 {
     /**
      * @var ProcessorResolverFactory

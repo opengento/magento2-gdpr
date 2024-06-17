@@ -7,14 +7,15 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Console\Command;
 
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
-use Opengento\Gdpr\Api\ActionInterface;
-use Opengento\Gdpr\Model\Action\ArgumentReader;
-use Opengento\Gdpr\Model\Action\ContextBuilder;
+use Opengento\Gdpr\Api\Data\EraseEntityInterface;
+use Opengento\Gdpr\Api\EraseEntityManagementInterface;
+use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,25 +26,14 @@ class EraseCommand extends Command
     private const INPUT_ARGUMENT_ENTITY_ID = 'entity_id';
     private const INPUT_ARGUMENT_ENTITY_TYPE = 'entity_type';
 
-    private State $appState;
-
-    private Registry $registry;
-
-    private ActionInterface $action;
-
-    private ContextBuilder $actionContextBuilder;
-
     public function __construct(
-        State $appState,
-        Registry $registry,
-        ActionInterface $action,
-        ContextBuilder $actionContextBuilder,
+        private State $appState,
+        private Registry $registry,
+        private EraseEntityManagementInterface $eraseManagement,
+        private EraseEntityRepositoryInterface $eraseEntityRepository,
+        private SearchCriteriaBuilder $searchCriteriaBuilder,
         string $name = 'gdpr:entity:erase'
     ) {
-        $this->appState = $appState;
-        $this->registry = $registry;
-        $this->action = $action;
-        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($name);
     }
 
@@ -82,15 +72,14 @@ class EraseCommand extends Command
         $entityType = $input->getArgument(self::INPUT_ARGUMENT_ENTITY_TYPE);
 
         try {
-            foreach ($entityIds as $entityId) {
-                $this->action->execute(
-                    $this->actionContextBuilder->setParameters(
-                        [ArgumentReader::ENTITY_ID => $entityId, ArgumentReader::ENTITY_TYPE => $entityType]
-                    )->create()
-                );
+            $this->searchCriteriaBuilder->addFilter(EraseEntityInterface::ENTITY_ID, $entityIds, 'in');
+            $this->searchCriteriaBuilder->addFilter(EraseEntityInterface::ENTITY_TYPE, $entityType);
+            $eraseEntityList = $this->eraseEntityRepository->getList($this->searchCriteriaBuilder->create());
+            foreach ($eraseEntityList->getItems() as $eraseEntity) {
+                $this->eraseManagement->process($eraseEntity);
 
                 $output->writeln(
-                    '<info>Entity\'s (' . $entityType . ') with ID "' . $entityId . '" has been erased.</info>'
+                    '<info>Entity\'s (' . $entityType . ') with ID "' . $eraseEntity->getEntityId() . '" has been erased.</info>'
                 );
             }
         } catch (LocalizedException $e) {

@@ -28,13 +28,9 @@ abstract class AbstractAction extends Action
         parent::__construct($context);
     }
 
-    public function execute()
+    public function execute(): ResultInterface|ResponseInterface
     {
-        if ($this->isAllowed()) {
-            return $this->executeAction();
-        }
-
-        return $this->forwardNoRoute();
+        return $this->isAllowed() ? $this->executeAction() : $this->forwardNoRoute();
     }
 
     /**
@@ -43,7 +39,7 @@ abstract class AbstractAction extends Action
      * @return ResultInterface|ResponseInterface
      * @throws NotFoundException
      */
-    abstract protected function executeAction();
+    abstract protected function executeAction(): ResultInterface|ResponseInterface;
 
     protected function isAllowed(): bool
     {

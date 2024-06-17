@@ -8,9 +8,10 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Entity;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+
 use function explode;
 
-final class Metadata implements MetadataInterface
+class Metadata implements MetadataInterface
 {
     private ScopeConfigInterface $scopeConfig;
 

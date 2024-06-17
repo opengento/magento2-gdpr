@@ -13,7 +13,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-final class CustomerAddressDataProcessor implements ProcessorInterface
+class CustomerAddressDataProcessor implements ProcessorInterface
 {
     private AnonymizerInterface $anonymizer;
 

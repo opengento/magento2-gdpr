@@ -24,7 +24,7 @@ use Opengento\Gdpr\Model\ResourceModel\EraseEntity as EraseEntityResource;
 use Opengento\Gdpr\Model\ResourceModel\EraseEntity\Collection;
 use Opengento\Gdpr\Model\ResourceModel\EraseEntity\CollectionFactory;
 
-final class EraseEntityRepository implements EraseEntityRepositoryInterface
+class EraseEntityRepository implements EraseEntityRepositoryInterface
 {
     /**
      * @var EraseEntityResource

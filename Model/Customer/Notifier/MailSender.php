@@ -17,7 +17,7 @@ use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\StoreManagerInterface;
 use Opengento\Gdpr\Model\Notifier\AbstractMailSender;
 
-final class MailSender extends AbstractMailSender implements SenderInterface
+class MailSender extends AbstractMailSender implements SenderInterface
 {
     private View $customerViewHelper;
 

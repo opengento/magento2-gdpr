@@ -9,7 +9,7 @@ namespace Opengento\Gdpr\Model\Action\PerformedBy;
 
 use Opengento\Gdpr\Model\Action\PerformedByInterface;
 
-final class NotEmptyStrategy implements PerformedByInterface
+class NotEmptyStrategy implements PerformedByInterface
 {
     private const PERFORMED_BY = 'Unknown';
 

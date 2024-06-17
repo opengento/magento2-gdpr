@@ -10,9 +10,10 @@ namespace Opengento\Gdpr\Model\Config\Source;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\ObjectManager\ConfigInterface;
 use Magento\Framework\Phrase;
+
 use function array_keys;
 
-final class VirtualArrayArgumentList implements OptionSourceInterface
+class VirtualArrayArgumentList implements OptionSourceInterface
 {
     /**
      * @var ConfigInterface

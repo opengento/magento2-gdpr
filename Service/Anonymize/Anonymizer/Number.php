@@ -10,10 +10,11 @@ namespace Opengento\Gdpr\Service\Anonymize\Anonymizer;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Math\Random;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
+
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
 
-final class Number implements AnonymizerInterface
+class Number implements AnonymizerInterface
 {
     /**
      * @var int|null

@@ -12,7 +12,7 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 
-final class EraseDataProvider implements ArgumentInterface
+class EraseDataProvider implements ArgumentInterface
 {
     private EraseEntityCheckerInterface $eraseEntityChecker;
 

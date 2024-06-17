@@ -11,7 +11,7 @@ use Magento\Sales\Api\Data\OrderAddressInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order;
 
-final class OrderDataProcessor extends AbstractDataProcessor
+class OrderDataProcessor extends AbstractDataProcessor
 {
     protected function export(OrderInterface $order, array $data): array
     {

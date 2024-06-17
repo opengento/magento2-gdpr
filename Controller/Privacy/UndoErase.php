@@ -17,18 +17,12 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\ActionInterface;
+use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Controller\AbstractPrivacy;
-use Opengento\Gdpr\Model\Action\ArgumentReader;
-use Opengento\Gdpr\Model\Action\ContextBuilder;
 use Opengento\Gdpr\Model\Config;
 
 class UndoErase extends AbstractPrivacy implements HttpPostActionInterface
 {
-    private ActionInterface $action;
-
-    private ContextBuilder $actionContextBuilder;
-
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
@@ -36,11 +30,8 @@ class UndoErase extends AbstractPrivacy implements HttpPostActionInterface
         Config $config,
         Session $customerSession,
         Http $response,
-        ActionInterface $action,
-        ContextBuilder $actionContextBuilder
+        private EraseEntityManagementInterface $eraseEntityManagement
     ) {
-        $this->action = $action;
-        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($request, $resultFactory, $messageManager, $config, $customerSession, $response);
     }
 
@@ -55,13 +46,8 @@ class UndoErase extends AbstractPrivacy implements HttpPostActionInterface
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         $resultRedirect->setPath('customer/privacy/settings');
 
-        $this->actionContextBuilder->setParameters([
-            ArgumentReader::ENTITY_ID => (int) $this->customerSession->getCustomerId(),
-            ArgumentReader::ENTITY_TYPE => 'customer'
-        ]);
-
         try {
-            $this->action->execute($this->actionContextBuilder->create());
+            $this->eraseEntityManagement->cancel((int)$this->customerSession->getCustomerId(), 'customer');
             $this->messageManager->addSuccessMessage(new Phrase('You canceled your account deletion.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());

@@ -15,7 +15,7 @@ use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 
-final class QuoteDataProcessor extends AbstractDataProcessor
+class QuoteDataProcessor extends AbstractDataProcessor
 {
     private CartRepositoryInterface $quoteRepository;
 

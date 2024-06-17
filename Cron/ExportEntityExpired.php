@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Delete all expired export entities
  */
-final class ExportEntityExpired
+class ExportEntityExpired
 {
     private LoggerInterface $logger;
 

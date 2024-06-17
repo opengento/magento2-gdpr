@@ -14,7 +14,7 @@ use Opengento\Gdpr\Model\Customer\Notifier\SenderInterface;
 use Opengento\Gdpr\Model\Export\NotifierInterface;
 use Psr\Log\LoggerInterface;
 
-final class Notifier implements NotifierInterface
+class Notifier implements NotifierInterface
 {
     /** @var SenderInterface[] */
     private array $senders;

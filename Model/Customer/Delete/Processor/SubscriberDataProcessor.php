@@ -13,7 +13,7 @@ use Magento\Newsletter\Model\Subscriber;
 use Magento\Newsletter\Model\SubscriberFactory;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-final class SubscriberDataProcessor implements ProcessorInterface
+class SubscriberDataProcessor implements ProcessorInterface
 {
     private SubscriberFactory $subscriberFactory;
 

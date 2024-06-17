@@ -12,13 +12,6 @@
         </item>
     </argument>
     <settings>
-        <buttons>
-            <button name="add">
-                <url path="*/*/new"/>
-                <class>primary</class>
-                <label translate="true">Execute New Action</label>
-            </button>
-        </buttons>
         <spinner>gdpr_action_columns</spinner>
         <deps>
             <dep>gdpr_action_listing.gdpr_action_listing_data_source</dep>
@@ -48,53 +41,9 @@
         <exportButton name="export_button"/>
         <filterSearch name="fulltext"/>
         <filters name="listing_filters"/>
-        <massaction name="listing_massaction" component="Magento_Ui/js/grid/tree-massactions">
-            <action name="edit">
-                <settings>
-                    <callback>
-                        <target>editSelected</target>
-                        <provider>gdpr_action_listing.gdpr_action_listing.gdpr_action_columns_editor</provider>
-                    </callback>
-                    <type>edit</type>
-                    <label translate="true">Edit</label>
-                </settings>
-            </action>
-            <action name="delete">
-                <settings>
-                    <confirm>
-                        <message translate="true">Are you sure you want to delete the action log?</message>
-                        <title translate="true">Delete items</title>
-                    </confirm>
-                    <url path="gdpr/action/massDelete"/>
-                    <type>delete</type>
-                    <label translate="true">Delete</label>
-                </settings>
-            </action>
-        </massaction>
         <paging name="listing_paging"/>
     </listingToolbar>
     <columns name="gdpr_action_columns">
-        <settings>
-            <editorConfig>
-                <param name="clientConfig" xsi:type="array">
-                    <item name="saveUrl" xsi:type="url" path="gdpr/action/inlineEdit"/>
-                    <item name="validateBeforeSave" xsi:type="boolean">false</item>
-                </param>
-                <param name="indexField" xsi:type="string">action_id</param>
-                <param name="enabled" xsi:type="boolean">true</param>
-                <param name="selectProvider" xsi:type="string">gdpr_action_listing.gdpr_action_listing.gdpr_action_columns.ids</param>
-            </editorConfig>
-            <childDefaults>
-                <param name="fieldAction" xsi:type="array">
-                    <item name="provider" xsi:type="string">gdpr_action_listing.gdpr_action_listing.gdpr_action_columns_editor</item>
-                    <item name="target" xsi:type="string">startEdit</item>
-                    <item name="params" xsi:type="array">
-                        <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
-                        <item name="1" xsi:type="boolean">true</item>
-                    </item>
-                </param>
-            </childDefaults>
-        </settings>
         <selectionsColumn name="ids" sortOrder="10">
             <settings>
                 <indexField>action_id</indexField>
@@ -157,9 +106,6 @@
         <column name="parameters" sortOrder="90">
             <settings>
                 <filter>text</filter>
-                <editor>
-                    <editorType>text</editorType>
-                </editor>
                 <label translate="true">Parameters</label>
                 <visible>true</visible>
             </settings>

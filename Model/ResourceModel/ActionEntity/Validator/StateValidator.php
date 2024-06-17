@@ -11,10 +11,11 @@ use Magento\Framework\Phrase;
 use Magento\Framework\Validator\AbstractValidator;
 use Opengento\Gdpr\Api\Data\ActionEntityInterface;
 use Opengento\Gdpr\Model\Config\Source\ActionStates;
+
 use function array_column;
 use function in_array;
 
-final class StateValidator extends AbstractValidator
+class StateValidator extends AbstractValidator
 {
     private ActionStates $actionStates;
 

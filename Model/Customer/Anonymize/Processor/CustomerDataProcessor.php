@@ -26,12 +26,14 @@ use Magento\Store\Model\ScopeInterface;
 use Opengento\Gdpr\Model\Customer\OrigDataRegistry;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
+
 use function mt_rand;
 use function sha1;
 use function uniqid;
+
 use const PHP_INT_MAX;
 
-final class CustomerDataProcessor implements ProcessorInterface
+class CustomerDataProcessor implements ProcessorInterface
 {
     private const CONFIG_PATH_ERASURE_REMOVE_CUSTOMER = 'gdpr/erasure/remove_customer';
 

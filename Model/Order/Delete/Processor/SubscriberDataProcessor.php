@@ -15,7 +15,7 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-final class SubscriberDataProcessor implements ProcessorInterface
+class SubscriberDataProcessor implements ProcessorInterface
 {
     private OrderRepositoryInterface $orderRepository;
 

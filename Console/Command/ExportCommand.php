@@ -8,15 +8,14 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Console\Command;
 
 use Exception;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
-use Opengento\Gdpr\Api\ActionInterface;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
-use Opengento\Gdpr\Model\Action\ArgumentReader;
-use Opengento\Gdpr\Model\Action\ContextBuilder;
-use Opengento\Gdpr\Model\Action\Export\ArgumentReader as ExportArgumentReader;
+use Opengento\Gdpr\Api\ExportEntityManagementInterface;
+use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,21 +28,13 @@ class ExportCommand extends Command
     private const INPUT_ARGUMENT_ENTITY_TYPE = 'entity_type';
     private const INPUT_OPTION_FILENAME = 'filename';
 
-    private State $appState;
-
-    private ActionInterface $action;
-
-    private ContextBuilder $actionContextBuilder;
-
     public function __construct(
-        State $appState,
-        ActionInterface $action,
-        ContextBuilder $actionContextBuilder,
+        private State $appState,
+        private ExportEntityManagementInterface $exportEntityManagement,
+        private ExportEntityRepositoryInterface $exportEntityRepository,
+        private SearchCriteriaBuilder $searchCriteriaBuilder,
         string $name = 'gdpr:entity:export'
     ) {
-        $this->appState = $appState;
-        $this->action = $action;
-        $this->actionContextBuilder = $actionContextBuilder;
         parent::__construct($name);
     }
 
@@ -87,15 +78,11 @@ class ExportCommand extends Command
         $fileName = $input->getOption(self::INPUT_OPTION_FILENAME);
 
         try {
-            foreach ($entityIds as $entityId) {
-                $this->actionContextBuilder->setParameters([
-                    ArgumentReader::ENTITY_ID => $entityId,
-                    ArgumentReader::ENTITY_TYPE => $entityType,
-                    ExportArgumentReader::EXPORT_FILE_NAME => $fileName . '_' . $entityId
-                ]);
-                $result = $this->action->execute($this->actionContextBuilder->create())->getResult();
-                /** @var ExportEntityInterface $exportEntity */
-                $exportEntity = $result[ExportArgumentReader::EXPORT_ENTITY];
+            $this->searchCriteriaBuilder->addFilter(ExportEntityInterface::ENTITY_ID, $entityIds, 'in');
+            $this->searchCriteriaBuilder->addFilter(ExportEntityInterface::ENTITY_TYPE, $entityType);
+            $exportEntityList = $this->exportEntityRepository->getList($this->searchCriteriaBuilder->create());
+            foreach ($exportEntityList->getItems() as $exportEntity) {
+                $this->exportEntityManagement->export($exportEntity);
 
                 $output->writeln(
                     '<info>Entity\'s related data have been exported to: ' . $exportEntity->getFilePath() . '.</info>'

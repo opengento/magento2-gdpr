@@ -14,7 +14,7 @@ use Opengento\Gdpr\Api\Data\ActionEntityInterfaceFactory;
 /**
  * @api
  */
-final class ActionEntityBuilder
+class ActionEntityBuilder
 {
     /**
      * @var ActionEntityInterfaceFactory

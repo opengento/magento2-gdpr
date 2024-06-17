@@ -12,7 +12,7 @@ use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order;
 use Opengento\Gdpr\Model\Action\PerformedByInterface;
 
-final class Guest implements PerformedByInterface
+class Guest implements PerformedByInterface
 {
     private Registry $coreRegistry;
 

@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Entity;
 
-final class DataCollector implements DataCollectorInterface
+class DataCollector implements DataCollectorInterface
 {
     /**
      * @var EntityIteratorInterface
