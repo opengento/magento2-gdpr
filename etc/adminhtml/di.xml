@@ -6,14 +6,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Opengento\Gdpr\Model\Action\PerformedByInterface" type="Opengento\Gdpr\Model\Action\PerformedBy\AdminUser"/>
     <!-- Config Settings -->
-    <virtualType name="Opengento\Gdpr\Model\Config\Source\ActionTypes" type="Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList">
-        <arguments>
-            <argument name="className" xsi:type="string">Opengento\Gdpr\Model\Action\ActionFactory</argument>
-            <argument name="argumentName" xsi:type="string">actions</argument>
-        </arguments>
-    </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Config\Source\EntityAttributes" type="Opengento\Gdpr\Model\Config\Source\VirtualEntityAttributes">
         <arguments>
             <argument name="attributeProvider" xsi:type="object">Magento\Framework\Model\EntitySnapshot\AttributeProvider</argument>

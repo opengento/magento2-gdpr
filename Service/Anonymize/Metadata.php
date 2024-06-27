@@ -13,45 +13,31 @@ use Magento\Framework\Serialize\SerializerInterface;
 use function array_column;
 use function array_combine;
 use function array_keys;
+use function is_array;
 
 class Metadata implements MetadataInterface
 {
-    private ScopeConfigInterface $scopeConfig;
-
-    /**
-     * @var SerializerInterface
-     */
-    private SerializerInterface $serializer;
-
-    private string $configPath;
-
-    private string $scopeType;
-
     /**
      * @var string[][]
      */
     private array $cache;
 
     public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        SerializerInterface $serializer,
-        string $configPath,
-        string $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT
-    ) {
-        $this->scopeConfig = $scopeConfig;
-        $this->serializer = $serializer;
-        $this->configPath = $configPath;
-        $this->scopeType = $scopeType;
-    }
+        private ScopeConfigInterface $scopeConfig,
+        private SerializerInterface $serializer,
+        private string $configPath,
+        private string $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT
+    ) {}
 
     public function getAnonymizerStrategiesByAttributes(?string $scopeCode = null): array
     {
         $scope = $scopeCode ?? 'current_scope';
 
         if (!isset($this->cache[$scope])) {
-            $metadata = $this->serializer->unserialize(
-                $this->scopeConfig->getValue($this->configPath, $this->scopeType, $scopeCode) ?? '{}'
-            );
+            $metadata = $this->scopeConfig->getValue($this->configPath, $this->scopeType, $scopeCode);
+            if (!is_array($metadata)) {
+                $metadata = $this->serializer->unserialize($metadata ?? '{}');
+            }
 
             $this->cache[$scope] = array_combine(
                 array_column($metadata, 'attribute'),

@@ -19,27 +19,16 @@ use function array_keys;
  */
 class VirtualEntityAttributes implements OptionSourceInterface
 {
-    /**
-     * @var AttributeProviderInterface
-     */
-    private AttributeProviderInterface $attributeProvider;
-
-    private string $entityType;
-
-    private array $options;
+    private ?array $options = null;
 
     public function __construct(
-        AttributeProviderInterface $attributeProvider,
-        string $entityType
-    ) {
-        $this->attributeProvider = $attributeProvider;
-        $this->entityType = $entityType;
-        $this->options = [];
-    }
+        private AttributeProviderInterface $attributeProvider,
+        private string $entityType
+    ) {}
 
     public function toOptionArray(): array
     {
-        if (!$this->options) {
+        if ($this->options === null) {
             foreach (array_keys($this->attributeProvider->getAttributes($this->entityType)) as $attribute) {
                 $this->options[] = ['value' => $attribute, 'label' => $attribute];
             }

@@ -16,17 +16,42 @@
             </action>
             <anonymize>
                 <customer_attributes>
-                    <![CDATA[{
-                        "_opengento_gdpr_anonymize_ca_0":{"attribute":"email","anonymizer":"email"},
-                        "_opengento_gdpr_anonymize_ca_1":{"attribute":"prefix","anonymizer":"alphaUpper"},
-                        "_opengento_gdpr_anonymize_ca_2":{"attribute":"firstname","anonymizer":"anonymous"},
-                        "_opengento_gdpr_anonymize_ca_3":{"attribute":"middlename","anonymizer":"anonymous"},
-                        "_opengento_gdpr_anonymize_ca_4":{"attribute":"lastname","anonymizer":"anonymous"},
-                        "_opengento_gdpr_anonymize_ca_5":{"attribute":"suffix","anonymizer":"alphaUpper"},
-                        "_opengento_gdpr_anonymize_ca_6":{"attribute":"dob","anonymizer":"date"},
-                        "_opengento_gdpr_anonymize_ca_7":{"attribute":"gender","anonymizer":"number"},
-                        "_opengento_gdpr_anonymize_ca_8":{"attribute":"taxvat","anonymizer":"alphaNum"}
-                    }]]>
+                    <email>
+                        <atttribute>email</atttribute>
+                        <anonymizer>email</anonymizer>
+                    </email>
+                    <prefix>
+                        <attribute>prefix</attribute>
+                        <anonymizer>alphaUpper</anonymizer>
+                    </prefix>
+                    <firstname>
+                        <attribute>firstname</attribute>
+                        <anonymizer>anonymous</anonymizer>
+                    </firstname>
+                    <middlename>
+                        <attribute>middlename</attribute>
+                        <anonymizer>anonymous</anonymizer>
+                    </middlename>
+                    <lastname>
+                        <attribute>lastname</attribute>
+                        <anonymizer>anonymous</anonymizer>
+                    </lastname>
+                    <suffix>
+                        <attribute>suffix</attribute>
+                        <anonymizer>alphaUpper</anonymizer>
+                    </suffix>
+                    <dob>
+                        <attribute>dob</attribute>
+                        <anonymizer>date</anonymizer>
+                    </dob>
+                    <gender>
+                        <attribute>gender</attribute>
+                        <anonymizer>number</anonymizer>
+                    </gender>
+                    <taxvat>
+                        <attribute>taxvat</attribute>
+                        <anonymizer>alphaUpper</anonymizer>
+                    </taxvat>
                 </customer_attributes>
                 <customer_address_attributes>
                     <![CDATA[{
@@ -114,9 +139,10 @@
                     }]]>
                 </order_address_attributes>
                 <subscriber_attributes>
-                    <![CDATA[{
-                        "_opengento_gdpr_anonymize_sa_0":{"attribute":"email","anonymizer":"email"}
-                    }]]>
+                    <email>
+                        <atttribute>email</atttribute>
+                        <anonymizer>email</anonymizer>
+                    </email>
                 </subscriber_attributes>
             </anonymize>
             <erasure>
@@ -129,20 +155,40 @@
                 <allowed_states>canceled,closed,complete</allowed_states>
                 <remove_customer>1</remove_customer>
                 <customer_components_processors>
-                    <![CDATA[{
-                        "_opengento_gdpr_erasure_ccp_0":{"component":"customer","processor":"anonymize"},
-                        "_opengento_gdpr_erasure_ccp_1":{"component":"customer_address","processor":"anonymize"},
-                        "_opengento_gdpr_erasure_ccp_2":{"component":"quote","processor":"delete"},
-                        "_opengento_gdpr_erasure_ccp_3":{"component":"order","processor":"anonymize"},
-                        "_opengento_gdpr_erasure_ccp_4":{"component":"subscriber","processor":"delete"}
-                    }]]>
+                    <customer>
+                        <component>customer</component>
+                        <processor>anonymize</processor>
+                    </customer>
+                    <customer_address>
+                        <component>customer_address</component>
+                        <processor>anonymize</processor>
+                    </customer_address>
+                    <quote>
+                        <component>quote</component>
+                        <processor>delete</processor>
+                    </quote>
+                    <order>
+                        <component>order</component>
+                        <processor>anonymize</processor>
+                    </order>
+                    <subscriber>
+                        <component>subscriber</component>
+                        <processor>delete</processor>
+                    </subscriber>
                 </customer_components_processors>
                 <guest_components_processors>
-                    <![CDATA[{
-                        "_opengento_gdpr_erasure_gcp_0":{"component":"quote","processor":"delete"},
-                        "_opengento_gdpr_erasure_gcp_1":{"component":"order","processor":"anonymize"},
-                        "_opengento_gdpr_erasure_gcp_2":{"component":"subscriber","processor":"delete"}
-                    }]]>
+                    <quote>
+                        <component>quote</component>
+                        <processor>delete</processor>
+                    </quote>
+                    <order>
+                        <component>order</component>
+                        <processor>anonymize</processor>
+                    </order>
+                    <subscriber>
+                        <component>subscriber</component>
+                        <processor>delete</processor>
+                    </subscriber>
                 </guest_components_processors>
             </erasure>
             <export>
@@ -167,13 +213,13 @@
                 <erasure>
                     <pending>
                         <customer>
-                            <enabled>0</enabled>
+                            <enabled>1</enabled>
                             <template>gdpr_email_erase_pending_template</template>
                             <identity>general</identity>
                             <copy_method>bcc</copy_method>
                         </customer>
                         <order>
-                            <enabled>0</enabled>
+                            <enabled>1</enabled>
                             <template>gdpr_email_erase_pending_guest_template</template>
                             <identity>general</identity>
                             <copy_method>bcc</copy_method>
@@ -181,13 +227,13 @@
                     </pending>
                     <succeeded>
                         <customer>
-                            <enabled>0</enabled>
+                            <enabled>1</enabled>
                             <template>gdpr_email_erase_succeeded_template</template>
                             <identity>general</identity>
                             <copy_method>bcc</copy_method>
                         </customer>
                         <order>
-                            <enabled>0</enabled>
+                            <enabled>1</enabled>
                             <template>gdpr_email_erase_succeeded_guest_template</template>
                             <identity>general</identity>
                             <copy_method>bcc</copy_method>
@@ -195,13 +241,13 @@
                     </succeeded>
                     <canceled>
                         <customer>
-                            <enabled>0</enabled>
+                            <enabled>1</enabled>
                             <template>gdpr_email_erase_canceled_template</template>
                             <identity>general</identity>
                             <copy_method>bcc</copy_method>
                         </customer>
                         <order>
-                            <enabled>0</enabled>
+                            <enabled>1</enabled>
                             <template>gdpr_email_erase_canceled_guest_template</template>
                             <identity>general</identity>
                             <copy_method>bcc</copy_method>
@@ -211,13 +257,13 @@
                 <export>
                     <pending>
                         <customer>
-                            <enabled>0</enabled>
+                            <enabled>1</enabled>
                             <template>gdpr_email_export_pending_template</template>
                             <identity>general</identity>
                             <copy_method>bcc</copy_method>
                         </customer>
                         <order>
-                            <enabled>0</enabled>
+                            <enabled>1</enabled>
                             <template>gdpr_email_export_pending_guest_template</template>
                             <identity>general</identity>
                             <copy_method>bcc</copy_method>
@@ -225,13 +271,13 @@
                     </pending>
                     <ready>
                         <customer>
-                            <enabled>0</enabled>
+                            <enabled>1</enabled>
                             <template>gdpr_email_export_ready_template</template>
                             <identity>general</identity>
                             <copy_method>bcc</copy_method>
                         </customer>
                         <order>
-                            <enabled>0</enabled>
+                            <enabled>1</enabled>
                             <template>gdpr_email_export_ready_guest_template</template>
                             <identity>general</identity>
                             <copy_method>bcc</copy_method>
@@ -239,9 +285,6 @@
                     </ready>
                 </export>
             </notification>
-            <cookie>
-                <enabled>0</enabled>
-            </cookie>
         </gdpr>
     </default>
 </config>

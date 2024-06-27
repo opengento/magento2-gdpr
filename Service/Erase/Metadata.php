@@ -17,42 +17,27 @@ use function sprintf;
 
 class Metadata implements MetadataInterface
 {
-    private ScopeConfigInterface $scopeConfig;
-
-    /**
-     * @var SerializerInterface
-     */
-    private SerializerInterface $serializer;
-
-    private string $configPath;
-
-    private string $scopeType;
-
     /**
      * @var string[][]
      */
     private array $cache;
 
     public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        SerializerInterface $serializer,
-        string $configPath,
-        string $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT
-    ) {
-        $this->scopeConfig = $scopeConfig;
-        $this->serializer = $serializer;
-        $this->configPath = $configPath;
-        $this->scopeType = $scopeType;
-    }
+        private ScopeConfigInterface $scopeConfig,
+        private SerializerInterface $serializer,
+        private string $configPath,
+        private string $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT
+    ) {}
 
     public function getComponentsProcessors(?string $scopeCode = null): array
     {
         $scope = $scopeCode ?? 'current_scope';
 
         if (!isset($this->cache[$scope])) {
-            $metadata = $this->serializer->unserialize(
-                $this->scopeConfig->getValue($this->configPath, $this->scopeType, $scopeCode) ?? '{}'
-            );
+            $metadata = $this->scopeConfig->getValue($this->configPath, $this->scopeType, $scopeCode);
+            if (!is_array($metadata)) {
+                $metadata = $this->serializer->unserialize($metadata ?? '{}');
+            }
 
             $this->cache[$scope] = array_combine(
                 array_column($metadata, 'component'),
@@ -68,14 +53,9 @@ class Metadata implements MetadataInterface
      */
     public function getComponentProcessor(string $component, ?string $scopeCode = null): string
     {
-        $componentsProcessors = $this->getComponentsProcessors($scopeCode);
-
-        if (!isset($componentsProcessors[$component])) {
-            throw new InvalidArgumentException(
+        return $this->getComponentsProcessors($scopeCode)[$component]
+            ?? throw new InvalidArgumentException(
                 sprintf('There is no erasure processor registered for the component "%s".', $component)
             );
-        }
-
-        return $componentsProcessors[$component];
     }
 }

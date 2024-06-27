@@ -6,6 +6,7 @@
  */
 -->
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <!-- ToDo: add tracks on actions (policy, triggered_at) -->
     <table name="opengento_gdpr_erase_entity" resource="default" engine="innodb" comment="Erase Entity">
         <column xsi:type="int" name="erase_id" padding="11" unsigned="true" nullable="false" identity="true" comment="Erase ID"/>
         <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" comment="Entity ID"/>
