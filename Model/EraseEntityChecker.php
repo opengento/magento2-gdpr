@@ -33,7 +33,7 @@ class EraseEntityChecker implements EraseEntityCheckerInterface
     public function exists(int $entityId, string $entityType): bool
     {
         try {
-            return (bool) $this->eraseRepository->getByEntity($entityId, $entityType)->getEraseId();
+            return (bool)$this->eraseRepository->getByEntity($entityId, $entityType)->getEraseId();
         } catch (NoSuchEntityException $e) {
             return false;
         }

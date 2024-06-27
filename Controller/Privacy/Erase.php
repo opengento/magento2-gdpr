@@ -41,7 +41,7 @@ class Erase extends AbstractPrivacy implements HttpGetActionInterface
 
     protected function executeAction(): Page|Redirect
     {
-        if ($this->eraseCustomerChecker->exists((int) $this->customerSession->getCustomerId(), 'customer')) {
+        if ($this->eraseCustomerChecker->exists((int)$this->customerSession->getCustomerId(), 'customer')) {
             $this->messageManager->addErrorMessage(new Phrase('Your account is already being removed.'));
             /** @var Redirect $resultRedirect */
             $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);

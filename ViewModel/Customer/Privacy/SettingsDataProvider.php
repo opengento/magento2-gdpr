@@ -35,7 +35,7 @@ class SettingsDataProvider implements ArgumentInterface
     {
         return $this->informationHtml ??= $this->blockFactory->createBlock(
             BlockByIdentifier::class,
-            ['data' => ['identifier' => (string) $this->scopeConfig->getValue(
+            ['data' => ['identifier' => (string)$this->scopeConfig->getValue(
                 self::CONFIG_PATH_GENERAL_INFORMATION_BLOCK,
                 ScopeInterface::SCOPE_STORE
             )]]

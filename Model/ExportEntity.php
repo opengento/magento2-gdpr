@@ -22,7 +22,7 @@ class ExportEntity extends AbstractExtensibleModel implements ExportEntityInterf
 
     public function getExportId(): int
     {
-        return (int) $this->getId();
+        return (int)$this->getId();
     }
 
     public function setExportId(int $exportId): ExportEntityInterface
@@ -32,7 +32,7 @@ class ExportEntity extends AbstractExtensibleModel implements ExportEntityInterf
 
     public function getEntityId(): int
     {
-        return (int) $this->_getData(self::ENTITY_ID);
+        return (int)$this->_getData(self::ENTITY_ID);
     }
 
     public function setEntityId($entityId): ExportEntityInterface
@@ -42,7 +42,7 @@ class ExportEntity extends AbstractExtensibleModel implements ExportEntityInterf
 
     public function getEntityType(): string
     {
-        return (string) $this->_getData(self::ENTITY_TYPE);
+        return (string)$this->_getData(self::ENTITY_TYPE);
     }
 
     public function setEntityType(string $entityType): ExportEntityInterface
@@ -52,7 +52,7 @@ class ExportEntity extends AbstractExtensibleModel implements ExportEntityInterf
 
     public function getFileName(): string
     {
-        return (string) $this->_getData(self::FILE_NAME);
+        return (string)$this->_getData(self::FILE_NAME);
     }
 
     public function setFileName(string $filename): ExportEntityInterface
@@ -62,7 +62,7 @@ class ExportEntity extends AbstractExtensibleModel implements ExportEntityInterf
 
     public function getFilePath(): ?string
     {
-        return $this->_getData(self::FILE_PATH) === null ? null : (string) $this->_getData(self::FILE_PATH);
+        return $this->_getData(self::FILE_PATH) === null ? null : (string)$this->_getData(self::FILE_PATH);
     }
 
     public function setFilePath(?string $filePath): ExportEntityInterface
@@ -72,7 +72,7 @@ class ExportEntity extends AbstractExtensibleModel implements ExportEntityInterf
 
     public function getCreatedAt(): string
     {
-        return (string) $this->_getData(self::CREATED_AT);
+        return (string)$this->_getData(self::CREATED_AT);
     }
 
     public function setCreatedAt(string $createdAt): ExportEntityInterface
@@ -82,7 +82,7 @@ class ExportEntity extends AbstractExtensibleModel implements ExportEntityInterf
 
     public function getExportedAt(): ?string
     {
-        return $this->_getData(self::EXPORTED_AT) === null ? null : (string) $this->_getData(self::EXPORTED_AT);
+        return $this->_getData(self::EXPORTED_AT) === null ? null : (string)$this->_getData(self::EXPORTED_AT);
     }
 
     public function setExportedAt(string $exportedAt): ExportEntityInterface
@@ -92,7 +92,7 @@ class ExportEntity extends AbstractExtensibleModel implements ExportEntityInterf
 
     public function getExpiredAt(): string
     {
-        return (string) $this->_getData(self::EXPIRED_AT);
+        return (string)$this->_getData(self::EXPIRED_AT);
     }
 
     public function setExpiredAt(string $expiredAt): ExportEntityInterface

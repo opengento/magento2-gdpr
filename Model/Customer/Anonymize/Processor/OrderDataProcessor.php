@@ -58,7 +58,7 @@ class OrderDataProcessor implements ProcessorInterface
         foreach ($orderList->getItems() as $order) {
             $lastActive = new DateTime($order->getUpdatedAt());
             $this->salesInformation->isAlive($lastActive)
-                ? $this->salesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive)
+                ? $this->salesInformation->scheduleEraseEntity((int)$order->getEntityId(), 'order', $lastActive)
                 : $this->anonymize($order);
         }
 

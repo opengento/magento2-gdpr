@@ -62,6 +62,6 @@ class EraseSalesInformation implements EraseSalesInformationInterface
 
     private function resolveErasureSalesMaxAge(): int
     {
-        return (int) $this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_SALES_MAX_AGE, ScopeInterface::SCOPE_STORE);
+        return (int)$this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_SALES_MAX_AGE, ScopeInterface::SCOPE_STORE);
     }
 }

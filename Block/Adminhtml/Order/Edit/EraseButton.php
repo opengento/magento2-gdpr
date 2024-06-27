@@ -16,14 +16,11 @@ use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 
 class EraseButton extends AbstractBlock
 {
-    private EraseEntityCheckerInterface $eraseEntityChecker;
-
     public function __construct(
         Context $context,
-        EraseEntityCheckerInterface $eraseEntityChecker,
+        private EraseEntityCheckerInterface $eraseEntityChecker,
         array $data = []
     ) {
-        $this->eraseEntityChecker = $eraseEntityChecker;
         parent::__construct($context, $data);
     }
 
@@ -37,7 +34,7 @@ class EraseButton extends AbstractBlock
 
         /** @var View $orderView */
         $orderView = $this->getLayout()->getBlock('sales_order_edit');
-        $orderId = (int) $orderView->getOrderId();
+        $orderId = (int)$orderView->getOrderId();
 
         if ($this->_authorization->isAllowed('Opengento_Gdpr::order_erase') &&
             $this->eraseEntityChecker->canCreate($orderId, 'order')

@@ -78,7 +78,7 @@ class DeleteExport implements ObserverInterface
 
         foreach ($entityTypes as $entityType => $idFieldName) {
             $this->criteriaBuilder->addFilters([
-                $this->createEntityIdFilter((int) $entity->getData($idFieldName)),
+                $this->createEntityIdFilter((int)$entity->getData($idFieldName)),
                 $this->createEntityTypeFilter($entityType)
             ]);
         }

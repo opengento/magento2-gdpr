@@ -35,7 +35,7 @@ class ExportDataProvider implements ArgumentInterface
     {
         return $this->exportInformation ??= $this->blockFactory->createBlock(
             BlockByIdentifier::class,
-            ['data' => ['identifier' => (string) $this->scopeConfig->getValue(
+            ['data' => ['identifier' => (string)$this->scopeConfig->getValue(
                 self::CONFIG_PATH_EXPORT_INFORMATION_BLOCK,
                 ScopeInterface::SCOPE_STORE
             )]]

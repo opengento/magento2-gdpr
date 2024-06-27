@@ -24,7 +24,7 @@ class ExportEntityChecker implements ExportEntityCheckerInterface
     public function exists(int $entityId, string $entityType): bool
     {
         try {
-            return (bool) $this->exportRepository->getByEntity($entityId, $entityType)->getExportId();
+            return (bool)$this->exportRepository->getByEntity($entityId, $entityType)->getExportId();
         } catch (NoSuchEntityException $e) {
             return false;
         }

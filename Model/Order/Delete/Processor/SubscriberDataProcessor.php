@@ -49,7 +49,7 @@ class SubscriberDataProcessor implements ProcessorInterface
         $subscriber = $this->subscriberFactory->create();
         $subscriber->loadBySubscriberEmail(
             $order->getCustomerEmail(),
-            (int) $this->storeManager->getStore($order->getStoreId())->getWebsiteId()
+            (int)$this->storeManager->getStore($order->getStoreId())->getWebsiteId()
         );
         $this->subscriberResource->delete($subscriber);
 

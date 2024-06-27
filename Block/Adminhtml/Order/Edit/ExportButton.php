@@ -24,7 +24,7 @@ class ExportButton extends AbstractBlock
 
         /** @var View $orderView */
         $orderView = $this->getLayout()->getBlock('sales_order_edit');
-        $orderId = (int) $orderView->getOrderId();
+        $orderId = (int)$orderView->getOrderId();
 
         if ($this->_authorization->isAllowed('Opengento_Gdpr::order_export')) {
             $orderView->addButton(

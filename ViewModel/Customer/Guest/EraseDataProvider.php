@@ -53,6 +53,6 @@ class EraseDataProvider implements ArgumentInterface
         /** @var OrderInterface $order */
         $order = $this->registry->registry('current_order');
 
-        return (int) $order->getEntityId();
+        return (int)$order->getEntityId();
     }
 }

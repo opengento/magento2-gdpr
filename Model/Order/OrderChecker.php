@@ -15,17 +15,10 @@ use function in_array;
 
 class OrderChecker implements EntityCheckerInterface
 {
-    private OrderRepositoryInterface $orderRepository;
-
-    private Config $config;
-
     public function __construct(
-        OrderRepositoryInterface $orderRepository,
-        Config $config
-    ) {
-        $this->orderRepository = $orderRepository;
-        $this->config = $config;
-    }
+        private OrderRepositoryInterface $orderRepository,
+        private Config $config
+    ) {}
 
     public function canErase(int $orderId): bool
     {

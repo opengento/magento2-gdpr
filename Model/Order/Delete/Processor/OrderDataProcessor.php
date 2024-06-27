@@ -37,7 +37,7 @@ class OrderDataProcessor implements ProcessorInterface
         $lastActive = new DateTime($order->getUpdatedAt());
 
         if ($this->salesInformation->isAlive($lastActive)) {
-            $this->salesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive);
+            $this->salesInformation->scheduleEraseEntity((int)$order->getEntityId(), 'order', $lastActive);
 
             return true;
         }

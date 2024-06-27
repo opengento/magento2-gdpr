@@ -50,6 +50,6 @@ class ExportCustomerDataProvider implements ArgumentInterface
 
     private function currentCustomerId(): int
     {
-        return (int) $this->session->getCustomerId();
+        return (int)$this->session->getCustomerId();
     }
 }

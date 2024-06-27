@@ -23,6 +23,6 @@ class OrigDataRegistry
 
     public function set(CustomerInterface $customer): void
     {
-        $this->customers[(int) $customer->getId()] = $customer;
+        $this->customers[(int)$customer->getId()] = $customer;
     }
 }

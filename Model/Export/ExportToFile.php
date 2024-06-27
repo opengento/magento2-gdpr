@@ -71,7 +71,7 @@ class ExportToFile
 
     public function resolveExportRendererCodes(): array
     {
-        return explode(',', (string) $this->scopeConfig->getValue(
+        return explode(',', (string)$this->scopeConfig->getValue(
             self::CONFIG_PATH_EXPORT_RENDERERS,
             ScopeInterface::SCOPE_STORE
         ));

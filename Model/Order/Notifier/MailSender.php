@@ -47,7 +47,7 @@ class MailSender extends AbstractMailSender implements SenderInterface
      */
     public function send(OrderInterface $order): void
     {
-        $storeId = $order->getStoreId() === null ? null : (int) $order->getStoreId();
+        $storeId = $order->getStoreId() === null ? null : (int)$order->getStoreId();
         $vars = [
             'order' => $order,
             'billing' => $order->getBillingAddress(),

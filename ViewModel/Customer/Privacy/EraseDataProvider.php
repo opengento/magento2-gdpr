@@ -38,7 +38,7 @@ class EraseDataProvider implements ArgumentInterface
     {
         return $this->erasureInformation ??= $this->blockFactory->createBlock(
             BlockByIdentifier::class,
-            ['data' => ['identifier' => (string) $this->scopeConfig->getValue(
+            ['data' => ['identifier' => (string)$this->scopeConfig->getValue(
                 self::CONFIG_PATH_ERASURE_INFORMATION_BLOCK,
                 ScopeInterface::SCOPE_STORE
             )]]
@@ -49,7 +49,7 @@ class EraseDataProvider implements ArgumentInterface
     {
         return $this->anonymizeInformation ??= $this->blockFactory->createBlock(
             BlockByIdentifier::class,
-            ['data' => ['identifier' => (string) $this->scopeConfig->getValue(
+            ['data' => ['identifier' => (string)$this->scopeConfig->getValue(
                 self::CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK,
                 ScopeInterface::SCOPE_STORE
             )]]

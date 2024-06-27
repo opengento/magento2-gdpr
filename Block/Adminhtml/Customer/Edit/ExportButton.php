@@ -16,14 +16,11 @@ use Opengento\Gdpr\Model\Config;
 
 class ExportButton extends GenericButton implements ButtonProviderInterface
 {
-    private Config $config;
-
     public function __construct(
         Context $context,
         Registry $registry,
-        Config $config
+        private Config $config
     ) {
-        $this->config = $config;
         parent::__construct($context, $registry);
     }
 

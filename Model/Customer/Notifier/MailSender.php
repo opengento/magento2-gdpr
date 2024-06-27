@@ -42,7 +42,7 @@ class MailSender extends AbstractMailSender implements SenderInterface
      */
     public function send(CustomerInterface $customer): void
     {
-        $storeId = $customer->getStoreId() === null ? null : (int) $customer->getStoreId();
+        $storeId = $customer->getStoreId() === null ? null : (int)$customer->getStoreId();
         $vars = [
             'customer' => $customer,
             'store' => $this->storeManager->getStore($customer->getStoreId()),

@@ -7,46 +7,24 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Customer;
 
-use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
-use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\Entity\EntityCheckerInterface;
 
 class CustomerChecker implements EntityCheckerInterface
 {
-    private OrderRepositoryInterface $orderRepository;
-
-    private SearchCriteriaBuilder $criteriaBuilder;
-
-    private Config $config;
-
-    /**
-     * @var bool[]
-     */
-    private array $cache;
-
     public function __construct(
-        OrderRepositoryInterface $orderRepository,
-        SearchCriteriaBuilder $criteriaBuilder,
-        Config $config
-    ) {
-        $this->orderRepository = $orderRepository;
-        $this->criteriaBuilder = $criteriaBuilder;
-        $this->config = $config;
-        $this->cache = [];
-    }
+        private CollectionFactory $collectionFactory,
+        private Config $config
+    ) {}
 
     public function canErase(int $customerId): bool
     {
-        if (!isset($this->cache[$customerId])) {
-            $this->criteriaBuilder->addFilter(OrderInterface::STATE, $this->config->getAllowedStatesToErase(), 'nin');
-            $this->criteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
-            $orderList = $this->orderRepository->getList($this->criteriaBuilder->create());
+        $collection = $this->collectionFactory->create();
+        $collection->addFieldToFilter(OrderInterface::CUSTOMER_ID, $customerId);
+        $collection->addFieldToFilter(OrderInterface::STATE, ['nin' => $this->config->getAllowedStatesToErase()]);
 
-            $this->cache[$customerId] = !$orderList->getTotalCount();
-        }
-
-        return $this->cache[$customerId];
+        return $collection->getSize() > 0;
     }
 }

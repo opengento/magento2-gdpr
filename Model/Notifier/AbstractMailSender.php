@@ -111,7 +111,7 @@ abstract class AbstractMailSender
      */
     protected function getFrom(?int $storeId = null): string
     {
-        return (string) $this->scopeConfig->getValue(
+        return (string)$this->scopeConfig->getValue(
             $this->configPaths['from'],
             ScopeInterface::SCOPE_STORE,
             $storeId
@@ -140,7 +140,7 @@ abstract class AbstractMailSender
      */
     protected function getCopyMethod(?int $storeId = null): string
     {
-        return (string) $this->scopeConfig->getValue(
+        return (string)$this->scopeConfig->getValue(
             $this->configPaths['copy_method'],
             ScopeInterface::SCOPE_STORE,
             $storeId
@@ -153,7 +153,7 @@ abstract class AbstractMailSender
      */
     protected function getTemplateIdentifier(?int $storeId = null): string
     {
-        return (string) $this->scopeConfig->getValue(
+        return (string)$this->scopeConfig->getValue(
             $this->configPaths['template_identifier'],
             ScopeInterface::SCOPE_STORE,
             $storeId

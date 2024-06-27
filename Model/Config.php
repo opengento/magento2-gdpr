@@ -51,7 +51,7 @@ class Config
      */
     public function getAllowedStatesToErase(): array
     {
-        return explode(',', (string) $this->scopeConfig->getValue(
+        return explode(',', (string)$this->scopeConfig->getValue(
             self::CONFIG_PATH_ERASURE_ALLOWED_STATES,
             ScopeInterface::SCOPE_STORE
         ));

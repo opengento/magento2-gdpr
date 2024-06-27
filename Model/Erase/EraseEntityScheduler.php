@@ -47,7 +47,7 @@ class EraseEntityScheduler
          */
         foreach ($this->collectEntityIds($entityTypes, $filter) as $entityType => $entityIds) {
             foreach ($entityIds as $entityId) {
-                $this->eraseManagement->create((int) $entityId, $entityType);
+                $this->eraseManagement->create((int)$entityId, $entityType);
             }
         }
     }
