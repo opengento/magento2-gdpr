@@ -14,6 +14,7 @@ use Magento\Customer\Api\SessionCleanerInterface;
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\DataObject;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -37,53 +38,16 @@ class CustomerDataProcessor implements ProcessorInterface
 {
     private const CONFIG_PATH_ERASURE_REMOVE_CUSTOMER = 'gdpr/erasure/remove_customer';
 
-    private AnonymizerInterface $anonymizer;
-
-    /**
-     * @var CustomerRepositoryInterface
-     */
-    private CustomerRepositoryInterface $customerRepository;
-
-    private OrderRepositoryInterface $orderRepository;
-
-    private SearchCriteriaBuilder $criteriaBuilder;
-
-    /**
-     * @var CustomerRegistry
-     */
-    private CustomerRegistry $customerRegistry;
-
-    /**
-     * @var OrigDataRegistry
-     */
-    private OrigDataRegistry $origDataRegistry;
-
-    /**
-     * @var SessionCleanerInterface
-     */
-    private SessionCleanerInterface $sessionCleaner;
-
-    private ScopeConfigInterface $scopeConfig;
-
     public function __construct(
-        AnonymizerInterface $anonymizer,
-        CustomerRepositoryInterface $customerRepository,
-        OrderRepositoryInterface $orderRepository,
-        SearchCriteriaBuilder $criteriaBuilder,
-        CustomerRegistry $customerRegistry,
-        OrigDataRegistry $origDataRegistry,
-        SessionCleanerInterface $sessionCleaner,
-        ScopeConfigInterface $scopeConfig
-    ) {
-        $this->anonymizer = $anonymizer;
-        $this->customerRepository = $customerRepository;
-        $this->orderRepository = $orderRepository;
-        $this->criteriaBuilder = $criteriaBuilder;
-        $this->customerRegistry = $customerRegistry;
-        $this->origDataRegistry = $origDataRegistry;
-        $this->sessionCleaner = $sessionCleaner;
-        $this->scopeConfig = $scopeConfig;
-    }
+        private AnonymizerInterface $anonymizer,
+        private CustomerRepositoryInterface $customerRepository,
+        private OrderRepositoryInterface $orderRepository,
+        private SearchCriteriaBuilder $criteriaBuilder,
+        private CustomerRegistry $customerRegistry,
+        private OrigDataRegistry $origDataRegistry,
+        private SessionCleanerInterface $sessionCleaner,
+        private ScopeConfigInterface $scopeConfig
+    ) {}
 
     /**
      * @inheritdoc
@@ -144,7 +108,12 @@ class CustomerDataProcessor implements ProcessorInterface
         $secureData->setData('lock_expires', $dateTime->format(DateTimeFormat::DATETIME_PHP_FORMAT));
         $secureData->setPasswordHash(sha1(uniqid((string) mt_rand(), true)));
 
-        $this->customerRepository->save($this->anonymizer->anonymize($customer));
+        $customer = $this->anonymizer->anonymize($customer);
+        if ($customer instanceof DataObject) {
+            $customer->setData('ignore_validation_flag', true);
+        }
+
+        $this->customerRepository->save($customer);
     }
 
     private function shouldRemoveCustomerWithoutOrders(): bool
