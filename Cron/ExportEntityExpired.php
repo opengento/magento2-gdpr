@@ -20,25 +20,12 @@ use Psr\Log\LoggerInterface;
  */
 class ExportEntityExpired
 {
-    private LoggerInterface $logger;
-
-    private Config $config;
-
-    private ExportEntityRepositoryInterface $exportRepository;
-
-    private SearchCriteriaBuilder $criteriaBuilder;
-
     public function __construct(
-        LoggerInterface $logger,
-        Config $config,
-        ExportEntityRepositoryInterface $exportRepository,
-        SearchCriteriaBuilder $criteriaBuilder
-    ) {
-        $this->logger = $logger;
-        $this->config = $config;
-        $this->exportRepository = $exportRepository;
-        $this->criteriaBuilder = $criteriaBuilder;
-    }
+        private LoggerInterface $logger,
+        private Config $config,
+        private ExportEntityRepositoryInterface $exportRepository,
+        private SearchCriteriaBuilder $criteriaBuilder
+    ) {}
 
     public function execute(): void
     {

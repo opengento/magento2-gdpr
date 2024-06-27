@@ -12,18 +12,9 @@ use Magento\Sales\Model\ResourceModel\Order\Status\CollectionFactory;
 
 class OrderPendingStates implements OptionSourceInterface
 {
-    private CollectionFactory $collectionFactory;
+    private ?array $options = null;
 
-    /**
-     * @var string[][]
-     */
-    private array $options;
-
-    public function __construct(
-        CollectionFactory $collectionFactory
-    ) {
-        $this->collectionFactory = $collectionFactory;
-    }
+    public function __construct(private CollectionFactory $collectionFactory) {}
 
     public function toOptionArray(): array
     {

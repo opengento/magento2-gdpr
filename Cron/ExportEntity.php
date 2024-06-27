@@ -21,29 +21,13 @@ use Psr\Log\LoggerInterface;
  */
 class ExportEntity
 {
-    private LoggerInterface $logger;
-
-    private Config $config;
-
-    private ExportEntityRepositoryInterface $exportRepository;
-
-    private ExportEntityManagementInterface $exportManagement;
-
-    private SearchCriteriaBuilder $criteriaBuilder;
-
     public function __construct(
-        LoggerInterface $logger,
-        Config $config,
-        ExportEntityRepositoryInterface $exportRepository,
-        ExportEntityManagementInterface $exportManagement,
-        SearchCriteriaBuilder $criteriaBuilder
-    ) {
-        $this->logger = $logger;
-        $this->config = $config;
-        $this->exportRepository = $exportRepository;
-        $this->exportManagement = $exportManagement;
-        $this->criteriaBuilder = $criteriaBuilder;
-    }
+        private LoggerInterface $logger,
+        private Config $config,
+        private ExportEntityRepositoryInterface $exportRepository,
+        private ExportEntityManagementInterface $exportManagement,
+        private SearchCriteriaBuilder $criteriaBuilder
+    ) {}
 
     public function execute(): void
     {

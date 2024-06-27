@@ -25,40 +25,15 @@ use Psr\Log\LoggerInterface;
  */
 class EraseEntity
 {
-    private LoggerInterface $logger;
-
-    private Config $config;
-
-    private Registry $registry;
-
-    private EraseEntityManagementInterface $eraseManagement;
-
-    private EraseEntityRepositoryInterface $eraseRepository;
-
-    private SearchCriteriaBuilder $criteriaBuilder;
-
-    /**
-     * @var DateTime
-     */
-    private DateTime $dateTime;
-
     public function __construct(
-        LoggerInterface $logger,
-        Config $config,
-        Registry $registry,
-        EraseEntityManagementInterface $eraseManagement,
-        EraseEntityRepositoryInterface $eraseRepository,
-        SearchCriteriaBuilder $criteriaBuilder,
-        DateTime $dateTime
-    ) {
-        $this->logger = $logger;
-        $this->config = $config;
-        $this->registry = $registry;
-        $this->eraseManagement = $eraseManagement;
-        $this->eraseRepository = $eraseRepository;
-        $this->criteriaBuilder = $criteriaBuilder;
-        $this->dateTime = $dateTime;
-    }
+        private LoggerInterface $logger,
+        private Config $config,
+        private Registry $registry,
+        private EraseEntityManagementInterface $eraseManagement,
+        private EraseEntityRepositoryInterface $eraseRepository,
+        private SearchCriteriaBuilder $criteriaBuilder,
+        private DateTime $dateTime
+    ) {}
 
     public function execute(): void
     {
@@ -101,7 +76,7 @@ class EraseEntity
 
         try {
             $eraseCustomerList = $this->eraseRepository->getList($this->criteriaBuilder->create());
-        } catch (LocalizedException $e) {
+        } catch (LocalizedException) {
             $eraseCustomerList = [];
         }
 

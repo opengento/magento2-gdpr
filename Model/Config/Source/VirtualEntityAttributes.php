@@ -11,6 +11,7 @@ use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\Model\EntitySnapshot\AttributeProviderInterface;
 
 use function array_keys;
+use function array_map;
 
 /**
  * Class VirtualEntityAttributes
@@ -28,12 +29,9 @@ class VirtualEntityAttributes implements OptionSourceInterface
 
     public function toOptionArray(): array
     {
-        if ($this->options === null) {
-            foreach (array_keys($this->attributeProvider->getAttributes($this->entityType)) as $attribute) {
-                $this->options[] = ['value' => $attribute, 'label' => $attribute];
-            }
-        }
-
-        return $this->options;
+        return $this->options ??= array_map(
+            static fn (string $attribute): array => ['value' => $attribute, 'label' => $attribute],
+            array_keys($this->attributeProvider->getAttributes($this->entityType))
+        );
     }
 }
