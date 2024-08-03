@@ -25,38 +25,17 @@ use Psr\Log\LoggerInterface;
 
 class InvalidateExport implements ObserverInterface
 {
-    private ExportEntityRepositoryInterface $exportRepository;
-
-    private ExportEntityManagementInterface $exportManagement;
-
-    private SearchCriteriaBuilder $criteriaBuilder;
-
-    private FilterBuilder $filterBuilder;
-
-    private EntityTypeResolver $entityTypeResolver;
-
-    private LoggerInterface $logger;
-
     public function __construct(
-        ExportEntityRepositoryInterface $exportRepository,
-        ExportEntityManagementInterface $exportManagement,
-        SearchCriteriaBuilder $criteriaBuilder,
-        FilterBuilder $filterBuilder,
-        EntityTypeResolver $entityTypeResolver,
-        LoggerInterface $logger
-    ) {
-        $this->exportRepository = $exportRepository;
-        $this->exportManagement = $exportManagement;
-        $this->criteriaBuilder = $criteriaBuilder;
-        $this->filterBuilder = $filterBuilder;
-        $this->entityTypeResolver = $entityTypeResolver;
-        $this->logger = $logger;
-    }
+        private ExportEntityRepositoryInterface $exportRepository,
+        private ExportEntityManagementInterface $exportManagement,
+        private SearchCriteriaBuilder $criteriaBuilder,
+        private FilterBuilder $filterBuilder,
+        private EntityTypeResolver $entityTypeResolver,
+        private LoggerInterface $logger
+    ) {}
 
     public function execute(Observer $observer): void
     {
-        $entity = $observer->getData('data_object');
-
         if ($entity instanceof DataObject) {
             try {
                 foreach ($this->fetchExportEntities($entity)->getItems() as $exportEntity) {
@@ -71,7 +50,6 @@ class InvalidateExport implements ObserverInterface
     }
 
     /**
-     * @param DataObject $entity
      * @return ExportEntitySearchResultsInterface
      * @throws LocalizedException
      * @throws Exception

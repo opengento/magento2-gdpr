@@ -17,19 +17,12 @@ class SettingsDataProvider implements ArgumentInterface
 {
     private const CONFIG_PATH_GENERAL_INFORMATION_BLOCK = 'gdpr/general/block_id';
 
-    private ScopeConfigInterface $scopeConfig;
-
-    private BlockFactory $blockFactory;
-
-    private ?string $informationHtml;
+    private ?string $informationHtml = null;
 
     public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        BlockFactory $blockFactory
-    ) {
-        $this->scopeConfig = $scopeConfig;
-        $this->blockFactory = $blockFactory;
-    }
+        private ScopeConfigInterface $scopeConfig,
+        private BlockFactory $blockFactory
+    ) {}
 
     public function getPrivacyInformationHtml(): string
     {

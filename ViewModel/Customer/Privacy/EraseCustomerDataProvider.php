@@ -13,30 +13,13 @@ use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 
 class EraseCustomerDataProvider implements ArgumentInterface
 {
-    private EraseEntityCheckerInterface $eraseEntityChecker;
-
-    /**
-     * @var Session
-     */
-    private Session $session;
-
-    /**
-     * @var null|bool
-     */
-    private ?bool $canCancel;
-
-    /**
-     * @var null|bool
-     */
-    private ?bool $canCreate;
+    private ?bool $canCancel = null;
+    private ?bool $canCreate = null;
 
     public function __construct(
-        EraseEntityCheckerInterface $eraseEntityChecker,
-        Session $session
-    ) {
-        $this->eraseEntityChecker = $eraseEntityChecker;
-        $this->session = $session;
-    }
+        private EraseEntityCheckerInterface $eraseEntityChecker,
+        private Session $session
+    ) {}
 
     public function canCancel(): bool
     {

@@ -13,30 +13,13 @@ use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
 
 class ExportCustomerDataProvider implements ArgumentInterface
 {
-    private ExportEntityCheckerInterface $exportEntityChecker;
-
-    /**
-     * @var Session
-     */
-    private Session $session;
-
-    /**
-     * @var null|bool
-     */
-    private ?bool $isExportEntityExists;
-
-    /**
-     * @var null|bool
-     */
-    private ?bool $isExported;
+    private ?bool $isExportEntityExists = null;
+    private ?bool $isExported = null;
 
     public function __construct(
-        ExportEntityCheckerInterface $exportEntityChecker,
-        Session $session
-    ) {
-        $this->exportEntityChecker = $exportEntityChecker;
-        $this->session = $session;
-    }
+        private ExportEntityCheckerInterface $exportEntityChecker,
+        private Session $session
+    ) {}
 
     public function hasExport(): bool
     {

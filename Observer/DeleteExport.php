@@ -24,33 +24,16 @@ use Psr\Log\LoggerInterface;
 
 class DeleteExport implements ObserverInterface
 {
-    private ExportEntityRepositoryInterface $exportRepository;
-
-    private SearchCriteriaBuilder $criteriaBuilder;
-
-    private FilterBuilder $filterBuilder;
-
-    private EntityTypeResolver $entityTypeResolver;
-
-    private LoggerInterface $logger;
-
     public function __construct(
-        ExportEntityRepositoryInterface $exportRepository,
-        SearchCriteriaBuilder $criteriaBuilder,
-        FilterBuilder $filterBuilder,
-        EntityTypeResolver $entityTypeResolver,
-        LoggerInterface $logger
-    ) {
-        $this->exportRepository = $exportRepository;
-        $this->criteriaBuilder = $criteriaBuilder;
-        $this->filterBuilder = $filterBuilder;
-        $this->entityTypeResolver = $entityTypeResolver;
-        $this->logger = $logger;
-    }
+        private ExportEntityRepositoryInterface $exportRepository,
+        private SearchCriteriaBuilder $criteriaBuilder,
+        private FilterBuilder $filterBuilder,
+        private EntityTypeResolver $entityTypeResolver,
+        private LoggerInterface $logger
+    ) {}
 
     public function execute(Observer $observer): void
     {
-        /** @var DataObject $entity */
         $entity = $observer->getData('data_object');
 
         if ($entity instanceof DataObject) {
@@ -67,7 +50,6 @@ class DeleteExport implements ObserverInterface
     }
 
     /**
-     * @param DataObject $entity
      * @return ExportEntitySearchResultsInterface
      * @throws LocalizedException
      * @throws Exception

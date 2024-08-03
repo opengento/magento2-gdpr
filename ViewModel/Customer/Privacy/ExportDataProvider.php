@@ -17,19 +17,12 @@ class ExportDataProvider implements ArgumentInterface
 {
     private const CONFIG_PATH_EXPORT_INFORMATION_BLOCK = 'gdpr/export/block_id';
 
-    private ScopeConfigInterface $scopeConfig;
-
-    private BlockFactory $blockFactory;
-
-    private ?string $exportInformation;
+    private ?string $exportInformation = null;
 
     public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        BlockFactory $blockFactory
-    ) {
-        $this->scopeConfig = $scopeConfig;
-        $this->blockFactory = $blockFactory;
-    }
+        private ScopeConfigInterface $scopeConfig,
+        private BlockFactory $blockFactory
+    ) {}
 
     public function getExportInformationHtml(): string
     {
