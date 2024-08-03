@@ -51,7 +51,7 @@ class Notifier implements NotifierInterface
             try {
                 $sender->send($customer);
             } catch (LocalizedException $e) {
-                $this->logger->error($e->getLogMessage(), $e->getTrace());
+                $this->logger->error($e->getLogMessage(), ['exception' => $e]);
             }
         }
     }

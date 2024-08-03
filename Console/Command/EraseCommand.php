@@ -7,16 +7,14 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Console\Command;
 
-use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
-use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
-use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,8 +28,6 @@ class EraseCommand extends Command
         private State $appState,
         private Registry $registry,
         private EraseEntityManagementInterface $eraseManagement,
-        private EraseEntityRepositoryInterface $eraseEntityRepository,
-        private SearchCriteriaBuilder $searchCriteriaBuilder,
         string $name = 'gdpr:entity:erase'
     ) {
         parent::__construct($name);
@@ -71,17 +67,16 @@ class EraseCommand extends Command
         $entityIds = $input->getArgument(self::INPUT_ARGUMENT_ENTITY_ID);
         $entityType = $input->getArgument(self::INPUT_ARGUMENT_ENTITY_TYPE);
 
-        try {
-            $this->searchCriteriaBuilder->addFilter(EraseEntityInterface::ENTITY_ID, $entityIds, 'in');
-            $this->searchCriteriaBuilder->addFilter(EraseEntityInterface::ENTITY_TYPE, $entityType);
-            $eraseEntityList = $this->eraseEntityRepository->getList($this->searchCriteriaBuilder->create());
-            foreach ($eraseEntityList->getItems() as $eraseEntity) {
-                $this->eraseManagement->process($eraseEntity);
+        $progressBar = new ProgressBar($output, count($entityIds));
+        $progressBar->start();
 
-                $output->writeln(
-                    '<info>Entity\'s (' . $entityType . ') with ID "' . $eraseEntity->getEntityId() . '" has been erased.</info>'
-                );
+        try {
+            foreach ($entityIds as $entityId) {
+                $this->eraseManagement->process($this->eraseManagement->create($entityId, $entityType));
+                $progressBar->advance();
             }
+            $progressBar->finish();
+            $output->writeln('<info>Entities has been erased.</info>');
         } catch (LocalizedException $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');
             $returnCode = Cli::RETURN_FAILURE;

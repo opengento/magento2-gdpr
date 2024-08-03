@@ -22,29 +22,26 @@ class ExportEntityExpired
 {
     public function __construct(
         private LoggerInterface $logger,
-        private Config $config,
         private ExportEntityRepositoryInterface $exportRepository,
         private SearchCriteriaBuilder $criteriaBuilder
     ) {}
 
     public function execute(): void
     {
-        if ($this->config->isModuleEnabled() && $this->config->isExportEnabled()) {
-            $this->criteriaBuilder->addFilter(
-                ExportEntityInterface::EXPIRED_AT,
-                (new \DateTime())->format(DateTime::DATE_PHP_FORMAT),
-                'lteq'
-            );
+        $this->criteriaBuilder->addFilter(
+            ExportEntityInterface::EXPIRED_AT,
+            (new \DateTime())->format(DateTime::DATE_PHP_FORMAT),
+            'lteq'
+        );
 
-            try {
-                $exportList = $this->exportRepository->getList($this->criteriaBuilder->create());
+        try {
+            $exportList = $this->exportRepository->getList($this->criteriaBuilder->create());
 
-                foreach ($exportList->getItems() as $exportEntity) {
-                    $this->exportRepository->delete($exportEntity);
-                }
-            } catch (Exception $e) {
-                $this->logger->error($e->getMessage(), $e->getTrace());
+            foreach ($exportList->getItems() as $exportEntity) {
+                $this->exportRepository->delete($exportEntity);
             }
+        } catch (Exception $e) {
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
         }
     }
 }

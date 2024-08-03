@@ -42,7 +42,7 @@ class ErasePost extends AbstractPrivacy implements HttpPostActionInterface
 
     protected function isAllowed(): bool
     {
-        return parent::isAllowed() && $this->config->isErasureEnabled();
+        return $this->config->isErasureEnabled();
     }
 
     protected function executeAction(): Redirect

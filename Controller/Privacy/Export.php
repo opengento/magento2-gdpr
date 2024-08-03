@@ -38,7 +38,7 @@ class Export extends AbstractPrivacy implements HttpGetActionInterface
 
     protected function isAllowed(): bool
     {
-        return parent::isAllowed() && $this->config->isExportEnabled();
+        return $this->config->isExportEnabled();
     }
 
     protected function executeAction(): Redirect

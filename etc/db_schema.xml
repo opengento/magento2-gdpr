@@ -56,23 +56,4 @@
             <column name="expired_at"/>
         </index>
     </table>
-    <table name="opengento_gdpr_action_entity" resource="default" engine="innodb" comment="Action Entity">
-        <column xsi:type="int" name="action_id" padding="11" unsigned="true" nullable="false" identity="true" comment="Export ID"/>
-        <column xsi:type="varchar" name="type" length="191" nullable="false" comment="Type"/>
-        <column xsi:type="text" name="performed_from" nullable="false" comment="Performed From"/>
-        <column xsi:type="text" name="performed_by" nullable="true" comment="Performed By"/>
-        <column xsi:type="timestamp" name="performed_at" nullable="false" comment="Performed At"/>
-        <column xsi:type="varchar" name="state" length="191" nullable="false" comment="State"/>
-        <column xsi:type="text" name="message" nullable="false" comment="Message"/>
-        <column xsi:type="text" name="parameters" nullable="false" comment="Parameters"/>
-        <constraint xsi:type="primary" referenceId="PRIMARY">
-            <column name="action_id"/>
-        </constraint>
-        <index referenceId="OPENGENTO_GDPR_ACTION_ENTITY_TYPE" indexType="btree">
-            <column name="type"/>
-        </index>
-        <index referenceId="OPENGENTO_GDPR_ACTION_ENTITY_STATE" indexType="btree">
-            <column name="state"/>
-        </index>
-    </table>
 </schema>

@@ -13,7 +13,6 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
 use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
-use Opengento\Gdpr\Model\Config;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -23,7 +22,6 @@ class ExportEntity
 {
     public function __construct(
         private LoggerInterface $logger,
-        private Config $config,
         private ExportEntityRepositoryInterface $exportRepository,
         private ExportEntityManagementInterface $exportManagement,
         private SearchCriteriaBuilder $criteriaBuilder
@@ -31,24 +29,22 @@ class ExportEntity
 
     public function execute(): void
     {
-        if ($this->config->isModuleEnabled() && $this->config->isExportEnabled()) {
-            $this->criteriaBuilder->addFilter(ExportEntityInterface::EXPORTED_AT, true, 'null');
-            $this->criteriaBuilder->addFilter(ExportEntityInterface::FILE_PATH, true, 'null');
+        $this->criteriaBuilder->addFilter(ExportEntityInterface::EXPORTED_AT, true, 'null');
+        $this->criteriaBuilder->addFilter(ExportEntityInterface::FILE_PATH, true, 'null');
 
-            try {
-                $exportList = $this->exportRepository->getList($this->criteriaBuilder->create());
+        try {
+            $exportList = $this->exportRepository->getList($this->criteriaBuilder->create());
 
-                foreach ($exportList->getItems() as $exportEntity) {
-                    try {
-                        $this->exportManagement->export($exportEntity);
-                    } catch (NoSuchEntityException $e) {
-                        $this->logger->error($e->getLogMessage(), $e->getTrace());
-                        $this->exportRepository->delete($exportEntity);
-                    }
+            foreach ($exportList->getItems() as $exportEntity) {
+                try {
+                    $this->exportManagement->export($exportEntity);
+                } catch (NoSuchEntityException $e) {
+                    $this->logger->error($e->getLogMessage(), ['exception' => $e]);
+                    $this->exportRepository->delete($exportEntity);
                 }
-            } catch (Exception $e) {
-                $this->logger->critical($e->getMessage(), $e->getTrace());
             }
+        } catch (Exception $e) {
+            $this->logger->critical($e->getMessage(), ['exception' => $e]);
         }
     }
 }

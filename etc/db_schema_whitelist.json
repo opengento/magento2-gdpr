@@ -42,24 +42,5 @@
         "constraint": {
             "PRIMARY": true
         }
-    },
-    "opengento_gdpr_action_entity": {
-        "column": {
-            "action_id": true,
-            "type": true,
-            "performed_from": true,
-            "performed_by": true,
-            "performed_at": true,
-            "state": true,
-            "message": true,
-            "parameters": true
-        },
-        "index": {
-            "OPENGENTO_GDPR_ACTION_ENTITY_TYPE": true,
-            "OPENGENTO_GDPR_ACTION_ENTITY_STATE": true
-        },
-        "constraint": {
-            "PRIMARY": true
-        }
     }
 }

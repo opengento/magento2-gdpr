@@ -78,7 +78,7 @@ class CustomerDataProcessor implements ProcessorInterface
         $this->origDataRegistry->set(clone $customer);
 
         $isRemoved = false;
-        if ($this->shouldRemoveCustomerWithoutOrders() && !$this->fetchOrdersList($customer)->getTotalCount()) {
+        if ($this->shouldRemoveCustomerWithoutOrders($customer) && !$this->fetchOrdersList($customer)->getTotalCount()) {
             $isRemoved = $this->customerRepository->deleteById($customer->getId());
         }
         if (!$isRemoved) {
@@ -116,8 +116,12 @@ class CustomerDataProcessor implements ProcessorInterface
         $this->customerRepository->save($customer);
     }
 
-    private function shouldRemoveCustomerWithoutOrders(): bool
+    private function shouldRemoveCustomerWithoutOrders(CustomerInterface $customer): bool
     {
-        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_ERASURE_REMOVE_CUSTOMER, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_ERASURE_REMOVE_CUSTOMER,
+            ScopeInterface::SCOPE_WEBSITE,
+            $customer->getWebsiteId()
+        );
     }
 }

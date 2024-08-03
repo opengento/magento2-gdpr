@@ -73,7 +73,7 @@ class ExportToFile
     {
         return explode(',', (string)$this->scopeConfig->getValue(
             self::CONFIG_PATH_EXPORT_RENDERERS,
-            ScopeInterface::SCOPE_STORE
+            ScopeInterface::SCOPE_STORE //ToDo scope website
         ));
     }
 

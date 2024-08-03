@@ -16,23 +16,12 @@ use Magento\Framework\Phrase;
 
 class ArchiveManager
 {
-    private ArchiveInterface $archive;
-
-    private Filesystem $filesystem;
-
     public function __construct(
-        ArchiveInterface $archive,
-        Filesystem $filesystem
-    ) {
-        $this->archive = $archive;
-        $this->filesystem = $filesystem;
-    }
+        private ArchiveInterface $archive,
+        private Filesystem $filesystem
+    ) {}
 
     /**
-     * @param string $source
-     * @param string $destination
-     * @param bool $remove [optional] Remove the source files from the file system.
-     * @return string
      * @throws FileSystemException
      * @throws NotFoundException
      */

@@ -21,10 +21,6 @@ use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 
 class Export extends Value
 {
-    private ExportEntityRepositoryInterface $exportRepository;
-
-    private SearchCriteriaBuilder $criteriaBuilder;
-
     public function __construct(
         Context $context,
         Registry $registry,
@@ -32,12 +28,10 @@ class Export extends Value
         TypeListInterface $cacheTypeList,
         AbstractResource $resource,
         AbstractDb $resourceCollection,
-        ExportEntityRepositoryInterface $exportRepository,
-        SearchCriteriaBuilder $criteriaBuilder,
+        private ExportEntityRepositoryInterface $exportRepository,
+        private SearchCriteriaBuilder $criteriaBuilder,
         array $data = []
     ) {
-        $this->exportRepository = $exportRepository;
-        $this->criteriaBuilder = $criteriaBuilder;
         parent::__construct($context, $registry, $config, $cacheTypeList, $resource, $resourceCollection, $data);
     }
 
@@ -49,9 +43,7 @@ class Export extends Value
     public function afterSave(): self
     {
         if ($this->isValueChanged()) {
-            $exportList = $this->exportRepository->getList($this->criteriaBuilder->create());
-
-            foreach ($exportList->getItems() as $exportEntity) {
+            foreach ($this->exportRepository->getList($this->criteriaBuilder->create())->getItems() as $exportEntity) {
                 $this->exportRepository->delete($exportEntity);
             }
         }

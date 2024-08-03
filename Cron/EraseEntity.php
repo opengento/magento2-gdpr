@@ -17,7 +17,6 @@ use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterface;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
-use Opengento\Gdpr\Model\Config;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -27,7 +26,6 @@ class EraseEntity
 {
     public function __construct(
         private LoggerInterface $logger,
-        private Config $config,
         private Registry $registry,
         private EraseEntityManagementInterface $eraseManagement,
         private EraseEntityRepositoryInterface $eraseRepository,
@@ -37,24 +35,27 @@ class EraseEntity
 
     public function execute(): void
     {
-        if ($this->config->isModuleEnabled() && $this->config->isErasureEnabled()) {
-            $oldValue = $this->registry->registry('isSecureArea');
-            $this->registry->register('isSecureArea', true, true);
+        $oldValue = $this->registry->registry('isSecureArea');
+        $this->registry->register('isSecureArea', true, true);
 
+        try {
             foreach ($this->retrieveEraseEntityList()->getItems() as $eraseEntity) {
                 try {
                     $this->eraseManagement->process($eraseEntity);
                 } catch (Exception $e) {
-                    $this->logger->error($e->getMessage(), $e->getTrace());
+                    $this->logger->error($e->getMessage(), ['exception' => $e]);
                 }
             }
-
-            $this->registry->register('isSecureArea', $oldValue, true);
+        } catch (LocalizedException $e) {
+            $this->logger->error($e->getLogMessage(), ['exception' => $e]);
         }
+
+        $this->registry->register('isSecureArea', $oldValue, true);
     }
 
     /**
      * @return EraseEntitySearchResultsInterface
+     * @throws LocalizedException
      */
     private function retrieveEraseEntityList(): SearchResultsInterface
     {
@@ -74,12 +75,6 @@ class EraseEntity
             'in'
         );
 
-        try {
-            $eraseCustomerList = $this->eraseRepository->getList($this->criteriaBuilder->create());
-        } catch (LocalizedException) {
-            $eraseCustomerList = [];
-        }
-
-        return $eraseCustomerList;
+        return $this->eraseRepository->getList($this->criteriaBuilder->create());
     }
 }

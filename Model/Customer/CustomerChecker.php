@@ -9,21 +9,21 @@ namespace Opengento\Gdpr\Model\Customer;
 
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
-use Opengento\Gdpr\Model\Config;
+use Opengento\Gdpr\Model\Config\Entity\Erasure as ErasureConfig;
 use Opengento\Gdpr\Model\Entity\EntityCheckerInterface;
 
 class CustomerChecker implements EntityCheckerInterface
 {
     public function __construct(
         private CollectionFactory $collectionFactory,
-        private Config $config
+        private ErasureConfig $erasureConfig
     ) {}
 
-    public function canErase(int $customerId): bool
+    public function canErase(int $entityId): bool
     {
         $collection = $this->collectionFactory->create();
-        $collection->addFieldToFilter(OrderInterface::CUSTOMER_ID, $customerId);
-        $collection->addFieldToFilter(OrderInterface::STATE, ['nin' => $this->config->getAllowedStatesToErase()]);
+        $collection->addFieldToFilter(OrderInterface::CUSTOMER_ID, $entityId);
+        $collection->addFieldToFilter(OrderInterface::STATE, ['nin' => $this->erasureConfig->getAllowedStatesToErase()]);//ToDo scope Website
 
         return $collection->getSize() > 0;
     }

@@ -696,9 +696,8 @@
             <argument name="eraseComponents" xsi:type="object">Opengento\Gdpr\Model\Config\Source\Order\EraseComponents</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Order\SourceProvider\UpdatedAtFilterModifier" type="Opengento\Gdpr\Model\Entity\SourceProvider\FilterModifier">
+    <virtualType name="Opengento\Gdpr\Model\Order\SourceProvider\ExpireFilterModifier" type="Opengento\Gdpr\Model\Entity\SourceProvider\ExpireFilterModifier">
         <arguments>
-            <argument name="filterIdentifier" xsi:type="string">created_at</argument>
             <argument name="fieldToFilter" xsi:type="const">Magento\Sales\Api\Data\OrderInterface::UPDATED_AT</argument>
         </arguments>
     </virtualType>
@@ -711,7 +710,7 @@
         <arguments>
             <argument name="modifiers" xsi:type="array">
                 <item name="guestFilter" xsi:type="object">Opengento\Gdpr\Model\Order\SourceProvider\GuestFilterModifier</item>
-                <item name="updatedAtFilter" xsi:type="object">Opengento\Gdpr\Model\Order\SourceProvider\UpdatedAtFilterModifier</item>
+                <item name="updatedAtFilter" xsi:type="object">Opengento\Gdpr\Model\Order\SourceProvider\ExpireFilterModifier</item>
                 <item name="notErasedFilter" xsi:type="object">Opengento\Gdpr\Model\Order\SourceProvider\NotErasedFilterModifier</item>
             </argument>
         </arguments>
@@ -733,16 +732,15 @@
             </argument>
         </arguments>
     </type>
-    <virtualType name="Opengento\Gdpr\Model\Entity\SourceProvider\DefaultFilterModifier" type="Opengento\Gdpr\Model\Entity\SourceProvider\FilterModifier">
+    <virtualType name="Opengento\Gdpr\Model\Entity\SourceProvider\DefaultExpireFilterModifier" type="Opengento\Gdpr\Model\Entity\SourceProvider\ExpireFilterModifier">
         <arguments>
-            <argument name="filterIdentifier" xsi:type="string">created_at</argument>
             <argument name="fieldToFilter" xsi:type="string">created_at</argument>
         </arguments>
     </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Entity\SourceProvider\DefaultModifierComposite" type="Opengento\Gdpr\Model\Entity\SourceProvider\ModifierComposite">
         <arguments>
             <argument name="modifiers" xsi:type="array">
-                <item name="filter" xsi:type="object">Opengento\Gdpr\Model\Entity\SourceProvider\DefaultFilterModifier</item>
+                <item name="filter" xsi:type="object">Opengento\Gdpr\Model\Entity\SourceProvider\DefaultExpireFilterModifier</item>
             </argument>
         </arguments>
     </virtualType>

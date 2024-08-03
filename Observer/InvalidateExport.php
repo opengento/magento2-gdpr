@@ -63,9 +63,9 @@ class InvalidateExport implements ObserverInterface
                     $this->exportManagement->invalidate($exportEntity);
                 }
             } catch (LocalizedException $e) {
-                $this->logger->error($e->getLogMessage(), $e->getTrace());
+                $this->logger->error($e->getLogMessage(), ['exception' => $e]);
             } catch (Exception $e) {
-                $this->logger->error($e->getMessage(), $e->getTrace());
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
             }
         }
     }

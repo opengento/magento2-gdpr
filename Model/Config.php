@@ -10,58 +10,28 @@ namespace Opengento\Gdpr\Model;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
-use function explode;
-
 class Config
 {
-    /**
-     * Scope Config: Data Settings Paths
-     */
-    public const CONFIG_PATH_GENERAL_ENABLED = 'gdpr/general/enabled';
-    public const CONFIG_PATH_ERASURE_ENABLED = 'gdpr/erasure/enabled';
-    public const CONFIG_PATH_ERASURE_ALLOWED_STATES = 'gdpr/erasure/allowed_states';
-    public const CONFIG_PATH_EXPORT_ENABLED = 'gdpr/export/enabled';
+    private const CONFIG_PATH_GENERAL_ENABLED = 'gdpr/general/enabled';
+    private const CONFIG_PATH_ERASURE_ENABLED = 'gdpr/erasure/enabled';
+    private const CONFIG_PATH_EXPORT_ENABLED = 'gdpr/export/enabled';
 
-    private ScopeConfigInterface $scopeConfig;
+    public function __construct(private ScopeConfigInterface $scopeConfig) {}
 
-    public function __construct(
-        ScopeConfigInterface $scopeConfig
-    ) {
-        $this->scopeConfig = $scopeConfig;
+    public function isModuleEnabled(int|string|null $website = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_GENERAL_ENABLED, ScopeInterface::SCOPE_WEBSITE, $website);
     }
 
-    public function isModuleEnabled(): bool
+    public function isErasureEnabled(int|string|null $website = null): bool
     {
-        return $this->scopeConfig->isSetFlag(
-            self::CONFIG_PATH_GENERAL_ENABLED,
-            ScopeInterface::SCOPE_STORE
-        );
+        return $this->isModuleEnabled($website)
+            && $this->scopeConfig->isSetFlag(self::CONFIG_PATH_ERASURE_ENABLED, ScopeInterface::SCOPE_WEBSITE, $website);
     }
 
-    public function isErasureEnabled(): bool
+    public function isExportEnabled(int|string|null $website = null): bool
     {
-        return $this->scopeConfig->isSetFlag(
-            self::CONFIG_PATH_ERASURE_ENABLED,
-            ScopeInterface::SCOPE_STORE
-        );
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getAllowedStatesToErase(): array
-    {
-        return explode(',', (string)$this->scopeConfig->getValue(
-            self::CONFIG_PATH_ERASURE_ALLOWED_STATES,
-            ScopeInterface::SCOPE_STORE
-        ));
-    }
-
-    public function isExportEnabled(): bool
-    {
-        return $this->scopeConfig->isSetFlag(
-            self::CONFIG_PATH_EXPORT_ENABLED,
-            ScopeInterface::SCOPE_STORE
-        );
+        return $this->isModuleEnabled($website)
+            && $this->scopeConfig->isSetFlag(self::CONFIG_PATH_EXPORT_ENABLED, ScopeInterface::SCOPE_WEBSITE, $website);
     }
 }

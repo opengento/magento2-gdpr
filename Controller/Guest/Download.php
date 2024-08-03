@@ -53,7 +53,7 @@ class Download extends AbstractGuest implements HttpGetActionInterface
 
     protected function isAllowed(): bool
     {
-        return parent::isAllowed() && $this->config->isExportEnabled();
+        return $this->config->isExportEnabled();
     }
 
     protected function executeAction(): ResultInterface|ResponseInterface|Redirect
