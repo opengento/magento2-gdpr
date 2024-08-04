@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model;
 
 use DateTime;
-use Exception;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Phrase;
