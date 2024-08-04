@@ -25,29 +25,13 @@ class EraseEntityManagement implements EraseEntityManagementInterface
 {
     private const CONFIG_PATH_ERASURE_DELAY = 'gdpr/erasure/delay';
 
-    private EraseEntityInterfaceFactory $eraseEntityFactory;
-
-    private EraseEntityRepositoryInterface $eraseRepository;
-
-    private ProcessorFactory $processorFactory;
-
-    private ScopeConfigInterface $scopeConfig;
-
-    private DateTime $localeDate;
-
     public function __construct(
-        EraseEntityInterfaceFactory $eraseEntityFactory,
-        EraseEntityRepositoryInterface $eraseRepository,
-        ProcessorFactory $processorFactory,
-        ScopeConfigInterface $scopeConfig,
-        DateTime $localeDate
-    ) {
-        $this->eraseEntityFactory = $eraseEntityFactory;
-        $this->eraseRepository = $eraseRepository;
-        $this->processorFactory = $processorFactory;
-        $this->scopeConfig = $scopeConfig;
-        $this->localeDate = $localeDate;
-    }
+        private EraseEntityInterfaceFactory $eraseEntityFactory,
+        private EraseEntityRepositoryInterface $eraseRepository,
+        private ProcessorFactory $processorFactory,
+        private ScopeConfigInterface $scopeConfig,
+        private DateTime $localeDate
+    ) {}
 
     public function create(int $entityId, string $entityType): EraseEntityInterface
     {
@@ -83,8 +67,6 @@ class EraseEntityManagement implements EraseEntityManagementInterface
     }
 
     /**
-     * @param EraseEntityInterface $entity
-     * @return EraseEntityInterface
      * @throws CouldNotSaveException
      */
     private function success(EraseEntityInterface $entity): EraseEntityInterface
@@ -98,9 +80,6 @@ class EraseEntityManagement implements EraseEntityManagementInterface
     }
 
     /**
-     * @param EraseEntityInterface $entity
-     * @param string|null $message [optional]
-     * @return EraseEntityInterface
      * @throws CouldNotSaveException
      */
     private function fail(EraseEntityInterface $entity, ?string $message = null): EraseEntityInterface

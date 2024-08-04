@@ -26,32 +26,13 @@ class ExportEntityManagement implements ExportEntityManagementInterface
     private const CONFIG_PATH_EXPORT_FILE_NAME = 'gdpr/export/file_name';
     private const CONFIG_PATH_EXPORT_LIFE_TIME = 'gdpr/export/life_time';
 
-    private ExportEntityInterfaceFactory $exportEntityFactory;
-
-    private ExportEntityRepositoryInterface $exportRepository;
-
-    private ExportEntityCheckerInterface $exportEntityChecker;
-
-    /**
-     * @var ExportToFile
-     */
-    private ExportToFile $exportToFile;
-
-    private ScopeConfigInterface $scopeConfig;
-
     public function __construct(
-        ExportEntityInterfaceFactory $exportEntityFactory,
-        ExportEntityRepositoryInterface $exportRepository,
-        ExportEntityCheckerInterface $exportEntityChecker,
-        ExportToFile $exportToFile,
-        ScopeConfigInterface $scopeConfig
-    ) {
-        $this->exportEntityFactory = $exportEntityFactory;
-        $this->exportRepository = $exportRepository;
-        $this->exportEntityChecker = $exportEntityChecker;
-        $this->exportToFile = $exportToFile;
-        $this->scopeConfig = $scopeConfig;
-    }
+        private ExportEntityInterfaceFactory $exportEntityFactory,
+        private ExportEntityRepositoryInterface $exportRepository,
+        private ExportEntityCheckerInterface $exportEntityChecker,
+        private ExportToFile $exportToFile,
+        private ScopeConfigInterface $scopeConfig
+    ) {}
 
     public function create(int $entityId, string $entityType, ?string $fileName = null): ExportEntityInterface
     {
@@ -69,15 +50,10 @@ class ExportEntityManagement implements ExportEntityManagementInterface
         $exportEntity->setEntityId($entityId);
         $exportEntity->setEntityType($entityType);
         $exportEntity->setFileName($fileName ?? $this->resolveDefaultFileName());
-        $exportEntity = $this->exportRepository->save($exportEntity);
 
-        return $exportEntity;
+        return $this->exportRepository->save($exportEntity);
     }
 
-    /**
-     * @inheritdoc
-     * @throws Exception
-     */
     public function export(ExportEntityInterface $exportEntity): ExportEntityInterface
     {
         $lifeTime = (int)$this->scopeConfig->getValue(self::CONFIG_PATH_EXPORT_LIFE_TIME, ScopeInterface::SCOPE_STORE);//Todo scope website
@@ -86,9 +62,8 @@ class ExportEntityManagement implements ExportEntityManagementInterface
             (new DateTime('+' . $lifeTime . 'minutes'))->format(DateTimeFormat::DATETIME_PHP_FORMAT)
         );
         $exportEntity->setExportedAt((new DateTime())->format(DateTimeFormat::DATETIME_PHP_FORMAT));
-        $this->exportRepository->save($exportEntity);
 
-        return $exportEntity;
+        return $this->exportRepository->save($exportEntity);
     }
 
     public function invalidate(ExportEntityInterface $exportEntity): ExportEntityInterface

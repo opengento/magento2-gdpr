@@ -10,9 +10,14 @@
     <preference for="Opengento\Gdpr\Api\Data\EraseEntityInterface" type="Opengento\Gdpr\Model\EraseEntity"/>
     <preference for="Opengento\Gdpr\Api\Data\EraseEntitySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
     <preference for="Opengento\Gdpr\Api\EraseEntityRepositoryInterface" type="Opengento\Gdpr\Model\EraseEntityRepository"/>
-    <preference for="Opengento\Gdpr\Api\EraseEntityManagementInterface" type="Opengento\Gdpr\Model\EraseEntityManagement"/>
+    <preference for="Opengento\Gdpr\Api\EraseEntityManagementInterface" type="Opengento\Gdpr\Model\Erase\NotifyEraseEntityManagement"/>
     <preference for="Opengento\Gdpr\Api\EraseEntityCheckerInterface" type="Opengento\Gdpr\Model\EraseEntityChecker"/>
     <type name="Opengento\Gdpr\Model\Erase\SecureEraseEntityManagement">
+        <arguments>
+            <argument name="eraseManagement" xsi:type="object">Opengento\Gdpr\Model\Erase\NotifyEraseEntityManagement</argument>
+        </arguments>
+    </type>
+    <type name="Opengento\Gdpr\Model\Erase\NotifyEraseEntityManagement">
         <arguments>
             <argument name="eraseManagement" xsi:type="object">Opengento\Gdpr\Model\EraseEntityManagement</argument>
         </arguments>
@@ -22,8 +27,13 @@
     <preference for="Opengento\Gdpr\Api\Data\ExportEntityInterface" type="Opengento\Gdpr\Model\ExportEntity"/>
     <preference for="Opengento\Gdpr\Api\Data\ExportEntitySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
     <preference for="Opengento\Gdpr\Api\ExportEntityRepositoryInterface" type="Opengento\Gdpr\Model\ExportEntityRepository"/>
-    <preference for="Opengento\Gdpr\Api\ExportEntityManagementInterface" type="Opengento\Gdpr\Model\ExportEntityManagement"/>
+    <preference for="Opengento\Gdpr\Api\ExportEntityManagementInterface" type="Opengento\Gdpr\Model\Export\NotifyExportEntityManagement"/>
     <preference for="Opengento\Gdpr\Api\ExportEntityCheckerInterface" type="Opengento\Gdpr\Model\ExportEntityChecker"/>
+    <type name="Opengento\Gdpr\Model\Export\NotifyExportEntityManagement">
+        <arguments>
+            <argument name="exportManagement" xsi:type="object">Opengento\Gdpr\Model\ExportEntityManagement</argument>
+        </arguments>
+    </type>
     <!-- Service Contract -->
     <type name="Magento\Framework\Model\Entity\RepositoryFactory">
         <arguments>
@@ -1525,6 +1535,25 @@
             </argument>
         </arguments>
     </virtualType>
+    <!-- Erase Notifier Repository -->
+    <type name="Opengento\Gdpr\Model\Erase\NotifierRepository">
+        <arguments>
+            <argument name="notifiers" xsi:type="array">
+                <item name="pending" xsi:type="array">
+                    <item name="customer" xsi:type="object">Opengento\Gdpr\Model\Customer\Erase\Notifier\Pending\Proxy</item>
+                    <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Erase\Notifier\Pending\Proxy</item>
+                </item>
+                <item name="success" xsi:type="array">
+                    <item name="customer" xsi:type="object">Opengento\Gdpr\Model\Customer\Erase\Notifier\Succeeded\Proxy</item>
+                    <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Erase\Notifier\Succeeded\Proxy</item>
+                </item>
+                <item name="cancel" xsi:type="array">
+                    <item name="customer" xsi:type="object">Opengento\Gdpr\Model\Customer\Erase\Notifier\Canceled\Proxy</item>
+                    <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Erase\Notifier\Canceled\Proxy</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
     <!-- Export Logged In Customer Notifier Management -->
     <virtualType name="Opengento\Gdpr\Model\Customer\Export\Notifier\Pending\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
         <arguments>
@@ -1599,6 +1628,21 @@
             </argument>
         </arguments>
     </virtualType>
+    <!-- Export Notifier Repository -->
+    <type name="Opengento\Gdpr\Model\Export\NotifierRepository">
+        <arguments>
+            <argument name="notifiers" xsi:type="array">
+                <item name="pending" xsi:type="array">
+                    <item name="customer" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Notifier\Pending\Proxy</item>
+                    <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Notifier\Pending\Proxy</item>
+                </item>
+                <item name="ready" xsi:type="array">
+                    <item name="customer" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Notifier\Ready\Proxy</item>
+                    <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Notifier\Ready\Proxy</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
     <!-- Console Commands Management -->
     <type name="Opengento\Gdpr\Console\Command\EraseCommand">
         <arguments>
