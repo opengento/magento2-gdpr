@@ -13,7 +13,7 @@
         <resource>Opengento_Gdpr::config</resource>
         <group id="export" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
             <label>Export Settings</label>
-            <field id="enabled" type="select" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+            <field id="enabled" type="select" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10">
                 <label>Export</label>
                 <comment>It will enable the export action to the storefront.</comment>
                 <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
@@ -28,7 +28,7 @@
                 </depends>
                 <config_path>gdpr/export/block_id</config_path>
             </field>
-            <field id="renderers" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+            <field id="renderers" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30" canRestore="1">
                 <label>Renderers</label>
                 <comment>Select formats of the export. Notice: At least one human and one machine readable format should be selected.</comment>
                 <source_model>Opengento\Gdpr\Model\Config\Source\ExportRenderer</source_model>
@@ -48,14 +48,14 @@
                 </depends>
                 <config_path>gdpr/export/file_name</config_path>
             </field>
-            <field id="entity_schedule" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50" canRestore="1">
+            <field id="entity_schedule" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="50" canRestore="1">
                 <label>Export Scheduler</label>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
                 </depends>
                 <config_path>gdpr/export/entity_schedule</config_path>
             </field>
-            <field id="life_time" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
+            <field id="life_time" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="60" canRestore="1">
                 <label>Export Life Time</label>
                 <comment>Export life time in minute before it is removed from the server.</comment>
                 <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -65,7 +65,7 @@
                 </depends>
                 <config_path>gdpr/export/life_time</config_path>
             </field>
-            <field id="entity_expired_schedule" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70" canRestore="1">
+            <field id="entity_expired_schedule" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="70" canRestore="1">
                 <label>Erase Expired Export Schedule</label>
                 <depends>
                     <field id="customer/gdpr/export/enabled">1</field>
@@ -74,7 +74,7 @@
             </field>
             <group id="customer" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
                 <label>Customer</label>
-                <field id="customer_attributes" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                <field id="customer_attributes" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Customer Attributes</label>
                     <comment>This attributes list will be exported when processed.</comment>
                     <source_model>Opengento\Gdpr\Model\Config\Source\CustomerAttributes</source_model>
@@ -85,7 +85,7 @@
                     </depends>
                     <config_path>gdpr/export/customer_attributes</config_path>
                 </field>
-                <field id="customer_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                <field id="customer_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="20" canRestore="1">
                     <label>Customer Custom Attributes</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -95,7 +95,7 @@
                     </depends>
                     <config_path>gdpr/export/customer_custom_attributes</config_path>
                 </field>
-                <field id="customer_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                <field id="customer_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="30" canRestore="1">
                     <label>Customer Extensible Data</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -108,7 +108,7 @@
             </group>
             <group id="customer_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="90">
                 <label>Customer Address</label>
-                <field id="customer_address_attributes" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                <field id="customer_address_attributes" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Customer Address Attributes</label>
                     <comment>This attributes list will be exported when processed.</comment>
                     <source_model>Opengento\Gdpr\Model\Config\Source\CustomerAddressAttributes</source_model>
@@ -119,7 +119,7 @@
                     </depends>
                     <config_path>gdpr/export/customer_address_attributes</config_path>
                 </field>
-                <field id="customer_address_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                <field id="customer_address_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="20" canRestore="1">
                     <label>Customer Address Custom Attributes</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -129,7 +129,7 @@
                     </depends>
                     <config_path>gdpr/export/customer_address_custom_attributes</config_path>
                 </field>
-                <field id="customer_address_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                <field id="customer_address_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="30" canRestore="1">
                     <label>Customer Address Extensible Data</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -142,7 +142,7 @@
             </group>
             <group id="quote" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100">
                 <label>Quote</label>
-                <field id="quote_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                <field id="quote_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Quote Attributes</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -152,7 +152,7 @@
                     </depends>
                     <config_path>gdpr/export/quote_attributes</config_path>
                 </field>
-                <field id="quote_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                <field id="quote_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="20" canRestore="1">
                     <label>Quote Custom Attributes</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -162,7 +162,7 @@
                     </depends>
                     <config_path>gdpr/export/quote_custom_attributes</config_path>
                 </field>
-                <field id="quote_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                <field id="quote_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="30" canRestore="1">
                     <label>Quote Extensible Data</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -175,7 +175,7 @@
             </group>
             <group id="quote_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="110">
                 <label>Quote Address</label>
-                <field id="quote_address_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                <field id="quote_address_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Quote Address Attributes</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -185,7 +185,7 @@
                     </depends>
                     <config_path>gdpr/export/quote_address_attributes</config_path>
                 </field>
-                <field id="quote_address_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                <field id="quote_address_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="20" canRestore="1">
                     <label>Quote Address Custom Attributes</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -195,7 +195,7 @@
                     </depends>
                     <config_path>gdpr/export/quote_address_custom_attributes</config_path>
                 </field>
-                <field id="quote_address_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                <field id="quote_address_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="30" canRestore="1">
                     <label>Quote Address Extensible Data</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -208,7 +208,7 @@
             </group>
             <group id="order" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="120">
                 <label>Order</label>
-                <field id="order_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                <field id="order_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Order Attributes</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -218,7 +218,7 @@
                     </depends>
                     <config_path>gdpr/export/order_attributes</config_path>
                 </field>
-                <field id="order_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                <field id="order_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="20" canRestore="1">
                     <label>Order Custom Attributes</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -228,7 +228,7 @@
                     </depends>
                     <config_path>gdpr/export/order_custom_attributes</config_path>
                 </field>
-                <field id="order_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                <field id="order_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="30" canRestore="1">
                     <label>Order Extensible Data</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -241,7 +241,7 @@
             </group>
             <group id="order_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="130">
                 <label>Order Address</label>
-                <field id="order_address_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                <field id="order_address_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Order Address Attributes</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -251,7 +251,7 @@
                     </depends>
                     <config_path>gdpr/export/order_address_attributes</config_path>
                 </field>
-                <field id="order_address_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                <field id="order_address_custom_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="20" canRestore="1">
                     <label>Order Address Custom Attributes</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -261,7 +261,7 @@
                     </depends>
                     <config_path>gdpr/export/order_address_custom_attributes</config_path>
                 </field>
-                <field id="order_address_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                <field id="order_address_extensible_data" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="30" canRestore="1">
                     <label>Order Address Extensible Data</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>
@@ -274,7 +274,7 @@
             </group>
             <group id="subscriber" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="140">
                 <label>Subscriber</label>
-                <field id="subscriber_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                <field id="subscriber_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Subscriber Attributes</label>
                     <comment>Comma-separated</comment>
                     <backend_model>Opengento\Gdpr\Model\Config\Backend\Export</backend_model>

@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Privacy;
 
 use Exception;
+use Magento\Customer\Controller\AccountInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\RequestInterface;
@@ -18,21 +19,20 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
-use Opengento\Gdpr\Controller\AbstractPrivacy;
+use Opengento\Gdpr\Controller\AbstractAction;
 use Opengento\Gdpr\Model\Config;
 
-class UndoErase extends AbstractPrivacy implements HttpPostActionInterface
+class UndoErase extends AbstractAction implements HttpPostActionInterface, AccountInterface
 {
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
         ManagerInterface $messageManager,
         Config $config,
-        Session $customerSession,
-        Http $response,
+        private Session $customerSession,
         private EraseEntityManagementInterface $eraseEntityManagement
     ) {
-        parent::__construct($request, $resultFactory, $messageManager, $config, $customerSession, $response);
+        parent::__construct($request, $resultFactory, $messageManager, $config);
     }
 
     protected function isAllowed(): bool

@@ -56,7 +56,7 @@ class ExportEntityManagement implements ExportEntityManagementInterface
 
     public function export(ExportEntityInterface $exportEntity): ExportEntityInterface
     {
-        $lifeTime = (int)$this->scopeConfig->getValue(self::CONFIG_PATH_EXPORT_LIFE_TIME, ScopeInterface::SCOPE_STORE);//Todo scope website
+        $lifeTime = (int)$this->scopeConfig->getValue(self::CONFIG_PATH_EXPORT_LIFE_TIME);
         $exportEntity->setFilePath($this->exportToFile->export($exportEntity));
         $exportEntity->setExpiredAt(
             (new DateTime('+' . $lifeTime . 'minutes'))->format(DateTimeFormat::DATETIME_PHP_FORMAT)
@@ -75,6 +75,6 @@ class ExportEntityManagement implements ExportEntityManagementInterface
 
     private function resolveDefaultFileName(): string
     {
-        return (string)$this->scopeConfig->getValue(self::CONFIG_PATH_EXPORT_FILE_NAME, ScopeInterface::SCOPE_STORE);//Todo scope website
+        return (string)$this->scopeConfig->getValue(self::CONFIG_PATH_EXPORT_FILE_NAME, ScopeInterface::SCOPE_STORE);
     }
 }

@@ -13,7 +13,7 @@
         <resource>Opengento_Gdpr::config</resource>
         <group id="general" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
             <label>General</label>
-            <field id="enabled" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+            <field id="enabled" translate="label comment" type="select" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10">
                 <label>Enabled</label>
                 <comment>It will enable the module features in the admin and frontend ui.</comment>
                 <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

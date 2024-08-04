@@ -8,8 +8,8 @@
 <form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <settings>
         <buttons>
-            <button name="erase" class="Opengento\Gdpr\Block\Adminhtml\Customer\Edit\EraseButton"/>
-            <button name="export" class="Opengento\Gdpr\Block\Adminhtml\Customer\Edit\ExportButton"/>
+            <button name="erase" class="Opengento\Gdpr\Ui\Component\Customer\Form\EraseButton"/>
+            <button name="export" class="Opengento\Gdpr\Ui\Component\Customer\Form\ExportButton"/>
         </buttons>
     </settings>
 </form>

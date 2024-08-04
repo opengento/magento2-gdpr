@@ -14,7 +14,6 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Framework\Stdlib\DateTime as DateTimeFormat;
 use Magento\Framework\Stdlib\DateTime\DateTime;
-use Magento\Store\Model\ScopeInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
@@ -101,6 +100,6 @@ class EraseEntityManagement implements EraseEntityManagementInterface
 
     private function resolveErasureDelay(): int
     {
-        return (int)$this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_DELAY, ScopeInterface::SCOPE_STORE);//Todo scope website
+        return (int)$this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_DELAY);
     }
 }

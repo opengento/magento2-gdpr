@@ -1429,11 +1429,11 @@
     <virtualType name="Opengento\Gdpr\Model\Customer\Erase\Notifier\Pending\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <item name="is_available" xsi:type="string">gdpr/notification/erasure/pending/customer/enabled</item>
-                <item name="from" xsi:type="string">gdpr/notification/erasure/pending/customer/identity</item>
-                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/pending/customer/copy_to</item>
-                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/pending/customer/copy_method</item>
-                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/pending/customer/template</item>
+                <item name="is_available" xsi:type="string">gdpr/notification/erase_pending_enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erase_pending_identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erase_pending_copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erase_pending_copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erase_pending_template</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1447,11 +1447,11 @@
     <virtualType name="Opengento\Gdpr\Model\Customer\Erase\Notifier\Succeeded\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <item name="is_available" xsi:type="string">gdpr/notification/erasure/succeeded/customer/enabled</item>
-                <item name="from" xsi:type="string">gdpr/notification/erasure/succeeded/customer/identity</item>
-                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/succeeded/customer/copy_to</item>
-                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/succeeded/customer/copy_method</item>
-                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/succeeded/customer/template</item>
+                <item name="is_available" xsi:type="string">gdpr/notification/erase_succeeded_enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erase_succeeded_identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erase_succeeded_copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erase_succeeded_copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erase_succeeded_template</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1465,11 +1465,11 @@
     <virtualType name="Opengento\Gdpr\Model\Customer\Erase\Notifier\Canceled\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <item name="is_available" xsi:type="string">gdpr/notification/erasure/canceled/customer/enabled</item>
-                <item name="from" xsi:type="string">gdpr/notification/erasure/canceled/customer/identity</item>
-                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/canceled/customer/copy_to</item>
-                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/canceled/customer/copy_method</item>
-                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/canceled/customer/template</item>
+                <item name="is_available" xsi:type="string">gdpr/notification/erase_canceled_enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erase_canceled_identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erase_canceled_copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erase_canceled_copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erase_canceled_template</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1484,11 +1484,11 @@
     <virtualType name="Opengento\Gdpr\Model\Order\Erase\Notifier\Pending\MailSender" type="Opengento\Gdpr\Model\Order\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <item name="is_available" xsi:type="string">gdpr/notification/erasure/pending/order/enabled</item>
-                <item name="from" xsi:type="string">gdpr/notification/erasure/pending/order/identity</item>
-                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/pending/order/copy_to</item>
-                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/pending/order/copy_method</item>
-                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/pending/order/template</item>
+                <item name="is_available" xsi:type="string">gdpr/notification/erase_pending_enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erase_pending_identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erase_pending_copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erase_pending_copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erase_pending_guest_template</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1502,11 +1502,11 @@
     <virtualType name="Opengento\Gdpr\Model\Order\Erase\Notifier\Succeeded\MailSender" type="Opengento\Gdpr\Model\Order\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <item name="is_available" xsi:type="string">gdpr/notification/erasure/succeeded/order/enabled</item>
-                <item name="from" xsi:type="string">gdpr/notification/erasure/succeeded/order/identity</item>
-                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/succeeded/order/copy_to</item>
-                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/succeeded/order/copy_method</item>
-                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/succeeded/order/template</item>
+                <item name="is_available" xsi:type="string">gdpr/notification/erase_succeeded_enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erase_succeeded_identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erase_succeeded_copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erase_succeeded_copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erase_succeeded_guest_template</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1520,11 +1520,11 @@
     <virtualType name="Opengento\Gdpr\Model\Order\Erase\Notifier\Canceled\MailSender" type="Opengento\Gdpr\Model\Order\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <item name="is_available" xsi:type="string">gdpr/notification/erasure/canceled/order/enabled</item>
-                <item name="from" xsi:type="string">gdpr/notification/erasure/canceled/order/identity</item>
-                <item name="copy_to" xsi:type="string">gdpr/notification/erasure/canceled/order/copy_to</item>
-                <item name="copy_method" xsi:type="string">gdpr/notification/erasure/canceled/order/copy_method</item>
-                <item name="template_identifier" xsi:type="string">gdpr/notification/erasure/canceled/order/template</item>
+                <item name="is_available" xsi:type="string">gdpr/notification/erase_canceled_enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/erase_canceled_identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/erase_canceled_copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/erase_canceled_copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/erase_canceled_guest_template</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1558,11 +1558,11 @@
     <virtualType name="Opengento\Gdpr\Model\Customer\Export\Notifier\Pending\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <item name="is_available" xsi:type="string">gdpr/notification/export/pending/customer/enabled</item>
-                <item name="from" xsi:type="string">gdpr/notification/export/pending/customer/identity</item>
-                <item name="copy_to" xsi:type="string">gdpr/notification/export/pending/customer/copy_to</item>
-                <item name="copy_method" xsi:type="string">gdpr/notification/export/pending/customer/copy_method</item>
-                <item name="template_identifier" xsi:type="string">gdpr/notification/export/pending/customer/template</item>
+                <item name="is_available" xsi:type="string">gdpr/notification/export_pending_enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/export_pending_identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/export_pending_copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/export_pending_copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/export_pending_template</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1576,11 +1576,11 @@
     <virtualType name="Opengento\Gdpr\Model\Customer\Export\Notifier\Ready\MailSender" type="Opengento\Gdpr\Model\Customer\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <item name="is_available" xsi:type="string">gdpr/notification/export/ready/customer/enabled</item>
-                <item name="from" xsi:type="string">gdpr/notification/export/ready/customer/identity</item>
-                <item name="copy_to" xsi:type="string">gdpr/notification/export/ready/customer/copy_to</item>
-                <item name="copy_method" xsi:type="string">gdpr/notification/export/ready/customer/copy_method</item>
-                <item name="template_identifier" xsi:type="string">gdpr/notification/export/ready/customer/template</item>
+                <item name="is_available" xsi:type="string">gdpr/notification/export_ready_enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/export_ready_identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/export_ready_copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/export_ready_copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/export_ready_template</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1595,11 +1595,11 @@
     <virtualType name="Opengento\Gdpr\Model\Order\Export\Notifier\Pending\MailSender" type="Opengento\Gdpr\Model\Order\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <item name="is_available" xsi:type="string">gdpr/notification/export/pending/order/enabled</item>
-                <item name="from" xsi:type="string">gdpr/notification/export/pending/order/identity</item>
-                <item name="copy_to" xsi:type="string">gdpr/notification/export/pending/order/copy_to</item>
-                <item name="copy_method" xsi:type="string">gdpr/notification/export/pending/order/copy_method</item>
-                <item name="template_identifier" xsi:type="string">gdpr/notification/export/pending/order/template</item>
+                <item name="is_available" xsi:type="string">gdpr/notification/export_pending_enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/export_pending_identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/export_pending_copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/export_pending_copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/export_pending_guest_template</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1613,11 +1613,11 @@
     <virtualType name="Opengento\Gdpr\Model\Order\Export\Notifier\Ready\MailSender" type="Opengento\Gdpr\Model\Order\Notifier\MailSender">
         <arguments>
             <argument name="configPaths" xsi:type="array">
-                <item name="is_available" xsi:type="string">gdpr/notification/export/ready/order/enabled</item>
-                <item name="from" xsi:type="string">gdpr/notification/export/ready/order/identity</item>
-                <item name="copy_to" xsi:type="string">gdpr/notification/export/ready/order/copy_to</item>
-                <item name="copy_method" xsi:type="string">gdpr/notification/export/ready/order/copy_method</item>
-                <item name="template_identifier" xsi:type="string">gdpr/notification/export/ready/order/template</item>
+                <item name="is_available" xsi:type="string">gdpr/notification/export_ready_enabled</item>
+                <item name="from" xsi:type="string">gdpr/notification/export_ready_identity</item>
+                <item name="copy_to" xsi:type="string">gdpr/notification/export_ready_copy_to</item>
+                <item name="copy_method" xsi:type="string">gdpr/notification/export_ready_copy_method</item>
+                <item name="template_identifier" xsi:type="string">gdpr/notification/export_ready_guest_template</item>
             </argument>
         </arguments>
     </virtualType>

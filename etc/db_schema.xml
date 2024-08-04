@@ -19,15 +19,15 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="erase_id"/>
         </constraint>
-        <!--<constraint xsi:type="unique" referenceId="OPENGENTO_GDPR_ERASE_ENTITY_ENTITY_ID_ENTITY_TYPE">
+        <constraint xsi:type="unique" referenceId="OPENGENTO_GDPR_ERASE_ENTITY_ENTITY_ID_ENTITY_TYPE">
             <column name="entity_id"/>
             <column name="entity_type"/>
-        </constraint>-->
+        </constraint>
         <index referenceId="OPENGENTO_GDPR_ERASE_ENTITY_IDENTITY" indexType="btree">
             <column name="entity_type"/>
             <column name="entity_id"/>
         </index>
-        <index referenceId="OPENGENTO_GDPR_ERASE_ENTITY_SCHEDULED_EXPORT" indexType="btree">
+        <index referenceId="OPENGENTO_GDPR_ERASE_ENTITY_SCHEDULED_PROCESS" indexType="btree">
             <column name="scheduled_at"/>
             <column name="state"/>
             <column name="status"/>

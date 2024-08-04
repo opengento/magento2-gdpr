@@ -14,6 +14,7 @@ use Magento\Customer\Controller\Adminhtml\Index\AbstractMassAction;
 use Magento\Customer\Model\ResourceModel\Customer\CollectionFactory;
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -38,7 +39,7 @@ class MassErase extends AbstractMassAction
         parent::__construct($context, $filter, $collectionFactory);
     }
 
-    protected function massAction(AbstractCollection $collection): Redirect|ResultInterface|\Magento\Framework\App\ResponseInterface
+    protected function massAction(AbstractCollection $collection): ResultInterface|ResponseInterface
     {
         $customerErased = 0;
 

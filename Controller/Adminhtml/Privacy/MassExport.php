@@ -16,7 +16,9 @@ use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Ui\Component\MassAction\Filter;
@@ -42,7 +44,7 @@ class MassExport extends AbstractMassAction
         parent::__construct($context, $filter, $collectionFactory);
     }
 
-    protected function massAction(AbstractCollection $collection)
+    protected function massAction(AbstractCollection $collection): ResultInterface|ResponseInterface
     {
         $archiveFileName = 'customers_privacy_data.zip';
 

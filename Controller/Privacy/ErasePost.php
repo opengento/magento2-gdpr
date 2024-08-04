@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Privacy;
 
 use Exception;
+use Magento\Customer\Controller\AccountInterface;
 use Magento\Customer\Model\AuthenticationInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\HttpPostActionInterface;
@@ -22,22 +23,21 @@ use Magento\Framework\Exception\State\UserLockedException;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
-use Opengento\Gdpr\Controller\AbstractPrivacy;
+use Opengento\Gdpr\Controller\AbstractAction;
 use Opengento\Gdpr\Model\Config;
 
-class ErasePost extends AbstractPrivacy implements HttpPostActionInterface
+class ErasePost extends AbstractAction implements HttpPostActionInterface, AccountInterface
 {
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
         ManagerInterface $messageManager,
         Config $config,
-        Session $customerSession,
-        Http $response,
+        private Session $customerSession,
         private AuthenticationInterface $authentication,
         private EraseEntityManagementInterface $eraseEntityManagement
     ) {
-        parent::__construct($request, $resultFactory, $messageManager, $config, $customerSession, $response);
+        parent::__construct($request, $resultFactory, $messageManager, $config);
     }
 
     protected function isAllowed(): bool
@@ -60,7 +60,7 @@ class ErasePost extends AbstractPrivacy implements HttpPostActionInterface
         } catch (InvalidEmailOrPasswordException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
             $resultRedirect->setRefererOrBaseUrl();
-        } catch (UserLockedException $e) {
+        } catch (UserLockedException) {
             $this->customerSession->logout();
             try {
                 $this->customerSession->start();

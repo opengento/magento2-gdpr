@@ -50,7 +50,7 @@ class Export extends AbstractGuest implements HttpGetActionInterface
         try {
             $this->exportEntityManagement->create((int)$this->currentOrder()->getEntityId(), 'order');
             $this->messageManager->addSuccessMessage(new Phrase('You will be notified when the export is ready.'));
-        } catch (AlreadyExistsException $e) {
+        } catch (AlreadyExistsException) {
             $this->messageManager->addNoticeMessage(new Phrase('A document is already available in your order page.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());

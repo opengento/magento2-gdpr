@@ -31,8 +31,7 @@ class EraseEntityScheduler
     public function execute(): void
     {
         foreach ($this->storeManager->getWebsites() as $website) {
-            $websiteId = $website->getId();
-            if ($this->config->isErasureEnabled($websiteId)) {
+            if ($this->config->isErasureEnabled($website->getId())) {
                 try {
                     $this->eraseEntityScheduler->schedule($this->entityTypeList->getEntityTypes(), $website);
                 } catch (Exception $e) {

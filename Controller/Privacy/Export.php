@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Privacy;
 
 use Exception;
+use Magento\Customer\Controller\AccountInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\RequestInterface;
@@ -19,21 +20,20 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
-use Opengento\Gdpr\Controller\AbstractPrivacy;
+use Opengento\Gdpr\Controller\AbstractAction;
 use Opengento\Gdpr\Model\Config;
 
-class Export extends AbstractPrivacy implements HttpGetActionInterface
+class Export extends AbstractAction implements HttpGetActionInterface, AccountInterface
 {
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
         ManagerInterface $messageManager,
         Config $config,
-        Session $customerSession,
-        Http $response,
+        private Session $customerSession,
         private ExportEntityManagementInterface $exportEntityManagement
     ) {
-        parent::__construct($request, $resultFactory, $messageManager, $config, $customerSession, $response);
+        parent::__construct($request, $resultFactory, $messageManager, $config);
     }
 
     protected function isAllowed(): bool
@@ -50,7 +50,7 @@ class Export extends AbstractPrivacy implements HttpGetActionInterface
         try {
             $this->exportEntityManagement->create((int)$this->customerSession->getCustomerId(), 'customer');
             $this->messageManager->addSuccessMessage(new Phrase('You will be notified when the export is ready.'));
-        } catch (AlreadyExistsException $e) {
+        } catch (AlreadyExistsException) {
             $this->messageManager->addNoticeMessage(new Phrase('A document is already available in your account.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());

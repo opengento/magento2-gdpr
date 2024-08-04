@@ -56,7 +56,7 @@ class Download extends AbstractGuest implements HttpGetActionInterface
         return $this->config->isExportEnabled();
     }
 
-    protected function executeAction(): ResultInterface|ResponseInterface|Redirect
+    protected function executeAction(): ResultInterface|ResponseInterface
     {
         try {
             /** @var OrderInterface $order */
@@ -70,7 +70,7 @@ class Download extends AbstractGuest implements HttpGetActionInterface
                 ],
                 DirectoryList::TMP
             );
-        } catch (NoSuchEntityException $e) {
+        } catch (NoSuchEntityException) {
             $this->messageManager->addErrorMessage(
                 new Phrase('The document does not exists and may have expired. Please renew your demand.')
             );

@@ -34,7 +34,7 @@ class EraseEntityChecker implements EraseEntityCheckerInterface
     {
         try {
             return (bool)$this->eraseRepository->getByEntity($entityId, $entityType)->getEraseId();
-        } catch (NoSuchEntityException $e) {
+        } catch (NoSuchEntityException) {
             return false;
         }
     }
@@ -50,7 +50,7 @@ class EraseEntityChecker implements EraseEntityCheckerInterface
     {
         try {
             $entity = $this->eraseRepository->getByEntity($entityId, $entityType);
-        } catch (NoSuchEntityException $e) {
+        } catch (NoSuchEntityException) {
             return false;
         }
 
@@ -62,7 +62,7 @@ class EraseEntityChecker implements EraseEntityCheckerInterface
     {
         try {
             $entity = $this->eraseRepository->getByEntity($entityId, $entityType);
-        } catch (NoSuchEntityException $e) {
+        } catch (NoSuchEntityException) {
             return false;
         }
         $entityChecker = $this->entityCheckerFactory->get($entityType);

@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Privacy;
 
 use Exception;
+use Magento\Customer\Controller\AccountInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
@@ -23,22 +24,21 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
-use Opengento\Gdpr\Controller\AbstractPrivacy;
+use Opengento\Gdpr\Controller\AbstractAction;
 use Opengento\Gdpr\Model\Config;
 
-class Download extends AbstractPrivacy implements HttpGetActionInterface
+class Download extends AbstractAction implements HttpGetActionInterface, AccountInterface
 {
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
         ManagerInterface $messageManager,
         Config $config,
-        Http $response,
-        Session $customerSession,
+        private Session $customerSession,
         private FileFactory $fileFactory,
         private ExportEntityRepositoryInterface $exportRepository
     ) {
-        parent::__construct($request, $resultFactory, $messageManager, $config, $customerSession, $response);
+        parent::__construct($request, $resultFactory, $messageManager, $config);
     }
 
     protected function isAllowed(): bool
@@ -46,7 +46,7 @@ class Download extends AbstractPrivacy implements HttpGetActionInterface
         return $this->config->isExportEnabled();
     }
 
-    protected function executeAction(): ResultInterface|ResponseInterface|Redirect
+    protected function executeAction(): ResultInterface|ResponseInterface
     {
         try {
             $customerId = (int)$this->customerSession->getCustomerId();
@@ -59,7 +59,7 @@ class Download extends AbstractPrivacy implements HttpGetActionInterface
                 ],
                 DirectoryList::TMP
             );
-        } catch (NoSuchEntityException $e) {
+        } catch (NoSuchEntityException) {
             $this->messageManager->addErrorMessage(
                 new Phrase('The document does not exists and may have expired. Please renew your demand.')
             );

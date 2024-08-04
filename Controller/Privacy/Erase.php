@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Controller\Privacy;
 
+use Magento\Customer\Controller\AccountInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\RequestInterface;
@@ -17,21 +18,20 @@ use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
 use Magento\Framework\View\Result\Page;
 use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
-use Opengento\Gdpr\Controller\AbstractPrivacy;
+use Opengento\Gdpr\Controller\AbstractAction;
 use Opengento\Gdpr\Model\Config;
 
-class Erase extends AbstractPrivacy implements HttpGetActionInterface
+class Erase extends AbstractAction implements HttpGetActionInterface, AccountInterface
 {
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
         ManagerInterface $messageManager,
         Config $config,
-        Session $customerSession,
-        Http $response,
+        private Session $customerSession,
         private EraseEntityCheckerInterface $eraseCustomerChecker
     ) {
-        parent::__construct($request, $resultFactory, $messageManager, $config, $customerSession, $response);
+        parent::__construct($request, $resultFactory, $messageManager, $config);
     }
 
     protected function isAllowed(): bool
