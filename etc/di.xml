@@ -1540,16 +1540,16 @@
         <arguments>
             <argument name="notifiers" xsi:type="array">
                 <item name="pending" xsi:type="array">
-                    <item name="customer" xsi:type="object">Opengento\Gdpr\Model\Customer\Erase\Notifier\Pending\Proxy</item>
-                    <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Erase\Notifier\Pending\Proxy</item>
+                    <item name="customer" xsi:type="object">Opengento\Gdpr\Model\Customer\Erase\Notifier\Pending</item>
+                    <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Erase\Notifier\Pending</item>
                 </item>
                 <item name="success" xsi:type="array">
-                    <item name="customer" xsi:type="object">Opengento\Gdpr\Model\Customer\Erase\Notifier\Succeeded\Proxy</item>
-                    <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Erase\Notifier\Succeeded\Proxy</item>
+                    <item name="customer" xsi:type="object">Opengento\Gdpr\Model\Customer\Erase\Notifier\Succeeded</item>
+                    <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Erase\Notifier\Succeeded</item>
                 </item>
                 <item name="cancel" xsi:type="array">
-                    <item name="customer" xsi:type="object">Opengento\Gdpr\Model\Customer\Erase\Notifier\Canceled\Proxy</item>
-                    <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Erase\Notifier\Canceled\Proxy</item>
+                    <item name="customer" xsi:type="object">Opengento\Gdpr\Model\Customer\Erase\Notifier\Canceled</item>
+                    <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Erase\Notifier\Canceled</item>
                 </item>
             </argument>
         </arguments>
@@ -1633,12 +1633,12 @@
         <arguments>
             <argument name="notifiers" xsi:type="array">
                 <item name="pending" xsi:type="array">
-                    <item name="customer" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Notifier\Pending\Proxy</item>
-                    <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Notifier\Pending\Proxy</item>
+                    <item name="customer" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Notifier\Pending</item>
+                    <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Notifier\Pending</item>
                 </item>
                 <item name="ready" xsi:type="array">
-                    <item name="customer" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Notifier\Ready\Proxy</item>
-                    <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Notifier\Ready\Proxy</item>
+                    <item name="customer" xsi:type="object">Opengento\Gdpr\Model\Customer\Export\Notifier\Ready</item>
+                    <item name="order" xsi:type="object">Opengento\Gdpr\Model\Order\Export\Notifier\Ready</item>
                 </item>
             </argument>
         </arguments>

@@ -35,7 +35,6 @@ class DeleteExport implements ObserverInterface
     public function execute(Observer $observer): void
     {
         $entity = $observer->getData('data_object');
-
         if ($entity instanceof DataObject) {
             try {
                 foreach ($this->fetchExportEntities($entity)->getItems() as $exportEntity) {
