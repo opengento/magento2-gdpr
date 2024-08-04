@@ -19,7 +19,8 @@
     </type>
     <type name="Opengento\Gdpr\Model\Erase\NotifyEraseEntityManagement">
         <arguments>
-            <argument name="eraseManagement" xsi:type="object">Opengento\Gdpr\Model\EraseEntityManagement</argument>
+            <argument name="eraseManagement" xsi:type="object">Opengento\Gdpr\Model\EraseEntityManagement\Proxy</argument>
+            <argument name="notifierRepository" xsi:type="object">Opengento\Gdpr\Model\Erase\NotifierRepository\Proxy</argument>
         </arguments>
     </type>
     <preference for="Opengento\Gdpr\Api\EraseSalesInformationInterface" type="Opengento\Gdpr\Model\Erase\EraseSalesInformation"/>
@@ -31,7 +32,8 @@
     <preference for="Opengento\Gdpr\Api\ExportEntityCheckerInterface" type="Opengento\Gdpr\Model\ExportEntityChecker"/>
     <type name="Opengento\Gdpr\Model\Export\NotifyExportEntityManagement">
         <arguments>
-            <argument name="exportManagement" xsi:type="object">Opengento\Gdpr\Model\ExportEntityManagement</argument>
+            <argument name="exportManagement" xsi:type="object">Opengento\Gdpr\Model\ExportEntityManagement\Proxy</argument>
+            <argument name="notifierRepository" xsi:type="object">Opengento\Gdpr\Model\Export\NotifierRepository\Proxy</argument>
         </arguments>
     </type>
     <!-- Service Contract -->
