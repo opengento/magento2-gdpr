@@ -14,35 +14,27 @@ use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
 class Email implements AnonymizerInterface
 {
-    private const PHRASE = '%1-anonymous-%2@gdpr.org';
-    private const PREFIX_LENGTH = 3;
-    private const SUFFIX_LENGTH = 2;
+    public function __construct(private Random $mathRandom) {}
 
     /**
-     * @var Random
-     */
-    private Random $mathRandom;
-
-    public function __construct(
-        Random $mathRandom
-    ) {
-        $this->mathRandom = $mathRandom;
-    }
-
-    /**
-     * @inheritdoc
      * @throws LocalizedException
      */
     public function anonymize($value): ?string
     {
-        return $value
-            ? (new Phrase(
-                self::PHRASE,
-                [
-                    $this->mathRandom->getRandomString(self::PREFIX_LENGTH, Random::CHARS_LOWERS),
-                    $this->mathRandom->getRandomString(self::SUFFIX_LENGTH, Random::CHARS_LOWERS),
-                ]
-            ))->render()
-            : null;
+        return $value ? $this->createPhrase()->render() : null;
+    }
+
+    /**
+     * @throws LocalizedException
+     */
+    private function createPhrase(): Phrase
+    {
+        return new Phrase(
+            '%1-anonymous-%2@gdpr.org',
+            [
+                $this->mathRandom->getRandomString(3, Random::CHARS_LOWERS),
+                $this->mathRandom->getRandomString(2, Random::CHARS_LOWERS)
+            ]
+        );
     }
 }
