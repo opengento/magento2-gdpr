@@ -15,6 +15,7 @@ use Magento\Framework\Exception\MailException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\StoreManagerInterface;
+use Opengento\Gdpr\Model\EraseEntityManagement;
 use Opengento\Gdpr\Model\Notifier\AbstractMailSender;
 
 class MailSender extends AbstractMailSender implements SenderInterface
@@ -24,6 +25,7 @@ class MailSender extends AbstractMailSender implements SenderInterface
     private StoreManagerInterface $storeManager;
 
     public function __construct(
+        protected EraseEntityManagement $entityManagement,
         View $customerViewHelper,
         TransportBuilder $transportBuilder,
         ScopeConfigInterface $scopeConfig,
@@ -42,8 +44,11 @@ class MailSender extends AbstractMailSender implements SenderInterface
      */
     public function send(CustomerInterface $customer): void
     {
+        $delay = $this->entityManagement->resolveErasureDelay();
+
         $storeId = $customer->getStoreId() === null ? null : (int)$customer->getStoreId();
         $vars = [
+            'delay' => $delay !== 0 ? $delay / 60 : 0,
             'customer' => $customer,
             'store' => $this->storeManager->getStore($customer->getStoreId()),
             'customer_data' => [

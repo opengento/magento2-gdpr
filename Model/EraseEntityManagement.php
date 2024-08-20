@@ -98,7 +98,7 @@ class EraseEntityManagement implements EraseEntityManagementInterface
         );
     }
 
-    private function resolveErasureDelay(): int
+    public function resolveErasureDelay(): int
     {
         return (int)$this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_DELAY);
     }
