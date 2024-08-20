@@ -31,6 +31,6 @@ class CustomerChecker implements EntityCheckerInterface
             ['nin' => $this->erasureConfig->getAllowedStatesToErase($customer->getWebsiteId())]
         );
 
-        return $collection->getSize() > 0;
+        return !$collection->getSize();
     }
 }
