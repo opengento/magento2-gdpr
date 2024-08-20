@@ -38,6 +38,7 @@ class IdleFilterModifier implements ModifierInterface
             'e.entity_id=cv.customer_id',
             null
         );
+        $collection->addFieldToFilter('website_id', $website->getId());
         $collection->getSelect()->joinLeft(
             ['cl' => $connection->getTableName('customer_log')],
             'e.entity_id=cl.customer_id',
