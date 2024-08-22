@@ -18,6 +18,7 @@ class Erasure
 {
     private const CONFIG_PATH_ERASURE_MAX_AGE = 'gdpr/erasure/entity_max_age';
     private const CONFIG_PATH_ERASURE_ALLOWED_STATES = 'gdpr/erasure/allowed_states';
+    private const CONFIG_PATH_ERASURE_DELAY = 'gdpr/erasure/delay';
 
     public function __construct(
         private ScopeConfigInterface $scopeConfig
@@ -50,5 +51,13 @@ class Erasure
             ScopeInterface::SCOPE_WEBSITE,
             $website
         ));
+    }
+
+    /**
+     * @return int
+     */
+    public function getDelay(): int
+    {
+        return (int)$this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_DELAY, ScopeInterface::SCOPE_WEBSITE);
     }
 }

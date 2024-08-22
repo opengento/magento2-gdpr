@@ -18,13 +18,13 @@ use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
+use Opengento\Gdpr\Model\Config\Entity\Erasure;
 use Opengento\Gdpr\Service\Erase\ProcessorFactory;
 
 class EraseEntityManagement implements EraseEntityManagementInterface
 {
-    private const CONFIG_PATH_ERASURE_DELAY = 'gdpr/erasure/delay';
-
     public function __construct(
+        private Erasure $erasureConfig,
         private EraseEntityInterfaceFactory $eraseEntityFactory,
         private EraseEntityRepositoryInterface $eraseRepository,
         private ProcessorFactory $processorFactory,
@@ -94,12 +94,7 @@ class EraseEntityManagement implements EraseEntityManagementInterface
     {
         return $this->localeDate->gmtDate(
             DateTimeFormat::DATETIME_PHP_FORMAT,
-            $this->resolveErasureDelay() * 60 + $this->localeDate->gmtTimestamp()
+            $this->erasureConfig->getDelay() * 60 + $this->localeDate->gmtTimestamp()
         );
-    }
-
-    private function resolveErasureDelay(): int
-    {
-        return (int)$this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_DELAY);
     }
 }
