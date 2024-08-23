@@ -12,8 +12,6 @@
                 <enabled>0</enabled>
                 <page_id>privacy-policy-cookie-restriction-mode</page_id>
             </general>
-            <action>
-            </action>
             <anonymize>
                 <customer_attributes>
                     <email>
@@ -207,83 +205,32 @@
                 <subscriber_attributes>email</subscriber_attributes>
             </export>
             <notification>
-                <general>
-                    <enabled>0</enabled>
-                </general>
-                <erasure>
-                    <pending>
-                        <customer>
-                            <enabled>1</enabled>
-                            <template>gdpr_email_erase_pending_template</template>
-                            <identity>general</identity>
-                            <copy_method>bcc</copy_method>
-                        </customer>
-                        <order>
-                            <enabled>1</enabled>
-                            <template>gdpr_email_erase_pending_guest_template</template>
-                            <identity>general</identity>
-                            <copy_method>bcc</copy_method>
-                        </order>
-                    </pending>
-                    <succeeded>
-                        <customer>
-                            <enabled>1</enabled>
-                            <template>gdpr_email_erase_succeeded_template</template>
-                            <identity>general</identity>
-                            <copy_method>bcc</copy_method>
-                        </customer>
-                        <order>
-                            <enabled>1</enabled>
-                            <template>gdpr_email_erase_succeeded_guest_template</template>
-                            <identity>general</identity>
-                            <copy_method>bcc</copy_method>
-                        </order>
-                    </succeeded>
-                    <canceled>
-                        <customer>
-                            <enabled>1</enabled>
-                            <template>gdpr_email_erase_canceled_template</template>
-                            <identity>general</identity>
-                            <copy_method>bcc</copy_method>
-                        </customer>
-                        <order>
-                            <enabled>1</enabled>
-                            <template>gdpr_email_erase_canceled_guest_template</template>
-                            <identity>general</identity>
-                            <copy_method>bcc</copy_method>
-                        </order>
-                    </canceled>
-                </erasure>
-                <export>
-                    <pending>
-                        <customer>
-                            <enabled>1</enabled>
-                            <template>gdpr_email_export_pending_template</template>
-                            <identity>general</identity>
-                            <copy_method>bcc</copy_method>
-                        </customer>
-                        <order>
-                            <enabled>1</enabled>
-                            <template>gdpr_email_export_pending_guest_template</template>
-                            <identity>general</identity>
-                            <copy_method>bcc</copy_method>
-                        </order>
-                    </pending>
-                    <ready>
-                        <customer>
-                            <enabled>1</enabled>
-                            <template>gdpr_email_export_ready_template</template>
-                            <identity>general</identity>
-                            <copy_method>bcc</copy_method>
-                        </customer>
-                        <order>
-                            <enabled>1</enabled>
-                            <template>gdpr_email_export_ready_guest_template</template>
-                            <identity>general</identity>
-                            <copy_method>bcc</copy_method>
-                        </order>
-                    </ready>
-                </export>
+                <enabled>0</enabled>
+                <erase_pending_enabled>1</erase_pending_enabled>
+                <erase_pending_identity>general</erase_pending_identity>
+                <erase_pending_copy_method>bcc</erase_pending_copy_method>
+                <erase_pending_template>opengento_gdpr_notification_notification_erase_pending_template</erase_pending_template>
+                <erase_pending_guest_template>opengento_gdpr_notification_notification_erase_pending_guest_template</erase_pending_guest_template>
+                <erase_succeeded_enabled>1</erase_succeeded_enabled>
+                <erase_succeeded_identity>general</erase_succeeded_identity>
+                <erase_succeeded_copy_method>bcc</erase_succeeded_copy_method>
+                <erase_succeeded_template>opengento_gdpr_notification_notification_erase_succeeded_template</erase_succeeded_template>
+                <erase_succeeded_guest_template>opengento_gdpr_notification_notification_erase_succeeded_guest_template</erase_succeeded_guest_template>
+                <erase_canceled_enabled>1</erase_canceled_enabled>
+                <erase_canceled_identity>general</erase_canceled_identity>
+                <erase_canceled_copy_method>bcc</erase_canceled_copy_method>
+                <erase_canceled_template>opengento_gdpr_notification_notification_erase_canceled_template</erase_canceled_template>
+                <erase_canceled_guest_template>opengento_gdpr_notification_notification_erase_canceled_guest_template</erase_canceled_guest_template>
+                <export_pending_enabled>1</export_pending_enabled>
+                <export_pending_identity>general</export_pending_identity>
+                <export_pending_copy_method>bcc</export_pending_copy_method>
+                <export_pending_template>opengento_gdpr_notification_notification_export_pending_template</export_pending_template>
+                <export_pending_guest_template>opengento_gdpr_notification_notification_export_pending_guest_template</export_pending_guest_template>
+                <export_ready_enabled>1</export_ready_enabled>
+                <export_ready_identity>general</export_ready_identity>
+                <export_ready_copy_method>bcc</export_ready_copy_method>
+                <export_ready_template>opengento_gdpr_notification_notification_export_ready_template</export_ready_template>
+                <export_ready_guest_template>opengento_gdpr_notification_notification_export_ready_guest_template</export_ready_guest_template>
             </notification>
         </gdpr>
     </default>
