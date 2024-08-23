@@ -15,9 +15,7 @@ use Opengento\Gdpr\Model\Entity\SourceProvider\ModifierInterface;
 
 class IdleFilterModifier implements ModifierInterface
 {
-    public function __construct(
-        private ErasureConfig $erasureConfig
-    ) {}
+    public function __construct(private ErasureConfig $erasureConfig) {}
 
     /**
      * @throws Exception

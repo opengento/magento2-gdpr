@@ -39,17 +39,20 @@ class MailSender extends AbstractMailSender implements SenderInterface
     public function send(CustomerInterface $customer): void
     {
         $delay = $this->erasureConfig->getDelay();
-
         $storeId = $customer->getStoreId() === null ? null : (int)$customer->getStoreId();
-        $vars = [
-            'delay' => $delay !== 0 ? $delay / 60 : 0,
-            'customer' => $customer,
-            'store' => $this->storeManager->getStore($customer->getStoreId()),
-            'customer_data' => [
-                'customer_name' => $this->customerViewHelper->getCustomerName($customer),
-            ],
-        ];
 
-        $this->sendMail($customer->getEmail(), $this->customerViewHelper->getCustomerName($customer), $storeId, $vars);
+        $this->sendMail(
+            $customer->getEmail(),
+            $this->customerViewHelper->getCustomerName($customer),
+            $storeId,
+            [
+                'delay' => $delay !== 0 ? $delay / 60 : 0,
+                'customer' => $customer,
+                'store' => $this->storeManager->getStore($storeId),
+                'customer_data' => [
+                    'customer_name' => $this->customerViewHelper->getCustomerName($customer),
+                ]
+            ]
+        );
     }
 }

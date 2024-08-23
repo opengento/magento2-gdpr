@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model;
 
 use Exception;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
@@ -28,7 +27,6 @@ class EraseEntityManagement implements EraseEntityManagementInterface
         private EraseEntityInterfaceFactory $eraseEntityFactory,
         private EraseEntityRepositoryInterface $eraseRepository,
         private ProcessorFactory $processorFactory,
-        private ScopeConfigInterface $scopeConfig,
         private DateTime $localeDate
     ) {}
 
@@ -40,7 +38,7 @@ class EraseEntityManagement implements EraseEntityManagementInterface
         $entity->setEntityType($entityType);
         $entity->setState(EraseEntityInterface::STATE_PENDING);
         $entity->setStatus(EraseEntityInterface::STATUS_READY);
-        $entity->setScheduledAt($this->retrieveScheduledAt());
+        $entity->setScheduledAt($this->createScheduledAt());
 
         return $this->eraseRepository->save($entity);
     }
@@ -90,7 +88,7 @@ class EraseEntityManagement implements EraseEntityManagementInterface
         return $this->eraseRepository->save($entity);
     }
 
-    private function retrieveScheduledAt(): string
+    private function createScheduledAt(): string
     {
         return $this->localeDate->gmtDate(
             DateTimeFormat::DATETIME_PHP_FORMAT,

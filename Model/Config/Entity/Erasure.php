@@ -53,11 +53,8 @@ class Erasure
         ));
     }
 
-    /**
-     * @return int
-     */
     public function getDelay(): int
     {
-        return (int)$this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_DELAY, ScopeInterface::SCOPE_WEBSITE);
+        return (int)$this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_DELAY);
     }
 }
