@@ -8,6 +8,8 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model\Customer;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use Opengento\Gdpr\Model\Config\Entity\Erasure as ErasureConfig;
@@ -21,6 +23,10 @@ class CustomerChecker implements EntityCheckerInterface
         private ErasureConfig $erasureConfig
     ) {}
 
+    /**
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
+     */
     public function canErase(int $entityId): bool
     {
         $customer = $this->customerRepository->getById($entityId);
