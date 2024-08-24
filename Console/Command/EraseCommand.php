@@ -10,9 +10,13 @@ namespace Opengento\Gdpr\Console\Command;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
+use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Registry;
+use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
+use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -27,7 +31,8 @@ class EraseCommand extends Command
     public function __construct(
         private State $appState,
         private Registry $registry,
-        private EraseEntityManagementInterface $eraseManagement,
+        private EraseEntityRepositoryInterface $eraseEntityRepository,
+        private EraseEntityManagementInterface $eraseEntityManagement,
         string $name = 'gdpr:entity:erase'
     ) {
         parent::__construct($name);
@@ -72,7 +77,7 @@ class EraseCommand extends Command
 
         try {
             foreach ($entityIds as $entityId) {
-                $this->eraseManagement->process($this->eraseManagement->create($entityId, $entityType));
+                $this->eraseEntityManagement->process($this->fetchEntity($entityType, $entityId));
                 $progressBar->advance();
             }
             $progressBar->finish();
@@ -85,5 +90,18 @@ class EraseCommand extends Command
         $this->registry->register('isSecureArea', $oldValue, true);
 
         return $returnCode;
+    }
+
+    /**
+     * @throws CouldNotSaveException
+     * @throws LocalizedException
+     */
+    private function fetchEntity(int $entityId, string $entityType): EraseEntityInterface
+    {
+        try {
+            return $this->eraseEntityRepository->getByEntity($entityId, $entityType);
+        } catch (NoSuchEntityException) {
+            return $this->eraseEntityManagement->create($entityId, $entityType);
+        }
     }
 }

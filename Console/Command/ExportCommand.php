@@ -11,8 +11,13 @@ use Exception;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Console\Cli;
+use Magento\Framework\Exception\AlreadyExistsException;
+use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Api\ExportEntityManagementInterface;
+use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -26,6 +31,7 @@ class ExportCommand extends Command
 
     public function __construct(
         private State $appState,
+        private ExportEntityRepositoryInterface $exportEntityRepository,
         private ExportEntityManagementInterface $exportEntityManagement,
         string $name = 'gdpr:entity:export'
     ) {
@@ -70,7 +76,7 @@ class ExportCommand extends Command
 
         try {
             foreach ($entityIds as $entityId) {
-                $exportEntity = $this->exportEntityManagement->create($entityId, $entityType);
+                $exportEntity = $this->fetchEntity($entityId, $entityType);
                 $this->exportEntityManagement->export($exportEntity);
                 $files[] = $exportEntity->getFilePath();
                 $progressBar->advance();
@@ -86,5 +92,19 @@ class ExportCommand extends Command
         }
 
         return $resultCode;
+    }
+
+    /**
+     * @throws AlreadyExistsException
+     * @throws CouldNotSaveException
+     * @throws LocalizedException
+     */
+    private function fetchEntity(int $entityId, string $entityType): ExportEntityInterface
+    {
+        try {
+            return $this->exportEntityRepository->getByEntity($entityId, $entityType);
+        } catch (NoSuchEntityException) {
+            return $this->exportEntityManagement->create($entityId, $entityType);
+        }
     }
 }
