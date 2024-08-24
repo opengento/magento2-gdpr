@@ -30,14 +30,7 @@ interface ExportEntityInterface
 
     public function getEntityId(): int;
 
-    /**
-     * Set the entity ID
-     *
-     * @param int $entityId
-     * @return ExportEntityInterface
-     * @todo force type in php7.4
-     */
-    public function setEntityId($entityId): ExportEntityInterface;
+    public function setEntityId(int $entityId): ExportEntityInterface;
 
     public function getEntityType(): string;
 

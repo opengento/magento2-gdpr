@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Customer\Anonymize\Processor;
 
-use DateTime;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Api\SessionCleanerInterface;
@@ -19,7 +18,7 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\State\InputMismatchException;
-use Magento\Framework\Stdlib\DateTime as DateTimeFormat;
+use Magento\Framework\Math\Random;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderSearchResultInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
@@ -27,13 +26,6 @@ use Magento\Store\Model\ScopeInterface;
 use Opengento\Gdpr\Model\Customer\OrigDataRegistry;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
-use Random\RandomException;
-
-use function random_int;
-use function sha1;
-use function uniqid;
-
-use const PHP_INT_MAX;
 
 class CustomerDataProcessor implements ProcessorInterface
 {
@@ -47,12 +39,12 @@ class CustomerDataProcessor implements ProcessorInterface
         private CustomerRegistry $customerRegistry,
         private OrigDataRegistry $origDataRegistry,
         private SessionCleanerInterface $sessionCleaner,
-        private ScopeConfigInterface $scopeConfig
+        private ScopeConfigInterface $scopeConfig,
+        private Random $random
     ) {}
 
     /**
      * @throws LocalizedException
-     * @throws RandomException
      */
     public function execute(int $entityId): bool
     {
@@ -72,7 +64,6 @@ class CustomerDataProcessor implements ProcessorInterface
      * @throws InputMismatchException
      * @throws LocalizedException
      * @throws NoSuchEntityException
-     * @throws RandomException
      */
     private function processCustomerData(int $customerId): void
     {
@@ -100,16 +91,14 @@ class CustomerDataProcessor implements ProcessorInterface
      * @throws NoSuchEntityException
      * @throws InputException
      * @throws InputMismatchException
-     * @throws RandomException
      */
     private function anonymizeCustomer(CustomerInterface $customer): void
     {
         $this->customerRegistry->remove($customer->getId());
 
         $secureData = $this->customerRegistry->retrieveSecureData($customer->getId());
-        $dateTime = (new DateTime())->setTimestamp(PHP_INT_MAX);
-        $secureData->setData('lock_expires', $dateTime->format(DateTimeFormat::DATETIME_PHP_FORMAT));
-        $secureData->setPasswordHash(sha1(uniqid((string)random_int(), true)));
+        $secureData->setData('lock_expires', '9999-12-31 23:59:59');
+        $secureData->setPasswordHash($this->random->getUniqueHash());
 
         $customer = $this->anonymizer->anonymize($customer);
         if ($customer instanceof DataObject) {

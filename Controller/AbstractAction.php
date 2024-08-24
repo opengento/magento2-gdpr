@@ -26,7 +26,7 @@ abstract class AbstractAction implements ActionInterface
         protected Config $config
     ) {}
 
-    public function execute(): ResultInterface|ResponseInterface
+    public function execute()
     {
         return $this->isAllowed() ? $this->executeAction() : $this->forwardNoRoute();
     }
