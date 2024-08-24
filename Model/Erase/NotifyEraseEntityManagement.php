@@ -29,9 +29,10 @@ class NotifyEraseEntityManagement implements EraseEntityManagementInterface
 
     public function cancel(int $entityId, string $entityType): bool
     {
+        $eraseEntity = $this->eraseRepository->getByEntity($entityId, $entityType);
         $canceled = $this->eraseManagement->cancel($entityId, $entityType);
         if ($canceled) {
-            $this->notifierRepository->get($entityType, 'cancel')->notify($this->eraseRepository->getByEntity($entityId, $entityType));
+            $this->notifierRepository->get($entityType, 'cancel')->notify($eraseEntity);
         }
 
         return $canceled;

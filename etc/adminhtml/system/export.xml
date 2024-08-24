@@ -74,6 +74,9 @@
             </field>
             <group id="customer" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
                 <label>Customer</label>
+                <depends>
+                    <field id="opengento_gdpr_export/export/enabled">1</field>
+                </depends>
                 <field id="customer_attributes" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Customer Attributes</label>
                     <comment>This attributes list will be exported when processed.</comment>
@@ -108,6 +111,9 @@
             </group>
             <group id="customer_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="90">
                 <label>Customer Address</label>
+                <depends>
+                    <field id="opengento_gdpr_export/export/enabled">1</field>
+                </depends>
                 <field id="customer_address_attributes" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Customer Address Attributes</label>
                     <comment>This attributes list will be exported when processed.</comment>
@@ -142,6 +148,9 @@
             </group>
             <group id="quote" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100">
                 <label>Quote</label>
+                <depends>
+                    <field id="opengento_gdpr_export/export/enabled">1</field>
+                </depends>
                 <field id="quote_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Quote Attributes</label>
                     <comment>Comma-separated</comment>
@@ -175,6 +184,9 @@
             </group>
             <group id="quote_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="110">
                 <label>Quote Address</label>
+                <depends>
+                    <field id="opengento_gdpr_export/export/enabled">1</field>
+                </depends>
                 <field id="quote_address_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Quote Address Attributes</label>
                     <comment>Comma-separated</comment>
@@ -208,6 +220,9 @@
             </group>
             <group id="order" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="120">
                 <label>Order</label>
+                <depends>
+                    <field id="opengento_gdpr_export/export/enabled">1</field>
+                </depends>
                 <field id="order_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Order Attributes</label>
                     <comment>Comma-separated</comment>
@@ -241,6 +256,9 @@
             </group>
             <group id="order_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="130">
                 <label>Order Address</label>
+                <depends>
+                    <field id="opengento_gdpr_export/export/enabled">1</field>
+                </depends>
                 <field id="order_address_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Order Address Attributes</label>
                     <comment>Comma-separated</comment>
@@ -274,6 +292,9 @@
             </group>
             <group id="subscriber" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="140">
                 <label>Subscriber</label>
+                <depends>
+                    <field id="opengento_gdpr_export/export/enabled">1</field>
+                </depends>
                 <field id="subscriber_attributes" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Subscriber Attributes</label>
                     <comment>Comma-separated</comment>

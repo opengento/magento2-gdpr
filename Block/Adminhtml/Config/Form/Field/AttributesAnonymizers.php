@@ -33,7 +33,7 @@ class AttributesAnonymizers extends AbstractFieldArray
             );
         }
 
-        return $this->getData('anonymizers_select_renderer');
+        return $this->_getData('anonymizers_select_renderer');
     }
 
     /**
@@ -53,6 +53,7 @@ class AttributesAnonymizers extends AbstractFieldArray
             'anonymizer',
             [
                 'label' => new Phrase('Anonymizer'),
+                'class' => 'required-entry',
                 'renderer' => $this->getAnonymizersSelectRenderer(),
             ]
         );
