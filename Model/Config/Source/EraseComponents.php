@@ -14,6 +14,8 @@ use Magento\Framework\Phrase;
 use function array_keys;
 use function array_map;
 use function array_merge;
+use function array_unique;
+use function array_values;
 
 class EraseComponents implements OptionSourceInterface
 {
@@ -40,18 +42,18 @@ class EraseComponents implements OptionSourceInterface
      */
     private function retrieveDelegateProcessors(): array
     {
-        return array_keys(
+        return array_unique(
             array_merge(
                 [],
                 ...array_map(
-                    fn (string $resolver): mixed => $this->retrieveArgument($resolver, 'processors'),
-                    $this->retrieveArgument($this->factoryClassName, 'processorResolvers', [])
+                    fn (string $resolver): array => array_keys($this->retrieveArgument($resolver, 'processors')),
+                    array_values($this->retrieveArgument($this->factoryClassName, 'processorResolvers', []))
                 )
             )
         );
     }
 
-    private function retrieveArgument(string $className, string $argumentName, mixed $defaultValue = null): mixed
+    private function retrieveArgument(string $className, string $argumentName, mixed $defaultValue = null): array
     {
         $arguments = $this->objectManagerConfig->getArguments(
             $this->objectManagerConfig->getPreference($className)
