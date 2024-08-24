@@ -31,12 +31,11 @@ class ExportButton extends GenericButton implements ButtonProviderInterface
     public function getButtonData(): array
     {
         $customerId = $this->getCustomerId();
-        $customer = $this->customerRepository->getById($customerId);
         $buttonData = [];
 
         if ($customerId
             && $this->authorization->isAllowed('Opengento_Gdpr::customer_export')
-            && $this->config->isExportEnabled($customer->getWebsiteId())) {
+            && $this->config->isExportEnabled($this->customerRepository->getById($customerId)->getWebsiteId())) {
             $buttonData = [
                 'label' => new Phrase('Export Personal Data'),
                 'class' => 'Export',

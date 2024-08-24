@@ -39,12 +39,11 @@ class EraseButton extends GenericButton implements ButtonProviderInterface
     public function getButtonData(): array
     {
         $customerId = $this->getCustomerId();
-        $customer = $this->customerRepository->getById($customerId);
         $buttonData = [];
 
         if ($customerId
             && $this->authorization->isAllowed('Opengento_Gdpr::customer_erase')
-            && $this->config->isErasureEnabled($customer->getWebsiteId())
+            && $this->config->isErasureEnabled($this->customerRepository->getById($customerId)->getWebsiteId())
             && $this->eraseCustomerChecker->canCreate($customerId, 'customer')
         ) {
             $buttonData = [
