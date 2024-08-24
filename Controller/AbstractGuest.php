@@ -30,14 +30,14 @@ abstract class AbstractGuest extends AbstractAction
         parent::__construct($request, $resultFactory, $messageManager, $config);
     }
 
-    final public function execute(): ResultInterface|ResponseInterface
+    public function execute(): ResultInterface|ResponseInterface
     {
         $result = $this->orderLoader->load($this->request);
 
         return $result instanceof ResultInterface ? $result : parent::execute();
     }
 
-    final protected function currentOrder(): OrderInterface
+    protected function currentOrder(): OrderInterface
     {
         return $this->registry->registry('current_order');
     }

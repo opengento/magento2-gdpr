@@ -43,7 +43,7 @@ abstract class AbstractAction implements ActionInterface
         return $this->config->isModuleEnabled();
     }
 
-    final protected function forwardNoRoute(): ResultInterface
+    protected function forwardNoRoute(): ResultInterface
     {
         /** @var Forward $resultForward */
         $resultForward = $this->resultFactory->create(ResultFactory::TYPE_FORWARD);
