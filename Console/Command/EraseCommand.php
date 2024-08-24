@@ -77,12 +77,14 @@ class EraseCommand extends Command
 
         try {
             foreach ($entityIds as $entityId) {
-                $this->eraseEntityManagement->process($this->fetchEntity($entityType, $entityId));
+                $this->eraseEntityManagement->process($this->fetchEntity((int)$entityId, $entityType));
                 $progressBar->advance();
             }
             $progressBar->finish();
+            $output->writeln('');
             $output->writeln('<info>Entities has been erased.</info>');
         } catch (LocalizedException $e) {
+            $output->writeln('');
             $output->writeln('<error>' . $e->getMessage() . '</error>');
             $returnCode = Cli::RETURN_FAILURE;
         }

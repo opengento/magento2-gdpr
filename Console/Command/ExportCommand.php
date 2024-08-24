@@ -76,17 +76,19 @@ class ExportCommand extends Command
 
         try {
             foreach ($entityIds as $entityId) {
-                $exportEntity = $this->fetchEntity($entityId, $entityType);
+                $exportEntity = $this->fetchEntity((int)$entityId, $entityType);
                 $this->exportEntityManagement->export($exportEntity);
                 $files[] = $exportEntity->getFilePath();
                 $progressBar->advance();
             }
             $progressBar->finish();
+            $output->writeln('');
             $output->writeln('<info>Entities data have been exported to:</info>');
             foreach ($files as $file) {
                 $output->writeln($file);
             }
         } catch (Exception $e) {
+            $output->writeln('');
             $output->writeln('<error>' . $e->getMessage() . '</error>');
             $resultCode = Cli::RETURN_FAILURE;
         }
