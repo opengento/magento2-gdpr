@@ -59,7 +59,7 @@
                 </depends>
                 <config_path>gdpr/erasure/entity_max_age_schedule</config_path>
             </field>
-            <field id="sales_max_age" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70" canRestore="1">
+            <field id="sales_max_age" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="70" canRestore="1">
                 <label>Sales Information Lifetime</label>
                 <comment>The time is in days.</comment>
                 <validate>validate-number validate-number-range number-range-0-3650</validate>

@@ -13,7 +13,6 @@ use Exception;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Stdlib\DateTime;
-use Magento\Store\Model\ScopeInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory;
 use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
@@ -30,7 +29,6 @@ class EraseSalesInformation implements EraseSalesInformationInterface
     ) {}
 
     /**
-     * @inheritdoc
      * @throws CouldNotSaveException
      */
     public function scheduleEraseEntity(int $entityId, string $entityType, DateTimeInterface $lastActive): EraseEntityInterface
@@ -52,7 +50,6 @@ class EraseSalesInformation implements EraseSalesInformationInterface
     }
 
     /**
-     * @inheritdoc
      * @throws Exception
      */
     public function isAlive(DateTimeInterface $lastActive): bool
@@ -62,6 +59,6 @@ class EraseSalesInformation implements EraseSalesInformationInterface
 
     private function resolveErasureSalesMaxAge(): int
     {
-        return (int)$this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_SALES_MAX_AGE, ScopeInterface::SCOPE_STORE);//Todo scope website
+        return (int)$this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_SALES_MAX_AGE);
     }
 }
