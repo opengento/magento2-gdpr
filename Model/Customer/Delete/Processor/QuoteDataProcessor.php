@@ -11,7 +11,7 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-final class QuoteDataProcessor implements ProcessorInterface
+class QuoteDataProcessor implements ProcessorInterface
 {
     private CartRepositoryInterface $quoteRepository;
 

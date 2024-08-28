@@ -13,7 +13,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Service\Export\Processor\AbstractDataProcessor;
 
-final class CustomerDataProcessor extends AbstractDataProcessor
+class CustomerDataProcessor extends AbstractDataProcessor
 {
     /**
      * @var CustomerRepositoryInterface

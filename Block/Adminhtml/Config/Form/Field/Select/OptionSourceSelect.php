@@ -13,17 +13,11 @@ use Magento\Framework\View\Element\Html\Select;
 
 class OptionSourceSelect extends Select
 {
-    /**
-     * @var OptionSourceInterface
-     */
-    private OptionSourceInterface $optionSource;
-
     public function __construct(
         Context $context,
-        OptionSourceInterface $optionSource,
+        private OptionSourceInterface $optionSource,
         array $data = []
     ) {
-        $this->optionSource = $optionSource;
         parent::__construct($context, $data);
     }
 

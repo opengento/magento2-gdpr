@@ -9,7 +9,7 @@ namespace Opengento\Gdpr\Model\Customer;
 
 use Magento\Customer\Api\Data\CustomerInterface;
 
-final class OrigDataRegistry
+class OrigDataRegistry
 {
     /**
      * @var CustomerInterface[]
@@ -23,6 +23,6 @@ final class OrigDataRegistry
 
     public function set(CustomerInterface $customer): void
     {
-        $this->customers[(int) $customer->getId()] = $customer;
+        $this->customers[(int)$customer->getId()] = $customer;
     }
 }

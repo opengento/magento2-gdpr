@@ -11,7 +11,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Math\Random;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
-final class AlphaLower implements AnonymizerInterface
+class AlphaLower implements AnonymizerInterface
 {
     private const DEFAULT_LENGTH = 5;
 

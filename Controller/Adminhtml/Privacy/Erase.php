@@ -8,56 +8,61 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Adminhtml\Privacy;
 
 use Exception;
+use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
-use Magento\Backend\Model\View\Result\Redirect;
-use Magento\Framework\App\Action\HttpPostActionInterface;
-use Magento\Framework\Controller\ResultFactory;
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\ActionInterface;
-use Opengento\Gdpr\Controller\Adminhtml\AbstractAction;
-use Opengento\Gdpr\Model\Action\ArgumentReader;
-use Opengento\Gdpr\Model\Action\ContextBuilder;
+use Opengento\Gdpr\Api\Data\EraseEntityInterface;
+use Opengento\Gdpr\Api\EraseEntityManagementInterface;
+use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
 
-class Erase extends AbstractAction implements HttpPostActionInterface
+class Erase extends Action
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::customer_erase';
 
-    private ActionInterface $action;
-
-    private ContextBuilder $actionContextBuilder;
-
     public function __construct(
         Context $context,
-        Config $config,
-        ActionInterface $action,
-        ContextBuilder $actionContextBuilder
+        private CustomerRepositoryInterface $customerRepository,
+        private EraseEntityManagementInterface $eraseEntityManagement,
+        private EraseEntityRepositoryInterface $eraseEntityRepository,
+        private Config $config
     ) {
-        $this->action = $action;
-        $this->actionContextBuilder = $actionContextBuilder;
-        parent::__construct($context, $config);
+        parent::__construct($context);
     }
 
-    protected function executeAction()
+    public function execute(): ResultInterface|ResponseInterface
     {
-        $this->actionContextBuilder->setParameters([
-            ArgumentReader::ENTITY_ID => (int) $this->getRequest()->getParam('id'),
-            ArgumentReader::ENTITY_TYPE => 'customer'
-        ]);
-
         try {
-            $this->action->execute($this->actionContextBuilder->create());
-            $this->messageManager->addSuccessMessage(new Phrase('You erased the customer.'));
+            $customerId = (int)$this->getRequest()->getParam('id');
+            if ($this->config->isErasureEnabled($this->customerRepository->getById($customerId)->getWebsiteId())) {
+                $this->eraseEntityManagement->process($this->fetchEntity($customerId));
+                $this->messageManager->addSuccessMessage(new Phrase('You erased the customer.'));
+            }
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
         } catch (Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('An error occurred on the server.'));
         }
 
-        /** @var Redirect $resultRedirect */
-        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+        return $this->resultRedirectFactory->create()->setPath('customer/index');
+    }
 
-        return $resultRedirect->setPath('customer/index');
+    /**
+     * @throws CouldNotSaveException
+     * @throws LocalizedException
+     */
+    private function fetchEntity(int $customerId): EraseEntityInterface
+    {
+        try {
+            return $this->eraseEntityRepository->getByEntity($customerId, 'customer');
+        } catch (NoSuchEntityException) {
+            return $this->eraseEntityManagement->create($customerId, 'customer');
+        }
     }
 }

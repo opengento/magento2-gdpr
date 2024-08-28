@@ -11,7 +11,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
 use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 
-final class ExportEntityChecker implements ExportEntityCheckerInterface
+class ExportEntityChecker implements ExportEntityCheckerInterface
 {
     private ExportEntityRepositoryInterface $exportRepository;
 
@@ -24,7 +24,7 @@ final class ExportEntityChecker implements ExportEntityCheckerInterface
     public function exists(int $entityId, string $entityType): bool
     {
         try {
-            return (bool) $this->exportRepository->getByEntity($entityId, $entityType)->getExportId();
+            return (bool)$this->exportRepository->getByEntity($entityId, $entityType)->getExportId();
         } catch (NoSuchEntityException $e) {
             return false;
         }

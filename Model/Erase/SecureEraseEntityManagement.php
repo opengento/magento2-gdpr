@@ -13,19 +13,12 @@ use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 
-final class SecureEraseEntityManagement implements EraseEntityManagementInterface
+class SecureEraseEntityManagement implements EraseEntityManagementInterface
 {
-    private EraseEntityManagementInterface $eraseManagement;
-
-    private EraseEntityCheckerInterface $eraseEntityChecker;
-
     public function __construct(
-        EraseEntityManagementInterface $eraseManagement,
-        EraseEntityCheckerInterface $eraseEntityChecker
-    ) {
-        $this->eraseManagement = $eraseManagement;
-        $this->eraseEntityChecker = $eraseEntityChecker;
-    }
+        private EraseEntityManagementInterface $eraseManagement,
+        private EraseEntityCheckerInterface $eraseEntityChecker
+    ) {}
 
     public function create(int $entityId, string $entityType): EraseEntityInterface
     {

@@ -6,6 +6,7 @@
  */
 -->
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <!-- ToDo: add tracks on actions (policy, triggered_at) -->
     <table name="opengento_gdpr_erase_entity" resource="default" engine="innodb" comment="Erase Entity">
         <column xsi:type="int" name="erase_id" padding="11" unsigned="true" nullable="false" identity="true" comment="Erase ID"/>
         <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" comment="Entity ID"/>
@@ -18,15 +19,15 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="erase_id"/>
         </constraint>
-        <!--<constraint xsi:type="unique" referenceId="OPENGENTO_GDPR_ERASE_ENTITY_ENTITY_ID_ENTITY_TYPE">
+        <constraint xsi:type="unique" referenceId="OPENGENTO_GDPR_ERASE_ENTITY_ENTITY_ID_ENTITY_TYPE">
             <column name="entity_id"/>
             <column name="entity_type"/>
-        </constraint>-->
+        </constraint>
         <index referenceId="OPENGENTO_GDPR_ERASE_ENTITY_IDENTITY" indexType="btree">
             <column name="entity_type"/>
             <column name="entity_id"/>
         </index>
-        <index referenceId="OPENGENTO_GDPR_ERASE_ENTITY_SCHEDULED_EXPORT" indexType="btree">
+        <index referenceId="OPENGENTO_GDPR_ERASE_ENTITY_SCHEDULED_PROCESS" indexType="btree">
             <column name="scheduled_at"/>
             <column name="state"/>
             <column name="status"/>
@@ -53,25 +54,6 @@
         </index>
         <index referenceId="OPENGENTO_GDPR_EXPORT_ENTITY_EXPIRED_AT" indexType="btree">
             <column name="expired_at"/>
-        </index>
-    </table>
-    <table name="opengento_gdpr_action_entity" resource="default" engine="innodb" comment="Action Entity">
-        <column xsi:type="int" name="action_id" padding="11" unsigned="true" nullable="false" identity="true" comment="Export ID"/>
-        <column xsi:type="varchar" name="type" length="191" nullable="false" comment="Type"/>
-        <column xsi:type="text" name="performed_from" nullable="false" comment="Performed From"/>
-        <column xsi:type="text" name="performed_by" nullable="true" comment="Performed By"/>
-        <column xsi:type="timestamp" name="performed_at" nullable="false" comment="Performed At"/>
-        <column xsi:type="varchar" name="state" length="191" nullable="false" comment="State"/>
-        <column xsi:type="text" name="message" nullable="false" comment="Message"/>
-        <column xsi:type="text" name="parameters" nullable="false" comment="Parameters"/>
-        <constraint xsi:type="primary" referenceId="PRIMARY">
-            <column name="action_id"/>
-        </constraint>
-        <index referenceId="OPENGENTO_GDPR_ACTION_ENTITY_TYPE" indexType="btree">
-            <column name="type"/>
-        </index>
-        <index referenceId="OPENGENTO_GDPR_ACTION_ENTITY_STATE" indexType="btree">
-            <column name="state"/>
         </index>
     </table>
 </schema>

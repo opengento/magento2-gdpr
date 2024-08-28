@@ -12,40 +12,24 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
 
-final class ExportDataProvider implements ArgumentInterface
+class ExportDataProvider implements ArgumentInterface
 {
-    private ExportEntityCheckerInterface $exportEntityChecker;
-
-    private Registry $registry;
-
-    /**
-     * @var bool|null
-     */
-    private ?bool $isExportEntityExists;
-
-    /**
-     * @var bool|null
-     */
-    private ?bool $isExported;
+    private ?bool $isExportEntityExists = null;
+    private ?bool $isExported = null;
 
     public function __construct(
-        ExportEntityCheckerInterface $exportEntityChecker,
-        Registry $registry
-    ) {
-        $this->exportEntityChecker = $exportEntityChecker;
-        $this->registry = $registry;
-    }
+        private ExportEntityCheckerInterface $exportEntityChecker,
+        private Registry $registry
+    ) {}
 
     public function hasExport(): bool
     {
-        return $this->isExportEntityExists ??
-            $this->isExportEntityExists = $this->exportEntityChecker->exists($this->currentOrderId(), 'order');
+        return $this->isExportEntityExists ??= $this->exportEntityChecker->exists($this->currentOrderId(), 'order');
     }
 
     public function isExported(): bool
     {
-        return $this->isExported ??
-            $this->isExported = $this->exportEntityChecker->isExported($this->currentOrderId(), 'order');
+        return $this->isExported ??= $this->exportEntityChecker->isExported($this->currentOrderId(), 'order');
     }
 
     private function currentOrderId(): int
@@ -53,6 +37,6 @@ final class ExportDataProvider implements ArgumentInterface
         /** @var OrderInterface $order */
         $order = $this->registry->registry('current_order');
 
-        return (int) $order->getEntityId();
+        return (int)$order->getEntityId();
     }
 }

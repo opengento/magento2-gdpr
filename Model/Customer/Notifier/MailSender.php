@@ -15,23 +15,19 @@ use Magento\Framework\Exception\MailException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\StoreManagerInterface;
+use Opengento\Gdpr\Model\Config\Entity\Erasure;
 use Opengento\Gdpr\Model\Notifier\AbstractMailSender;
 
-final class MailSender extends AbstractMailSender implements SenderInterface
+class MailSender extends AbstractMailSender implements SenderInterface
 {
-    private View $customerViewHelper;
-
-    private StoreManagerInterface $storeManager;
-
     public function __construct(
-        View $customerViewHelper,
+        private Erasure $erasureConfig,
+        private View $customerViewHelper,
+        private StoreManagerInterface $storeManager,
         TransportBuilder $transportBuilder,
         ScopeConfigInterface $scopeConfig,
-        StoreManagerInterface $storeManager,
         array $configPaths
     ) {
-        $this->customerViewHelper = $customerViewHelper;
-        $this->storeManager = $storeManager;
         parent::__construct($transportBuilder, $scopeConfig, $configPaths);
     }
 
@@ -42,15 +38,21 @@ final class MailSender extends AbstractMailSender implements SenderInterface
      */
     public function send(CustomerInterface $customer): void
     {
-        $storeId = $customer->getStoreId() === null ? null : (int) $customer->getStoreId();
-        $vars = [
-            'customer' => $customer,
-            'store' => $this->storeManager->getStore($customer->getStoreId()),
-            'customer_data' => [
-                'customer_name' => $this->customerViewHelper->getCustomerName($customer),
-            ],
-        ];
+        $delay = $this->erasureConfig->getDelay();
+        $storeId = $customer->getStoreId() === null ? null : (int)$customer->getStoreId();
 
-        $this->sendMail($customer->getEmail(), $this->customerViewHelper->getCustomerName($customer), $storeId, $vars);
+        $this->sendMail(
+            $customer->getEmail(),
+            $this->customerViewHelper->getCustomerName($customer),
+            $storeId,
+            [
+                'delay' => $delay !== 0 ? $delay / 60 : 0,
+                'customer' => $customer,
+                'store' => $this->storeManager->getStore($storeId),
+                'customer_data' => [
+                    'customer_name' => $this->customerViewHelper->getCustomerName($customer),
+                ]
+            ]
+        );
     }
 }

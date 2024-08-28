@@ -15,7 +15,7 @@ use Opengento\Gdpr\Model\Customer\OrigDataRegistry;
 use Opengento\Gdpr\Model\Erase\NotifierInterface;
 use Psr\Log\LoggerInterface;
 
-final class Notifier implements NotifierInterface
+class Notifier implements NotifierInterface
 {
     /** @var SenderInterface[] */
     private array $senders;
@@ -51,7 +51,7 @@ final class Notifier implements NotifierInterface
             try {
                 $sender->send($customer);
             } catch (LocalizedException $e) {
-                $this->logger->error($e->getLogMessage(), $e->getTrace());
+                $this->logger->error($e->getLogMessage(), ['exception' => $e]);
             }
         }
     }

@@ -11,7 +11,7 @@ use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Model\Session;
 use Opengento\Gdpr\Model\Action\PerformedByInterface;
 
-final class Customer implements PerformedByInterface
+class Customer implements PerformedByInterface
 {
     /**
      * @var Session

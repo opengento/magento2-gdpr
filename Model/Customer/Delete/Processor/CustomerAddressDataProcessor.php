@@ -12,7 +12,7 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\LocalizedException;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-final class CustomerAddressDataProcessor implements ProcessorInterface
+class CustomerAddressDataProcessor implements ProcessorInterface
 {
     /**
      * @var AddressRepositoryInterface

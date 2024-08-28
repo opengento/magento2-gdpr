@@ -10,45 +10,31 @@ namespace Opengento\Gdpr\Model\Config\Source;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\ObjectManager\ConfigInterface;
 use Magento\Framework\Phrase;
+
 use function array_keys;
+use function array_map;
 use function array_merge;
+use function array_unique;
+use function array_values;
 
-final class EraseComponents implements OptionSourceInterface
+class EraseComponents implements OptionSourceInterface
 {
-    /**
-     * @var ConfigInterface
-     */
-    private ConfigInterface $objectManagerConfig;
-
-    /**
-     * Class must be an instance of `\Opengento\Gdpr\Service\Erase\ProcessorResolverFactory`
-     *
-     * @var string
-     */
-    private string $factoryClassName;
-
-    /**
-     * @var string[][]
-     */
-    private array $options = [];
+    private ?array $options = null;
 
     public function __construct(
-        ConfigInterface $objectManagerConfig,
-        string $factoryClassName
-    ) {
-        $this->objectManagerConfig = $objectManagerConfig;
-        $this->factoryClassName = $factoryClassName;
-    }
+        private ConfigInterface $objectManagerConfig,
+        private string $factoryClassName
+    ) {}
 
     public function toOptionArray(): array
     {
-        if (!$this->options) {
-            foreach ($this->retrieveDelegateProcessors() as $delegateProcessor) {
-                $this->options[] = ['value' => $delegateProcessor, 'label' => new Phrase($delegateProcessor)];
-            }
-        }
-
-        return $this->options;
+        return $this->options ??= array_map(
+            static fn (string $delegateProcessor): array => [
+                'value' => $delegateProcessor,
+                'label' => new Phrase($delegateProcessor)
+            ],
+            $this->retrieveDelegateProcessors()
+        );
     }
 
     /**
@@ -56,26 +42,18 @@ final class EraseComponents implements OptionSourceInterface
      */
     private function retrieveDelegateProcessors(): array
     {
-        $delegateProcessors = [];
-        /** @var string[] $resolvers */
-        $resolvers = $this->retrieveArgument($this->factoryClassName, 'processorResolvers', []);
-
-        foreach ($resolvers as $resolver) {
-            $delegateProcessors[] = $this->retrieveArgument($resolver, 'processors');
-        }
-
-        return array_keys(array_merge([], ...$delegateProcessors));
+        return array_unique(
+            array_merge(
+                [],
+                ...array_map(
+                    fn (string $resolver): array => array_keys($this->retrieveArgument($resolver, 'processors')),
+                    array_values($this->retrieveArgument($this->factoryClassName, 'processorResolvers', []))
+                )
+            )
+        );
     }
 
-    /**
-     * Retrieve a construct argument value of a class
-     *
-     * @param string $className
-     * @param string $argumentName
-     * @param mixed $defaultValue
-     * @return mixed
-     */
-    private function retrieveArgument(string $className, string $argumentName, $defaultValue = null)
+    private function retrieveArgument(string $className, string $argumentName, mixed $defaultValue = null): array
     {
         $arguments = $this->objectManagerConfig->getArguments(
             $this->objectManagerConfig->getPreference($className)

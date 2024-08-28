@@ -8,45 +8,35 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Privacy;
 
 use Exception;
+use Magento\Customer\Controller\AccountInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\RequestInterface;
-use Magento\Framework\App\Response\Http;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\ActionInterface;
-use Opengento\Gdpr\Controller\AbstractPrivacy;
-use Opengento\Gdpr\Model\Action\ArgumentReader;
-use Opengento\Gdpr\Model\Action\ContextBuilder;
+use Opengento\Gdpr\Api\EraseEntityManagementInterface;
+use Opengento\Gdpr\Controller\AbstractAction;
 use Opengento\Gdpr\Model\Config;
 
-class UndoErase extends AbstractPrivacy implements HttpPostActionInterface
+class UndoErase extends AbstractAction implements HttpPostActionInterface, AccountInterface
 {
-    private ActionInterface $action;
-
-    private ContextBuilder $actionContextBuilder;
-
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
         ManagerInterface $messageManager,
         Config $config,
-        Session $customerSession,
-        Http $response,
-        ActionInterface $action,
-        ContextBuilder $actionContextBuilder
+        private Session $customerSession,
+        private EraseEntityManagementInterface $eraseEntityManagement
     ) {
-        $this->action = $action;
-        $this->actionContextBuilder = $actionContextBuilder;
-        parent::__construct($request, $resultFactory, $messageManager, $config, $customerSession, $response);
+        parent::__construct($request, $resultFactory, $messageManager, $config);
     }
 
     protected function isAllowed(): bool
     {
-        return parent::isAllowed() && $this->config->isErasureEnabled();
+        return $this->config->isErasureEnabled();
     }
 
     protected function executeAction(): Redirect
@@ -55,13 +45,8 @@ class UndoErase extends AbstractPrivacy implements HttpPostActionInterface
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         $resultRedirect->setPath('customer/privacy/settings');
 
-        $this->actionContextBuilder->setParameters([
-            ArgumentReader::ENTITY_ID => (int) $this->customerSession->getCustomerId(),
-            ArgumentReader::ENTITY_TYPE => 'customer'
-        ]);
-
         try {
-            $this->action->execute($this->actionContextBuilder->create());
+            $this->eraseEntityManagement->cancel((int)$this->customerSession->getCustomerId(), 'customer');
             $this->messageManager->addSuccessMessage(new Phrase('You canceled your account deletion.'));
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());

@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Api;
 
-use DateTime;
+use DateTimeInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 
 /**
@@ -15,7 +15,7 @@ use Opengento\Gdpr\Api\Data\EraseEntityInterface;
  */
 interface EraseSalesInformationInterface
 {
-    public function scheduleEraseEntity(int $entityId, string $entityType, DateTime $lastActive): EraseEntityInterface;
+    public function scheduleEraseEntity(int $entityId, string $entityType, DateTimeInterface $lastActive): EraseEntityInterface;
 
-    public function isAlive(DateTime $lastActive): bool;
+    public function isAlive(DateTimeInterface $lastActive): bool;
 }

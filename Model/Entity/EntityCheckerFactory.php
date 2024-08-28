@@ -9,12 +9,13 @@ namespace Opengento\Gdpr\Model\Entity;
 
 use InvalidArgumentException;
 use Magento\Framework\ObjectManagerInterface;
+
 use function sprintf;
 
 /**
  * @api
  */
-final class EntityCheckerFactory
+class EntityCheckerFactory
 {
     /**
      * @var string[]

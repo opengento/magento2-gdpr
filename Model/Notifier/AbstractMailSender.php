@@ -13,39 +13,23 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\MailException;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\ScopeInterface;
+
 use function explode;
 
 abstract class AbstractMailSender
 {
-    protected TransportBuilder $transportBuilder;
-
-    private ScopeConfigInterface $scopeConfig;
+    private const CONFIG_PATH_ENABLED = 'gdpr/notification/enabled';
 
     /**
-     * @var string[]
-     */
-    private array $configPaths;
-
-    /**
-     * @param TransportBuilder $transportBuilder
-     * @param ScopeConfigInterface $scopeConfig
      * @param string[] $configPaths
      */
     public function __construct(
-        TransportBuilder $transportBuilder,
-        ScopeConfigInterface $scopeConfig,
-        array $configPaths
-    ) {
-        $this->transportBuilder = $transportBuilder;
-        $this->scopeConfig = $scopeConfig;
-        $this->configPaths = $configPaths;
-    }
+        protected TransportBuilder $transportBuilder,
+        private ScopeConfigInterface $scopeConfig,
+        private array $configPaths = []
+    ) {}
 
     /**
-     * @param string $sendTo
-     * @param string|null $name [optional] Specify the to name.
-     * @param int|null $storeId [optional Current store ID is used by default.
-     * @param array $vars
      * @throws LocalizedException
      * @throws MailException
      */
@@ -76,10 +60,6 @@ abstract class AbstractMailSender
     }
 
     /**
-     * @param string $sendTo
-     * @param string|null $name [optional] Specify the to name.
-     * @param int|null $storeId [optional Current store ID is used by default.
-     * @param array $vars
      * @throws MailException
      */
     protected function prepareMail(string $sendTo, ?string $name = null, ?int $storeId = null, array $vars = []): void
@@ -91,36 +71,21 @@ abstract class AbstractMailSender
             ->addTo($sendTo, $name);
     }
 
-    /**
-     * @param int|null $storeId [optional] Retrieves the value by scope.
-     * @return bool
-     */
     protected function isAvailable(?int $storeId = null): bool
     {
-        return $this->scopeConfig->isSetFlag(
-            $this->configPaths['is_available'],
-            ScopeInterface::SCOPE_STORE,
-            $storeId
-        );
+        return $this->scopeConfig->isSetFlag(self::CONFIG_PATH_ENABLED, ScopeInterface::SCOPE_STORE, $storeId)
+            && $this->scopeConfig->isSetFlag($this->configPaths['is_available'], ScopeInterface::SCOPE_STORE, $storeId);
     }
 
-    /**
-     * @param int|null $storeId [optional] Retrieves the value by scope.
-     * @return string
-     */
     protected function getFrom(?int $storeId = null): string
     {
-        return (string) $this->scopeConfig->getValue(
+        return (string)$this->scopeConfig->getValue(
             $this->configPaths['from'],
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
     }
 
-    /**
-     * @param int|null $storeId [optional] Retrieves the value by scope.
-     * @return array
-     */
     protected function getCopyTo(?int $storeId = null): array
     {
         return explode(
@@ -133,26 +98,18 @@ abstract class AbstractMailSender
         );
     }
 
-    /**
-     * @param int|null $storeId [optional] Retrieves the value by scope.
-     * @return string
-     */
     protected function getCopyMethod(?int $storeId = null): string
     {
-        return (string) $this->scopeConfig->getValue(
+        return (string)$this->scopeConfig->getValue(
             $this->configPaths['copy_method'],
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
     }
 
-    /**
-     * @param int|null $storeId [optional] Retrieves the value by scope.
-     * @return string
-     */
     protected function getTemplateIdentifier(?int $storeId = null): string
     {
-        return (string) $this->scopeConfig->getValue(
+        return (string)$this->scopeConfig->getValue(
             $this->configPaths['template_identifier'],
             ScopeInterface::SCOPE_STORE,
             $storeId

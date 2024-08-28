@@ -11,9 +11,10 @@ use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Model\Entity\DocumentInterface;
 use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
 use Opengento\Gdpr\Model\Entity\MetadataInterface;
+
 use function in_array;
 
-final class EntityProcessor implements EntityValueProcessorInterface
+class EntityProcessor implements EntityValueProcessorInterface
 {
     /**
      * @var DocumentInterface

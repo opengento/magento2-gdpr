@@ -15,7 +15,7 @@ use Magento\Sales\Model\Order;
 use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Service\Export\Processor\AbstractDataProcessor;
 
-final class OrderDataProcessor extends AbstractDataProcessor
+class OrderDataProcessor extends AbstractDataProcessor
 {
     private OrderRepositoryInterface $orderRepository;
 

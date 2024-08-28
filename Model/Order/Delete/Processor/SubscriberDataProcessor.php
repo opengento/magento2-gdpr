@@ -15,7 +15,7 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-final class SubscriberDataProcessor implements ProcessorInterface
+class SubscriberDataProcessor implements ProcessorInterface
 {
     private OrderRepositoryInterface $orderRepository;
 
@@ -49,7 +49,7 @@ final class SubscriberDataProcessor implements ProcessorInterface
         $subscriber = $this->subscriberFactory->create();
         $subscriber->loadBySubscriberEmail(
             $order->getCustomerEmail(),
-            (int) $this->storeManager->getStore($order->getStoreId())->getWebsiteId()
+            (int)$this->storeManager->getStore($order->getStoreId())->getWebsiteId()
         );
         $this->subscriberResource->delete($subscriber);
 

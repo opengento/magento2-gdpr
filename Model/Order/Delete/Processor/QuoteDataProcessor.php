@@ -12,7 +12,7 @@ use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-final class QuoteDataProcessor implements ProcessorInterface
+class QuoteDataProcessor implements ProcessorInterface
 {
     private OrderRepositoryInterface $orderRepository;
 

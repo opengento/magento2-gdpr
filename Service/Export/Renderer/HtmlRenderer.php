@@ -20,12 +20,13 @@ use Magento\Framework\View\FileSystem as ViewFileSystem;
 use Magento\Framework\View\Page\Config;
 use Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\LayoutInitiatorInterface;
 use Opengento\Gdpr\Service\Export\Renderer\HtmlRenderer\View\RendererFactory;
+
 use function extract;
 use function ob_end_clean;
 use function ob_get_clean;
 use function ob_start;
 
-final class HtmlRenderer extends AbstractRenderer
+class HtmlRenderer extends AbstractRenderer
 {
     private State $appState;
 

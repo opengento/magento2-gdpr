@@ -12,7 +12,7 @@ use Magento\Framework\ObjectManagerInterface;
 /**
  * @api
  */
-final class ModifierFactory
+class ModifierFactory
 {
     /**
      * @var string[]

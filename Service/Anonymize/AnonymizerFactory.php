@@ -9,9 +9,10 @@ namespace Opengento\Gdpr\Service\Anonymize;
 
 use InvalidArgumentException;
 use Magento\Framework\ObjectManagerInterface;
+
 use function sprintf;
 
-final class AnonymizerFactory
+class AnonymizerFactory
 {
     public const DEFAULT_KEY = 'default';
 

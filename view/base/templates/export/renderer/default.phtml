@@ -24,7 +24,7 @@ $exportData = array_filter($viewModel->toArray());
 if (!function_exists('formatLabel')) {
     function formatLabel($label): string
     {
-        return ucwords(str_replace('_', ' ', (string) $label));
+        return ucwords(str_replace('_', ' ', (string)$label));
     }
 }
 if (!function_exists('renderNestedItems')) {

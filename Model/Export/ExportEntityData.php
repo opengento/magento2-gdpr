@@ -19,7 +19,7 @@ use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 /**
  * @api
  */
-final class ExportEntityData
+class ExportEntityData
 {
     private ExportEntityRepositoryInterface $exportRepository;
 

@@ -6,59 +6,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Opengento\Gdpr\Model\Action\PerformedByInterface" type="Opengento\Gdpr\Model\Action\PerformedBy\AdminUser"/>
-    <type name="Opengento\Gdpr\Controller\Adminhtml\Action\InlineEdit">
-        <arguments>
-            <argument name="allowedAttributes" xsi:type="array">
-                <item name="*" xsi:type="array">
-                    <item name="message" xsi:type="const">Opengento\Gdpr\Api\Data\ActionEntityInterface::MESSAGE</item>
-                </item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\Erase">
-        <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</argument>
-        </arguments>
-    </type>
-    <type name="Opengento\Gdpr\Controller\Adminhtml\Guest\Erase">
-        <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</argument>
-        </arguments>
-    </type>
-    <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\MassErase">
-        <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\EraseCreateExecuteAction</argument>
-        </arguments>
-    </type>
-    <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\Export">
-        <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction</argument>
-        </arguments>
-    </type>
-    <type name="Opengento\Gdpr\Controller\Adminhtml\Guest\Export">
-        <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction</argument>
-        </arguments>
-    </type>
-    <type name="Opengento\Gdpr\Controller\Adminhtml\Privacy\MassExport">
-        <arguments>
-            <argument name="action" xsi:type="object">Opengento\Gdpr\Model\Action\ExportCreateOrExecuteAction</argument>
-            <argument name="moveToArchive" xsi:type="object">Opengento\Gdpr\Model\Archive\MoveToZip</argument>
-        </arguments>
-    </type>
     <!-- Config Settings -->
-    <virtualType name="Opengento\Gdpr\Model\Config\Source\ActionTypes" type="Opengento\Gdpr\Model\Config\Source\VirtualArrayArgumentList">
-        <arguments>
-            <argument name="className" xsi:type="string">Opengento\Gdpr\Model\Action\ActionFactory</argument>
-            <argument name="argumentName" xsi:type="string">actions</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Opengento\Gdpr\Model\Config\Source\EntityAttributes" type="Opengento\Gdpr\Model\Config\Source\VirtualEntityAttributes">
-        <arguments>
-            <argument name="attributeProvider" xsi:type="object">Magento\Framework\Model\EntitySnapshot\AttributeProvider</argument>
-        </arguments>
-    </virtualType>
     <virtualType name="Opengento\Gdpr\Model\Config\Source\CustomerAttributes" type="Opengento\Gdpr\Model\Config\Source\VirtualCustomerAttributes">
         <arguments>
             <argument name="metadata" xsi:type="object">Magento\Customer\Api\CustomerMetadataInterface</argument>

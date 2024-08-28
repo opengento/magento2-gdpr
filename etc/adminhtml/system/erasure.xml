@@ -13,7 +13,7 @@
         <resource>Opengento_Gdpr::config</resource>
         <group id="erasure" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
             <label>Right To Erasure</label>
-            <field id="enabled" type="select" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+            <field id="enabled" type="select" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10">
                 <label>Erasure</label>
                 <comment>It will enable the erase action to the storefront.</comment>
                 <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
@@ -27,7 +27,7 @@
                 </depends>
                 <config_path>gdpr/erasure/block_id</config_path>
             </field>
-            <field id="delay" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+            <field id="delay" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="30" canRestore="1">
                 <label>Erasure Delay</label>
                 <comment>Erasure delay in minute before the execution by the cron. From 60 to 43800.</comment>
                 <validate>validate-number validate-number-range number-range-60-43800</validate>
@@ -36,14 +36,14 @@
                 </depends>
                 <config_path>gdpr/erasure/delay</config_path>
             </field>
-            <field id="entity_schedule" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" canRestore="1">
+            <field id="entity_schedule" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="40" canRestore="1">
                 <label>Erase Entity Cron Schedule</label>
                 <depends>
                     <field id="opengento_gdpr_erasure/erasure/enabled">1</field>
                 </depends>
                 <config_path>gdpr/erasure/entity_schedule</config_path>
             </field>
-            <field id="entity_max_age" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50" canRestore="1">
+            <field id="entity_max_age" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50" canRestore="1">
                 <label>Entities Lifetime</label>
                 <comment>The time is in days.</comment>
                 <validate>validate-number validate-number-range number-range-0-1095</validate>
@@ -52,14 +52,14 @@
                 </depends>
                 <config_path>gdpr/erasure/entity_max_age</config_path>
             </field>
-            <field id="entity_max_age_schedule" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60" canRestore="1">
+            <field id="entity_max_age_schedule" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="60" canRestore="1">
                 <label>Erase Old Entities Cron Schedule</label>
                 <depends>
                     <field id="opengento_gdpr_erasure/erasure/enabled">1</field>
                 </depends>
                 <config_path>gdpr/erasure/entity_max_age_schedule</config_path>
             </field>
-            <field id="sales_max_age" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70" canRestore="1">
+            <field id="sales_max_age" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="70" canRestore="1">
                 <label>Sales Information Lifetime</label>
                 <comment>The time is in days.</comment>
                 <validate>validate-number validate-number-range number-range-0-3650</validate>
@@ -68,7 +68,7 @@
                 </depends>
                 <config_path>gdpr/erasure/sales_max_age</config_path>
             </field>
-            <field id="allowed_states" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80" canRestore="1">
+            <field id="allowed_states" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="80" canRestore="1">
                 <label>Allowed Order States to Erase</label>
                 <source_model>Opengento\Gdpr\Model\Config\Source\OrderPendingStates</source_model>
                 <depends>
@@ -77,7 +77,7 @@
                 <can_be_empty>0</can_be_empty>
                 <config_path>gdpr/erasure/allowed_states</config_path>
             </field>
-            <field id="customer_components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="90" canRestore="1">
+            <field id="customer_components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="90" canRestore="1">
                 <label>Customer Component Erasure Strategy</label>
                 <comment>Defines the components erasure strategy with the component/erase processor mapper for the customers.</comment>
                 <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Customer\EraseComponentsProcessors</frontend_model>
@@ -88,7 +88,7 @@
                 <can_be_empty>1</can_be_empty>
                 <config_path>gdpr/erasure/customer_components_processors</config_path>
             </field>
-            <field id="guest_components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100" canRestore="1">
+            <field id="guest_components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="100" canRestore="1">
                 <label>Guest Component Erasure Strategy</label>
                 <comment>Defines the components erasure strategy with the component/erase processor mapper for the guests.</comment>
                 <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\Order\EraseComponentsProcessors</frontend_model>
@@ -110,7 +110,7 @@
                 <source_model>Magento\Cms\Model\Config\Source\Block</source_model>
                 <config_path>gdpr/anonymize/block_id</config_path>
             </field>
-            <field id="remove_customer" type="select" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+            <field id="remove_customer" type="select" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20" canRestore="1">
                 <label>Delete Customer if no Orders</label>
                 <comment>We will delete the customer if he has no orders. It's only applicable if the component "customer" use the "anonymize" processor.</comment>
                 <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -118,7 +118,7 @@
             </field>
             <group id="customer" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
                 <label>Customer</label>
-                <field id="customer_attributes" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                <field id="customer_attributes" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Customer Attributes Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -127,7 +127,7 @@
                     </depends>
                     <config_path>gdpr/anonymize/customer_attributes</config_path>
                 </field>
-                <field id="customer_custom_attributes" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                <field id="customer_custom_attributes" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="20" canRestore="1">
                     <label>Customer Custom Attributes Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -136,7 +136,7 @@
                     </depends>
                     <config_path>gdpr/anonymize/customer_custom_attributes</config_path>
                 </field>
-                <field id="customer_extensible_data" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                <field id="customer_extensible_data" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="30" canRestore="1">
                     <label>Customer Extensible Data Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -148,7 +148,7 @@
             </group>
             <group id="customer_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
                 <label>Customer Address</label>
-                <field id="customer_address_attributes" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                <field id="customer_address_attributes" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Customer Address Attributes Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -157,7 +157,7 @@
                     </depends>
                     <config_path>gdpr/anonymize/customer_address_attributes</config_path>
                 </field>
-                <field id="customer_address_custom_attributes" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                <field id="customer_address_custom_attributes" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="20" canRestore="1">
                     <label>Customer Address Custom Attributes Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -166,7 +166,7 @@
                     </depends>
                     <config_path>gdpr/anonymize/customer_address_custom_attributes</config_path>
                 </field>
-                <field id="customer_address_extensible_data" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                <field id="customer_address_extensible_data" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="30" canRestore="1">
                     <label>Customer Address Extensible Data Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -178,7 +178,7 @@
             </group>
             <group id="quote" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
                 <label>Quote</label>
-                <field id="quote_attributes" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                <field id="quote_attributes" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Quote Attributes Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -187,7 +187,7 @@
                     </depends>
                     <config_path>gdpr/anonymize/quote_attributes</config_path>
                 </field>
-                <field id="quote_custom_attributes" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                <field id="quote_custom_attributes" type="text" translate="label" showInDefault="0" showInWebsite="1" showInStore="0" sortOrder="20" canRestore="1">
                     <label>Quote Custom Attributes Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -196,7 +196,7 @@
                     </depends>
                     <config_path>gdpr/anonymize/quote_custom_attributes</config_path>
                 </field>
-                <field id="quote_extensible_data" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                <field id="quote_extensible_data" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="30" canRestore="1">
                     <label>Quote Extensible Data Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -208,7 +208,7 @@
             </group>
             <group id="quote_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60">
                 <label>Quote Address</label>
-                <field id="quote_address_attributes" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                <field id="quote_address_attributes" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Quote Address Attributes Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -217,7 +217,7 @@
                     </depends>
                     <config_path>gdpr/anonymize/quote_address_attributes</config_path>
                 </field>
-                <field id="quote_address_custom_attributes" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                <field id="quote_address_custom_attributes" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="20" canRestore="1">
                     <label>Quote Address Custom Attributes Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -226,7 +226,7 @@
                     </depends>
                     <config_path>gdpr/anonymize/quote_address_custom_attributes</config_path>
                 </field>
-                <field id="quote_address_extensible_data" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                <field id="quote_address_extensible_data" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="30" canRestore="1">
                     <label>Quote Address Extensible Data Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -238,7 +238,7 @@
             </group>
             <group id="order" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70">
                 <label>Order</label>
-                <field id="order_attributes" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                <field id="order_attributes" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Order Attributes Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -247,7 +247,7 @@
                     </depends>
                     <config_path>gdpr/anonymize/order_attributes</config_path>
                 </field>
-                <field id="order_custom_attributes" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                <field id="order_custom_attributes" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="20" canRestore="1">
                     <label>Order Custom Attributes Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -256,7 +256,7 @@
                     </depends>
                     <config_path>gdpr/anonymize/order_custom_attributes</config_path>
                 </field>
-                <field id="order_extensible_data" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                <field id="order_extensible_data" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="30" canRestore="1">
                     <label>Order Extensible Data Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -268,7 +268,7 @@
             </group>
             <group id="order_address" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
                 <label>Order Address</label>
-                <field id="order_address_attributes" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                <field id="order_address_attributes" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Order Address Attributes Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -277,7 +277,7 @@
                     </depends>
                     <config_path>gdpr/anonymize/order_address_attributes</config_path>
                 </field>
-                <field id="order_address_custom_attributes" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" canRestore="1">
+                <field id="order_address_custom_attributes" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="20" canRestore="1">
                     <label>Order Address Custom Attributes Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -286,7 +286,7 @@
                     </depends>
                     <config_path>gdpr/anonymize/order_address_custom_attributes</config_path>
                 </field>
-                <field id="order_address_extensible_data" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" canRestore="1">
+                <field id="order_address_extensible_data" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="30" canRestore="1">
                     <label>Order Address Extensible Data Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
@@ -298,7 +298,7 @@
             </group>
             <group id="subscriber" translate="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="90">
                 <label>Subscriber</label>
-                <field id="subscriber_attributes" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" canRestore="1">
+                <field id="subscriber_attributes" type="text" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10" canRestore="1">
                     <label>Subscriber Attributes Anonymizers</label>
                     <frontend_model>Opengento\Gdpr\Block\Adminhtml\Config\Form\Field\AttributesAnonymizers</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>

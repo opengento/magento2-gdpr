@@ -8,11 +8,11 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Privacy;
 
 use Exception;
+use Magento\Customer\Controller\AccountInterface;
 use Magento\Customer\Model\AuthenticationInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\RequestInterface;
-use Magento\Framework\App\Response\Http;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\InvalidEmailOrPasswordException;
@@ -21,43 +21,27 @@ use Magento\Framework\Exception\SessionException;
 use Magento\Framework\Exception\State\UserLockedException;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\ActionInterface;
-use Opengento\Gdpr\Controller\AbstractPrivacy;
-use Opengento\Gdpr\Model\Action\ArgumentReader;
-use Opengento\Gdpr\Model\Action\ContextBuilder;
+use Opengento\Gdpr\Api\EraseEntityManagementInterface;
+use Opengento\Gdpr\Controller\AbstractAction;
 use Opengento\Gdpr\Model\Config;
 
-class ErasePost extends AbstractPrivacy implements HttpPostActionInterface
+class ErasePost extends AbstractAction implements HttpPostActionInterface, AccountInterface
 {
-    /**
-     * @var AuthenticationInterface
-     */
-    private AuthenticationInterface $authentication;
-
-    private ActionInterface $action;
-
-    private ContextBuilder $actionContextBuilder;
-
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
         ManagerInterface $messageManager,
         Config $config,
-        Session $customerSession,
-        Http $response,
-        AuthenticationInterface $authentication,
-        ActionInterface $action,
-        ContextBuilder $actionContextBuilder
+        private Session $customerSession,
+        private AuthenticationInterface $authentication,
+        private EraseEntityManagementInterface $eraseEntityManagement
     ) {
-        $this->authentication = $authentication;
-        $this->action = $action;
-        $this->actionContextBuilder = $actionContextBuilder;
-        parent::__construct($request, $resultFactory, $messageManager, $config, $customerSession, $response);
+        parent::__construct($request, $resultFactory, $messageManager, $config);
     }
 
     protected function isAllowed(): bool
     {
-        return parent::isAllowed() && $this->config->isErasureEnabled();
+        return $this->config->isErasureEnabled();
     }
 
     protected function executeAction(): Redirect
@@ -66,20 +50,16 @@ class ErasePost extends AbstractPrivacy implements HttpPostActionInterface
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         $resultRedirect->setPath('customer/privacy/settings');
 
-        $customerId = (int) $this->customerSession->getCustomerId();
-        $this->actionContextBuilder->setParameters([
-            ArgumentReader::ENTITY_ID => $customerId,
-            ArgumentReader::ENTITY_TYPE => 'customer'
-        ]);
+        $customerId = (int)$this->customerSession->getCustomerId();
 
         try {
-            $this->authentication->authenticate($customerId, $this->request->getParam('password'));
-            $this->action->execute($this->actionContextBuilder->create());
+            $this->authentication->authenticate($customerId, (string)$this->request->getParam('password'));
+            $this->eraseEntityManagement->create($customerId, 'customer');
             $this->messageManager->addWarningMessage(new Phrase('Your personal data is being removed soon.'));
         } catch (InvalidEmailOrPasswordException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
             $resultRedirect->setRefererOrBaseUrl();
-        } catch (UserLockedException $e) {
+        } catch (UserLockedException) {
             $this->customerSession->logout();
             try {
                 $this->customerSession->start();

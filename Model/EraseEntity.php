@@ -22,7 +22,7 @@ class EraseEntity extends AbstractExtensibleModel implements EraseEntityInterfac
 
     public function getEraseId(): int
     {
-        return (int) $this->getId();
+        return (int)$this->getId();
     }
 
     public function setEraseId(int $eraseId): EraseEntityInterface
@@ -32,7 +32,7 @@ class EraseEntity extends AbstractExtensibleModel implements EraseEntityInterfac
 
     public function getEntityId(): int
     {
-        return (int) $this->_getData(self::ENTITY_ID);
+        return (int)$this->_getData(self::ENTITY_ID);
     }
 
     public function setEntityId($entityId): EraseEntityInterface
@@ -42,7 +42,7 @@ class EraseEntity extends AbstractExtensibleModel implements EraseEntityInterfac
 
     public function getEntityType(): string
     {
-        return (string) $this->_getData(self::ENTITY_TYPE);
+        return (string)$this->_getData(self::ENTITY_TYPE);
     }
 
     public function setEntityType(string $entityType): EraseEntityInterface
@@ -52,7 +52,7 @@ class EraseEntity extends AbstractExtensibleModel implements EraseEntityInterfac
 
     public function getScheduledAt(): string
     {
-        return (string) $this->_getData(self::SCHEDULED_AT);
+        return (string)$this->_getData(self::SCHEDULED_AT);
     }
 
     public function setScheduledAt(string $scheduledAt): EraseEntityInterface
@@ -62,7 +62,7 @@ class EraseEntity extends AbstractExtensibleModel implements EraseEntityInterfac
 
     public function getState(): string
     {
-        return (string) $this->_getData(self::STATE);
+        return (string)$this->_getData(self::STATE);
     }
 
     public function setState(string $state): EraseEntityInterface
@@ -72,7 +72,7 @@ class EraseEntity extends AbstractExtensibleModel implements EraseEntityInterfac
 
     public function getStatus(): string
     {
-        return (string) $this->_getData(self::STATUS);
+        return (string)$this->_getData(self::STATUS);
     }
 
     public function setStatus(string $status): EraseEntityInterface
@@ -82,7 +82,7 @@ class EraseEntity extends AbstractExtensibleModel implements EraseEntityInterfac
 
     public function getMessage(): ?string
     {
-        return $this->_getData(self::MESSAGE) === null ? null : (string) $this->_getData(self::MESSAGE);
+        return $this->_getData(self::MESSAGE) === null ? null : (string)$this->_getData(self::MESSAGE);
     }
 
     public function setMessage(?string $message): EraseEntityInterface
@@ -92,7 +92,7 @@ class EraseEntity extends AbstractExtensibleModel implements EraseEntityInterfac
 
     public function getErasedAt(): string
     {
-        return (string) $this->_getData(self::ERASED_AT);
+        return (string)$this->_getData(self::ERASED_AT);
     }
 
     public function setErasedAt(string $erasedAt): EraseEntityInterface

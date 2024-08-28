@@ -10,9 +10,10 @@ namespace Opengento\Gdpr\Service\Export\Processor\Entity\EntityValue;
 use Opengento\Gdpr\Model\Entity\DocumentInterface;
 use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
 use Opengento\Gdpr\Model\Entity\MetadataInterface;
+
 use function in_array;
 
-final class DataProcessor implements EntityValueProcessorInterface
+class DataProcessor implements EntityValueProcessorInterface
 {
     /**
      * @var DocumentInterface

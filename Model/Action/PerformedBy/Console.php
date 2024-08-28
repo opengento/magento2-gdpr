@@ -9,7 +9,7 @@ namespace Opengento\Gdpr\Model\Action\PerformedBy;
 
 use Opengento\Gdpr\Model\Action\PerformedByInterface;
 
-final class Console implements PerformedByInterface
+class Console implements PerformedByInterface
 {
     private const PERFORMED_BY = 'console';
 

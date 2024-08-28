@@ -13,7 +13,7 @@ use Magento\Framework\EntityManager\TypeResolver;
 /**
  * @api
  */
-final class EntityTypeResolver
+class EntityTypeResolver
 {
     private TypeResolver $typeResolver;
 

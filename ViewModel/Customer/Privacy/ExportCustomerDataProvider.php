@@ -11,32 +11,15 @@ use Magento\Customer\Model\Session;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Opengento\Gdpr\Api\ExportEntityCheckerInterface;
 
-final class ExportCustomerDataProvider implements ArgumentInterface
+class ExportCustomerDataProvider implements ArgumentInterface
 {
-    private ExportEntityCheckerInterface $exportEntityChecker;
-
-    /**
-     * @var Session
-     */
-    private Session $session;
-
-    /**
-     * @var null|bool
-     */
-    private ?bool $isExportEntityExists;
-
-    /**
-     * @var null|bool
-     */
-    private ?bool $isExported;
+    private ?bool $isExportEntityExists = null;
+    private ?bool $isExported = null;
 
     public function __construct(
-        ExportEntityCheckerInterface $exportEntityChecker,
-        Session $session
-    ) {
-        $this->exportEntityChecker = $exportEntityChecker;
-        $this->session = $session;
-    }
+        private ExportEntityCheckerInterface $exportEntityChecker,
+        private Session $session
+    ) {}
 
     public function hasExport(): bool
     {
@@ -50,6 +33,6 @@ final class ExportCustomerDataProvider implements ArgumentInterface
 
     private function currentCustomerId(): int
     {
-        return (int) $this->session->getCustomerId();
+        return (int)$this->session->getCustomerId();
     }
 }

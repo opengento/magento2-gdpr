@@ -22,52 +22,33 @@ use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Entity\EntityTypeResolver;
 use Psr\Log\LoggerInterface;
 
-final class DeleteExport implements ObserverInterface
+class DeleteExport implements ObserverInterface
 {
-    private ExportEntityRepositoryInterface $exportRepository;
-
-    private SearchCriteriaBuilder $criteriaBuilder;
-
-    private FilterBuilder $filterBuilder;
-
-    private EntityTypeResolver $entityTypeResolver;
-
-    private LoggerInterface $logger;
-
     public function __construct(
-        ExportEntityRepositoryInterface $exportRepository,
-        SearchCriteriaBuilder $criteriaBuilder,
-        FilterBuilder $filterBuilder,
-        EntityTypeResolver $entityTypeResolver,
-        LoggerInterface $logger
-    ) {
-        $this->exportRepository = $exportRepository;
-        $this->criteriaBuilder = $criteriaBuilder;
-        $this->filterBuilder = $filterBuilder;
-        $this->entityTypeResolver = $entityTypeResolver;
-        $this->logger = $logger;
-    }
+        private ExportEntityRepositoryInterface $exportRepository,
+        private SearchCriteriaBuilder $criteriaBuilder,
+        private FilterBuilder $filterBuilder,
+        private EntityTypeResolver $entityTypeResolver,
+        private LoggerInterface $logger
+    ) {}
 
     public function execute(Observer $observer): void
     {
-        /** @var DataObject $entity */
         $entity = $observer->getData('data_object');
-
         if ($entity instanceof DataObject) {
             try {
                 foreach ($this->fetchExportEntities($entity)->getItems() as $exportEntity) {
                     $this->exportRepository->delete($exportEntity);
                 }
             } catch (LocalizedException $e) {
-                $this->logger->error($e->getLogMessage(), $e->getTrace());
+                $this->logger->error($e->getLogMessage(), ['exception' => $e]);
             } catch (Exception $e) {
-                $this->logger->error($e->getMessage(), $e->getTrace());
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
             }
         }
     }
 
     /**
-     * @param DataObject $entity
      * @return ExportEntitySearchResultsInterface
      * @throws LocalizedException
      * @throws Exception
@@ -78,7 +59,7 @@ final class DeleteExport implements ObserverInterface
 
         foreach ($entityTypes as $entityType => $idFieldName) {
             $this->criteriaBuilder->addFilters([
-                $this->createEntityIdFilter((int) $entity->getData($idFieldName)),
+                $this->createEntityIdFilter((int)$entity->getData($idFieldName)),
                 $this->createEntityTypeFilter($entityType)
             ]);
         }

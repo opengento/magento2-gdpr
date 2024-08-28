@@ -7,13 +7,8 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Cron;
 
-use DateTime;
 use Exception;
-use Magento\Framework\Api\FilterBuilder;
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Exception\CouldNotSaveException;
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Store\Model\ScopeInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Opengento\Gdpr\Model\Config;
 use Opengento\Gdpr\Model\Entity\EntityTypeList;
 use Opengento\Gdpr\Model\Erase\EraseEntityScheduler as EraseEntitySchedulerService;
@@ -22,67 +17,27 @@ use Psr\Log\LoggerInterface;
 /**
  * Schedule entities to erase
  */
-final class EraseEntityScheduler
+class EraseEntityScheduler
 {
-    private const CONFIG_PATH_ERASURE_MAX_AGE = 'gdpr/erasure/entity_max_age';
-
-    private LoggerInterface $logger;
-
-    private ScopeConfigInterface $scopeConfig;
-
-    private Config $config;
-
-    /**
-     * @var EraseEntitySchedulerService
-     */
-    private EraseEntitySchedulerService $eraseEntityScheduler;
-
-    private FilterBuilder $filterBuilder;
-
-    private EntityTypeList $entityTypeList;
 
     public function __construct(
-        LoggerInterface $logger,
-        ScopeConfigInterface $scopeConfig,
-        Config $config,
-        EraseEntitySchedulerService $eraseEntityScheduler,
-        FilterBuilder $filterBuilder,
-        EntityTypeList $entityTypeList
-    ) {
-        $this->logger = $logger;
-        $this->scopeConfig = $scopeConfig;
-        $this->config = $config;
-        $this->eraseEntityScheduler = $eraseEntityScheduler;
-        $this->filterBuilder = $filterBuilder;
-        $this->entityTypeList = $entityTypeList;
-    }
+        private LoggerInterface $logger,
+        private Config $config,
+        private EraseEntitySchedulerService $eraseEntityScheduler,
+        private EntityTypeList $entityTypeList,
+        private StoreManagerInterface $storeManager
+    ) {}
 
     public function execute(): void
     {
-        if ($this->config->isModuleEnabled() && $this->config->isErasureEnabled()) {
-            try {
-                $this->scheduleEntitiesErasure();
-            } catch (Exception $e) {
-                $this->logger->error($e->getMessage(), $e->getTrace());
+        foreach ($this->storeManager->getWebsites() as $website) {
+            if ($this->config->isErasureEnabled($website->getId())) {
+                try {
+                    $this->eraseEntityScheduler->schedule($this->entityTypeList->getEntityTypes(), $website);
+                } catch (Exception $e) {
+                    $this->logger->error($e->getMessage(), ['exception' => $e]);
+                }
             }
         }
-    }
-
-    /**
-     * @throws CouldNotSaveException
-     * @throws LocalizedException
-     * @throws Exception
-     */
-    private function scheduleEntitiesErasure(): void
-    {
-        $this->filterBuilder->setField('created_at');
-        $this->filterBuilder->setValue(new DateTime('-' . $this->resolveErasureMaxAge() . 'days'));
-        $this->filterBuilder->setConditionType('lteq');
-        $this->eraseEntityScheduler->schedule($this->entityTypeList->getEntityTypes(), $this->filterBuilder->create());
-    }
-
-    private function resolveErasureMaxAge(): int
-    {
-        return (int) $this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_MAX_AGE, ScopeInterface::SCOPE_STORE);
     }
 }

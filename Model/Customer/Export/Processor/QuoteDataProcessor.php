@@ -14,7 +14,7 @@ use Magento\Quote\Model\Quote\Address;
 use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Service\Export\Processor\AbstractDataProcessor;
 
-final class QuoteDataProcessor extends AbstractDataProcessor
+class QuoteDataProcessor extends AbstractDataProcessor
 {
     private CartRepositoryInterface $quoteRepository;
 

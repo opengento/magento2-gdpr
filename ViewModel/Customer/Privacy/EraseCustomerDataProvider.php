@@ -11,32 +11,15 @@ use Magento\Customer\Model\Session;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 
-final class EraseCustomerDataProvider implements ArgumentInterface
+class EraseCustomerDataProvider implements ArgumentInterface
 {
-    private EraseEntityCheckerInterface $eraseEntityChecker;
-
-    /**
-     * @var Session
-     */
-    private Session $session;
-
-    /**
-     * @var null|bool
-     */
-    private ?bool $canCancel;
-
-    /**
-     * @var null|bool
-     */
-    private ?bool $canCreate;
+    private ?bool $canCancel = null;
+    private ?bool $canCreate = null;
 
     public function __construct(
-        EraseEntityCheckerInterface $eraseEntityChecker,
-        Session $session
-    ) {
-        $this->eraseEntityChecker = $eraseEntityChecker;
-        $this->session = $session;
-    }
+        private EraseEntityCheckerInterface $eraseEntityChecker,
+        private Session $session
+    ) {}
 
     public function canCancel(): bool
     {
@@ -50,6 +33,6 @@ final class EraseCustomerDataProvider implements ArgumentInterface
 
     private function currentCustomerId(): int
     {
-        return (int) $this->session->getCustomerId();
+        return (int)$this->session->getCustomerId();
     }
 }

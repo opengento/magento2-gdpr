@@ -9,30 +9,18 @@ namespace Opengento\Gdpr\Model\Customer\Anonymize\Processor;
 
 use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\DataObject;
 use Magento\Framework\Exception\LocalizedException;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-final class CustomerAddressDataProcessor implements ProcessorInterface
+class CustomerAddressDataProcessor implements ProcessorInterface
 {
-    private AnonymizerInterface $anonymizer;
-
-    /**
-     * @var AddressRepositoryInterface
-     */
-    private AddressRepositoryInterface $addressRepository;
-
-    private SearchCriteriaBuilder $criteriaBuilder;
-
     public function __construct(
-        AnonymizerInterface $anonymizer,
-        AddressRepositoryInterface $addressRepository,
-        SearchCriteriaBuilder $criteriaBuilder
-    ) {
-        $this->anonymizer = $anonymizer;
-        $this->addressRepository = $addressRepository;
-        $this->criteriaBuilder = $criteriaBuilder;
-    }
+        private AnonymizerInterface $anonymizer,
+        private AddressRepositoryInterface $addressRepository,
+        private SearchCriteriaBuilder $criteriaBuilder
+    ) {}
 
     /**
      * @inheritdoc
@@ -44,7 +32,11 @@ final class CustomerAddressDataProcessor implements ProcessorInterface
         $addressList = $this->addressRepository->getList($this->criteriaBuilder->create());
 
         foreach ($addressList->getItems() as $address) {
-            $this->addressRepository->save($this->anonymizer->anonymize($address));
+            $address = $this->anonymizer->anonymize($address);
+            if ($address instanceof DataObject) {
+                $address->setData('should_ignore_validation', true);
+            }
+            $this->addressRepository->save($address);
         }
 
         return true;

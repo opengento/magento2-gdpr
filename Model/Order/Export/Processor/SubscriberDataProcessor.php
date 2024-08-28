@@ -13,7 +13,7 @@ use Opengento\Gdpr\Model\Entity\DataCollectorInterface;
 use Opengento\Gdpr\Model\Newsletter\Subscriber;
 use Opengento\Gdpr\Model\Newsletter\SubscriberFactory;
 
-final class SubscriberDataProcessor extends AbstractDataProcessor
+class SubscriberDataProcessor extends AbstractDataProcessor
 {
     private SubscriberFactory $subscriberFactory;
 

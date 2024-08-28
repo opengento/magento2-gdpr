@@ -13,32 +13,24 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\Element\BlockFactory;
 use Magento\Store\Model\ScopeInterface;
 
-final class EraseDataProvider implements ArgumentInterface
+class EraseDataProvider implements ArgumentInterface
 {
     private const CONFIG_PATH_ERASURE_INFORMATION_BLOCK = 'gdpr/erasure/block_id';
     private const CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK = 'gdpr/anonymize/block_id';
 
-    private ScopeConfigInterface $scopeConfig;
-
-    private BlockFactory $blockFactory;
-
-    private ?string $erasureInformation;
-
-    private ?string $anonymizeInformation;
+    private ?string $erasureInformation = null;
+    private ?string $anonymizeInformation = null;
 
     public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        BlockFactory $blockFactory
-    ) {
-        $this->scopeConfig = $scopeConfig;
-        $this->blockFactory = $blockFactory;
-    }
+        private ScopeConfigInterface $scopeConfig,
+        private BlockFactory $blockFactory
+    ) {}
 
     public function getErasureInformationHtml(): string
     {
         return $this->erasureInformation ??= $this->blockFactory->createBlock(
             BlockByIdentifier::class,
-            ['data' => ['identifier' => (string) $this->scopeConfig->getValue(
+            ['data' => ['identifier' => (string)$this->scopeConfig->getValue(
                 self::CONFIG_PATH_ERASURE_INFORMATION_BLOCK,
                 ScopeInterface::SCOPE_STORE
             )]]
@@ -49,7 +41,7 @@ final class EraseDataProvider implements ArgumentInterface
     {
         return $this->anonymizeInformation ??= $this->blockFactory->createBlock(
             BlockByIdentifier::class,
-            ['data' => ['identifier' => (string) $this->scopeConfig->getValue(
+            ['data' => ['identifier' => (string)$this->scopeConfig->getValue(
                 self::CONFIG_PATH_ANONYMIZE_INFORMATION_BLOCK,
                 ScopeInterface::SCOPE_STORE
             )]]

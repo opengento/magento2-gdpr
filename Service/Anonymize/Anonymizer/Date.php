@@ -13,7 +13,7 @@ use Magento\Framework\Math\Random;
 use Magento\Framework\Stdlib\DateTime as StdlibDateTime;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 
-final class Date implements AnonymizerInterface
+class Date implements AnonymizerInterface
 {
     private const MIN_TIMESTAMP = 0;
     private const MAX_TIMESTAMP = 1557480188;

@@ -11,7 +11,7 @@ use Magento\Framework\Convert\ConvertArray;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filesystem;
 
-final class XmlRenderer extends AbstractRenderer
+class XmlRenderer extends AbstractRenderer
 {
     private const ROOT_NAME = 'data';
 

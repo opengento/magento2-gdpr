@@ -7,46 +7,36 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Customer;
 
-use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Api\Data\OrderInterface;
-use Magento\Sales\Api\OrderRepositoryInterface;
-use Opengento\Gdpr\Model\Config;
+use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
+use Opengento\Gdpr\Model\Config\Entity\Erasure as ErasureConfig;
 use Opengento\Gdpr\Model\Entity\EntityCheckerInterface;
 
-final class CustomerChecker implements EntityCheckerInterface
+class CustomerChecker implements EntityCheckerInterface
 {
-    private OrderRepositoryInterface $orderRepository;
-
-    private SearchCriteriaBuilder $criteriaBuilder;
-
-    private Config $config;
+    public function __construct(
+        private CustomerRepositoryInterface $customerRepository,
+        private CollectionFactory $collectionFactory,
+        private ErasureConfig $erasureConfig
+    ) {}
 
     /**
-     * @var bool[]
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
      */
-    private array $cache;
-
-    public function __construct(
-        OrderRepositoryInterface $orderRepository,
-        SearchCriteriaBuilder $criteriaBuilder,
-        Config $config
-    ) {
-        $this->orderRepository = $orderRepository;
-        $this->criteriaBuilder = $criteriaBuilder;
-        $this->config = $config;
-        $this->cache = [];
-    }
-
-    public function canErase(int $customerId): bool
+    public function canErase(int $entityId): bool
     {
-        if (!isset($this->cache[$customerId])) {
-            $this->criteriaBuilder->addFilter(OrderInterface::STATE, $this->config->getAllowedStatesToErase(), 'nin');
-            $this->criteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
-            $orderList = $this->orderRepository->getList($this->criteriaBuilder->create());
+        $customer = $this->customerRepository->getById($entityId);
+        $collection = $this->collectionFactory->create();
+        $collection->addFieldToFilter(OrderInterface::CUSTOMER_ID, $entityId);
+        $collection->addFieldToFilter(
+            OrderInterface::STATE,
+            ['nin' => $this->erasureConfig->getAllowedStatesToErase($customer->getWebsiteId())]
+        );
 
-            $this->cache[$customerId] = !$orderList->getTotalCount();
-        }
-
-        return $this->cache[$customerId];
+        return !$collection->getSize();
     }
 }

@@ -10,9 +10,10 @@ namespace Opengento\Gdpr\Service\Anonymize\Anonymizer;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Math\Random;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
+
 use function sprintf;
 
-final class Street implements AnonymizerInterface
+class Street implements AnonymizerInterface
 {
     private const STREET_LENGTH = 5;
     private const MIN_NUM = 0;

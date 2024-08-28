@@ -47,14 +47,7 @@ interface EraseEntityInterface extends ExtensibleDataInterface
 
     public function getEntityId(): int;
 
-    /**
-     * Set the entity ID
-     *
-     * @param int $entityId
-     * @return EraseEntityInterface
-     * @todo force type in php7.4
-     */
-    public function setEntityId($entityId): EraseEntityInterface;
+    public function setEntityId(int $entityId): EraseEntityInterface;
 
     public function getEntityType(): string;
 

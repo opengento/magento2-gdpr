@@ -16,37 +16,24 @@ use Opengento\Gdpr\Api\Data\ExportEntityInterface;
 use Opengento\Gdpr\Model\Archive\ArchiveManager;
 use Opengento\Gdpr\Service\Export\ProcessorFactory;
 use Opengento\Gdpr\Service\Export\RendererFactory;
+
 use function explode;
 use function sha1;
+
 use const DIRECTORY_SEPARATOR;
 
-final class ExportToFile
+class ExportToFile
 {
     private const CONFIG_PATH_EXPORT_RENDERERS = 'gdpr/export/renderers';
 
-    private ProcessorFactory $processorFactory;
-
-    private RendererFactory $rendererFactory;
-
-    private ArchiveManager $archiveManager;
-
-    private ScopeConfigInterface $scopeConfig;
-
     public function __construct(
-        ProcessorFactory $processorFactory,
-        RendererFactory $rendererFactory,
-        ArchiveManager $archiveManager,
-        ScopeConfigInterface $scopeConfig
-    ) {
-        $this->processorFactory = $processorFactory;
-        $this->rendererFactory = $rendererFactory;
-        $this->archiveManager = $archiveManager;
-        $this->scopeConfig = $scopeConfig;
-    }
+        private ProcessorFactory $processorFactory,
+        private RendererFactory $rendererFactory,
+        private ArchiveManager $archiveManager,
+        private ScopeConfigInterface $scopeConfig
+    ) {}
 
     /**
-     * @param ExportEntityInterface $exportEntity
-     * @return string|null
      * @throws FileSystemException
      * @throws NotFoundException
      * @throws NoSuchEntityException
@@ -69,9 +56,9 @@ final class ExportToFile
 
     public function resolveExportRendererCodes(): array
     {
-        return explode(',', (string) $this->scopeConfig->getValue(
+        return explode(',', (string)$this->scopeConfig->getValue(
             self::CONFIG_PATH_EXPORT_RENDERERS,
-            ScopeInterface::SCOPE_STORE
+            ScopeInterface::SCOPE_WEBSITE
         ));
     }
 

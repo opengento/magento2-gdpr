@@ -8,78 +8,86 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Adminhtml\Guest;
 
 use Exception;
+use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
-use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory;
-use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\AlreadyExistsException;
+use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\ActionInterface;
+use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Opengento\Gdpr\Api\Data\ExportEntityInterface;
-use Opengento\Gdpr\Controller\Adminhtml\AbstractAction;
-use Opengento\Gdpr\Model\Action\ArgumentReader;
-use Opengento\Gdpr\Model\Action\ContextBuilder;
-use Opengento\Gdpr\Model\Action\Export\ArgumentReader as ExportArgumentReader;
+use Opengento\Gdpr\Api\ExportEntityManagementInterface;
+use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
 
-class Export extends AbstractAction
+class Export extends Action
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::order_export';
 
-    /**
-     * @var FileFactory
-     */
-    private FileFactory $fileFactory;
-
-    private ActionInterface $action;
-
-    private ContextBuilder $actionContextBuilder;
-
     public function __construct(
         Context $context,
-        Config $config,
-        FileFactory $fileFactory,
-        ActionInterface $action,
-        ContextBuilder $actionContextBuilder
+        private StoreManagerInterface $storeManager,
+        private OrderRepositoryInterface $orderRepository,
+        private ExportEntityManagementInterface $exportEntityManagement,
+        private ExportEntityRepositoryInterface $exportEntityRepository,
+        private Config $config,
+        private FileFactory $fileFactory
     ) {
-        $this->fileFactory = $fileFactory;
-        $this->action = $action;
-        $this->actionContextBuilder = $actionContextBuilder;
-        parent::__construct($context, $config);
+        parent::__construct($context);
     }
 
-    protected function executeAction()
+    public function execute(): ResultInterface|ResponseInterface
     {
-        $entityId = (int) $this->getRequest()->getParam('id');
-
-        $this->actionContextBuilder->setParameters([
-            ArgumentReader::ENTITY_ID => $entityId,
-            ArgumentReader::ENTITY_TYPE => 'order'
-        ]);
-
         try {
-            $result = $this->action->execute($this->actionContextBuilder->create())->getResult();
-            /** @var ExportEntityInterface $exportEntity */
-            $exportEntity = $result[ExportArgumentReader::EXPORT_ENTITY];
+            $orderId = (int)$this->getRequest()->getParam('id');
+            if ($this->isOrderExportEnabled($orderId)) {
+                $exportEntity = $this->exportEntityManagement->export($this->fetchEntity($orderId));
 
-            return $this->fileFactory->create(
-                'guest_privacy_data_' . $entityId . '.zip',
-                [
-                    'type' => 'filename',
-                    'value' => $exportEntity->getFilePath(),
-                ],
-                DirectoryList::TMP
-            );
+                return $this->fileFactory->create(
+                    'guest_privacy_data_' . $exportEntity->getEntityId() . '.zip',
+                    [
+                        'type' => 'filename',
+                        'value' => $exportEntity->getFilePath(),
+                    ],
+                    DirectoryList::TMP
+                );
+            }
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
         } catch (Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('An error occurred on the server.'));
         }
 
-        /** @var Redirect $resultRedirect */
-        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+        return $this->resultRedirectFactory->create()->setRefererOrBaseUrl();
+    }
 
-        return $resultRedirect->setRefererOrBaseUrl();
+    /**
+     * @throws NoSuchEntityException
+     */
+    private function isOrderExportEnabled(int $orderId): bool
+    {
+        return $this->config->isErasureEnabled(
+            $this->storeManager->getStore($this->orderRepository->get($orderId)->getStoreId())->getWebsiteId()
+        );
+    }
+
+    /**
+     * @throws AlreadyExistsException
+     * @throws CouldNotSaveException
+     * @throws LocalizedException
+     */
+    private function fetchEntity(int $orderId): ExportEntityInterface
+    {
+        try {
+            return $this->exportEntityRepository->getByEntity($orderId, 'order');
+        } catch (NoSuchEntityException) {
+            return $this->exportEntityManagement->create($orderId, 'order');
+        }
     }
 }

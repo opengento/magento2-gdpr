@@ -10,7 +10,7 @@
         "privacy"
     ],
     "require": {
-        "php": "^7.4||^8.0",
+        "php": "^8.2",
         "ext-zip": "*",
         "tecnickcom/tcpdf": "^6.4",
         "magento/framework": "^103.0",
@@ -28,8 +28,7 @@
     },
     "require-dev": {
         "magento/magento-coding-standard": "^5",
-        "magento/marketplace-eqp": "^4.0",
-        "roave/security-advisories": "dev-master"
+        "magento/marketplace-eqp": "^4.0"
     },
     "type": "magento2-module",
     "license": [

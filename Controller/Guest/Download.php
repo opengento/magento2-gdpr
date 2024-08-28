@@ -12,8 +12,10 @@ use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Response\Http\FileFactory;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Message\ManagerInterface;
@@ -51,10 +53,10 @@ class Download extends AbstractGuest implements HttpGetActionInterface
 
     protected function isAllowed(): bool
     {
-        return parent::isAllowed() && $this->config->isExportEnabled();
+        return $this->config->isExportEnabled();
     }
 
-    protected function executeAction()
+    protected function executeAction(): ResultInterface|ResponseInterface
     {
         try {
             /** @var OrderInterface $order */
@@ -64,11 +66,11 @@ class Download extends AbstractGuest implements HttpGetActionInterface
                 'customer_privacy_data_' . $order->getCustomerLastname() . '.zip',
                 [
                     'type' => 'filename',
-                    'value' => $this->exportRepository->getByEntity((int) $order->getEntityId(), 'order')->getFilePath(),
+                    'value' => $this->exportRepository->getByEntity((int)$order->getEntityId(), 'order')->getFilePath(),
                 ],
                 DirectoryList::TMP
             );
-        } catch (NoSuchEntityException $e) {
+        } catch (NoSuchEntityException) {
             $this->messageManager->addErrorMessage(
                 new Phrase('The document does not exists and may have expired. Please renew your demand.')
             );

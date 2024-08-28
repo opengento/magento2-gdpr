@@ -17,7 +17,7 @@ use Opengento\Gdpr\Api\EraseSalesInformationInterface;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-final class OrderDataProcessor implements ProcessorInterface
+class OrderDataProcessor implements ProcessorInterface
 {
     private AnonymizerInterface $anonymizer;
 
@@ -50,7 +50,7 @@ final class OrderDataProcessor implements ProcessorInterface
         $lastActive = new DateTime($order->getUpdatedAt());
 
         if ($this->salesInformation->isAlive($lastActive)) {
-            $this->salesInformation->scheduleEraseEntity((int) $order->getEntityId(), 'order', $lastActive);
+            $this->salesInformation->scheduleEraseEntity((int)$order->getEntityId(), 'order', $lastActive);
 
             return true;
         }

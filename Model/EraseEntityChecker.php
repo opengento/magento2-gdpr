@@ -13,7 +13,7 @@ use Opengento\Gdpr\Api\EraseEntityCheckerInterface;
 use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Entity\EntityCheckerFactory;
 
-final class EraseEntityChecker implements EraseEntityCheckerInterface
+class EraseEntityChecker implements EraseEntityCheckerInterface
 {
     private EraseEntityRepositoryInterface $eraseRepository;
 
@@ -33,8 +33,8 @@ final class EraseEntityChecker implements EraseEntityCheckerInterface
     public function exists(int $entityId, string $entityType): bool
     {
         try {
-            return (bool) $this->eraseRepository->getByEntity($entityId, $entityType)->getEraseId();
-        } catch (NoSuchEntityException $e) {
+            return (bool)$this->eraseRepository->getByEntity($entityId, $entityType)->getEraseId();
+        } catch (NoSuchEntityException) {
             return false;
         }
     }
@@ -50,7 +50,7 @@ final class EraseEntityChecker implements EraseEntityCheckerInterface
     {
         try {
             $entity = $this->eraseRepository->getByEntity($entityId, $entityType);
-        } catch (NoSuchEntityException $e) {
+        } catch (NoSuchEntityException) {
             return false;
         }
 
@@ -62,7 +62,7 @@ final class EraseEntityChecker implements EraseEntityCheckerInterface
     {
         try {
             $entity = $this->eraseRepository->getByEntity($entityId, $entityType);
-        } catch (NoSuchEntityException $e) {
+        } catch (NoSuchEntityException) {
             return false;
         }
         $entityChecker = $this->entityCheckerFactory->get($entityType);

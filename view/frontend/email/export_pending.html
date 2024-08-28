@@ -19,7 +19,7 @@
     <tr class="email-summary">
         <td>
             <p>{{trans "We have received a request to export the information associated with your account at %store_name." store_name=$store.getFrontendName()}}</p>
-            <p>{{trans "We will notify you when the export will be ready. The action will be available in your account."}}</p>
+            <p>{{trans "We will notify you when the export will be ready. The action will be available by <a href="%account_url">logging into your account</a>." account_url=$this.getUrl($store,'customer/privacy/settings',[_nosid:1]) |raw}}</p>
         </td>
     </tr>
     <tr class="help-info">

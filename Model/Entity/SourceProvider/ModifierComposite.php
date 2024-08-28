@@ -7,29 +7,20 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Entity\SourceProvider;
 
-use Magento\Framework\Api\Filter;
-use Magento\Framework\Data\Collection;
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Store\Api\Data\WebsiteInterface;
 
 /**
  * @api
  */
-final class ModifierComposite implements ModifierInterface
+class ModifierComposite implements ModifierInterface
 {
-    /**
-     * @var ModifierInterface[]
-     */
-    private array $modifiers;
+    public function __construct(private array $modifiers = []) {}
 
-    public function __construct(
-        array $modifiers
-    ) {
-        $this->modifiers = $modifiers;
-    }
-
-    public function apply(Collection $collection, Filter $filter): void
+    public function apply(AbstractDb $collection, WebsiteInterface $website): void
     {
         foreach ($this->modifiers as $modifier) {
-            $modifier->apply($collection, $filter);
+            $modifier->apply($collection, $website);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Opengento\Gdpr\Model\Entity\EntityValue;
 
 use Opengento\Gdpr\Model\Entity\EntityValueProcessorInterface;
 
-final class StrategyProcessor implements EntityValueProcessorInterface
+class StrategyProcessor implements EntityValueProcessorInterface
 {
     /**
      * @var EntityValueProcessorInterface[]

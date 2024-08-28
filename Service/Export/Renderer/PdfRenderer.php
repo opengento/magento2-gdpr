@@ -11,7 +11,7 @@ use Exception;
 use Magento\Framework\Filesystem;
 use TCPDF;
 
-final class PdfRenderer extends AbstractRenderer
+class PdfRenderer extends AbstractRenderer
 {
     private HtmlRenderer $htmlRenderer;
 

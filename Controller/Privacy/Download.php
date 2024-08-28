@@ -8,55 +8,47 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Privacy;
 
 use Exception;
+use Magento\Customer\Controller\AccountInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\RequestInterface;
-use Magento\Framework\App\Response\Http;
 use Magento\Framework\App\Response\Http\FileFactory;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Phrase;
 use Opengento\Gdpr\Api\ExportEntityRepositoryInterface;
-use Opengento\Gdpr\Controller\AbstractPrivacy;
+use Opengento\Gdpr\Controller\AbstractAction;
 use Opengento\Gdpr\Model\Config;
 
-class Download extends AbstractPrivacy implements HttpGetActionInterface
+class Download extends AbstractAction implements HttpGetActionInterface, AccountInterface
 {
-    /**
-     * @var FileFactory
-     */
-    private FileFactory $fileFactory;
-
-    private ExportEntityRepositoryInterface $exportRepository;
-
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
         ManagerInterface $messageManager,
         Config $config,
-        Http $response,
-        Session $customerSession,
-        FileFactory $fileFactory,
-        ExportEntityRepositoryInterface $exportRepository
+        private Session $customerSession,
+        private FileFactory $fileFactory,
+        private ExportEntityRepositoryInterface $exportRepository
     ) {
-        $this->fileFactory = $fileFactory;
-        $this->exportRepository = $exportRepository;
-        parent::__construct($request, $resultFactory, $messageManager, $config, $customerSession, $response);
+        parent::__construct($request, $resultFactory, $messageManager, $config);
     }
 
     protected function isAllowed(): bool
     {
-        return parent::isAllowed() && $this->config->isExportEnabled();
+        return $this->config->isExportEnabled();
     }
 
-    protected function executeAction()
+    protected function executeAction(): ResultInterface|ResponseInterface
     {
         try {
-            $customerId = (int) $this->customerSession->getCustomerId();
+            $customerId = (int)$this->customerSession->getCustomerId();
 
             return $this->fileFactory->create(
                 'customer_privacy_data_' . $customerId . '.zip',
@@ -66,7 +58,7 @@ class Download extends AbstractPrivacy implements HttpGetActionInterface
                 ],
                 DirectoryList::TMP
             );
-        } catch (NoSuchEntityException $e) {
+        } catch (NoSuchEntityException) {
             $this->messageManager->addErrorMessage(
                 new Phrase('The document does not exists and may have expired. Please renew your demand.')
             );

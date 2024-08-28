@@ -15,7 +15,7 @@ use Opengento\Gdpr\Model\Newsletter\SubscriberFactory;
 use Opengento\Gdpr\Service\Anonymize\AnonymizerInterface;
 use Opengento\Gdpr\Service\Erase\ProcessorInterface;
 
-final class SubscriberDataProcessor implements ProcessorInterface
+class SubscriberDataProcessor implements ProcessorInterface
 {
     private AnonymizerInterface $anonymizer;
 

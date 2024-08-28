@@ -11,36 +11,28 @@ use Magento\Framework\Archive\ArchiveInterface;
 use Magento\Framework\Archive\Zip as ArchiveZip;
 use Magento\Framework\Filesystem;
 use ZipArchive;
+
 use function basename;
 
 /**
  * Zip compressed file archive with local file name.
  * @api
  */
-final class Zip implements ArchiveInterface
+class Zip implements ArchiveInterface
 {
-    private Filesystem $filesystem;
-
-    /**
-     * @var ArchiveZip
-     */
-    private ArchiveZip $zip;
-
     public function __construct(
-        Filesystem $filesystem,
-        ArchiveZip $zip
-    ) {
-        $this->filesystem = $filesystem;
-        $this->zip = $zip;
-    }
+        private Filesystem $filesystem,
+        private ArchiveZip $zip
+    ) {}
 
     public function pack($source, $destination): string
     {
-        $directoryRead = $this->filesystem->getDirectoryReadByPath($source);
-
         $zip = new ZipArchive();
         $zip->open($destination, ZipArchive::CREATE);
-        $zip->addFile($source, $directoryRead->isDirectory($source) ? '' : basename($source));
+        $zip->addFile(
+            $source,
+            $this->filesystem->getDirectoryReadByPath($source)->isDirectory($source) ? '' : basename($source)
+        );
         $zip->close();
 
         return $destination;

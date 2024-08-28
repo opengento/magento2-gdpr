@@ -7,40 +7,36 @@ declare(strict_types=1);
 
 namespace Opengento\Gdpr\Model\Config\Source;
 
+use Magento\Customer\Api\Data\AttributeMetadataInterface;
 use Magento\Customer\Api\MetadataInterface;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\Exception\LocalizedException;
 
-final class VirtualCustomerAttributes implements OptionSourceInterface
+use function array_map;
+
+class VirtualCustomerAttributes implements OptionSourceInterface
 {
-    private MetadataInterface $metadata;
+    private ?array $options = null;
 
-    private array $options;
-
-    public function __construct(
-        MetadataInterface $metadata
-    ) {
-        $this->metadata = $metadata;
-        $this->options = [];
-    }
+    public function __construct(private MetadataInterface $metadata) {}
 
     public function toOptionArray(): array
     {
-        if (!$this->options) {
-            try {
-                $attributes = $this->metadata->getAllAttributesMetadata();
-            } catch (LocalizedException $e) {
-                $attributes = [];
-            }
+        return $this->options ??= array_map(
+            static fn (AttributeMetadataInterface $attributeMetadata): array => [
+                'value' => $attributeMetadata->getAttributeCode(),
+                'label' => $attributeMetadata->getFrontendLabel(),
+            ],
+            $this->resolveAttributeMetadataList()
+        );
+    }
 
-            foreach ($attributes as $attribute) {
-                $this->options[] = [
-                    'value' => $attribute->getAttributeCode(),
-                    'label' => $attribute->getFrontendLabel(),
-                ];
-            }
+    private function resolveAttributeMetadataList(): array
+    {
+        try {
+            return $this->metadata->getAllAttributesMetadata();
+        } catch (LocalizedException) {
+            return [];
         }
-
-        return $this->options;
     }
 }

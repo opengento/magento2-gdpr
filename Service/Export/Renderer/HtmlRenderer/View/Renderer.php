@@ -12,7 +12,9 @@ use Magento\Framework\View\Asset\File;
 use Magento\Framework\View\Asset\GroupedCollection;
 use Magento\Framework\View\Asset\PropertyGroup;
 use Magento\Framework\View\Page\Config\Renderer as ViewRenderer;
+
 use function sprintf;
+
 use const PHP_EOL;
 
 class Renderer extends ViewRenderer
@@ -42,7 +44,7 @@ class Renderer extends ViewRenderer
             $this->addDefaultAttributes($this->getAssetContentType($asset), $attributes)
         );
     }
-    
+
     private function inlineHtml(string $contentType, File $asset, ?string $attributes): string
     {
         switch ($contentType) {

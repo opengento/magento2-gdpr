@@ -8,46 +8,27 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Model;
 
 use Exception;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\Framework\Stdlib\DateTime as DateTimeFormat;
 use Magento\Framework\Stdlib\DateTime\DateTime;
-use Magento\Store\Model\ScopeInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterface;
 use Opengento\Gdpr\Api\Data\EraseEntityInterfaceFactory;
 use Opengento\Gdpr\Api\EraseEntityManagementInterface;
 use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
+use Opengento\Gdpr\Model\Config\Entity\Erasure;
 use Opengento\Gdpr\Service\Erase\ProcessorFactory;
 
-final class EraseEntityManagement implements EraseEntityManagementInterface
+class EraseEntityManagement implements EraseEntityManagementInterface
 {
-    private const CONFIG_PATH_ERASURE_DELAY = 'gdpr/erasure/delay';
-
-    private EraseEntityInterfaceFactory $eraseEntityFactory;
-
-    private EraseEntityRepositoryInterface $eraseRepository;
-
-    private ProcessorFactory $processorFactory;
-
-    private ScopeConfigInterface $scopeConfig;
-
-    private DateTime $localeDate;
-
     public function __construct(
-        EraseEntityInterfaceFactory $eraseEntityFactory,
-        EraseEntityRepositoryInterface $eraseRepository,
-        ProcessorFactory $processorFactory,
-        ScopeConfigInterface $scopeConfig,
-        DateTime $localeDate
-    ) {
-        $this->eraseEntityFactory = $eraseEntityFactory;
-        $this->eraseRepository = $eraseRepository;
-        $this->processorFactory = $processorFactory;
-        $this->scopeConfig = $scopeConfig;
-        $this->localeDate = $localeDate;
-    }
+        private Erasure $erasureConfig,
+        private EraseEntityInterfaceFactory $eraseEntityFactory,
+        private EraseEntityRepositoryInterface $eraseRepository,
+        private ProcessorFactory $processorFactory,
+        private DateTime $localeDate
+    ) {}
 
     public function create(int $entityId, string $entityType): EraseEntityInterface
     {
@@ -57,7 +38,7 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
         $entity->setEntityType($entityType);
         $entity->setState(EraseEntityInterface::STATE_PENDING);
         $entity->setStatus(EraseEntityInterface::STATUS_READY);
-        $entity->setScheduledAt($this->retrieveScheduledAt());
+        $entity->setScheduledAt($this->createScheduledAt());
 
         return $this->eraseRepository->save($entity);
     }
@@ -83,8 +64,6 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
     }
 
     /**
-     * @param EraseEntityInterface $entity
-     * @return EraseEntityInterface
      * @throws CouldNotSaveException
      */
     private function success(EraseEntityInterface $entity): EraseEntityInterface
@@ -98,9 +77,6 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
     }
 
     /**
-     * @param EraseEntityInterface $entity
-     * @param string|null $message [optional]
-     * @return EraseEntityInterface
      * @throws CouldNotSaveException
      */
     private function fail(EraseEntityInterface $entity, ?string $message = null): EraseEntityInterface
@@ -112,16 +88,11 @@ final class EraseEntityManagement implements EraseEntityManagementInterface
         return $this->eraseRepository->save($entity);
     }
 
-    private function retrieveScheduledAt(): string
+    private function createScheduledAt(): string
     {
         return $this->localeDate->gmtDate(
             DateTimeFormat::DATETIME_PHP_FORMAT,
-            $this->resolveErasureDelay() * 60 + $this->localeDate->gmtTimestamp()
+            $this->erasureConfig->getDelay() * 60 + $this->localeDate->gmtTimestamp()
         );
-    }
-
-    private function resolveErasureDelay(): int
-    {
-        return (int) $this->scopeConfig->getValue(self::CONFIG_PATH_ERASURE_DELAY, ScopeInterface::SCOPE_STORE);
     }
 }

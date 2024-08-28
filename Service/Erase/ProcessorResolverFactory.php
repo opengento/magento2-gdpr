@@ -9,12 +9,13 @@ namespace Opengento\Gdpr\Service\Erase;
 
 use InvalidArgumentException;
 use Magento\Framework\ObjectManagerInterface;
+
 use function sprintf;
 
 /**
  * @api
  */
-final class ProcessorResolverFactory
+class ProcessorResolverFactory
 {
     /**
      * @var string[]

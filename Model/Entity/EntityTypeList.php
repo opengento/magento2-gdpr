@@ -13,7 +13,7 @@ use function array_merge;
 /**
  * @api
  */
-final class EntityTypeList
+class EntityTypeList
 {
     /**
      * @var string[][]

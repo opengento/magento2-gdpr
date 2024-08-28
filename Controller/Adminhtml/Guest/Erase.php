@@ -8,56 +8,73 @@ declare(strict_types=1);
 namespace Opengento\Gdpr\Controller\Adminhtml\Guest;
 
 use Exception;
+use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
-use Magento\Backend\Model\View\Result\Redirect;
-use Magento\Framework\App\Action\HttpPostActionInterface;
-use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Phrase;
-use Opengento\Gdpr\Api\ActionInterface;
-use Opengento\Gdpr\Controller\Adminhtml\AbstractAction;
-use Opengento\Gdpr\Model\Action\ArgumentReader;
-use Opengento\Gdpr\Model\Action\ContextBuilder;
+use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Store\Model\StoreManagerInterface;
+use Opengento\Gdpr\Api\Data\EraseEntityInterface;
+use Opengento\Gdpr\Api\EraseEntityManagementInterface;
+use Opengento\Gdpr\Api\EraseEntityRepositoryInterface;
 use Opengento\Gdpr\Model\Config;
 
-class Erase extends AbstractAction implements HttpPostActionInterface
+class Erase extends Action
 {
     public const ADMIN_RESOURCE = 'Opengento_Gdpr::order_erase';
 
-    private ActionInterface $action;
-
-    private ContextBuilder $actionContextBuilder;
-
     public function __construct(
         Context $context,
-        Config $config,
-        ActionInterface $action,
-        ContextBuilder $actionContextBuilder
+        private StoreManagerInterface $storeManager,
+        private OrderRepositoryInterface $orderRepository,
+        private EraseEntityManagementInterface $eraseEntityManagement,
+        private EraseEntityRepositoryInterface $eraseEntityRepository,
+        private Config $config
     ) {
-        $this->action = $action;
-        $this->actionContextBuilder = $actionContextBuilder;
-        parent::__construct($context, $config);
+        parent::__construct($context);
     }
 
-    protected function executeAction()
+    public function execute(): ResultInterface|ResponseInterface
     {
-        $this->actionContextBuilder->setParameters([
-            ArgumentReader::ENTITY_ID => (int) $this->getRequest()->getParam('id'),
-            ArgumentReader::ENTITY_TYPE => 'order'
-        ]);
-
         try {
-            $this->action->execute($this->actionContextBuilder->create());
-            $this->messageManager->addSuccessMessage(new Phrase('You erased the order.'));
+            $orderId = (int)$this->getRequest()->getParam('id');
+            if ($this->isOrderErasureEnabled($orderId)) {
+                $this->eraseEntityManagement->process($this->fetchEntity($orderId));
+                $this->messageManager->addSuccessMessage(new Phrase('You erased the order.'));
+            }
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
         } catch (Exception $e) {
             $this->messageManager->addExceptionMessage($e, new Phrase('An error occurred on the server.'));
         }
 
-        /** @var Redirect $resultRedirect */
-        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+        return $this->resultRedirectFactory->create()->setPath('sales/order/index');
+    }
 
-        return $resultRedirect->setPath('sales/order/index');
+    /**
+     * @throws NoSuchEntityException
+     */
+    private function isOrderErasureEnabled(int $orderId): bool
+    {
+        return $this->config->isErasureEnabled(
+            $this->storeManager->getStore($this->orderRepository->get($orderId)->getStoreId())->getWebsiteId()
+        );
+    }
+
+    /**
+     * @throws CouldNotSaveException
+     * @throws LocalizedException
+     */
+    private function fetchEntity(int $orderId): EraseEntityInterface
+    {
+        try {
+            return $this->eraseEntityRepository->getByEntity($orderId, 'order');
+        } catch (NoSuchEntityException) {
+            return $this->eraseEntityManagement->create($orderId, 'order');
+        }
     }
 }
