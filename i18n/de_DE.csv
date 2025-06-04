@@ -103,7 +103,7 @@
 "The time is in days.","Die Zeit wird in Tagen angegeben."
 "Erase Old Entities Cron Schedule","Alte Entitäten löschen Cron-Zeitplan"
 "Sales Information Lifetime","Lebensdauer der Verkaufsinformationen"
-"Allowed Order States to Erase","Erlaubte Bestellstatus zu löschen"
+"Allowed Order Statuses to Erase","Erlaubte Bestellstatus zu löschen"
 "Customer Component Erasure Strategy","Strategie zum Löschen von Kundenkomponenten"
 "Defines the components erasure strategy with the component/erase processor mapper for the customers.","Definiert die Komponentenlöschstrategie mit dem Komponenten-/Löschprozessor-Mapper für die Kunden."
 "Guest Component Erasure Strategy","Löschstrategie für die Gast-Komponente"

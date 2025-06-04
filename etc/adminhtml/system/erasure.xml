@@ -68,14 +68,14 @@
                 </depends>
                 <config_path>gdpr/erasure/sales_max_age</config_path>
             </field>
-            <field id="allowed_states" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80" canRestore="1">
-                <label>Allowed Order States to Erase</label>
-                <source_model>Opengento\Gdpr\Model\Config\Source\OrderPendingStates</source_model>
+            <field id="allowed_statuses" type="multiselect" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80" canRestore="1">
+                <label>Allowed Order Statuses to Erase</label>
+                <source_model>Opengento\Gdpr\Model\Config\Source\OrderPendingStatuses</source_model>
                 <depends>
                     <field id="opengento_gdpr_erasure/erasure/enabled">1</field>
                 </depends>
                 <can_be_empty>0</can_be_empty>
-                <config_path>gdpr/erasure/allowed_states</config_path>
+                <config_path>gdpr/erasure/allowed_statuses</config_path>
             </field>
             <field id="customer_components_processors" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="90" canRestore="1">
                 <label>Customer Component Erasure Strategy</label>

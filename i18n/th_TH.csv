@@ -106,7 +106,7 @@
 "The time is in days.","เวลาเป็นวัน"
 "Erase Old Entities Cron Schedule","ลบกำหนดการ Cron ของข้อมุลเก่า"
 "Sales Information Lifetime","อายุข้อมูลการขาย"
-"Allowed Order States to Erase","อนุญาตให้ลบข้อมูลสั่งซื้อ"
+"Allowed Order Statuses to Erase","อนุญาตให้ลบข้อมูลสั่งซื้อ"
 "Customer Component Erasure Strategy","คอมโพเน้นท์เงื่อนไขการลบข้อมูลลูกค้า"
 "Defines the components erasure strategy with the component/erase processor mapper for the customers.","กำหนดกลยุทธ์การลบด้วยคอมโพเนนท์/ตัวประมวลผลข้อมูลสำหรับลูกค้า"
 "Guest Component Erasure Strategy","คอมโพเน้นท์เงื่อนไขการลบข้อมูล Guest"

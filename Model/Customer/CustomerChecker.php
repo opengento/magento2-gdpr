@@ -40,7 +40,7 @@ final class CustomerChecker implements EntityCheckerInterface
     public function canErase(int $customerId): bool
     {
         if (!isset($this->cache[$customerId])) {
-            $this->criteriaBuilder->addFilter(OrderInterface::STATE, $this->config->getAllowedStatesToErase(), 'nin');
+            $this->criteriaBuilder->addFilter(OrderInterface::STATUS, $this->config->getAllowedStatusesToErase(), 'nin');
             $this->criteriaBuilder->addFilter(OrderInterface::CUSTOMER_ID, $customerId);
             $orderList = $this->orderRepository->getList($this->criteriaBuilder->create());
 
