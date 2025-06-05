@@ -18,7 +18,7 @@ final class Config
      */
     public const CONFIG_PATH_GENERAL_ENABLED = 'gdpr/general/enabled';
     public const CONFIG_PATH_ERASURE_ENABLED = 'gdpr/erasure/enabled';
-    public const CONFIG_PATH_ERASURE_ALLOWED_STATES = 'gdpr/erasure/allowed_states';
+    public const CONFIG_PATH_ERASURE_ALLOWED_STATUSES = 'gdpr/erasure/allowed_statuses';
     public const CONFIG_PATH_EXPORT_ENABLED = 'gdpr/export/enabled';
 
     private ScopeConfigInterface $scopeConfig;
@@ -48,10 +48,10 @@ final class Config
     /**
      * @return string[]
      */
-    public function getAllowedStatesToErase(): array
+    public function getAllowedStatusesToErase(): array
     {
         return explode(',', (string) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_ERASURE_ALLOWED_STATES,
+            self::CONFIG_PATH_ERASURE_ALLOWED_STATUSES,
             ScopeInterface::SCOPE_STORE
         ));
     }

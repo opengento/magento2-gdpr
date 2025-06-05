@@ -31,6 +31,6 @@ final class GuestFilterModifier implements ModifierInterface
     {
         $collection->addFieldToFilter(OrderInterface::CUSTOMER_ID, ['null' => true]);
         $collection->addFieldToFilter(OrderInterface::CUSTOMER_IS_GUEST, ['eq' => 1]);
-        $collection->addFieldToFilter(OrderInterface::STATE, ['in' => $this->config->getAllowedStatesToErase()]);
+        $collection->addFieldToFilter(OrderInterface::STATUS, ['in' => $this->config->getAllowedStatusesToErase()]);
     }
 }
