@@ -106,7 +106,7 @@ Erasure,Erasure
 "The time is in days.","The time is in days."
 "Erase Old Entities Cron Schedule","Erase Old Entities Cron Schedule"
 "Sales Information Lifetime","Sales Information Lifetime"
-"Allowed Order States to Erase","Allowed Order States to Erase"
+"Allowed Order Statuses to Erase","Allowed Order Statuses to Erase"
 "Customer Component Erasure Strategy","Customer Component Erasure Strategy"
 "Defines the components erasure strategy with the component/erase processor mapper for the customers.","Defines the components erasure strategy with the component/erase processor mapper for the customers."
 "Guest Component Erasure Strategy","Guest Component Erasure Strategy"

@@ -106,7 +106,7 @@
 "The time is in days.","De tijd is in dagen."
 "Erase Old Entities Cron Schedule","Verwijderen Van Oude Entiteiten (Geplande Taken)"
 "Sales Information Lifetime","Leeftijd van informatie over verkopen"
-"Allowed Order States to Erase","Toegestane statussen van bestelling om te verwijderen"
+"Allowed Order Statuses to Erase","Toegestane statussen van bestelling om te verwijderen"
 "Customer Component Erasure Strategy","Klant Component Verwijder Strategie"
 "Defines the components erasure strategy with the component/erase processor mapper for the customers.","Definieert de verwijder strategie van het component/verwijder processor koppeling voor de klanten"
 "Guest Component Erasure Strategy","Gast Component Verwijder Strategie"

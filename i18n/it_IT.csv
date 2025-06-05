@@ -103,7 +103,7 @@
 "The time is in days.","Il tempo è in giorni."
 "Erase Old Entities Cron Schedule","Cron Schedule eliminazione vecchie entities"
 "Sales Information Lifetime","Durata informazioni vendite"
-"Allowed Order States to Erase","Stati Ordini permessi per l'eliminazione"
+"Allowed Order Statuses to Erase","Stati Ordini permessi per l'eliminazione"
 "Customer Component Erasure Strategy","Strategia eliminazione  Componenti Clienti"
 "Defines the components erasure strategy with the component/erase processor mapper for the customers.","Definisci la strategia di eliminazione dei componenti per i clienti."
 "Guest Component Erasure Strategy","Strategia eliminazione componenti guest"
