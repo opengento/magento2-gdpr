@@ -105,7 +105,7 @@
 "Entities Lifetime","Enheders Levetid"
 "The time is in days.","Tiden er i dage."
 "Erase Old Entities Cron Schedule","Planlægning af cron-job til sletning af gamle registreringer"
-"Sales Information Lifetime","Salgsinformation Levetid"
+"Sales Information Lifetime","Opbevaringsperiode for salgsdata"
 "Allowed Order States to Erase","Tilladte Ordretilstande til Sletning"
 "Customer Component Erasure Strategy","Kunde Komponent Slette Strategi"
 "Defines the components erasure strategy with the component/erase processor mapper for the customers.","Definerer komponentens slettestrategi med komponent/slette processor for kunderne."
