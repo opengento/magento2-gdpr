@@ -54,7 +54,7 @@ final class ExportToFile
     public function export(ExportEntityInterface $exportEntity): string
     {
         $fileName = $this->prepareFileName($exportEntity);
-        $archiveFileName = $fileName . 'zip';
+        $archiveFileName = $fileName . '.zip';
         $data = $this->processorFactory->get($exportEntity->getEntityType())->execute($exportEntity->getEntityId(), []);
 
         foreach ($this->resolveExportRendererCodes() as $rendererCode) {

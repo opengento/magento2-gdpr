@@ -11,8 +11,8 @@
         <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" comment="Entity ID"/>
         <column xsi:type="varchar" name="entity_type" length="255" nullable="false" comment="Entity Type"/>
         <column xsi:type="timestamp" name="scheduled_at" nullable="false" comment="Scheduled At"/>
-        <column xsi:type="varchar" name="state" length="255" nullable="false" comment="State"/>
-        <column xsi:type="varchar" name="status" length="255" nullable="false" comment="Status"/>
+        <column xsi:type="varchar" name="state" length="191" nullable="false" comment="State"/>
+        <column xsi:type="varchar" name="status" length="191" nullable="false" comment="Status"/>
         <column xsi:type="text" name="message" nullable="true" comment="Message"/>
         <column xsi:type="timestamp" name="erased_at" nullable="true" comment="Erased At"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
@@ -22,17 +22,20 @@
             <column name="entity_id"/>
             <column name="entity_type"/>
         </constraint>-->
-        <index referenceId="OPENGENTO_GDPR_ERASE_ENTITY_ENTITY_ID" indexType="btree">
+        <index referenceId="OPENGENTO_GDPR_ERASE_ENTITY_IDENTITY" indexType="btree">
+            <column name="entity_type"/>
             <column name="entity_id"/>
         </index>
-        <index referenceId="OPENGENTO_GDPR_ERASE_ENTITY_ENTITY_TYPE" indexType="btree">
-            <column name="entity_type"/>
+        <index referenceId="OPENGENTO_GDPR_ERASE_ENTITY_SCHEDULED_EXPORT" indexType="btree">
+            <column name="scheduled_at"/>
+            <column name="state"/>
+            <column name="status"/>
         </index>
     </table>
     <table name="opengento_gdpr_export_entity" resource="default" engine="innodb" comment="Export Entity">
         <column xsi:type="int" name="export_id" padding="11" unsigned="true" nullable="false" identity="true" comment="Export ID"/>
         <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" comment="Entity ID"/>
-        <column xsi:type="varchar" name="entity_type" length="255" nullable="false" comment="Entity Type"/>
+        <column xsi:type="varchar" name="entity_type" length="191" nullable="false" comment="Entity Type"/>
         <column xsi:type="varchar" name="file_name" length="255" nullable="false" comment="File Name"/>
         <column xsi:type="text" name="file_path" nullable="true" comment="File Path"/>
         <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
@@ -41,20 +44,24 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="export_id"/>
         </constraint>
-        <index referenceId="OPENGENTO_GDPR_EXPORT_ENTITY_ENTITY_ID" indexType="btree">
+        <index referenceId="OPENGENTO_GDPR_EXPORT_ENTITY_IDENTITY" indexType="btree">
             <column name="entity_id"/>
-        </index>
-        <index referenceId="OPENGENTO_GDPR_EXPORT_ENTITY_ENTITY_TYPE" indexType="btree">
             <column name="entity_type"/>
+        </index>
+        <index referenceId="OPENGENTO_GDPR_EXPORT_ENTITY_EXPORTED_AT" indexType="btree">
+            <column name="exported_at"/>
+        </index>
+        <index referenceId="OPENGENTO_GDPR_EXPORT_ENTITY_EXPIRED_AT" indexType="btree">
+            <column name="expired_at"/>
         </index>
     </table>
     <table name="opengento_gdpr_action_entity" resource="default" engine="innodb" comment="Action Entity">
         <column xsi:type="int" name="action_id" padding="11" unsigned="true" nullable="false" identity="true" comment="Export ID"/>
-        <column xsi:type="varchar" name="type" length="255" nullable="false" comment="Type"/>
+        <column xsi:type="varchar" name="type" length="191" nullable="false" comment="Type"/>
         <column xsi:type="text" name="performed_from" nullable="false" comment="Performed From"/>
         <column xsi:type="text" name="performed_by" nullable="true" comment="Performed By"/>
         <column xsi:type="timestamp" name="performed_at" nullable="false" comment="Performed At"/>
-        <column xsi:type="varchar" name="state" length="255" nullable="false" comment="State"/>
+        <column xsi:type="varchar" name="state" length="191" nullable="false" comment="State"/>
         <column xsi:type="text" name="message" nullable="false" comment="Message"/>
         <column xsi:type="text" name="parameters" nullable="false" comment="Parameters"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
