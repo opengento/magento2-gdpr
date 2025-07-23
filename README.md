@@ -42,7 +42,7 @@ bin/magento setup:upgrade
 
 ## Features
 
-**See the [screenshots](https://opengento.fr/magento2-gdpr/features) of the module's features.**
+**See the [documentation & screenshots](https://opengento.github.io/magento2-gdpr/features) of the module's features.**
 
 ### Users, guest and customer can:
 
@@ -108,7 +108,7 @@ The configuration for this module is available in 'Stores > Configuration > GDPR
 
 ## Documentation
 
-The documentation is available [here](https://opengento.fr/magento2-gdpr/).
+The documentation is available [here](https://opengento.github.io/magento2-gdpr).
 
 ## Support
 
